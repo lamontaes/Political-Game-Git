@@ -731,8 +731,8 @@ const specialLaw = (
  * The date of the special election for a vacancy, by the state's law for the
  * office's family (`data/elections/special-election-law.json`): a number of
  * days after the vacancy, or the next general election. Where the state's law
- * is not read, the estimate in `data/elections/parameters.json` stands in
- * (SG-GOV-special-election-timing) and `basis` says "estimated".
+ * is not read, the ESTIMATED day count in `data/elections/parameters.json` stands in
+ * and `basis` says "estimated".
  */
 export function specialElectionDate(input: {
   readonly office: OfficeInput;

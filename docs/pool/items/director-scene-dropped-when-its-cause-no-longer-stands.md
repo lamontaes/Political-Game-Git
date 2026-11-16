@@ -33,3 +33,5 @@ source: added with npm run pool -- add
 **Waits on.** Waits on the pull request that makes a held bill re-listable (#8972) reaching main.
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/hold-scenes.test.ts
+
+**Notes.** Another case (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): the day after the player lost the council race (Nov 6, 2025), Nikhil Wallace: 'Quinn Pugh's people got to me about planning and zoning. Thought you should know.' with the reply 'Let them talk. I'm running my own race.' And the debate moderator, Rebecca Lopez of KGZU-TV, came to the house two days after the debate with the same line.

@@ -23,15 +23,20 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import rppHousing from "../data/regional/rpp-housing.json" with { type: "json" };
 import { withholdingFor } from "../budgets-treasury";
 import { startingLawReader } from "../country-law";
+import {
+  COUNTRY_AGE_BANDS,
+  countryFlowsIn,
+  countryStateMonth,
+  countryStates,
+} from "./macro";
 import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
+import { groupQuartersStayOf } from "../gov-rules/place-population";
 import { returnedMembersLeave } from "../returned-members-move";
 import { isDemoted } from "../counted-groups";
-import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./laws";
-import { REGIONAL_MODULE_ID } from "./regional";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   admitCountedHousehold,
@@ -90,26 +95,13 @@ const COARSE = [
   ["65-plus", "countedPeopleShare65plus", ["65-69", "70-74", "75+"]],
 ] as const;
 
-type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
-  ageBands: readonly string[];
   national: {
-    departurePerYearByAge: Rates;
-    arrivalsPerResidentPerYear: number;
     abroadPerResidentPerYear: number;
     abroadAgeShare: Readonly<Record<string, number>>;
     admitMoreImmigrantsLaw: { shareOfArrivalsFromAbroad: number };
   };
-  places: Readonly<
-    Record<
-      string,
-      {
-        departurePerYearByAge: Rates;
-        arrivalsPerResidentPerYear?: number;
-        abroadPerResidentPerYear?: number;
-      }
-    >
-  >;
+  places: Readonly<Record<string, { abroadPerResidentPerYear?: number }>>;
 };
 const STATES = (
   regions as unknown as {
@@ -125,10 +117,11 @@ const STATES = (
     nation: { perCapitaIncome: number };
   }
 ).states;
-const NATION_INCOME = (
-  regions as unknown as { nation: { perCapitaIncome: number } }
-).nation.perCapitaIncome;
 const MOVES = moveRows as unknown as Record<string, { value: number }>;
+/** Each state's FIPS code by its USPS code, from the regional data. */
+const FIPS_OF = new Map(
+  Object.entries(STATES).map(([fips, row]) => [row.usps, fips] as const),
+);
 
 /** One state's or territory's people at the coarse grain. */
 export interface CoarsePlace {
@@ -142,7 +135,8 @@ export interface CoarsePlace {
 export interface MoveRecord {
   readonly id: string;
   readonly date: string;
-  readonly direction: "out" | "in";
+  /** "discharged" is an institution letting a resident go on its own calendar (admitToRooms), not a household moving. */
+  readonly direction: "out" | "in" | "discharged";
   readonly householdId: string;
   readonly groupId: string;
   readonly fromPlace: string;
@@ -153,22 +147,37 @@ export interface MoveRecord {
 }
 
 export interface Runtime {
+  /** Each state's people this month, read from the country tier (the one holder), by coarse band. */
   states: Map<string, CoarsePlace>;
+  /** Each state's movers this month by the tier's own rule: the share of each coarse band leaving for another state, and the share of its leavers each state takes. */
+  flows: Map<string, { leaving: number[]; toShare: Map<string, number> }>;
+  /** Each state's size times its draw (the tier's place constant, fitted once at the opening): its weight as a destination. */
+  draw: Map<string, number>;
+  /** People arriving from abroad in a year, for each resident of a state (the tier's opening rate). */
+  abroad: Map<string, number>;
+  /** The share of the town's state living outside its counted places, fixed when the engine opens: none where the counted places are the whole jurisdiction (Washington, D.C.). */
+  restShare: number;
   townState: string;
   /** People due to leave, by group and destination state. */
   leave: Map<string, number>;
-  /** People due to arrive in a place, by origin state and coarse band. */
+  /** People due to arrive this month, by origin state and coarse band, before they are shared among places. */
   arrive: Map<string, number>;
-  /** Each state's people at the end of each month (the regional engine reads the change). */
-  totals: Map<string, Map<string, number>>;
-  /** Each state's attractiveness as a destination, fitted once in the first month the engine runs (the opening) and kept; a world saved before it was kept fits it on its next month. */
-  attract: Map<string, number>;
+  /**
+   * People due to arrive in each place, by origin and band (`origin|band`):
+   * each place's share of every month's due, kept until households arrive.
+   * A balance may go below zero, owed from then on, as departures' are.
+   */
+  arriveAt: Map<PlaceId, Map<string, number>>;
   /** Normalizes the holds so a place's average leaving rate is the ACS rate. */
   holdNorm: Map<PlaceId, number>;
   /** The people each institution's rooms hold (place and type), seen the first month: its beds. */
   roomCapacity: Map<string, number>;
   /** Next in line on each institution type's waiting list (admitToRooms). */
   roomQueue: Map<string, number>;
+  /** People each institution type owes a discharge to, carried month to month (admitToRooms). */
+  roomOwed: Map<string, number>;
+  /** Next room to be discharged in each institution type's turn (admitToRooms). */
+  roomRelease: Map<string, number>;
   serial: number;
   /** After-tax real income by state and wage, for this month (cleared each month). */
   netCache: Map<string, number>;
@@ -180,17 +189,6 @@ const orderHashes = new WeakMap<
   CoreState,
   { seed: string; byId: Map<string, string> }
 >();
-
-/** This world's ACS leaving rate: the published one times the world's movers factor. */
-function rateFor(seed: string, usps: string, band: string): number {
-  return (
-    ((RATES.places[`US-${usps}`] ?? RATES.national).departurePerYearByAge[
-      band
-    ] ??
-      RATES.national.departurePerYearByAge[band] ??
-      0) * worldRateFactor(seed, "movers")
-  );
-}
 
 /**
  * A state's yearly arrivals from abroad per resident, from the ACS "moved from
@@ -210,26 +208,6 @@ function abroadRate(api: CoreAPI, usps: string): number {
       ? 1 + RATES.national.admitMoreImmigrantsLaw.shareOfArrivalsFromAbroad
       : 1)
   );
-}
-
-/** Each ACS band's lowest age, in the table's order. */
-const ACS_FLOORS = RATES.ageBands.map((band) =>
-  Number(band.replace("+", "").split("-")[0]),
-);
-
-/** The ACS band a person's age falls in (under 18 move with their parents). */
-function acsBand(age: number): string {
-  for (let i = ACS_FLOORS.length - 1; i >= 0; i--)
-    if (age >= ACS_FLOORS[i]!) return RATES.ageBands[i]!;
-  return "30-34";
-}
-
-function coarseRate(
-  seed: string,
-  usps: string,
-  bands: readonly string[],
-): number {
-  return bands.reduce((n, b) => n + rateFor(seed, usps, b), 0) / bands.length;
 }
 
 /** A state's regional price level (nation = 100), latest year. */
@@ -301,24 +279,19 @@ function stateIncomeTax(
   return minor / 100;
 }
 
-/** Each state's unemployment rate this month by USPS code, from the regional engine where it runs (also read by the working lives elsewhere, src/core2/jobs-elsewhere.ts). */
+/** Each state's unemployment rate this month by USPS code, from the country tier's kept month (also read by the working lives elsewhere, src/core2/jobs-elsewhere.ts). */
 export function stateUnemployment(api: CoreAPI): Map<string, number> {
   const out = new Map<string, number>();
-  if (!api.state.modules.has(REGIONAL_MODULE_ID)) return out;
+  if (!api.state.modules.has("macro")) return out;
   const latest = (
     api.moduleState("macro").table("state").get("macro:state") as
       { latestMonth?: string } | undefined
   )?.latestMonth;
   if (!latest) return out;
-  const months = api
-    .moduleState(REGIONAL_MODULE_ID)
-    .table("months")
-    .query("byMonth", [latest]) as unknown as RegionMonth[];
-  for (const fips of new Set(months.map((row) => row.stateFips)))
-    out.set(
-      STATES[fips]?.usps ?? fips,
-      stateFigures(months, fips).unemploymentPct,
-    );
+  for (const state of countryStates(api)) {
+    const row = countryStateMonth(api, state.fips, latest);
+    if (row) out.set(state.usps, row.unemploymentPct);
+  }
   return out;
 }
 
@@ -335,10 +308,7 @@ function netIncome(
   if (value === undefined) {
     value =
       Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
-      ((renter ? renterPriceLevel : priceLevel)(
-        rt.states.get(usps)?.fips ?? "",
-      ) /
-        100);
+      ((renter ? renterPriceLevel : priceLevel)(FIPS_OF.get(usps) ?? "") / 100);
     rt.netCache.set(key, value);
   }
   return value;
@@ -372,27 +342,56 @@ export function pullBetween(
 const sum = (row: Record<string, number>) =>
   Object.values(row).reduce((n, v) => n + v, 0);
 
-function openCoarse(core: CoreState, rt: Runtime): void {
-  for (const [fips, row] of Object.entries(STATES))
-    rt.states.set(row.usps, {
-      usps: row.usps,
-      fips,
-      people: COARSE.map(
-        ([, share]) => row.population * countedParameter(share),
-      ),
-    });
-  // The town's state holds its counted places in detail: its coarse people are the rest.
+/**
+ * The share of the town's state outside its counted places at the opening:
+ * the state's people by the regional data less the counted people, none where
+ * the counted places are the whole jurisdiction (Washington, D.C.).
+ */
+function openingRestShare(core: CoreState, townState: string): number {
   const residents = residentsRuntime(core);
-  const home = rt.states.get(rt.townState);
-  if (!residents || !home) return;
+  const row = Object.values(STATES).find((st) => st.usps === townState);
+  if (!residents || !row?.population) return 1;
   const counted = countedPeople(residents);
-  const total = home.people.reduce((n, v) => n + v, 0);
-  // Counted places that are the whole state (Washington, D.C.) leave it no
-  // rest: its coarse people are none, not its whole population again.
-  if (total > 0)
-    home.people = home.people.map(
-      (v) => (v * Math.max(0, total - counted)) / total,
-    );
+  return Math.max(0, row.population - counted) / row.population;
+}
+
+/**
+ * Each state's people and movers this month, read from the country tier
+ * (country-tier design: the tier is the one holder of every state's
+ * people). Nothing here is a count
+ * of its own: the view is rebuilt from the tier each month, and a move of the
+ * town's own households is part of the tier's own flows from its state. A
+ * world whose economy does not run has no tier and so no moves.
+ */
+function viewStates(api: CoreAPI, rt: Runtime): void {
+  const { states, flows } = countryFlowsIn(api);
+  rt.states.clear();
+  rt.flows.clear();
+  rt.draw.clear();
+  rt.abroad.clear();
+  const adults = states.map((st) => st.cells.reduce((n, c) => n + c.people, 0));
+  const total = adults.reduce((n, v) => n + v, 0) || 1;
+  states.forEach((st, index) => {
+    const people = COARSE.map(() => 0);
+    people[0] = st.children;
+    for (const cell of st.cells) people[cell.band + 1]! += cell.people;
+    rt.states.set(st.usps, { usps: st.usps, fips: st.fips, people });
+    const flow = flows[index];
+    if (flow) {
+      // A child moves with the household: the band's share is its adults' mean.
+      const adultShare =
+        flow.leavingByBand.reduce((n, v) => n + v, 0) /
+        Math.max(1, COUNTRY_AGE_BANDS.length);
+      rt.flows.set(st.usps, {
+        leaving: [adultShare, ...flow.leavingByBand],
+        toShare: new Map(
+          states.map((to, d) => [to.usps, flow.toShare[d] ?? 0] as const),
+        ),
+      });
+    }
+    rt.draw.set(st.usps, (adults[index]! / total) * st.draw);
+    rt.abroad.set(st.usps, st.abroadYear);
+  });
 }
 
 export function runtimeOf(api: CoreAPI): Runtime | undefined {
@@ -404,18 +403,24 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
   if (!key) return undefined;
   rt = {
     states: new Map(),
+    flows: new Map(),
+    draw: new Map(),
+    abroad: new Map(),
+    restShare: 1,
     townState: key.slice("US-".length),
     leave: new Map(),
     arrive: new Map(),
-    totals: new Map(),
-    attract: new Map(),
+    arriveAt: new Map(),
     holdNorm: new Map(),
     roomCapacity: new Map(),
     roomQueue: new Map(),
+    roomOwed: new Map(),
+    roomRelease: new Map(),
     serial: 0,
     netCache: new Map(),
   };
-  openCoarse(core, rt);
+  viewStates(api, rt);
+  rt.restShare = openingRestShare(core, rt.townState);
   runtimes.set(core, rt);
   return rt;
 }
@@ -566,18 +571,18 @@ function month(api: CoreAPI): void {
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
   rt.netCache.clear();
+  // This month's states and movers, from the country tier.
+  viewStates(api, rt);
+  if (!rt.states.size) return;
   const jobless = stateUnemployment(api);
   const stateList = [...rt.states.values()];
-  // The town's state holds its counted places apart from its coarse people:
-  // a destination's weight and the nation's total count both.
-  const countedAll = countedPeople(residents);
   const inState = countedParameter("countedMovesInStateShare");
   const store = residents.store;
   const source: Source = {
     tag: "ESTIMATED",
     asOf: date,
     citation:
-      "Moves from causes: ACS 2024 county departure rates by age and state; CPS ASEC 2023 in-state share; the state income tax in force (every state's, through the laws engine); BEA regional price parities; the regional engine's unemployment.",
+      "Moves from causes: the country tier's leaving by age band and its destinations (its opening ACS rates times how pay after tax, prices and work compare); CPS ASEC 2023 in-state share; the state income tax in force (every state's, through the laws engine); BEA regional price parities; the regional engine's unemployment.",
     estimatedFrom:
       "Each counted group's expected movers toward each place accrue monthly from its pull; a whole household moves when one is due.",
   };
@@ -598,17 +603,11 @@ function month(api: CoreAPI): void {
       rt.holdNorm.set(placeId, held > 0 ? people / held : 1);
     }
 
-  // Each home state's leaving rate by age, and each place's home state,
-  // worked out once this month.
-  const rateByHome = new Map<string, number[]>();
-  const rateAt = (home: string, age: number) => {
-    let byAge = rateByHome.get(home);
-    if (!byAge) rateByHome.set(home, (byAge = []));
-    let rate = byAge[age];
-    if (rate === undefined)
-      byAge[age] = rate = rateFor(api.state.seed, home, acsBand(age));
-    return rate;
-  };
+  // Each home state's yearly rate of moving at an age, by the tier's own
+  // rule: the share of its band leaving for another state this month, a
+  // year of it, over the share of all movers who leave the state.
+  const rateAt = (home: string, age: number) =>
+    yearlyRate(rt, home, coarseIndex(age, adultAge), inState);
   const homeByPlace = new Map<PlaceId, string>();
   const homeOf = (placeId: PlaceId) => {
     let home = homeByPlace.get(placeId);
@@ -717,8 +716,8 @@ function month(api: CoreAPI): void {
     }
   >();
   for (const h of store.liveHouseholds()) {
-    // An institution admits and discharges its residents (not built yet):
-    // nobody leaves group quarters by the households' leaving rates.
+    // An institution admits and discharges its residents on its own calendar
+    // (admitToRooms): nobody leaves group quarters by the households' leaving rates.
     if (h.tenure === "group") continue;
     const home = homeOf(h.placeId);
     if (!rt.states.has(home)) continue;
@@ -754,97 +753,16 @@ function month(api: CoreAPI): void {
     row.people += people;
     alike.set(key, row);
   }
-  const statePeople = new Map(
-    stateList.map((s) => [
-      s.usps,
-      s.people.reduce((a, b) => a + b, 0) +
-        (s.usps === rt.townState ? countedAll : 0),
-    ]),
-  );
   // The share of a home state living outside the counted places: where the
   // counted places are the whole jurisdiction (Washington, D.C.) there is no
   // remainder to move to, and a leaver within the state lands in one of the
   // counted places again, so it is no departure. Where the remainder is the
   // whole state, the share is one and nothing changes.
-  // Where people go. Each state's attractiveness as a destination is a place
-  // constant, fitted ONCE, in the first month the engine runs in a world (the
-  // opening), and kept on the runtime: the people the other states send it, by
-  // their size, ACS leaving rates and the pulls below, match the arrivals the
-  // ACS counts in it (a doubly constrained gravity model; the margins are the
-  // survey's own, in data/research/migration/mover-rates-acs-2024.json). A
-  // small jurisdiction with many newcomers (Washington, D.C.) is then drawn as
-  // the survey finds, not by its share of the nation's people. Places the
-  // survey does not cover take the nation's arrivals rate. It is never fitted
-  // again: after the opening the survey is only a check on the result, and a
-  // law, price or job change in any state moves its pull and so its arrivals
-  // (country-tier design, "What is deleted"). The pull is the one model above.
-  rt.attract ??= new Map();
-  const attract = rt.attract;
-  if (attract.size === 0) {
-    const n = stateList.length;
-    const peopleOf = stateList.map((st) => statePeople.get(st.usps)!);
-    const leavingOf = stateList.map((st, i) => {
-      const total = st.people.reduce((x, y) => x + y, 0);
-      let rate = 0;
-      for (const [band, [, , acs]] of COARSE.entries())
-        rate +=
-          (total > 0 ? st.people[band]! / total : 1 / COARSE.length) *
-          coarseRate(api.state.seed, st.usps, acs);
-      return peopleOf[i]! * rate * (1 - inState);
-    });
-    const arrivalsOf = stateList.map(
-      (st, i) =>
-        peopleOf[i]! *
-        // Arrivals from other states and counties only: those from abroad
-        // are a flow into the nation, added below, not another state's leavers.
-        Math.max(
-          0,
-          (RATES.places[`US-${st.usps}`]?.arrivalsPerResidentPerYear ??
-            RATES.national.arrivalsPerResidentPerYear) -
-            (RATES.places[`US-${st.usps}`]?.abroadPerResidentPerYear ??
-              RATES.national.abroadPerResidentPerYear),
-        ) *
-        (1 - inState),
-    );
-    const sumOf = (xs: readonly number[]) => xs.reduce((x, y) => x + y, 0);
-    const scale =
-      sumOf(arrivalsOf) > 0 ? sumOf(leavingOf) / sumOf(arrivalsOf) : 1;
-    const target = arrivalsOf.map((t) => t * scale);
-    const pulls = stateList.map((from) => {
-      const wages = (STATES[from.fips]?.perCapitaIncome ??
-        NATION_INCOME) as number;
-      return stateList.map((to) =>
-        to === from ? 0 : Math.exp(sum(pullFor(from.usps, to.usps, wages))),
-      );
-    });
-    const a = peopleOf.map((x) => Math.max(x, 1));
-    for (let pass = 0; pass < 30; pass++) {
-      const inflow = new Array<number>(n).fill(0);
-      for (let f = 0; f < n; f++) {
-        let denom = 0;
-        for (let t = 0; t < n; t++) denom += a[t]! * pulls[f]![t]!;
-        if (denom <= 0) continue;
-        for (let t = 0; t < n; t++)
-          inflow[t] =
-            inflow[t]! + (leavingOf[f]! * a[t]! * pulls[f]![t]!) / denom;
-      }
-      for (let t = 0; t < n; t++)
-        if (inflow[t]! > 0 && target[t]! > 0)
-          a[t] = a[t]! * Math.pow(target[t]! / inflow[t]!, 0.8);
-    }
-    stateList.forEach((st, i) => attract.set(st.usps, a[i]!));
-  }
-  // A state the kept fit does not hold (none today) takes the nation's mean.
-  let attractMean = 0;
-  for (const value of attract.values()) attractMean += value;
-  attractMean = attract.size ? attractMean / attract.size : 1;
-  const attractOf = (usps: string) => attract.get(usps) ?? attractMean;
-  const remainderShare = (home: string) => {
-    if (home !== rt.townState) return 1;
-    const remainder = statePeople.get(home)! - countedAll;
-    const total = statePeople.get(home)!;
-    return total > 0 ? Math.max(0, remainder) / total : 1;
-  };
+  // Where people go: each state's size times its draw, the tier's place
+  // constant fitted once at the opening, times the pull below.
+  const attractOf = (usps: string) => rt.draw.get(usps) ?? 0;
+  const remainderShare = (home: string) =>
+    home === rt.townState ? rt.restShare : 1;
   // Each state's share of the movers out of a home state and its pull at a
   // wage step, in `stateList` order (none for home), worked out once.
   const destRows = new Map<
@@ -1026,8 +944,6 @@ function month(api: CoreAPI): void {
       }
       dues.set(g, dueOf(g));
       const ages = agesOf(residents, next, date);
-      const bands = ages.map((age) => coarseIndex(age, adultAge));
-      const weight = store.weightOf(next);
       // What weighed toward its going, read before it leaves the counts: its
       // age's rate and the web against what held it, and toward another
       // state its pull (within the state taxes and prices are the same).
@@ -1061,8 +977,6 @@ function month(api: CoreAPI): void {
       const returned = returnedMembersOf(core, next);
       departCountedHousehold(core, next.id);
       returnedMembersLeave(api, returned, next.placeId, to);
-      const dest = rt.states.get(to)!;
-      for (const b of bands) dest.people[b] = dest.people[b]! + weight;
       record(api, {
         id: `move:out:${next.id}:${date}`,
         date,
@@ -1077,38 +991,8 @@ function month(api: CoreAPI): void {
     }
   }
 
-  // 2. Every state and territory weighs every other at the coarse grain.
-  const flows: {
-    from: CoarsePlace;
-    to: CoarsePlace;
-    band: number;
-    people: number;
-  }[] = [];
-  for (const from of stateList) {
-    const wages = (STATES[from.fips]?.perCapitaIncome ??
-      NATION_INCOME) as number;
-    // Where its people go: the kept attractiveness times the pull, over every other place's (the same for every age).
-    const raw = stateList.map((to) =>
-      to === from
-        ? 0
-        : attractOf(to.usps) *
-          Math.exp(sum(pullFor(from.usps, to.usps, wages))),
-    );
-    const rawTotal = raw.reduce((x, y) => x + y, 0);
-    const weights = raw.map((x) => (rawTotal > 0 ? x / rawTotal : 0));
-    for (const [band, [, , acs]] of COARSE.entries()) {
-      const leaving =
-        (from.people[band]! *
-          coarseRate(api.state.seed, from.usps, acs) *
-          (1 - inState)) /
-        12;
-      stateList.forEach((to, i) => {
-        if (weights[i]! > 0)
-          flows.push({ from, to, band, people: leaving * weights[i]! });
-      });
-    }
-  }
-  // People arriving in the town's state go to its counted places by their share.
+  // 2. Who comes to the town's state this month, by the tier's own flows:
+  // each other state's leavers that the town's state takes, by band.
   const home = rt.states.get(rt.townState);
   const placePeople = new Map<PlaceId, number>();
   // Newcomers come to households, not to group quarters.
@@ -1118,7 +1002,6 @@ function month(api: CoreAPI): void {
         h.placeId,
         (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
       );
-  const counted = [...placePeople.values()].reduce((a, b) => a + b, 0);
   // The full people living in those places are residents too: newcomers
   // arrive in proportion to everyone who lives there at the arriving age, not
   // only to the part held as counted households, so a place's full people
@@ -1144,72 +1027,48 @@ function month(api: CoreAPI): void {
     (n, row) => n + row.reduce((a, c) => a + c, 0),
     0,
   );
-  for (const f of flows) {
-    f.from.people[f.band] = f.from.people[f.band]! - f.people;
-    if (f.to !== home || !home) {
-      f.to.people[f.band] = f.to.people[f.band]! + f.people;
-      continue;
-    }
-    const stateTotal = home.people.reduce((a, b) => a + b, 0) + counted;
-    const toCounted = stateTotal > 0 ? (f.people * living) / stateTotal : 0;
-    home.people[f.band] = home.people[f.band]! + f.people - toCounted;
-    const key = `${f.from.usps}|${f.band}`;
-    rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
-  }
-  // In-state movers from the rest of the state into its counted places.
   if (home) {
-    const stateTotal = home.people.reduce((a, b) => a + b, 0) + counted;
-    for (const [band, [, , acs]] of COARSE.entries()) {
-      const moving =
-        (home.people[band]! *
-          coarseRate(api.state.seed, home.usps, acs) *
-          inState) /
-        12;
-      const toCounted = stateTotal > 0 ? (moving * living) / stateTotal : 0;
-      home.people[band] = home.people[band]! - toCounted;
-      const key = `${home.usps}|${band}`;
-      rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
+    const stateTotal = home.people.reduce((a, b) => a + b, 0);
+    const toCounted = (people: number) =>
+      stateTotal > 0 ? (people * living) / stateTotal : 0;
+    const due = (origin: string, band: number, people: number) => {
+      const key = `${origin}|${band}`;
+      rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted(people));
+    };
+    for (const from of stateList) {
+      if (from === home) continue;
+      const flow = rt.flows.get(from.usps);
+      const share = flow?.toShare.get(home.usps) ?? 0;
+      if (!flow || !share) continue;
+      COARSE.forEach((_, band) =>
+        due(from.usps, band, from.people[band]! * flow.leaving[band]! * share),
+      );
     }
-  }
-  // stopgapId: SG-LIVES-abroad-arrivals-no-pull (the flow is sized by the sourced rate and does not respond to a place's pull)
-  // People from abroad: each state takes in its ACS rate of its people a year
-  // (the age mix of the nation's arrivals from abroad). They come from no
-  // state's leavers, so a state's count grows by them; the town's state sends
-  // its counted places their share to settle as households.
-  for (const st of stateList) {
-    const stateTotal =
-      st.people.reduce((a, b) => a + b, 0) + (st === home ? counted : 0);
-    const monthly = (stateTotal * abroadRate(api, st.usps)) / 12;
-    COARSE.forEach(([name], band) => {
-      const added = monthly * (RATES.national.abroadAgeShare[name] ?? 0);
-      if (st !== home) {
-        st.people[band] = st.people[band]! + added;
-        return;
-      }
-      const toCounted = stateTotal > 0 ? (added * living) / stateTotal : 0;
-      st.people[band] = st.people[band]! + added - toCounted;
-      const key = `${ABROAD}|${band}`;
-      rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
-    });
+    // In-state movers from the rest of the state into its counted places:
+    // the state's own movers who stay in it, by the CPS share.
+    const own = rt.flows.get(home.usps);
+    if (own)
+      COARSE.forEach((_, band) =>
+        due(
+          home.usps,
+          band,
+          (home.people[band]! * rt.restShare * own.leaving[band]! * inState) /
+            Math.max(1e-9, 1 - inState),
+        ),
+      );
+    // stopgapId: SG-LIVES-abroad-arrivals-no-pull (the flow is sized by the sourced rate and does not respond to a place's pull)
+    // People from abroad: the state takes in its rate of its people a year
+    // (the age mix of the nation's arrivals from abroad); its counted places
+    // take their share to settle as households.
+    const monthly = (stateTotal * abroadRate(api, home.usps)) / 12;
+    COARSE.forEach(([name], band) =>
+      due(ABROAD, band, monthly * (RATES.national.abroadAgeShare[name] ?? 0)),
+    );
   }
   // 3. Whole households arrive as their people come due.
   arrivals(api, rt, residents, placePeople, agedHere, source, jobless);
   // Institutions fill the rooms their residents left (deaths, fill-ins).
   admitToRooms(api, rt, residents, source);
-
-  // 4. Each state's people this month, for the regional engine.
-  const monthKey = date.slice(0, 7);
-  const totals = new Map<string, number>();
-  for (const s of stateList)
-    totals.set(
-      s.usps,
-      s.people.reduce((a, b) => a + b, 0),
-    );
-  if (home)
-    totals.set(home.usps, totals.get(home.usps)! + countedPeople(residents));
-  rt.totals.set(monthKey, totals);
-  for (const key of [...rt.totals.keys()].sort().slice(0, -3))
-    rt.totals.delete(key);
 }
 
 /**
@@ -1237,6 +1096,7 @@ export function moveCountedHouseholdAway(
   householdId: string,
   toPlaceId: string,
   reasons: Readonly<Record<string, number>>,
+  direction: "out" | "discharged" = "out",
 ): boolean {
   const core = api.state as CoreState;
   const residents = residentsRuntime(core);
@@ -1247,26 +1107,19 @@ export function moveCountedHouseholdAway(
   if (!residents || !rt || !h) return false;
   const store = residents.store;
   const date = core.date;
-  const adultAge = api.parameter("votingAge");
   const home = homeStateOf(rt, h.placeId);
   const found = stateOfCountedPlace(toPlaceId);
   const to = found && rt.states.has(found) ? found : home;
   const group = store.groups[h.group]!;
-  const bands = store
-    .countedMembers(h)
-    .map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge));
-  const weight = store.weightOf(h);
   const size = store.weightedCount(h);
   const fromPlace = h.placeId;
   const returned = returnedMembersOf(core, h);
   departCountedHousehold(core, h.id);
   returnedMembersLeave(api, returned, fromPlace, to);
-  const dest = rt.states.get(to);
-  if (dest) for (const b of bands) dest.people[b] = dest.people[b]! + weight;
   record(api, {
-    id: `move:out:${householdId}:${date}`,
+    id: `move:${direction === "out" ? "out" : "discharge"}:${householdId}:${date}`,
     date,
-    direction: "out",
+    direction,
     householdId,
     groupId: group.id,
     fromPlace,
@@ -1288,6 +1141,17 @@ function coarseIndex(age: number, adultAge: number): number {
   return age < adultAge ? 0 : age < 30 ? 1 : age < 45 ? 2 : age < 65 ? 3 : 4;
 }
 
+/** A state's yearly rate of moving at a coarse band, by the tier's rule: its month's share leaving the state, a year of it, over the share of movers who leave. */
+function yearlyRate(
+  rt: Runtime,
+  usps: string,
+  band: number,
+  inState: number,
+): number {
+  const monthly = rt.flows.get(usps)?.leaving[band] ?? 0;
+  return (monthly * 12) / Math.max(1e-9, 1 - inState);
+}
+
 function record(api: CoreAPI, row: MoveRecord): void {
   api
     .moduleState(COUNTED_MOVES_MODULE_ID)
@@ -1296,10 +1160,18 @@ function record(api: CoreAPI, row: MoveRecord): void {
 }
 
 /**
- * Newcomers: when an origin's arrivals for an age band reach a household,
- * one arrives, shaped like a counted household here whose head is that age
- * (the first in a fixed order this month); who they are is generated from
- * the world's seed, as all generation is.
+ * Newcomers, paid out per place as leavers are (pool item
+ * world-town-net-moving-negative). Each month every origin's and age band's
+ * due is shared among the places a newcomer could settle, by everyone living
+ * there at that age (full people too), and kept on that place's own balance.
+ * While a place's whole balance reaches half a household, one arrives there:
+ * shaped like one of the place's own households that has someone of the age
+ * most due (so the under-18 due brings families with children), and each of
+ * its people is charged to their own age's balance, from the origin most due
+ * first. What a household lacks is owed by the place from then on, as
+ * departures' are. Who they are is generated from the world's seed, as all
+ * generation is; which of the place's households they resemble is the seeded
+ * hash. No draw decides where they settle or how many come.
  */
 function arrivals(
   api: CoreAPI,
@@ -1314,72 +1186,130 @@ function arrivals(
   const store = residents.store;
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
-  const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
+  // Each place's households a newcomer could copy, and by age band the ones
+  // with someone that age.
+  const templates = new Map<
+    PlaceId,
+    { all: CountedHousehold[]; byBand: CountedHousehold[][] }
+  >();
   for (const h of store.liveHouseholds()) {
-    // A newcomer copying a room would join group quarters, and institutions
-    // admit nobody yet: their rooms only empty as residents die or are met.
-    // stopgapId: SG-GQ-no-turnover
+    // A newcomer copying a room would join group quarters: institutions
+    // admit on their own calendar (admitToRooms), never as households do.
     if (h.tenure === "group") continue;
     // A household without a home is no shape a newcomer arrives in.
     if (h.tenure === "none") continue;
     const members = store.countedMembers(h);
     if (!members.length) continue;
-    let head = 0;
-    for (const m of members) head = Math.max(head, ageOn(store.born[m]!, date));
-    const byBand =
-      templates.get(h.placeId) ?? new Map<number, CountedHousehold[]>();
-    templates.set(h.placeId, byBand);
-    const list = byBand.get(coarseIndex(head, adultAge));
-    if (list) list.push(h);
-    else byBand.set(coarseIndex(head, adultAge), [h]);
+    let here = templates.get(h.placeId);
+    if (!here)
+      templates.set(
+        h.placeId,
+        (here = { all: [], byBand: COARSE.map(() => []) }),
+      );
+    here.all.push(h);
+    const bands = new Set(
+      members.map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge)),
+    );
+    for (const band of bands) here.byBand[band]!.push(h);
   }
   if (!placePeople.size) return;
-  const rates = unplacedRates(residents, date);
   const places = [...templates.keys()].sort();
+  rt.arriveAt ??= new Map();
+  // This month's due, shared among places by their people at that age.
   for (const [key, due] of [...rt.arrive].sort((a, b) =>
     a[0] < b[0] ? -1 : 1,
   )) {
-    const [origin, bandText] = key.split("|");
-    const band = Number(bandText);
-    // A newcomer settles in a place in proportion to everyone living there
-    // at their age (full people too), as a household shaped like one of the
-    // counted households there whose head is that age.
-    const cumulative: number[] = [];
+    const band = Number(key.split("|")[1]);
     let weightSum = 0;
-    for (const place of places) {
-      weightSum += agedHere.get(place)?.[band] ?? 0;
-      cumulative.push(weightSum);
-    }
+    for (const place of places) weightSum += agedHere.get(place)?.[band] ?? 0;
     if (weightSum <= 0) continue;
-    let left = due;
+    for (const place of places) {
+      const weight = agedHere.get(place)?.[band] ?? 0;
+      if (weight <= 0) continue;
+      let own = rt.arriveAt.get(place);
+      if (!own) rt.arriveAt.set(place, (own = new Map()));
+      own.set(key, (own.get(key) ?? 0) + (due * weight) / weightSum);
+    }
+    rt.arrive.delete(key);
+  }
+  // A place no newcomer can settle in any longer keeps nothing due.
+  for (const place of [...rt.arriveAt.keys()])
+    if (!templates.has(place)) rt.arriveAt.delete(place);
+  let rates: Map<PlaceId, number> | undefined;
+  for (const place of places) {
+    const own = rt.arriveAt.get(place);
+    if (!own) continue;
+    const here = templates.get(place)!;
     for (;;) {
-      const unit = (salt: string) =>
-        Number.parseInt(
-          stableHash(`${core.seed}:${salt}:${key}:${date}:${rt.serial}`).slice(
-            0,
-            8,
-          ),
-          16,
-        );
-      const at = cumulative.findIndex(
-        (c) => c > (unit("arrival-place") / 0x1_0000_0000) * weightSum,
+      let total = 0;
+      const byBand = COARSE.map(() => 0);
+      for (const [key, value] of own) {
+        total += value;
+        byBand[Number(key.split("|")[1])]! += value;
+      }
+      // The age most due that one of the place's households holds.
+      let band = -1;
+      for (let b = 0; b < COARSE.length; b++)
+        if (
+          here.byBand[b]!.length &&
+          byBand[b]! > 0 &&
+          (band < 0 || byBand[b]! > byBand[band]!)
+        )
+          band = b;
+      const shapes = band < 0 ? here.all : here.byBand[band]!;
+      // The origin most due at that age, else at any age.
+      let origin: string | undefined;
+      let most = 0;
+      for (const [key, value] of own) {
+        const [from, b] = key.split("|");
+        if ((band < 0 || Number(b) === band) && value > most) {
+          most = value;
+          origin = from;
+        }
+      }
+      if (!origin) break;
+      // Which of the place's own households its shape copies: the seeded hash.
+      const unit = Number.parseInt(
+        stableHash(
+          `${core.seed}:arrival:${place}:${origin}|${band}:${date}:${rt.serial}`,
+        ).slice(0, 8),
+        16,
       );
-      const byBand = templates.get(places[at < 0 ? places.length - 1 : at]!)!;
-      const shapes =
-        byBand.get(band) ??
-        byBand.get(2) ??
-        [...byBand.entries()].sort((x, y) => x[0] - y[0])[0]![1];
-      const template = shapes[unit("arrival") % shapes.length]!;
+      const template = shapes[unit % shapes.length]!;
       const size = store.weightedCount(template);
-      if (left < size) break;
-      left -= size;
+      if (size <= 0 || total < size / 2) break;
+      // Each person is charged to their own age's balance, from the origin
+      // first; what that age lacks comes from the rest of the place's due,
+      // and what the place lacks it owes from then on.
+      const weight = store.weightOf(template);
+      for (const m of store.countedMembers(template)) {
+        const b = coarseIndex(ageOn(store.born[m]!, date), adultAge);
+        let take = weight;
+        const first = `${origin}|${b}`;
+        const order = [...own.keys()].sort((x, y) => {
+          if (x === first || y === first) return x === first ? -1 : 1;
+          const sameX = x.endsWith(`|${b}`);
+          const sameY = y.endsWith(`|${b}`);
+          if (sameX !== sameY) return sameX ? -1 : 1;
+          return own.get(y)! - own.get(x)! || (x < y ? -1 : 1);
+        });
+        for (const key of order) {
+          const have = own.get(key)!;
+          const used = Math.max(0, Math.min(have, take));
+          if (used > 0) own.set(key, have - used);
+          take -= used;
+          if (take <= 0) break;
+        }
+        if (take > 0) own.set(first, (own.get(first) ?? 0) - take);
+      }
       // They settle where the household they resemble lives.
       const placeId = template.placeId;
-      const record = newcomers(api, rt, residents, template, origin!, source);
-      // A newcomer household stands for as many as the one it resembles.
-      admitCountedHousehold(core, record, store.weightOf(template));
+      const record = newcomers(api, rt, residents, template, origin, source);
+      // A newcomer household stands for as many as the one it resembles, and looks for a home like its.
+      admitCountedHousehold(core, record, weight, template.id);
       const h = store.households[store.householdOf.get(record.household.id)!]!;
       // Working-age newcomers share the place's unplaced workers at its rate.
+      rates ??= unplacedRates(residents, date);
       h.unplacedWorkers = jobShare(residents, h, rates, date);
       rt.serial++;
       api
@@ -1392,7 +1322,7 @@ function arrivals(
           householdId: record.household.id,
           groupId: store.groups[h.group]!.id,
           fromPlace:
-            origin === rt.townState ? `${origin}:rest-of-state` : origin!,
+            origin === rt.townState ? `${origin}:rest-of-state` : origin,
           toPlace: placeId,
           people: size,
           // The rate its people's age leaves where they came from, and
@@ -1400,7 +1330,12 @@ function arrivals(
           reasons: causesOf(
             origin === ABROAD
               ? abroadRate(api, rt.townState)
-              : coarseRate(api.state.seed, origin!, COARSE[band]![2]),
+              : yearlyRate(
+                  rt,
+                  origin!,
+                  band,
+                  countedParameter("countedMovesInStateShare"),
+                ),
             1,
             {},
             origin === rt.townState || origin === ABROAD
@@ -1408,7 +1343,7 @@ function arrivals(
               : pullBetween(
                   api,
                   rt,
-                  origin!,
+                  origin,
                   rt.townState,
                   headOf(residents, h, date, adultAge).wages,
                   jobless,
@@ -1416,7 +1351,6 @@ function arrivals(
           ),
         } as unknown as ModuleRow);
     }
-    rt.arrive.set(key, left);
   }
 }
 
@@ -1427,8 +1361,11 @@ function arrivals(
  * next person on the institution's waiting list moves in, a person drawn
  * like one the type's rooms hold (same ages, new identity, seeded), so a
  * nursing home, a dormitory or a barracks stays occupied the way its beds are.
- * Nobody is discharged yet: students and service members still age in place
- * (SG-GQ-no-turnover, narrowed to discharge).
+ * Residents are discharged on the type's own calendar (`groupQuartersStayOf`):
+ * a type's beds turn over once in its stay, in the months its calendar names
+ * (a college graduates its class in May and admits the next in August), the
+ * rooms in turn by id and never by a chance. A nursing home has no stay: its
+ * residents leave when they die.
  */
 function admitToRooms(
   api: CoreAPI,
@@ -1450,19 +1387,67 @@ function admitToRooms(
   for (const key of [...rooms.keys()].sort()) {
     const held = rooms.get(key)!;
     const filled = held.filter((h) => store.countedMembers(h).length > 0);
-    const occupied = filled.reduce((n, h) => n + store.weightedCount(h), 0);
+    let occupied = filled.reduce((n, h) => n + store.weightedCount(h), 0);
     const known = rt.roomCapacity.get(key);
     if (known === undefined) {
       rt.roomCapacity.set(key, occupied);
       continue;
     }
-    let vacancy = known - occupied;
     if (!filled.length) continue;
+    const type = held[0]!.quarters!;
+    const stay = groupQuartersStayOf(type);
+    const month = Number(date.slice(5, 7));
+    const left = new Set<string>();
+    // Discharge: the beds turn over once in a stay. The year's turn comes due
+    // in the months the type's calendar names, else a twelfth each month, and
+    // the rooms leave in turn by id until what is owed is paid.
+    if (stay) {
+      const share = stay.leaveMonths
+        ? stay.leaveMonths.includes(month)
+          ? 1 / stay.leaveMonths.length
+          : 0
+        : 1 / 12;
+      let owed = (rt.roomOwed.get(key) ?? 0) + (occupied * share) / stay.years;
+      const order = [...filled].sort((a, b) => (a.id < b.id ? -1 : 1));
+      for (;;) {
+        // One room always stays: the institution's intake draws a new
+        // resident like the ones its rooms hold.
+        if (order.length - left.size <= 1) break;
+        const turn = rt.roomRelease.get(key) ?? 0;
+        const next = order[turn % order.length]!;
+        if (left.has(next.id)) {
+          rt.roomRelease.set(key, turn + 1);
+          continue;
+        }
+        const size = store.weightedCount(next);
+        if (!(owed >= size) || size <= 0) break;
+        rt.roomRelease.set(key, turn + 1);
+        if (
+          !moveCountedHouseholdAway(
+            api,
+            next.id,
+            next.placeId,
+            { "the institution's calendar": 1 },
+            "discharged",
+          )
+        )
+          break;
+        left.add(next.id);
+        owed -= size;
+        occupied -= size;
+      }
+      rt.roomOwed.set(key, owed);
+    }
+    // Intake waits for the institution's own months.
+    if (stay?.intakeMonths && !stay.intakeMonths.includes(month)) continue;
+    let vacancy = known - occupied;
     // The waiting list is read in order, never drawn: applicants queue in the
     // order of the type's own households (by id), and the next room goes to
     // the next in line.
     // stopgapId: SG-GQ-waiting-list-order
-    const line = [...filled].sort((a, b) => (a.id < b.id ? -1 : 1));
+    const line = [...filled]
+      .filter((h) => !left.has(h.id))
+      .sort((a, b) => (a.id < b.id ? -1 : 1));
     for (;;) {
       const turn = rt.roomQueue.get(key) ?? 0;
       const template = line[turn % line.length]!;
@@ -1743,13 +1728,15 @@ export function drawnAdult(
   return null;
 }
 
-/** Each state's or territory's people this month, as the counts hold them (both tiers' counted people). */
+/** Each state's or territory's people as the moves engine last read them from the country tier. */
 export function countedStatePeople(
   core: CoreState,
   usps: string,
-  monthKey: string,
 ): number | undefined {
-  return runtimes.get(core)?.totals.get(monthKey)?.get(usps);
+  return runtimes
+    .get(core)
+    ?.states.get(usps)
+    ?.people.reduce((a, b) => a + b, 0);
 }
 
 /** The pull toward each place for one counted group, as last weighed. */

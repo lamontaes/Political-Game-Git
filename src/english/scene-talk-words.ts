@@ -18,6 +18,7 @@
 import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
+import moveSetsFile from "../../data/english/scene-move-sets.json" with { type: "json" };
 import { conversationPacket, renderLine, type Fact } from "./bank-line";
 import {
   composeJoinedLine,
@@ -28,6 +29,7 @@ import { stableHash } from "../core2/kernel/ids";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
+import { sentenceStarts } from "./said-as";
 import {
   follows,
   REPLY_FOLLOWS,
@@ -60,12 +62,31 @@ export interface PartUse {
   move: string;
   role: SceneTalkRole;
   purpose?: string;
+  /**
+   * A shared move set (data/english/scene-move-sets.json) in place of one
+   * purpose: the piece serves every purpose the set lists.
+   */
+  set?: string;
   key?: string;
   after?: string;
   outcome?: "resolved" | "refused" | "open";
   requiresFacts?: string[];
+  /**
+   * Facts the line needs to be true but need not name: they filter exactly as
+   * `requiresFacts` does and rank the same, one per fact, because a line that
+   * checks more of the record is more specific (most-specific-line-wins).
+   * `requiresFacts` is for a fact the line is about; `onlyWhen` for one that
+   * only keeps the line from being false.
+   */
+  onlyWhen?: string[];
   /** Facts that rule the piece out ("elder": nobody tells an 80-year-old to wait a cycle). */
   excludesFacts?: string[];
+  /**
+   * Facts that hold for the rest of the talk once the piece is said (an
+   * answer sets what it told, so the question it answered is held back and
+   * the replies that take it up can follow).
+   */
+  setsFacts?: string[];
 }
 
 export interface BankPart {
@@ -85,6 +106,25 @@ const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
 /** What play may say: a part the owner's grades hold back is not. */
 const SHIPPED = admittedParts(PARTS);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
+const SHIPPED_BY_KEY = new Map(SHIPPED.map((part) => [part.key, part]));
+
+/**
+ * The facts the pieces said so far in a talk have set (`setsFacts` on a use
+ * that serves this spot), in the order they were said; each holds for the
+ * rest of the talk.
+ */
+export function factsSetBy(
+  said: Iterable<string>,
+  spot: SceneSpot,
+  parts: ReadonlyMap<string, BankPart> = SHIPPED_BY_KEY,
+): string[] {
+  const set: string[] = [];
+  for (const key of said)
+    for (const u of parts.get(key)?.uses ?? [])
+      if (u.subject === "scene" && u.setsFacts && usesSpot(u, spot))
+        set.push(...u.setsFacts);
+  return [...new Set(set)];
+}
 /**
  * A piece that calls the other person by their first name ("Thank you,
  * {first}."). A voice that has done it on a branch does not do it on every
@@ -162,6 +202,50 @@ export interface WordedMove {
   /** The line invites the other to speak ("Go ahead."), so it cannot end a scene. */
   invites: boolean;
   slotRecordIds: readonly string[];
+  /** Why this wording was placed at its spot: what dev mode shows beside a line. */
+  placed?: Placed;
+}
+
+/**
+ * The use that placed a wording and the wordings it tied with, read from the
+ * same fit the picker made (dev mode's "why this reply", owner, Nov 16: dev
+ * mode does the tracing in the game).
+ */
+export interface Placed {
+  /** The facts the use requires, said in the words (`requiresFacts`). */
+  readonly needs: readonly string[];
+  /** The facts the use relies on without saying them (`onlyWhen`). */
+  readonly onlyWhen: readonly string[];
+  /** The facts that would have ruled it out, none of them held (`excludesFacts`). */
+  readonly rulesOut: readonly string[];
+  /** The move or piece the use follows (`after`). */
+  readonly after?: string;
+  /** The other wordings that fit the spot as closely, by piece key. */
+  readonly ties: readonly string[];
+}
+
+/** The use of a piece that fits a move most closely, and what placed it. */
+function placedBy(
+  part: BankPart,
+  use: SceneMove,
+  steps: readonly string[],
+  facts: Readonly<Record<string, Fact>>,
+  ties: readonly BankPart[],
+): Placed | undefined {
+  let best: PartUse | undefined;
+  let fit = -one;
+  for (const u of part.uses) {
+    const at = useFit(u, use, steps, facts);
+    if (at > fit) [best, fit] = [u, at];
+  }
+  if (!best) return undefined;
+  return {
+    needs: best.requiresFacts ?? [],
+    onlyWhen: best.onlyWhen ?? [],
+    rulesOut: best.excludesFacts ?? [],
+    ...(best.after ? { after: best.after } : {}),
+    ties: ties.filter((row) => row.key !== part.key).map((row) => row.key),
+  };
 }
 
 /** A line that hands the floor to the other person. */
@@ -183,9 +267,35 @@ const taggedBy = (part: BankPart) =>
 /** Where a scene is said: the part of a move that decides which pieces serve it at all. */
 export type SceneSpot = Pick<SceneMove, "purpose" | "family" | "key">;
 
+/** The purposes each shared move set serves (data/english/scene-move-sets.json). */
+const MOVE_SETS = new Map(
+  Object.entries(
+    (
+      moveSetsFile as unknown as {
+        sets: Record<string, { purposes: string[] }>;
+      }
+    ).sets,
+  ).map(([name, row]) => [name, new Set(row.purposes)]),
+);
+
+/** Whether a use's purpose, or the shared move set it names, is this purpose (or its family). */
+export function usesPurpose(
+  u: Pick<PartUse, "purpose" | "set">,
+  purpose: string,
+  family?: string,
+): boolean {
+  if (u.set) {
+    const serves = MOVE_SETS.get(u.set);
+    return (
+      !!serves && (serves.has(purpose) || (!!family && serves.has(family)))
+    );
+  }
+  return u.purpose === purpose || (!!family && u.purpose === family);
+}
+
 /** Whether a use serves this purpose and situation key (a fallback "*" serves only a scene with no purpose of its own). */
 export function usesSpot(u: PartUse, use: SceneSpot): boolean {
-  if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
+  if ((u.purpose || u.set) && !usesPurpose(u, use.purpose, use.family))
     return false;
   return !(u.key && u.key !== use.key);
 }
@@ -209,15 +319,22 @@ export function useFit(
     return -one;
   if (u.outcome && u.outcome !== use.outcome) return -one;
   if (u.requiresFacts?.some((name) => !facts[name])) return -one;
+  if (u.onlyWhen?.some((name) => !facts[name])) return -one;
   if (u.excludesFacts?.some((name) => facts[name])) return -one;
   return (
     // A piece written for a variant beats the family's, whatever facts either needs.
     (use.family && u.purpose === use.purpose ? sixteen : zero) +
     (u.purpose && u.purpose !== "*" ? four : zero) +
+    // A shared move set names the purposes it serves, so a piece of it fits
+    // as closely as one written for the purpose's own situation key.
+    (u.set ? four + two : zero) +
     (u.key ? two : zero) +
     (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
-    // A piece that needs a fact the record holds says more than one that does not.
-    (u.requiresFacts?.length ?? zero)
+    // A piece that checks a fact the record holds says more than one that
+    // does not: every fact it checks counts once, whether the words name it
+    // (requiresFacts) or only rely on it (onlyWhen).
+    (u.requiresFacts?.length ?? zero) +
+    (u.onlyWhen?.length ?? zero)
   );
 }
 
@@ -483,8 +600,10 @@ export function wordSceneMove(input: {
   if (!line) return null;
   const part = parts.find((row) => row.key === line.variantKey);
   const tag = onlyTagged && part ? taggedBy(part) : undefined;
+  const placed = part && placedBy(part, use, steps, facts, parts);
   return {
-    text: line.text,
+    // A slot that opens a sentence after another is capitalized as one.
+    text: sentenceStarts(line.text),
     pieceKey: part?.key ?? line.variantKey ?? "",
     step: (part?.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
       steps[zero]) as SceneTalkStep,
@@ -493,6 +612,7 @@ export function wordSceneMove(input: {
     asks: /\?$/.test(line.text.trim()),
     invites: INVITES.test(line.text.trim()),
     slotRecordIds: [...line.sourceRecordIds],
+    ...(placed ? { placed } : {}),
   };
 }
 
@@ -572,8 +692,13 @@ function joinedMove(
   const coreKey =
     line.parts.find((part) => part.part === "core")?.variantKey ?? "";
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
-  const text = line.text.trim();
+  // A slot that opens a joined sentence is capitalized as its first word.
+  const text = sentenceStarts(line.text.trim());
+  const placed =
+    core &&
+    placedBy(core, input.move, steps, input.facts, sentence.parts.core ?? []);
   return {
+    ...(placed ? { placed } : {}),
     text,
     pieceKey: coreKey,
     pieceKeys: line.parts.map((part) => part.variantKey),
@@ -651,4 +776,34 @@ export function pieceAnswers(
     else if (u.after === answered.move) tier = Math.max(tier, one);
   }
   return tier;
+}
+
+/**
+ * One piece worded from a scene's facts, as play words it: dev mode's "why
+ * this reply" shows the wordings that tied with the one said (`Placed.ties`)
+ * in their words, not their slots. Null where the facts cannot word it.
+ */
+export function wordPiece(input: {
+  key: string;
+  facts: Readonly<Record<string, Fact>>;
+  seed: string;
+  speakerId: string;
+  momentKey: string;
+}): string | null {
+  const part = PART_BY_KEY.get(input.key);
+  if (!part) return null;
+  const line = renderLine({
+    seed: input.seed,
+    surface: "dialogue",
+    holderId: input.speakerId,
+    bankKey: `scene-talk:piece:${part.key}`,
+    version: "scene-talk-v1",
+    variants: [{ key: part.key, text: directorSlots(part.text) }],
+    facts: Object.fromEntries(
+      Object.entries(input.facts).filter(([, fact]) => fact.text !== ""),
+    ),
+    momentKey: input.momentKey,
+    fallbackSourceId: input.speakerId,
+  });
+  return line ? sentenceStarts(line.text) : null;
 }

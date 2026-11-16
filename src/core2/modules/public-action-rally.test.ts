@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
@@ -8,14 +7,17 @@ import { advanceCore } from "../life";
 import { coreAPI, registerModule } from "../state";
 import { OUTCOME_WEB_MODULE_ID } from "../outcome-web-model";
 import { TERM_MEASURES } from "../term-read";
-import { actionsOf } from "./public-action";
+import { actionsOf, PUBLIC_ACTION_MODULE_ID } from "./public-action";
 import { CASE_MADE } from "./speech";
 
 // A rally has no demand (owner, Nov 8: "if the world is great... you show up
 // to a rally"). A town whose term reads well in every area gathers rallies; a
 // friend in one asks the player to come with a topic that names no demand, and
 // the player saying yes puts them in it without pressing any official.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned (a drawn place may have no rally in a half year): the seed and the
+// place it draws are named in the failure line. It plays six months of the
+// game's own days, and that is why it runs about two minutes.
+const seed = "pa-rally-pin";
 setBookkeeping(false);
 const place = drawPlace(`${seed}:0`, "public-action-rally");
 const where = `${place.name} (${place.key}), seed ${seed}:0`;
@@ -91,7 +93,7 @@ it("a rally invites the player without a demand, and joining one presses no one"
   ))
     expect(row.topic?.includes("us-policy-positions"), where).toBe(false);
   // The player says yes to a friend in a rally: in it from then, still pressing no one.
-  const rally = rallies[0]!;
+  const rally = rallies.find((row) => row.participantIds.length > 0)!;
   const friend = rally.participantIds[0]!;
   api.emit({
     id: `scene.reply:test:rally`,
@@ -111,4 +113,32 @@ it("a rally invites the player without a demand, and joining one presses no one"
   )!;
   expect(after.participantIds, where).toContain(world.playerId);
   expect(pressedByRally(), where).toEqual([]);
+  // A recruiter's id may hold colons (a newspaper's owner is `newspaper:...`):
+  // the same yes still finds the action and the player.
+  api
+    .moduleState(PUBLIC_ACTION_MODULE_ID)
+    .table("actions")
+    .put({
+      ...after,
+      participantIds: after.participantIds.filter(
+        (id) => id !== world.playerId,
+      ),
+    } as never);
+  api.emit({
+    id: `scene.reply:test:rally:colons`,
+    date: core.date,
+    kind: "scene.reply",
+    personIds: [world.playerId!, friend],
+    placeId: world.placeId,
+    facts: {
+      typeKey: "cause-invite",
+      causeId: `cause.shared:${rally.id}:newspaper:owner:${friend}:${world.playerId}`,
+      ending: "joined",
+    },
+    source: { tag: "SOURCED", asOf: core.date, citation: "test" },
+  });
+  const again = actionsOf(api, world.placeId).find(
+    (row) => row.id === rally.id,
+  )!;
+  expect(again.participantIds, where).toContain(world.playerId);
 }, 240_000);

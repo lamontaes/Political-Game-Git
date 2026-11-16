@@ -63,6 +63,7 @@ import {
 import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "./modules/views";
 import { candidateStance, stanceReader } from "./campaign-stances";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -82,7 +83,7 @@ function world(salt: string) {
     { modules: [viewsModule] },
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -98,21 +99,33 @@ function world(salt: string) {
 }
 
 /**
- * Two wealthy adults filed in the first contest both qualify for: the richest
- * adults, in order, who the contest's rules let on the ballot (a national
- * outlet's head lives elsewhere and a press owner may not run).
+ * Two wealthy adults of the town filed in the first contest both qualify for:
+ * the richest residents, in order, who the contest's rules let on the ballot.
+ * The cases play the town's campaign, which reaches people through the
+ * candidate's own circle there, so someone who lives elsewhere (a station
+ * owner kept at the state's level, a national outlet's head) is not drawn.
  */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
 ): { you: FilingRow; rival: FilingRow } | null {
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  // Every race opens its filing on its own real day: move to the first day
+  // one is open in this place (gov-test-clock), as a player would wait.
+  advanceToFilingOpen(core);
+  const town = (
+    api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("town")
+      .get("town") as unknown as {
+      townPlaceId: string;
+    }
+  ).townPlaceId;
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.placeId === town &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   for (const contest of openContests(api)) {
     const filed: FilingRow[] = [];
     for (const adult of adults) {
@@ -180,7 +193,10 @@ interface CampaignPayment {
 function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
   const payments: CampaignPayment[] = [];
   setJournalTrace((input) => {
-    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+    if (
+      CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind) ||
+      input.sourceRef.id.startsWith("campaign-purchase:")
+    )
       payments.push({ ...input.sourceRef, postings: input.postings });
   });
   try {
@@ -275,9 +291,11 @@ describe("campaigns that raise and spend", () => {
         paidOut -= out.deltaMinor;
         const to = record.postings.find((p) => p !== out)!;
         const sellerId = to.accountId.slice(5, -":residual".length);
-        expect(core.organizations.get(sellerId)!.liquidMinor).toBeGreaterThan(
-          sellersBefore.get(sellerId) ?? 0,
-        );
+        // An outside seller holds no stock: its flow is the record.
+        if (core.organizations.get(sellerId)!.outsideFlow === undefined)
+          expect(core.organizations.get(sellerId)!.liquidMinor).toBeGreaterThan(
+            sellersBefore.get(sellerId) ?? 0,
+          );
       }
     }
     expect(paidOut).toBe(campaign.spentMinor);
@@ -551,22 +569,44 @@ describe("campaigns that raise and spend", () => {
         tried.push(`${where}: nothing raised or spent`);
         continue;
       }
+      // The ad is about the platform question its campaign was furthest
+      // behind on (`nextTopic`), kept as its message's topic: read it there,
+      // not from the platform's lead.
+      const topics = (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("messages")
+          .rows() as unknown as {
+          id: string;
+          candidateId: string;
+          topic: string;
+        }[]
+      )
+        .filter(
+          (m) => m.candidateId === rival.personId && m.id.startsWith(prefix),
+        )
+        .map((m) => m.topic);
+      const question = topics[topics.length - 1];
+      if (!question) {
+        tried.push(`${where}: the ad reached no one it could move`);
+        continue;
+      }
       // The views engine moves a stance someone holds: viewers with none on
       // the ad's question have nothing for it to move.
       if (
         !viewers.some((id) =>
-          stancesOf(api, id).some((s) => s.topic === lead.question),
+          stancesOf(api, id).some((s) => s.topic === question),
         )
       ) {
         tried.push(
-          `${where}: none of ${viewers.length} viewers holds a stance on ${lead.question}`,
+          `${where}: none of ${viewers.length} viewers holds a stance on ${question}`,
         );
         continue;
       }
       const moved = viewers.filter((id) =>
         stancesOf(api, id).some(
           (s) =>
-            s.topic === lead.question &&
+            s.topic === question &&
             s.causes.some((x) => x.eventId.startsWith(prefix)),
         ),
       );

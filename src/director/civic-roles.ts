@@ -48,8 +48,10 @@ import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import {
+  EMERGENCY_OFFERED,
   EXECUTIVE_MODULE_ID,
   appointmentsIn,
+  emergencyBriefingPosts,
 } from "../core2/modules/executive";
 import { lawChain } from "../core2/modules/laws";
 import { lineForPost } from "../core2/budgets-treasury";
@@ -60,7 +62,11 @@ import {
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
-import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  beatenRunnerUp,
+  pollingPlaceOf,
+} from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
 import { markWordsStopgap } from "./stopgaps";
@@ -158,6 +164,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "staff",
   "oath-giver",
   "sworn-colleagues",
+  "emergency-lead",
 ]);
 
 interface BillRow {
@@ -188,6 +195,25 @@ function contestOfFiling(api: CoreAPI, causeId: string): string {
         : causeId,
     ) as unknown as { contestId: string } | undefined;
   return filing?.contestId ?? causeId;
+}
+
+/** The living people holding the state cabinet posts a disaster offer's incident type calls to the room, lead department first. */
+function emergencyHeadsOf(
+  core: Readonly<CoreState>,
+  causeId: string,
+): PersonId[] {
+  const offer = core.durableLog.get(causeId);
+  if (offer?.kind !== EMERGENCY_OFFERED) return [];
+  const api = coreAPI(core as CoreState);
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+  const rows = appointmentsIn(api, lawChain(api).stateKey);
+  return living(
+    core,
+    emergencyBriefingPosts(String(offer.facts?.incidentType ?? "")).flatMap(
+      (post) =>
+        rows.filter((row) => row.post === post).map((row) => row.holderId),
+    ),
+  );
 }
 
 /** People the core holds as full people and who are alive. */
@@ -258,25 +284,16 @@ export function civicFill(
       );
     }
     case "opponent": {
-      // The candidate who finished behind the moment's subject in the count
-      // the cause settled: the runner-up on the result record's totals, living
-      // and not the subject. Where the subject did not win, or nobody else
-      // stood, the role stays unfilled and the scene does not fire.
+      // The candidate who finished first behind the moment's subject among
+      // those who missed the cut in the count the cause settled (in an
+      // at-large race the other winners were seated too, so none of them
+      // calls): living and not the subject. Where the subject did not win,
+      // or nobody missed the cut, the role stays unfilled and the scene does
+      // not fire.
       const facts = core.durableLog.get(moment.causeId)?.facts;
       if (!facts?.totals || facts.winnerId !== moment.personId) return [];
-      const totals = JSON.parse(String(facts.totals)) as Record<string, number>;
-      return free(
-        living(
-          core,
-          Object.entries(totals)
-            .filter(([id]) => id !== moment.personId)
-            .sort(
-              ([idA, votesA], [idB, votesB]) =>
-                votesB - votesA || idA.localeCompare(idB),
-            )
-            .map(([id]) => id),
-        ),
-      ).slice(zero, one);
+      const beaten = beatenRunnerUp(facts, moment.personId);
+      return free(living(core, beaten ? [beaten.id] : [])).slice(zero, one);
     }
     case "volunteers": {
       // The volunteers of a campaign the candidate is running now, from the
@@ -408,6 +425,14 @@ export function civicFill(
           servingStaffOf(api, moment.personId).map((row) => row.personId),
         ),
       );
+    }
+    case "emergency-lead": {
+      // The state cabinet head whose department leads for the disaster (data/executive/emergency.json,
+      // by the incident type on the offer's record, in the map's order) opens the briefing. Only the
+      // people who speak are cast: the other heads join when the room can seat more than one speaker
+      // (pool item director-emergency-briefing-other-heads). A state with no post for the type has no
+      // one in that seat, so there is no briefing.
+      return free(emergencyHeadsOf(core, moment.causeId).slice(zero, one));
     }
     case "department-head": {
       // A cut line's department head: the person the town's appointment

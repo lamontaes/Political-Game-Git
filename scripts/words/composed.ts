@@ -31,15 +31,15 @@ import { randomUUID } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { benchRequest, benchWorld } from "../../src/bench/handler";
-import { OPENING_EVENING_MINUTE } from "../../src/bench/opening";
+import { openingArrivalMinute } from "../../src/bench/opening";
 import { officeholders } from "../../src/bench/officeholders";
 import { corePlaceStateIdentities } from "../../src/core2/place-lookup";
 import { realLocalities } from "../../src/core2/places";
+import { racesOf } from "../../src/core2/modules/voting";
+import { coreAPI } from "../../src/core2/state";
 import { recordLocalAddress } from "../../src/director/local-address";
-import {
-  ADDRESS_FACT,
-  ADDRESS_PART_BREAK,
-} from "../../src/director/opening-facts";
+import { addressPartsOf, saidOf } from "../../src/director/address-render";
+import { ADDRESS_FACT } from "../../src/director/opening-facts";
 import {
   baselineFailures,
   runComposedRules,
@@ -54,6 +54,7 @@ import {
   type ComposedText,
   type NamedPerson,
 } from "../../src/english/composed-text";
+import { pronounFor } from "../../src/english/move-fit";
 import { drawPlace } from "../core2-year/place";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
@@ -127,7 +128,7 @@ export async function playLife(
     ...(core.households.get(player.householdId)?.memberIds ?? [me]),
   ];
   const minute = () =>
-    world.player?.packet?.at.minuteOfDay ?? OPENING_EVENING_MINUTE;
+    world.player?.packet?.at.minuteOfDay ?? openingArrivalMinute(core, me);
   const date = () => world.player?.packet?.at.date ?? core.date;
   const add = (
     kind: ComposedKind,
@@ -361,15 +362,13 @@ export async function playLife(
       const facts = (row.facts ?? {}) as Json;
       if (
         /^(president|governor|mayor)\.address$/.test(kind) &&
-        facts[ADDRESS_FACT.text]
+        saidOf(facts as Record<string, unknown>).length
       )
         addSpeech(
           kind,
           String(row.id),
           String(facts[ADDRESS_FACT.speaker] ?? ""),
-          String(facts[ADDRESS_FACT.parts] ?? facts[ADDRESS_FACT.text]).split(
-            ADDRESS_PART_BREAK,
-          ),
+          addressPartsOf(facts as Record<string, unknown>),
           [me],
         );
     }
@@ -469,6 +468,7 @@ export async function playLife(
       id: person.id,
       full: `${person.givenName} ${person.familyName}`,
       given: person.givenName,
+      pronoun: pronounFor(person.looks?.gender),
       ...(roles.has(person.id) ? { role: roles.get(person.id)! } : {}),
     }));
   return {
@@ -479,6 +479,8 @@ export async function playLife(
     people,
     stateNames: states.map((row) => row.name),
     townName: town,
+    // The world's election calendar, for a line that names when a vote is.
+    electionDates: racesOf(coreAPI(core)).map((row) => row.date),
     texts,
   };
 }

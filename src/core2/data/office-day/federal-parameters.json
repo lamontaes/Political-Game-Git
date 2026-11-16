@@ -4,7 +4,7 @@
     "whipAnswerCloseness": {
       "value": 0.05,
       "tag": "TUNABLE",
-      "source": "How far a member's answer to their party's whip moves the closeness between them, a yes warming it and a no cooling it, against the step one ordinary contact gives (a canvass at the door moves it 0.1). Whips keep long memories, but one answer is one exchange (Evans 2018, 'The Whips: Building Party Coalitions in Congress').",
+      "source": "How far a member's answer to their party's whip moves the closeness between them, a yes warming it and a no cooling it, against the step one ordinary contact gives (a canvass at the door moves it 0.1). Whips keep long memories, but one answer is one exchange (Evans 2018, 'The Whips: Building Party Coalitions in Congress'). Also read by a mayor's or governor's veto (office-day.ts decideDesk), a refused ask on a sponsor's bill, cooling the tie by the same step.",
       "spread": [0.02, 0.15]
     },
     "cabinetQualificationYears": {

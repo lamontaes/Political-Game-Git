@@ -94,7 +94,7 @@ function severeDisasterReading(
   return { value, recordId };
 }
 
-/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+/** The outcomes whose level the school engine measures (spending is not here: the web keeps no spending figure; the school engine's row is the one figure). */
 const SCHOOL_MEASURED = new Set([
   "school.math-proficient-pct",
   "school.reading-proficient-pct",
@@ -104,6 +104,12 @@ const SCHOOL_MEASURED = new Set([
 export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
+// The trace of laws the web carries into business prices, for the price engine.
+export {
+  traceWebPriceLaws,
+  WEB_PRICE_ENGINE,
+  WEB_PRICE_WHAT,
+} from "../law-reach/web-price-trace";
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -250,9 +256,6 @@ const ENGINE_READERS: Readonly<
   // have closed (press.local-newspaper), counted from the finance ledger's
   // closing dates; null where the press keeps no outlet for the place.
   "newspapers-closed": (api, placeId) => {
-    // stopgapId: SG-WEB-voting-newspaper-closure (a paper closes only by its
-    // owner's choice, and no paper's books show the losses that choice weighs)
-    api.stopgap("SG-WEB-voting-newspaper-closure");
     const closed = closedNewspapers(api, placeId);
     return closed ? { value: closed.count, recordId: closed.recordId } : null;
   },

@@ -17,5 +17,95 @@
     "tag": "TUNABLE",
     "source": "The part of the non-federal cost the state takes on and the rest left to the county and town. States often cover half or more of the local match for declared disasters (NCSL, State Disaster Assistance 2019; Federal Funds Information for States).",
     "spread": [0, 1]
+  },
+  "briefing": {
+    "about": "Who is in the governor's room when a disaster record lands and the governor is the player: the state cabinet posts (the keys in data/research/executive/executive-powers-2026.json) whose departments the disaster touches, by the incident type of the FEMA declaration record, lead department first. A state without a post has no one in that seat. Any type not listed uses the default. Read by the emergency-briefing scene (src/director/civic-roles.ts) and by emergencyBriefingPosts in src/core2/modules/executive.ts.",
+    "tag": "ESTIMATED",
+    "source": "Which department answers each kind of disaster is read from the statutes that give it the work: the governor commands the state's National Guard unless it is called into federal service (U.S. Const. art. I, sec. 8, cl. 16); a state emergency declaration is the step before the governor's request for a federal declaration (Stafford Act sec. 401, 42 U.S.C. 5170; 44 CFR 206.36); a biological incident is a public health emergency (42 U.S.C. 247d); a drought is answered by the agriculture department's disaster designations (7 U.S.C. 1961); a hazardous release falls to the environment agency (CERCLA, 42 U.S.C. 9601 et seq.); wildfire help is a Fire Management Assistance Grant (Stafford Act sec. 420, 42 U.S.C. 5187).",
+    "spread": "States organize emergency management differently (some place it under the adjutant general, some under public safety, some under the governor's office), so a state's own plan may seat a department this map leaves out or one of these may sit under another.",
+    "answerable": {
+      "about": "How long a disaster stays the player governor's to answer in the briefing: a request for a federal declaration must reach the Regional Administrator within 30 days of the incident, and the state's emergency declaration comes first. The offer stays answerable that many days from the incident's date; the briefing meets the governor again at most twice while they leave it unanswered (once when half the window is gone, once on the last day a meeting can still be held), and past the last day it lapses as a public record with nothing declared and no federal aid asked for. The engine never answers for the governor.",
+      "days": 30,
+      "midwayShare": {
+        "value": 0.5,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Half the answer window gone is the point a staff that has been waiting asks again; no statute fixes it. The briefing returns once then, only if the governor's first meeting came before it.",
+        "spread": "A third to two thirds of the window reads as natural; checked only against the played year keeping one return in the middle of the window."
+      },
+      "lastOfferDaysBeforeClose": {
+        "value": 2,
+        "role": "level",
+        "tag": "ESTIMATED",
+        "source": "The offer lapses on its closing date; the scene meets the governor the day after an offer, so an offer two days before the close meets them the day before it, the last day a meeting can be held.",
+        "spread": "One day if the scene met the governor on the offer day itself."
+      },
+      "tag": "SOURCED",
+      "source": "44 CFR 206.36(a): the Governor's request for a major disaster declaration is submitted within 30 days of the occurrence of the incident (Robert T. Stafford Act sec. 401, 42 U.S.C. 5170).",
+      "spread": "The 30 days may be extended by the Regional Administrator in writing; no extension is modeled."
+    },
+    "default": ["public-safety", "military"],
+    "rows": [
+      {
+        "types": [
+          "Hurricane",
+          "Tropical Storm",
+          "Tropical Depression",
+          "Typhoon",
+          "Coastal Storm",
+          "Tsunami"
+        ],
+        "posts": [
+          "public-safety",
+          "military",
+          "transportation",
+          "human-services"
+        ]
+      },
+      {
+        "types": [
+          "Severe Storm",
+          "Straight-Line Winds",
+          "Tornado",
+          "Flood",
+          "Dam/Levee Break",
+          "Mud/Landslide"
+        ],
+        "posts": [
+          "public-safety",
+          "military",
+          "transportation",
+          "human-services"
+        ]
+      },
+      {
+        "types": ["Snowstorm", "Severe Ice Storm", "Winter Storm", "Freezing"],
+        "posts": ["public-safety", "military", "transportation", "health"]
+      },
+      {
+        "types": ["Fire", "Volcanic Eruption"],
+        "posts": ["public-safety", "military", "environment"]
+      },
+      {
+        "types": ["Earthquake"],
+        "posts": ["public-safety", "military", "transportation", "health"]
+      },
+      {
+        "types": ["Drought"],
+        "posts": ["agriculture", "environment", "human-services"]
+      },
+      {
+        "types": ["Biological"],
+        "posts": ["health", "public-safety", "military", "human-services"]
+      },
+      {
+        "types": ["Chemical", "Toxic Substances"],
+        "posts": ["environment", "health", "public-safety", "military"]
+      },
+      {
+        "types": ["Terrorist"],
+        "posts": ["public-safety", "military", "health"]
+      }
+    ]
   }
 }

@@ -31,17 +31,25 @@ import {
   checkBands,
   historyMonths,
   monthKey,
-  publishedMonth,
   shiftMonth,
   countryMacroMonth,
+  worldPublishedMonth,
   type MacroMonth,
   type NationFigures,
   type MacroParameter,
 } from "../macro-model";
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
-import { countryLaw, startingLawReader } from "../country-law";
+import {
+  countryLaw,
+  federalSpendingReader,
+  startingLawReader,
+} from "../country-law";
+import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
+import { stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
+  countryFlows,
+  registerCountryFlowsReader,
   countryMoney,
   countryPartFigures,
   countryPeople,
@@ -52,6 +60,7 @@ import {
   resolveCountryPart,
   stepCountry,
   COUNTRY_SECTORS,
+  type CountryFlow,
   type CountryMonth,
   type CountryPart,
   type CountryPartCounts,
@@ -85,6 +94,7 @@ import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
 import { openingRegionMonths, stateFigures } from "../regional-model";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
+  LATEST_MONTH_LAG,
   REGIONAL_PARAMETERS,
   openRegional,
   regionalFactors,
@@ -322,7 +332,35 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date, api.state.startedAt);
-  return countryLaw(read, params(api), date, taxIndexOf(api, date));
+  return countryLaw(
+    read,
+    params(api),
+    date,
+    taxIndexOf(api, date),
+    federalOn(api, date),
+  );
+}
+
+/**
+ * The federal budget in force on a day as it reaches each state, line by line: the budget the
+ * game's Congress adopted (the budgets engine's rows), shared among the states by population and
+ * this world's stake of each state in each line. None where the world keeps no budgets.
+ */
+function federalOn(api: CoreAPI, date: string) {
+  if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
+    return federalSpendingReader(undefined, () => 1, 1);
+  const nation = governments(api).find((gov) => gov.level === "federal");
+  const budget = nation
+    ? budgetsOf(api, nation.id)
+        .filter((row) => row.startsOn <= date)
+        .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+        .at(-1)
+    : undefined;
+  return federalSpendingReader(
+    budget,
+    (stateKey, line) => stateStake(api, stateKey, `budget-line:${line}`),
+    params(api)("minorPerDollar"),
+  );
 }
 
 /**
@@ -332,7 +370,13 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
  */
 function lawAtTheStart(api: CoreAPI) {
   const start = api.state.startedAt;
-  return countryLaw(startingLawReader(start, start), params(api), start);
+  return countryLaw(
+    startingLawReader(start, start),
+    params(api),
+    start,
+    undefined,
+    federalOn(api, start),
+  );
 }
 
 /** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */
@@ -363,6 +407,25 @@ export function countryStates(api: CoreAPI): readonly CountryState[] {
   return store(api).table("countryStates").rows() as unknown as CountryState[];
 }
 
+/**
+ * Every state's people and this month's movers by the tier's own rule, read
+ * without moving anyone (counted-moves reads them: the tier is the one holder
+ * of every state's people). Empty before the tier opens.
+ */
+export function countryFlowsNow(api: CoreAPI): {
+  states: readonly CountryState[];
+  flows: readonly CountryFlow[];
+} {
+  if (!countryOpened(api)) return { states: [], flows: [] };
+  const tier = readCountry(api);
+  return {
+    states: tier.states,
+    flows: countryFlows(tier, lawNow(api), rulesOf(api)),
+  };
+}
+
+registerCountryFlowsReader(countryFlowsNow);
+
 /** One state's figures today and at the opening, by FIPS code. */
 export function countryStateNow(api: CoreAPI, fips: string) {
   const state = store(api)
@@ -373,6 +436,79 @@ export function countryStateNow(api: CoreAPI, fips: string) {
   return state && base
     ? { now: countryStateFigures(state, rulesOf(api)), base, state }
     : undefined;
+}
+
+/**
+ * One state's figures for a month, as the country tier holds them: the one
+ * place the state's unemployment, jobs, pay, prices and people are kept by
+ * month (Metrics' state rows and the state's session agenda both read it).
+ */
+export interface CountryStateMonth {
+  id: string;
+  fips: string;
+  month: string;
+  unemploymentPct: number;
+  jobs: number;
+  hourlyPay: number;
+  prices: number;
+  population: number;
+}
+
+const stateMonthId = (fips: string, month: string) =>
+  `country-state-month:${fips}:${month}`;
+
+function stateMonthRow(
+  state: CountryState,
+  month: string,
+  rules: CountryRules,
+): CountryStateMonth {
+  const { unemploymentPct, jobs, hourlyPay, population, prices } =
+    countryStateFigures(state, rules);
+  return {
+    id: stateMonthId(state.fips, month),
+    fips: state.fips,
+    month,
+    unemploymentPct,
+    jobs,
+    hourlyPay,
+    prices,
+    population,
+  };
+}
+
+/** Every state's figures for `month`, kept: the last year and the months Metrics may read in full, then each December and the opening month. */
+function recordStateMonths(
+  api: CoreAPI,
+  states: readonly CountryState[],
+  month: string,
+  openingMonth: string,
+): void {
+  const p = params(api);
+  const table = store(api).table("countryStateMonths");
+  const rules = rulesOf(api);
+  for (const state of states)
+    table.put(stateMonthRow(state, month, rules) as unknown as { id: string });
+  const gone = shiftMonth(
+    month,
+    -(p("macroMonthsPerYear") + LATEST_MONTH_LAG),
+    p,
+  );
+  if (!gone.endsWith("-12") && gone !== openingMonth)
+    for (const row of table.query("byMonth", [gone])) table.remove(row.id);
+}
+
+/** A state's kept figures for a month (null where the tier kept none that month). */
+export function countryStateMonth(
+  api: CoreAPI,
+  fips: string,
+  month: string,
+): CountryStateMonth | null {
+  return (
+    (store(api)
+      .table("countryStateMonths")
+      .get(stateMonthId(fips, month)) as unknown as
+      CountryStateMonth | undefined) ?? null
+  );
 }
 
 /** A state's part held in full (the played town and its county), as the tables keep it: one row per state, replaced each month. */
@@ -591,6 +727,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     p,
   );
   months.put(row as unknown as { id: string });
+  recordStateMonths(api, tier.states, row.month, state.openingMonth);
   if (regionalRegistered(api)) {
     const prices = tier.priceIndex;
     stepRegional(api, previous, row, (fips) => {
@@ -630,10 +767,8 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
  * (the regional rows this seed drew), with its books made to add up under the
  * law in force.
  */
-function openCountryTier(
-  api: CoreAPI,
-  opening: Readonly<MacroMonth>,
-): NationFigures {
+/** The tier as it opens: every state fitted from the world's opening figures under the law the world began with. Writes nothing. */
+function openedTier(api: CoreAPI, opening: Readonly<MacroMonth>): CountryTier {
   const p = params(api),
     rules = rulesOf(api);
   const regionMonths = openingRegionMonths(
@@ -666,7 +801,42 @@ function openCountryTier(
     lawAtTheStart(api),
     rules,
   );
+  return tier;
+}
+
+const openingStateRows = new WeakMap<object, Map<string, CountryStateMonth>>();
+
+/**
+ * A state's figures as the tier opens with them, for a day before the tier's
+ * first day has written its rows (the first screens of a new world): the same
+ * opening the first day writes, so the figure shown on day one is the one kept
+ * for the opening month after it. Built once per world and held.
+ */
+export function openingStateMonth(
+  api: CoreAPI,
+  opening: Readonly<MacroMonth>,
+  fips: string,
+): CountryStateMonth | null {
+  let rows = openingStateRows.get(api.state);
+  if (!rows) {
+    rows = new Map();
+    const tier = openedTier(api, opening);
+    for (const state of tier.states)
+      rows.set(state.fips, stateMonthRow(state, opening.month, rulesOf(api)));
+    openingStateRows.set(api.state, rows);
+  }
+  return rows.get(fips) ?? null;
+}
+
+function openCountryTier(
+  api: CoreAPI,
+  opening: Readonly<MacroMonth>,
+): NationFigures {
+  const p = params(api),
+    rules = rulesOf(api);
+  const tier = openedTier(api, opening);
   writeCountry(api, tier);
+  recordStateMonths(api, tier.states, opening.month, opening.month);
   let jobs = p("zero"),
     paid = p("zero");
   for (const state of tier.states) {
@@ -973,14 +1143,18 @@ export function linkCreditLineToPrime(
 
 export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
-  // History before the start (M1-14): the nation's published months, and each change in the policy rate.
+  // History before the start (M1-14): this world's months (the published
+  // months moved by its own offsets, the rule its opening month follows),
+  // and each change in the policy rate.
   preStart: {
     phase: "economy",
     run(api, window, history) {
+      const p = params(api);
+      const { startedAt, seed } = api.state;
       let previous: number | undefined;
       for (const date of coarseSteps(window)) {
         const month = date.slice(0, "YYYY-MM".length);
-        const row = publishedMonth(month);
+        const row = worldPublishedMonth(month, startedAt, seed, p);
         if (!row) continue;
         const facts: Record<string, number> = {};
         for (const key of [
@@ -994,9 +1168,11 @@ export const MACRO_MODULE: PreStartModule = {
         ] as const)
           if (row[key] !== undefined) facts[key] = row[key]!;
         const source: Source = {
-          tag: "SOURCED",
+          tag: "ESTIMATED",
           asOf: api.state.date,
           citation: MACRO_HISTORY_SOURCE.citation,
+          estimatedFrom:
+            "The published month moved by this world's own offsets (macroWorldOffsets), the rule the opening month follows.",
         };
         history.record({
           id: `economy.conditions:${month}`,
@@ -1031,6 +1207,7 @@ export const MACRO_MODULE: PreStartModule = {
       country: {},
       countryStates: { indexes: { byFips: { fields: ["fips"] } } },
       countryBases: {},
+      countryStateMonths: { indexes: { byMonth: { fields: ["month"] } } },
       countryParts: {},
       members: { indexes: { all: { fields: ["isMember"] } } },
       meetings: {},
@@ -1130,7 +1307,12 @@ const OUTLOOK_PROBLEMS_KEPT = 8;
  */
 /** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
 export function countryOpened(api: CoreAPI): boolean {
-  return readState(api) !== undefined;
+  // A world built without the economy (the law-reach tests' small worlds) has no tier: the same
+  // test the outside-money reader makes. The game's worlds always install it (modules/world.ts).
+  return (
+    (api.state as CoreState).modules.has(MACRO_MODULE_ID) &&
+    readState(api) !== undefined
+  );
 }
 
 /** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
@@ -1294,3 +1476,6 @@ export function nationalPanel(api: CoreAPI) {
     repricings: snap.tables.repricings,
   };
 }
+
+// Re-exported so the people family reads the tier's flows through this entry (families guard).
+export { COUNTRY_AGE_BANDS, countryFlowsIn } from "../country-model";

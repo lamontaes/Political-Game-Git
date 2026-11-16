@@ -13,9 +13,8 @@
  * SG-GOV-REACH-B-assistance-benefits).
  */
 import type { CoreAPI, CoreState } from "../types";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain, lawInForce } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
-import type { LawRowInput } from "../laws-starting";
 import {
   povertyLineDollars,
   reachParameter,
@@ -25,10 +24,14 @@ import {
 } from "./group-b-people";
 import {
   type AssistanceTimeLimit,
+  federalBenefitLine,
   governmentAt,
+  INCOME_SECURITY,
+  INCOME_SECURITY_KEY,
   reconcileObligations,
   recordApplied,
   recordDraws,
+  recordLineShare,
   timeLimitedNow,
 } from "./group-b-money";
 
@@ -48,38 +51,19 @@ function standardDeduction(size: number): number {
 /**
  * The maximum allotment by household size in force: the table of the row in
  * force, scaled to the row's own one-person amount (an act that changes the
- * amount changes every size by the same proportion, whatever table it copied),
- * or, where the row has no table, the latest table recorded for that tier
- * scaled to the row's amount.
+ * amount changes every size by the same proportion; an amendment keeps the
+ * table it amends).
  */
 export function allotments(api: CoreAPI): ((size: number) => number) | null {
   const answer = lawInForce(api, "snap-maximum");
   const governing = answer.governing;
   if (!governing || !answer.value) return null;
-  type Table = { byHouseholdSize?: Record<string, number> };
-  let table = (governing.terms as Table | undefined)?.byHouseholdSize;
-  let factor = table?.["1"] ? answer.value / table["1"] : 1;
-  if (!table) {
-    const rows = (
-      api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .query("bySeriesOnly", ["snap-maximum"]) as unknown as LawRowInput[]
-    )
-      .filter(
-        (r) =>
-          r.jurisdiction === governing.jurisdiction &&
-          r.tier === governing.tier &&
-          (r.terms as Table | undefined)?.byHouseholdSize &&
-          r.effectiveDate <= api.state.date,
-      )
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
-    const base = rows[0];
-    if (!base) return null;
-    table = (base.terms as Table).byHouseholdSize;
-    factor = answer.value / (base.value ?? answer.value);
-  }
-  const sizes = table!;
+  const table = (
+    governing.terms as { byHouseholdSize?: Record<string, number> } | undefined
+  )?.byHouseholdSize;
+  if (!table?.["1"]) return null;
+  const factor = answer.value / table["1"];
+  const sizes = table;
   const added =
     (sizes[String(Object.keys(sizes).length)] ?? 0) -
     (sizes[String(Object.keys(sizes).length - 1)] ?? 0);
@@ -168,8 +152,11 @@ export function runFoodAid(
             r.id,
           ]);
     let countedMinor = 0;
+    let countedBaseMinor = 0;
     let countedHouseholds = 0;
     const lawId = lawInForce(api, "snap-maximum").governing?.id ?? "";
+    // The income security line in force scales what the allotment works out.
+    const line = federalBenefitLine(api, INCOME_SECURITY);
     for (const head of heads) {
       const household = facts.households.get(head.householdId);
       if (!household) continue;
@@ -185,8 +172,10 @@ export function runFoodAid(
       );
       if (dollars <= 0) continue;
       paid.push(...covered.filter((id) => !limited.has(id)));
+      const base = dollars * cents;
+      const monthly = Math.round(base * line.level);
       if (head.named) {
-        want.set(`${gov.id}|${head.id}`, dollars * cents);
+        want.set(`${gov.id}|${head.id}`, monthly);
         // The maximum allotment is read here, where the household's benefit is set.
         recordApplied(api, {
           key: "snap-maximum",
@@ -194,10 +183,19 @@ export function runFoodAid(
           targetId: head.householdId,
           target: "household",
           what: "snap-benefit-set",
-          amountMinor: dollars * cents,
+          amountMinor: monthly,
+        });
+        recordLineShare(api, line, {
+          key: INCOME_SECURITY_KEY,
+          targetId: head.householdId,
+          target: "household",
+          what: "snap-changed-by-line",
+          baseMinor: base,
+          paidMinor: monthly,
         });
       } else {
-        countedMinor += dollars * cents * (head.scale ?? 1);
+        countedMinor += monthly * (head.scale ?? 1);
+        countedBaseMinor += base * (head.scale ?? 1);
         countedHouseholds += head.scale ?? 1;
       }
     }
@@ -210,6 +208,16 @@ export function runFoodAid(
         what: "snap-benefit-set",
         count: Math.max(1, Math.round(countedHouseholds)),
         amountMinor: Math.floor(countedMinor),
+      });
+    if (countedMinor > 0)
+      recordLineShare(api, line, {
+        key: INCOME_SECURITY_KEY,
+        targetId: `${chain.townPlaceId}:snap-households`,
+        target: "group",
+        what: "snap-changed-by-line",
+        count: Math.max(1, Math.round(countedHouseholds)),
+        baseMinor: Math.floor(countedBaseMinor),
+        paidMinor: Math.floor(countedMinor),
       });
     recordDraws(api, timeLimit, paid);
     if (countedMinor > 0 && residentsOrg)

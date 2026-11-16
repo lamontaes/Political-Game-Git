@@ -50,11 +50,7 @@ export const enum MemberState {
 }
 
 /** The `looks` keys that carry a person's roles (opening-roles.ts), kept for counted members as for named people. */
-export const ROLE_KEYS = [
-  "partyActivity",
-  "ownedEmployerId",
-  "civicRoles",
-] as const;
+export const ROLE_KEYS = ["partyActivity", "ownedEmployerId"] as const;
 
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**
@@ -133,6 +129,13 @@ export interface CountedHousehold {
    * Every reader of a count multiplies by it (`CountedStore.weightOf`).
    */
   weight?: number;
+  /**
+   * How much of its group's account is this household's, per person, against
+   * the group's average of one (`savingWeight` in counted-money.ts): drawn once
+   * from the world's seed and its id, so households alike in income, age and
+   * tenure still differ in what they have saved.
+   */
+  saving?: number;
   /** The day it moved into its place. */
   since?: IsoDate;
   /** Its sampled county workers' employers (see HouseholdInput.employment). */
@@ -234,7 +237,6 @@ export class CountedStore {
   readonly roleIx: Record<string, number[]> = {
     partyActivity: [],
     ownedEmployerId: [],
-    civicRoles: [],
   };
   readonly tierIx: number[] = [];
   state = new Uint8Array(0);
@@ -287,6 +289,8 @@ export class CountedStore {
   version = 0;
   /** Bumped only when someone joins or leaves the counts (not on a regroup). */
   membersVersion = 0;
+  /** Bumped when a household record's weight changes (not on a regroup). */
+  weightsVersion = 0;
 
   get groupsVersion(): number {
     return groupReadRevisions.get(this)?.version ?? 0;
@@ -595,7 +599,31 @@ export class CountedStore {
   releaseWeight(h: CountedHousehold): number {
     const rest = this.weightOf(h) - 1;
     if (rest <= 0) return 0;
-    const people = rest * this.countedCount(h);
+    return this.spreadPeople(h, rest * this.countedCount(h));
+  }
+
+  /**
+   * One member of a household record dies in `share` of the households it
+   * stands for, fewer than all (births-counted.ts): the record stands for
+   * `share` fewer households, and the people who lived with them in those
+   * households go to the other households of its group, as a filled-in
+   * record's do (`releaseWeight`), so only the dead leave the counts.
+   * Returns the people that had nowhere to go.
+   */
+  dieInPart(h: CountedHousehold, share: number): number {
+    const weight = this.weightOf(h);
+    if (!(share > 0) || share >= weight) return 0;
+    const survivors = share * (this.countedCount(h) - 1);
+    h.weight = weight - share;
+    this.version++;
+    this.weightsVersion++;
+    this.changedGroup(h.group);
+    h.wagesMinorYear = this.wagesOf(h);
+    return survivors > 0 ? this.spreadPeople(h, survivors) : 0;
+  }
+
+  /** People who leave a record go to the other households of its group, or of its place when it was alone in it; returns those with nowhere to go. */
+  private spreadPeople(h: CountedHousehold, people: number): number {
     if (people <= 0) return 0;
     const near = (pool: Iterable<CountedHousehold>) => {
       const targets: CountedHousehold[] = [];
@@ -637,6 +665,7 @@ export class CountedStore {
         if (!this.jobHeads.has(job.id))
           this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+      this.weightsVersion++;
       this.changedGroup(other.group);
       other.wagesMinorYear = this.wagesOf(other);
     }
@@ -977,6 +1006,7 @@ export function encodeStore(store: CountedStore): unknown {
             // Cache keys, not state: a restored store starts its own count.
             "version",
             "membersVersion",
+            "weightsVersion",
           ].includes(key),
       ),
     ),

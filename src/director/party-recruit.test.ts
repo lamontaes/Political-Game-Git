@@ -1,7 +1,5 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -10,7 +8,6 @@ import {
   PARTY_ASKED_EVENT,
   decisionOf,
   filingWindowOpens,
-  partyProspects,
 } from "../core2/modules/candidacy";
 import {
   ELECTIONS_MODULE_ID,
@@ -35,9 +32,18 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // opens, the members each party would ask are followed as play follows the
 // people around the player (in its circle, watched by the director), so an
 // ask is a kept record in a life the director watches.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-// A place to replay first, as the golden-path runner binds one.
-const pinned = process.env.GOLDEN_PATH_PLACE_KEY;
+//
+// Pinned to one place, seed and opening day (pinned-tests): Breathedsville,
+// Maryland, opened a month before its party filing window, so the chair's
+// ask comes in the first weeks through the game's own path. A party asks
+// only members who know its chair, and the chair opens knowing the members
+// who come to its meetings (parties-opening-chair-knows-no-members). The
+// golden-path runner may bind another place and seed.
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  "eb7bf5962b7c91580493e25b412315491d7919f3bfaa5fc6b44a1b5435f719d5";
+const pinned = process.env.GOLDEN_PATH_PLACE_KEY ?? "2409400";
+const OPENING = gameStartDate();
 const MONTHS = 24;
 
 interface Ask {
@@ -63,21 +69,14 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
   const tried: string[] = [];
   let answered = "";
   try {
-    for (
-      let attempt = 0;
-      attempt < 3 && !(told.length && answered);
-      attempt += 1
-    ) {
-      const place =
-        attempt === 0 && pinned
-          ? {
-              key: pinned,
-              seed,
-              name: corePlaceByKey(pinned)?.displayName ?? pinned,
-            }
-          : drawPlace(seed, `party-recruit:${attempt}`);
+    {
+      const place = {
+        key: pinned,
+        seed,
+        name: corePlaceByKey(pinned)?.displayName ?? pinned,
+      };
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+      const { core, director } = buildBenchWorld(place.seed, OPENING, {
         twoLevel: true,
         placeKey: place.key,
       });
@@ -135,17 +134,21 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
       const staged = new Map<string, string>();
       let checked = 0;
       while (core.date < end && !(told.length && answered)) {
-        // Follow the members each party would ask, the day before a seat's
-        // filing opens; else play on a month.
+        // Follow every party member, the day before a seat's filing opens;
+        // else play on a month. partyProspects cannot name them that day: a
+        // member is not yet eligible to file before the window opens.
         const tomorrow = addDays(makeIsoDate(core.date), 1);
-        for (const contest of contests())
-          if (filingWindowOpens(api, contest) === tomorrow)
-            for (const { members } of partyProspects(api, contest))
-              for (const person of members) {
-                core.focusPersonIds.add(person.id);
-                director.watch(core, person.id);
-                watched.add(person.id);
-              }
+        if (
+          contests().some(
+            (contest) => filingWindowOpens(api, contest) === tomorrow,
+          )
+        )
+          for (const person of core.people.values())
+            if (person.alive && partyTie(api, person.id)?.tie === "party") {
+              core.focusPersonIds.add(person.id);
+              director.watch(core, person.id);
+              watched.add(person.id);
+            }
         const next = contests()
           .map((contest) =>
             addDays(makeIsoDate(filingWindowOpens(api, contest)), -1),
@@ -195,7 +198,10 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
           const { talk } = result.scene;
           expect(talk.askerId, said).toBe(ask.chairId);
           expect(result.scene.cause.id, said).toBe(ask.recordId);
-          expect(talk.state.text, said).toContain(ask.office);
+          // A single office is said by its title in lower case (seat-said).
+          expect(talk.state.text.toLowerCase(), said).toContain(
+            ask.office.toLowerCase(),
+          );
           expectUpToFourDifferent(
             talk.tree.replies.map((reply) => reply.line),
             said,
@@ -240,4 +246,4 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
   } finally {
     setBookkeeping(true);
   }
-}, 1_800_000);
+}, 120_000);

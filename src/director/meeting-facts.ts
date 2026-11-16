@@ -14,6 +14,21 @@
  */
 import { ageOnDate } from "../core2/kernel/dates";
 import {
+  billOf,
+  bodyOf,
+  LEGISLATURE_MODULE_ID,
+} from "../core2/modules/legislature";
+import {
+  meetingAhead,
+  OFFICE_DAY_MODULE_ID,
+  officeDayParameter,
+  upcomingMeeting,
+  type MeetingRow,
+} from "../core2/modules/office-day";
+import { townSeats } from "../core2/modules/offices";
+import { billTitleOf, billTitleSaid } from "../english/bill-names";
+import { dayAheadSaid } from "../english/day-words";
+import {
   PARTIES_MODULE_ID,
   partiesHere,
   partyTie,
@@ -24,7 +39,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { withArticle } from "../english/journal-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { properName, spoken } from "./words";
+import { organizationName, spoken } from "./words";
 
 export interface MeetingFact {
   text: string;
@@ -95,7 +110,7 @@ export function meetingFacts(
   const shared = history.find((row) => row.kind === "coworker" && !row.endedOn);
   const org = shared ? core.organizations.get(shared.recordId) : undefined;
   if (shared && org)
-    flag("employer", [shared.recordId, causeId], properName(org.name));
+    flag("employer", [shared.recordId, causeId], organizationName(org));
   const started =
     typeKey === "first-meeting" ? core.jobs.get(causeId) : undefined;
   const askerJob =
@@ -126,7 +141,7 @@ export function meetingFacts(
     : undefined;
   if (schoolmates && schoolOrg) {
     flag("schoolmate", [schoolmates.recordId]);
-    flag("school", [schoolmates.recordId], properName(schoolOrg.name));
+    flag("school", [schoolmates.recordId], organizationName(schoolOrg));
   }
 
   // Their children at one school in one school year: the asker's youngest at
@@ -145,7 +160,7 @@ export function meetingFacts(
       if (!match || !school) continue;
       flag("kids-school", [at.schoolId, child.id, match.id]);
       flag("child", [child.id, at.schoolId], child.givenName);
-      if (!schoolmates) flag("school", [at.schoolId], properName(school.name));
+      if (!schoolmates) flag("school", [at.schoolId], organizationName(school));
       break;
     }
   }
@@ -162,10 +177,71 @@ export function meetingFacts(
     }
   }
 
+  // A tie that grew: the next posted meeting of a town body the asked may
+  // come to (the office-day engine's meetings), which the friend asks them
+  // to come to with them (words-friend-ask-leads-to-a-held-day).
+  if (typeKey === "becoming-friends")
+    Object.assign(facts, nextMeetingFacts(core));
+
   // Where they live, when the asker's town is not the one the scene is in.
   if (asker.placeId !== asked.placeId) {
     const town = corePlaceByJurisdictionId(asker.placeId as never);
     if (town) flag("hometown", [asker.placeId], spoken(town));
+  }
+  return facts;
+}
+
+/** The levels whose bodies are the town's own (a council, a township or county board). */
+const LOCAL_LEVELS: readonly string[] = ["city", "township", "county"];
+
+/**
+ * The next posted meeting of a town body the player may come to as a
+ * resident (`meetingToAttend`), soonest first: the body as its record names
+ * it, the day as people say it (tonight, tomorrow, a weekday within a week,
+ * else the date), whether it meets in the evening, and the first bill on its
+ * agenda by its title. `meeting` carries the meeting's id, which a yes keeps.
+ */
+export function nextMeetingFacts(
+  core: Readonly<CoreState>,
+): Record<string, MeetingFact> {
+  if (!core.modules.has(OFFICE_DAY_MODULE_ID) || !core.playerId) return {};
+  const api = coreAPI(core as CoreState);
+  let best: { id: string; officeId: string; date: string } | null = null;
+  let row: MeetingRow | undefined;
+  const seen = new Set<string>();
+  for (const { office } of townSeats(api)) {
+    if (seen.has(office.id) || !LOCAL_LEVELS.includes(office.level)) continue;
+    seen.add(office.id);
+    const ahead = meetingAhead(api, office.id);
+    if (!ahead || (best && best.date <= ahead.date)) continue;
+    best = { id: ahead.id, officeId: office.id, date: ahead.date };
+    row = ahead.row;
+  }
+  const body = best ? bodyOf(api, best.officeId) : undefined;
+  if (!best || !body) return {};
+  const name = body.bodyName ?? body.kind;
+  const cite = [best.id];
+  const facts: Record<string, MeetingFact> = {
+    meeting: { text: name, sourceRecordIds: cite },
+    body: { text: name, sourceRecordIds: [body.id, best.id] },
+  };
+  const startMinute =
+    row?.startMinute ?? upcomingMeeting(api, best.officeId)?.rule.startMinute;
+  const when = dayAheadSaid(
+    best.date,
+    core.date,
+    startMinute !== undefined &&
+      startMinute >= officeDayParameter("eveningMeetingMinute"),
+  );
+  if (when) facts["meeting-when"] = { text: when, sourceRecordIds: cite };
+  const [first] = row?.agenda ?? [];
+  if (first && core.modules.has(LEGISLATURE_MODULE_ID)) {
+    const titled = billTitleOf(billOf(api, first));
+    if (titled)
+      facts.item = {
+        text: billTitleSaid(titled.title),
+        sourceRecordIds: [first, best.id],
+      };
   }
   return facts;
 }

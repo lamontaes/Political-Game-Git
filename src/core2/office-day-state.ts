@@ -7,7 +7,7 @@
  * - **The calendar** comes from data: each place's regular session windows
  *   (`state-session-calendar.ts`), a session week's floor and district days,
  *   the interim's monthly committee day, the State of the State and the
- *   budget proposal after convening (`data/office-day/state-parameters.json`).
+ *   budget proposal after convening (`src/core2/data/office-day/state-parameters.json`).
  *   Nothing names a place; a place whose legislature doesn't meet this year is
  *   in the interim all year.
  * - **Acts of office** are done by the player or simulated: the character
@@ -20,7 +20,7 @@
  *   election day); every other entry runs in the background and still counts.
  * - **Per diem**: every member of the state's legislature is paid their
  *   state's per diem for the session days its basis counts
- *   (`data/office-day/state-legislator-per-diem.json`, cited), from the state's
+ *   (`src/core2/data/office-day/state-legislator-per-diem.json`, cited), from the state's
  *   treasury, on the 1st for the month before.
  *
  * State entries use the shared engine’s holds, settings and act ledger.
@@ -31,9 +31,20 @@ import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with 
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
-import { closenessBetween } from "./closeness";
+import {
+  closenessBetween,
+  registerSittingCalendar,
+  type SittingCalendar,
+  type SittingDay,
+} from "./closeness";
+import { roomTime } from "./modules/people";
+import {
+  chargeOfficeHours,
+  registerOfficeTime,
+  type OfficeTime,
+} from "./modules/work";
 import { personLean, personStance } from "./campaign-views";
-import { PLATFORM_QUESTIONS } from "./campaign-data";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
@@ -44,9 +55,7 @@ import {
   appointmentsIn,
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
-  answerEmergencyOffer,
   issueOrder,
-  pendingEmergencyOffers,
   pendingGovernorOrders,
 } from "./modules/executive";
 import {
@@ -76,6 +85,7 @@ import {
   memberKey,
   members,
   scheduleVote,
+  voteKeyOf,
   LEGISLATURE_MODULE_ID,
 } from "./modules/legislature";
 import {
@@ -83,6 +93,7 @@ import {
   committeeAssignment,
   committeeRoster,
   leaderOf,
+  seatedCommittees,
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
 } from "./modules/leadership";
@@ -111,6 +122,7 @@ import type {
   CoreState,
   PersonState,
 } from "./types";
+import type { ModuleCalendarWork } from "./module-calendar";
 
 export const OFFICE_DAY_STATE_MODULE_ID = "core2-office-day-state-v1";
 import {
@@ -132,8 +144,6 @@ registerStopKinds([
   { kind: "state-floor-vote", byDefault: true },
   // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
   { kind: "executive-order", byDefault: true },
-  // A disaster the governor may declare a state of emergency for: the player's to answer, never the character's.
-  { kind: "emergency", byDefault: true },
   // A cabinet post that stands open: the governor the player plays names who fills it.
   { kind: "appointment", byDefault: true },
   // The state budget the governor sends the legislature: the player writes the lines, the character does not.
@@ -289,7 +299,6 @@ export type StateEntryKind =
   | "interim-committee"
   | "state-of-the-state"
   | "executive-order"
-  | "emergency"
   | "appointment"
   | "budget-proposal"
   | "legislative-leaders"
@@ -344,9 +353,13 @@ export function sessionOn(
 /** The first regular session window of a date's year, if the legislature meets that year. */
 function firstWindow(stateKey: string, year: number) {
   const { windows, tag, url } = windowsOf(stateKey, year);
-  const first = [...windows].sort((a, b) =>
+  // The first window that convenes in the year: a legislature that
+  // organizes in December (Indiana's organization day) is not that year's.
+  const sorted = [...windows].sort((a, b) =>
     a.conveneAt.localeCompare(b.conveneAt),
-  )[0];
+  );
+  const first =
+    sorted.find((w) => w.conveneAt.startsWith(`${year}-`)) ?? sorted[0];
   return first ? { window: first, tag, url } : null;
 }
 
@@ -364,6 +377,166 @@ export function committeesOf(
       : [];
   });
 }
+
+/**
+ * What a legislature's day holds for its members, from the place's calendar:
+ * in session, a floor day (by the place's week), with the party caucus on its
+ * weekday and the committees meeting beside the floor; out of session, the
+ * committees' monthly interim day. The one rule the member's own day
+ * (`stateDay`) and the rooms' sittings (`ROOMS`) read.
+ */
+function legislatureDay(
+  stateKey: string,
+  date: string,
+): { floor: boolean; caucus: boolean; committee: boolean; interim: boolean } {
+  const day = weekday(date);
+  const workday = day >= 1 && day <= 5;
+  const sitting = sessionOn(stateKey, date);
+  const week = stateWeek(stateKey);
+  const floor = !!sitting && workday && week.sessionWeek[day - 1] === "floor";
+  return {
+    floor,
+    caucus: floor && day === stateDayParameter("caucusWeekday"),
+    committee: floor && stateDayParameter("committeeMeetsBeforeFloor") > 0,
+    interim:
+      !sitting &&
+      workday &&
+      Number(date.slice(8, 10)) === week.interimCommitteeDayOfMonth,
+  };
+}
+
+/** A year of a legislature's room days, by kind (the calendar does not change, so kept once). */
+const roomYears = new Map<
+  string,
+  { readonly committee: string[]; readonly caucus: string[] }
+>();
+function roomYear(stateKey: string, year: number) {
+  const key = `${stateKey}:${year}`;
+  let held = roomYears.get(key);
+  if (!held) {
+    held = { committee: [], caucus: [] };
+    for (
+      let date: string = `${year}-01-01`;
+      date.startsWith(`${year}-`);
+      date = addDays(makeIsoDate(date), 1)
+    ) {
+      const day = legislatureDay(stateKey, date);
+      if (day.committee || day.interim) held.committee.push(date);
+      if (day.caucus) held.caucus.push(date);
+    }
+    roomYears.set(key, held);
+  }
+  return held;
+}
+
+/** A chamber's smaller room: one of its committees, or one party's caucus. */
+function roomOf(
+  id: string,
+): { chamber: string; kind: "committee" | "caucus"; key: string } | null {
+  const m = /^(.+):(committee|caucus):([^:]+)$/.exec(id);
+  return m
+    ? { chamber: m[1]!, kind: m[2] as "committee" | "caucus", key: m[3]! }
+    : null;
+}
+const roomId = (chamber: string, kind: "committee" | "caucus", key: string) =>
+  `${chamber}:${kind}:${key}`;
+
+/** The state a chamber sits in. */
+function chamberState(api: CoreAPI, chamber: string): string | null {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(chamber) as unknown as OfficeRow | undefined;
+  return office?.level === "state" ? office.jurisdiction : null;
+}
+
+/** True where the place's week puts a floor day on the caucus weekday, so a party caucus meets. */
+function caucusSits(stateKey: string): boolean {
+  return (
+    stateWeek(stateKey).sessionWeek[stateDayParameter("caucusWeekday") - 1] ===
+    "floor"
+  );
+}
+
+/**
+ * A state chamber's committees and party caucuses as bodies of the one
+ * sitting reader (`sitting-closeness.ts`): a committee seats its roster as
+ * leadership last seated it (never seating it again, `seatedCommittees`) and sits on its committee days, a caucus seats the
+ * chamber's members of one party and sits on its caucus days, each from the
+ * place's calendar (`legislatureDay`), each member from the start of their
+ * service in the chamber. A day a member's own office day says they stayed
+ * away (`actOn`'s result) is a day they did not sit, in the chamber or a room.
+ */
+const ROOMS: SittingCalendar = {
+  owns: (_api, id) => roomOf(id) !== null,
+  seats(api, id) {
+    const room = roomOf(id);
+    if (!room) return [];
+    const terms = members(api, room.chamber);
+    const since = (t: TermRow) => t.serviceStart ?? t.startDate;
+    if (room.kind === "caucus")
+      return terms
+        .filter((t) => t.party === room.key)
+        .map((t) => ({ personId: memberKey(t), since: since(t) }));
+    const roster = new Set(
+      seatedCommittees(api, room.chamber).find((c) => c.committee === room.key)
+        ?.memberIds ?? [],
+    );
+    return terms
+      .filter((t) => roster.has(memberKey(t)))
+      .map((t) => ({ personId: memberKey(t), since: since(t) }));
+  },
+  bodiesOf(api, personId) {
+    const office = stateOfficeOf(api, personId);
+    if (office?.role !== "legislator") return [];
+    const out = seatedCommittees(api, office.officeId)
+      .filter((c) => c.memberIds.includes(personId))
+      .map((c) => roomId(office.officeId, "committee", c.committee));
+    if (office.party && caucusSits(office.stateKey))
+      out.push(roomId(office.officeId, "caucus", office.party));
+    return out;
+  },
+  sittings(api, id, from, to) {
+    const room = roomOf(id);
+    const stateKey = room && chamberState(api, room.chamber);
+    if (!room || !stateKey) return [];
+    const out: SittingDay[] = [];
+    for (
+      let year = Number(from.slice(0, 4));
+      year <= Number(to.slice(0, 4));
+      year += 1
+    )
+      for (const date of roomYear(stateKey, year)[room.kind])
+        if (date >= from && date < to) out.push({ date, days: 1 });
+    return out;
+  },
+  contactHoursPerDay: (api) =>
+    stateDayParameter("meetingHours") * api.parameter("sittingContactShare"),
+  absences(api, personId) {
+    const out = new Map<string, string[]>();
+    const office = stateOfficeOf(api, personId);
+    if (office?.role !== "legislator") return out;
+    for (const result of table(api, "results").query("byHolder", [
+      personId,
+    ]) as unknown as StateEntryResult[]) {
+      if (result.choice.kind !== "attend" || result.choice.attend) continue;
+      const body =
+        result.kind === "floor-session"
+          ? office.officeId
+          : result.kind === "committee" || result.kind === "interim-committee"
+            ? roomId(
+                office.officeId,
+                "committee",
+                splitCommittee(result.subject)[1],
+              )
+            : result.kind === "caucus" && office.party
+              ? roomId(office.officeId, "caucus", office.party)
+              : null;
+      if (body) out.set(body, [...(out.get(body) ?? []), result.date]);
+    }
+    return out;
+  },
+};
 
 /**
  * A state officeholder's entries for one date, from the place's calendar and
@@ -410,14 +583,13 @@ export function stateDay(
     citation: `${key} (${PARAMETERS[key]?.tag}): ${PARAMETERS[key]?.source ?? ""}`,
   });
   if (office.role === "legislator") {
+    const held = legislatureDay(office.stateKey, date);
     if (sitting && workday) {
-      const role = week.sessionWeek[day - 1]!;
       const windowId = `session:${office.stateKey}:${sitting.window.conveneAt}`;
-      if (role === "floor") {
-        if (day === stateDayParameter("caucusWeekday"))
-          add("caucus", windowId, estimated("caucusWeekday"));
+      if (held.floor) {
+        if (held.caucus) add("caucus", windowId, estimated("caucusWeekday"));
         add("floor-session", windowId, session(sitting.tag, sitting.url));
-        if (stateDayParameter("committeeMeetsBeforeFloor") > 0)
+        if (held.committee)
           for (const seat of committeesOf(
             api,
             office.officeId,
@@ -431,7 +603,7 @@ export function stateDay(
       } else add("district-office", office.seatId, weekEstimate("sessionWeek"));
     } else if (!sitting && workday) {
       add("district-office", office.seatId, weekEstimate("sessionWeek"));
-      if (Number(date.slice(8, 10)) === week.interimCommitteeDayOfMonth)
+      if (held.interim)
         for (const seat of committeesOf(api, office.officeId, office.personId))
           add(
             "interim-committee",
@@ -442,12 +614,6 @@ export function stateDay(
     return out;
   }
   // The governor.
-  // A disaster in the state the governor may declare an emergency for (the player's to answer).
-  for (const offer of pendingEmergencyOffers(api, office.personId))
-    add("emergency", offer.id, {
-      tag: "SOURCED",
-      citation: `Disaster ${offer.hazardRecordId}: the state's emergency powers`,
-    });
   // The first open cabinet post: the governor names who fills it (one at a time).
   const open = statePostsToFill(api, office.personId)[0];
   if (workday && open)
@@ -544,7 +710,6 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
   }
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
   if (entry.kind === "executive-order") return "executive-order";
-  if (entry.kind === "emergency") return "emergency";
   if (entry.kind === "appointment") return "appointment";
   if (entry.kind === "budget-proposal") return "budget-proposal";
   return null;
@@ -566,7 +731,6 @@ export type StateChoice =
       readonly issue?: boolean;
     }
   | { readonly kind: "attend"; readonly attend: boolean }
-  | { readonly kind: "emergency"; readonly declare: boolean }
   /** The person named to an open cabinet post; left out, the governor's own first choice stands. */
   | {
       readonly kind: "appointment";
@@ -630,33 +794,30 @@ export function ownAttendance(
   return { attend: duty + lean > 0, lean, duty };
 }
 
-/** The colleagues in a room: the chamber's members who are people, or a committee's. */
-function room(api: CoreAPI, entry: StateDayEntry, office: StateOffice) {
-  if (entry.kind === "committee" || entry.kind === "interim-committee") {
-    const [chamber, committee] = splitCommittee(entry.subject);
-    return committeeRoster(api, chamber, committee)?.memberIds ?? [];
-  }
-  if (entry.kind === "caucus") {
-    const side = office.party;
-    return members(api, office.officeId)
-      .filter((t) => t.party === side)
-      .map(memberKey);
-  }
-  return [];
-}
-
-/** Time together with each colleague in the room: their tie grows (or begins). */
+/**
+ * The governor's weekly meeting with the legislature's leaders: time
+ * together with those the governor comes to know there, their tie grows (or
+ * begins), shared by the sitting's own rule (sitting-closeness.ts
+ * `roomTime`). The leaders are no body with a calendar of its own; a
+ * chamber's committees and caucuses are, and are read as its rooms (`ROOMS`).
+ */
 function spendTime(
   api: CoreAPI,
   holderId: string,
-  others: readonly string[],
+  officeId: string,
+  room: readonly string[],
   sourceId: string,
 ): string[] {
-  const hours = stateDayParameter("meetingHours");
+  const { ids: others, hours } = roomTime(
+    api,
+    officeId,
+    holderId,
+    room.filter((id) => api.state.people.get(id)?.alive),
+    stateDayParameter("meetingHours"),
+  );
   const placeId = lawChain(api).townPlaceId;
   const touched: string[] = [];
   for (const other of others) {
-    if (other === holderId || !api.state.people.get(other)?.alive) continue;
     const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
@@ -753,12 +914,6 @@ export function actOn(
       chosen = choice ?? { kind: "attend", attend: own.attend };
       if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
       if (chosen.kind !== "attend") throw new Error("Choose to attend or not.");
-      const sourceId = `office-day:${entry.id}`;
-      if (chosen.attend) {
-        recordIds.push(
-          ...spendTime(api, entry.holderId, room(api, entry, office), sourceId),
-        );
-      }
       // A member at their committee learns where they sit, and what it heard
       // that day, from the records that seated and convened it.
       if (
@@ -804,17 +959,6 @@ export function actOn(
           );
           if (done) recordIds.push(done.id);
         }
-      break;
-    }
-    case "emergency": {
-      // The character declares where the law gives the power, as the engine does for any governor;
-      // the player may let it pass.
-      chosen = choice ?? { kind: "emergency", declare: true };
-      if (chosen.kind !== "emergency")
-        throw new Error("Choose whether to declare the emergency.");
-      const declared = answerEmergencyOffer(api, entry.subject, chosen.declare);
-      if (declared.emergencyId) recordIds.push(declared.emergencyId);
-      reasons["authority"] = "state-emergency-power";
       break;
     }
     case "appointment": {
@@ -890,7 +1034,14 @@ export function actOn(
         stances: ownPriorities(api, person),
       };
       if (chosen.kind !== "address") throw new Error("Choose what to say.");
-      recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
+      // Another state's governor keeps only the result (owner, Nov 5, 12:49
+      // p.m. Eastern, OWNER-DECISIONS.md: for a government outside the
+      // player's own chain, simulate from the people there and keep the
+      // result): the address and the stances said stay on this entry's
+      // result row, and no speech is delivered to a full audience. The
+      // player's own state's governor is in the chain and speaks to it.
+      if (office.stateKey === lawChain(api).stateKey)
+        recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
       break;
     }
     case "budget-proposal": {
@@ -933,6 +1084,7 @@ export function actOn(
           ...spendTime(
             api,
             entry.holderId,
+            office.officeId,
             legislativeLeaders(api, office.stateKey),
             `office-day:${entry.id}`,
           ),
@@ -940,6 +1092,21 @@ export function actOn(
       break;
     }
   }
+  // The time the entry took, on the holder's day, when they were there
+  // (office-hours-never-fill-an-officials-day).
+  if (
+    chosen.kind === "attend"
+      ? chosen.attend
+      : chosen.kind === "office-hours"
+        ? chosen.hold
+        : true
+  )
+    chargeOfficeHours(
+      api,
+      entry.holderId,
+      entryHours(api, entry.kind, entry.holderId),
+      entry.id,
+    );
   const result: StateEntryResult = {
     id: entry.id,
     holderId: entry.holderId,
@@ -1287,6 +1454,107 @@ function scheduleTomorrow(api: CoreAPI): void {
   }
 }
 
+/**
+ * The hours one entry of the office day takes from its holder's day
+ * (office-hours-never-fill-an-officials-day): a floor day is the whole session
+ * day at the Capitol (`legislatureSessionDayHours`, which holds that day's
+ * committee and caucus); a committee, caucus or leaders' meeting on its own
+ * is its length (`meetingHours`); anything else is a day at the post for an
+ * official whose office is their job (`postDayHours`), and none for one who
+ * keeps their own job beside it.
+ */
+function entryHours(
+  api: CoreAPI,
+  kind: StateEntryKind,
+  holderId: string,
+): number {
+  if (kind === "floor-session")
+    return campaignParameter("legislatureSessionDayHours");
+  if (
+    kind === "committee" ||
+    kind === "interim-committee" ||
+    kind === "caucus" ||
+    kind === "legislative-leaders"
+  )
+    return stateDayParameter("meetingHours");
+  return holdsPost(api, holderId) ? stateDayParameter("postDayHours") : 0;
+}
+
+/** Whether a person's office is their job: the salaried post official-pay seats them in. */
+function holdsPost(api: CoreAPI, personId: string): boolean {
+  const jobId = api.state.people.get(personId)?.jobId;
+  const job = jobId ? (api.state as CoreState).jobs.get(jobId) : undefined;
+  return (
+    !!job &&
+    job.endsAt === undefined &&
+    job.id.startsWith("job:office:") &&
+    job.hoursDaily === 0
+  );
+}
+
+/**
+ * Each state officeholder's office hours today, from the office day's own
+ * entries for the date (`stateDay`), for every full person holding a seat in
+ * the town's state legislature or its governorship: the longest entry they
+ * sat through, none for an entry their record shows them away from. A
+ * weekday is at least a day at the post for a salaried officeholder, unless
+ * their record shows them away from that day's floor.
+ */
+function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
+  const out = new Map<string, OfficeTime>();
+  const stateKey = lawChain(api).stateKey;
+  if (!stateKey) return out;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const date = api.state.date;
+  const day = weekday(date);
+  const workday = day >= 1 && day <= 5;
+  for (const row of offices
+    .table("offices")
+    .query("byJurisdiction", [stateKey]) as unknown as OfficeRow[]) {
+    if (
+      row.level !== "state" ||
+      !(LEGISLATURE_KINDS.has(row.kind) || row.kind === "governor")
+    )
+      continue;
+    for (const term of offices
+      .table("terms")
+      .query("byOfficeStatus", [row.id, "serving"]) as unknown as TermRow[]) {
+      const personId = term.personId;
+      if (!personId || !api.state.people.get(personId)?.alive) continue;
+      const office = stateOfficeOf(api, personId);
+      if (!office || office.officeId !== row.id) continue;
+      let hours = 0;
+      let sourceId = "";
+      let away = false;
+      for (const entry of stateDay(api, office, date)) {
+        const result = table(api, "results").get(entry.id) as unknown as
+          StateEntryResult | undefined;
+        if (result?.choice.kind === "attend" && !result.choice.attend) {
+          away ||= entry.kind === "floor-session";
+          continue;
+        }
+        const spent = entryHours(api, entry.kind, personId);
+        if (spent > hours) {
+          hours = spent;
+          sourceId = entry.id;
+        }
+      }
+      // A weekday at the post, unless they stayed away from the day's floor.
+      if (
+        workday &&
+        !away &&
+        holdsPost(api, personId) &&
+        stateDayParameter("postDayHours") > hours
+      ) {
+        hours = stateDayParameter("postDayHours");
+        sourceId = `post:${api.state.people.get(personId)!.jobId}`;
+      }
+      if (hours > 0) out.set(personId, { hours, sourceId });
+    }
+  }
+  return out;
+}
+
 /** The morning: what the player hasn't done of today's entries, the character does. */
 function liveToday(api: CoreAPI): void {
   const playerId = controlled(api);
@@ -1320,6 +1588,18 @@ function liveToday(api: CoreAPI): void {
 function computerGovernorsDay(api: CoreAPI): void {
   const today = api.state.date;
   if (weekday(today) !== stateDayParameter("clemencyReviewWeekday")) return;
+  for (const personId of worldGovernors(api)) {
+    const office = stateOfficeOf(api, personId);
+    if (office?.role !== "governor") continue;
+    if (!prisonersServing(api, office.stateKey).length) continue;
+    for (const entry of stateDay(api, office, today))
+      if (entry.kind === "clemency" && !table(api, "results").get(entry.id))
+        actOn(api, entry);
+  }
+}
+
+/** The governors the player does not control, in order, as every engine reads a seat's holder. */
+function worldGovernors(api: CoreAPI): string[] {
   const playerId = controlled(api);
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const governors = new Set<string>();
@@ -1334,24 +1614,89 @@ function computerGovernorsDay(api: CoreAPI): void {
     // meets or opens them.
     const office = offices.get(term.officeId) as unknown as
       { kind?: string; level?: string; jurisdiction?: string } | undefined;
+    if (office?.kind !== "governor") continue;
     const held =
-      term.personId ||
-      office?.kind !== "governor" ||
-      isOutsideOffice(api, office)
+      term.personId || isOutsideOffice(api, office)
         ? term
         : holderOf(api, term);
     if (held.personId) governors.add(held.personId);
   }
-  for (const personId of [...governors].sort()) {
-    if (personId === playerId || !api.state.people.get(personId)?.alive)
-      continue;
+  return [...governors]
+    .sort()
+    .filter((id) => id !== playerId && api.state.people.get(id)?.alive);
+}
+
+/**
+ * On the first of each month, each governor the player does not control whose
+ * State of the State falls in the month has it put on the calendar for its
+ * day: the same date rule the player's governor's day uses (the session's
+ * convening and the days after it), so a world governor and a played one
+ * speak on the same kind of day. The calendar gives it on the day itself.
+ */
+export function scheduleGovernorAddresses(api: CoreAPI): void {
+  if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
+  const today = api.state.date;
+  const [year, month] = [Number(today.slice(0, 4)), Number(today.slice(5, 7))];
+  const monthEnd = addDays(
+    makeIsoDate(
+      month === 12
+        ? `${year + 1}-01-01`
+        : `${year}-${String(month + 1).padStart(2, "0")}-01`,
+    ),
+    -1,
+  );
+  const calendar = api.moduleCalendar(OFFICE_DAY_STATE_MODULE_ID);
+  for (const personId of worldGovernors(api)) {
     const office = stateOfficeOf(api, personId);
     if (office?.role !== "governor") continue;
-    if (!prisonersServing(api, office.stateKey).length) continue;
-    for (const entry of stateDay(api, office, today))
-      if (entry.kind === "clemency" && !table(api, "results").get(entry.id))
-        actOn(api, entry);
+    const first = firstWindow(office.stateKey, year);
+    if (!first) continue;
+    const date = addDays(
+      makeIsoDate(first.window.conveneAt),
+      stateDayParameter("stateOfTheStateDaysAfterConvening"),
+    );
+    if (date < today || date > monthEnd) continue;
+    // The address belongs to the governor's seat, not to whoever holds it on the
+    // first: a governor who leaves before the day is replaced by a successor who
+    // gives it, so the day reads the seat's holder (`governorAddressDay`).
+    const key = `governor-address:${office.officeId}:${date}`;
+    if (calendar.get(key)) continue;
+    calendar.schedule({
+      key,
+      date,
+      kind: "governor-address",
+      source: {
+        tag: "ESTIMATED",
+        estimatedFrom:
+          "Each state's own session calendar (the first window's convening date)",
+        citation: `The State of the State, ${office.stateKey}: ${stateDayParameter("stateOfTheStateDaysAfterConvening")} days after the session convenes`,
+        asOf: today,
+      },
+      sourceRecordIds: [office.officeId],
+      payload: { officeId: office.officeId },
+    });
   }
+}
+
+/** The day a world governor's address comes: the governor gives it as the character gives their own. */
+function governorAddressDay(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (work.kind !== "governor-address") return;
+  const officeId = (work.payload as { officeId?: string } | undefined)
+    ?.officeId;
+  if (!officeId) return;
+  // The seat's holder today, as every engine reads a seat: a successor seated
+  // after the schedule was made gives the address.
+  const office = worldGovernors(api)
+    .map((id) => stateOfficeOf(api, id))
+    .find((o) => o?.role === "governor" && o.officeId === officeId);
+  if (!office) return;
+  const entry = stateDay(api, office, work.date).find(
+    (e) => e.kind === "state-of-the-state",
+  );
+  if (entry && !table(api, "results").get(entry.id)) actOn(api, entry);
 }
 
 /** Seat the day's entries for a player just seated in a state office (the dev start, or taking office). */
@@ -1378,6 +1723,13 @@ function holdForFloorVotes(api: CoreAPI): void {
   if (office?.role !== "legislator") return;
   if (!stopsOf(api, playerId)["state-floor-vote"]) return;
   const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  // The floor is heard a day ahead of the roll, so the scene plays on the day
+  // before and never after the vote (Words lead, Nov 14): the debate is
+  // recorded the evening before the day before.
+  for (const bill of floorAgendaOn(api, addDays(tomorrow, 1)))
+    for (const chamber of chambersOf(api, bill))
+      if (members(api, chamber).some((term) => memberKey(term) === playerId))
+        holdFloorDebate(api, bill.id, chamber);
   const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
   for (const bill of floorAgendaOn(api, tomorrow)) {
     const sits = chambersOf(api, bill).some((chamber) =>
@@ -1396,6 +1748,7 @@ function holdForFloorVotes(api: CoreAPI): void {
       minuteOfDay: stateDayParameter("holdMinute"),
       reasonKey: "office-day-state.floor-vote",
       source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
+      voteOn: bill.id,
     });
     if (held) {
       table(api, "floorHolds").put({
@@ -1462,7 +1815,8 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
       perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
-  // Records only: the shared office-day engine drives the lifecycle below.
+  // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
+  onCalendarWork: governorAddressDay,
 };
 
 // The treasury pays these obligations after revenue arrives and before residual spending.
@@ -1550,9 +1904,12 @@ registerOfficeActs({
     computerGovernorsDay(api);
   },
   onAfterDay: startStateDay,
+  onMonth: scheduleGovernorAddresses,
 });
 
 export function openOfficeDayState(core: CoreState): void {
+  registerSittingCalendar(ROOMS);
+  registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }
@@ -1808,7 +2165,7 @@ export function askLeaderForHearing(
   const granted = bare + traits > 0;
   const schedule = options?.schedule ?? true;
   const already = schedule
-    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${billId}`)
+    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill))
     : undefined;
   const row: LeaderRequestRow = {
     id,

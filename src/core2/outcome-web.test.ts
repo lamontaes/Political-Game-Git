@@ -24,6 +24,7 @@ import {
   WEB_LINKS,
   type WebLink,
 } from "./outcome-web-model";
+import { layOff } from "./modules/jobs";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
@@ -96,39 +97,57 @@ describe("the outcome web's coverage", () => {
 describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () => {
   const place = drawPlace(seed, "outcome-web-unemployment");
   it(`${place.name}, ${place.state}: layoffs raise unemployment and burglary follows by the researched 3% a point`, () => {
-    const core = createLifeCore(
-      withWorldEconomy(
-        generatedOpening(place, {
-          twoLevel: true,
-          settings: { population: 1500 },
-        }),
-      ),
-      {
-        data: worldCoreData(),
-        modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
-      },
-    );
-    advanceCore(core, `${Y}-02-05`);
+    // The same world twice: one loses twelve workers, the twin loses none.
+    // A town opens with its own jobless stock draining toward the flows'
+    // steady state (a month later it can be half what it was), so a rise is
+    // read against the twin, never against the month before.
+    const build = () =>
+      createLifeCore(
+        withWorldEconomy(
+          generatedOpening(place, {
+            twoLevel: true,
+            settings: { population: 1500 },
+          }),
+        ),
+        {
+          data: worldCoreData(),
+          modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
+        },
+      );
+    const twin = build();
+    advanceCore(twin, `${Y}-03-05`);
+    const twinApi = coreAPI(twin);
+    const core = build();
+    advanceCore(core, `${Y}-02-22`);
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
-    // Twelve full workers lose their jobs over the next week (not ones a
-    // public supply contract names as its qualified worker).
+    expect(twin.people.get(twin.playerId!)!.placeId, "the twin's town").toBe(
+      town,
+    );
+    const twinAfter = monthOf(twinApi, town, `${Y}-03`);
+    // Twelve workers are laid off by their businesses in the last week of February, so the
+    // March figure (taken on March 2) reads them still looking: a month on, a
+    // town with openings and a big jobless pool has hired them back and then
+    // some. Not ones a public supply contract names as its qualified worker.
     const named = JSON.stringify([...core.finance.contracts.values()]);
     let laidOff = 0;
-    for (const day of [6, 7, 8, 9, 10, 11, 12]) {
+    for (const day of [23, 24, 25, 26, 27, 28]) {
       for (const job of [...core.jobs.values()]
         .filter((row) => !row.endsAt && !named.includes(row.id))
         .sort((a, b) => a.id.localeCompare(b.id))) {
         if (laidOff >= 12) break;
         try {
-          api.endJob(job.id, "test:layoff");
-          laidOff += 1;
+          // The business's own layoff, so the worker becomes a seeker and
+          // files a claim as a laid-off worker does; a job worked today ends
+          // at the next day's review.
+          if (layOff(api, job.organizationId, [job], 1, {})) laidOff += 1;
         } catch {
-          // A job mid-shift ends another day.
+          // A job that cannot end today ends another day.
         }
       }
       advanceCore(core, `${Y}-02-${String(day).padStart(2, "0")}`);
     }
+    expect(laidOff, "workers laid off").toBe(12);
     advanceCore(core, `${Y}-03-05`);
     const before = monthOf(api, town, `${Y}-02`),
       after = monthOf(api, town, `${Y}-03`);
@@ -162,9 +181,10 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
     const current = placeOutcome(api, town, "labor.unemployment-pct")!;
     expect(current.base).toBe(opening.values["labor.unemployment-pct"]);
     expect(current.value - current.base!).not.toBe(0);
-    const u0 = before.values["labor.unemployment-pct"]!,
-      u1 = after.values["labor.unemployment-pct"]!;
-    expect(u1).toBeGreaterThan(u0);
+    const u1 = after.values["labor.unemployment-pct"]!;
+    const uTwin = twinAfter.values["labor.unemployment-pct"]!;
+    // Layoffs raise unemployment over the same month with none.
+    expect(u1).toBeGreaterThan(uTwin);
     const size = link("unemployment-to-burglary").size!;
     const baseline = 4; // links.json baselines: unemployment the base rates were calibrated at
     for (const row of [before, after])
@@ -179,10 +199,12 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
     expect(after.values["crime.burglary"]).toBeCloseTo(
       after.bases["crime.burglary"]! * factor(after),
     );
+    // Burglary follows the researched 3% a point: against the twin month,
+    // its ratio is the ratio of the two factors.
     expect(
-      after.values["crime.burglary"]! / before.values["crime.burglary"]!,
+      after.values["crime.burglary"]! / twinAfter.values["crime.burglary"]!,
     ).toBeCloseTo(
-      (1 + size * (u1 - baseline)) / (1 + size * (u0 - baseline)),
+      (1 + size * (u1 - baseline)) / (1 + size * (uTwin - baseline)),
       10,
     );
     expect(outcomeWebFactor(api, town, "crime.burglary")).toBeCloseTo(

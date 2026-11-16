@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes (Fable's check, Nov 10).** Once the count names the test that removes every follower, the fix is to let a resident whose recorded view of a law differs from or agrees with the paper write a letter by the existing decision, changing only that test, without adding a roll.
 
 Nov 11 (cause finder for Fable B): not reproduced. Letters print and are worded on main in Rote (9) and in a fresh draw, Hillside Colony, South Dakota (36). I counted the letter decision's four tests in a working copy and undid it. Each test passes some followers. I propose dropping the item as done by main.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

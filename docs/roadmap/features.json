@@ -137,7 +137,7 @@
       "title": "The played world is alive",
       "golden_path": "all",
       "package": "FIXER-PLAYED-WORLD-TEST",
-      "test": "The world the player gets (buildBenchWorld, two-level, economy on, in a place drawn from all 56) runs one game year on PRs and three worlds of three years nightly; every installed module runs, people other than the player make varied choices, the player turns 18 in play, school-age people attend school, taxes are still withheld after January 1, a passed budget changes spending, a non-budget bill is introduced, every ended term is filled, nobody serves after moving away, a named challenger runs, counted voters vote in local races, the counted population changes, a baby is born over three years, homes have values and rents, pay reaches a spendable account, a new business's loan fits its founder, and memory stays under its bound. Assertions failing today are listed with the session fixing each and must flip to a real pass when fixed.",
+      "test": "The world the player gets (buildBenchWorld, two-level, economy on, in a place drawn from all 56) runs one game year on PRs and three worlds of three years nightly; every installed module runs, people other than the player make varied choices, the player starts as an adult of 18 or older and is a year older for each year played, school-age people attend school, taxes are still withheld after January 1, a passed budget changes spending, a non-budget bill is introduced, every ended term is filled, nobody serves after moving away, a named challenger runs, counted voters vote in local races, the counted population changes, a baby is born over three years, homes have values and rents, pay reaches a spendable account, a new business's loan fits its founder, and memory stays under its bound. Assertions failing today are listed with the session fixing each and must flip to a real pass when fixed.",
       "command": "node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts",
       "passes": true,
       "longRunning": true
@@ -159,7 +159,18 @@
       "golden_path": "world",
       "package": "M1-macro",
       "test": "A one-year run's national figures follow from the states' sum and the central bank's rule (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth), and the real 5th to 95th percentile of 1990 to the latest year is reported beside them, never a target; a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
-      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts",
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts 730",
+      "passes": true,
+      "longRunning": true
+    },
+    {
+      "id": "M1-02Q",
+      "milestone": "M1",
+      "title": "The national economy and central bank, first 120 days",
+      "golden_path": "world",
+      "package": "M1-macro",
+      "test": "The first 120 days of the pinned town's world (the check names its own place and seed by design, because the loan-cost witness needs a town with a bank line open at a rate change): the country tier holds all 56 states and the national unemployment is their sum, every board meeting records its members' reasons, and a rate change reprices the town bank's prime-linked lines on its effective date; the two-year version is M1-02 in the long job.",
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts 120",
       "passes": true
     },
     {
@@ -320,7 +331,15 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, after filing, each campaign activity (doors, volunteers, fundraising within real contribution limits, events and speeches, ads, endorsements, staff) changes what specific people know and think, each change with a recorded cause; support never moves without one; rivals campaign with the same tools.",
-      "command": "npx vitest run src/core2/campaigns.test.ts --testTimeout=300000",
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/core2/campaigns.test.ts",
+        "-t",
+        "every activity moves specific people|volunteers walk the campaign's doors",
+        "--testTimeout=300000"
+      ],
       "passes": true
     },
     {
@@ -330,7 +349,15 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, a poll reports what the people it actually contacted told the pollster (including undecided and no opinion), with a computed margin of error; no contacts means no poll; true support is never shown on screen.",
-      "command": "npx vitest run src/core2/campaigns.test.ts --testTimeout=300000",
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/core2/campaigns.test.ts",
+        "-t",
+        "polls report what people said",
+        "--testTimeout=300000"
+      ],
       "passes": true
     },
     {

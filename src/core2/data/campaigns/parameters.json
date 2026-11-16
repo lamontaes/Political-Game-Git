@@ -300,6 +300,41 @@
       "source": "How many election days of record it takes for habit to carry half its weight: a record of one election says little, a record of many says more. Checked so a first-time voter's record moves their next turnout by a few points and a long record by about ten (Gerber, Green and Shachar 2003; Coppock and Green 2016, 'Is Voting Habit Forming?', American Journal of Political Science 60(4):1044-1062).",
       "spread": [1, 6]
     },
+    "registrationLagMedianDays": {
+      "value": 80,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "Days a mover of average sense of duty takes to register at the new address (half of people like them have by then). Not from a fetched source: the figure was set so that people who moved in the last year are registered at about 70% of the rate of long-time residents, which is the gap the Census Bureau's Current Population Survey voting supplements have shown between recent movers and people in the same home five years or more (recalled, not checked against the table; research item research-registration-lag-source).",
+      "spread": [30, 180]
+    },
+    "registrationLagDutySlope": {
+      "value": 0.6,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How much a voter's sense of duty (the turnout scale's duty term) shortens their wait to register after a move or after turning 18: the wait is the median wait times e to the minus this slope times their duty. Own estimate; the direction (people more engaged in politics update their registration sooner) is from the CPS supplements, the size is not sourced (research item research-registration-lag-source).",
+      "spread": [0.2, 1.2]
+    },
+    "registrationDeadlineDays": {
+      "value": 25,
+      "role": "level",
+      "tag": "ESTIMATED",
+      "source": "Days before an election by which a registration must be on the rolls to count in it, where the state has no same-day registration. Most states' deadlines are 15 to 30 days; the value is a national middle, not a figure for any one state (no per-state deadline table is in the repository; research item research-registration-lag-source).",
+      "spread": [10, 30]
+    },
+    "sameDayPollRegistrationCost": {
+      "value": 1.0,
+      "role": "coefficient",
+      "tag": "TUNABLE",
+      "source": "What it adds to a person's cost of voting to register at the polls on election day, on the turnout scale, for someone not on the rolls where the state allows same-day registration. Checked against Grumbach and Hill (Journal of Politics, 2022): same-day registration raises turnout about 3 points among 18 to 24 year olds and about 1 to 2 points overall, measured on the opening world's turnout with and without the law in three drawn places.",
+      "spread": [0.5, 3]
+    },
+    "registrationCalibrationRelief": {
+      "value": 0.02,
+      "role": "coefficient",
+      "tag": "TUNABLE",
+      "source": "What the turnout calibration carried for registration laws in every place before registration was a record: the flat relief the automatic and same-day registration laws took off a voter's cost, averaged over the states that have them (about 0.4 of states with automatic registration at 0.03, and 0.4 with same-day at 0.06 times the age weight of a typical voter, about 0.33). The record now carries those laws state by state, so this is taken off every town voter's cost to leave the calibrated turnout where it was. Checked so a town's turnout with and without the registration record differs by about a point at an election in three drawn places.",
+      "spread": [0, 0.05]
+    },
     "recordFamiliarityItems": {
       "value": 5,
       "tag": "TUNABLE",
@@ -384,6 +419,13 @@
       "source": "How many members sign on beside a sponsor: the few closest to them who back the bill. Checked against the median cosponsor count on U.S. House bills (about 5 to 10 for bills that pass) scaled down to the members the sponsor knows; the spread is what the played year's bill papers show.",
       "spread": [2, 8]
     },
+    "cosponsorChairWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a committee chair weighs the names on a bill in deciding to hear it: the chair's closeness (0 to 1) to each co-sponsor, summed, times this, beside the chair's own position on the bill. Checked against the share of the player's bills held in committee in a played year, with and without the names; the spread is the range over which a held bill with two close names is heard and one with none is still held.",
+      "spread": [0.1, 1],
+      "role": "coefficient"
+    },
     "pillCandidates": {
       "value": 3,
       "tag": "TUNABLE",
@@ -406,14 +448,14 @@
       "role": "level",
       "value": 5,
       "tag": "TUNABLE",
-      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
+      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. TUNABLE: a tuned size inside its spread of 3 to 9; study and interim committees are usually on one subject and small enough to work as a group.",
       "spread": [3, 9]
     },
     "studyTermDays": {
       "role": "level",
       "value": 180,
       "tag": "TUNABLE",
-      "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
+      "source": "How long a study committee or task force works before its report is due (its sunset). TUNABLE: a tuned term inside its spread of 60 to 365 days; interim committees run between sessions, so about a half year.",
       "spread": [60, 365]
     },
     "committeeOfTheWholeMaximum": {
@@ -431,7 +473,7 @@
     "committeeLeadDays": {
       "value": 7,
       "tag": "ESTIMATED",
-      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it.",
       "spread": [3, 28]
     },
     "hearingWitnesses": {
@@ -807,6 +849,13 @@
       "source": "How much the farthest-out home (a distance share near 1) takes from a member's reason to go to the meeting; a home at the middle of town loses nothing. No study gives the size; distance to a meeting is a recognized cost of attending but no source reports its weight against the other reasons.",
       "spread": [0.5, 3]
     },
+    "partyMeetingContactHours": {
+      "role": "coefficient",
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The time together one party meeting gives the chair and a member who came, in the hours the closeness model counts: the value the monthly meeting has always written (src/core2/modules/parties.ts, meetTheChair), now one parameter for the meeting and for the meetings before the world opens. A short evening in a room of a dozen or more people, so a small share of an hour of real time with the chair.",
+      "spread": [0.05, 0.5]
+    },
     "partyMeetingHalfDistanceMiles": {
       "value": 3,
       "tag": "TUNABLE",
@@ -984,7 +1033,7 @@
     "platformSupportSlope": {
       "value": 0.035,
       "tag": "ESTIMATED",
-      "source": "Per percentage point of the electorate on the candidate's side of a question, on the log of how much a candidate talks about it: a candidate's score for running on a question is how strongly they hold it times exp(this times that support), and they run on the top scores, keeping their positions, and lead with the first (docs/research/platform-emphasis-2026-10-30.md). The support is the share of the town's electorate whose own stance, as the ballot reads a voter's agreement (agreementWith at voterLean for a named voter, groupAgreement at the lean order with faith and degree for a counted record), is on the candidate's side; the policy's national popularity is not added, since voters do not weigh a platform by it. Druckman, Jacobs and Ostermeier (2004), 'Candidate Strategies to Prime Issues and Image', Journal of Politics 66(4): the space Nixon gave a domestic issue rose with private-poll support for his position on it, coefficient .043 (SE .019) in Table 2 and .028 (SE .013) with image controls in Table 4 ('if support for Nixon's position on a domestic issue increased by 10% ... the space Nixon devoted to a domestic issue would increase an average of 58%'); the all-issues coefficient did not survive the image controls and is not used. One presidential campaign, so carrying it to local candidates is an estimate. Set midway between the two models' domestic coefficients; the spread is those two point estimates, as the governing lead's brief set it, narrower than the research's verified spread of one standard error either side (0.015 to 0.062). Checked as a total, not per candidate, against the research's C1 band as its quote verification restates it, +16% to +86% emphasis per 10 points of support (exp(10 x (.028 - .013)) to exp(10 x (.043 + .019))), from what candidates said in a played year by record (their messages and speeches on each question they hold a view on, silences included), each candidate offset by the number of questions they hold a view on (src/core2/campaign-platform-played.test.ts). Measured over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, 86 statements, every one on the campaign's lead, SG-GOV-platform-emphasis-lead-only): -3% per 10 points at 0.035, and with each lead chosen again from the recorded scores -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062, outside the band at every slope (SG-GOV-platform-slope-c1-out-of-band); the fit that compares each candidate's questions with each other only has no finite value, since every candidate speaks on their top score alone. The earlier totals (+26%, +42%, +66% and +104% with national popularity in support; -13% from score shares) no longer apply. The research's record term (platformRecordWeight) is left out (SG-GOV-platform-record-term-left-out). Issue salience is left out: the same study's importance coefficient (.010, SE .022) was weak and not significant, though NDI's practitioner grid tells campaigns to weigh how important an issue is as heavily as where the candidate stands on it (the conflict the verification flags).",
+      "source": "Per percentage point of the electorate on the candidate's side of a question, on the log of how much a candidate talks about it: a candidate's score for running on a question is how strongly they hold it times exp(this times that support), and they run on the top scores, keeping their positions, and lead with the first (docs/research/platform-emphasis-2026-10-30.md). The support is the share of the town's electorate whose own stance, as the ballot reads a voter's agreement (agreementWith at voterLean for a named voter, groupAgreement at the lean order with faith and degree for a counted record), is on the candidate's side; the policy's national popularity is not added, since voters do not weigh a platform by it. Druckman, Jacobs and Ostermeier (2004), 'Candidate Strategies to Prime Issues and Image', Journal of Politics 66(4): the space Nixon gave a domestic issue rose with private-poll support for his position on it, coefficient .043 (SE .019) in Table 2 and .028 (SE .013) with image controls in Table 4 ('if support for Nixon's position on a domestic issue increased by 10% ... the space Nixon devoted to a domestic issue would increase an average of 58%'); the all-issues coefficient did not survive the image controls and is not used. One presidential campaign, so carrying it to local candidates is an estimate. Set midway between the two models' domestic coefficients; the spread is those two point estimates, as the governing lead's brief set it, narrower than the research's verified spread of one standard error either side (0.015 to 0.062). Checked as a total, not per candidate, against the research's C1 band as its quote verification restates it, +16% to +86% emphasis per 10 points of support (exp(10 x (.028 - .013)) to exp(10 x (.043 + .019))), from what candidates said in a played year by record (their messages and speeches on each question they hold a view on, silences included), each candidate offset by the number of questions they hold a view on (src/core2/campaign-platform-played.test.ts). Measured over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, 86 statements, every one on the campaign's lead, every act carrying the lead alone): -3% per 10 points at 0.035, and with each lead chosen again from the recorded scores -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062, outside the band at every slope (SG-GOV-platform-slope-c1-out-of-band); the fit that compares each candidate's questions with each other only has no finite value, since every candidate speaks on their top score alone. The earlier totals (+26%, +42%, +66% and +104% with national popularity in support; -13% from score shares) no longer apply. The research's record term (platformRecordWeight) is left out (SG-GOV-platform-record-term-left-out). Issue salience is left out: the same study's importance coefficient (.010, SE .022) was weak and not significant, though NDI's practitioner grid tells campaigns to weigh how important an issue is as heavily as where the candidate stands on it (the conflict the verification flags).",
       "spread": [0.028, 0.043]
     },
     "campaignRampDays": {
@@ -1016,12 +1065,6 @@
       "tag": "TUNABLE",
       "source": "How many of the people closest to a candidate are asked for an endorsement in one turn, each asked once, the closest first: a local candidate collects a handful of public endorsements over a campaign (Ballotpedia local candidate pages list a few to a dozen).",
       "spread": [1, 8]
-    },
-    "petitionSignatureCushion": {
-      "value": 0.5,
-      "tag": "ESTIMATED",
-      "source": "How many signatures beyond the clerk's minimum a campaign gathers, as a share of the minimum, because the clerk strikes names not on the roll, duplicates and incomplete lines before counting. Thin margins fail: in a Yuma, Arizona council race a challenge alleged 60 of a candidate's 276 signatures invalid (about 22%; Yuma Sun, June 17, 2015, via PressReader), a Milwaukee filing about 4.5% over its minimum was challenged (Urban Milwaukee), and an Asbury Park, New Jersey council candidate was left off the ballot when the clerk invalidated 8 signatures (Asbury Park Sun); candidates are advised to gather well above the minimum (ballot-access guides). Half again the minimum covers a strike rate near the observed 20% to 30% with room; the spread runs from a careful campaign's 25% to doubling the minimum. Checked as a total: the share of played filings the clerk finds short.",
-      "spread": [0.25, 1]
     },
     "petitionSignOpenness": {
       "value": 0.4,
@@ -1415,7 +1458,7 @@
     "recallTermOpeningDays": {
       "value": 180,
       "tag": "ESTIMATED",
-      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). One national bar stands until each state's statute is read (SG-GOV-recall-bars-national).",
+      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). This national estimate applies only to a state with a petitioned local recall and no row in recall-bars.json; every one of the 21 such places has a row read from its own statute.",
       "spread": [90, 365]
     },
     "budgetCompromiseRounds": {
@@ -1423,13 +1466,6 @@
       "tag": "TUNABLE",
       "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
       "spread": [1, 5]
-    },
-    "localBudgetAmendmentsPerMeeting": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "How many budget-line amendments a local body's regular meeting takes up. Council and county board agendas carry a budget adjustment or transfer item at some meetings, rarely several; one item a meeting is an upper estimate, since most meetings carry none (the line gaps close once amended).",
-      "stopgapId": "SG-LAWS-local-line-filing-threshold",
-      "spread": [1, 3]
     },
     "budgetAmendmentMinShare": {
       "value": 0.01,
@@ -1480,6 +1516,20 @@
       "source": "How long a town council or county board's regular meeting runs, the time a member gives up to attend: most run two to four hours (National League of Cities, 'City Councils in a Changing Environment', 2018 member survey; ICMA meeting-length surveys). A member whose own day leaves fewer free hours than this misses the vote.",
       "spread": [2, 4]
     },
+    "legislatureFloorDayHours": {
+      "value": 4,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How long a legislature's floor sits on a floor day, the time the members spend together in the chamber (read in place of the town meeting's sittingHours for a state legislature or Congress). From memory, not fetched: state floor sessions usually convene in the late morning and run a few hours, short early in the session and long near deadlines (NCSL, 'Legislative Session Length' and its pages on daily calendars; Rosenthal, 'Heavy Lifting', 2004). One value for every legislature; the spread covers a short morning floor to a deadline day.",
+      "spread": [2, 8]
+    },
+    "legislatureSessionDayHours": {
+      "value": 10,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How long a member's floor day at the Capitol runs in session, the time they share the building with the chamber's other members (offices, hallways, the floor and the hours around it). From memory, not fetched: legislators in session report working weeks of fifty hours and more, and the floor day is the longest of them (NCSL, 'Full- and Part-Time Legislatures', its time-on-the-job figures by legislature type). The hours outside the floor sitting count as a workplace's do (workContactShare). The spread runs from a part-time legislature's day to a full-time one's.",
+      "spread": [8, 12]
+    },
     "sittingIndifference": {
       "value": 0.25,
       "tag": "TUNABLE",
@@ -1527,6 +1577,13 @@
       "tag": "TUNABLE",
       "source": "How strong the pull must be, before personality, for someone who knows a candidate and heard they filed to offer to help unasked: the same reasons as an ask (warmth, closeness, family, against work hours) against this bar instead of the ask's. Set where about one in ten of a candidate's ties who hear of the filing offer (campaign guides put a local candidate's first volunteers among friends and family, docs/research/words-scenes-2026-10-26.md section 1); checked by src/director/campaign-season.test.ts, which prints the share.",
       "spread": [-0.5, 1]
+    },
+    "rivalWordMovedALot": {
+      "role": "level",
+      "value": 0.002,
+      "tag": "TUNABLE",
+      "source": "How far a rival's message must move the person who passed word of it on, toward the rival's case, for them to say it moved them a lot and not a little. Set where about one message in eight did so over three played places (Millston WI, Patricksburg IN and Grafton VT: moves from 0.0001 to 0.003, most under 0.001; the views engine's ceiling for one campaign message is stanceStep 0.1 times adViewsImpulse 0.15). Only picks which of two honest wordings the teller uses; nothing in the world reads it. Checked by src/director/rival-word-record.test.ts.",
+      "spread": [0.001, 0.003]
     },
     "rivalWordDays": {
       "value": 7,
@@ -1629,6 +1686,13 @@
       "tag": "ESTIMATED",
       "source": "The share of a challenger's ad money that goes on showing a rival's record in office, for a candidate of average temperament (moved by the people-mind conflict trait through spendTraitWeight, never a fixed share; register D-2 and D-5). Checked as a total against U.S. House races, the nearest measured contests: \"The percentage of negativity in U.S. House races was up slightly in the 2020 election cycle ... (41 percent compared to 32 percent in 2018)\", with positive ads at 39 percent in 2020 and 38 percent in 2018 (Wesleyan Media Project, 'Political Ads in 2020: Fast and Furious', mediaproject.wesleyan.edu/2020-summary-032321). A challenger facing no rival with a record shows none.",
       "spread": [0.32, 0.41]
+    },
+    "platformRecordTilt": {
+      "value": 1.0,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "spread": "0.5 to 2",
+      "source": "How much a campaign leans toward a question whose area of the term read went the way the candidate runs on (a challenger's toward the area the incumbent's term hurt, the incumbent's toward the area it helped): a question's share of what the campaign says is multiplied by one plus this times the area's slide on that side, between 0 and 1, so a town that slid furthest on pay moves a challenger's talk toward pay by this much and no further, never a pass or fail. TUNABLE: no study measures it. The spread is checked in three named places by how many of a challenger's acts reach the hurt area and by the platform-emphasis printout, which is not tuned to (pool item campaign-platform-emphasis-c1)."
     }
   }
 }

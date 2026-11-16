@@ -66,7 +66,13 @@ it("keeps a starting schedule repealed through reviews and restores it once with
     });
   review(false);
   const flat = current();
-  expect(flat.value).toBe(reachParameter("stateFlatIncomeTaxPercent"));
+  expect(flat.value).toBe(
+    Math.round(
+      Math.max(...schedule.brackets.map((b) => b.rate)) *
+        reachParameter("graduatedRepealFlatShareOfTopRate") *
+        1000,
+    ) / 1000,
+  );
   expect(flat.terms?.schedules).toBeUndefined();
   for (let i = 0; i < 3; i++) {
     next();
@@ -213,7 +219,13 @@ it("keeps a territory's own income tax in place of the federal one when its legi
     (l) => l.level === "state",
   )!.row!;
   expect(flat.id, where).not.toBe(opening.id);
-  expect(flat.value, where).toBe(reachParameter("stateFlatIncomeTaxPercent"));
+  expect(flat.value, where).toBe(
+    Math.round(
+      opening.value! *
+        reachParameter("graduatedRepealFlatShareOfTopRate") *
+        1000,
+    ) / 1000,
+  );
   expect(federalSetAside(), `${where}: ${flat.id}`).toBeDefined();
   const lines = paycheck();
   expect(lines, where).not.toContain("federal:income");

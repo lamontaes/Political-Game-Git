@@ -1,0 +1,25 @@
+Seed: 8568-hollandale Place: Hollandale, Minnesota
+Place: Hollandale, Minnesota Seed: 8568-hollandale
+day-1-tab-1: no lead (nothing in print)
+day-1-tab-2: no lead (nothing in print)
+day-1-tab-3: no lead (nothing in print)
+day-1-tab-4: no lead (nothing in print)
+day-1-tab-5: no lead (nothing in print)
+week-1-tab-1: no lead (nothing in print)
+week-1-tab-2: no lead (nothing in print)
+week-1-tab-3: no lead (nothing in print)
+week-1-tab-4: no lead (nothing in print)
+week-1-tab-5: no lead (nothing in print)
+week-2-tab-2: no lead (nothing in print)
+week-2-tab-3: no lead (nothing in print)
+week-2-tab-4: no lead (nothing in print)
+week-2-tab-5: no lead (nothing in print)
+week-2-tab-6: "Local income tax authority became law on January 9, 2025." -> undefined from undefined
+week-3-tab-2: no lead (nothing in print)
+week-3-tab-3: no lead (nothing in print)
+week-3-tab-5: no lead (nothing in print)
+week-4-tab-2: no lead (nothing in print)
+week-4-tab-3: no lead (nothing in print)
+week-4-tab-5: no lead (nothing in print)
+Leads 19, pictured 1, federal 0, business 0
+BEFORE: 18 tabs without a lead picture or with a bare column

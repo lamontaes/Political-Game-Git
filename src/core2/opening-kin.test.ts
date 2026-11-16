@@ -51,10 +51,14 @@ beforeAll(() => {
     placeKey: drawn.place.key,
     minimumPeople: p("populationTestIncrement"),
   });
-});
+  // Building the town is the file's one slow step: the file's tests and hooks
+  // take about 1.3 seconds alone, its slowest test 0.13 seconds beside other
+  // tests; the limit is set well above both so a loaded machine does not
+  // time it out.
+}, 30_000);
 
 describe("generated opening kin", () => {
-  it("gives every resident a family and keeps relatives as husks outside the town", () => {
+  it("gives every resident a family and keeps relatives outside the town, their adults holding the opening cash", () => {
     const where = `${drawn.state} ${drawn.place.key}, seed ${seed}`;
     const residents = opening.people.filter(
       (person) => person.tier !== OPENING_KIN.kinTier,
@@ -66,7 +70,10 @@ describe("generated opening kin", () => {
     const town = residents[0]!.placeId;
     for (const person of kin) {
       expect(person.placeId, where).not.toBe(town);
-      expect(person.liquidMinor).toBe(0);
+      // Until Nov 15 every relative held $0: on Oct 10 relatives were named records that never played (husks). Since Nov 8 they are counted households that earn and pay a living cost, so a relative's household opens with cash, held by its adults (world-kin-households-open-with-no-cash; opening-kin-cash.test.ts checks the amount).
+      if (age(person.birthDate) >= p("votingAge"))
+        expect(person.liquidMinor, `${where}: ${person.id}`).toBeGreaterThan(0);
+      else expect(person.liquidMinor, `${where}: ${person.id}`).toBe(0);
       expect(person.source.estimatedFrom).toMatch(/^Generated opening kin/);
     }
     const withFamily = residents.filter((person) => person.familyIds.length);

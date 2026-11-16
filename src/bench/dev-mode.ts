@@ -17,7 +17,12 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { isForgetDay } from "../core2/knowledge-retention";
-import { advanceCore, availableActs, type Controller } from "../core2/life";
+import {
+  advanceCore,
+  availableActs,
+  passPlayerStopsV1,
+  type Controller,
+} from "../core2/life";
 import { STOPGAPS } from "../core2/stopgaps";
 import {
   considerBribe,
@@ -27,6 +32,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
 import type { LawRowInput } from "../core2/laws-starting";
@@ -34,6 +40,7 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
+import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
 import {
   PUBLIC_EMPLOYER_CLASSES,
@@ -58,6 +65,7 @@ import {
   executiveOf,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
+  holdEveryChamber,
   holdVote,
   learnStake,
   sectionsAddedTo,
@@ -71,11 +79,14 @@ import {
 import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  petitionOf,
   playerContests,
 } from "../core2/modules/elections";
 import {
   campaignFor,
   castVolunteer,
+  PETITION_SHORT_EVENT,
+  signaturesToGather,
   volunteerReason,
 } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
@@ -92,11 +103,13 @@ import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
+  COVERAGE_MODULE_ID,
   HEALTH_MODULE,
   healthReport,
+  type MedicalBillRow,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
-import type { CoreAPI, CoreState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
@@ -104,7 +117,6 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
-import experiments from "./data/dev-experiments.json" with { type: "json" };
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
@@ -135,24 +147,6 @@ export const DEV_MODE_RECORD = "dev-mode-change";
 
 export type LawLevel = GovernmentLevel;
 
-/** One step of a change set: the same controls the page offers. */
-export type DevStep = {
-  readonly control: "law";
-  readonly level: LawLevel;
-  readonly series: string;
-  readonly value?: number;
-  readonly unit?: string;
-  readonly repeal?: boolean;
-  /** Days after the step is applied; 0 or absent is now. */
-  readonly effectiveInDays?: number;
-};
-
-export interface Experiment {
-  readonly id: string;
-  readonly steps: readonly DevStep[];
-  readonly runMonths: number;
-}
-
 export interface DevMark {
   readonly id: string;
   readonly date: string;
@@ -174,10 +168,6 @@ interface PaySplit {
   readonly privateJobs: number;
   readonly privateMedianHourlyMinor: number;
 }
-
-const DATA = experiments as unknown as {
-  experiments: readonly Experiment[];
-};
 
 const median = (values: number[]) => {
   if (!values.length) return 0;
@@ -377,6 +367,34 @@ function levelRow(rows: readonly LawRowInput[], date: string) {
 }
 
 /** Money in a law is whole cents: a wage floor of 1001 is $10.01 an hour, and 10.01 is not an amount. */
+/**
+ * A chamber's seats the offices engine holds open, from its own vacancy rows: a seat of the body's own
+ * office, or a seat of Congress the officials engine seats (`unheld`), whose vacancy names its state's
+ * office and a seat id of the same kind as the roster's (`seat:<state>:us-house:<district>`).
+ */
+function seatsHeldOpen(
+  api: CoreAPI,
+  chamber: string,
+  roster: readonly { readonly seatId: string }[],
+): number {
+  const kinds = new Set(roster.map((term) => term.seatId.split(":")[2]));
+  const vacancies = api.moduleState(OFFICES_MODULE_ID).table("vacancies");
+  return (["open", "awaiting-election"] as const)
+    .flatMap(
+      (status) =>
+        vacancies.query("byStatus", [status]) as unknown as {
+          officeId: string;
+          seatId: string;
+          unheld?: unknown;
+        }[],
+    )
+    .filter(
+      (row) =>
+        row.officeId === chamber ||
+        (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
+    ).length;
+}
+
 function wholeMoney(unit: string | undefined, value: number): void {
   if (unit?.startsWith("minor") && !Number.isSafeInteger(value))
     throw new Error("An amount of money in a law is in whole cents.");
@@ -439,8 +457,8 @@ export class DevMode {
       : this.placeId;
   }
 
-  /** A dev-mode change record on the core, dated today. */
-  private mark(
+  /** A dev-mode change record on the core, dated today. A view's controls (dev-views.ts) mark through it too. */
+  mark(
     control: string,
     recordIds: readonly string[],
     facts: Record<string, string>,
@@ -623,7 +641,55 @@ export class DevMode {
       unit: row.unit ?? "",
       effectiveDate,
     });
-    return { mark, law: row, reach: this.reach(row.id) };
+    return {
+      mark,
+      law: row,
+      reach: this.reach(row.id),
+      replaced: this.replacedBy(row).map((ended) => this.endedLaw(ended)),
+    };
+  }
+
+  /**
+   * The law rows a row took over from at its own level and jurisdiction: the
+   * rows on its series in force the day before it took effect (each tier of a
+   * tiered law). A row that sets a law to nothing, lowers it or raises it reads
+   * what the law it replaced reached through these. Reads only.
+   */
+  private replacedBy(row: LawRowInput): LawRowInput[] {
+    if (!has(this.core, LAWS_MODULE_ID)) return [];
+    const before = addDays(makeIsoDate(row.effectiveDate), -1);
+    return (
+      this.api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .query("bySeriesOnly", [row.series]) as unknown as LawRowInput[]
+    ).filter(
+      (other) =>
+        other.id !== row.id &&
+        other.jurisdiction === row.jurisdiction &&
+        other.level === row.level &&
+        inForceOn(other, before),
+    );
+  }
+
+  /**
+   * A law row a bill or a dev-mode law ended or replaced, with its reach: who
+   * it reached while in force and the part of that which has ended
+   * (`reach.ended`, read from the end days the engines record). Reads only.
+   */
+  private endedLaw(row: LawRowInput) {
+    return {
+      id: row.id,
+      series: row.series,
+      level: row.level,
+      jurisdiction: row.jurisdiction,
+      value: row.value,
+      unit: row.unit ?? "",
+      effectiveDate: row.effectiveDate,
+      endDate: row.endDate,
+      inForce: inForceOn(row, this.core.date),
+      reach: this.reach(row.id),
+    };
   }
 
   /**
@@ -632,9 +698,20 @@ export class DevMode {
    * the full people it reached, the most money first. It reads only.
    */
   reach(lawId: string) {
-    const { people, ...reach } = lawReach(this.api, lawId, this.townId());
+    const { people, organizationsReached, ...reach } = lawReach(
+      this.api,
+      lawId,
+      this.townId(),
+    );
     return {
       ...reach,
+      /** The first of the organizations it reached (businesses whose price it raised, groups it paid). */
+      namedOrganizations: organizationsReached
+        .slice(0, REACH_NAMED)
+        .map((row) => ({
+          ...row,
+          name: organizationName(this.core, row.organizationId) ?? "",
+        })),
       /** The first of the full people it named; a screen lists these. */
       named: people.slice(0, REACH_NAMED).map((row) => {
         const person = this.core.people.get(row.personId)!;
@@ -655,20 +732,19 @@ export class DevMode {
       .table("bills")
       .get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
-    const laws = has(this.core, LAWS_MODULE_ID)
-      ? (
-          api
-            .moduleState(LAWS_MODULE_ID)
-            .table("laws")
-            .rows() as unknown as LawRowInput[]
-        ).filter((row) =>
-          // The bill's own id where the law row keeps it; else the body's designation.
-          row.terms?.enactedByBill !== undefined
-            ? row.terms.enactedByBill === bill.id
-            : row.terms?.enactedBy === bill.number &&
-              row.effectiveDate >= bill.introduced,
-        )
+    const rows = has(this.core, LAWS_MODULE_ID)
+      ? (api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .rows() as unknown as LawRowInput[])
       : [];
+    const laws = rows.filter((row) =>
+      // The bill's own id where the law row keeps it; else the body's designation.
+      row.terms?.enactedByBill !== undefined
+        ? row.terms.enactedByBill === bill.id
+        : row.terms?.enactedBy === bill.number &&
+          row.effectiveDate >= bill.introduced,
+    );
     const ending = billEnding(api, bill.id);
     const nameOf = (id: string) => {
       const person = this.core.people.get(id);
@@ -687,6 +763,21 @@ export class DevMode {
       },
       addedSections: sectionsAddedTo(bill),
       sections: bill.provisions.length,
+      /**
+       * An enacted bill's budget-line sections make no law row: the treasury
+       * credits the line's change to the bill's number (`carriedMeasureOf`),
+       * and each engine that pays from the line writes its reach there.
+       */
+      budget:
+        bill.status === "enacted" &&
+        bill.provisions.some((p) => p.kind === "budget-line")
+          ? {
+              lines: bill.provisions
+                .filter((p) => p.kind === "budget-line")
+                .map((p) => ({ line: p.line ?? "", value: p.value })),
+              reach: this.reach(bill.number),
+            }
+          : null,
       laws: laws.map((row) => ({
         id: row.id,
         series: row.series,
@@ -697,7 +788,17 @@ export class DevMode {
         effectiveDate: row.effectiveDate,
         inForce: row.effectiveDate <= this.core.date,
         reach: this.reach(row.id),
+        /** The rows it took over from at its level, with what they reached and what of that ended. */
+        replaced: this.replacedBy(row).map((ended) => this.endedLaw(ended)),
       })),
+      /**
+       * The law rows the bill's repeal sections ended (`repealLaw` keeps the
+       * row with its end day and the bill's id), with what each reached while
+       * in force and what of that has ended.
+       */
+      ended: rows
+        .filter((row) => row.terms?.repealedByBill === bill.id)
+        .map((row) => this.endedLaw(row)),
     };
   }
 
@@ -1090,7 +1191,18 @@ export class DevMode {
     const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     const bill = table.get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
-    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    const tallies: {
+      chamber: string;
+      yes: number;
+      no: number;
+      /** The member set to abstain so the roll shows the margin asked, and why: voting members and seats held open. */
+      abstained?: {
+        key: string;
+        name: string;
+        members: number;
+        vacant: number;
+      };
+    }[] = [];
     // The yes votes go first to the members who sit on the bill's committee in that chamber (where
     // it has one), then to the most senior: a bill the chamber backs is backed in its committee
     // too, and every stage votes through the members' own votes at the one margin.
@@ -1116,8 +1228,27 @@ export class DevMode {
         new Set(committeeMemberKeys(api, billId, chamber)),
       );
       // Members named in `votes` vote as named, a dev's decision; the others fill the margin
-      // (negative to defeat), or vote their own position where no margin was given.
-      const named = options.votes ?? {};
+      // (negative to defeat), or vote their own position where no margin was given. A vote the
+      // player already chose with their own press (bill-stage.ts chooseOwnVote, the meeting)
+      // stands as named: dev mode never overwrites the player's press (Account lead, Nov 16).
+      const player = this.player?.personId ?? (api.state as CoreState).playerId;
+      const pressed = player
+        ? (api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("choices")
+            .get(
+              `${billId}|${player}${override ? "|override" : ""}`,
+            ) as unknown as { vote?: string } | undefined)
+        : undefined;
+      const named: Readonly<Record<string, "yes" | "no" | "abstain">> = {
+        ...(options.votes ?? {}),
+        ...(player &&
+        (pressed?.vote === "yes" ||
+          pressed?.vote === "no" ||
+          pressed?.vote === "abstain")
+          ? { [player]: pressed.vote }
+          : {}),
+      };
       const free = roster.filter((term) => !named[memberKey(term)]);
       const namedYes = roster.filter(
         (term) => named[memberKey(term)] === "yes",
@@ -1129,6 +1260,16 @@ export class DevMode {
       if (wanted !== undefined) {
         const total = Math.round((roster.length + wanted) / 2);
         yes = Math.max(0, Math.min(free.length, total - namedYes));
+      }
+      // Yes and no on a roster cannot differ by the margin asked when the two have opposite parity (434
+      // voting members after a death, a Senate of 100, and an odd margin): one free member then abstains,
+      // the last yes when the count runs one over the margin or the first no when it runs one under, so
+      // the roll shows the margin asked and the result names who abstained and why (Account lead, Nov 16).
+      let abstainAt = -1;
+      if (wanted !== undefined) {
+        const over = namedYes + yes - (namedNo + free.length - yes) - wanted;
+        if (over === 1 && yes > 0) abstainAt = yes - 1;
+        else if (over === -1 && yes < free.length) abstainAt = yes;
       }
       let ownYes = 0;
       let ownNo = 0;
@@ -1142,7 +1283,7 @@ export class DevMode {
             api,
             billId,
             memberKey(term),
-            index < yes ? "yes" : "no",
+            index === abstainAt ? "abstain" : index < yes ? "yes" : "no",
             override,
           );
       });
@@ -1150,9 +1291,24 @@ export class DevMode {
         const cast = named[memberKey(term)];
         if (cast) castMemberVote(api, billId, memberKey(term), cast, override);
       }
-      return wanted === undefined
-        ? { chamber, yes: namedYes + ownYes, no: namedNo + ownNo }
-        : { chamber, yes: namedYes + yes, no: namedNo + free.length - yes };
+      if (wanted === undefined)
+        return { chamber, yes: namedYes + ownYes, no: namedNo + ownNo };
+      const abstainer = free[abstainAt];
+      return {
+        chamber,
+        yes: namedYes + yes - (abstainAt >= 0 && abstainAt < yes ? 1 : 0),
+        no: namedNo + free.length - yes - (abstainAt >= yes ? 1 : 0),
+        ...(abstainer
+          ? {
+              abstained: {
+                key: memberKey(abstainer),
+                name: `${abstainer.identity.givenName} ${abstainer.identity.familyName}`,
+                members: roster.length,
+                vacant: seatsHeldOpen(api, chamber, roster),
+              },
+            }
+          : {}),
+      };
     };
     const chambers = chambersOf(api, bill);
     // Whether this body has an executive with a veto: a county board, or a mayor where the state
@@ -1174,7 +1330,8 @@ export class DevMode {
         vote(chamber, options.overrideMargin, true);
     if (veto && options.sign !== undefined)
       executiveDecision(api, billId, options.sign);
-    const held = holdVote(api, billId);
+    // Each chamber votes in its turn; dev mode holds the next chamber's vote now, not on its sitting.
+    const held = holdEveryChamber(api, billId);
     const records = committeeRecords(api, billId).map((c) => ({
       chamber: c.chamber,
       heard: c.heard,
@@ -1317,6 +1474,22 @@ export class DevMode {
   }
 
   /**
+   * The player's scenes that wait for them, highest rank first: each with its
+   * type, its rank against the life's pace, the day it was staged, the last
+   * day it may open and whether it is due now, from the director's one list
+   * (`waitingScenes`), so a second session can set the ledger beside what
+   * played.
+   */
+  waitingScenes() {
+    const personId = this.player?.personId;
+    if (!personId || !this.director) return [];
+    return this.director.waitingScenes(
+      personId as PersonId,
+      makeIsoDate(this.core.date),
+    );
+  }
+
+  /**
    * The pickers for one situation type's force-scene form, from the director's own records: `for` is
    * each person the director tells a story for; `mourned` (death scenes only) is each living person
    * they know whom the health module's illness could take; `where` is the kinds of place the type may
@@ -1358,6 +1531,35 @@ export class DevMode {
           : null,
       where: [...type.setting],
     };
+  }
+
+  /**
+   * Who falls ill to bring a type about: the player, unless the type's illness cause is about someone
+   * else (its match names a counterpart, as a care visit does), then the first of the player's
+   * household at home.
+   */
+  private illFor(
+    typeKey: string,
+    player: ReturnType<CoreState["people"]["get"]>,
+  ) {
+    if (!player) return undefined;
+    const aboutOther = SITUATION_LIBRARY.types
+      .find((row) => row.key === typeKey)
+      ?.causes?.some(
+        (cause) =>
+          cause.match?.label === "feeling:event:health.serious-illness" &&
+          cause.match?.counterpart === "some",
+      );
+    if (!aboutOther) return player.id;
+    const home = this.core.households.get(player.householdId);
+    return (
+      [...(home?.memberIds ?? [])].find(
+        (id) =>
+          id !== player.id &&
+          this.core.people.get(id)?.alive &&
+          this.core.people.get(id)?.placeId === player.placeId,
+      ) ?? player.id
+    );
   }
 
   /**
@@ -1435,7 +1637,7 @@ export class DevMode {
             (id) => id && this.core.people.get(id)?.jobId,
           )
         : scene.recipe === "illness"
-          ? player?.id
+          ? this.illFor(input.typeKey, player)
           : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
@@ -1454,7 +1656,8 @@ export class DevMode {
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)
         : this.forceIllness(personId);
-    // An illness is the player's own where the type is about them, so the scene follows from it.
+    // An illness is the player's own where the type is about them, or one at home's where the type is
+    // about the one who comes to them (a care visit), so the scene follows from it.
     return {
       ...out,
       recipe: scene.recipe,
@@ -1568,6 +1771,42 @@ export class DevMode {
       days,
       gave: calls.filter((c) => c.givenMinor > 0),
       asked: calls.length,
+    };
+  }
+
+  /**
+   * The petition is behind: days pass through the game's own clock, one at a time, until the campaign
+   * engine writes its one petition-short record for the player's filing (the day a canvass shift a day can
+   * no longer wait for the next turn) or the petition's deadline passes. The record is never forged: the
+   * trace names the day, who tells, and the arithmetic the engine read that day. The scene it stages is
+   * the player's to answer.
+   */
+  petitionShort(filingId: string) {
+    if (campaignFor(this.api, filingId).candidateId !== this.core.playerId)
+      throw new Error("That is not your campaign.");
+    const petition = petitionOf(this.api, filingId);
+    if (!petition) throw new Error("That filing has no petition.");
+    const id = `${PETITION_SHORT_EVENT}:${filingId}`;
+    const from = this.core.date;
+    while (!this.core.durableLog.has(id) && this.core.date < petition.due)
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+    const record = this.core.durableLog.get(id);
+    return {
+      mark: this.mark("petition-short", [filingId], { filingId, from }),
+      told: record ? this.core.date : null,
+      tellerId: record ? String(record.facts?.tellerId) : null,
+      tellerKind: record ? String(record.facts?.tellerKind) : null,
+      // What the engine read the day it told them (the record's own facts).
+      signed: Number(
+        record?.facts?.signed ?? petitionOf(this.api, filingId)!.signed,
+      ),
+      gathers: Number(
+        record?.facts?.gathers ?? signaturesToGather(this.api, filingId),
+      ),
+      daysLeft: record ? Number(record.facts?.daysLeft) : null,
+      canAddAfterNextTurn: record
+        ? Number(record.facts?.canAddAfterNextTurn)
+        : null,
     };
   }
 
@@ -1724,9 +1963,12 @@ export class DevMode {
     });
   }
 
-  /** The body holds its vote today. */
+  /**
+   * The body holds its vote today: in a two-chamber legislature, the vote of the chamber whose
+   * turn it is, now rather than on that chamber's sitting.
+   */
   holdVote(billId: string) {
-    const bill = holdVote(this.api, billId);
+    const bill = holdVote(this.api, billId, { anyDay: true });
     return {
       mark: this.mark("hold-vote", [billId], { billId, status: bill.status }),
       bill,
@@ -1744,14 +1986,28 @@ export class DevMode {
 
   // 3. Time ---------------------------------------------------------------
 
+  /**
+   * The played character's registered stops that fall before `target`, answered the way the
+   * player's own clock answers a stop it reaches (`acknowledgeModuleStopsV1`), because dev mode
+   * runs the world past them on its own clock and the player's clock would otherwise refuse
+   * every move behind a stop nothing can raise any more. A stop that holds the clock stays and
+   * is listed. Returns what was passed over and what was left, so a second session can see it.
+   * Only dev mode's own runs call it; the play screens' clock (`BenchPlayer.advance`) never does.
+   */
+  private passPlayerStops(personId: string | undefined, target: string) {
+    return passPlayerStopsV1(this.core, personId, target);
+  }
+
   /** Run the world to a date on its own clock; dev-mode picks apply at each person's next decision. */
   advance(to: string) {
     const target = makeIsoDate(to);
     if (target <= this.core.date) throw new Error("Pick a later date.");
     // The played character finishes its day and the world takes the clock.
+    const playerId = this.player?.personId;
     this.player?.release();
     if (snapshotExplicitControlV1(this.core).personId !== undefined)
       throw new Error("A person is still under control.");
+    const stops = this.passPlayerStops(playerId, target);
     const started = Date.now();
     const from = this.core.date;
     const controller: Controller = (decision, offers) => {
@@ -1778,7 +2034,15 @@ export class DevMode {
         this.mark("decision-not-offered", [row.personId], { ...row });
       if (this.core.date.slice(0, 7) !== month) this.snapshot();
     }
-    return { from, to: this.core.date, ms: Date.now() - started };
+    return {
+      from,
+      to: this.core.date,
+      ms: Date.now() - started,
+      // Only when the player had stops on the way: which were answered, which hold the clock still.
+      ...(stops.passed.length || stops.held.length
+        ? { passedStops: stops.passed, heldStops: stops.held }
+        : {}),
+    };
   }
 
   /** What a skipped year does not do, read from its registered stopgap. */
@@ -1800,6 +2064,7 @@ export class DevMode {
    * verdict and the stopgap's list of what a skipped year does not do.
    */
   runYear() {
+    const playerId = this.player?.personId;
     try {
       this.player?.release();
     } catch {
@@ -1809,6 +2074,7 @@ export class DevMode {
       return { ran: false as const, held: true as const };
     const from = this.core.date;
     const to = addDays(makeIsoDate(from), 365);
+    const stops = this.passPlayerStops(playerId, to);
     const started = Date.now();
     advanceCore(this.core, to, { results: true });
     const problems = countryTierProblems(this.api);
@@ -1819,6 +2085,9 @@ export class DevMode {
       seconds: (Date.now() - started) / 1000,
       opened: countryOpened(this.api),
       problems: problems.length,
+      ...(stops.passed.length || stops.held.length
+        ? { passedStops: stops.passed, heldStops: stops.held }
+        : {}),
     };
   }
 
@@ -1952,6 +2221,8 @@ export class DevMode {
       if (
         input.subject &&
         facts.lawId !== input.subject &&
+        // A repeal's end day names the row it ended apart from the row that governs now.
+        facts.endedLawId !== input.subject &&
         facts.billId !== input.subject &&
         facts.contestId !== input.subject
       )
@@ -2215,6 +2486,53 @@ export class DevMode {
         .map((id) => core.durableLog.get(id))
         .filter((row) => row !== undefined),
       pending: this.pending.get(personId) ?? null,
+      laws: this.lawsOn(personId, person.householdId),
+    };
+  }
+
+  /**
+   * The laws that reached one person, current and ended, from the law reach's
+   * own reader (`reachOn`, law-reach/host.ts), each with the law row it names
+   * (its series, level, jurisdiction and dates), and the person's line on
+   * their household's latest medical bill (the plan it priced them on). A
+   * person who lives outside the town opens here like one in it. Reads only.
+   */
+  private lawsOn(personId: string, householdId: string) {
+    const api = this.api;
+    const laws = has(this.core, LAWS_MODULE_ID)
+      ? api.moduleState(LAWS_MODULE_ID).table("laws")
+      : null;
+    const reached = reachOn(api, personId).map((row) => {
+      const law = laws?.get(row.lawId) as unknown as LawRowInput | undefined;
+      return {
+        ...row,
+        law: law
+          ? {
+              series: law.series,
+              level: law.level,
+              jurisdiction: law.jurisdiction,
+              value: law.value,
+              effectiveDate: law.effectiveDate,
+              endDate: law.endDate ?? null,
+            }
+          : null,
+      };
+    });
+    const bill = has(this.core, COVERAGE_MODULE_ID)
+      ? (
+          api
+            .moduleState(COVERAGE_MODULE_ID)
+            .table("medicalBills")
+            .rows() as unknown as MedicalBillRow[]
+        ).find((row) => row.householdId === householdId)
+      : undefined;
+    const line = bill?.members.find((m) => m.personId === personId);
+    return {
+      reached,
+      medicalBill:
+        bill && line
+          ? { billId: bill.id, date: bill.date, placeId: bill.placeId, ...line }
+          : null,
     };
   }
 
@@ -2328,36 +2646,5 @@ export class DevMode {
         states: kept.states.size,
         recordIds: kept.ids,
       }));
-  }
-
-  // 6. Experiments --------------------------------------------------------
-
-  static experiments(): readonly Experiment[] {
-    return DATA.experiments;
-  }
-
-  /** Apply a change set's steps today, through the same controls. */
-  applySteps(experimentId: string, steps: readonly DevStep[]) {
-    const out: unknown[] = [];
-    for (const step of steps) {
-      out.push(
-        this.setLaw({
-          level: step.level,
-          series: step.series,
-          ...(step.value !== undefined ? { value: step.value } : {}),
-          ...(step.unit ? { unit: step.unit } : {}),
-          ...(step.repeal ? { repeal: true } : {}),
-          effectiveDate: addDays(
-            makeIsoDate(this.core.date),
-            step.effectiveInDays ?? 0,
-          ),
-        }),
-      );
-    }
-    const mark = this.mark("experiment", [experimentId], {
-      experimentId,
-      steps: JSON.stringify(steps),
-    });
-    return { mark, results: out };
   }
 }

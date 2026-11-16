@@ -167,10 +167,10 @@ SERIES = {
     "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages"),
     "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
     "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
-    "state-contribution-limit-governor": ("government", "Campaign finance", "State campaign contribution limit: governor", "USD/election"),
-    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: state senate", "USD/election"),
-    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: state house", "USD/election"),
-    "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
+    "state-contribution-limit-governor": ("government", "Campaign finance", "State campaign contribution limit: governor races", "USD/election"),
+    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: state senate races", "USD/election"),
+    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: state house races", "USD/election"),
+    "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local races", "USD/election"),
     "executive-term-limit": ("government", "Elections and representation", "Governor term limit (terms; 0 for none)", "terms"),
     "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
     "meeting-notice-hours": ("government", "Public records and meetings", "Public notice before a regular meeting (hours)", "hours"),
@@ -186,6 +186,12 @@ SERIES = {
     # A state's grant of its towns' power to tax income: raised to 1 it
     # grants, lowered to 0 it withdraws (no unit; the Words row words each).
     "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None),
+    # A fee's level as a percent of today's (src/core2/fee-levels.ts): a council
+    # or legislature sets what the people who use a service pay.
+    "fee-level:parks-and-recreation": ("taxes-finance", "Fees and charges", "Park and recreation fees", "percent of today's fee"),
+    "fee-level:sewerage-and-solid-waste": ("taxes-finance", "Fees and charges", "Sewer and trash fees", "percent of today's fee"),
+    "fee-level:hospitals": ("taxes-finance", "Fees and charges", "Public hospital charges", "percent of today's fee"),
+    "fee-level:education": ("taxes-finance", "Fees and charges", "Tuition and school fees", "percent of today's fee"),
 }
 
 

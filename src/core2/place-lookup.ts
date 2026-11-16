@@ -406,6 +406,12 @@ export function corePlaceByKey(key: string): CorePlace | null {
   return row ? synthesizeNationwidePlace(row) : null;
 }
 
+/** A place's name as a sentence says it ("Havre", not "Havre, Montana"), or null when the place is unknown. */
+export function placeNameSaid(jurisdictionId: EntityId): string | null {
+  const place = corePlaceByJurisdictionId(jurisdictionId);
+  return place ? (place.formalName ?? place.displayName.split(",")[0]!) : null;
+}
+
 export function corePlaceByJurisdictionId(
   jurisdictionId: EntityId,
 ): CorePlace | null {
@@ -593,6 +599,16 @@ function placeMatches(place: CorePlace, needle: string): boolean {
 
 function labelMatches(label: string, needle: string): boolean {
   return needle.length === 0 || label.toLowerCase().includes(needle);
+}
+
+/** A place's name without its state, as people in the state say it ("Rienzi", not "Rienzi, Mississippi"). */
+export function placeNameWithinState(place: CorePlace): string {
+  return place.withinName
+    ? place.displayName.replace(
+        new RegExp(`,\\s*${place.withinName}$`, "i"),
+        "",
+      )
+    : place.displayName;
 }
 
 function authoredMatches(

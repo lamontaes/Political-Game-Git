@@ -445,6 +445,60 @@
       "kind": "written"
     },
     {
+      "key": "person-history.summary.work.title.for",
+      "move": "summary",
+      "text": "Works as {title} for {employer}.",
+      "origin": "authored",
+      "author": "Builder S4 (words-office-labels-and-counter-seat-said-by-area), from the Words lead's ruling of Nov 14: a person works for a government, not at it",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.title.for.you",
+      "move": "summary",
+      "text": "You work as {title} for {employer}.",
+      "origin": "authored",
+      "author": "Builder S4 (words-office-labels-and-counter-seat-said-by-area), from the Words lead's ruling of Nov 14: a person works for a government, not at it",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.title.for.first",
+      "move": "summary",
+      "text": "I work as {title} for {employer}.",
+      "origin": "authored",
+      "author": "Builder S4 (words-office-labels-and-counter-seat-said-by-area), from the Words lead's ruling of Nov 14: a person works for a government, not at it",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.employer.for",
+      "move": "summary",
+      "text": "Works for {employer}.",
+      "origin": "authored",
+      "author": "Builder S4 (words-office-labels-and-counter-seat-said-by-area), from the Words lead's ruling of Nov 14: a person works for a government, not at it",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.employer.for.you",
+      "move": "summary",
+      "text": "You work for {employer}.",
+      "origin": "authored",
+      "author": "Builder S4 (words-office-labels-and-counter-seat-said-by-area), from the Words lead's ruling of Nov 14: a person works for a government, not at it",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.employer.for.first",
+      "move": "summary",
+      "text": "I work for {employer}.",
+      "origin": "authored",
+      "author": "Builder S4 (words-office-labels-and-counter-seat-said-by-area), from the Words lead's ruling of Nov 14: a person works for a government, not at it",
+      "date": "2026-11-14",
+      "kind": "written"
+    },
+    {
       "key": "person-history.summary.work.title",
       "move": "summary",
       "text": "Works as {title} at {employer}.",

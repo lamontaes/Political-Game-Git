@@ -1,10 +1,8 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { localOfficeKit } from "./office-day-acts";
 import { governments } from "./modules/budgets";
@@ -19,15 +17,18 @@ import {
 import { coreAPI } from "./state";
 
 // A public work is the year's award of a capital line to a town firm; it is
-// finished when the next fiscal year takes over, and its ribbon is offered to
-// the officeholder (office-cut-a-ribbon-needs-a-record-of).
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// finished on the later of the treasury's last payment and the days the
+// firm's crew needs for the labor those payments bought, once the fiscal year
+// has closed, and its ribbon is offered to the officeholder
+// (office-cut-a-ribbon-needs-a-record-of). Pinned to one place and seed: its
+// first local fiscal year closes within the test's play.
+const seed = "project-finish-1";
+const PLACE_KEY = "2854920";
 
 it(`a finished public work is offered as a ribbon, cut once, and recorded, seed ${seed}`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const place = drawPlace(seed, `projects:${attempt}`);
+  for (const place of [{ name: "Mississippi", key: PLACE_KEY, seed }]) {
     tried.push(place.name);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -82,6 +83,24 @@ it(`a finished public work is offered as a ribbon, cut once, and recorded, seed 
       0,
     );
     expect(core.organizations.has(project.contractorId), where).toBe(true);
+    // Its finish is the work's: never before the last payment that funds it,
+    // and never before the crew's days for the labor those payments bought.
+    expect(project.finishedOn >= award.lastPaidOn, where).toBe(true);
+    const bid = award.bids.find(
+      (b) => b.organizationId === award.organizationId,
+    )!;
+    expect(
+      daysBetween(
+        makeIsoDate(award.awardedOn),
+        makeIsoDate(project.finishedOn),
+      ),
+      `${where}: crew-days`,
+    ).toBeGreaterThanOrEqual(
+      Math.floor(
+        (award.paidMinor * PROJECT_PARAMETERS.projectLaborShare.value) /
+          (bid.staff * bid.wageDailyMinor),
+      ),
+    );
     expect(
       finishedProjects(api, project.governmentId).some(
         (p) => p.id === project.id,

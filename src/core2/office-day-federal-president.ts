@@ -36,7 +36,7 @@ import { admitCountedHousehold } from "./modules/residents";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
-import { coarsePlace, metResident } from "./coarse-place";
+import { coarsePlace, metResident, metWork } from "./coarse-place";
 import {
   OFFICIALS_MODULE_ID,
   officialLean,
@@ -61,6 +61,7 @@ import {
 import { nationalPanel } from "./modules/macro";
 import cabinetData from "./data/office-day/federal-cabinet.json" with { type: "json" };
 import {
+  controlledPerson,
   OFFICE_DAY_FEDERAL_MODULE_ID,
   federalParameter,
   federalSeatOf,
@@ -735,6 +736,33 @@ addFederalWorldPart((api) => {
   if (president) confirmGivenVotes(api, president);
 });
 
+/**
+ * The President the player does not control gives the joint address on its
+ * day, by the same delivery the played President's own character uses, so the
+ * country's address is one engine's whoever sits in the office.
+ */
+addFederalWorldPart((api) => {
+  const date = api.state.date;
+  if (jointAddress(Number(date.slice(0, 4))).date !== date) return;
+  const president = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0]?.personId;
+  if (
+    !president ||
+    president === controlledPerson(api) ||
+    !api.state.people.get(president)?.alive ||
+    gave(api, president, "joint-address", date)
+  )
+    return;
+  deliverAddress(api, president);
+});
+
 addFederalDayPart((api, personId) => {
   if (!isPresident(api, personId)) return;
   const date = api.state.date;
@@ -892,17 +920,7 @@ export function travelToTown(
       givenName: drawn.givenName,
       familyName: drawn.familyName,
       birthDate: born,
-      ...(counted
-        ? {
-            work: {
-              workplace: counted.job.workplace,
-              title: counted.job.title,
-              occupation: counted.job.occupation,
-              hourlyMinor: counted.job.hourlyMinor,
-              weeklyHours: counted.job.weeklyHours,
-            },
-          }
-        : {}),
+      ...(counted ? { work: metWork(counted) } : {}),
       placeId,
       gender: drawn.gender,
       source: {

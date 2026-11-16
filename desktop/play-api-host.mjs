@@ -15,9 +15,19 @@ const root = process.env.OCD_PLAY_API_ROOT;
 globalThis.__OCD_RUNTIME_ROOT__ = pathToFileURL(
   path.join(root, "runtime") + path.sep,
 ).href;
-const { benchRequest } = await import(
+const { benchRequest, saveLifeNow } = await import(
   pathToFileURL(path.join(root, "play-api.mjs")).href
 );
+
+// When the host is stopped, the played life is saved (saves.ts), as it is
+// after each advance.
+const stop = () => {
+  saveLifeNow?.();
+  process.exit(0);
+};
+process.once("SIGTERM", stop);
+process.once("SIGINT", stop);
+process.once("disconnect", stop);
 
 // An Electron utility process talks over parentPort; a Node child process
 // (the desktop tests) over its IPC channel. The handler is the same.

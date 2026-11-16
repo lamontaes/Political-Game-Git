@@ -4,10 +4,13 @@
  * Age, household size and income, work hours and the children in the house
  * come from each person's own records (jobs, work commitments, household).
  */
+import type { GroupQuartersType } from "../group-quarters-types";
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { placeStateKey } from "../place-map";
+import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import {
   countedJob,
   countedParameter,
@@ -23,6 +26,7 @@ import type {
 
 interface ParameterRow {
   readonly value: number;
+  readonly spread?: readonly [number, number];
 }
 const table = parameters as unknown as {
   parameters: Record<string, ParameterRow>;
@@ -50,6 +54,14 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+/** The low and high ends of a law-reach parameter's spread. */
+export function reachParameterSpread(key: string): readonly [number, number] {
+  const row = table.parameters[key];
+  if (!row?.spread)
+    throw new Error(`No spread for law-reach parameter: ${key}`);
+  return row.spread as unknown as readonly [number, number];
+}
+
 export function graduatedSchedule(scope: "state" | "local") {
   return table.graduatedSchedules[scope];
 }
@@ -64,8 +76,17 @@ export interface PeopleSelector {
   readonly hoursBelowPerMonth?: string;
   /** No child of the household is younger than this (an exemption). */
   readonly noChildBelow?: string;
+  /** A child of the household is younger than this (a program for families with a minor child). */
+  readonly withChildBelow?: string;
   /** One record per household: its oldest member who matches. */
   readonly householdHead?: boolean;
+  /**
+   * The group-quarters types a means-tested program serves. A room has no
+   * household income of its own to test, so a selector with an income line
+   * reaches a room only where its type is named here (a program's own
+   * eligibility rule); absent, it serves none.
+   */
+  readonly servesGroupQuarters?: readonly GroupQuartersType[];
 }
 
 /** One resident's facts, named or counted. */
@@ -73,6 +94,8 @@ export interface ResidentFacts {
   readonly id: string;
   readonly named: boolean;
   readonly householdId: string;
+  /** The place the resident lives in. */
+  readonly placeId?: string;
   readonly age: number;
   readonly weeklyMinutes: number;
   readonly employed: boolean;
@@ -94,6 +117,8 @@ export interface HouseholdFacts {
   readonly ages: readonly number[];
   /** Real households this counted row stands for (absent means one). */
   readonly scale?: number;
+  /** The group-quarters type of its room; absent for a household. */
+  readonly quarters?: GroupQuartersType;
 }
 
 export interface TownFacts {
@@ -103,7 +128,11 @@ export interface TownFacts {
   readonly modeled: number;
 }
 
-const cache = new WeakMap<object, { date: string; facts: TownFacts }>();
+/** Each day's facts by the places read (their ids joined), so a pass reads each set once a day. */
+const cache = new WeakMap<
+  object,
+  { date: string; byPlaces: Map<string, TownFacts> }
+>();
 
 /** A new pass reads the town as it stands now: births, moves and fill-ins since the last read the same day count. */
 export function forgetTownFacts(api: CoreAPI): void {
@@ -121,11 +150,53 @@ function activeMinutes(
   return out;
 }
 
+/**
+ * The places of the world's modeled households in the town's state: the
+ * residents runtime's places (the town and the places around it, whose
+ * households the clinic bills) whose state is the town's, the town first. A
+ * place the lookup does not know is the town's governing unit, in its state,
+ * by the same rule as `householdStateOf` (modules/counted-moves.ts). Where no
+ * runtime runs, the town alone. A state law that reaches people where they
+ * are billed reads these places, and the bills read the same list.
+ */
+export function townStatePlaces(
+  api: CoreAPI,
+  townPlaceId: string,
+  stateKey: string,
+): string[] {
+  const out = new Set([townPlaceId]);
+  for (const row of residentsRuntime(api.state as CoreState)?.input.accounts ??
+    []) {
+    const state =
+      placeStateKey(row.placeId) ?? coreStateKeyOfPlaceholderId(row.placeId);
+    if ((state ?? stateKey) === stateKey) out.add(row.placeId);
+  }
+  return [...out];
+}
+
 /** The town's residents and households on today's date, from their records. */
 export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
+  return placesFacts(api, [townPlaceId]);
+}
+
+/**
+ * The residents and households of several places on today's date, from their
+ * records, by the same rule as the town's (one model, two tiers): each
+ * resident names their place. A law that reaches people beyond the town (the
+ * households the clinic bills in the places around it) reads them here.
+ */
+export function placesFacts(
+  api: CoreAPI,
+  placeIds: readonly string[],
+): TownFacts {
   const core = api.state as CoreState;
-  const hit = cache.get(core);
-  if (hit && hit.date === core.date) return hit.facts;
+  const places = new Set(placeIds);
+  const key = [...places].sort().join("|");
+  let day = cache.get(core);
+  if (!day || day.date !== core.date)
+    cache.set(core, (day = { date: core.date, byPlaces: new Map() }));
+  const hit = day.byPlaces.get(key);
+  if (hit) return hit;
   const date = makeIsoDate(core.date);
   const days = reachParameter("daysPerYear");
   const cents = reachParameter("centsPerDollar");
@@ -155,7 +226,16 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     }
   // Named people: their own jobs and commitments.
   const commitments: WorkCommitmentInput[] = [];
-  for (const id of core.peopleByPlace.get(townPlaceId) ?? [])
+  // Once each: a place's index can hold people another listed place's also
+  // holds (a town inside a county the runtime keeps households for).
+  const namedIn = [
+    ...new Set(
+      [...places].flatMap((placeId) => [
+        ...(core.peopleByPlace.get(placeId) ?? []),
+      ]),
+    ),
+  ];
+  for (const id of namedIn)
     for (const cid of core.work.commitmentsByPerson.get(id) ?? []) {
       const row = core.work.commitments.get(cid);
       if (row) commitments.push(row);
@@ -168,7 +248,10 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     reachParameter("ownerWeeklyHours") * reachParameter("minutesPerHour");
   const owners = new Set<string>();
   for (const [orgId, book] of core.finance.businesses) {
-    if (book.closedAt || core.organizations.get(orgId)?.placeId !== townPlaceId)
+    if (
+      book.closedAt ||
+      !places.has(core.organizations.get(orgId)?.placeId ?? "")
+    )
       continue;
     const owner = (
       core.modules.has(BUSINESS_MODULE_ID)
@@ -180,7 +263,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
   for (const id of owners)
     namedMinutes.set(id, Math.max(namedMinutes.get(id) ?? 0, ownerMinutes));
   const namedByHousehold = new Map<string, string[]>();
-  for (const id of core.peopleByPlace.get(townPlaceId) ?? []) {
+  for (const id of namedIn) {
     const person = core.people.get(id);
     if (!person?.alive) continue;
     const list = namedByHousehold.get(person.householdId) ?? [];
@@ -201,6 +284,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         id,
         named: true,
         householdId,
+        placeId: person.placeId,
         age,
         weeklyMinutes: namedMinutes.get(id) ?? 0,
         employed: working,
@@ -218,6 +302,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         ? { retirementDollars: retirementMinor / cents }
         : {}),
       ages,
+      ...(core.households.get(householdId)?.quarters
+        ? { quarters: core.households.get(householdId)!.quarters }
+        : {}),
     });
   }
   // Counted residents: their groups' members, read from the packed columns
@@ -228,7 +315,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     const from = countedParameter("countedWorkingAgeFrom"),
       below = countedParameter("countedWorkingAgeBelow");
     for (const h of store.liveHouseholds()) {
-      if (h.placeId !== townPlaceId) continue;
+      if (!places.has(h.placeId)) continue;
       const minutes = activeMinutes(h.workCommitments, date);
       for (const id of owners)
         if (minutes.has(id))
@@ -256,6 +343,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           id,
           named: false,
           householdId: h.id,
+          placeId: h.placeId,
           age: ages[i]!,
           weeklyMinutes: minutes.get(id) ?? 0,
           employed: workers.has(id),
@@ -277,6 +365,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
             : {}),
           ages,
           ...(scale !== 1 ? { scale } : {}),
+          ...(h.quarters ? { quarters: h.quarters } : {}),
         });
     }
   }
@@ -285,7 +374,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     households,
     modeled: residents.reduce((n, r) => n + (r.scale ?? 1), 0),
   };
-  cache.set(core, { date: core.date, facts });
+  day.byPlaces.set(key, facts);
   return facts;
 }
 
@@ -321,6 +410,7 @@ export function selectResidents(
           reachParameter("weeksPerYear")
         : undefined;
   const childBelow = p(selector.noChildBelow);
+  const needsChildBelow = p(selector.withChildBelow);
   const adult = reachParameter("votingAge");
   const out: ResidentFacts[] = [];
   for (const r of facts.residents) {
@@ -333,6 +423,14 @@ export function selectResidents(
     if (weekly !== undefined && r.weeklyMinutes >= weekly) continue;
     const household = facts.households.get(r.householdId);
     if (!household) continue;
+    // A room has no household income to test: a means-tested program
+    // reaches it only where its own rule serves the room's type.
+    if (
+      incomeShare !== undefined &&
+      household.quarters &&
+      !selector.servesGroupQuarters?.includes(household.quarters)
+    )
+      continue;
     if (
       incomeShare !== undefined &&
       household.incomeDollars >=
@@ -342,6 +440,11 @@ export function selectResidents(
     if (
       childBelow !== undefined &&
       household.ages.some((age) => age < Math.min(childBelow, adult))
+    )
+      continue;
+    if (
+      needsChildBelow !== undefined &&
+      !household.ages.some((age) => age < Math.min(needsChildBelow, adult))
     )
       continue;
     out.push(weight === 1 ? r : { ...r, weight });

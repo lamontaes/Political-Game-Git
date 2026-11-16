@@ -1,5 +1,5 @@
 /** Explicit module-owned stop records. Queries invoke no module or numeric callback. */
-import { makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import { assertFactoryCoreV1 } from "./state";
 import type { CoreState, CoreModule, Source } from "./types";
@@ -546,4 +546,48 @@ export function bindModuleStopClockV1(
       binding.revision++;
     },
   });
+}
+
+/**
+ * Answers the controlled person's registered stops that fall before `target`, the way the
+ * player's own clock answers a stop it reaches (`acknowledgeModuleStopsV1`). For a run that
+ * takes the clock from the player and moves the world on its own (dev mode's advance and
+ * skip-a-year): the player's clock never reaches those stops, so left behind they make it
+ * refuse every move. A stop that holds the clock stays and is listed. Returns what was passed
+ * over and what was left.
+ */
+export function passPlayerStopsV1(
+  core: CoreState,
+  personId: string | undefined,
+  target: string,
+) {
+  const passed: { moduleId: string; recordId: string; at: string }[] = [];
+  const held: { moduleId: string; recordId: string; at: string }[] = [];
+  if (!personId || !core.people.get(personId)?.alive) return { passed, held };
+  const through = {
+    date: addDays(makeIsoDate(target), -1),
+    minuteOfDay: 1439,
+  };
+  let from: WorkMomentV1 = { date: core.date, minuteOfDay: 0 };
+  while (comparePlayerMomentsV1(from, through) <= 0) {
+    const stops = earliestModuleStopsV1(core, {
+      controlledPersonId: personId,
+      from,
+      through,
+    });
+    const first = stops[0];
+    if (!first) break;
+    acknowledgeModuleStopsV1(core, stops);
+    for (const stop of stops)
+      (stop.hold ? held : passed).push({
+        moduleId: stop.moduleId,
+        recordId: stop.recordId,
+        at: `${stop.at.date} ${stop.at.minuteOfDay}`,
+      });
+    from =
+      first.at.minuteOfDay >= 1439
+        ? { date: addDays(makeIsoDate(first.at.date), 1), minuteOfDay: 0 }
+        : { date: first.at.date, minuteOfDay: first.at.minuteOfDay + 1 };
+  }
+  return { passed, held };
 }

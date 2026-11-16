@@ -1,7 +1,5 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -19,17 +17,20 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // record names. The legislature records the hold (bill-held-in-committee, with
 // the chair); the chair is asked for a hearing by the bill's sponsor, and a
 // committee member is asked to press the chair. Both are cast from the record
-// and the bill, and say its number. Places are drawn in turn until one's
-// legislature holds a bill.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// and the bill, and say its number. Pinned to Texas (place 4846968, world seed
+// 8647-mason): its state senate holds bills within the first 90 days (found by a
+// script that drafted every question at eight places; Feb 18, 2025 is the first),
+// and the chair there is a member the director follows, which is what the chair's
+// scene needs. A place chosen at run time could hold nothing in the window, which
+// made this test red by draw.
+const PLACE = { key: "4846968", name: "Texas", seed: "8647-mason" };
 const DAYS = 90;
 /** The bodies whose members the director follows here. */
 const WATCHED_LEVELS = ["city", "county", "state"];
 
-it(`a held bill is a hearing ask for the chair, from its record (seed ${seed})`, () => {
+it("a held bill is a hearing ask for the chair, from its record (Texas, seed 8647-mason)", () => {
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    const place = drawPlace(`${seed}:${attempt}`, "hold-scenes");
+  for (const place of [PLACE]) {
     setBookkeeping(false);
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -52,7 +53,7 @@ it(`a held bill is a hearing ask for the chair, from its record (seed ${seed})`,
     const holds = all.filter((row) =>
       WATCHED_LEVELS.includes(row.facts?.level ?? ""),
     );
-    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
     if (!holds.length) {
       tried.push(
         `${place.name}: ${all.length ? `only ${all.length} hold(s) of a body at another level (${[...new Set(all.map((row) => row.facts?.level))].join(", ")})` : "no hold"}`,

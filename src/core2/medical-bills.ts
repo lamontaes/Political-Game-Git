@@ -50,9 +50,7 @@
  * adds over Medicaid's share is paid first, under ids that cite the
  * requirement. The expansion's and the requirement's coverage links are
  * carried by those records (links.json carriedBy), so the web does not run
- * them. Medicaid coverage is not an employer plan: the coverage engine reads
- * no Medicaid law into any worker's employer plan in any place
- * (EMPLOYER_PLAN_LEAVES_OUT). A household in another place the world keeps
+ * them. A household in another place the world keeps
  * (the places around the town), whose coverage the reach does not keep,
  * meets the expansion through the place-level row on the share sent to
  * collections, its one path there.
@@ -84,11 +82,15 @@ import { careNeedOf } from "./modules/health";
 import { householdStateOf } from "./modules/counted-moves";
 import {
   ENDED_BY_REQUIREMENT,
+  federalBenefitLine,
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  townStatePlaces,
+  MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
+  payMedicareLinePart,
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
@@ -147,6 +149,12 @@ export interface BilledMember {
   readonly billMinor: number;
   /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
   readonly medicaidMinor?: number;
+  /** What a raised Medicare line pays of the member's care above Medicare's part at its base (Medicare members only). */
+  readonly medicareLineMinor?: number;
+  /** Medicare's whole part of the member's care at the line in force (its base part and any raised line's addition), which the federal treasury pays the seller (Medicare members only). */
+  readonly medicarePartMinor?: number;
+  /** The employer plan's insurer's part of the member's care, the cost less the member's share, which the insurer pays the seller from where premiums went (employer plan members only). */
+  readonly insurerMinor?: number;
   /**
    * What the work requirement added to the member's bill: the expansion
    * covers them but the requirement ended their coverage (its stretch on
@@ -282,7 +290,7 @@ interface Household {
   readonly weight: number;
   readonly incomeFifth: number;
   readonly members: readonly Person[];
-  /** Whether the household's members' Medicaid coverage is read from their own records (the town's, whose coverage the law reach keeps). */
+  /** Whether the household's members' Medicaid coverage is read from their own records (the town's and its state's places around it, whose coverage the law reach keeps). */
   readonly ownMedicaid: boolean;
 }
 
@@ -325,8 +333,9 @@ function medicalSellers(api: CoreAPI, placeId: string): string[] {
  * Each person's plan today, full or counted, by the same rule: Medicare at
  * its age, Medicaid where the law reach keeps their coverage
  * (coverageSpellsNow, by person id), an employer plan, or none. Their own
- * Medicaid record is read in the town, the place whose residents' coverage
- * the reach keeps; null spells mean the world does not model it.
+ * Medicaid record is read in the places whose residents' coverage the reach
+ * keeps (the town and the places around it in its state, `townStatePlaces`);
+ * null spells mean the world does not model it.
  */
 function plans(
   api: CoreAPI,
@@ -339,11 +348,15 @@ function plans(
   const spells = coverageSpellsNow(api);
   const ended = medicaidCoverageSpells(api, ENDED_BY_REQUIREMENT);
   const medicare = api.parameter("healthMedicareAge");
-  const town = api.state.modules.has(LAWS_MODULE_ID)
-    ? lawChain(api).townPlaceId
+  // The places whose coverage the reach keeps: the town and the places
+  // around it in its state, the same list the expansion's handler covers.
+  const kept = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(
+        townStatePlaces(api, lawChain(api).townPlaceId, lawChain(api).stateKey),
+      )
     : null;
   return {
-    ownMedicaid: (placeId) => spells !== null && placeId === town,
+    ownMedicaid: (placeId) => spells !== null && !!kept?.has(placeId),
     endedByRequirement: (personId, plan) =>
       (plan === "employer" || plan === "none") &&
       !!spellOn(ended?.get(personId), today),
@@ -355,21 +368,10 @@ function plans(
   };
 }
 
-/**
- * What every worker's employer plan leaves out of the coverage engine's
- * health.uninsured-pct read, in every place: the expansion as a moderator
- * (its halving of unemployment's link), since Medicaid coverage is not an
- * employer plan. A worker who loses a job loses the plan whether or not
- * Medicaid then covers them; the reach's coverage record catches them in the
- * town, and the place-level medical-debt row carries the expansion elsewhere.
- */
 // stopgapId: SG-WEB-uninsured-share-misses-medicaid-coverage — the web no
 // longer runs the expansion's or the work requirement's uninsured links (the
 // coverage records carry them), so a place's health.uninsured-pct, and the
 // graduation link that reads it, miss the Medicaid coverage those records hold.
-export const EMPLOYER_PLAN_LEAVES_OUT: ReadonlySet<string> = new Set(
-  data.personLevel.employerPlanLeavesOut.moderators,
-);
 
 /**
  * Everyone the pass bills this month, full and counted, by household: the
@@ -489,6 +491,16 @@ function billMembers(
   // federal law is in force (the engine decides the cause from the law itself).
   const drugLaw = lawInForce(api, DRUG_NEGOTIATION);
   const drugs = drugLaw.value === one ? one + (DRUG_LINK.size ?? 0) : one;
+  // The Medicare line in force over its base scales Medicare's own part of
+  // its members' care, so their share falls (or rises) by the same dollars.
+  const medicareLine = federalBenefitLine(api, MEDICARE_LINE);
+  const medicareBase = q(SHARE_KEY.medicare);
+  const medicareShare = Math.min(
+    one,
+    Math.max(0, one - (one - medicareBase) * medicareLine.level),
+  );
+  const shareOf = (plan: BillPlan) =>
+    plan === "medicare" ? medicareShare : q(SHARE_KEY[plan]);
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
@@ -502,28 +514,53 @@ function billMembers(
         const cost =
           (perMember * perMonth * (care(m.careNeed) / norm)) / average;
         const billMinor = Math.round(
-          cost * q(SHARE_KEY[m.plan]) * (m.plan === "medicare" ? drugs : one),
+          cost * shareOf(m.plan) * (m.plan === "medicare" ? drugs : one),
         );
+        const lineMinor =
+          m.plan === "medicare"
+            ? Math.round(cost * (medicareBase - medicareShare) * drugs)
+            : 0;
+        const medicarePart =
+          m.plan === "medicare" ? Math.round(cost * (one - medicareShare)) : 0;
+        const insurerPart =
+          m.plan === "employer"
+            ? Math.round(cost * (one - shareOf("employer")))
+            : 0;
         const added = billMinor - Math.round(cost * medicaidShare);
-        // The law reached this Medicare member (a named person; the counted
-        // members are read the same way and kept as the household's totals).
-        if (
-          m.plan === "medicare" &&
-          drugs !== one &&
-          drugLaw.governing &&
-          api.state.people.has(m.personId)
-        )
+        // The law reached this Medicare member by the same rule, full or
+        // counted: a counted member stands for their household's weight.
+        if (m.plan === "medicare" && drugs !== one && drugLaw.governing) {
+          const full = api.state.people.has(m.personId);
+          const times = full ? one : h.weight;
           lawApplied(api, {
             key: DRUG_NEGOTIATION,
             lawId: drugLaw.governing.id,
             targetId: m.personId,
-            target: "person",
+            target: full ? "person" : "group",
             engine: MEDICAL_BILLS_ENGINE,
             what: "medicare-drug-bill-lowered",
+            ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
             amountMinor: Math.round(
-              cost * q(SHARE_KEY.medicare) * (drugs - one),
+              cost * medicareShare * (drugs - one) * times,
             ),
           });
+        }
+        // A bill that changed the Medicare line reached this member by the
+        // same rule: their share of the care moved by the line's change.
+        if (lineMinor !== 0 && medicareLine.lawId) {
+          const full = api.state.people.has(m.personId);
+          const times = full ? one : h.weight;
+          lawApplied(api, {
+            key: `budget-line:${MEDICARE_LINE}`,
+            lawId: medicareLine.lawId,
+            targetId: m.personId,
+            target: full ? "person" : "group",
+            engine: MEDICAL_BILLS_ENGINE,
+            what: "medicare-share-changed-by-line",
+            ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
+            amountMinor: Math.round(lineMinor * times),
+          });
+        }
         return {
           personId: m.personId,
           plan: m.plan,
@@ -532,6 +569,9 @@ function billMembers(
           ...(m.plan === "medicaid"
             ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
             : {}),
+          ...(lineMinor > 0 ? { medicareLineMinor: lineMinor } : {}),
+          ...(medicarePart > 0 ? { medicarePartMinor: medicarePart } : {}),
+          ...(insurerPart > 0 ? { insurerMinor: insurerPart } : {}),
           ...(m.endedByRequirement && added > 0
             ? { requirementMinor: added }
             : {}),
@@ -639,6 +679,40 @@ function payFull(
     sellerId: payee ?? null,
     journalIds,
   };
+}
+
+/**
+ * The employer plans' insurers pay each seller their part of their members'
+ * care, from the outside account where the premiums went (the insurers are
+ * outside the town). Returns what each seller was paid.
+ */
+function payInsurerPart(
+  api: CoreAPI,
+  input: {
+    readonly bySeller: ReadonlyMap<string, number>;
+    readonly source: Source;
+  },
+): ReadonlyMap<string, number> {
+  const paidBySeller = new Map<string, number>();
+  const outside = outsideAccountOf(api);
+  if (!outside) return paidBySeller;
+  const accounts = api.accounts();
+  const today = api.state.date;
+  for (const [sellerId, minor] of [...input.bySeller]
+    .filter(([id, m]) => m > 0 && id !== outside)
+    .sort(([a], [b]) => a.localeCompare(b))) {
+    const receipt = accounts.transfer({
+      id: `health.insurer-care:${sellerId}:${today}`,
+      from: accounts.main(outside),
+      to: accounts.main(sellerId),
+      amountMinor: minor,
+      reasonKey: "health.insurer-care",
+      partial: true,
+      source: input.source,
+    });
+    if (receipt.paidMinor > 0) paidBySeller.set(sellerId, receipt.paidMinor);
+  }
+  return paidBySeller;
 }
 
 /** The 1st of the next month. */
@@ -850,6 +924,10 @@ export function billMedicalCare(
   const wait = q("medicalCollectionsWaitDays");
   // Medicaid's part of its members' care, by the seller each household pays.
   const medicaidBySeller = new Map<string, number>();
+  // Medicare's part of its members' care at the line in force, by seller.
+  const medicareBySeller = new Map<string, number>();
+  // The employer plans' insurers' part of their members' care, by seller.
+  const insurerBySeller = new Map<string, number>();
   for (const h of households) {
     const members = bills.get(h.householdId) ?? [];
     const billMinor = billOf(h.householdId);
@@ -875,6 +953,21 @@ export function billMedicalCare(
       medicaidBySeller.set(
         payee,
         (medicaidBySeller.get(payee) ?? 0) + Math.round(medicaid * h.weight),
+      );
+    const medicare = members.reduce(
+      (n, m) => n + (m.medicarePartMinor ?? 0),
+      0,
+    );
+    if (medicare > 0 && payee)
+      medicareBySeller.set(
+        payee,
+        (medicareBySeller.get(payee) ?? 0) + Math.round(medicare * h.weight),
+      );
+    const insurer = members.reduce((n, m) => n + (m.insurerMinor ?? 0), 0);
+    if (insurer > 0 && payee)
+      insurerBySeller.set(
+        payee,
+        (insurerBySeller.get(payee) ?? 0) + Math.round(insurer * h.weight),
       );
     const owing = settleOwed(
       prior.get(h.householdId)?.owed ?? [],
@@ -950,6 +1043,18 @@ export function billMedicalCare(
     });
     for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
   }
+  if (medicareBySeller.size)
+    for (const [sellerId, paid] of payMedicareLinePart(api, {
+      bySeller: medicareBySeller,
+      source,
+    }))
+      bookSale(core, sellerId, paid);
+  if (insurerBySeller.size)
+    for (const [sellerId, paid] of payInsurerPart(api, {
+      bySeller: insurerBySeller,
+      source,
+    }))
+      bookSale(core, sellerId, paid);
   if (!bookkeeping()) dropSettledRows(api, input.module, households);
 }
 

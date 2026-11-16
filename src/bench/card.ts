@@ -1,6 +1,10 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { servingTermsOf } from "../core2/modules/offices";
-import { officeInSentence, personWorkOf } from "../core2/person-work";
+import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
+import {
+  jobTitleSaid,
+  officeInSentence,
+  personWorkOf,
+} from "../core2/person-work";
 import {
   ageInYears,
   ageOnDate,
@@ -9,7 +13,7 @@ import {
 } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
-import { currentCloseness } from "../core2/closeness";
+import { currentCloseness, lastMetOnRow } from "../core2/closeness";
 import {
   COUNTED_MOVES_MODULE_ID,
   countedMoves,
@@ -23,7 +27,8 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
-import { PAST_MODULE_ID, residenceOn } from "../core2/past-module";
+import { jobLeaveBlock } from "../core2/modules/jobs";
+import { PAST_MODULE_ID, bornIn as birthplaceOf } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -32,7 +37,13 @@ import {
   screenPick,
   screenWays,
 } from "../english/screen-words";
-import { articleFor, framedByAge } from "../english/journal-words";
+import {
+  articleFor,
+  employerIsGovernment,
+  employerSaid,
+  framedByAge,
+  withArticle,
+} from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
@@ -47,7 +58,7 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { stateInSentence } from "../director/words";
+import { organizationName, stateInSentence } from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -59,12 +70,42 @@ import {
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey, viewQuestionKey } from "../director/view-learned";
 import { questionAbout } from "../english/question-names";
-import { preStartHistory, sharedHistory } from "../core2/past";
+import {
+  organizationName as organizationNameAt,
+  preStartHistory,
+  sharedHistory,
+} from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
 
 /** A person card: who they are, from their records only. */
+/**
+ * The name of the employer a job is with, as a card says it; none for work
+ * paid by an outside account (the place's buyers and sellers outside the
+ * town), which is nobody's workplace (the rule talk keeps, `employerFact`).
+ */
+function employerName(
+  core: CoreState,
+  organizationId: string,
+): string | undefined {
+  const organization = core.organizations.get(organizationId);
+  // Said the way the journal says it ("the Town of Ranchester"; a government's
+  // payroll is the government, never "TOWN OF RANCHESTER treasury").
+  return organization && organization.outsideFlow === undefined
+    ? (employerSaid(organizationName(organization), organization) ?? undefined)
+    : undefined;
+}
+
+/** Whether a job's employer is a government (a person works for it, never at it). */
+function employerIsGovernmentOf(
+  core: CoreState,
+  organizationId: string,
+): boolean {
+  const organization = core.organizations.get(organizationId);
+  return !!organization && employerIsGovernment(organization);
+}
+
 export function personCard(core: CoreState, personId: string) {
   // A counted resident is filled in the moment they are clicked, from the
   // world's records, so the card is the same person every time.
@@ -77,18 +118,35 @@ export function personCard(core: CoreState, personId: string) {
   const relatives = familyFactsOf(person);
   const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  const employer = job ? employerName(core, job.organizationId) : undefined;
+  const outsideWork =
+    !!job &&
+    core.organizations.get(job.organizationId)?.outsideFlow !== undefined;
   const household = core.households.get(person.householdId);
   // Faces for the People map: each the figure a room here would draw.
   const place = scenePlace(core, personId).place;
   // The People screen's groups a tie falls in: family by kind, by a relation
   // word or by sharing the home; coworkers at work; friends; politics.
   const homeIds = new Set(household?.memberIds ?? []);
+  // Someone who works at this person's employer now is a coworker whatever
+  // kind their tie was first written as (a hire's first-day meeting writes a
+  // contact).
+  const employerId = job && !job.endsAt ? job.organizationId : undefined;
+  const worksHere = (otherId: string) => {
+    const theirs = core.people.get(otherId)?.jobId;
+    const theirJob = theirs ? core.jobs.get(theirs) : undefined;
+    return (
+      employerId !== undefined &&
+      theirJob !== undefined &&
+      !theirJob.endsAt &&
+      theirJob.organizationId === employerId
+    );
+  };
   const groupsOf = (otherId: string, kind: string, relation: unknown) => [
     ...(kind === "family" || relation || homeIds.has(otherId)
       ? ["family"]
       : []),
-    ...(kind === "coworker" ? ["work"] : []),
+    ...(kind === "coworker" || worksHere(otherId) ? ["work"] : []),
     ...(kind === "friend" ? ["friends"] : []),
     ...(kind === "politics" ? ["politics"] : []),
   ];
@@ -114,15 +172,13 @@ export function personCard(core: CoreState, personId: string) {
     .sort((a, b) => b.level - a.level);
   const ties = known.slice(0, CLOSEST).map(({ row, ...tie }) => ({
     ...tie,
-    lastContactDate: row.lastContactDate,
+    lastContactDate: lastMetOnRow(row),
     recordId: row.id,
     face: faceOf(core, tie.personId, place),
     // Why the tie last changed, from its own record.
     latestChange: row.latestChange && {
       date: row.latestChange.date,
       cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
-      before: row.latestChange.before.level,
-      after: row.latestChange.after.level,
     },
   }));
   return {
@@ -147,10 +203,29 @@ export function personCard(core: CoreState, personId: string) {
     },
     job: job && {
       jobId: job.id,
-      title: job.title,
-      employer: employer?.name,
+      // The market's stand-in for work out of town is no employer and no
+      // place (Fable A, Nov 13, rule 20): the job is said as work outside the
+      // town the person lives in, the way their card's summary says it.
+      ...(outsideWork
+        ? {
+            title:
+              screenLine(
+                "person-history",
+                "person-history.summary.work.outside",
+                {
+                  place:
+                    corePlaceByJurisdictionId(person.placeId as never)
+                      ?.displayName ?? "",
+                },
+              )?.replace(/\.$/, "") ?? job.title,
+            employer: undefined,
+          }
+        : { title: jobTitleSaid(core, job), employer }),
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
+      // Whether this job can be left by the holder's own press, or why not
+      // (the jobs engine's read; the Jobs screen words it).
+      leave: jobLeaveBlock(coreAPI(core), person.id),
     },
     // Why a grown person holds no job, told to them on Who you are (path 10):
     // who in the home earns, from the household's members and their jobs'
@@ -325,6 +400,8 @@ function historyLines(
       event.life === "school" &&
       event.what === "started" &&
       !schools.has(event.id) &&
+      // A school the records name is told by its name, not as "elsewhere".
+      !organizationNameAt(core, String(event.facts?.schoolId ?? "")) &&
       event.placeId &&
       (far || event.placeId !== other.placeId) &&
       !awayPlaces.has(event.placeId)
@@ -462,8 +539,14 @@ function lineOf(
     const row = typeof id === "string" ? core.people.get(id) : undefined;
     return row ? `${row.givenName} ${row.familyName}` : "";
   };
-  const orgName = (id: unknown) =>
-    core.organizations.get(String(id ?? ""))?.name ?? "";
+  // An organization's own record, else the school or employer of a place the
+  // world keeps none for (a person's years before they came to town).
+  const orgName = (id: unknown) => {
+    const orgId = String(id ?? "");
+    return core.organizations.has(orgId)
+      ? (employerName(core, orgId) ?? "")
+      : (organizationNameAt(core, orgId) ?? "");
+  };
   // A place by its name; a person kept at their state's level, by the state's.
   const placeName = (id: unknown) => {
     if (typeof id !== "string") return "";
@@ -1163,7 +1246,8 @@ function noJobLine(
     .sort((a, b) => rank(a!.id) - rank(b!.id))[0];
   const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
-  if (earner && job && employer) {
+  // Work outside the town has no workplace to name: the line without one is told.
+  if (earner && job && employer && employer.outsideFlow === undefined) {
     const text = screenLine(
       "person-history",
       "person-history.summary.no-work.earner.you",
@@ -1242,6 +1326,8 @@ function summaryOf(
     readonly work?: {
       title: string | null;
       employer: string | null;
+      /** Whether the employer is a government: a person works for it, not at it. */
+      government?: boolean;
       /** The town they live in, when their work is outside it. */
       outside?: string | null;
     } | null;
@@ -1274,11 +1360,14 @@ function summaryOf(
     ? line("work.outside", { place: now.work.outside })
     : now.work?.employer
       ? now.work.title
-        ? line("work.title", {
-            title: inSentence(now.work.title),
+        ? line(now.work.government ? "work.title.for" : "work.title", {
+            // One person's job, with its article: "an aide", "a carpenter".
+            title: withArticle(now.work.title),
             employer: now.work.employer,
           })
-        : line("work.employer", { employer: now.work.employer })
+        : line(now.work.government ? "work.employer.for" : "work.employer", {
+            employer: now.work.employer,
+          })
       : null;
   const role =
     office || work
@@ -1483,6 +1572,8 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
       (row) => row.personId === id,
     )) as TermLike | undefined;
   if (!term?.identity) return null;
+  // Opened for the first time: their earlier terms of the seat are written now.
+  openPastTerms(api, term.id);
   const office = api
     .moduleState(OFFICES)
     .table("offices")
@@ -1555,7 +1646,9 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     alive: true,
     placeName: government,
     school: null,
-    work: office?.title ? { title: office.title, employer: government } : null,
+    work: office?.title
+      ? { title: office.title, employer: government, government: true }
+      : null,
     tie: null,
     known: false,
     shared: [],
@@ -1676,21 +1769,16 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
     : null;
-  // Born where they lived the day they were born: someone the moves pass
-  // brought to the county was born where they came from, as the run's birth
-  // record says, never in the town they later moved to (Fable A, Nov 13:
-  // "born in Angoon" and then "moved to Angoon"). The opening's birthplace
-  // fact is the town they live in now (SG-HIST-birthplace-is-home).
-  const birthplace = (other.pastFacts ?? []).find(
-    (row) => row.kind === "birthplace",
-  );
-  const bornAt = residenceOn(core, other, other.birthDate).placeId;
+  // Born where their one birthplace record says (src/core2/person-birthplace.ts),
+  // the same place the move that brought them names (Fable A, Nov 13: "born
+  // in Angoon" and then "moved to Angoon"); none for a birth abroad, which
+  // has no place record to name. Someone with neither record (a person made
+  // to hold a role) is told no birthplace.
+  const born = birthplaceOf(core, other);
   const bornId =
-    bornAt !== other.placeId
-      ? bornAt
-      : typeof birthplace?.facts?.placeId === "string"
-        ? birthplace.facts.placeId
-        : null;
+    born.recordId !== other.id || born.placeId !== other.placeId
+      ? born.placeId
+      : null;
   // A place by its name; a place the world keeps only at its state's level, by the state's.
   const bornState = bornId ? coreStateKeyOfJurisdictionId(bornId) : null;
   const bornStateName = bornState
@@ -1730,8 +1818,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           // work outside the town they live in.
           { title: null, employer: null, outside: homePlace }
         : {
-            title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
+            title: jobTitleSaid(core, job),
+            employer: employerName(core, job.organizationId) ?? null,
+            government: employerIsGovernmentOf(core, job.organizationId),
           }
       : null,
     school: school?.name ?? null,
@@ -1798,8 +1887,9 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     work:
       (family || housemate || coworker) && job
         ? {
-            title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
+            title: jobTitleSaid(core, job),
+            employer: employerName(core, job.organizationId) ?? null,
+            government: employerIsGovernmentOf(core, job.organizationId),
           }
         : null,
     tie: tie
@@ -1807,7 +1897,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           recordId: tie.id,
           kind: tie.kind,
           level: currentCloseness(core, tie),
-          lastContactDate: tie.lastContactDate,
+          lastContactDate: lastMetOnRow(tie),
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
@@ -1816,13 +1906,22 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     shared: shared
       .filter((row) => row.kind !== "family")
       .map((row) => ({
-        // Work that ended is said apart from work shared now.
-        kind: row.kind === "coworker" && row.endedOn ? "worked" : row.kind,
+        // Work or school that ended is said apart from what is shared now
+        // (Fable A, Nov 13: "School that has ended is past").
+        kind:
+          row.kind === "coworker" && row.endedOn
+            ? "worked"
+            : row.kind === "schoolmate" && row.ended
+              ? "schooled"
+              : row.kind,
         recordId: row.recordId,
         // The employer or the school, by name.
         name:
           row.kind === "coworker" || row.kind === "schoolmate"
-            ? (core.organizations.get(row.recordId)?.name ?? null)
+            ? (() => {
+                const org = core.organizations.get(row.recordId);
+                return org ? organizationName(org) : null;
+              })()
             : null,
       })),
     // The seats they reached before the start, from the government's history

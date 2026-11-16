@@ -442,6 +442,18 @@
       "repealName": "Parks Funding Reduction",
       "repealPurpose": "less money for parks"
     },
+    "budget:localAid": {
+      "name": "Aid to Other Governments Increase",
+      "purpose": "more money passed on to other governments",
+      "repealName": "Aid to Other Governments Reduction",
+      "repealPurpose": "less money passed on to other governments"
+    },
+    "budget:otherPrograms": {
+      "name": "Other Programs Funding Increase",
+      "purpose": "more money for programs with no budget line of their own",
+      "repealName": "Other Programs Funding Reduction",
+      "repealPurpose": "less money for programs with no budget line of their own"
+    },
     "law:income-tax": {
       "name": "Income Tax Increase",
       "purpose": "a higher local income tax rate",
@@ -621,6 +633,30 @@
       "purpose": "new terms for the corporate income tax",
       "repealName": "Corporate Tax Terms Restoration",
       "repealPurpose": "the earlier terms of the corporate income tax"
+    },
+    "law:fee-level:parks-and-recreation": {
+      "name": "Park Fee Increase",
+      "purpose": "higher park fees",
+      "repealName": "Park Fee Reduction",
+      "repealPurpose": "lower park fees"
+    },
+    "law:fee-level:sewerage-and-solid-waste": {
+      "name": "Sewer and Trash Fee Increase",
+      "purpose": "higher sewer and trash fees",
+      "repealName": "Sewer and Trash Fee Reduction",
+      "repealPurpose": "lower sewer and trash fees"
+    },
+    "law:fee-level:hospitals": {
+      "name": "Hospital Charges Increase",
+      "purpose": "higher public hospital charges",
+      "repealName": "Hospital Charges Reduction",
+      "repealPurpose": "lower public hospital charges"
+    },
+    "law:fee-level:education": {
+      "name": "Tuition Increase",
+      "purpose": "higher tuition and school fees",
+      "repealName": "Tuition Reduction",
+      "repealPurpose": "lower tuition and school fees"
     }
   },
   "list": {

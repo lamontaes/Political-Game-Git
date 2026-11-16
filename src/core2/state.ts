@@ -1,11 +1,14 @@
+import { familyTakesChosenOrigin } from "./family-origin";
 import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   CLOSENESS,
-  closenessAfter,
+  lastMetOnRow,
   openingClosenessHours,
+  sharedHoursBetween,
   temperedHours,
+  tieAfter,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -54,6 +57,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  recordOfficeTime,
   rehourNamedJob,
 } from "./work-state";
 import {
@@ -777,7 +781,10 @@ export function retainLog(
       core.date,
       row.id,
     );
-  else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
+  // A campaign gift or endorsement goes a year after its day whoever saw it:
+  // one the player's circle saw is a public record too, so the circle's own
+  // window above does not take it.
+  else if (row.visibility !== "observer" && CAMPAIGN_RECORD_KINDS.has(row.kind))
     queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
@@ -1080,8 +1087,8 @@ export function coreAPI(core: CoreState): CoreAPI {
     startJob(job, commitment, calendar) {
       startRecordedJob(core, api, job, commitment, calendar);
     },
-    endJob(id, sourceId) {
-      endRecordedJob(core, api, id, sourceId);
+    endJob(id, sourceId, afterShift) {
+      endRecordedJob(core, api, id, sourceId, afterShift);
     },
     startSalariedPost(job) {
       startSalariedPost(core, api, job);
@@ -1146,6 +1153,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
+    recordOfficeTime(personId, minutes) {
+      return recordOfficeTime(core, api, personId, minutes);
+    },
     relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
@@ -1184,12 +1194,14 @@ export function coreAPI(core: CoreState): CoreAPI {
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
         // Temperament sets how much the time together (or the quarrel) counts.
-        nextLevel = closenessAfter(
+        next = tieAfter(
           core,
           previous,
           row.kind,
           temperedHours(core, actualActor, core.people.get(otherId), change),
+          () => sharedHoursBetween(core, actorId, otherId),
         ),
+        nextLevel = next.level,
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
@@ -1308,6 +1320,12 @@ export function coreAPI(core: CoreState): CoreAPI {
       )
         throw new Error("Stale relationship change basis.");
       row.level = nextLevel;
+      // A change made apart keeps the day the two were last together.
+      if (reason?.apart)
+        row.lastMetDate = previous ? lastMetOnRow(previous) : null;
+      else delete row.lastMetDate;
+      if (next.owedHours) row.owedHours = next.owedHours;
+      else delete row.owedHours;
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
@@ -1660,7 +1678,15 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
+      // A chosen look from another origin than the family was drawn with
+      // (owner, Nov 8: "I'm Mexican and my son is white"): the family's
+      // origins are worked out again from who is whose parent
+      // (family-origin.ts), not all painted in the player's tone.
+      const drawnOrigin = actor.looks?.origin;
+      const chosenOrigin = identity.looks.origin;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+      if (chosenOrigin && drawnOrigin && chosenOrigin !== drawnOrigin)
+        familyTakesChosenOrigin(core, actor.id, drawnOrigin, chosenOrigin);
       // Brothers and sisters stay born months apart from the chosen birthday:
       // one drawn too close moves, keeping their age where their year allows.
       const siblings = (actor.pastFacts ?? []).flatMap((fact) => {
@@ -2351,6 +2377,14 @@ export function personOrFillIn(
   return fillInPerson(core, personId);
 }
 
+/** How many counted people each world has made full people, so a caller can tell a read that filled someone in. */
+const fillIns = new WeakMap<CoreState, number>();
+
+/** The number of people filled in from the counts in this world so far. */
+export function fillInCount(core: CoreState): number {
+  return fillIns.get(core) ?? 0;
+}
+
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
   if (existing && !isDemoted(existing)) return existing;
@@ -2358,6 +2392,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const returning = existing !== undefined;
   const taken = takeResidentHousehold(core, personId);
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
+  fillIns.set(core, fillInCount(core) + 1);
   // Their past exists only from now: the engines' pre-start passes give the
   // household its years before the start when it is filled in (each
   // module's onFillIn), read against the same records as the opening's.

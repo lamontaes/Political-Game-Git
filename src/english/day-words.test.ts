@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { dateSaid, dayOpening, daySince, ordinalDay } from "./day-words";
+import {
+  dateSaid,
+  dayAhead,
+  dayOpening,
+  daySince,
+  ordinalDay,
+} from "./day-words";
 
 describe("a day named as people say it", () => {
   it("gives every day of the month its ordinal", () => {
@@ -38,5 +44,18 @@ describe("a day named as people say it", () => {
     expect(daySince("2026-01-03", "2026-01-31")).toBe("on January 3rd");
     expect(daySince("2025-12-31", "2026-01-01")).toBe("yesterday");
     expect(daySince("2025-12-29", "2026-01-02")).toBe("the other day");
+  });
+});
+
+// A promise of time fits the calendar (Fable A, Nov 13, rule 22; P3: "I'll
+// have a real count by Friday" on the morning of a Tuesday vote).
+describe("a later day as people promise it", () => {
+  it("names the weekday within the week, the date after it, and never today or a day gone", () => {
+    // 2025-08-05 is a Tuesday.
+    expect(dayAhead("2025-08-07", "2025-08-05")).toBe("Thursday");
+    expect(dayAhead("2025-08-11", "2025-08-05")).toBe("Monday");
+    expect(dayAhead("2025-08-12", "2025-08-05")).toBe("August 12th");
+    expect(dayAhead("2025-08-05", "2025-08-05")).toBeNull();
+    expect(dayAhead("2025-08-04", "2025-08-05")).toBeNull();
   });
 });

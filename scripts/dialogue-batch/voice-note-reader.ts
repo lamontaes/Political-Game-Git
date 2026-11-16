@@ -37,6 +37,7 @@
  * A development tool. It never words anything.
  */
 import { readFileSync } from "node:fs";
+import { readBankPieces } from "../words/run-rules";
 import { type SpokenSpan, strengthOf } from "./spoken-grades";
 
 export interface BatchLine {
@@ -47,6 +48,8 @@ export interface BatchLine {
 
 export interface BatchMoment {
   readonly moment: number;
+  /** The scene's title, which he may say instead of its number ("the sick door"). */
+  readonly description?: string;
   readonly lines: readonly BatchLine[];
 }
 
@@ -60,6 +63,16 @@ export interface VoiceGrade {
   readonly rating?: number;
   /** How he would say it instead, in his words ("It'd be like, can we even afford this?"). */
   readonly rewrites?: readonly string[];
+}
+
+/** A remark of his that ties to no line, with the scene he was on when he said it. */
+export interface Unplaced {
+  readonly remark: string;
+  readonly moment?: number;
+  readonly scene?: string;
+  /** The line he did grade, when the grade could not be kept (its key is no bank piece). */
+  readonly line?: string;
+  readonly why?: string;
 }
 
 export interface VoiceRule {
@@ -121,8 +134,18 @@ const NUMBER = String.raw`(\d+|(?:(?:twenty|thirty|forty|fifty|sixty|seventy)[ -
 /** Where he says he is: a line id ("5.2", "five point two") or a moment ("scene four"). */
 export function placeSaid(
   sentence: string,
-): { moment: number; line?: number } | undefined {
+): { moment: number; line?: number; wording?: number } | undefined {
   const t = sentence.toLowerCase();
+  // "scene four, wording two": a scene and one of its wordings.
+  const worded = new RegExp(
+    String.raw`\b(?:scene|moment|number|item)\s+${NUMBER}\b[\s,.;:-]*(?:and\s+)?wording\s+${NUMBER}\b`,
+  ).exec(t);
+  if (worded) {
+    const moment = spokenNumber(worded[1]!);
+    const wording = spokenNumber(worded[2]!);
+    if (moment !== undefined && wording !== undefined)
+      return { moment, wording };
+  }
   const id = new RegExp(
     String.raw`\b${NUMBER}\s*(?:\.|point)\s*${NUMBER}\b`,
   ).exec(t);
@@ -270,6 +293,73 @@ function idsIn(sentence: string): { moment: number; line: number }[] {
   return out;
 }
 
+/**
+ * Ids of the form scene.wording.line ("7.1.3") and scene.wordingLETTER.line
+ * ("4.2y.5": y, m or n is the resident's answer), written or spoken ("seven
+ * point one point three"). Returned as the batch writes them.
+ */
+export function fullIdsIn(sentence: string): string[] {
+  const t = sentence.toLowerCase();
+  const pattern = new RegExp(
+    String.raw`(?<![\d.])${NUMBER}\s*(?:\.|point)\s*${NUMBER}\s?([ymn])?\s*(?:\.|point)\s*${NUMBER}\b`,
+    "g",
+  );
+  const out: string[] = [];
+  for (const match of t.matchAll(pattern)) {
+    const scene = spokenNumber(match[1]!);
+    const wording = spokenNumber(match[2]!);
+    const line = spokenNumber(match[4]!);
+    if (scene !== undefined && wording !== undefined && line !== undefined)
+      out.push(`${scene}.${wording}${match[3] ?? ""}.${line}`);
+  }
+  return out;
+}
+
+/** The sentence with every three-part id taken out, so two-part ids are read from what is left. */
+function withoutFullIds(sentence: string): string {
+  return sentence.replace(
+    new RegExp(
+      String.raw`(?<![\d.])${NUMBER}\s*(?:\.|point)\s*${NUMBER}[ymn]?\s*(?:\.|point)\s*${NUMBER}\b`,
+      "gi",
+    ),
+    " ",
+  );
+}
+
+const FILLER_TITLE_WORDS = new Set(["a", "an", "the", "at", "of", "in", "on"]);
+
+/**
+ * A scene he names by its title, whole or in part ("the sick door" for
+ * "Signature at a sick door"): the one scene whose title holds the words he
+ * says in a row. Two words at least, and only when exactly one scene fits.
+ */
+export function titleSaid(
+  sentence: string,
+  moments: readonly BatchMoment[],
+): BatchMoment | undefined {
+  const said = wordsOf(sentence).filter((w) => !FILLER_TITLE_WORDS.has(w));
+  if (said.length < 2 || said.length > 14) return undefined;
+  const titles = moments
+    .filter((moment) => moment.description)
+    .map((moment) => ({
+      moment,
+      words: wordsOf(moment.description!).filter(
+        (w) => !FILLER_TITLE_WORDS.has(w),
+      ),
+    }));
+  // Longest stretch first, so "vote ask same party" beats "vote ask".
+  for (let size = Math.min(6, said.length); size >= 2; size -= 1) {
+    for (let from = 0; from + size <= said.length; from += 1) {
+      const phrase = said.slice(from, from + size).join(" ");
+      const fits = titles.filter((title) =>
+        title.words.join(" ").includes(phrase),
+      );
+      if (fits.length === 1) return fits[0]!.moment;
+    }
+  }
+  return undefined;
+}
+
 /** A bare ".2" said for a line of the moment he is on (or is about to name). */
 function bareLinesIn(sentence: string): number[] {
   return [...sentence.matchAll(/(?:^|[\s(])\.(\d)\b/g)].map((m) =>
@@ -295,9 +385,32 @@ const FILLER =
 export function readVoiceNote(
   note: string,
   moments: readonly BatchMoment[],
-): { grades: VoiceGrade[]; rules: VoiceRule[] } {
+  /** The keys of the bank's pieces. With it, a grade on any other key is listed as unplaced, never graded. */
+  pieceKeys?: ReadonlySet<string>,
+): { grades: VoiceGrade[]; rules: VoiceRule[]; unplaced: Unplaced[] } {
   const lines = moments.flatMap((moment) => moment.lines);
   const byMoment = new Map(moments.map((moment) => [moment.moment, moment]));
+  const byId = new Map(lines.map((line) => [line.id, line]));
+  /** A moment whose ids have three parts (4.2y.5) has no "second line": its ids say where a line is. */
+  const threePart = (row: BatchMoment | undefined) =>
+    row !== undefined &&
+    row.lines.some((line) => /^\d+\.\d+[ymn]?\.\d+$/.test(line.id));
+  /** The line he means by "5.2": its id, else its place in a moment whose ids are positions. */
+  const lineAt = (at: number, n: number): BatchLine | undefined => {
+    const row = byMoment.get(at);
+    return (
+      byId.get(`${at}.${n}`) ?? (threePart(row) ? undefined : row?.lines[n - 1])
+    );
+  };
+  /** The wording of a scene he is on ("scene four, wording two"): its lines, for "the second one". */
+  let wording: readonly BatchLine[] | undefined;
+  const wordingOf = (row: BatchMoment, n: number): readonly BatchLine[] =>
+    row.lines.filter((line) => {
+      const parts = line.id.split(".");
+      return (
+        parts.length === 3 && parts[1]!.replace(/[ymn]$/, "") === String(n)
+      );
+    });
   const sentences = sentencesOf(note);
   const notes = new Map<
     string,
@@ -310,16 +423,27 @@ export function readVoiceNote(
     }
   >();
   const rules: VoiceRule[] = [];
+  /** Remarks that judge something but tie to no line: kept for the Words lead, never dropped. */
+  const unplaced: Unplaced[] = [];
+  const keep = (remark: string) =>
+    unplaced.push({
+      remark,
+      ...(moment ? { moment: moment.moment } : {}),
+      ...(moment?.description ? { scene: moment.description } : {}),
+    });
   let moment: BatchMoment | undefined;
   let current: BatchLine | undefined;
   /** A part of the current line he just read back, waiting for his judgment. */
   let part: [number, number] | undefined;
 
   const entry = (line: BatchLine) => {
-    let row = notes.get(line.id);
+    // One row per bank piece: a line the same in two wordings of a scene is
+    // one piece, and a piece is counted once.
+    const slot = line.key || line.id;
+    let row = notes.get(slot);
     if (!row) {
       row = { line, spans: [], words: [], rewrites: [] };
-      notes.set(line.id, row);
+      notes.set(slot, row);
     }
     return row;
   };
@@ -336,9 +460,13 @@ export function readVoiceNote(
     // Lines he names by number in this sentence: "6.2 and 6.3", ".2 and 7.3",
     // "All 3 of those" (the moment he is on), "I like all of 12".
     const refs: BatchLine[] = [];
-    const ids = idsIn(sentence);
+    for (const id of fullIdsIn(sentence)) {
+      const line = byId.get(id);
+      if (line) refs.push(line);
+    }
+    const ids = idsIn(withoutFullIds(sentence));
     for (const id of ids) {
-      const line = byMoment.get(id.moment)?.lines[id.line - 1];
+      const line = lineAt(id.moment, id.line);
       if (line) refs.push(line);
     }
     const bare = bareLinesIn(sentence);
@@ -352,7 +480,7 @@ export function readVoiceNote(
         .find(() => true);
       const target = byMoment.get(ahead?.moment ?? moment?.moment ?? -1);
       for (const n of bare) {
-        const line = target?.lines[n - 1];
+        const line = target ? lineAt(target.moment, n) : undefined;
         if (line) refs.push(line);
       }
     }
@@ -372,7 +500,7 @@ export function readVoiceNote(
       judgments = 0;
       since = 0;
       part = undefined;
-      const rest = sentence
+      const rest = withoutFullIds(sentence)
         .replace(/\b\d+\s*\.\s*\d+\b/g, " ")
         .replace(/(?:^|\s)\.\d\b/g, " ");
       let strength = /^[\s,]*no[.!]?\s*$/i.test(rest) ? -1 : strengthOf(rest);
@@ -406,17 +534,35 @@ export function readVoiceNote(
       continue;
     }
     const place = placeSaid(sentence);
+    const titled = place ? undefined : titleSaid(sentence, moments);
     if (place) {
       moment = byMoment.get(place.moment) ?? moment;
-      if (place.line !== undefined && moment) {
-        current = moment.lines[place.line - 1] ?? current;
-        judgments = 0;
+      wording = undefined;
+      if (place.wording !== undefined && moment)
+        wording = wordingOf(moment, place.wording);
+      else if (place.line !== undefined && moment) {
+        const at = lineAt(moment.moment, place.line);
+        if (at) {
+          current = at;
+          judgments = 0;
+        } else if (threePart(moment)) {
+          // "7.1" in a scene whose ids have three parts is its first wording.
+          wording = wordingOf(moment, place.line);
+        }
       }
       part = undefined;
     } else {
+      if (titled && wordsOf(sentence).length <= 14) {
+        moment = titled;
+        wording = undefined;
+        part = undefined;
+      }
       const ordinal = ordinalSaid(sentence);
-      if (ordinal !== undefined && moment) {
-        current = moment.lines[ordinal - 1] ?? current;
+      const numbered = /\bline\s+(\d+|[a-z]+)\b/i.exec(sentence);
+      const nth = numbered && wording ? spokenNumber(numbered[1]!) : ordinal;
+      if (nth !== undefined && moment) {
+        const scope = wording && wording.length > 0 ? wording : moment.lines;
+        current = scope[nth - 1] ?? current;
         judgments = 0;
         part = undefined;
       }
@@ -507,6 +653,12 @@ export function readVoiceNote(
       }
       continue;
     }
+    // "Never say a face from the town at the door" quotes the line it is
+    // about; it is a rule, not the line read back.
+    if (/^\s*(?:don'?t say|never say|just say|you can say)\b/i.test(sentence)) {
+      rules.push({ rule: sentence, ...(current ? { line: current.id } : {}) });
+      continue;
+    }
     if (
       current &&
       bestShare >= READ_PART &&
@@ -520,7 +672,18 @@ export function readVoiceNote(
     }
     if (ruleSaid(sentence))
       rules.push({ rule: sentence, ...(current ? { line: current.id } : {}) });
-    if (!current) continue;
+    if (!current) {
+      if (
+        strengthOf(sentence) !== undefined ||
+        rating !== undefined ||
+        (place === undefined &&
+          titled === undefined &&
+          !FILLER.test(sentence) &&
+          wordsOf(sentence).length >= 4)
+      )
+        keep(sentence);
+      continue;
+    }
     if (rating !== undefined) {
       const row = entry(current);
       row.rating = rating;
@@ -535,27 +698,34 @@ export function readVoiceNote(
     if (judged === undefined) {
       // A sentence that is neither a judgment, a rating, a place nor filler
       // is him reading something else: the line he was on is done.
-      const named = place !== undefined || ordinalSaid(sentence) !== undefined;
-      if (
-        !named &&
-        since > 2 &&
-        !FILLER.test(sentence) &&
-        wordsOf(sentence).length >= 4
-      ) {
+      const named =
+        place !== undefined ||
+        titled !== undefined ||
+        ordinalSaid(sentence) !== undefined;
+      const remark =
+        !named && !FILLER.test(sentence) && wordsOf(sentence).length >= 4;
+      if (remark && since > 2) {
         current = undefined;
         part = undefined;
       }
+      // A remark tied to no line is kept for the Words lead, never dropped.
+      if (remark) keep(sentence);
       continue;
     }
-    if (judgments >= JUDGMENTS_PER_READING) continue;
+    if (judgments >= JUDGMENTS_PER_READING) {
+      keep(sentence);
+      continue;
+    }
     // "Like the other ones kind of are awkward": about the other lines, not this one.
     if (
       /\b(the other ones?|the others|the rest( of them)?|all these responses)\b/i.test(
         sentence,
       ) ||
       /^(they|those|these)\b/i.test(sentence)
-    )
+    ) {
+      keep(sentence);
       continue;
+    }
     judgments += 1;
     const row = entry(current);
     const named = /\b(the )?(first part|beginning|opening|start)\b/i.test(
@@ -585,7 +755,7 @@ export function readVoiceNote(
     part = undefined;
   }
 
-  const grades = [...notes.values()]
+  const all = [...notes.values()]
     .filter((row) => row.spans.length > 0 || row.rewrites.length > 0)
     .map((row) => ({
       key: row.line.key,
@@ -595,7 +765,21 @@ export function readVoiceNote(
       ...(row.rating !== undefined ? { rating: row.rating } : {}),
       ...(row.rewrites.length > 0 ? { rewrites: row.rewrites } : {}),
     }));
-  return { grades, rules };
+  const grades = all.filter((row) => !pieceKeys || pieceKeys.has(row.key));
+  for (const row of all)
+    if (pieceKeys && !pieceKeys.has(row.key)) {
+      const at = moments.find((m) => m.lines.some((l) => l.id === row.id));
+      unplaced.push({
+        remark: row.note || (row.rewrites ?? []).join(" "),
+        ...(at ? { moment: at.moment } : {}),
+        ...(at?.description ? { scene: at.description } : {}),
+        line: row.id,
+        why: row.key
+          ? `"${row.key}" is not a bank piece`
+          : "the line has no bank piece",
+      });
+    }
+  return { grades, rules, unplaced };
 }
 
 function main(batchPath: string, notePath: string) {
@@ -607,9 +791,18 @@ function main(batchPath: string, notePath: string) {
     }[];
   };
   const note = readFileSync(notePath, "utf8");
-  const { grades, rules } = readVoiceNote(note, batch.moments);
+  const pieceKeys = new Set(readBankPieces().map((piece) => piece.key));
+  const { grades, rules, unplaced } = readVoiceNote(
+    note,
+    batch.moments,
+    pieceKeys,
+  );
   console.log(
-    JSON.stringify({ batch: batch.id, from: notePath, grades, rules }, null, 2),
+    JSON.stringify(
+      { batch: batch.id, from: notePath, grades, rules, unplaced },
+      null,
+      2,
+    ),
   );
 }
 

@@ -204,9 +204,7 @@ export function reachOf(
     for (const h of store.liveHouseholds()) {
       if (h.placeId !== placeId) continue;
       // A group-quarters room has no household income to test, so a means
-      // test never reads it as an eligible household (the program's own rule
-      // for who it serves in group quarters is not recorded yet).
-      // stopgapId: SG-GQ-means-tests-poverty
+      // test never reads it as an eligible household.
       if (h.quarters && rule.incomeBelowDollars) continue;
       const perUnplaced = unplacedPayPerWorker(rt, h) / 100;
       const members = store.countedMembers(h);

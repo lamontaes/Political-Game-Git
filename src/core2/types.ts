@@ -264,6 +264,12 @@ export interface HouseholdInput {
 export interface RelationshipReason {
   cause: string;
   sourceId?: string;
+  /**
+   * The change happened without the two being together (a veto of the
+   * other's bill, an answer to the whip, a promise settled by a roll call):
+   * the tie moves, but the day they were last together stays as it was.
+   */
+  apart?: boolean;
 }
 
 /** Latest committed tie change; scores exist only when supplied by the actual choice. */
@@ -294,7 +300,21 @@ export interface Relationship {
   otherId: PersonId;
   kind: "family" | "coworker" | "contact" | "group";
   level: number;
+  /** The day the level was last set: closeness fades from here. */
   lastContactDate: IsoDate;
+  /**
+   * When the last change came apart (`RelationshipReason.apart`): the day the
+   * two were last together, or null when they never were. Absent, they were
+   * together on `lastContactDate`. Read through `lastMetOnRow`.
+   */
+  lastMetDate?: IsoDate | null;
+  /**
+   * Hours of strain the row's own time did not cover, as of its last contact
+   * (a quarrel or a broken word between people whose tie is mostly time
+   * another engine reads, such as shared sittings); taken off those hours
+   * when closeness is read (closeness.ts, `tieAfter`). Absent when nothing is owed.
+   */
+  owedHours?: number;
   promise?: string;
   latestChange?: Readonly<RelationshipChangeEvidence>;
 }
@@ -403,6 +423,14 @@ export type CoreRelationshipListener = (
  * Each module keys its own entries; nothing in it outlives the call.
  */
 export type OfferRound = Map<string, unknown>;
+
+/**
+ * Set on a round that only predicts the day's act (the drives engine's "why"
+ * before the act): a provider reads as usual but keeps nothing it would hold
+ * past the call, so a prediction made with bookkeeping on and skipped in play
+ * changes no later choice (core-bookkeeping-changes-the-played-year).
+ */
+export const OFFER_ROUND_PREDICTION = "core2-offer-round-prediction";
 
 export interface ActOffer {
   definition: ActionDefinition;
@@ -999,6 +1027,13 @@ export interface CoreModule {
    * to date with its own functions, so day-by-day play resumes after the skip.
    */
   onResultsMonth?: (api: CoreAPI) => void;
+  /**
+   * Results mode, every skipped day: an engine whose work is due on exact
+   * days it keeps in its own queues (who weighs and files for a race on the
+   * day filing opens) runs only what has come due, as the module calendar
+   * does for dated work. Not a day's work: no person acts.
+   */
+  onResultsDay?: (api: CoreAPI) => void;
   /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
   onFillIn?: (
     api: CoreAPI,
@@ -1130,7 +1165,8 @@ export interface CoreAPI {
   /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
   startSalariedPost(job: JobInput): void;
   /** Ends one current job today; earned wages stay owed for the next payday. */
-  endJob(jobId: string, sourceId: string): void;
+  /** `afterShift`: the holder already worked today; the job ends tomorrow, so today's shift stands and is paid. */
+  endJob(jobId: string, sourceId: string, afterShift?: boolean): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
   repriceCreditFacility(
     facilityId: string,
@@ -1195,6 +1231,12 @@ export interface CoreAPI {
     source: Source,
   ): void;
   recordDiscretionaryTime(personId: PersonId, minutes: number): void;
+  /**
+   * Minutes an office took from a person's day (a sitting, a committee, a
+   * day at a post), on the same clock as a shift's minutes, with no pay; the
+   * day's remaining hours bound it. Returns the minutes recorded.
+   */
+  recordOfficeTime(personId: PersonId, minutes: number): number;
   relationship(
     actorId: PersonId,
     otherId: PersonId,
@@ -1269,7 +1311,9 @@ export interface CoreAPI {
    * The new game's chosen identity for the controlled player, on the day the
    * world opens: name, birth date and look fields (gender, appearance). Only
    * the controlled player, only before any day has passed; the birth date
-   * may not be in the future. The life's generated past is not rewritten.
+   * may not be in the future. The life's generated past is not rewritten. A
+   * `looks.origin` other than the drawn one is taken by the household and
+   * the kin who shared the drawn origin.
    */
   chooseIdentityV1(
     personId: PersonId,

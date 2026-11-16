@@ -44,7 +44,9 @@
     "after_illness": "What the death record's topic says the person had been, in plain words.",
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
-    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market."
+    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
+    "about": "A question someone holds a view on, as people name it, from the views engine's stance record.",
+    "clerk": "The clerk who took the filing, said as 'the clerk', from the scene's record (the petition told short by the clerk)."
   },
   "maxWords": 10,
   "mining": {
@@ -2239,41 +2241,6 @@
       }
     },
     {
-      "key": "journal.day-line-routine.i-stayed-home",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "I stayed home.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2018",
-        "date": "2017-03-01",
-        "granule": "CHRG-115hhrg27211",
-        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg27211",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.day-line-routine.i-went-to-the-doctor",
       "move": "day-line-routine",
       "kind": "spoken",
@@ -2302,42 +2269,6 @@
         "date": "2019-10-03",
         "granule": "DCPD-201900691",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900691",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.we-had-dinner",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "We had dinner.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "eisenhower": 1,
-        "nasa": 2
-      },
-      "source": {
-        "document": "Remarks and an Exchange With Reporters in Rehoboth Beach, Delaware",
-        "date": "2022-06-20",
-        "granule": "DCPD-202200544",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202200544",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -2597,187 +2528,6 @@
         "date": "2026-09-09",
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.it-was-a-long-day",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "It was a long day.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "source": {
-        "document": "NASA oral history interview with Edward L. Shade",
-        "date": "2018-08-22",
-        "granule": "shadeel-8-22-18",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/shadeel-8-22-18.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.nothing-happened",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "Nothing happened.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 20,
-      "bySource": {
-        "chrg": 8,
-        "dcpd": 8,
-        "nasa": 3,
-        "senate": 1
-      },
-      "source": {
-        "document": "The President's News Conference",
-        "date": "2026-04-06",
-        "granule": "DCPD-202600233",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600233",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.it-was-hot",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "It was hot.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ],
-          "requiresFacts": ["weather-hot"]
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "chrg": 1,
-        "eisenhower": 1,
-        "nasa": 10
-      },
-      "source": {
-        "document": "Nominations Of Mindy Brashears, Stella Yvette Herrell, And John Walk",
-        "date": "2025-10-29",
-        "granule": "CHRG-119shrg61814",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61814",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.it-was-cold",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "It was cold.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ],
-          "requiresFacts": ["weather-cold"]
-        }
-      ],
-      "transcriptsUsing": 25,
-      "bySource": {
-        "chrg": 2,
-        "dcpd": 4,
-        "eisenhower": 2,
-        "nasa": 17
-      },
-      "source": {
-        "document": "Remarks in Des Moines, Iowa",
-        "date": "2025-07-03",
-        "granule": "DCPD-202500744",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500744",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.day-line-routine.it-was-very-cold",
-      "move": "day-line-routine",
-      "kind": "spoken",
-      "text": "It was very cold.",
-      "uses": [
-        {
-          "move": "day-line-routine",
-          "subject": "day",
-          "role": "line",
-          "choice": "routine",
-          "journal": [
-            {
-              "kindPrefix": "day:",
-              "field": "line"
-            }
-          ],
-          "requiresFacts": ["weather-cold"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "source": {
-        "document": "NASA oral history interview with Mark S. Geyer",
-        "date": "2021-05-26",
-        "granule": "geyerms-5-26-21",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-5-26-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -4959,146 +4709,6 @@
       }
     },
     {
-      "key": "journal.memoir-hook.i-didnt-know-it-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know it at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "NASA oral histories": 4,
-        "U.S. House oral histories": 3
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Tony Coelho",
-        "date": "2024-07-22",
-        "granule": "house-coelho-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.ill-never-forget-it",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I'll never forget it.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "NASA oral histories": 6,
-        "U.S. House oral histories": 3,
-        "U.S. Senate oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: Brenda Countz",
-        "date": "2024-03-29",
-        "granule": "house-countz-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.ill-never-forget-that",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I'll never forget that.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "NASA oral histories": 8,
-        "U.S. House oral histories": 4
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
-        "date": "2022-06-14",
-        "granule": "house-doyle-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-realize-it-at-the-time",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't realize it at the time.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 4
-      },
-      "source": {
-        "document": "NASA oral history curleyh-n-2-17-15",
-        "date": "2015-02-17",
-        "granule": "nasa-curleyh-n-2-17-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/curleyh-n-2-17-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "journal.memoir-hook.i-didnt-know-that-at-the-time",
       "move": "memoir-hook",
       "kind": "spoken",
@@ -5544,41 +5154,6 @@
         "date": "2019-07-22",
         "granule": "house-berkley-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-became.he-later-became-office",
-      "move": "memoir-became",
-      "kind": "spoken",
-      "text": "He later became {office}.",
-      "uses": [
-        {
-          "move": "memoir-became",
-          "subject": "memoir",
-          "role": "became",
-          "choice": "became",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "became"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "U.S. House oral history: Gary Hymel",
-        "date": "2022-10-31",
-        "granule": "house-hymel-transcript",
-        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -10860,6 +10435,214 @@
       "origin": "authored",
       "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
       "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.i-told-other-i-d-keep-about-in-front-of-me",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "I told {other} I'd keep {about} in front of me.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.i-gave-other-my-word-on-about",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "I gave {other} my word on {about}.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-side-word-for.i-promised-other-i-d-back-about",
+      "move": "scene-line-side-word-for",
+      "kind": "spoken",
+      "text": "I promised {other} I'd back {about}.",
+      "uses": [
+        {
+          "move": "scene-line-side-word-for",
+          "subject": "scene",
+          "role": "line",
+          "choice": "side-word-for",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:side-word-for",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15 10:58Z); S6 (gov-serve-ask-price-end)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.i-promised-other-i-d-take-a-close-look-at-about",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "I promised {other} I'd take a close look at {about}.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-view-promise.other-cares-about-about-i-said-i-d-remember",
+      "move": "scene-line-view-promise",
+      "kind": "spoken",
+      "text": "{other} cares about {about}. I said I'd remember.",
+      "uses": [
+        {
+          "move": "scene-line-view-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "view-promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:view-promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-going-out.i-went-out-for-more-names-on-my-office-petition",
+      "move": "scene-line-petition-going-out",
+      "kind": "spoken",
+      "text": "I went out for more names on my {office} petition.",
+      "uses": [
+        {
+          "move": "scene-line-petition-going-out",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-going-out",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-going-out",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-not-today.other-said-my-petition-was-short-i-let-it-wait",
+      "move": "scene-line-petition-not-today",
+      "kind": "spoken",
+      "text": "{other} said my petition was short. I let it wait.",
+      "uses": [
+        {
+          "move": "scene-line-petition-not-today",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-not-today",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-not-today",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-not-today.clerk-said-my-office-petition-was-short-i-waited",
+      "move": "scene-line-petition-not-today",
+      "kind": "spoken",
+      "text": "{clerk} said my {office} petition was short. I waited.",
+      "uses": [
+        {
+          "move": "scene-line-petition-not-today",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-not-today",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-not-today",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
       "tag": {
         "move": "tell"
       }

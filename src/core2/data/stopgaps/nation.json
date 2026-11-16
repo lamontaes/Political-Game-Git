@@ -158,8 +158,8 @@
     "why": "The federal budget engine in the played world is the town's own chain's; the tier has no federal budget lines by state yet (data/research/federal/federal-spending-by-state-fy2024.json is not read).",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The federal ledger's lines read from the federal budget the game's Congress adopts, with federal spending by state from the research file, so a federal budget change reaches each state's cells.",
-    "status": "open"
+    "replacement": "Resolved (pool item core-country-tier-federal-budget-reaches-the-states, Nov 11, 2026): the fitted figure is deleted. The tier's federal ledger reads the federal budget in force line by line (federalSpendingReader in src/core2/country-law.ts), each line shared among the states by population times the world's stake in it (data/research/federal/federal-spending-by-state-fy2024.json) and sent where it pays (src/core2/data/country/federal-lines.json): household lines scale the cells' benefits, purchase lines are bought from the state's sectors, interest and aid abroad leave the cells. The nation now runs the deficit its budget gives. Shown in tests/golden-path/federal-dollar.node-test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-NATION-country-tier-state-budgets",
@@ -186,18 +186,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage (Nov 10, 2026)"
-  },
-  {
-    "id": "SG-NATION-country-tier-moves-twice",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/counted-moves.ts",
-    "line": 1,
-    "whatItFakes": "People moving between states are kept twice: the country tier moves its cells by pay after tax, prices and work, and the counted-moves engine still keeps its own count of each state's people beside it. Its arrivals are fitted to the survey once, at the opening, and then follow taxes, prices and work; the monthly re-fit is gone.",
-    "why": "Replacing the counted-moves engine's state counts with the tier's cells touches 1,800 lines that also move the town's own households; it ships as the next pull request so this one stays reviewable.",
-    "addedBy": "Fable",
-    "addedAt": "2026-11-10",
-    "replacement": "Pool item core-country-tier-moves-one-holder: the counted-moves engine reads each state's people and place constants from the tier, and its pinned departures are deleted.",
-    "status": "open"
   },
   {
     "id": "SG-NATION-town-part-unsorted-jobs",

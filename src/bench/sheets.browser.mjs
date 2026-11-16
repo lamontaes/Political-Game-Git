@@ -1,8 +1,9 @@
-/* global process, URL, console, document, NodeFilter */
+/* global process, console, document, NodeFilter */
 // Every sheet of a new game, at the start and after a day, prints no raw
 // record id and no missing value ("undefined", "NaN").
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { startLife } from "./start-life.mjs";
 const RECORD_ID =
   /\b(?:[a-z][a-z-]*_[0-9a-f]{8,}|[a-z][a-z-]*(?::[A-Za-z0-9._@-]+){2,})\b/;
 const MISSING = /\b(?:undefined|NaN|null)\b/;
@@ -15,28 +16,8 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const bad = [];
 try {
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
-  await ready;
-  if (await page.locator("#front-continue").isEnabled()) {
-    await page.locator("#front-continue").click();
-  } else {
-    const response = page.waitForResponse(
-      (r) => new URL(r.url()).pathname === "/api/newlife",
-      { timeout: 300000 },
-    );
-    await page.locator("#new-life").click();
-    await page.locator("#new-advanced").click();
-    await page.locator("#new-world").click();
-    const r = await response;
-    assert.equal(r.status(), 200);
-    console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-  }
-  await page.waitForFunction(
-    () =>
-      document.getElementById("card-name").textContent.trim() &&
-      document.getElementById("card-clock").textContent.trim(),
-  );
+  // The one start: a new life (or the saved one) with its opening played through.
+  await startLife(page);
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),

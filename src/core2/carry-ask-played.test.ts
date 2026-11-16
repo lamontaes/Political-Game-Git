@@ -5,7 +5,8 @@
  * player is a seated council member, two residents who know people ask them,
  * the bills table is unchanged until they answer, agreeing files the bill
  * with the player as sponsor and the asker as requestedBy, and declining
- * files nothing. The held ask has no bench screen yet (SG-GOV-carry-ask-no-screen).
+ * files nothing. In play the carry-bill scene's ending answers it
+ * (bargaining-price.test.ts).
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";

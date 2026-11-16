@@ -435,7 +435,7 @@
               "name": "Property tax rate",
               "kind": "law-amount",
               "series": "property-tax",
-              "unit": "percent of home value per year",
+              "unit": "percent-of-home-value",
               "operations": ["raise", "lower"],
               "levels": ["state", "county", "city"]
             },
@@ -542,8 +542,45 @@
         },
         {
           "name": "Fees and charges",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:fee-level:parks-and-recreation",
+              "name": "Park and recreation fees",
+              "kind": "law-amount",
+              "series": "fee-level:parks-and-recreation",
+              "unit": "percent of today's fee",
+              "operations": ["raise", "lower"],
+              "levels": ["state", "county", "city"]
+            },
+            {
+              "id": "law:fee-level:sewerage-and-solid-waste",
+              "name": "Sewer and trash fees",
+              "kind": "law-amount",
+              "series": "fee-level:sewerage-and-solid-waste",
+              "unit": "percent of today's fee",
+              "operations": ["raise", "lower"],
+              "levels": ["state", "county", "city"]
+            },
+            {
+              "id": "law:fee-level:hospitals",
+              "name": "Public hospital charges",
+              "kind": "law-amount",
+              "series": "fee-level:hospitals",
+              "unit": "percent of today's fee",
+              "operations": ["raise", "lower"],
+              "levels": ["state", "county", "city"]
+            },
+            {
+              "id": "law:fee-level:education",
+              "name": "Tuition and school fees",
+              "kind": "law-amount",
+              "series": "fee-level:education",
+              "unit": "percent of today's fee",
+              "operations": ["raise", "lower"],
+              "levels": ["state", "county", "city"]
+            }
+          ]
         },
         {
           "name": "Budgets and appropriations",
@@ -1703,7 +1740,7 @@
           "policies": [
             {
               "id": "law:state-contribution-limit-governor",
-              "name": "State campaign contribution limit: governor",
+              "name": "State campaign contribution limit: governor races",
               "kind": "law-amount",
               "series": "state-contribution-limit-governor",
               "unit": "USD/election",
@@ -1712,7 +1749,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-senate",
-              "name": "State campaign contribution limit: state senate",
+              "name": "State campaign contribution limit: state senate races",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-senate",
               "unit": "USD/election",
@@ -1721,7 +1758,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-house",
-              "name": "State campaign contribution limit: state house",
+              "name": "State campaign contribution limit: state house races",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-house",
               "unit": "USD/election",
@@ -1730,7 +1767,7 @@
             },
             {
               "id": "law:state-contribution-limit-local",
-              "name": "State campaign contribution limit: local",
+              "name": "State campaign contribution limit: local races",
               "kind": "law-amount",
               "series": "state-contribution-limit-local",
               "unit": "USD/election",

@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/past-laws.ts, src/core2/past.test.ts, src/core2/data/past/parameters.json, src/core2/data/stopgaps/core.json, data/research/core/state-law-adoption-dates-2025.json
 
-**Notes.** TODO
+**Notes.** From the laws thread's dev-mode gap list (Nov 16, 2026; /mnt/project-files/laws/reports/dev-mode-gaps-from-industry-traces.md), a related gap this item does not cover: every state law in force at the opening takes effect on July 1, 2024 in the game, including laws whose real start is in 2025 or 2026, so businesses pay those costs early (factories-freight.md: the consumer data privacy duty at Lebanon, Kentucky, 2144344, seed ind-2144344, cost the plants before the real law starts). Dev mode shows the row's date and not the real one. When this item researches years, the effective date belongs in the same table, and dev mode's law page should show it beside the row's date.

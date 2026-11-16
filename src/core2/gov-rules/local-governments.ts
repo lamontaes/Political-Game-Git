@@ -171,6 +171,23 @@ export function placeLocalGovernmentUnits(
         countyReason: `No separate ${term.singular} government serves this place; the consolidated government does.`,
         countyShares: null,
       };
+    // A newer Census place the place-to-county relation misses lies in the
+    // county the place map holds for it, and that county's government serves it.
+    const mapped = place.sourceGeoid
+      ? placeCountyGeoids(place.sourceGeoid)
+          .map((geoid) => countyGovernmentUnit(geoid))
+          .filter((unit): unit is GovernmentUnitIdentity => unit !== null)
+      : [];
+    if (mapped.length > 0)
+      return {
+        placeScope: "locality",
+        municipal: [],
+        counties: mapped,
+        townships,
+        countyStatus: "established",
+        countyReason: null,
+        countyShares: null,
+      };
     return {
       ...none("locality", "not-established", countyRelationEmpty(term)),
       townships,

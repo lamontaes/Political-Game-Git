@@ -34,11 +34,13 @@ import type { ReplyFollowsTable } from "../english/reply-follows";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
+  factsSetBy,
   pieceAnswers,
   sceneMoveFits,
   sceneMovesWritten,
   wordSceneMove,
   type Fact,
+  type Placed,
   type SceneMove,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
@@ -62,6 +64,8 @@ interface Ending {
    * the promise record reads it.
    */
   firmness?: string;
+  /** What this ending does to the resident's case at office hours: the cases engine's decision. */
+  settles?: "help" | "decline";
   when: {
     reply?: string[];
     asker?: string[];
@@ -73,7 +77,17 @@ interface Ending {
 }
 
 interface PurposeArc {
+  /** Facts of which at most one holds in one talk (the visitor is for the bill or against it). */
+  apart?: string[][];
   state: string;
+  /**
+   * A statement said as several moves in order, one breath (the clerk tells
+   * the race: who is running, the term and dates, the work, the deadline):
+   * each move is worded from its own pieces and the lines join. The statement
+   * keeps the move `state` for what answers it. A move the records cannot word
+   * is left out; with none worded, the scene is skipped.
+   */
+  stateMoves?: string[];
   replies: string[];
   /** This purpose's own answers (reply move to candidates), before the shared ones. */
   follow?: Record<string, string | string[]>;
@@ -85,6 +99,14 @@ interface PurposeArc {
   endings?: Ending[];
   /** Reply moves after which the answer ends the exchange: no goodbye follows it (everyday talk). */
   closes?: string[];
+  /**
+   * Replies that do the thing asked in their own words (sign, veto), by the
+   * act, as their pieces: said, the talk ends with one closing line from the
+   * asker, and the engine that keeps the act reads the reply's piece.
+   */
+  acts?: Record<string, string[] | string>;
+  /** Facts an act makes no longer true (a deadline once the bill is decided): the closing line after an act is worded without them. */
+  actEnds?: string[];
   /** Reply moves that may be offered again after an asker move: { askerMove: [replyMoves] }. */
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
@@ -99,8 +121,55 @@ interface PurposeArc {
     relent: string[];
     /** The player's line after a yes. */
     thanks: string;
-    /** The player's second ask after a "not yet" or a no, and what it weighs. */
-    again: { move: string; carries: "favor" | "lean" | "none" }[];
+    /** The one asked's last word after the player thanks them for a yes, where the purpose has one. */
+    thanked?: string;
+    /**
+     * The player's second ask after a "not yet" or a no, and what it weighs;
+     * `secondAsk` marks one offered only when the player asks again after a
+     * not yet (Words lead, Nov 15: deferring to them keeps the ask open).
+     */
+    again: { move: string; carries: AskCarries; secondAsk?: boolean }[];
+    /**
+     * The answer of one whose price is taken up (`carries: "price"`), and of
+     * one asked only to stay out of the room who agrees (`carries:
+     * "absence"`). Each is offered only where the record holds the act that
+     * pays it (brief O; owner, Nov 14: only what the game can do).
+     */
+    paid?: string;
+    absent?: string;
+    /**
+     * A middle exchange about the one asked's own matter (Words lead, Nov 14,
+     * rulings 62 and 63: a scene has a middle, and one button is not a
+     * choice): offered beside the thanks or the second ask, the player asks
+     * after them (`ask`), they say what the player did not know (`tell`),
+     * and the player chooses among the `then` replies, which end differently.
+     */
+    middle?: {
+      ask: string;
+      tell: string;
+      then: { move: string; carries: AskCarries }[];
+    };
+    /**
+     * One the player has never met, who would say yes, asks the player one
+     * thing first (Words lead, Nov 14, brief J batch 2: a stranger's yes in
+     * one line is thin): their question (`tell`), the player's answers
+     * (`then`), and each answer's yes or no. `hedged` weighs the answer
+     * with the player's stance left unsaid (`AskStanding.hedged`).
+     */
+    first?: {
+      tell: string;
+      then: { move: string; carries: "lean" | "hedged" }[];
+    };
+    /**
+     * A second turn after a second ask and its answer (Words lead, Nov 14:
+     * a scene is a tree, two turns past the ask on at least two branches),
+     * keyed by the second ask's move: the player's replies to that answer,
+     * offered only when two or more can be worded.
+     */
+    after?: Record<
+      string,
+      { move: string; carries: "favor" | "lean" | "none" }[]
+    >;
   };
 }
 
@@ -166,6 +235,8 @@ export interface SceneTalkLine {
   asks: boolean;
   /** The English engine says the line hands the floor over ("Go ahead."). */
   invites: boolean;
+  /** Why the English engine placed this wording here (dev mode's "why this reply"). */
+  placed?: Placed;
 }
 
 export interface SceneTalkRound {
@@ -195,7 +266,25 @@ export interface TreeNode {
       label: string;
       keeps: string;
       firmness?: string;
+      settles?: "help" | "decline";
     };
+  };
+}
+
+/**
+ * The node a reply leads to as play reaches it. After a lie the tree holds
+ * both outcomes as branches; the one the staged records give is the one
+ * played: "if {name} knows" when the staging holds what catches the lie
+ * (that branch exists only then), otherwise "if not" (scene-talk.ts
+ * lieBranches, the same choice the trait-led path takes).
+ */
+export function playedNode(node: TreeNode): TreeNode {
+  const branches = node.branches;
+  if (!branches?.length) return node;
+  const branch = branches.find((row) => row.knows) ?? branches[zero]!;
+  return {
+    ...branch.node,
+    lines: [...node.lines, ...branch.node.lines],
   };
 }
 
@@ -263,7 +352,30 @@ export interface AskStanding {
   lean: number;
   /** What a yes given as a favor to the player adds at the roll. */
   favor: number;
+  /** They ask the player one thing before they answer (`asks.first`). */
+  asksFirst?: boolean;
+  /** They would say no but no reason of theirs has a line: they stall first, then say the answer is given. */
+  noReason?: boolean;
+  /** Their position were the player to leave their own stance unsaid. */
+  hedged?: number;
+  /**
+   * Where they would stand once their price is paid (legislature `askPrice`:
+   * the player's vote on their own bill, or half a section), when the record
+   * holds a price; absent, no price is offered.
+   */
+  price?: number;
+  /** Whether a favor carries them at least to staying out of the room (legislature `absenceCarries`). */
+  absence?: boolean;
 }
+
+/** What a second ask of the one asked weighs. */
+/**
+ * What a second ask weighs. `price-refused` is the player turning down a
+ * price the one asked named: offered only where a price is on the record,
+ * and it never carries them.
+ */
+export type AskCarries =
+  "favor" | "lean" | "none" | "price" | "price-refused" | "absence";
 
 export interface SceneTalkCast {
   /**
@@ -315,6 +427,12 @@ export interface SceneTalkOptions {
   includeHeld?: boolean;
   /** The "no" verdicts of the reply rule to read instead of the file's (tests). */
   replyFollows?: ReplyFollowsTable;
+  /**
+   * The screen has already told the setting (the filing counter narrates the
+   * clerk and the office as the player walks in): the scene says no
+   * narration of its own and is not skipped for want of one.
+   */
+  setupTold?: boolean;
 }
 
 export type SceneTalkResult =
@@ -397,6 +515,8 @@ export function answerInTalk(
     key: string;
     speakerId: PersonId;
     momentKey: string;
+    /** Pieces the listener already heard today (the telling's "said today"): not said again. */
+    heard?: ReadonlySet<string>;
   },
 ): { move: string; text: string; pieceKey: string; closes: boolean } | null {
   const arc = ARCS.purposes.talk;
@@ -418,7 +538,7 @@ export function answerInTalk(
       speakerId: input.speakerId,
       traits,
       momentKey: `${input.momentKey}:${candidate}`,
-      said: new Set(),
+      said: new Set(input.heard ?? []),
     });
     return line && !("unused" in line) ? [{ candidate, line }] : [];
   });
@@ -453,6 +573,28 @@ interface Path {
   offered: ReadonlySet<string>;
   /** Reply lines offered at earlier nodes on this path: never offered again. */
   offeredPieces: ReadonlySet<string>;
+}
+
+/**
+ * The lines of a statement said as several moves, joined into one line of the
+ * statement's move: their words in order, their parts and records together.
+ */
+function joinedStatement(
+  lines: readonly (SceneTalkLine | null)[],
+  move: string,
+): SceneTalkLine | null {
+  const said = lines.filter((line): line is SceneTalkLine => line !== null);
+  const [first] = said;
+  if (!first) return null;
+  return {
+    ...first,
+    move,
+    text: said.map((line) => line.text).join(" "),
+    parts: said.flatMap((line) => line.parts),
+    slotRecordIds: [...new Set(said.flatMap((line) => line.slotRecordIds))],
+    asks: said.at(-one)!.asks,
+    invites: said.at(-one)!.invites,
+  };
 }
 
 /**
@@ -514,6 +656,25 @@ export function composeSceneTalk(
   const closesSaid = new Set<string>();
   /** How many closes of each move this talk has said. */
   const closesByMove = new Map<string, number>();
+  // What the talk has told so far: the scene's facts and the facts the lines
+  // said on a path set for the rest of it (an answer sets what it told).
+  const heardOn = new WeakMap<ReadonlySet<string>, typeof facts>();
+  const heard = (said: ReadonlySet<string>): typeof facts => {
+    let found = heardOn.get(said);
+    if (!found) {
+      const set = factsSetBy(said, base);
+      found = set.length
+        ? {
+            ...facts,
+            ...Object.fromEntries(
+              set.map((name) => [name, { text: "yes", sourceRecordIds: [] }]),
+            ),
+          }
+        : facts;
+      heardOn.set(said, found);
+    }
+    return found;
+  };
   const render = (
     use: FitUse,
     speakerId: PersonId,
@@ -521,7 +682,9 @@ export function composeSceneTalk(
     moment: string,
     said: ReadonlySet<string>,
     onlyTagged = false,
+    given: typeof facts = facts,
   ): SceneTalkLine | null => {
+    const known = given === facts ? heard(said) : given;
     // The English engine picks and words the piece; the director only says
     // which move this is, who says it and what it answers.
     // A talk does not close two branches on the same words while another close
@@ -530,7 +693,7 @@ export function composeSceneTalk(
     const closing = use.step === "close";
     const worded = wordSceneMove({
       move: use,
-      facts,
+      facts: known,
       seed: core.seed,
       speakerId,
       traits,
@@ -580,6 +743,7 @@ export function composeSceneTalk(
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
       invites: worded.invites,
+      ...(worded.placed ? { placed: worded.placed } : {}),
     };
   };
   let unusedGap = "";
@@ -705,6 +869,7 @@ export function composeSceneTalk(
           label: found.label,
           keeps: found.keeps,
           ...(found.firmness ? { firmness: found.firmness } : {}),
+          ...(found.settles ? { settles: found.settles } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else
@@ -889,8 +1054,112 @@ export function composeSceneTalk(
     request.auto = true;
     const said = addParts(set, request);
     const carried = standing.lean + standing.favor > zero;
+    // A stranger who would say yes asks one thing first; the player's answer
+    // is a choice, and each answer ends in their yes or no.
+    if (standing.asksFirst && ask.first) {
+      const asked = theirs([ask.first.tell], request, "first-ask", said);
+      const node: TreeNode = { lines: asked ? [asked] : [], replies: [] };
+      const heard = asked ? addParts(said, asked) : said;
+      for (const then of asked ? ask.first.then : []) {
+        // A dodge is offered only when it costs something on the record:
+        // where the stance left unsaid weighs the same as the one on the
+        // player's record, there is nothing to dodge (Words lead, Nov 14).
+        if (
+          then.carries === "hedged" &&
+          (standing.hedged === undefined || standing.hedged >= standing.lean)
+        )
+          continue;
+        const line = mine(
+          {
+            step: "follow",
+            move: then.move,
+            after: asked!.move,
+            ...(asked!.parts[zero] ? { afterPiece: asked!.parts[zero] } : {}),
+          },
+          `first:${then.move}`,
+          heard,
+        );
+        if (!line) {
+          gap("follow", then.move, asked!.move);
+          continue;
+        }
+        line.round = two;
+        const yes =
+          (then.carries === "hedged"
+            ? (standing.hedged ?? standing.lean)
+            : standing.lean) > zero;
+        const last = theirs(
+          yes ? [ask.yes] : [ask.no],
+          line,
+          `first-last:${then.move}`,
+          addParts(heard, line),
+        );
+        const next: TreeNode = { lines: [], replies: [] };
+        if (last) {
+          last.round = two;
+          next.lines.push(last);
+        }
+        next.end = { outcome: outcomeOf(last?.move ?? ask.yes) };
+        node.replies.push({ line, next });
+      }
+      // Fewer than two answers is no choice: they answer at once instead.
+      if (asked && node.replies.length >= two) {
+        asked.round = one;
+        const [led] = [...node.replies].sort(
+          (a, b) =>
+            leanOf(core, b.line.move, askedTraits) -
+              leanOf(core, a.line.move, askedTraits) ||
+            stableHash(`${scene}:first:${a.line.move}`).localeCompare(
+              stableHash(`${scene}:first:${b.line.move}`),
+            ),
+        );
+        if (led) led.line.chosen = true;
+        return finish({
+          narrate,
+          open: null,
+          intro: [],
+          statement: request,
+          root: node,
+          nodes: one + node.replies.length,
+          ledChoices: new Map(led ? [[node, led] as const] : []),
+          ledBranch: new Map(),
+        });
+      }
+    }
+    // An ask that weighs a price, or staying out, is offered only where the
+    // record holds the act that pays it; undefined carries leaves no answer.
+    const offered = (weighs: AskCarries) =>
+      weighs === "price" || weighs === "price-refused"
+        ? standing.price !== undefined
+        : weighs === "absence"
+          ? standing.absence !== undefined && standing.lean <= zero
+          : true;
+    const carriesOf = (weighs: AskCarries) =>
+      weighs === "favor"
+        ? carried
+        : weighs === "lean"
+          ? standing.lean > zero
+          : weighs === "price"
+            ? (standing.price ?? zero) > zero
+            : weighs === "absence"
+              ? standing.absence === true
+              : weighs === "price-refused"
+                ? false
+                : undefined;
+    const answerOf = (weighs: AskCarries, carries: boolean) =>
+      !carries
+        ? [ask.no]
+        : weighs === "price"
+          ? [ask.paid ?? ask.relent[zero]!]
+          : weighs === "absence"
+            ? [ask.absent ?? ask.relent[zero]!]
+            : ask.relent;
     const first = theirs(
-      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      standing.lean > zero
+        ? [ask.yes]
+        : carried || standing.noReason
+          ? [ask.carried]
+          : [ask.no],
       request,
       "first",
       said,
@@ -905,9 +1174,30 @@ export function composeSceneTalk(
     let count = one;
     // A yes is thanked; a not yet or a no is asked again, or let go.
     const yes = first.move === ask.yes;
+    // A second no (asked before and turned down, and nothing carries them
+    // now) is let go, never pressed a third time (Words lead, Nov 15).
+    const secondNo =
+      !yes && !carried && standing.lean <= zero && !!facts["asked-before"];
+    const afterLed = new Map<TreeNode, TreeReply>();
+    // On a second ask a plea is offered only where the record holds a time
+    // the player backed them (`read-favor-given`: the player's yes on a bill
+    // of theirs), and pressing only where they lean for it already (Words
+    // lead, Nov 15): asking again with nothing behind it is not offered.
+    const askedAgain = !!facts["asked-before"];
+    const backed = (weighs: AskCarries) =>
+      !askedAgain ||
+      (weighs === "favor"
+        ? !!facts["read-favor-given"]
+        : weighs === "lean"
+          ? standing.lean > zero
+          : true);
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
-      : ask.again) {
+      : secondNo
+        ? ask.again.filter((row) => row.carries === "none" && !row.secondAsk)
+        : ask.again) {
+      if (!offered(again.carries) || !backed(again.carries)) continue;
+      if ("secondAsk" in again && again.secondAsk && !askedAgain) continue;
       const line = mine(
         {
           step: "follow",
@@ -926,28 +1216,181 @@ export function composeSceneTalk(
       const next: TreeNode = { lines: [], replies: [] };
       count += one;
       root.replies.push({ line, next });
-      const carries =
-        again.carries === "favor"
-          ? carried
-          : again.carries === "lean"
-            ? standing.lean > zero
-            : undefined;
+      const carries = carriesOf(again.carries);
       const last =
-        carries === undefined
-          ? null
-          : theirs(
-              carries ? ask.relent : [ask.no],
+        yes && ask.thanked
+          ? theirs(
+              [ask.thanked],
               line,
               `last:${again.move}`,
               addParts(addParts(said, first), line),
-            );
+            )
+          : carries === undefined
+            ? null
+            : theirs(
+                answerOf(again.carries, carries),
+                line,
+                `last:${again.move}`,
+                addParts(addParts(said, first), line),
+              );
       if (last) {
         last.round = two;
         next.lines.push(last);
       }
       next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+      // A second turn on this branch: the player answers what they said.
+      const turns = last ? ask.after?.[again.move] : undefined;
+      if (last && turns) {
+        const heard = addParts(addParts(addParts(said, first), line), last);
+        const replies: TreeReply[] = [];
+        for (const then of turns) {
+          const reply = mine(
+            {
+              step: "follow",
+              move: then.move,
+              after: last.move,
+              ...(last.parts[zero] ? { afterPiece: last.parts[zero] } : {}),
+            },
+            `after:${again.move}:${then.move}`,
+            heard,
+          );
+          if (!reply) {
+            gap("follow", then.move, last.move);
+            continue;
+          }
+          reply.round = three;
+          const leaf: TreeNode = { lines: [], replies: [] };
+          const holds =
+            then.carries === "favor"
+              ? carried
+              : then.carries === "lean"
+                ? standing.lean > zero
+                : undefined;
+          const answer =
+            holds === undefined
+              ? null
+              : theirs(
+                  holds ? ask.relent : [ask.no],
+                  reply,
+                  `after-last:${again.move}:${then.move}`,
+                  addParts(heard, reply),
+                );
+          if (answer) {
+            answer.round = three;
+            leaf.lines.push(answer);
+          }
+          leaf.end = { outcome: outcomeOf(answer?.move ?? last.move) };
+          replies.push({ line: reply, next: leaf });
+        }
+        if (replies.length >= two) {
+          delete next.end;
+          next.replies = replies;
+          count += replies.length;
+          const [ledAfter] = [...replies].sort(
+            (a, b) =>
+              leanOf(core, b.line.move, askedTraits) -
+                leanOf(core, a.line.move, askedTraits) ||
+              stableHash(`${scene}:after:${a.line.move}`).localeCompare(
+                stableHash(`${scene}:after:${b.line.move}`),
+              ),
+          );
+          if (ledAfter) {
+            ledAfter.line.chosen = true;
+            afterLed.set(next, ledAfter);
+          }
+        }
+      }
     }
-    if (!yes && root.replies.length < two)
+    // The middle: asking after the one asked, who tells their own matter,
+    // and two or more replies to it that end apart.
+    const middleLed = new Map<TreeNode, TreeReply>();
+    if (ask.middle) {
+      const heardFirst = addParts(said, first);
+      const opener = mine(
+        {
+          step: "follow",
+          move: ask.middle.ask,
+          after: first.move,
+          ...(first.parts[zero] ? { afterPiece: first.parts[zero] } : {}),
+        },
+        `middle:${ask.middle.ask}`,
+        heardFirst,
+      );
+      const told = opener
+        ? theirs(
+            [ask.middle.tell],
+            opener,
+            "middle-tell",
+            addParts(heardFirst, opener),
+          )
+        : null;
+      if (opener && told) {
+        opener.round = two;
+        told.round = two;
+        const node: TreeNode = { lines: [told], replies: [] };
+        const heard = addParts(addParts(heardFirst, opener), told);
+        for (const then of ask.middle.then) {
+          if (!offered(then.carries)) continue;
+          const line = mine(
+            {
+              step: "follow",
+              move: then.move,
+              after: told.move,
+              ...(told.parts[zero] ? { afterPiece: told.parts[zero] } : {}),
+            },
+            `middle:${then.move}`,
+            heard,
+          );
+          if (!line) {
+            gap("follow", then.move, told.move);
+            continue;
+          }
+          line.round = three;
+          const next: TreeNode = { lines: [], replies: [] };
+          const carries = carriesOf(then.carries);
+          const last =
+            carries === undefined
+              ? null
+              : theirs(
+                  answerOf(then.carries, carries),
+                  line,
+                  `middle-last:${then.move}`,
+                  addParts(heard, line),
+                );
+          if (last) {
+            last.round = three;
+            next.lines.push(last);
+          }
+          next.end = { outcome: outcomeOf(last?.move ?? first.move) };
+          node.replies.push({ line, next });
+        }
+        // Fewer than two replies to what they told is no choice: the scene
+        // ends on what they said (one with nothing to name says so, ruling
+        // 72), and the ending reads the first answer.
+        if (node.replies.length < two) {
+          node.replies = [];
+          node.end = { outcome: outcomeOf(first.move) };
+        }
+        root.replies.push({ line: opener, next: node });
+        count += one + node.replies.length;
+        const [ledThen] = [...node.replies].sort(
+          (a, b) =>
+            leanOf(core, b.line.move, askedTraits) -
+              leanOf(core, a.line.move, askedTraits) ||
+            stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
+              stableHash(`${scene}:middle:${b.line.move}`),
+            ),
+        );
+        if (ledThen) {
+          ledThen.line.chosen = true;
+          middleLed.set(node, ledThen);
+        }
+      } else gap("follow", ask.middle.ask, first.move);
+    }
+    // One button is not a choice: a scene whose middle can be worded never
+    // leaves the player a single reply, save the thanks for a yes and the
+    // plain close after a second no.
+    if (!yes && !secondNo && root.replies.length < two)
       return {
         kind: "skipped",
         reason: `fewer than two asks after ${first.move} can be worded for ${type.key}`,
@@ -970,28 +1413,34 @@ export function composeSceneTalk(
       statement: request,
       root,
       nodes: count,
-      ledChoices: new Map(led ? [[root, led]] : []),
+      ledChoices: new Map([
+        ...(led ? [[root, led] as const] : []),
+        ...middleLed,
+        ...afterLed,
+      ]),
       ledBranch: new Map(),
     });
   }
 
   // The setup: the narrator's paragraph for this purpose and key, with no
   // traits, so it reads the same for every profile.
-  const narrate = render(
-    { step: "narrate", move: "narrate", role: "narrator", ...base },
-    cast.askerId,
-    {},
-    "narrate",
-    none,
-  );
-  if (!narrate)
+  const narrate = options.setupTold
+    ? null
+    : render(
+        { step: "narrate", move: "narrate", role: "narrator", ...base },
+        cast.askerId,
+        {},
+        "narrate",
+        none,
+      );
+  if (!narrate && !options.setupTold)
     return {
       kind: "skipped",
       reason: unusedGap
         ? `piece gap: no unused narration for ${purpose}`
         : `no narration for ${purpose} can be worded from the records given`,
     };
-  let said = addParts(none, narrate);
+  let said = narrate ? addParts(none, narrate) : none;
   // The open's move: a purpose may open on a detail ("react") instead of a greeting.
   const openMove =
     sceneMovesWritten({
@@ -1083,13 +1532,28 @@ export function composeSceneTalk(
       } else gap("follow", "answer", `${openAuto.move} (after the open)`);
     } else gap("auto", openAuto.move, "open");
   }
-  const statement = render(
-    { step: "state", move: arc.state, role: "asker", ...base },
-    cast.askerId,
-    askerTraits,
-    "state",
-    said,
-  );
+  const statement = arc.stateMoves
+    ? joinedStatement(
+        arc.stateMoves.map((move) => {
+          const line = render(
+            { step: "state", move, role: "asker", ...base },
+            cast.askerId,
+            askerTraits,
+            "state",
+            said,
+          );
+          if (line) said = addParts(said, line);
+          return line;
+        }),
+        arc.state,
+      )
+    : render(
+        { step: "state", move: arc.state, role: "asker", ...base },
+        cast.askerId,
+        askerTraits,
+        "state",
+        said,
+      );
   if (!statement)
     return {
       kind: "skipped",
@@ -1195,14 +1659,18 @@ export function composeSceneTalk(
   root.lines = rootStart.lines;
   // The narrator speaks between lines, not only at the top: a beat of the room after the statement and
   // partway in, where the bank has one for this purpose.
-  const beatAt = (path: Path, label: string): SceneTalkLine | null =>
-    render(
+  // A beat plays once on a path at most (Words lead, Nov 14): one the path
+  // has already said is left out, never said again.
+  const beatAt = (path: Path, label: string): SceneTalkLine | null => {
+    const beat = render(
       { step: "beat", move: "beat", role: "narrator", ...base },
       cast.askerId,
       {},
       `${label}:beat`,
       path.said,
     );
+    return beat && beat.parts.some((part) => path.said.has(part)) ? null : beat;
+  };
   let rootPath = rootStart.path;
   const rootBeat = beatAt(rootPath, "root");
   if (rootBeat) {
@@ -1217,15 +1685,17 @@ export function composeSceneTalk(
     outcome: Outcome,
     path: Path,
     lastAsker: SceneTalkLine | undefined,
+    given: typeof facts = facts,
   ): SceneTalkLine | undefined => {
     if (lastAsker && RULES.terminalFollow.includes(lastAsker.move))
       return undefined;
+    const known = given === facts ? heard(path.said) : given;
     const moves = ARCS.close[outcome]
       .filter((move) => move !== lastAsker?.move)
       .filter((move) =>
         sceneMoveFits(
           { step: "close", move, role: "asker", ...base, outcome },
-          facts,
+          known,
           options,
         ),
       );
@@ -1241,6 +1711,8 @@ export function composeSceneTalk(
       askerTraits,
       `${path.id}:close`,
       path.said,
+      false,
+      known,
     );
     // The close never says again what was just said.
     return line && line.parts[zero] !== lastAsker?.parts[zero]
@@ -1423,6 +1895,19 @@ export function composeSceneTalk(
     if (picked && childPath.led) ledBranch.set(next, picked);
   };
 
+  // The replies that do the thing asked (arc.acts), and the facts the closing
+  // line after one is worded with: the arc's actEnds no longer hold.
+  const actPieces = new Set(
+    Object.entries(arc.acts ?? {}).flatMap(([key, pieces]) =>
+      key === "note" ? [] : [pieces].flat(),
+    ),
+  );
+  const afterAct = (said: ReadonlySet<string>): typeof facts =>
+    Object.fromEntries(
+      Object.entries(heard(said)).filter(
+        ([key]) => !(arc.actEnds ?? []).includes(key),
+      ),
+    );
   for (let at = zero; at < queue.length; at += one) {
     const { node, path, moves, outcome, lastAsker } = queue[at]!;
     const round = path.round + one;
@@ -1448,6 +1933,8 @@ export function composeSceneTalk(
         askedTraits,
         `${path.id}:reply:${move}`,
         seen,
+        false,
+        heard(path.said),
       );
       if (!reply) {
         gap("reply", move, path.askerMove);
@@ -1475,6 +1962,7 @@ export function composeSceneTalk(
         `${path.id}:tagged:${move}`,
         seen,
         true,
+        heard(path.said),
       );
       if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
       extra.round = round;
@@ -1562,6 +2050,21 @@ export function composeSceneTalk(
           closeFor("open", childPath, undefined);
         next.end = { outcome: "open", ...closed(farewell) };
         if (!farewell) gap("close", "leave", reply.parts[zero]);
+        continue;
+      }
+      // A reply that does the thing asked in its own words ends the talk: one
+      // closing line from the asker, worded without the facts the act ended
+      // (Words lead, Nov 14: "a reply that names the act ends the talk and
+      // decides").
+      if (actPieces.has(reply.parts[zero] ?? "")) {
+        const close = closeFor(
+          replyOutcome,
+          childPath,
+          undefined,
+          afterAct(childPath.said),
+        );
+        next.end = { outcome: replyOutcome, ...closed(close) };
+        if (!close) gap("close", replyOutcome, `${reply.move} (an act)`);
         continue;
       }
       // A lie plays out as two nodes, believed and caught.
@@ -1773,7 +2276,8 @@ export function lastAnswerAlong(
   let node: TreeNode | null = tree;
   let last = tree.lines.filter((row) => row.role === "asker").at(-one)?.move;
   for (const index of path) {
-    node = node?.replies[index]?.next ?? null;
+    const next: TreeNode | null = node?.replies[index]?.next ?? null;
+    node = next ? playedNode(next) : null;
     if (!node) break;
     last =
       node.lines.filter((row) => row.role === "asker").at(-one)?.move ?? last;
@@ -1844,7 +2348,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
     ...(lie && move === lie.caught.move ? lie.caught.replies : []),
     ...(asks && move === arc.state ? askMoves : []),
     ...(asks && (move === asks.thanks || againMoves.includes(move))
-      ? [...asks.relent, asks.no]
+      ? [
+          ...asks.relent,
+          asks.no,
+          ...(asks.paid ? [asks.paid] : []),
+          ...(asks.absent ? [asks.absent] : []),
+        ]
       : []),
   ];
   /** The asker's answers to a reply of this move. */
@@ -1895,5 +2404,13 @@ export const talkReplyFlow = {
     let flow = FLOWS.get(at);
     if (!flow) FLOWS.set(at, (flow = talkFlow(scene)));
     return flow.next(step, move);
+  },
+  apart(scene: { purpose: string; key: string }): readonly string[][] {
+    const arc = (
+      scene.purpose === "*"
+        ? ARCS.keys?.[scene.key]
+        : (ARCS.purposes[scene.purpose] ?? variantArc(scene.purpose))
+    ) as PurposeArc | undefined;
+    return arc?.apart ?? [];
   },
 };

@@ -18,7 +18,7 @@
     "period": "annual",
     "firstNumber": 1,
     "tag": "ESTIMATED",
-    "source": "Most municipal clerks number ordinances by the year and their order of introduction (Baltimore City Council 'Council Bill 25-0001'; International Institute of Municipal Clerks, records-numbering practice). Each place's own style is not in the data yet (SG-GOV-local-bill-numbering).",
+    "source": "Most municipal clerks number ordinances by the year and their order of introduction (Baltimore City Council 'Council Bill 25-0001'; International Institute of Municipal Clerks, records-numbering practice). A place whose state's general law gives its own clause or numbering reads it from data/research/gov/local-ordinance-style-2026.json; the rest keep this national default.",
     "enactingClause": "Be it ordained by the {body}",
     "enactingSource": "Baltimore City Council bill text ('Section 1. Be it ordained by the Mayor and City Council of Baltimore, That ...'), data/english/parts/legislation.json key legislation.local-section-first.be-it-ordained."
   }

@@ -22,7 +22,10 @@ import {
   governments,
   type GovernmentRow,
 } from "../modules/budgets";
-import { publicEmployerLevel } from "../public-pay-floor";
+import {
+  publicEmployerBoundLevel,
+  publicEmployerLevel,
+} from "../public-pay-floor";
 import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
 import { jobsAt } from "./group-b-money";
@@ -97,12 +100,16 @@ function schedule(
   });
 }
 
-/** Whether the law covers an employer class today: in force at its level of government or above. */
-function covered(
+/**
+ * Whether the law covers an employer class today: in force at the level whose
+ * laws reach it or above (a school district is reached by state and federal
+ * law, not the town's, though the town's budget pays it).
+ */
+export function bargainingCovers(
   yes: readonly { level: string }[],
   classification: string,
 ): boolean {
-  const level = publicEmployerLevel(classification);
+  const level = publicEmployerBoundLevel(classification);
   if (!level) return false;
   const at = ORDER.indexOf(level);
   return yes.some((l) => ORDER.indexOf(l.level as LawLevelName) <= at);
@@ -130,7 +137,7 @@ onReachCalendar(KIND, (api, work) => {
   const budgets = budgetsOf(api, gov.id);
   let waiting = false;
   for (const [classification, unit] of Object.entries(UNITS)) {
-    if (!covered(yes, classification)) continue;
+    if (!bargainingCovers(yes, classification)) continue;
     const id = `bargaining:${gov.id}:${classification}:${fy}`;
     if (mechanicRow(api, id)) continue;
     if (

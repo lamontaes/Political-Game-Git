@@ -66,6 +66,7 @@
     "src/core2/place-lookup.ts",
     "src/core2/place-map.ts",
     "src/core2/past-school-calendar.ts",
+    "src/core2/shares.ts",
     "src/core2/town-households.ts",
     "src/core2/town-employment-mix.ts",
     "src/core2/town-workplaces.ts",

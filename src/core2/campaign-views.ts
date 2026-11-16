@@ -1,8 +1,10 @@
 /**
  * What a voter thinks of a platform: the stand-in for individual views.
  *
- * OPUS-PEOPLE's views engine will give each person their own stance on each
- * question, formed from their life. Until it does (SG-GOV-views-stand-in), a
+ * Each person's stance on a question is partly formed from their own life:
+ * for the questions a recorded circumstance bears on, what their tenure,
+ * income, work, health plan, young children and government job add
+ * (`stakeShift`, `src/core2/life-stakes.ts`). For the rest (SG-GOV-views-stand-in), a
  * person's lean starts from how their own congressional district voted in
  * 2024 (Clerk of the House), placed by the personality facets the research
  * links to ideology, at the small share the research measures, and by the
@@ -18,6 +20,7 @@ import delegates from "../../data/research/elections/house-delegates-2024.json" 
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import { axisOf, campaignParameter, type Stance } from "./campaign-data";
 import { stableHash } from "./kernel/ids";
+import { stakeShift, type LifeStake } from "./life-stake-rule";
 import { worldRate } from "./world-draw";
 import type { PersonState } from "./types";
 
@@ -270,8 +273,9 @@ export function personStance(lean: number, question: string): number {
   return lean * questionAxis(question);
 }
 
-const lineAxis = (lineAxes as { lines: Record<string, { axis: number }> })
-  .lines;
+const lineAxis = (
+  lineAxes as { lines: Record<string, { axis: number; support?: number }> }
+).lines;
 
 /**
  * A question's left-right direction: a recorded policy question's, or for
@@ -290,6 +294,8 @@ const supportOf = (
 
 /** The national polled share for a question's "yes", as published (calibration only). */
 export function publishedSupportShare(question: string): number | undefined {
+  if (question.startsWith("budget-line:"))
+    return lineAxis[question.slice("budget-line:".length)]?.support;
   return supportOf[question]?.support;
 }
 
@@ -331,16 +337,50 @@ export function publicSupport(
 export function publicOffset(
   question: string,
   seed: string,
-  axis = axisOf[question]?.axis ?? 0,
+  axis = questionAxis(question),
   share = supportShare(seed, question),
 ): number {
   return Math.abs(axis) * (2 * share - 1);
+}
+
+const popularityBySeed = new Map<string, Map<string, number>>();
+
+/**
+ * How popular a question's "yes" is across this world's country, on the
+ * views scale (`publicOffset` on the question's own axis): part of every
+ * person's stance, so a voter in a race, on a ballot measure and in a poll
+ * holds one view. Kept per world and question; it never changes in play.
+ */
+export function popularity(question: string, seed: string): number {
+  let byQuestion = popularityBySeed.get(seed);
+  if (!byQuestion) {
+    byQuestion = new Map();
+    popularityBySeed.set(seed, byQuestion);
+  }
+  let value = byQuestion.get(question);
+  if (value === undefined) {
+    value = publicOffset(question, seed);
+    byQuestion.set(question, value);
+  }
+  return value;
 }
 
 /** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
 export interface StanceProfile {
   readonly faithFromAverage?: number;
   readonly collegeFromAverage?: number;
+  /** Their circumstances and how much they weigh their own stake (`src/core2/life-stakes.ts`), read again as their records change. */
+  readonly life?: LifeStake;
+  /** The world whose country's view of each question (`popularity`) their stance carries, as every person's does. */
+  readonly seed?: string;
+  /**
+   * A counted voter's share of what their group has heard or lived since the
+   * opening, on the scale of a view (`stanceViewWeight` times the group's
+   * signed stance, src/core2/counted-news-views.ts): the term a full person's
+   * `viewOn` adds from their own stance. Read at each call, so it follows the
+   * group's row as it moves.
+   */
+  readonly heard?: (question: string) => number;
 }
 
 /** The survey's faith and degree loadings by question, read here and by the views engine's opening record. */
@@ -373,9 +413,10 @@ export function loadingShift(
 
 /**
  * A person's or counted group's own stance on a question, in [-1, 1]: their
- * lean along the question's axis and what their faith and degree add. A full
- * person's current view is the views engine's `viewOn`, the same rule with
- * what they have heard since.
+ * lean along the question's axis, how popular the question is across their
+ * world's country (`popularity`), what their faith and degree add and what
+ * their own circumstances add (`stakeShift`). A full person's current view is
+ * the views engine's `viewOn`, the same rule with what they have heard since.
  */
 export function groupStance(
   lean: number,
@@ -384,7 +425,14 @@ export function groupStance(
 ): number {
   return Math.max(
     -1,
-    Math.min(1, personStance(lean, question) + loadingShift(profile, question)),
+    Math.min(
+      1,
+      personStance(lean, question) +
+        (profile?.seed === undefined ? 0 : popularity(question, profile.seed)) +
+        loadingShift(profile, question) +
+        stakeShift(profile?.life, question) +
+        (profile?.heard?.(question) ?? 0),
+    ),
   );
 }
 

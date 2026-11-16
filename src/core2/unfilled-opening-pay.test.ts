@@ -78,10 +78,19 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         heads;
       const hours = core.jobs.get(row.templateJobId)?.hoursDaily ?? 0;
       const standing = (id: string, waiting: number): PositionRow => {
-        const { filledBy: _filledBy, ...rest } = row as PositionRow & {
+        // A fresh opening at the row's pay: whoever filled the row and any
+        // raise the played year already gave it are not this opening's.
+        const {
+          filledBy: _filledBy,
+          raisedOn: _raisedOn,
+          raises: _raises,
+          firstHourlyMinor: _first,
+          raisedBy: _raisedBy,
+          ...rest
+        } = row as PositionRow & {
           filledBy?: string;
         };
-        void _filledBy;
+        void [_filledBy, _raisedOn, _raises, _first, _raisedBy];
         const open = {
           ...rest,
           id,

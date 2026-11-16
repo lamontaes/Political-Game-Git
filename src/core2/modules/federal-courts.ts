@@ -20,6 +20,7 @@ import bop from "../../../data/research/justice/bop-federal-offenses-2026.json" 
 import ussc from "../../../data/research/justice/ussc-federal-sentencing-fy2025.json" with { type: "json" };
 import groups from "../data/justice/federal-groups.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { lawApplied } from "../law-reach/applied";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { lawInForce } from "./laws";
@@ -201,6 +202,19 @@ function run(api: CoreAPI): void {
     };
     months.put(row as unknown as { id: string });
     latest[group] = row.id;
+    // stopgapId: SG-JUSTICE-federal-prison-cost-flat (the shorter stock saves the Treasury nothing)
+    // The law reached the group's people sentenced under it: the engine read
+    // it to shorten their sentence. The count is who serves the shorter term.
+    if (inForce && law.governing && factor < 1)
+      lawApplied(api, {
+        key: REDUCE_MANDATORY_MINIMUMS,
+        lawId: law.governing.id,
+        targetId: `federal-courts:${group}`,
+        target: "group",
+        engine: FEDERAL_COURTS_MODULE_ID,
+        what: "federal-sentence-shortened",
+        count: Math.max(1, Math.round(newStock)),
+      });
   }
   table(api, "state").put({
     id: "federal-courts:state",

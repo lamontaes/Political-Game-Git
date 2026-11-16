@@ -29,7 +29,6 @@ import {
   requestBudget,
 } from "../core2/modules/office-day";
 import {
-  appointGovernor,
   actOn,
   doEntry,
   stopKindOf,
@@ -39,6 +38,12 @@ import {
   orderQuestionOf,
   pendingGovernorOrders,
 } from "../core2/modules/executive";
+import {
+  askToServe,
+  postAsks,
+  serveAskHours,
+} from "../core2/modules/serve-asks";
+import controls from "./data/controls.json" with { type: "json" };
 import { policyNames } from "./words";
 import {
   hireReasons,
@@ -46,10 +51,13 @@ import {
   servingStaffOf,
   staffCandidates,
 } from "../core2/modules/staff";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
+import { deskVetoReasons } from "../core2/modules/office-day";
 import type { CoreState } from "../core2/types";
 import {
   billOf,
+  bodyOf,
   learnedStakesOf,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -60,23 +68,37 @@ import {
 import { remarksOn } from "../core2/modules/meetings";
 import {
   adjourn,
+  attendMeeting,
   clearPrepared,
   decideDesk,
   deskWaiting,
   leaveDeskToCharacter,
+  leaveMeeting,
   meetingInProgress,
+  meetingOf,
   officeActsOf,
   officeHost,
   officeJobsOf,
   prepareAct,
+  setStops,
   speakOnItem,
+  stopKinds,
+  stopsOf,
   takeUpItem,
-  upcomingMeeting,
+  federalSeatOf,
+  stateOfficeOf,
+  votesOnPassage,
+  type MeetingRow,
+  nextMeetingDate,
 } from "../core2/modules/office-day";
+import { dateWords } from "../english/plain-words.mjs";
+import { screenPick, screenWays } from "../english/screen-words";
+import { count } from "./printed-words";
 import { bodyMembers, bodyScene, personName } from "./legislature";
 import {
   headCandidates,
   postsToFill,
+  stateCandidateNames,
   stateCandidates,
   statePostsToFill,
 } from "../core2/modules/executive";
@@ -154,6 +176,60 @@ export function floorDecide(core: CoreState, billId: string, how: string) {
   voteOnFloor(api, person, billId, how);
 }
 
+/**
+ * The one line a resident in the room reads under the meeting's title, in the English
+ * engine's words: that nothing is on the agenda, or, the first time they come to any
+ * meeting with an item before it (none such is on their record yet), what they can do here.
+ */
+function residentNote(
+  core: CoreState,
+  personId: string,
+  meeting: MeetingRow,
+  body: string,
+): string | null {
+  const request = { momentKey: meeting.id, sourceIds: [meeting.id] };
+  const pick = (key: string, facts: Record<string, string>) =>
+    screenPick("meeting", screenWays("meeting", key), facts, request)?.text ??
+    null;
+  const items = meeting.agenda.length;
+  if (!items)
+    return pick("meeting.empty-agenda.1", {
+      body,
+      date: dateWords(meeting.date, { year: false }),
+    });
+  // Said once: not again after a meeting they came to that had an item before it.
+  if (
+    officeActsOf(coreAPI(core), personId).some(
+      (act) => act.kind === "attend" && act.detail !== "0",
+    )
+  )
+    return null;
+  // The line counts the items a resident can speak on: not one already taken up, nor one
+  // a committee already decided (those show only "Read the bill").
+  const api = coreAPI(core);
+  const openIds = meeting.agenda.filter(
+    (id) =>
+      !meeting.takenUp.includes(id) &&
+      legislatureBillOf(api, id).status === "drafted",
+  );
+  const open = openIds.length;
+  if (!open) return null;
+  // One open among more on the agenda: named, so the reader need not hunt for which.
+  const [only] = openIds;
+  if (open === 1 && items > 1 && only) {
+    const title = billTitleOf(legislatureBillOf(api, only))?.title;
+    if (title)
+      return pick("meeting.resident-can-speak-one-named.1", {
+        body,
+        item: title,
+      });
+  }
+  // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
+  if (open === 1) return pick("meeting.resident-can-speak-one.1", { body });
+  if (open === 2) return pick("meeting.resident-can-speak-two.1", { body });
+  return pick("meeting.resident-can-speak.1", { body, count: count(open) });
+}
+
 /** The meeting holding the player's clock: the room, the agenda, and what was taken up. */
 export function meetingSceneView(
   core: CoreState,
@@ -173,12 +249,34 @@ export function meetingSceneView(
       takenUp: meeting.takenUp.includes(billId),
     })),
     ...(() => {
-      const scene = bodyScene(core, personId, meeting.officeId, minute);
+      // A resident who came to speak is in the room and not at the table.
+      const watching = meeting.audience !== undefined;
+      const named = bodyOf(api, meeting.officeId);
+      const bodyName = named?.bodyName ?? named?.kind ?? "";
+      const scene = bodyScene(
+        core,
+        personId,
+        meeting.officeId,
+        minute,
+        watching,
+      );
       // The members, with their faces, for the panel's tally (the chamber's own
       // figures are drawn where the room has a mannequin plate for them).
       return {
         ...scene,
-        members: bodyMembers(core, personId, meeting.officeId, scene.place),
+        members: bodyMembers(
+          core,
+          personId,
+          meeting.officeId,
+          scene.place,
+          watching,
+        ),
+        // A resident has no vote and cannot adjourn.
+        seated: !watching,
+        // A resident reads the body by its own name, as the Calendar says it
+        // (the seat's title names one member, not the body).
+        ...(watching ? { title: bodyName } : {}),
+        note: watching ? residentNote(core, personId, meeting, bodyName) : null,
       };
     })(),
   };
@@ -209,8 +307,22 @@ export function meetingSpeak(
   speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
 }
 
+/** The chair's adjournment for a member; for a resident in the room, their leaving. */
 export function meetingAdjourn(core: CoreState, meetingId: string) {
-  adjourn(coreAPI(core), meetingId);
+  const api = coreAPI(core);
+  if (meetingOf(api, meetingId)?.audience !== undefined)
+    leaveMeeting(api, meetingId);
+  else adjourn(api, meetingId);
+}
+
+/** The player marks a body's posted meeting to attend as a resident, or takes the mark back. */
+export function meetingAttend(
+  core: CoreState,
+  officeId: string,
+  date: string,
+  attend: boolean,
+) {
+  attendMeeting(coreAPI(core), officeId, date, attend);
 }
 
 /** Bills waiting on the player's desk this morning. */
@@ -219,13 +331,26 @@ export function deskView(core: CoreState) {
   return deskWaiting(api).map((bill) => ({
     ...billItem(core, bill),
     signBy: (bill as BillRow & { signBy?: string }).signBy ?? null,
+    // The reasons the record supports for a veto, the player's to give.
+    vetoReasons: deskVetoReasons(api, bill.id).map((row) => row.key),
   }));
 }
 
-export function deskDecide(core: CoreState, billId: string, how: string) {
+export function deskDecide(
+  core: CoreState,
+  billId: string,
+  how: string,
+  reason?: string,
+) {
   const api = coreAPI(core);
-  if (how === "sign" || how === "veto")
-    return decideDesk(api, billId, how === "sign");
+  if (how === "sign") return decideDesk(api, billId, true);
+  if (how === "veto")
+    return decideDesk(
+      api,
+      billId,
+      false,
+      deskVetoReasons(api, billId).find((row) => row.key === reason)?.key,
+    );
   if (how === "own") return leaveDeskToCharacter(api, billId);
   throw new Error("Unknown desk decision.");
 }
@@ -241,20 +366,116 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
 export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
   const api = coreAPI(core);
   const meeting = meetingInProgress(api);
-  if (meeting) {
+  if (meeting?.audience !== undefined) leaveMeeting(api, meeting.id);
+  else if (meeting) {
     for (const billId of meeting.agenda)
       takeUpItem(api, meeting.id, billId, "own");
     adjourn(api, meeting.id);
   }
-  for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+  for (const bill of deskWaiting(api, true)) leaveDeskToCharacter(api, bill.id);
   if (holderId)
     for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
+}
+
+/**
+ * The switches Your office offers (owner's card, Nov 14, 2026: "Stop me at every vote"): each is
+ * one name the player knows over the registered stop kinds it sets together, and shows only when
+ * the seat has that kind of moment. On by default; off leaves the player away from that kind of
+ * vote (the engine records them absent, a desk bill waits, nothing is cast or signed for them).
+ */
+const STOP_SWITCHES = [
+  // The own-bill and deciding-vote stops are moments of the same meetings and floor votes: left on
+  // under an Off switch they would still hold the player at some of them.
+  {
+    key: "meetings",
+    kinds: ["every-meeting", "own-bill-vote", "deciding-vote"],
+  },
+  { key: "floor", kinds: ["floor-vote", "state-floor-vote", "own-bill-vote"] },
+  { key: "desk", kinds: ["desk"] },
+] as const;
+
+/** The elected executive seats whose desk a passed bill reaches (the legislature engine's own set). */
+const EXECUTIVE_OFFICE = /^(mayor|governor|county-executive|president)$/;
+
+/** Which switches this seat has: a local body's meetings, a legislator's floor, an executive's desk. */
+function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const executive = (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  ).some((term) => {
+    const office = offices.table("offices").get(term.officeId) as unknown as
+      { kind: string } | undefined;
+    return (
+      term.status === "serving" && EXECUTIVE_OFFICE.test(office?.kind ?? "")
+    );
+  });
+  const federal = federalSeatOf(api, personId);
+  const has: Record<(typeof STOP_SWITCHES)[number]["key"], boolean> = {
+    // A seat in a body that meets, whether or not a meeting is on the calendar this week: a mayor's
+    // office has a body record (kind "mayor") but no meetings, so no switch for nothing.
+    meetings: officeJobsOf(api, personId).some((j) => {
+      const body = bodyOf(api, j.officeId);
+      return body !== undefined && !EXECUTIVE_OFFICE.test(body.kind);
+    }),
+    floor:
+      stateOfficeOf(api, personId)?.role === "legislator" ||
+      (federal !== null && votesOnPassage(federal.kind)),
+    desk: executive,
+  };
+  return STOP_SWITCHES.filter((row) => has[row.key]);
+}
+
+/**
+ * The meetings switch's label in the body's own short word, read from the first body the player sits
+ * on by the rules in controls.json (a body whose name has no word there reads plain "Meetings").
+ */
+function bodyWord(api: ReturnType<typeof coreAPI>, officeIds: string[]) {
+  for (const officeId of officeIds) {
+    const name = bodyOf(api, officeId)?.bodyName?.toLowerCase();
+    if (!name) continue;
+    const rule = controls.officeStops.bodySwitches.find((r) =>
+      r.has.every((word) => name.includes(word)),
+    );
+    if (rule) return rule.label;
+  }
+  return null;
+}
+
+/** The player switches one kind of stop off or on; the view comes back with it. */
+export function officeStops(
+  core: CoreState,
+  personId: string,
+  key: string,
+  on: boolean,
+) {
+  const api = coreAPI(core);
+  const row = seatSwitches(api, personId).find((r) => r.key === key);
+  if (!row) throw new Error("Your seat has no such stop.");
+  const known = stopKinds();
+  setStops(
+    api,
+    personId,
+    Object.fromEntries(
+      row.kinds.filter((k) => known.includes(k)).map((k) => [k, on]),
+    ),
+  );
+  return officeView(core, personId);
 }
 
 /** The office panel: the seat as a job, the next meetings, what stops the player, and the acts kept. */
 export function officeView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const jobs = officeJobsOf(api, personId);
+  // The staff list is read first: weighing the aides fills in the residents
+  // it weighs (two-level population), and a filled-in adult is one of the
+  // town's people a post can go to. Read after, the posts' lists below are
+  // the one ranked list the engine names from (headCandidates).
+  const aides = jobs.length
+    ? aidesView(core, personId)
+    : { serving: [], candidates: [] };
   return {
     jobs: jobs.map((j) => ({
       title: j.title,
@@ -264,43 +485,66 @@ export function officeView(core: CoreState, personId: string) {
       payer: core.organizations.get(j.payerId)?.name ?? j.payerId,
       lastPaid: j.lastPaid ?? null,
       citation: j.citation,
-      nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
+      nextMeeting: nextMeetingDate(api, j.officeId),
+    })),
+    // The body's short said word for the meetings switch ("Council meetings"), from the body's own name; none when no word fits.
+    stopsBody: bodyWord(
+      api,
+      jobs.map((j) => j.officeId),
+    ),
+    stops: seatSwitches(api, personId).map((row) => ({
+      key: row.key,
+      on: row.kinds.every((k) => stopsOf(api, personId)[k] !== false),
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
     heads: [
       ...postsToFill(api, personId).map((post) => ({
         post,
         candidates: headCandidates(api, post.key),
+        names: undefined as ReadonlyMap<string, string> | undefined,
       })),
       // A governor's open cabinet posts: the state chamber confirms the one they name.
+      // Someone drawn from the state's people is named by their drawn record, never filled in to be shown.
       ...statePostsToFill(api, personId).map((post) => ({
         post,
         candidates: stateCandidates(api, personId, post.key),
+        names: stateCandidateNames(api, post.key),
       })),
-    ].map(({ post, candidates }) => ({
-      post: post.key,
-      title: post.title,
-      candidates: candidates.slice(0, 8).map((reasons) => {
-        const person = core.people.get(reasons.candidateId);
-        const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
-        return {
-          id: reasons.candidateId,
-          name: personName(core, reasons.candidateId),
-          job: job && job.endsAt === undefined ? job.title : null,
-          total: reasons.total,
-        };
-      }),
-    })),
+    ].map(({ post, candidates, names }) => {
+      // Who turned the player down, and who may be asked now (owner, Nov 14:
+      // a no stands for now; ask again later).
+      const asks = new Map(
+        postAsks(api, personId, post.key).map((a) => [a.personId, a]),
+      );
+      return {
+        post: post.key,
+        title: post.title,
+        candidates: candidates.map((reasons) => {
+          const person = core.people.get(reasons.candidateId);
+          const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+          const asked = asks.get(reasons.candidateId);
+          return {
+            id: reasons.candidateId,
+            name:
+              names?.get(reasons.candidateId) ??
+              personName(core, reasons.candidateId),
+            job: job && job.endsAt === undefined ? job.title : null,
+            total: reasons.total,
+            mayAsk: asked?.mayAsk ?? true,
+            declined: !!asked?.declined,
+          };
+        }),
+      };
+    }),
     // The aides who serve now and the people the staff engine would weigh for the post, best first by its own score, each with its reasons.
-    aides: jobs.length
-      ? aidesView(core, personId)
-      : { serving: [], candidates: [] },
+    aides,
     // The budget the official may send now, line by line, with the change set for each (null outside the season).
     budget: budgetToSend(core, personId),
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
     deals: pendingBills(api, personId).map((bill) => ({
       billId: bill.id,
-      number: bill.number,
+      // Said with its form's word ("Ordinance 2025-8"), never bare.
+      number: spokenDesignation(bill.number, bill.form.kind),
       colleagues: colleaguesOn(api, bill, personId).map((key) => {
         // Where the player learned this colleague stands, and how (a talk or
         // an aide's brief), from the legislature's record of it.
@@ -389,33 +633,25 @@ export function hireAide(core: CoreState, personId: string, hireId: string) {
   return { staffId: row.id, view: officeView(core, personId) };
 }
 
-/** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */
-export function nameHeadPick(
+/**
+ * The player asks someone offered for one of their open posts to take it
+ * (brief J): the ask plays as a scene, and only a yes names them, through the
+ * "name a department head" act for a town post or at once for a state post,
+ * confirmed as before. Left alone, the official's own first choice stands.
+ */
+export function askHead(
   core: CoreState,
   personId: string,
   post: string,
   nomineeId: string,
 ) {
-  const api = coreAPI(core);
-  // A governor names a state post at once: the chamber's confirmation is on the record they get back.
-  if (statePostsToFill(api, personId).some((row) => row.key === post)) {
-    if (
-      !stateCandidates(api, personId, post).some(
-        (r) => r.candidateId === nomineeId,
-      )
-    )
-      throw new Error("Not someone this post could go to.");
-    appointGovernor(api, post, nomineeId);
-    return officeView(core, personId);
-  }
-  if (!postsToFill(api, personId).some((row) => row.key === post))
-    throw new Error("Not an open post you appoint.");
-  if (!headCandidates(api, post).some((row) => row.candidateId === nomineeId))
-    throw new Error("Not someone this post could go to.");
-  prepareAct(api, personId, "name-department-head", {
-    nominee: { post, personId: nomineeId },
+  const row = askToServe(coreAPI(core), {
+    seat: "post",
+    appointerId: personId,
+    post,
+    personId: nomineeId,
   });
-  return officeView(core, personId);
+  return { hours: serveAskHours(), eventId: row.eventId };
 }
 
 /** The budget the official may send now, with each line and the change set to send with it. */
@@ -534,7 +770,7 @@ export function colleagueDeal(
   return officeView(core, personId);
 }
 
-/** What the governor's staff has brought for the player to decide today: executive orders and emergency offers. */
+/** What the governor's staff has brought for the player to decide today: executive orders. */
 export function ordersView(core: CoreState) {
   const api = coreAPI(core);
   const person = controlledPerson(api);
@@ -564,7 +800,6 @@ export function ordersView(core: CoreState) {
     .filter(
       (entry) =>
         entry.kind === "executive-order" ||
-        entry.kind === "emergency" ||
         entry.kind === "state-of-the-state" ||
         stopKindOf(api, entry) === "own-hearing" ||
         entry.kind === "appointment" ||
@@ -590,17 +825,32 @@ export function ordersView(core: CoreState) {
                   (p) => p.key === entry.subject,
                 )?.title ?? null,
               revoke: false,
-              candidates: stateCandidates(api, person, entry.subject)
-                .slice(0, 8)
-                .map((reasons) => {
-                  const who = core.people.get(reasons.candidateId);
-                  const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
-                  return {
-                    id: reasons.candidateId,
-                    name: personName(core, reasons.candidateId),
-                    job: job && job.endsAt === undefined ? job.title : null,
-                  };
-                }),
+              // Only someone who may be asked now is offered; a no stands for
+              // a while. Everyone the post could go to, best first.
+              candidates: (() => {
+                const asks = new Map(
+                  postAsks(api, person, entry.subject).map((a) => [
+                    a.personId,
+                    a.mayAsk,
+                  ]),
+                );
+                const names = stateCandidateNames(api, entry.subject);
+                return stateCandidates(api, person, entry.subject)
+                  .filter((reasons) => asks.get(reasons.candidateId) ?? true)
+                  .map((reasons) => {
+                    const who = core.people.get(reasons.candidateId);
+                    const job = who?.jobId
+                      ? core.jobs.get(who.jobId)
+                      : undefined;
+                    return {
+                      id: reasons.candidateId,
+                      name:
+                        names.get(reasons.candidateId) ??
+                        personName(core, reasons.candidateId),
+                      job: job && job.endsAt === undefined ? job.title : null,
+                    };
+                  });
+              })(),
             }
           : stopKindOf(api, entry) === "own-hearing"
             ? {
@@ -618,28 +868,20 @@ export function ordersView(core: CoreState) {
                   name: null,
                   revoke: false,
                 }
-              : entry.kind === "emergency"
-                ? {
-                    entryId: entry.id,
-                    kind: "emergency" as const,
-                    order: entry.subject,
-                    name: null,
-                    revoke: false,
-                  }
-                : {
-                    entryId: entry.id,
-                    kind: "order" as const,
-                    order: entry.subject,
-                    // The order's own question, worded by the bill catalog's name for it.
-                    name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
-                    revoke:
-                      brought.find((row) => row.order === entry.subject)
-                        ?.revoke ?? false,
-                  },
+              : {
+                  entryId: entry.id,
+                  kind: "order" as const,
+                  order: entry.subject,
+                  // The order's own question, worded by the bill catalog's name for it.
+                  name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+                  revoke:
+                    brought.find((row) => row.order === entry.subject)
+                      ?.revoke ?? false,
+                },
     );
 }
 
-/** The player issues the order (or declares the emergency), or sets it aside. */
+/** The player issues the order, or sets it aside. */
 export function ordersDecide(
   core: CoreState,
   entryId: string,
@@ -680,16 +922,15 @@ export function ordersDecide(
     return;
   }
   if (entry.kind === "appointment") {
-    if (how === "issue" && nomineeId)
-      if (
-        !stateCandidates(api, person, entry.subject).some(
-          (r) => r.candidateId === nomineeId,
-        )
-      )
-        throw new Error("Not someone this post could go to.");
+    // Naming someone is asking them (brief J): the post stays open on the
+    // desk while the sit-down plays, and only their yes seats them.
+    if (how === "issue" && nomineeId) {
+      const asked = askHead(core, person, entry.subject, nomineeId);
+      doEntry(api, entryId, { kind: "appointment", leave: true });
+      return asked;
+    }
     doEntry(api, entryId, {
       kind: "appointment",
-      ...(how === "issue" && nomineeId ? { personId: nomineeId } : {}),
       ...(how === "decline" ? { leave: true } : {}),
     });
     return;
@@ -703,10 +944,6 @@ export function ordersDecide(
     // The address is given by the governor's own priorities (the staff's draft); it has no
     // "set aside": the day's hold ends once it is given.
     actOn(api, entry);
-    return;
-  }
-  if (entry.kind === "emergency") {
-    doEntry(api, entryId, { kind: "emergency", declare: how === "issue" });
     return;
   }
   const revoke =
@@ -724,7 +961,7 @@ export function nominationsView(core: CoreState) {
   return nominationsOpen(api, person).map((post) => ({
     post: post.postId,
     title: post.title,
-    candidates: post.candidates.slice(0, 8).map((c) => {
+    candidates: post.candidates.map((c) => {
       const who = core.people.get(c.id);
       const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
       return {

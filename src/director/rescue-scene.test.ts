@@ -137,9 +137,7 @@ it(`a rescue asks the player for something, from the rescue record (seed ${seed}
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expectUpToFourDifferent(root, where);
           for (const row of root)
-            expect(["agree", "promise", "ask", "decline"], where).toContain(
-              row.move,
-            );
+            expect(["agree", "ask", "decline"], where).toContain(row.move);
           expect(scene.talk.depth, where).toBeGreaterThan(1);
           expect(
             scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -155,8 +153,11 @@ it(`a rescue asks the player for something, from the rescue record (seed ${seed}
           const said = scene.talk.lines.map((row) => row.text).join(" | ");
           if (!replied) {
             replied = true;
-            const settled = endsKeeping(scene.talk.tree, "promise")[0];
-            expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+            const settled = endsKeeping(scene.talk.tree, "kept-in-scene")[0];
+            expect(
+              settled,
+              `${where}: no path settles in the scene`,
+            ).toBeTruthy();
             const replyId = replyInScene(
               core,
               director,
@@ -171,7 +172,7 @@ it(`a rescue asks the player for something, from the rescue record (seed ${seed}
             expect(reply?.facts?.ending, where).toBe(
               "said-yes-after-the-rescue",
             );
-            expect(reply?.facts?.keeps, where).toBe("promise");
+            expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
             expect(reply?.personIds, where).toContain(scene.askerId);
             const sour = endsKeeping(
               scene.talk.tree,

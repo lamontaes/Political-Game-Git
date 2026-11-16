@@ -2,14 +2,20 @@
  * The town's economy as dated records: on the second of each month, after
  * the month's reviews, one row per place with jobs, unemployment, pay,
  * prices, businesses, rent, mortgages and bank lending, read from the
- * engines' own records. Screens and the outcome web (M3-04) read these rows;
- * nothing here moves money or decides anything.
+ * engines' own records. Each month's row is folded into the place's year row
+ * (`years`, one per place per year: the registry of output numbers,
+ * src/core2/output-numbers.ts), which also takes the figures an owning engine
+ * counts on the day they happen. Screens and the outcome web (M3-04) read
+ * these rows; nothing here moves money or decides anything.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
 import { povertyByPlace } from "../world-poverty";
 import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
+import { foldMonthIntoYear } from "../output-numbers";
+import { laborYearBefore } from "../labor-past";
+import { townLaborByPlace } from "./world-panels";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -25,6 +31,38 @@ function rows(api: CoreAPI, moduleId: string, table: string) {
     : [];
 }
 
+/**
+ * The people and homes each place holds today, from the residents engine's
+ * own records in one pass: named people from the place index (the dead stay
+ * in it, so the living are counted), households that still have a living
+ * member, and the counted tier by weight (a record stands for as many
+ * households as its weight says). A group-quarters room is people but no
+ * household.
+ */
+function peopleAndHomes(c: CoreState, rt: ReturnType<typeof residentsRuntime>) {
+  const out = new Map<
+    string,
+    { named: number; counted: number; households: number }
+  >();
+  const at = (placeId: string) => {
+    let row = out.get(placeId);
+    if (!row) out.set(placeId, (row = { named: 0, counted: 0, households: 0 }));
+    return row;
+  };
+  for (const [placeId, ids] of c.peopleByPlace)
+    for (const id of ids) if (c.people.get(id)?.alive) at(placeId).named += 1;
+  for (const home of c.households.values())
+    if (home.memberIds.some((id) => c.people.get(id)?.alive))
+      at(home.placeId).households += 1;
+  if (rt)
+    for (const h of rt.store.liveHouseholds()) {
+      const row = at(h.placeId);
+      row.counted += rt.store.weightedCount(h);
+      if (!h.quarters) row.households += rt.store.weightOf(h);
+    }
+  return out;
+}
+
 /** The town's economic numbers today, one entry per place with businesses. */
 export function townMetrics(api: CoreAPI) {
   const c = api.state as CoreState;
@@ -34,9 +72,6 @@ export function townMetrics(api: CoreAPI) {
     string,
     {
       employed: number;
-      /** Residents who hold a job, wherever it is: the labor force the unemployment rate stands on. */
-      residentsEmployed: number;
-      unemployed: number;
       hourly: number[];
       open: number;
       closedThisMonth: number;
@@ -55,8 +90,6 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         (row = {
           employed: 0,
-          residentsEmployed: 0,
-          unemployed: 0,
           hourly: [],
           open: 0,
           closedThisMonth: 0,
@@ -93,7 +126,6 @@ export function townMetrics(api: CoreAPI) {
     const person = c.people.get(job.personId);
     const home = person ? c.households.get(person.householdId) : undefined;
     earn(home?.placeId, home?.id, job.wageDailyMinor);
-    if (home?.placeId) at(home.placeId).residentsEmployed += 1;
   }
   for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
     const job = rt!.jobs.get(jobId);
@@ -112,7 +144,6 @@ export function townMetrics(api: CoreAPI) {
       home?.id,
       job.wageDailyMinor,
     );
-    if (home && !home.gone) at(home.placeId).residentsEmployed += 1;
   }
   // Eviction orders (judgments) in the month before this one, by where the household lives.
   const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(
@@ -129,12 +160,6 @@ export function townMetrics(api: CoreAPI) {
       rt?.store.liveHousehold(row.householdId)?.placeId;
     if (placeId) at(placeId).evictionOrders += 1;
   }
-  for (const table of ["seekers", "countedSeekers"])
-    for (const row of rows(api, "jobs", table) as unknown as {
-      placeId: string;
-      employed: boolean;
-    }[])
-      if (!row.employed) at(row.placeId).unemployed += 1;
   for (const [id, book] of c.finance.businesses) {
     const placeId = placeOf(id);
     if (!placeId) continue;
@@ -167,7 +192,44 @@ export function townMetrics(api: CoreAPI) {
   const loans = rows(api, "credit", "loans") as unknown as {
     open: boolean;
   }[];
+  // Unemployment claims open today, by the place each was filed in: the jobs
+  // engine's own index of open claims, a counted claimant standing for the
+  // people their household stands for (one model, two tiers).
+  const claimsOpen = new Map<string, number>();
+  const hasJobs = c.modules.has("jobs");
+  if (hasJobs)
+    for (const row of api
+      .moduleState("jobs")
+      .table("claims")
+      .query("open", [true]) as unknown as {
+      personId: string;
+      placeId: string;
+    }[]) {
+      const m = c.people.has(row.personId as never)
+        ? undefined
+        : rt?.store.countedMember(row.personId);
+      claimsOpen.set(
+        row.placeId,
+        (claimsOpen.get(row.placeId) ?? 0) +
+          (m === undefined
+            ? 1
+            : rt!.store.weightOf(
+                rt!.store.households[rt!.store.household[m]!]!,
+              )),
+      );
+    }
+  // The town's labor market, one counting rule (townLaborByPlace): the month
+  // row, the rate, the Metrics tab and the paper all read it.
+  const labor = townLaborByPlace(api);
+  for (const placeId of labor.keys()) at(placeId);
   const poverty = povertyByPlace(c);
+  const people = peopleAndHomes(c, rt);
+  const stock = c.modules.has(HOUSING_MODULE_ID)
+    ? api.moduleState(HOUSING_MODULE_ID).table("stock")
+    : undefined;
+  const homeless = c.modules.has("core2-homeless-count-v1")
+    ? api.moduleState("core2-homeless-count-v1").table("counts")
+    : undefined;
   const housing = c.modules.has(HOUSING_MODULE_ID)
     ? townFiguresByPlace(api, new Set(places.keys()))
     : undefined;
@@ -177,17 +239,26 @@ export function townMetrics(api: CoreAPI) {
       const income = median([...row.earnings.values()]);
       const homes = housing?.get(placeId);
       const rent = homes?.rentMinor ?? median(row.rents);
+      const here = people.get(placeId);
+      const work = labor.get(placeId) ?? {
+        employed: 0,
+        seekers: 0,
+        openPositions: 0,
+      };
+      const homesHeld = stock?.get(`stock:${placeId}`) as
+        { rentalUnits: number; vacantRental: number } | undefined;
+      const noHome = homeless?.get(placeId) as { homeless: number } | undefined;
       return {
         placeId,
         date: c.date,
         employed: row.employed,
-        residentsEmployed: row.residentsEmployed,
-        unemployed: row.unemployed,
+        residentsEmployed: work.employed,
+        unemployed: work.seekers,
         unemploymentRate:
           // Residents who are out of work over residents in the labor force:
           // jobs at the town's firms held by commuters are not its residents.
-          row.residentsEmployed + row.unemployed > 0
-            ? row.unemployed / (row.residentsEmployed + row.unemployed)
+          work.employed + work.seekers > 0
+            ? work.seekers / (work.employed + work.seekers)
             : 0,
         medianHourlyMinor: median(row.hourly),
         businessesOpen: row.open,
@@ -210,6 +281,37 @@ export function townMetrics(api: CoreAPI) {
             ? (rent * api.parameter("macroMonthsPerYear")) / income
             : 0,
         evictionOrdersLastMonth: row.evictionOrders,
+        // People and homes (build order metrics-people-and-homes-by-year):
+        // named and counted people by tier, households, the housing stock's
+        // rentals and the homeless count's latest figure.
+        ...(here
+          ? {
+              people: here.named + here.counted,
+              peopleNamed: here.named,
+              peopleCounted: here.counted,
+              households: here.households,
+            }
+          : {}),
+        ...(homesHeld
+          ? {
+              rentalUnits: homesHeld.rentalUnits,
+              vacantRentals: homesHeld.vacantRental,
+            }
+          : {}),
+        ...(noHome ? { peopleWithoutHome: noHome.homeless } : {}),
+        // The town's labor market by one counting rule (townLaborByPlace): a
+        // counted resident stands for the household's weight.
+        ...(hasJobs
+          ? {
+              residentsAtWork: work.employed,
+              residentsLooking: work.seekers,
+              laborForce: work.employed + work.seekers,
+              openPositions: work.openPositions,
+            }
+          : {}),
+        ...(hasJobs
+          ? { unemploymentClaimsOpen: claimsOpen.get(placeId) ?? 0 }
+          : {}),
         // People (named plus counted, by weight) in households whose yearly
         // income is under the Census line for their size, over all people.
         // A place with no recorded jobs has no incomes to read, so it keeps
@@ -250,21 +352,60 @@ export const WORLD_METRICS_MODULE: CoreModule = {
     tables: {
       state: {},
       months: { indexes: { byPlace: { fields: ["placeId"] } } },
+      years: { indexes: { byPlace: { fields: ["placeId"] } } },
     },
   },
   onCalendarWork(api, work) {
     if (work.kind !== "world-metrics") return;
-    for (const row of townMetrics(api))
+    for (const row of townMetrics(api)) {
+      const id = `metrics:${row.placeId}:${row.date}`;
       api
         .moduleState(WORLD_METRICS_MODULE_ID)
         .table("months")
-        .put({ id: `metrics:${row.placeId}:${row.date}`, ...row });
+        .put({ id, ...row });
+      foldMonthIntoYear(api, row, id);
+    }
     schedule(api);
   },
   onDay(api) {
     const state = api.moduleState(WORLD_METRICS_MODULE_ID).table("state");
     if (state.get("world-metrics:state")) return;
     state.put({ id: "world-metrics:state", openedAt: api.state.date });
+    // The year opens with what the engines hold on the first day, so a
+    // figure is on screen before the first monthly row (owner, Nov 5: the
+    // Metrics tab is never blank). No year before it is written: nothing
+    // kept one.
+    const opening = townMetrics(api);
+    for (const row of opening) {
+      // The first reading is a month row too, so a figure's trace inputs
+      // (the labor force a count is out of) are on screen from day one.
+      const id = `metrics:${row.placeId}:${row.date}`;
+      api
+        .moduleState(WORLD_METRICS_MODULE_ID)
+        .table("months")
+        .put({ id, ...row });
+      foldMonthIntoYear(api, row, id);
+    }
+    // A year before the start, from the economy pass's months
+    // (src/core2/labor-past.ts), so last year is beside the first reading.
+    laborYearBefore(
+      api,
+      opening.flatMap((row) =>
+        row.residentsAtWork === undefined ||
+        row.residentsLooking === undefined ||
+        row.openPositions === undefined
+          ? []
+          : [
+              {
+                placeId: row.placeId,
+                residentsAtWork: row.residentsAtWork,
+                residentsLooking: row.residentsLooking,
+                openPositions: row.openPositions,
+                unemploymentRate: row.unemploymentRate,
+              },
+            ],
+      ),
+    );
     schedule(api);
   },
 };

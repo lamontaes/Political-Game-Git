@@ -1,6 +1,6 @@
 ---
 id: people-counted-victims-lived-crime
-title: "A counted group the crime engine victimizes moves its view on the police by the same rule as a full victim"
+title: "A counted group's lived-crime stance reaches neither its ballots nor a member filled in from it"
 area: people
 kind: wiring
 priority: 3
@@ -19,22 +19,24 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** The crime engine victimizes full households and counted groups by one rule, but only a full household's victimization is a record its members hold (crime.victimized); a counted group's are a tally row per place, month and group. The views engine moves the stance of each full victim the record names and reads no tally, so the wider population's view on the police never moves from the crimes it lives. Registered as SG-PEOPLE-counted-victims-lived-crime.
+**What.** Since the views thread's PR (Nov 15), a counted group the crime engine victimizes moves its stance on the question the crime ties to by the full victim's rule times the share of its adults reached, citing the tally row (`liveCountedCrime` in src/core2/counted-news-views.ts), and the press reads it (`countedNewsConcern`). Two parts are still missing. A counted voter's view on a question (`countedViewOn` in src/core2/modules/views.ts) is read from their opening profile, not from their group's countedStances row, so the lived crime moves what the press reads and not how the group votes. And a member filled in from the group does not start from the group's stance. Seen: Feeds: the counted ballots of every race where crime is a question, and the views of a counted neighbor the player meets.
 
-**Cause.** Found in code: src/core2/modules/views.ts line 988 marks SG-PEOPLE-counted-victims-lived-crime (row at src/core2/data/stopgaps/people.json line 173): the lived reader moves full victims only, not the crime engine's per-group tally rows in src/core2/modules/crime.ts.
+**Cause.** Found in code: `countedViewOn` in src/core2/modules/views.ts reads `groupStance(lean, question, countedStanceProfile(...))` with no countedStances term, and the fill-in writes no stance row from the group's. The same gap holds for news, registered as SG-PEOPLE-counted-readers-stories; the row SG-PEOPLE-counted-victims-lived-crime now names only these two parts.
 
-**Fix.** Read the tally rows in the lived-crime step and move each victimized counted group's view on the police by the full victim's rule times its count, citing the tally row id, and mark the stopgap resolved.
+**Fix.** Add the group's countedStances row to `countedViewOn` the way a full person's `viewOn` adds their own stance (`stanceViewWeight` times the signed strength), and start a member filled in from a counted group with the group's stance rows. One PR for news and lived crime alike; check with the paper thread that nobody is building the news part first.
 
-**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** One model, two tiers: a counted group reached by a lived crime moves by the full victim's rule times its count. Ask why: the group's moved view cites the tally row. No dice: which groups were victimized is the crime engine's own owed-share order, never a roll.
+**Rules.** One model, two tiers: a counted group reached by a lived crime or a story moves by the full person's rule times its count, and that move reaches the same readers a full person's does. Ask why: the moved view cites the tally row or the story.
 
-**Done when.** A second session runs a one-year buildBenchWorld in a drawn place from all 56 (place and seed named) and sees a counted group the crime engine victimized have its view on the police moved by the full victim's rule times its tally's count, citing the tally row id, and filling in a member of that group gives a person whose view matches it. src/core2/views-counted-victims.test.ts proves it and fails when the counted step is removed.
+**Done when.** A second session runs a one-year buildBenchWorld in a drawn place (place and seed named) and sees a counted group's ballot appeal move with its countedStances row on a question its candidates differ on, and a member filled in from the group start from the group's stance.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/views.ts, src/core2/modules/crime.ts, src/core2/data/stopgaps/people.json, src/core2/views-counted-victims.test.ts (new)
+**Files.** src/core2/modules/views.ts, src/core2/counted-news-views.ts, src/core2/data/stopgaps/people.json
 
-**Notes.** Found Oct 24 by the effects lead when Merger 3 sent back #5895 (web-views-lived-crime-moves-stance), whose full-victim step is on that PR. Sibling of people-counted-readers-stances-from-stories, which is the same gap for printed stories.
+**Notes.**
 
-Deferred Oct 25: nothing on screen reads it yet.
+- Oct 24: found by the effects lead when Merger 3 sent back #5895 (web-views-lived-crime-moves-stance). Sibling of people-counted-readers-stances-from-stories.
+- Nov 15 (views thread): the crime step is built (counted groups live their tallied crimes, test `src/core2/views-counted-victims.test.ts` at Gilliam, Missouri); this item now holds the two parts left, as the Account lead ruled.
+- Nov 15 (views thread): the two parts are built on the next branch (counted ballots read the group's stance through the voter's stance profile; filled-in adults start from the group's stance rows), shown in the same test file; SG-PEOPLE-counted-victims-lived-crime resolved.

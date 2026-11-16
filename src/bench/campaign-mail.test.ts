@@ -38,6 +38,7 @@ import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import { FOLDED_AT_POST, findRecord, traceNode } from "./dev-trace";
 import controls from "./data/controls.json" with { type: "json" };
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -79,7 +80,7 @@ function world() {
     { modules: [viewsModule] },
   ) as CoreState;
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -94,14 +95,12 @@ function world() {
   ).townPlaceId;
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
   // A resident old enough to file, with the most cash: they can fund mail.
-  const residents = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const residents = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.placeId === town &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   let filing: FilingRow | null = null;
   for (const candidate of residents.slice(0, 5)) {
     core.playerId = candidate.id;
@@ -200,17 +199,22 @@ it("mail spends what the player set on mailers and reaches the households it buy
     (after.spentByKind?.mail ?? 0) - (before.spentByKind?.mail ?? 0),
     where,
   ).toBe(sent.spentMinor);
-  // One purchase on the cash journal, out of the campaign's cash.
+  // The print is one purchase on the cash journal, out of the campaign's
+  // cash; the postage is a transfer to the outside account (the Postal
+  // Service is never in town), so the print is the whole spend less it.
   expect(
     payments.map((p) => p.kind),
     `on the journal: ${where}`,
   ).toEqual(["campaigns:purchase"]);
-  expect(
+  const printed = -(
     payments[0]!.postings.find(
       (p) => p.accountId === `cash:${after.organizationId}:residual`,
-    )?.deltaMinor,
-    where,
-  ).toBe(-sent.spentMinor);
+    )?.deltaMinor ?? 0
+  );
+  expect(printed, where).toBeGreaterThan(0);
+  expect(sent.spentMinor - printed, `postage: ${where}`).toBe(
+    (sent.spentMinor / perPiece) * unitPrice(api, "postage"),
+  );
   // Each full adult it reached is a recorded mail cause; counted households
   // are counted as reached.
   expect(

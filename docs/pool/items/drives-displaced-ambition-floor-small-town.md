@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `npx vitest run src/core2/drives-economy.test.ts` with `GOLDEN_PATH_PLACE_KEY=7263503 GOLDEN_PATH_SEED=8be0e68a...046b` (Playita, Puerto Rico): green. With `GOLDEN_PATH_PLACE_KEY=1205462 GOLDEN_PATH_SEED=68c7747a...14de` (Bellview, Florida): green. Fresh draw `GOLDEN_PATH_SEED=ff34b605c07f7a0b`: green. The test prints no place on a pass. Proposed for the CTO: drop as fixed on main.
 
 Nov 11 (cause finder for Fable B): read the test's bounds and reran Playita on main; it passes. The check already widens by the sample's own spread, as this item's rules asked, so I propose dropping it as done by main.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

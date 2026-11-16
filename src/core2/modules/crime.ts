@@ -30,6 +30,7 @@ import { fullHouseholdIncomes } from "../counted-income-fifth";
 import { webReach, type WebPart } from "../outcome-web-reach";
 import { baseOf, publishedBaseOf } from "../outcome-web-model";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web";
+import { liveCountedCrimeTally } from "./views";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 
@@ -58,12 +59,20 @@ const PROPERTY: readonly CrimeType[] = ["burglary", "other-property"];
 export interface TypeMonth {
   /** The expected count before rounding: rate x web factor x exposure, summed by weight. */
   expected: number;
+  /**
+   * The fraction of a crime the place carried into the month from the months
+   * before; with `expected` it is how many happened (their sum, rounded down).
+   * Kept so dev mode's trace shows why a month had the count it had.
+   */
+  carriedIn: number;
   /** Victimizations that happened (full households and counted groups). */
   count: number;
   fullCount: number;
   countedCount: number;
   /** Of those, how many were reported to police (the NCVS share, carried). */
   reported: number;
+  /** The fraction of a report carried in from the months before, as `carriedIn` for reports. */
+  reportedCarriedIn: number;
   /** The web's factor on the national rate for this place and kind. */
   factor: number;
   /** The web links behind the factor. */
@@ -365,7 +374,8 @@ function runPlace(
       owed.set(unit.id, before + e);
     }
     const carryKey = `${placeId}:${type}`;
-    const total = carried(api, carryKey) + expectedFull + expectedCounted;
+    const carriedIn = carried(api, carryKey);
+    const total = carriedIn + expectedFull + expectedCounted;
     const happen = Math.floor(total);
     keep(api, carryKey, total - happen);
     const hits = new Map<string, number>();
@@ -404,6 +414,16 @@ function runPlace(
           groupId: unit.id,
           counts: { ...row?.counts, [type]: n },
         } as unknown as ModuleRow);
+        // The group lives it as a full victim does: its view on the question
+        // the crime ties to moves by the share of its adults it happened to.
+        liveCountedCrimeTally(api, CRIME_EVENT, {
+          tallyId: id,
+          groupId: unit.id,
+          type,
+          count: n,
+          againstPerson: TYPES[type].unit === "person",
+          households: unit.households,
+        });
         continue;
       }
       fullCount += n;
@@ -430,16 +450,18 @@ function runPlace(
     }
     const count = fullCount + countedCount;
     const reportKey = `${placeId}:${type}:reported`;
-    const reportedTotal =
-      carried(api, reportKey) + count * TYPES[type].reportedShare;
+    const reportedCarriedIn = carried(api, reportKey);
+    const reportedTotal = reportedCarriedIn + count * TYPES[type].reportedShare;
     const reported = Math.floor(reportedTotal);
     keep(api, reportKey, reportedTotal - reported);
     types[type] = {
       expected: expectedFull + expectedCounted,
+      carriedIn,
       count,
       fullCount,
       countedCount,
       reported,
+      reportedCarriedIn,
       factor,
       links,
     };

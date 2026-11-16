@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-86yqt4
+pr: "#9159"
 blocked-on:
 source: CTO, from the failure on PR 8080, Nov 9, 2026
 claimed-at:

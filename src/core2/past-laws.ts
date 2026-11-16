@@ -280,13 +280,16 @@ export function buildPriorTerms(
       -Math.round(years * pastParameter(api, "pastDaysPerYear")),
     );
     // Questions the members ran on, then the catalog's, in a seeded order.
-    const own = chamber.members.flatMap(
-      (term) => promised.get(term.personId!) ?? [],
-    );
+    // Only questions this chamber's level can decide: a county board never
+    // voted on raising the federal minimum wage, whatever its members ran on.
+    const askable = CATALOG_QUESTIONS[catalogLevel(chamber.office.level)];
+    const own = chamber.members
+      .flatMap((term) => promised.get(term.personId!) ?? [])
+      .filter((question) => askable.includes(question));
     const pool = [
       ...new Set([
         ...own,
-        ...[...CATALOG_QUESTIONS[catalogLevel(chamber.office.level)]].sort(
+        ...[...askable].sort(
           (a, b) =>
             seededUnit(town.seed, `${chamber.body}:${a}`) -
             seededUnit(town.seed, `${chamber.body}:${b}`),

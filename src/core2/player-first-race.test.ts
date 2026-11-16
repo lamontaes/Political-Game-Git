@@ -8,13 +8,14 @@
  */
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { STOPGAPS as stopgaps } from "./stopgaps";
 import { gameStartDate } from "./game-start";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { playerMayFileForKind } from "./modules/elections";
 import { localOfficesForPlace } from "./offices-local";
 import { stateOffices } from "./offices-state";
 import { corePlaceByKey } from "./place-lookup";
+import { placeCountyGeoids } from "./place-map";
+import { countyGovernmentUnit } from "./reference/government-units";
 import { placeLocalities, placeStateKeys, type PlaceLocality } from "./places";
 
 /** The local races the ruling names: the place's lawmaking body and its chief executive. */
@@ -25,7 +26,6 @@ const LOCAL_RACES = [
   "mayor",
   "county-executive",
 ] as const;
-const NO_LOCAL_OFFICE = "SG-GOV-first-race-no-local-office";
 const SAMPLE = 8;
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -84,9 +84,6 @@ describe("the player's first local race is the place's council or its equivalent
 
   it("gives every place a local race where it has local offices, in all 56", () => {
     const date = gameStartDate();
-    const gapOpen = (
-      stopgaps as unknown as { id: string; status: string }[]
-    ).some((row) => row.id === NO_LOCAL_OFFICE && row.status === "open");
     const noRace: string[] = [];
     const wrongBody: string[] = [];
     const noLocalOffice: string[] = [];
@@ -130,17 +127,23 @@ describe("the player's first local race is the place's council or its equivalent
             place?.context.jurisdiction.kind === "territory-place";
           const units = placeLocalGovernmentUnits(place);
           const reason = units.countyReason ?? "no local office in the data";
-          // The stopgap covers only a home no government unit is found for;
-          // a home with a unit but no office is a defect, open stopgap or not.
+          // A home with no government unit in any listing (an Alaska place
+          // outside every organized borough) is served by its state; a home
+          // with a unit, or with a county on the map that has a government,
+          // but no office is a defect.
           const unitless =
             !units.municipal.length &&
             !units.townships.length &&
             !units.counties.length;
+          const mappedCounty = place?.sourceGeoid
+            ? placeCountyGeoids(place.sourceGeoid).some(
+                (geoid) => countyGovernmentUnit(geoid) !== null,
+              )
+            : false;
           noLocalOffice.push(
-            `${where}: ${territory ? "an island-area village" : NO_LOCAL_OFFICE}, ${reason}`,
+            `${where}: ${territory ? "an island-area village" : "served by its state"}, ${reason}`,
           );
-          // A non-territory home with no local office stands only while its stopgap is open.
-          if (!territory && (!gapOpen || !unitless)) unexcused.push(where);
+          if (!territory && (!unitless || mappedCounty)) unexcused.push(where);
           continue;
         }
         const admitted = LOCAL_RACES.filter(
@@ -176,7 +179,7 @@ describe("the player's first local race is the place's council or its equivalent
     ).toEqual([]);
     expect(
       unexcused,
-      `${message}\nnot a territory, ${NO_LOCAL_OFFICE} resolved:`,
+      `${message}\nnot a territory, yet a government serves it:`,
     ).toEqual([]);
     process.stdout.write(`${message}\n`);
   });

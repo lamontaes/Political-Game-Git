@@ -16,6 +16,7 @@
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
+/src/core2/shares.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/union-rate.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
@@ -32,6 +33,7 @@
 /src/core2/bug-report.ts @lamontaes
 /src/core2/gov-test-report.ts @lamontaes
 /src/core2/law-test-start.ts @lamontaes
+/src/core2/resident-adults-test-kit.ts @lamontaes
 /src/core2/free-block.ts @lamontaes
 /src/core2/focus.ts @lamontaes
 /src/core2/gov-rules/place-population.ts @lamontaes
@@ -42,6 +44,7 @@
 /src/core2/gov-rules/given-name-cohorts.ts @lamontaes
 /src/core2/gov-rules/person-identity.ts @lamontaes
 /src/core2/government-level.ts @lamontaes
+/src/core2/fee-levels.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -49,6 +52,8 @@
 /src/core2/modules/campaigns.ts @lamontaes
 /src/core2/modules/candidacy.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
+/src/core2/filing-rule-office.ts @lamontaes
+/src/core2/modules/serve-asks.ts @lamontaes
 /src/core2/recount-rules.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
 /src/core2/modules/recalls.ts @lamontaes
@@ -155,6 +160,8 @@
 /src/core2/modules/federal-courts.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
+/src/core2/shared-time.ts @lamontaes
+/src/core2/work-closeness.ts @lamontaes
 /src/core2/country-law.ts @lamontaes
 /src/core2/country-model.ts @lamontaes
 /src/core2/country-opening.ts @lamontaes
@@ -261,7 +268,9 @@
 /src/core2/emotion.ts @lamontaes
 /src/core2/mind-*.ts @lamontaes
 /src/core2/closeness.ts @lamontaes
+/src/core2/family-origin.ts @lamontaes
 /src/core2/encounters.ts @lamontaes
+/src/core2/sitting-closeness.ts @lamontaes
 /src/core2/knowledge-retention.ts @lamontaes
 /src/core2/event-id-retention.ts @lamontaes
 /src/core2/estates.ts @lamontaes
@@ -280,6 +289,7 @@
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
+/src/core2/modules/owed-talks.ts @lamontaes
 /src/core2/modules/kin-contact.ts @lamontaes
 /src/core2/modules/mentorship.ts @lamontaes
 /src/core2/modules/rescue.ts @lamontaes
@@ -289,18 +299,26 @@
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
 /src/core2/household-cost.ts @lamontaes
+/src/core2/life-plan-readers.ts @lamontaes
+/src/core2/life-stake-rule.ts @lamontaes
+/src/core2/life-stakes.ts @lamontaes
+/src/core2/coverage-module-id.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
 /src/core2/past-*.ts @lamontaes
 /src/core2/deep-past.ts @lamontaes
 /src/core2/own-past-kinds.ts @lamontaes
+/src/core2/places-elsewhere.ts @lamontaes
 /src/core2/pre-start.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 
 # The clock, the world and places (clock-places)
 /src/core2/modules/world.ts @lamontaes
 /src/core2/modules/world-metrics.ts @lamontaes
+/src/core2/labor-past.ts @lamontaes
+/src/core2/output-numbers.ts @lamontaes
+/src/core2/output-number-readers.ts @lamontaes
 /src/core2/modules/disasters.ts @lamontaes
 /src/core2/life.ts @lamontaes
 /src/core2/calendar.ts @lamontaes
@@ -308,11 +326,13 @@
 /src/core2/places.ts @lamontaes
 /src/core2/place-map.ts @lamontaes
 /src/core2/place-lookup.ts @lamontaes
+/src/core2/age-of-majority.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
+/src/core2/community-events-table.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
-/src/core2/fast-forward.ts @lamontaes
+/src/core2/place-race-origin.generated.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
 /src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes

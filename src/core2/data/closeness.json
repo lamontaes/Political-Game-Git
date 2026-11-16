@@ -43,6 +43,16 @@
   "familyFactPrefix": "family:",
   "kinFactMarker": ":family:",
   "formerKinRelations": ["former-partner"],
+  "bloodKinRelations": [
+    "parent",
+    "other-parent",
+    "child",
+    "sibling",
+    "grandparent",
+    "grandchild",
+    "aunt-or-uncle",
+    "niece-or-nephew"
+  ],
   "householdRelation": "household",
   "gaps": [
     "Opening closeness uses the average visit rate for the tie, not each pair's own history of visits.",

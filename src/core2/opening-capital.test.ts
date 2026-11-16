@@ -128,6 +128,17 @@ function fixture(): CoreInput {
   };
 }
 
+/**
+ * Pinned for seed "capital:no-dice", business "capital:firm": the world's seeded unit
+ * keyed by the business (opening-capital.ts) puts it at quantile 0.6406165638472885.
+ * Old premise, before Nov 16: a private stableHash put the same business at
+ * 0.7843550593825057 (36.565519619965926 restaurant days, 74.98621244658716 overall).
+ * Re-pinned with the lead's yes on #9717.
+ */
+const PINNED_QUANTILE = 0.6406165638472885;
+const PINNED_RESTAURANT_DAYS = 24.43699383083731;
+const PINNED_OVERALL_DAYS = 46.68631893862039;
+
 function estimate(input: CoreInput = fixture()) {
   return createOpeningEmployerCapital(
     input,
@@ -143,8 +154,8 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = result.estimates[0]!;
     expect(row.status).toBe("estimated-private-buffer");
     expect(row.industry).toBe("restaurants");
-    expect(row.bufferDays).toBe(36.565519619965926);
-    expect(row.startupQuantile).toBe(0.7843550593825057);
+    expect(row.startupQuantile).toBe(PINNED_QUANTILE);
+    expect(row.bufferDays).toBe(PINNED_RESTAURANT_DAYS);
     expect(row.observedBufferDays).toEqual({
       percentile25: 9,
       median: 16,
@@ -157,7 +168,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       15335.883907495925,
       p("emotionComparisonDigits"),
     );
-    expect(row.liquidMinor).toBe(2057);
+    expect(row.liquidMinor).toBe(1375);
     expect(row.commitmentIds).toEqual(["capital:commitment"]);
     expect(row.source.citation).toContain("JPMorgan Chase Institute");
     expect(row.source.citation).toContain("IRS");
@@ -192,7 +203,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(hourly).estimates[0]!.plannedPayrollMinor).toBe(10400);
-    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(4115);
+    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(2750);
     const shorter = {
       ...input,
       workCommitments: input.workCommitments!.map((row) => ({
@@ -204,7 +215,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(shorter).estimates[0]!.plannedPayrollMinor).toBe(2600);
-    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(1029);
+    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(687);
   });
 
   it("counts a leap-year calendar and its 53 Mondays without a mean-year shortcut", () => {
@@ -221,7 +232,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(leap).estimates[0]!;
     expect(row.calendarDays).toBe(366);
     expect(row.plannedPayrollMinor).toBe(5300);
-    expect(row.liquidMinor).toBe(2091);
+    expect(row.liquidMinor).toBe(1398);
     expect(row.bufferDays).toBe(estimate(input).estimates[0]!.bufferDays);
     expect(row.from).toBe("2024-01-01");
     expect(row.through).toBe("2024-12-31");
@@ -241,7 +252,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(midyear).estimates[0]!;
     expect(row.calendarDays).toBe(184);
     expect(row.plannedPayrollMinor).toBe(2600);
-    expect(row.liquidMinor).toBe(2041);
+    expect(row.liquidMinor).toBe(1364);
     expect(row.startupQuantile).toBe(
       estimate(input).estimates[0]!.startupQuantile,
     );
@@ -283,7 +294,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(endsOnOpening).estimates[0]!.plannedPayrollMinor).toBe(100);
-    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(40);
+    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(26);
   });
 
   it.each([
@@ -308,7 +319,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       expect(row.overallFallback).toBe(true);
       expect(row.industry).toBe("all-small-businesses");
       expect(row.observedBufferDays!.median).toBe(27);
-      expect(row.bufferDays).toBe(74.98621244658716);
+      expect(row.bufferDays).toBe(PINNED_OVERALL_DAYS);
       expect(row.parameterRefs).toContain("openingEmployerCashBufferDaysAll");
     },
   );
@@ -802,8 +813,8 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       input.organizations[0]!.id,
       "restaurants",
     );
-    expect(prior.startupQuantile).toBe(0.7843550593825057);
-    expect(prior.bufferDays).toBe(36.565519619965926);
+    expect(prior.startupQuantile).toBe(PINNED_QUANTILE);
+    expect(prior.bufferDays).toBe(PINNED_RESTAURANT_DAYS);
     expect(prior.startupQuantile).toBeGreaterThan(0);
     expect(prior.startupQuantile).toBeLessThan(1);
     expect(
@@ -856,10 +867,17 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       workCommitments: copies.map((row) => row.commitment),
     };
     const rows = estimate(input).estimates;
-    expect(rows.map((row) => row.bufferDays)).toEqual([
-      14.458679203409702, 45.85195936751552, 2.404475898016244,
-      20.640802482608706, 51.90658151335083,
-    ]);
+    expect(
+      Object.fromEntries(
+        rows.map((row) => [row.organizationId, row.bufferDays]),
+      ),
+    ).toEqual({
+      "firm:alpha": 62.72518462734297,
+      "firm:beta": 14.052545345388353,
+      "firm:gamma": 21.946136051788926,
+      "firm:delta": 19.441022653132677,
+      "firm:epsilon": 10.000086835585535,
+    });
     expect(new Set(rows.map((row) => row.startupQuantile)).size).toBe(5);
     expect(new Set(rows.map((row) => row.liquidMinor)).size).toBe(5);
     expect(new Set(rows.map((row) => row.plannedPayrollMinor))).toEqual(
@@ -1080,10 +1098,6 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       ["zero", 1],
       ["one", 2],
       ["two", 3],
-      ["seedPlaceHashRadix", 10],
-      ["seedHashDigits", 0],
-      ["seedHashDigits", 14],
-      ["seedHashDigits", 1.5],
     ])
       expect(() =>
         openingEmployerCashBufferPrior(

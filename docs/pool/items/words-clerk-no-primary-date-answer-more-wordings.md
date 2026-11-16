@@ -26,6 +26,7 @@ branch:
 **Cause.** Found in code: the clerk's answer to the dates is the joined sentence `filing-dates` (`follow/answer`, after `tell`) in data/english/parts/scene-talk.json. Where the race has no primary, the facts hold `no-primary`. Two cores require it with `general` and `deadline`: `scene-talk.follow-answer.just-the-one-election-general-papers-back-to-me-by-deadline` and `scene-talk.follow-answer.it-s-general-no-primary-get-it-all-in-by-deadline`. They fit with three required facts, so `scoredFits` (src/english/scene-talk-words.ts) keeps only them over the two cores that require two (`the-vote-s-general-...`, `deadline-for-the-papers-...`). Two wordings leave every pair of towns with the same election day a one-in-two chance of the same sentence.
 
 **Fix.**
+
 1. Add at least six more `filing-dates` cores (piece `of: "filing-dates"`, `part: "core"`, `required: true`) under `follow/answer` after `tell`, each requiring `no-primary`, `general` and `deadline`. Each names `{general}` and `{deadline}` in different words: the vote's day, the papers' last day, no primary. Short, plain clerk speech.
 2. Run `npm run words:rules` twice and `npm run words:verdicts`. Run tests/guards/english, tests/english-parts-banks.test.ts and src/director/filing-visit.test.ts.
 

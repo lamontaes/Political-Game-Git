@@ -1,4 +1,13 @@
-import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { purposeScene } from "../director/purpose-scene";
+import { composeScene } from "../director/scene";
+import { openConversation } from "../director/conversation";
+import { SITUATION_LIBRARY } from "../director/scheduling";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation, inHousehold } from "../core2/population";
@@ -7,6 +16,7 @@ import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
 import { preStartWindow, runPreStart } from "../core2/pre-start";
+import { warmUpOpening } from "../core2/player-warm-up";
 import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
@@ -41,6 +51,7 @@ import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
+import { openServeAsks } from "../core2/modules/serve-asks";
 import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
@@ -78,6 +89,7 @@ import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
+import { seededUnit } from "../core2/seeded";
 import { withCountySample } from "../core2/opening-county-sample";
 import { withRoles } from "../core2/opening-roles";
 import { withYearsInPlace } from "../core2/opening-tenure";
@@ -117,14 +129,70 @@ export interface BenchWorld {
  * deaths, and the story director (OPUS-PEOPLE).
  * The director registers its own interrupts as core player stops.
  */
-// M0's entry age, as in progress.ts: an exhibit choice, not a simulation rule.
-const ENTRY_AGE = 18;
 /**
- * The golden path's first step is turning 18 in play: the 17-year-old whose
- * 18th birthday comes soonest after the opening, else the 18-year-old who
- * turned 18 most recently. Only a resident counts: relatives who live in
- * households of their own are husk-tier records (src/core2/opening-kin.ts),
- * not people the town's day runs, even where they share the place.
+ * The youngest a new game's player is (owner, Nov 16: "Just do 18 and up right now. Life before
+ * 18 will come after early access."). Life under 18 stays in the simulation; it is only not where
+ * a new game starts (pool item people-life-before-18-after-early-access).
+ */
+export const PLAYER_MIN_AGE = 18;
+
+/**
+ * A new game cannot open here: no adult lives in a household in the place. `adultsInQuarters`
+ * counts the adults who live in group quarters instead (all of them, when it is above zero).
+ */
+export class NoPlayerHereError extends Error {
+  /** The place's key, set where the build chose the place (`benchWorldStages`). */
+  placeKey?: string;
+  constructor(
+    readonly placeId: string,
+    readonly adultsInQuarters: number,
+  ) {
+    // A developer's message, written as an Error's so the line register
+    // (scripts/words/line-register.ts) reads it as one and not as a game line.
+    // A new game's draw passes such a place over (`passOver`), so a player
+    // never meets it; a place asked for by key throws it to its test or dev
+    // caller.
+    super(
+      (adultsInQuarters
+        ? new Error(
+            `No adult resident in a household here: all ${adultsInQuarters} adults live in group quarters.`,
+          )
+        : new Error("No adult resident here.")
+      ).message,
+    );
+    this.name = "NoPlayerHereError";
+  }
+}
+
+/** How the opening set the player's age, kept in the world's place metadata for dev mode. */
+export interface EntrantPick {
+  readonly id: string;
+  readonly age: number;
+  /** True where nobody in town was the chosen age and the nearest resident stands in. */
+  readonly estimated: boolean;
+  /** "town-adult": drawn from the town's adults; "chosen-age": the creator's age, a resident that age. */
+  readonly how: "town-adult" | "chosen-age";
+  readonly chosenAge?: number;
+  /** "town-adult" only: the world's seeded unit that picked, and how many adults it picked among (in id order). */
+  readonly unit?: number;
+  readonly among?: number;
+}
+
+/** The residents a player may be: in a household of the town, never a relative's husk record. */
+function townResidents(input: CoreInput, placeId: string) {
+  const household = inHousehold(input);
+  return input.people.filter(
+    (person) =>
+      person.placeId === placeId && person.tier !== "husk" && household(person),
+  );
+}
+
+/**
+ * The player of a new game: with no birthday chosen, one of the town's own adults (18 and up),
+ * picked by the world's seeded unit from them in id order, so the player's age follows the
+ * place's own adults. Only a resident counts: relatives who live in households of their own are
+ * husk-tier records (src/core2/opening-kin.ts), not people the town's day runs. With the
+ * birthday the New game creator chose, a resident that age instead (`entrantBornNear`).
  */
 export function entrantOf(
   input: CoreInput,
@@ -135,77 +203,66 @@ export function entrantOf(
   return entrantChoice(input, placeId, birthDate, gender).id;
 }
 
-/**
- * The entrant and what the pick rests on: `estimated` is true when nobody
- * here is 17 or 18 and the resident nearest 18 stands in, younger first so
- * the 18th birthday still comes in play. Fails only where no resident lives.
- * With the birthday the New game creator chose, the entrant is the resident
- * born nearest it instead (`entrantBornNear`).
- */
+/** The player and what the pick rests on (`entrantOf`). Fails only where no adult lives. */
 export function entrantChoice(
   input: CoreInput,
   placeId: string,
   birthDate?: string,
   gender?: string,
-): { id: string; age: number; estimated: boolean } {
+): EntrantPick {
   if (birthDate)
     return entrantBornNear(input, placeId, makeIsoDate(birthDate), gender);
-  const at = makeIsoDate(input.startedAt);
-  const household = inHousehold(input);
-  const residents = input.people
-    .filter(
-      (person) =>
-        person.placeId === placeId &&
-        person.tier !== "husk" &&
-        household(person),
-    )
+  const at = makeIsoDate(input.placeMetadata?.openingAgeOn ?? input.startedAt);
+  const adults = townResidents(input, placeId)
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
-      birthDate: person.birthDate,
-    }));
-  const near = residents
-    .filter((row) => row.age === ENTRY_AGE || row.age === ENTRY_AGE - 1)
-    .sort(
-      (a, b) =>
-        a.age - b.age ||
-        (a.age < ENTRY_AGE
-          ? a.birthDate.localeCompare(b.birthDate)
-          : b.birthDate.localeCompare(a.birthDate)) ||
-        a.id.localeCompare(b.id),
-    );
-  if (near[0]) return { id: near[0].id, age: near[0].age, estimated: false };
-  // Nobody is 17 or 18: the nearest age to 18, the younger of two equally
-  // near, the one whose birthday comes soonest within an age.
-  const nearest = residents.sort(
-    (a, b) =>
-      Math.abs(a.age - ENTRY_AGE) - Math.abs(b.age - ENTRY_AGE) ||
-      a.age - b.age ||
-      a.birthDate.localeCompare(b.birthDate) ||
-      a.id.localeCompare(b.id),
-  )[0];
-  if (!nearest) throw new Error("No resident here.");
-  return { id: nearest.id, age: nearest.age, estimated: true };
+    }))
+    .filter((row) => row.age >= PLAYER_MIN_AGE)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  if (!adults.length) {
+    // Who is in the place at all: a place whose every adult lives in group
+    // quarters (a colony, a dormitory, a barracks) has no household to open in
+    // (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
+    const inQuarters = input.people.filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
+    ).length;
+    throw new NoPlayerHereError(placeId, inQuarters);
+  }
+  const unit = seededUnit(input.seed, `opening-player:${placeId}`);
+  const pick = adults[Math.floor(unit * adults.length)]!;
+  return {
+    ...pick,
+    estimated: false,
+    how: "town-adult",
+    unit,
+    among: adults.length,
+  };
 }
 
 /**
- * The resident a chosen birthday makes the player (owner's Oct 26 playtest: a
- * creator birthday of 35 left the parent 47 and the schooling of a 17-year-old).
- * The world is drawn with a resident that age, so the player is the resident
- * born nearest that day, and the household, kin, schooling, work and money
- * the builders drew for that resident already fit the age. The identity call
- * then sets the exact birth date, name and looks. A resident is passed over
- * if the chosen day would leave a parent, or the player as a parent, younger
- * than the child-bearing minimum the kin builder keeps (`OPENING_KIN`); where
- * none stays inside it, the nearest stands in. Nothing here is drawn.
+ * The resident a chosen birthday makes the player (owner's Oct 26 playtest: a creator birthday of
+ * 35 left the parent 47 and the schooling of a 17-year-old; Nov 16: a 17-year-old with a wife).
+ * The world is drawn with a resident of the chosen age (`playerAge` in population.ts), and the
+ * player is a resident whose own age on the opening day is the chosen age, born nearest the
+ * chosen day, so their household, partner, children, schooling, work and money are the life
+ * someone that age lived. The identity call then moves the birthday within that same age
+ * (`applyChosenPerson`). A resident is passed over if the chosen day would leave a parent, or the
+ * player as a parent, younger than the child-bearing minimum the kin builder keeps
+ * (`OPENING_KIN`). Where the town holds nobody that age, the resident of the nearest age stands
+ * in, marked as an estimate, and keeps their own birth date. Nothing here is drawn.
  */
 function entrantBornNear(
   input: CoreInput,
   placeId: string,
   chosen: ReturnType<typeof makeIsoDate>,
   gender?: string,
-): { id: string; age: number; estimated: boolean } {
-  const at = makeIsoDate(input.startedAt);
+): EntrantPick {
+  const at = makeIsoDate(input.placeMetadata?.openingAgeOn ?? input.startedAt);
+  const chosenAge = ageOnDate(chosen, at);
   const born = new Map(input.people.map((row) => [row.id, row.birthDate]));
   const minParentAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
   // Whether each relative named by a parent or child record stays at least
@@ -222,18 +279,17 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
-  const household = inHousehold(input);
-  const nearest = input.people
-    .filter(
-      (person) =>
-        person.placeId === placeId &&
-        person.tier !== "husk" &&
-        household(person),
-    )
-    .map((person) => ({
-      person,
-      apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
-    }))
+  const residents = townResidents(input, placeId).map((person) => ({
+    person,
+    age: ageOnDate(makeIsoDate(person.birthDate), at),
+    apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
+  }));
+  if (!residents.length) throw new Error("No resident here.");
+  // The chosen age where anyone in town is that age, else the nearest age anyone is.
+  const ageGap = (age: number) => Math.abs(age - chosenAge);
+  const nearestGap = Math.min(...residents.map((row) => ageGap(row.age)));
+  const ofAge = residents
+    .filter((row) => ageGap(row.age) === nearestGap)
     .sort(
       (a, b) => a.apart - b.apart || a.person.id.localeCompare(b.person.id),
     );
@@ -243,16 +299,16 @@ function entrantBornNear(
   // a place with none of that sex at the age take the nearest birthday.
   const sexed =
     gender === "female" || gender === "male"
-      ? nearest.filter((row) => row.person.looks?.gender === gender)
+      ? ofAge.filter((row) => row.person.looks?.gender === gender)
       : [];
-  const pool = sexed.length ? sexed : nearest;
-  const pick = pool.find((row) => kinFit(row.person)) ?? pool[0];
-  if (!pick) throw new Error("No resident here.");
-  const age = ageOnDate(makeIsoDate(pick.person.birthDate), at);
+  const pool = sexed.length ? sexed : ofAge;
+  const pick = pool.find((row) => kinFit(row.person)) ?? pool[0]!;
   return {
     id: pick.person.id,
-    age,
-    estimated: age !== ageOnDate(chosen, at),
+    age: pick.age,
+    estimated: pick.age !== chosenAge,
+    how: "chosen-age",
+    chosenAge,
   };
 }
 
@@ -269,15 +325,22 @@ export type BuildStage =
   | "cabinet"
   | "workings"
   | "history"
+  | "warmup"
   | "opening"
   | "done";
 type BuildOptions = {
   placeKey?: string;
+  /**
+   * Places a new game's draw already found no player in (every adult in group
+   * quarters), each with its reason: the draw passes them over and takes the
+   * same state's next place by the same ranking. Set by the build itself.
+   */
+  passedOver?: readonly { key: string; reason: string }[];
   minimumPeople?: number;
   /**
    * The two-level world (OPUS-CORE): the player, their household and
    * circle and the officials are full people; everyone else is counts,
-   * filled in when met. The player is the 17-year-old who turns 18 soonest.
+   * filled in when met. The player is one of the town's adults (`entrantChoice`).
    */
   twoLevel?: boolean;
   /**
@@ -288,8 +351,8 @@ type BuildOptions = {
   countScale?: number;
   /**
    * With `twoLevel`: the birthday the New game creator chose. The player is
-   * the resident born nearest it (`entrantBornNear`), not the 17-year-old
-   * who turns 18, so their past fits the age they chose.
+   * a resident of that age born nearest it (`entrantBornNear`), so their past
+   * fits the age they chose.
    */
   playerBirthDate?: string;
   /**
@@ -301,6 +364,18 @@ type BuildOptions = {
   playerGender?: string;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
+  /**
+   * Days the world is built before its start date and run forward to it (src/core2/player-warm-up.ts), so
+   * what an engine makes on its first steps already exists on day one. Default none; the New game route and
+   * the day-zero check set `OPENING_WARMUP_DAYS`. The played person does nothing in them.
+   */
+  warmUpDays?: number;
+  /**
+   * The creator's choice of who the player is, applied before the warm-up runs, while the world is still on
+   * the day it was built: the player picks who they are before their first day, and the weeks the world
+   * runs on its own are lived as that person (core chooseIdentityV1 takes only that day).
+   */
+  chooseIdentity?: (core: CoreState, playerId: string) => void;
   /**
    * Sees the finished opening input just before the core starts from it
    * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
@@ -314,17 +389,47 @@ type BuildOptions = {
 };
 type Built = BenchWorld & { playerId?: string };
 
+/** The warm-up the New game route and the day-zero check use (owner, Nov 14: the town in motion on day one). */
+export const OPENING_WARMUP_DAYS = 31;
+
 /** Builds the world in one go (tests and checks). */
 export function buildBenchWorld(
   seed: string,
   date: string,
   options: BuildOptions = {},
 ): Built {
-  const stages = benchWorldStages(seed, date, options);
-  for (;;) {
-    const step = stages.next();
-    if (step.done) return step.value;
+  for (let passing = options; ;) {
+    try {
+      const stages = benchWorldStages(seed, date, passing);
+      for (;;) {
+        const step = stages.next();
+        if (step.done) return step.value;
+      }
+    } catch (error) {
+      passing = passOver(passing, error);
+    }
   }
+}
+
+/**
+ * A new game's drawn place where no player can be picked is passed over and
+ * the draw taken again without it; a place asked for by key, or any other
+ * error, is thrown.
+ */
+function passOver(options: BuildOptions, error: unknown): BuildOptions {
+  if (
+    options.placeKey ||
+    !(error instanceof NoPlayerHereError) ||
+    !error.placeKey
+  )
+    throw error;
+  return {
+    ...options,
+    passedOver: [
+      ...(options.passedOver ?? []),
+      { key: error.placeKey, reason: error.message },
+    ],
+  };
 }
 
 /**
@@ -337,15 +442,21 @@ export async function buildBenchWorldInStages(
   options: BuildOptions,
   onStage: (stage: BuildStage) => void,
 ): Promise<Built> {
-  const stages = benchWorldStages(seed, date, options);
-  for (;;) {
-    const step = stages.next();
-    if (step.done) {
-      onStage("done");
-      return step.value;
+  for (let passing = options; ;) {
+    try {
+      const stages = benchWorldStages(seed, date, passing);
+      for (;;) {
+        const step = stages.next();
+        if (step.done) {
+          onStage("done");
+          return step.value;
+        }
+        onStage(step.value);
+        await new Promise((resolve) => setImmediate(resolve));
+      }
+    } catch (error) {
+      passing = passOver(passing, error);
     }
-    onStage(step.value);
-    await new Promise((resolve) => setImmediate(resolve));
   }
 }
 
@@ -364,34 +475,53 @@ function* benchWorldStages(
   date: string,
   options: BuildOptions,
 ): Generator<BuildStage, Built> {
+  const startDate = date;
+  const warmUp = Math.max(0, Math.floor(options.warmUpDays ?? 0));
+  // A warm-up builds the world that many days early and runs it forward to the start date.
+  if (warmUp) date = addDays(makeIsoDate(date), -warmUp);
   yield "people";
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
-    : selectBenchPlace(seed, corePlaceStateIdentities(), realLocalities());
+    : selectBenchPlace(
+        seed,
+        corePlaceStateIdentities(),
+        realLocalities().filter(
+          (row) =>
+            !options.passedOver?.some((passed) => passed.key === row.key),
+        ),
+      );
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   const minimumPeople = settings.population ?? options.minimumPeople;
-  const population = buildPopulation({
+  const built = buildPopulation({
     seed,
     startedAt: makeIsoDate(date),
+    ...(warmUp ? { cohortsOn: makeIsoDate(startDate) } : {}),
     placeKey: place.key,
     ...(minimumPeople ? { minimumPeople } : {}),
-    // Every place opens with the player's cohort, even one whose own survey
-    // sample shows no family with children (`entrantOf`).
-    cohortAge: ENTRY_AGE - 1,
-    // And with a resident of the age the creator's birthday makes the player,
-    // as far as the place's households allow (`entrantBornNear`).
+    // With a resident of the age the creator's birthday makes the player, as
+    // far as the place's households allow (`entrantBornNear`).
     ...(options.playerBirthDate
       ? {
           playerAge: ageOnDate(
             makeIsoDate(options.playerBirthDate),
-            makeIsoDate(date),
+            makeIsoDate(startDate),
           ),
         }
       : {}),
   });
   yield "past";
+  // The ages that pick the player are the ages on the start date, not on the day the world is built.
+  const population = warmUp
+    ? {
+        ...built,
+        placeMetadata: {
+          ...(built.placeMetadata ?? {}),
+          openingAgeOn: startDate,
+        },
+      }
+    : built;
   const schools = withPublicSchoolDistrict(enrichCivicInputs(population));
   // Public pay must exist before the custom world's wage multiplier runs.
   const input = applyWorldSettings(
@@ -414,18 +544,38 @@ function* benchWorldStages(
     // and their peers first, then the economy with the closures fix (outside
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
-    playerId = entrantOf(
-      input,
-      place.context.jurisdiction.id,
-      options.playerBirthDate,
-      options.playerGender,
-    );
+    let pick: ReturnType<typeof entrantChoice>;
+    try {
+      pick = entrantChoice(
+        input,
+        place.context.jurisdiction.id,
+        options.playerBirthDate,
+        options.playerGender,
+      );
+    } catch (error) {
+      if (error instanceof NoPlayerHereError) error.placeKey = place.key;
+      throw error;
+    }
+    playerId = pick.id;
     // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
       options.countScale ?? (minimumPeople ? 1 : censusScale(population));
-    let withPlayer: CoreInput = { ...input, playerId };
+    // How the player's age was set, for dev mode's "How this world opened".
+    let withPlayer: CoreInput = {
+      ...input,
+      playerId,
+      placeMetadata: {
+        ...(input.placeMetadata ?? {}),
+        openingPlayerPick: JSON.stringify(pick),
+        // The places the new game's draw passed over first, for dev mode's
+        // "How this world opened".
+        ...(options.passedOver?.length
+          ? { openingPassedOver: JSON.stringify(options.passedOver) }
+          : {}),
+      },
+    };
     withPlayer = {
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
@@ -499,7 +649,38 @@ function* benchWorldStages(
   options.onOpening?.(opening);
   // A talk at home can raise a printed story by its headline, in the words
   // the paper's own screen prints it with.
-  const director = createDirector({ watch: [], storyWords: wordPrintedStory });
+  const director = createDirector({
+    watch: [],
+    storyWords: wordPrintedStory,
+    // A purpose stop opens only when its talk can be worded.
+    wordsPurpose: (state, self, personId, entry) =>
+      purposeScene(state, self, personId, entry, { includeHeld: true })
+        ?.kind !== "skipped",
+    // A scene that opens a talk stops the day only when the talk says
+    // something past its opener: the talk's own composer, looking only, with
+    // the one the scene opens with and the moment as its occasion.
+    saysPastOpener: (state, self, personId, entry) => {
+      const binding = entry.bindings[0];
+      const type = SITUATION_LIBRARY.types.find(
+        (row) => row.key === binding?.typeKey,
+      ) as { purpose?: string } | undefined;
+      if (!binding || binding.said || type?.purpose) return true;
+      const talkToId = composeScene(state, self, personId, entry)?.talkToId;
+      if (!talkToId) return true;
+      const talk = openConversation(state, personId, talkToId, {
+        director: self,
+        occasionId: entry.momentId,
+        presentIds: binding.presentIds,
+        look: true,
+      });
+      return (
+        talk.choices.length > 0 ||
+        talk.lines.some(
+          (line) => line.kind !== "greet" && line.kind !== "family-open",
+        )
+      );
+    },
+  });
   const core = createLifeCore(opening, {
     observer: false,
     data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
@@ -519,7 +700,7 @@ function* benchWorldStages(
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, startDate);
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);
@@ -564,6 +745,8 @@ function* benchWorldStages(
   // (debates need the press's outlets) and constituent cases.
   yield "workings";
   openStaff(core);
+  // The player asks people to serve, and they answer from their records (brief J).
+  openServeAsks(core);
   openInterestGroups(core);
   openWorldLegislating(core);
   openWorldRaces(core);
@@ -608,6 +791,11 @@ function* benchWorldStages(
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
+  if (playerId) options.chooseIdentity?.(core, playerId);
+  if (warmUp) {
+    yield "warmup";
+    director.whileWarming(() => warmUpOpening(core, startDate, playerId));
+  }
   director.start(core);
   options.onWorld?.(core, playerId);
   yield "opening";
@@ -637,9 +825,10 @@ function* benchWorldStages(
     });
   recipes.set(core, {
     seed,
-    date,
+    date: startDate,
     options: {
       twoLevel: options.twoLevel,
+      ...(warmUp ? { warmUpDays: warmUp } : {}),
       placeKey: place.key,
       ...(options.minimumPeople !== undefined
         ? { minimumPeople: options.minimumPeople }

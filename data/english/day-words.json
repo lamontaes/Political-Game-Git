@@ -26,11 +26,34 @@
       "said": "Late on {date}"
     }
   ],
-  "spokenParts": {
-    "about": "The part of the day as a person says it in passing, for a goodbye at home (\"We'll talk more later tonight.\"), by the mark the scene's hour gives (src/director/day-part.ts). Read by dayPartSaid in src/english/day-words.ts.",
-    "morning": "this morning",
-    "afternoon": "this afternoon",
-    "evening": "tonight"
+  "landing": {
+    "about": "How the opening's landing names its day (Words lead, Nov 14, on #9242): after 'It's', the part of the day by the minute the player lands, and the date with no ordinal ('January 20'). Read by dayLanding in src/english/day-words.ts.",
+    "parts": [
+      {
+        "upToMinute": 540,
+        "said": "early on {date}"
+      },
+      {
+        "upToMinute": 690,
+        "said": "the morning of {date}"
+      },
+      {
+        "upToMinute": 810,
+        "said": "around noon on {date}"
+      },
+      {
+        "upToMinute": 1020,
+        "said": "the afternoon of {date}"
+      },
+      {
+        "upToMinute": 1261,
+        "said": "the evening of {date}"
+      },
+      {
+        "upToMinute": null,
+        "said": "late on {date}"
+      }
+    ]
   },
   "ordinals": {
     "one": "st",
@@ -81,5 +104,13 @@
     "Thursday",
     "Friday",
     "Saturday"
-  ]
+  ],
+  "ahead": {
+    "about": "A later day as a friend says it when asking the player along (Words lead, Nov 15: the day is said as 'tonight', 'tomorrow night' or the day): the same day or the next, by whether the thing starts in the evening, else 'on' and the day from dayAhead. Read by dayAheadSaid in src/english/day-words.ts.",
+    "today": "today",
+    "tonight": "tonight",
+    "tomorrow": "tomorrow",
+    "tomorrowNight": "tomorrow night",
+    "on": "on {day}"
+  }
 }
