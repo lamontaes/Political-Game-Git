@@ -30,6 +30,8 @@ function request(method: string): IncomingMessage {
   } as unknown as IncomingMessage;
 }
 
+// Alone 26.4 s, 34.2 s beside voter-groups, recall-voters and dev-why on four
+// workers (Nov 16); the limit is near twice the slower.
 it("dev mode says why a voter leans: the views row races read, the records that moved them, each race's appeal (Ridgeville AL)", async () => {
   setBookkeeping(false);
   const place = drawPlace(PINNED.run, PINNED.purpose);
@@ -114,4 +116,4 @@ it("dev mode says why a voter leans: the views row races read, the records that 
   process.stdout.write(
     `voter-lean ${where}: ${answers.length} adults, ${moved.length} stance causes, ${decided.length} race appeals\n`,
   );
-}, 120_000);
+}, 70_000);
