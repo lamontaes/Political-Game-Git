@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: story builder (claude/project-thread-lcf812-national-reads)
-pr:
+pr: 9604
 after:
 blocked-on:
 lead: words
