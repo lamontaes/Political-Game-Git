@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/promises-engine-dev-trace
-pr:
+pr: 9610
 after: core-promises-kept-and-settled-by-the-engine
 blocked-on:
 lead: governing
