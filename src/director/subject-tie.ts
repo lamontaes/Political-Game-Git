@@ -170,7 +170,6 @@ const ACT_RECORDS: Readonly<Record<string, "billId" | "question">> = {
   "office.introduced": "billId",
   "public-comment": "billId",
   "vote-recorded": "question",
-  "town-hall": "questions",
 };
 
 /** The id of the person's own recorded act on the story's bill or question, or null. */
