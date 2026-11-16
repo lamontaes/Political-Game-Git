@@ -3,7 +3,9 @@
  * enough for the statute's size test through the business engine's monthly
  * cost review, and no business under it. Pinned to Pierre, South Dakota,
  * whose wholesaler and three stores sell over the test and whose other
- * businesses sell under it.
+ * businesses sell under it. Until Nov 16, 2026 it drew its place at run time
+ * and expected some employer bound anywhere; the statute's size test binds
+ * none in most small towns, so that premise no longer holds.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -109,4 +111,4 @@ it("charges employing businesses over the statute's size a share of their costs 
   } finally {
     setBookkeeping(true);
   }
-}, 600_000);
+}, 220_000); // 107 to 110 s alone and beside the other privacy tests (Nov 16, 2026); about twice that.

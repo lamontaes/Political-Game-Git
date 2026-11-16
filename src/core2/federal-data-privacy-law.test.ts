@@ -3,7 +3,10 @@
  * Congress's national data privacy law reaches the town's employing businesses
  * over the statute's size test through the business engine's monthly cost
  * review, once. Pinned to Pierre, South Dakota, a state with no privacy law of
- * its own, whose wholesaler and stores sell over the test.
+ * its own, whose wholesaler and stores sell over the test. Until Nov 16, 2026
+ * it drew up to six places at run time and expected an employer bound in one;
+ * the statute's size test binds none in most small towns, so that premise no
+ * longer holds.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -24,7 +27,8 @@ const PLACES = [
 
 it(
   `a federal privacy law charges businesses where the state has none, and ends on repeal (${PLACES.map((p) => p.name).join(", ")})`,
-  { timeout: 1_800_000 },
+  // 85 to 89 s alone and beside the other privacy tests (Nov 16, 2026); about twice that.
+  { timeout: 180_000 },
   () => {
     const bookkeeping = setBookkeeping(false);
     const passed: string[] = [];

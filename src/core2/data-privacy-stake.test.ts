@@ -65,4 +65,4 @@ it(`a data privacy law costs a business its share of other costs, scaling with i
   } finally {
     setBookkeeping(true);
   }
-}, 600_000);
+}, 32_000); // 13 to 16 s alone and beside the other privacy tests (Nov 16, 2026); about twice that.
