@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3311,
+  "judged": 3289,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -53,13 +53,6 @@
       ],
       "why": "The aide has just granted five minutes and is waiting, so \"Not yet\" pushes back on a demand to call now that the line did not make."
     },
-    "049kaiiufuh": {
-      "keys": [
-        "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Saying how hard the close result is does not answer \"What now?\""
-    },
     "04qttiyvz5v": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
@@ -109,13 +102,6 @@
       ],
       "why": "M5 overrules the reviewer, as in earlier rounds: A reassures the filer and asks nothing, so \"I'm fine. Really.\" answers a how-are-you that was never asked."
     },
-    "0b60vq7jaio": {
-      "keys": [
-        "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now",
-        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth"
-      ],
-      "why": "A asks what now, and acknowledging that the household member never said stop does not answer it."
-    },
     "0bghh99u4t5": {
       "keys": [
         "scene-talk.follow-confront.prove-it-by-lunch",
@@ -164,13 +150,6 @@
         "scene-talk.follow-confront.i-will"
       ],
       "why": "A asks a question; \"I will\" answers nothing"
-    },
-    "0ewc4kf6rb5": {
-      "keys": [
-        "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now",
-        "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
-      ],
-      "why": "A asks what now, and \"That's on me\" looks back at the spending instead of saying what comes next."
     },
     "0f0mtplffmf": {
       "keys": [
@@ -340,13 +319,6 @@
       ],
       "why": "Asked what they have left to put in, the filer talks about how close the race was, ignoring the question."
     },
-    "0mbrnpqesim": {
-      "keys": [
-        "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now",
-        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you"
-      ],
-      "why": "A asks what now, and thanking the household member for standing behind the spending does not answer it."
-    },
     "0mcyaxvu600": {
       "keys": [
         "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up",
@@ -430,13 +402,6 @@
         "scene-talk.close-accept.anyway-good-luck"
       ],
       "why": "Opening with \"Anyway\" brushes aside a thank-you as if changing the subject, so the reply does not follow the goodbye it answers."
-    },
-    "0rvbbcagn5y": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
-      ],
-      "why": "Asking what now about the spending does not answer the filer's complaint that the opponent ran a dirty race."
     },
     "0scxgz8krij": {
       "keys": [
@@ -1160,5 +1125,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "0o3vnorjqu5"
+  "yesHash": "0kuprv8dve7"
 }

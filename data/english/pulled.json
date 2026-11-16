@@ -360,14 +360,6 @@
     ],
     "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost": [
       "family-loss.small/deflect"
-    ],
-    "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now": [
-      "family-loss.small/blame",
-      "family-loss.small/tell",
-      "family-loss.small/thank",
-      "family-loss/blame",
-      "family-loss/tell",
-      "family-loss/thank"
     ]
   },
   "barred": {},
