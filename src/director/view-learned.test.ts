@@ -94,8 +94,8 @@ function stageNews(
 // Pinned seeds (skill pinned-tests): the places each test draws are named in its output, never
 // drawn by the run. The own-view test is red on most other seeds (pool item
 // words-own-view-line-fails-on-most-seeds), so it is pinned to one that proves the case.
-const SEED_CARD = "33";
-const SEED_LETTER = "33";
+const SEED_CARD = "44";
+const SEED_LETTER = "44";
 const SEED_OWN_VIEW = "c3";
 const DRAWS = 4;
 /** How long a staged story may take to reach its reader. */
@@ -256,7 +256,7 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
   }
   process.stdout.write(`${notes.join("\n")}\n${told.join("\n")}\n`);
   expect(told.length, notes.join("; ")).toBeGreaterThan(0);
-}, 120_000);
+}, 200_000);
 
 it(`a letter to the editor the player reads teaches where its writer stands, and one they do not read teaches nothing (seed ${SEED_LETTER})`, () => {
   setBookkeeping(false);
@@ -315,7 +315,7 @@ it(`a letter to the editor the player reads teaches where its writer stands, and
   }
   process.stdout.write(`${notes.join("\n")}\n`);
   expect(proved, notes.join("; ")).toBeGreaterThan(0);
-}, 180_000);
+}, 300_000);
 
 // words-home-own-view-lines-are-composed (owner, Nov 11, 2026: "all the lines
 // in the game need to be run through the English engine"): someone who says

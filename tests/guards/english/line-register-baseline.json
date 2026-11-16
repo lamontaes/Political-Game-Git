@@ -242,7 +242,7 @@
     "src/english/speech-registers.ts": 42
   },
   "dataHeldLines": {
-    "src/bench/data/controls.json": 623,
+    "src/bench/data/controls.json": 632,
     "src/bench/data/scene-places.json": 34,
     "src/bench/data/whole-figures.json": 8,
     "src/director/data/address-kinds.json": 1,

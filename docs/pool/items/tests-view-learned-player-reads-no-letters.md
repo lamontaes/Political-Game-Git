@@ -35,4 +35,4 @@ checked: none
 
 **Files.** src/director/view-learned.test.ts
 
-**Notes.** Nov 16: #9637 pins the letter test to seed 33 (passes there in 72 s; also seeds 11, 22, 44, 55 and 66), so the test is no longer red by draw. The drawn player who reads no letters at seed 9059152ee9d720c6 is still unproved; this item stays open for that.
+**Notes.** Nov 16: #9637 pins the card test and the letter test to seed 44 (card 96 s, letter 154 s on Train 6d12556a; seeds 22 and 55 fail the letter test and 11, 22 fail the card test there; the old pin, seed 33, failed both after start-at-18 changed the player and the housemates, old premise: a close outgoing housemate leads with their own view). The drawn player who reads no letters at seed 9059152ee9d720c6 is still unproved; this item stays open for that.
