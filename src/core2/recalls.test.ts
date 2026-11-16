@@ -160,7 +160,7 @@ describe("M3-10 recalls", () => {
     ).toEqual([]);
     expect(report, `no recall started in ${tried.join("; ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
-  }, 300_000);
+  }, 210_000);
 
   // `countScale` opens the town at a multiple of its sample, so the households'
   // fitted weights are fractions and the electorate they stand for is not whole.
