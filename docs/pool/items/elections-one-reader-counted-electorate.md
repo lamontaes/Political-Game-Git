@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia-one-electorate
-pr:
+pr: #9593
 after:
 blocked-on:
 root: design-electorate-one-model
