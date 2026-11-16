@@ -33,3 +33,5 @@ source: "Account lead, Nov 16 08:43Z, on #9689's measured day-one approval: file
 **Waits on.** Nothing. Builds on #9689 and the past-share pull request that adds src/core2/offices-past-results.ts (thread world-opening).
 
 **Files.** src/core2/offices-past-results.ts (new), src/core2/data/past/parameters.json.
+
+- Nov 16, world-opening thread: built on branch claude/project-thread-7ooue6-share-room. Day-one approval: Shubert 51.87, Paradise 51.17, Bethel Springs 50.14 (were 51.48, 50.50, 50.50); 20 seeds at Shubert (share-1 to share-20) give 20 different values.

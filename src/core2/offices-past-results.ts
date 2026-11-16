@@ -100,25 +100,39 @@ export function realResult(
   return null;
 }
 
-/** The winner's share in a world: inside the past race's bounds, around `base` by `halfWidth`, on the world's seed keyed by the seat and date. */
+/**
+ * The winner's share in a world, on the world's one unit for the seat and date
+ * (`<seat>:<date>:share`). A recorded race (`recordedTotal`, its votes cast)
+ * maps that unit into the room the record allows: from the winner still
+ * winning by one vote of its total (or the real share drifted down, where that
+ * is higher) to the real share drifted up. No clamp, so no two races pile onto
+ * one value. A race with no record keeps the past race's bounds
+ * (`pastWinnerShareMin`, `pastWinnerShareMax`), the rule that a winner holds
+ * more than half.
+ */
 export function worldWinnerShare(
   seed: string,
   race: Pick<PastRace, "seatId" | "date">,
   base: number,
   halfWidth: number,
+  recordedTotal?: number,
 ): number {
-  return Math.min(
-    pastParameter(null, "pastWinnerShareMax"),
-    Math.max(
-      pastParameter(null, "pastWinnerShareMin"),
-      seededBetween(
-        seed,
-        `${race.seatId}:${race.date}:share`,
-        base - halfWidth,
-        base + halfWidth,
-      ),
-    ),
+  const low = recordedTotal
+    ? Math.min(base, Math.max(base - halfWidth, 0.5 + 1 / recordedTotal))
+    : base - halfWidth;
+  const high = recordedTotal ? Math.min(1, base + halfWidth) : base + halfWidth;
+  const share = seededBetween(
+    seed,
+    `${race.seatId}:${race.date}:share`,
+    low,
+    high,
   );
+  return recordedTotal
+    ? share
+    : Math.min(
+        pastParameter(null, "pastWinnerShareMax"),
+        Math.max(pastParameter(null, "pastWinnerShareMin"), share),
+      );
 }
 
 /** The race's real result in this world (owner: recognizable with drift), or null where the research does not have it. */
@@ -134,6 +148,7 @@ export function recordedRaceShare(
       race,
       real.share,
       pastParameter(null, "pastRealShareDrift"),
+      real.total,
     ),
     total: real.total,
   };
