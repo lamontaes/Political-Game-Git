@@ -16,7 +16,9 @@ import { setBookkeeping } from "../core2/bookkeeping";
 // resumed and each meeting the member sits in voted by their own judgment
 // and adjourned. Every scene that stops the day is shown as the story screen
 // shows it, and a scene with someone to talk to opens that talk with the
-// moment as its occasion.
+// moment as its occasion. Measured at about 121 seconds alone (64 to make
+// the world, 57 to play) and 143 beside the other arrival tests (78 and
+// 65); the limit is 300 seconds for the life and its play.
 const SEED = "7";
 const PLACE = "5669845";
 const MEMBER = "person_0f713cf2e3e20027";
@@ -122,7 +124,7 @@ describe("a scene with someone to talk to", () => {
       expect(next.status, `${where}: ${core.date}`).toBe(200);
     }
     played = (Date.now() - t1) / 1000;
-  }, 360_000);
+  }, 300_000);
   afterAll(() => {
     setBookkeeping(was);
   });
