@@ -77,7 +77,7 @@ import {
   questionSaid,
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
-import { raceTurnoutFacts } from "./race-turnout-facts";
+import { lossExpectationFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
   causeTopicSaid,
@@ -1935,8 +1935,10 @@ function composeBinding(
   // Who turned out, from the count's own rows: the winner's share of the
   // ballots, the share of the eligible who voted and the place that gave the
   // winner the biggest share.
-  if (record?.kind === "election-result" && said.contestId)
+  if (record?.kind === "election-result" && said.contestId) {
     Object.assign(facts, raceTurnoutFacts(core, said.contestId));
+    Object.assign(facts, lossExpectationFacts(core, said.contestId, askedId));
+  }
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer): over the
   // first who missed the cut, so in an at-large race the margin of the cut.
