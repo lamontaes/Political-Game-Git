@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9609
 blocked-on:
 source: "the Account lead, Nov 15: a yes the colleague gave on their own lean wrote a favor debt, and a favor already done still counted in full on the next ask"
 claimed-at:
