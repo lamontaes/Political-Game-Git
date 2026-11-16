@@ -17,11 +17,10 @@ export const ADDRESS_FACT = {
   kind: "address:kind",
   /** The kind it took (crisis, combative, hopeful, victory, mourning, policy): what the world and the speaker gave it to say. */
   style: "address:style",
-  opening: "address:opening",
-  remembered: "address:remembered",
-  text: "address:text",
-  /** The address in its parts, one per Continue, split by ADDRESS_PART_BREAK. */
-  parts: "address:parts",
+  /** The address as said: each sentence's bank pieces, the facts its slots said, each piece's tie and the records behind them (address-render.ts `saidFact`). */
+  said: "address:said",
+  /** Which of those sentences a hearer can quote, by its place in the address from 0. */
+  rememberedAt: "address:remembered-at",
   /** A governor's or mayor's address: its first stand, in its own words, and the speaker's side on it. */
   pointAbout: "address:point-about",
   pointStance: "address:point-stance",
@@ -73,8 +72,6 @@ export function addressPiecesFact(
   ].join(" ");
 }
 
-/** What separates the parts of the address in its recorded `address:parts` fact. */
-export const ADDRESS_PART_BREAK = "\n\n";
 
 /**
  * One point of the address a hearer can raise: a policy question the

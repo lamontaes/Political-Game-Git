@@ -7,6 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { jointAddress } from "../core2/office-day-federal-calendar";
 import { ADDRESS_FACT } from "./opening-facts";
+import { addressPartsOf } from "./address-render";
 import { ADDRESS_KINDS } from "./address-kind";
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
 
@@ -40,9 +41,9 @@ describe("the President's address each year", () => {
     expect(event.witnessIds, where).toContain(world.playerId);
     const facts = event.facts!;
     expect(facts[ADDRESS_FACT.kind], where).toBe("state-of-the-union");
-    expect(String(facts[ADDRESS_FACT.text]).length, where).toBeGreaterThan(400);
+    expect(addressPartsOf(facts).join(" ").length, where).toBeGreaterThan(400);
     process.stdout.write(
-      `YEARLY ADDRESS ${where}, ${date}\n  ${String(facts[ADDRESS_FACT.text])}\n`,
+      `YEARLY ADDRESS ${where}, ${date}\n  ${addressPartsOf(facts).join(" ")}\n`,
     );
     // The kind it took is on the record, for the scenes, news and journal that read it.
     expect(ADDRESS_KINDS, where).toContain(facts[ADDRESS_FACT.style]);

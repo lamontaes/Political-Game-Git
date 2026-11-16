@@ -7,6 +7,7 @@
  * it came from. A record whose facts can't be said is left unworded here.
  */
 import { governmentProperName } from "../core2/government-proper-name";
+import { rememberedOf } from "../director/address-render";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -3929,6 +3930,7 @@ const localAddress =
   (read, f) => {
     const id = f["address:speaker"];
     const style = f["address:style"];
+    const quote = rememberedOf(f);
     return story(
       "local-address",
       {
@@ -3936,9 +3938,7 @@ const localAddress =
         date: read.date(),
         [level]: read.yes(),
         ...(style ? { [`style-${style}`]: read.yes() } : {}),
-        ...(f["address:remembered"]
-          ? { quote: read.fact(f["address:remembered"], id ?? "") }
-          : {}),
+        ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
       },
       ["name"],
       id,
