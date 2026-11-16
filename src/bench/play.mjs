@@ -2717,7 +2717,13 @@ async function personCardNode(
           stripSection(
             2,
             controls.who.views,
-            introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+            introText(
+              c.view
+                ? leanWord(c.view)
+                : pronoun
+                  ? fill(controls.who.viewUnknown)
+                  : controls.who.viewUnknownThey,
+            ),
             ...(c.viewAbout
               ? [
                   introText(

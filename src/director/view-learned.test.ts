@@ -105,11 +105,16 @@ const VIEW_MOVES = (rules.replyMoves as Record<string, unknown>)[
   "own-view"
 ] as Record<string, string>;
 
-/** The card's political-view line as the screen shows it (play.mjs). */
-const viewLine = (card: { view: string | null }) =>
+/** The card's political-view line as the screen shows it (play.mjs): "he stands" or "they stand" by the card's pronouns. */
+const viewLine = (card: {
+  view: string | null;
+  pronouns: { lower: string } | null;
+}) =>
   card.view
     ? ((controls.leanWords as Record<string, string>)[card.view] ?? card.view)
-    : controls.who.viewUnknown;
+    : card.pronouns
+      ? controls.who.viewUnknown.replace("{lower}", card.pronouns.lower)
+      : controls.who.viewUnknownThey;
 
 it(`a close, outgoing person says where they stand and the card learns it; a stranger does not (seed ${seed})`, () => {
   setBookkeeping(false);
