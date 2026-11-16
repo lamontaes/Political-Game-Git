@@ -35,6 +35,7 @@ import geography from "../../../data/research/geography/state-reference.json" wi
 import federalQuestions from "../../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import {
+  amendmentRoom,
   budgetsOf,
   fiscalYearOf,
   governmentOfJurisdiction,
@@ -540,6 +541,8 @@ interface Filed {
     readonly name: string;
     readonly deltaMinor: number;
     readonly of: number;
+    /** What the treasury's record shows that lets the body amend the adopted budget. */
+    readonly cause: string;
   };
 }
 
@@ -785,9 +788,15 @@ function fileLines(
 ): Filed[] {
   const all: { filed: Filed; weight: number }[] = [];
   const majority = Math.floor(filers.length / 2) + 1;
+  // A body amends its adopted budget for a cause on record: what the
+  // treasury took in over plan lets it raise lines, a shortfall makes it cut.
+  // A member's standing wish for a line acts when the budget is adopted.
+  const room = amendmentRoom(api, governmentId);
+  if (!room || room.roomMinor === 0) return [];
   for (const row of linePositions(api, governmentId, filers)) {
     const question = `budget-line:${row.name}`;
     for (const direction of [1, -1] as const) {
+      if (direction !== Math.sign(room.roomMinor)) continue;
       const backers = direction > 0 ? row.backing.up : row.backing.down;
       // A body brings a budget amendment to the floor only where its
       // sponsors can count a majority; a change without the votes is not
@@ -827,21 +836,38 @@ function fileLines(
           sponsor,
           cosponsors: backers.length,
           leaderReason: 0,
-          line: { name: row.name, deltaMinor: wanted, of: row.base },
+          line: {
+            name: row.name,
+            deltaMinor: wanted,
+            of: row.base,
+            cause: room.cause,
+          },
         },
       });
     }
   }
-  // A meeting's agenda takes up only so many budget amendments: the ones the
-  // most members back, by the size of the change they want.
+  // The agenda takes up the amendments the most members back, by the size of
+  // the change they want, until the room the treasury's record gives is spent;
+  // the last one is cut to what is left.
   all.sort(
     (a, b) =>
       b.weight - a.weight || a.filed.question.localeCompare(b.filed.question),
   );
-  const taken = all.slice(
-    0,
-    Math.round(campaignParameter("localBudgetAmendmentsPerMeeting")),
-  );
+  let left = Math.abs(room.roomMinor);
+  const taken: typeof all = [];
+  for (const entry of all) {
+    if (left <= 0) break;
+    const line = entry.filed.line!;
+    const size = Math.min(Math.abs(line.deltaMinor), left);
+    left -= size;
+    taken.push({
+      ...entry,
+      filed: {
+        ...entry.filed,
+        line: { ...line, deltaMinor: Math.sign(line.deltaMinor) * size },
+      },
+    });
+  }
   if (taken.length) api.stopgap("SG-LAWS-local-line-filing-threshold");
   return taken.map((t) => t.filed);
 }
@@ -897,6 +923,7 @@ function holdSession(
                 line: item.line.name,
                 value: item.line.deltaMinor,
                 of: item.line.of,
+                cause: item.line.cause,
               },
             ]
           : [
