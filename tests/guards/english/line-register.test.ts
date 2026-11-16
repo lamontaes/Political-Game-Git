@@ -73,6 +73,11 @@ describe("the line register", () => {
     expect(
       now.unreadBanks.filter((file) => !BASELINE.unreadBanks.includes(file)),
     ).toEqual([]);
+    expect(
+      now.goodWaitingForReader.filter(
+        (file) => !BASELINE.goodWaitingForReader.includes(file),
+      ),
+    ).toEqual([]);
   });
   it("lowers the baseline as soon as a line is tied, reached, read or moved", () => {
     expect([
@@ -87,6 +92,9 @@ describe("the line register", () => {
         ),
       ...BASELINE.unreadBanks
         .filter((file) => !now.unreadBanks.includes(file))
+        .map((file) => `${file} is read now: remove it from the baseline`),
+      ...BASELINE.goodWaitingForReader
+        .filter((file) => !now.goodWaitingForReader.includes(file))
         .map((file) => `${file} is read now: remove it from the baseline`),
     ]).toEqual([]);
   });
