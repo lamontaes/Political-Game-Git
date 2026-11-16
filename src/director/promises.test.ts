@@ -244,6 +244,8 @@ const WAIT_DAYS = 7;
 /** Nine in the morning: the minute of the window's last day the player talks. */
 const LAST_DAY_MINUTE = 9 * 60;
 const TIMEOUT = 600_000;
+/** The show-around case: 119.5 s alone and 126.7 s beside the other promise and scene tests (Nov 16), so about twice the slower. */
+const SHOW_AROUND_TIMEOUT = 260_000;
 
 const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
   node.replies.flatMap((reply, index) =>
@@ -734,7 +736,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  SHOW_AROUND_TIMEOUT,
 );
 
 /** Days played in a place at most, one at a time, so the evening before a roll is caught. */
