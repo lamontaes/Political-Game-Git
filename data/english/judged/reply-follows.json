@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3289,
+  "judged": 3232,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -59,13 +59,6 @@
         "scene-talk.close-accept.best-of-luck-to-you"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "05yigqinjoh": {
-      "keys": [
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close",
-        "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
-      ],
-      "why": "\"It didn't cost much\" does not answer how hard it is to hear it was that close."
     },
     "06xxyel2g7b": {
       "keys": [
@@ -129,13 +122,6 @@
         "scene-talk.close-thank.glad-you-re-joining-us-we-ll-do-paperwork-your-first-day"
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
-    },
-    "0cuae81qwf6": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-agree.it-was-close-i-can-live-on-that-dial-it"
-      ],
-      "why": "The aide says the last precincts cannot change the result and says nothing about the race being close, so \"It was close\" answers a line that was not said."
     },
     "0d1sct9aff9": {
       "keys": [
@@ -277,13 +263,6 @@
       ],
       "why": "A asks who else knew; B gives a voting justification"
     },
-    "0ka019j8b85": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
     "0kiemnnltxn": {
       "keys": [
         "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
@@ -311,13 +290,6 @@
         "scene-talk.follow-accept.send-me-the-letter-that-s-all-i-need"
       ],
       "why": "A says it will step out; B asks for a letter A never mentioned"
-    },
-    "0m7s3oosl89": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Asked what they have left to put in, the filer talks about how close the race was, ignoring the question."
     },
     "0mcyaxvu600": {
       "keys": [
@@ -360,13 +332,6 @@
         "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
       ],
       "why": "The aide has just granted the five minutes asked for, and \"Then we wait\" answers as if the aide had raised the count."
-    },
-    "0psqb5cdjt0": {
-      "keys": [
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en"
-      ],
-      "why": "Asked how close it was, the reply answers \"Two\" as if asked how many precincts are still out."
     },
     "0pwy84y1ru6": {
       "keys": [
@@ -458,20 +423,6 @@
         "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
       ],
       "why": "'There is' answers nothing in A's statement about being told."
-    },
-    "0wqrrulmmdt": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
-    "0ww3c1bv7km": {
-      "keys": [
-        "scene-talk.follow-answer.it-wasn-t-close",
-        "scene-talk.reply-agree.it-was-close-i-can-live-on-that-dial-it"
-      ],
-      "why": "The aide just said it wasn't close, and the reply says \"It was close,\" contradicting the line it answers."
     },
     "0xg45rgwav2": {
       "keys": [
@@ -584,13 +535,6 @@
         "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
       ],
       "why": "A asks why B didn't tell them; B answers about the rule to vote."
-    },
-    "13i2cgsy947": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
-      ],
-      "why": "The filer blames the opponent's dirty race and the reply skips that complaint entirely to open on the money, as if nothing had been said."
     },
     "142jeqe18nd": {
       "keys": [
@@ -760,13 +704,6 @@
       ],
       "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
     },
-    "1jrjnj4klpm": {
-      "keys": [
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close",
-        "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-      ],
-      "why": "Opening on how little was spent skips the filer's pain at how close it was."
-    },
     "1k7soz35rxr": {
       "keys": [
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
@@ -900,13 +837,6 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "1x9mlcjm68n": {
-      "keys": [
-        "scene-talk.follow-ask.are-you-sure-that-s-what-you-want",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "The reply restates the loss instead of saying whether the player is sure about the plan they were asked about."
-    },
     "1xc0e6ufwrn": {
       "keys": [
         "scene-talk.reply-agree.i-m-with-you-tell-me-when",
@@ -914,26 +844,12 @@
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
-    "1xm61e44svf": {
-      "keys": [
-        "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody said the race was close, so the reply answers something that was never said."
-    },
     "1y0hw2lmtqb": {
       "keys": [
         "scene-talk.reply-agree.count-me-in-tell-me-when",
         "scene-talk.follow-thank.good-we-ll-see-you-there"
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
-    },
-    "1zkriml9p1e": {
-      "keys": [
-        "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright",
-        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
-      ],
-      "why": "M5 overrules the reviewer, as in earlier rounds: A asks whether the filer is alright; nobody proposed adding up the money, so the put-off answers a request A never made."
     },
     "20nlb7s0urv": {
       "keys": [
@@ -962,13 +878,6 @@
         "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
       ],
       "why": "'Then I'll ask the boss' reacts to nothing in a welcome."
-    },
-    "23jieevd2de": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
     },
     "23k35jh8t2f": {
       "keys": [
@@ -1125,5 +1034,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "0kuprv8dve7"
+  "yesHash": "1pvh899nrgz"
 }

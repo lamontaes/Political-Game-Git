@@ -64,27 +64,12 @@ import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 export function raceMargin(
   core: Readonly<CoreState>,
   resultId: string,
-  /**
-   * A candidate who lost: their scenes read their own gap (the votes between
-   * them and the last winning seat, over the votes cast) against the same two
-   * parameters, not the winner's lead over the runner-up, which says nothing
-   * about how near they came. Left out, the race is read as the Journal reads it.
-   */
-  loserId?: string,
 ): RaceMargin {
-  const { totals, votes, seats } = countOf(
-    core,
-    resultId,
-    loserId !== undefined,
-  );
+  const { votes } = countOf(core, resultId);
   if (votes.length === P.one) return "alone";
   const cast = votes.reduce((sum, count) => sum + count, P.zero);
   if (votes.length < P.two || !(cast > P.zero)) return "middle";
-  const own = loserId === undefined ? undefined : Number(totals[loserId]);
-  const lead =
-    own !== undefined && Number.isFinite(own)
-      ? (votes[Math.min(seats, votes.length) - P.one]! - own) / cast
-      : (votes[P.zero]! - votes[P.one]!) / cast;
+  const lead = (votes[P.zero]! - votes[P.one]!) / cast;
   const { journalRaceCloseMargin, journalRaceWideMargin } =
     DEFAULT_DIRECTOR_DATA.parameters;
   if (lead <= journalRaceCloseMargin!.value) return "close";

@@ -6165,31 +6165,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It's hard to hear it was that close.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["race-close"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-apologize.you-re-right-i-m-sorry",
       "move": "reply-apologize",
       "kind": "spoken",
@@ -30308,26 +30283,6 @@
           "purpose": "concession-call",
           "key": "loss",
           "excludesFacts": ["daytime"],
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "excludesFacts": ["daytime"],
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "excludesFacts": ["daytime"],
           "after": "scene-talk.state-request.it-s-time-to-call-opponent-the-longer-we-wait-the-worse-it-looks"
         },
         {
@@ -30356,24 +30311,6 @@
       "kind": "spoken",
       "text": "Give me ten minutes alone first.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -30536,16 +30473,6 @@
           "key": "loss",
           "excludesFacts": ["daytime"],
           "after": "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "excludesFacts": ["daytime"],
-          "after": "scene-talk.reply-refuse.then-it-s-close-enough-to-wait-for-the-last-count"
         }
       ],
       "bearing": "braced",
@@ -31857,24 +31784,6 @@
       "kind": "spoken",
       "text": "Not yet. Let me read the numbers myself.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -39932,85 +39841,11 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-close-was-it",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How close was it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["race-close"],
-          "after": "scene-talk.state-request.it-s-time-to-call-opponent-the-longer-we-wait-the-worse-it-looks"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["race-close"],
-          "after": "scene-talk.state-request.opponent-s-team-is-waiting-on-the-call-you-should-be-the-one-to-make-i"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["race-wide"],
-          "after": "scene-talk.state-request.it-s-time-to-call-opponent-the-longer-we-wait-the-worse-it-looks"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["race-wide"],
-          "after": "scene-talk.state-request.opponent-s-team-is-waiting-on-the-call-you-should-be-the-one-to-make-i"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "I'm not calling anybody until the county certifies it.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -40054,24 +39889,6 @@
       "kind": "spoken",
       "text": "Let me talk to the volunteers first.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -40256,32 +40073,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "press",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.then-it-s-close-enough-to-wait-for-the-last-count",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "Then it's close enough to wait for the last count.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it",
-          "requiresFacts": ["race-close"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "refuse",
         "key": "loss"
       }
     },
@@ -44909,15 +44700,6 @@
           "purpose": "concession-call",
           "key": "loss",
           "after": "scene-talk.reply-stall.give-me-ten-minutes-alone-first"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.reply-refuse.then-it-s-close-enough-to-wait-for-the-last-count"
         }
       ],
       "bearing": "braced",
@@ -44935,24 +44717,6 @@
       "kind": "spoken",
       "text": "I'm going to walk around the block once.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -44978,24 +44742,6 @@
       "kind": "spoken",
       "text": "Not until the last box is counted.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -45055,24 +44801,6 @@
       "kind": "spoken",
       "text": "Five minutes. I need to gather myself.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.follow-answer.it-wasn-t-close"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -95694,16 +95422,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
         },
         {
@@ -95810,16 +95528,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
         },
         {
@@ -95877,16 +95585,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -95976,17 +95674,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "excludesFacts": ["daytime"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "excludesFacts": ["daytime"],
           "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
         },
         {
@@ -96066,16 +95753,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -96181,16 +95858,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
         },
         {
@@ -96278,16 +95945,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -96571,16 +96228,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
           "after": "scene-talk.reply-tell.we-didnt-win"
         }
       ],
@@ -96632,7 +96279,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
         },
         {
@@ -96642,7 +96289,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
         },
         {
@@ -96652,7 +96299,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.i-don-t-want-to-talk-about-it-tonight"
         },
         {
@@ -96662,7 +96309,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.i-m-fine-really"
         }
       ],
@@ -96775,16 +96422,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-worked"],
-          "after": "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-worked"],
           "after": "scene-talk.reply-tell.we-didnt-win"
         }
       ],
@@ -96832,16 +96469,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.reply-tell.i-really-thought-we-had-it"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
         },
         {
           "subject": "scene",
@@ -96959,7 +96586,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
         },
         {
@@ -96969,7 +96596,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
         },
         {
@@ -96979,7 +96606,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.i-don-t-want-to-talk-about-it-tonight"
         },
         {
@@ -96989,7 +96616,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-deflect.i-m-fine-really"
         }
       ],
@@ -97193,7 +96820,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.i-ll-run-again"
         },
         {
@@ -97203,7 +96830,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
         },
         {
@@ -97213,7 +96840,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first"
         },
         {
@@ -97223,7 +96850,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.this-is-not-the-end"
         },
         {
@@ -97233,7 +96860,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.this-isn-t-the-end-of-it"
         },
         {
@@ -97243,7 +96870,7 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"],
+          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.we-will-be-back"
         }
       ],
@@ -193626,84 +193253,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Close. A few more doors might have done it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.reply-ask.how-close-was-it",
-          "requiresFacts": ["race-close"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words lead (class F case 4, Nov 15), placed by raceMargin",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "answer",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-wasn-t-close",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It wasn't close.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.reply-ask.how-close-was-it",
-          "requiresFacts": ["race-wide"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words lead (class F case 4, Nov 15), placed by raceMargin",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "answer",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.it-was-close-i-can-live-on-that-dial-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "It was close. I can live on that. Dial it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "answer",
-          "requiresFacts": ["race-close"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it",
       "move": "state-comfort",
       "kind": "spoken",
@@ -193762,16 +193311,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-worked"],
-          "after": "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-worked"],
           "after": "scene-talk.reply-tell.we-didnt-win"
         }
       ],
@@ -193779,31 +193318,6 @@
       "origin": "authored",
       "author": "Scene builder A",
       "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "You put a lot of money into this. Are you alright?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words lead (class F case 4, Nov 15)",
-      "date": "2026-11-15",
       "tag": {
         "move": "comfort",
         "key": "loss"

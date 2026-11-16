@@ -240,27 +240,9 @@
     "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that": [
       "join-cause/decline"
     ],
-    "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in": [
-      "family-loss.small/tell",
-      "family-loss/tell"
-    ],
-    "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month": [
-      "family-loss.small/tell",
-      "family-loss/tell"
-    ],
-    "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time": [
-      "family-loss.small/tell",
-      "family-loss/tell"
-    ],
     "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in": [
       "family-loss.small/promise",
-      "family-loss.small/tell",
-      "family-loss/promise",
-      "family-loss/tell"
-    ],
-    "scene-talk.follow-ask.are-you-sure-that-s-what-you-want": [
-      "family-loss.small/tell",
-      "family-loss/tell"
+      "family-loss/promise"
     ],
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
@@ -313,7 +295,6 @@
     ],
     "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
-    "scene-talk.reply-ask.how-close-was-it": ["concession-call/answer"],
     "scene-talk.reply-blame.opponent-ran-a-dirty-race": [
       "family-loss.small/comfort",
       "family-loss/comfort"
@@ -350,10 +331,6 @@
     ],
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
-    ],
-    "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it": [
-      "family-loss.small/tell",
-      "family-loss/tell"
     ],
     "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up": [
       "family-loss.small/deflect"

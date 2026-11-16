@@ -107,7 +107,6 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { raceMargin } from "./race-margin";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence, workHeld } from "../core2/person-work";
@@ -1768,17 +1767,6 @@ function composeBinding(
       text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
-  // How a lost race was decided, from its result record's totals by the one
-  // margin function the Journal reads: a line that judges the size (close,
-  // not close) requires the fact, and says no figure of its own.
-  if (/^(election|primary)-result:/.test(moment.causeId)) {
-    const margin = raceMargin(core, moment.causeId, askedId);
-    if (margin !== "alone")
-      facts[`race-${margin}`] = {
-        text: "yes",
-        sourceRecordIds: [moment.causeId],
-      };
-  }
   // Word of a rival's message passed on: how it reached the teller, what it
   // argued (the subject and the rival's side of it) and how far it moved the
   // teller, each from the message's own record. Nothing here quotes it.
@@ -2404,6 +2392,13 @@ function composeBinding(
           ...(door?.knock.first === "false" ? { nextDown: true } : {}),
         })
       : null;
+  // Which arc the records gave this scene, so a line written for one arc (a
+  // gift that hurt, not one that hardly cost) plays only in it.
+  if (variant)
+    facts[`variant-${variant.variant}`] = {
+      text: "yes",
+      sourceRecordIds: [...variant.recordIds],
+    };
   // What the records gave the variant, for the lines that say it: every read
   // that came to more than nothing is a fact of the scene, cited to the records
   // it came from (`read-town-against`, `read-scandal`), so a line about the

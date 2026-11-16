@@ -1,32 +1,15 @@
 import { appendFileSync, writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
-import { setBookkeeping } from "../core2/bookkeeping";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
-import { campaignFor } from "../core2/modules/campaigns";
-import { campaignAct } from "../bench/campaign";
+import { playLife, type Presses } from "../../scripts/words/family-loss-life";
 import {
   CANDIDACY_MODULE_ID,
   candidacyReasons,
 } from "../core2/modules/candidacy";
-import {
-  ELECTIONS_MODULE_ID,
-  fileCandidacy,
-  openContests,
-  type ContestRow,
-  type FilingRow,
-} from "../core2/modules/elections";
-import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import { familyFactsOf } from "../core2/modules/people";
 import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
-import { raceMargin } from "./race-margin";
 import type { TreeNode } from "./scene-talk";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -36,28 +19,17 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // staged only for a relative who put work or money into the race, and what the
 // player says about running again is kept where the candidacy engine reads it
 // for the next contest. The count is said once, in the narration (owner, Nov 14:
-// people do not say the figure); a line that judges its size ("it was that
-// close", the answer to "How close was it?" in the concession call) is placed by
-// the one margin function the Journal reads (raceMargin), never asserted.
-// Three named places on fixed seeds, found by scanning drawn seeds once with
-// the same presses (the report names the picks and what it passed over): Pomeroy
-// WA (a wide gap, a filer who put own money in), Poplar Plains CT (a close gap,
-// a household member who volunteered) and Lincoln NH (a middle gap, a
-// household member who volunteered). Each is about a minute, the game's own
-// season from filing to the count. Every part a household has comes from the
-// filers' own presses on the campaign page (campaignAct) and the world's
-// answers; nothing is written for anyone else.
-const PLACES = [
-  { key: "5355120", seed: "losscan:4" },
-  { key: "0961555", seed: "losscan:34" },
-  { key: "3341780", seed: "losscan:28" },
-].map((row) => {
-  const place = drawPlace(row.seed, "family-loss-stake-scene");
-  if (place.key !== row.key)
-    throw new Error(`${row.seed} no longer draws ${row.key}: ${place.key}`);
-  return { ...place, drawSeed: row.seed };
-});
-const YEAR = 365;
+// people do not say the figure).
+// Played lives, never staged: a new adult is the player, files through the
+// bench's own filing and presses only what the campaign page offers
+// (scripts/words/family-loss-life.ts), and the scene is read for that player
+// from the world's own count. The lives are pinned by seed; each was found by
+// scripts/words/family-loss-life-scan.ts (the report names the picks and what
+// it passed over). Each is about a minute.
+const LIVES: { seed: string; presses: Presses }[] = [
+  // Pembroke GA: volunteers asked, $100 of the player's own money; a gift that reads small.
+  { seed: "losslife:4", presses: { volunteer: true, give: 100 } },
+];
 
 /** Every line under a node, with the reply that led to it. */
 function treeLines(node: TreeNode | null, path: string[], out: string[]): void {
@@ -72,121 +44,21 @@ function treeLines(node: TreeNode | null, path: string[], out: string[]): void {
   }
 }
 
-const CLOSE_ANSWER = {
-  close: "Close. A few more doors might have done it.",
-  wide: "It wasn't close.",
-} as const;
-
-/** One drawn place: the loss scenes it showed, or why it could not. */
-const run = (
-  place: (typeof PLACES)[number],
-): { done: boolean; note: string } => {
-  const where = `${place.name} (${place.key}), seed ${place.drawSeed}`;
+/** One pinned life: the loss scenes it showed, or why it could not. */
+const run = (life: (typeof LIVES)[number]): { done: boolean; note: string } => {
   const file = process.env.PLAYED_FILE;
-  setBookkeeping(false);
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const { core, director } = world;
+  const out = playLife(life.seed, life.presses);
+  if (!("core" in out))
+    return { done: false, note: `${out.where}: ${out.note}` };
+  const { where, core, director, contest } = out;
   const api = coreAPI(core);
-  const end = addDays(makeIsoDate(core.date), YEAR);
-  for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
-    advanceCore(core, addDays(makeIsoDate(core.date), 7));
-  let contest: ContestRow | undefined;
-  const filings: FilingRow[] = [];
-  for (const race of [...openContests(api)]
-    .filter((row) => addDays(makeIsoDate(row.electionDate), 2) <= end)
-    .sort((a, b) => a.id.localeCompare(b.id))) {
-    const clerkId = filingClerkFor(api, race.id)?.personId;
-    const town = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.id !== core.playerId &&
-          p.id !== clerkId &&
-          (core.households.get(p.householdId)?.memberIds ?? []).some(
-            (id) =>
-              id !== p.id &&
-              core.people.get(id)?.alive &&
-              core.people.get(id)!.birthDate < "2005-01-01",
-          ),
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))
-      .slice(0, 40);
-    const homes = new Set<string>();
-    for (const person of town) {
-      if (filings.length >= 3) break;
-      // One filer to a household, so what one household put in is its own.
-      if (homes.has(person.householdId)) continue;
-      homes.add(person.householdId);
-      director.watch(core, person.id);
-      const result = fileCandidacy(api, {
-        personId: person.id,
-        contestId: race.id,
-        platform: [],
-      });
-      // Filing is a petition: the filer is on the ballot once the clerk
-      // counts their signatures.
-      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-        filings.push(result.filing);
-    }
-    if (filings.length) {
-      contest = race;
-      break;
-    }
-  }
-  if (!contest || filings.length < 2)
-    return { done: false, note: `${where}: fewer than two filers` };
-  advanceCore(core, addDays(makeIsoDate(core.date), 2));
-
-  // The households' parts in the race come from what a player presses on the
-  // campaign page (campaignAct, the bench's own handler): each filer asks
-  // everyone they know to volunteer and the world answers; the second puts a
-  // quarter of their cash in and the third a hundred dollars, amounts a player
-  // could choose there. Nothing is written for anyone else.
-  const [first, second, third] = filings;
-  const homeOf = (filing: FilingRow) =>
-    core.people.get(filing.personId as PersonId)!.householdId;
-  if (new Set(filings.map(homeOf)).size < filings.length)
-    return { done: false, note: `${where}: filers share a household` };
-  for (const filing of filings) {
-    campaignFor(api, filing.id);
-    campaignAct(core, filing.personId, {
-      filingId: filing.id,
-      kind: "volunteer",
-    });
-  }
-  const giver = core.people.get(second!.personId as PersonId)!;
-  campaignAct(core, second!.personId, {
-    filingId: second!.id,
-    kind: "contribute",
-    amountMinor: Math.max(10000, Math.floor(giver.liquidMinor / 4)),
-  });
-  if (third)
-    campaignAct(core, third.personId, {
-      filingId: third.id,
-      kind: "contribute",
-      amountMinor: 10000,
-    });
-  // The filers are in the circle the world keeps private records for, as
-  // the player is (a volunteer's shift is private).
-  for (const filing of filings) {
-    core.focusPersonIds.add(filing.personId as PersonId);
-    for (const id of core.households.get(homeOf(filing))?.memberIds ?? [])
-      core.focusPersonIds.add(id as PersonId);
-  }
-  // Each filer canvasses for signatures until the clerk's check.
-  gatherSignatures(core, ...filings.map((f) => f.id));
-
-  advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
   if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
   // Someone the filer knows who walked doors (a relative, or anyone known by
   // name) is named in the filer's Journal, never "someone from my campaign"
   // (Storrs, Connecticut, storrs-1: a father).
   {
-    const filer = first!.personId as PersonId;
+    const filer = out.me;
     const person = core.people.get(filer)!;
     const kin = familyFactsOf(person);
     const known = (pid: string) =>
@@ -218,48 +90,19 @@ const run = (
   const causeId = `election-result:${contest.id}`;
   const lines: string[] = [];
   let promised = false;
-  for (const filing of [first, second, third]) {
-    if (!filing) continue;
-    const filer = filing.personId as PersonId;
+  for (const filing of [out.filing]) {
+    const filer = out.me;
     const here = `${where}: ${filing.id}`;
-    if (result.winnerId === filer) continue;
-    const now = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow | undefined;
-    // Off the general's ballot (withdrawn, short of signatures, or out in a
-    // primary): the count names them nowhere.
-    if (now?.status !== "on-ballot") continue;
-    const outIds = JSON.parse(
-      String(
-        core.durableLog.get(`primary-result:${contest.id}`)?.facts?.outIds ??
-          "[]",
-      ),
-    ) as string[];
-    if (outIds.includes(filer)) continue;
-    // A seat of an at-large race that the count gave them is no loss: the
-    // count names them nowhere among those who missed, and no lost-race
-    // moment fires for them (the played file says so where it happens).
+    // The player lost: the count's own list of who missed the cut names them.
     const missed = JSON.parse(
       String(core.durableLog.get(causeId)?.facts?.outIds ?? "[]"),
     ) as string[];
+    expect(missed, `${here}: the player lost`).toContain(filer);
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
-        row.momentId.includes(`election-result:${contest!.id}`),
+        row.momentId.includes(`election-result:${contest.id}`),
       );
-    if (!missed.includes(filer)) {
-      expect(
-        entry?.bindings.find((row) => row.typeKey === "family-loss"),
-        `${here}: a seated candidate is told they lost`,
-      ).toBeUndefined();
-      if (file)
-        appendFileSync(
-          file,
-          `### ${here}: the count seated this candidate; no lost-race scene fires for them\n\n`,
-        );
-      continue;
-    }
     expect(entry, `${here}: the count fired no moment`).toBeTruthy();
     const household =
       core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [];
@@ -289,11 +132,6 @@ const run = (
     const margin = facts.find((row) => row.key === "margin")!;
     // The count is said once, in the narration; nothing the relative or the
     // player says repeats it, and no line asserts a size the count does not.
-    const how = raceMargin(core, causeId, filer);
-    expect(
-      facts.some((row) => row.key === `race-${how}`),
-      `${here}: the scene holds race-${how}`,
-    ).toBe(true);
     expect(
       talk.narration.some((line) => line.text.includes(margin.text)),
       `${here}: the narration says the count`,
@@ -302,9 +140,6 @@ const run = (
     treeLines(talk.tree, [], said);
     for (const text of [talk.state.text, ...said])
       expect(text, `${here}: the count said again`).not.toContain(margin.text);
-    for (const text of said)
-      if (text.includes("that close"))
-        expect(how, `${here}: "${text}"`).toBe("close");
     // What the count was, so a reader can judge "close": every candidate's
     // votes, the winner's lead as a share of the votes cast, and (for money)
     // what was given.
@@ -326,7 +161,7 @@ const run = (
       appendFileSync(
         file,
         [
-          `### ${where}: ${filing.id}, the count was ${how} (${countFacts})`,
+          `### ${where}: ${filing.id}, ${countFacts}`,
           ...talk.narration.map((line) => `Narration: ${line.text}`),
           `They say: ${talk.state.text}`,
           ...said.map((text) => `- ${text}`),
@@ -356,9 +191,8 @@ const run = (
       `${here} (${part!.key}, lost by ${margin.text}): ${core.people.get(askerId)!.givenName}: "${talk.state.text}" / ${talk.tree.replies.map((row) => `${row.line.move}: "${row.line.text}"`).join(" | ")}`,
     );
 
-    // The concession call, from the same result: "How close was it?" is
-    // answered by the count's own class, and the figure of speech nobody
-    // could back ("closer than anybody expected") is gone.
+    // The concession call, from the same result; no line in it judges how
+    // close the count was (no cutoff decides that).
     const callEntry = entry!;
     if (callEntry.bindings.some((row) => row.typeKey === "race-lost")) {
       const call = purposeScene(core, director, filer, callEntry, {
@@ -371,29 +205,12 @@ const run = (
           expect(text, `${here}: a line nothing records`).not.toContain(
             "Closer than anybody expected",
           );
-          for (const [kind, line] of Object.entries(CLOSE_ANSWER))
-            if (text.endsWith(`=> ${line}`))
-              expect(kind, `${here}: "${text}"`).toBe(how);
-          if (text.includes("It was close. I can live on that"))
-            expect(how, `${here}: "${text}"`).toBe("close");
         }
-        const asked = call.scene.talk.tree.replies.find(
-          (row) => row.line.text === "How close was it?",
-        );
-        // A middle count has no answer on record that a line can back, so
-        // the question is not offered then.
-        if (how === "middle")
-          expect(asked, `${here}: no question`).toBeUndefined();
-        else if (asked)
-          expect(
-            asked.next?.lines[0]?.text,
-            `${here}: the answer to how close`,
-          ).toBe(CLOSE_ANSWER[how as keyof typeof CLOSE_ANSWER]);
         if (file)
           appendFileSync(
             file,
             [
-              `### ${where}: the concession call, the count was ${how}`,
+              `### ${where}: the concession call`,
               `They say: ${call.scene.talk.state.text}`,
               ...heard.map((text) => `- ${text}`),
               "",
@@ -451,12 +268,12 @@ it("the talk after a lost race is for the relative who put in work or money, say
       file,
       `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
     );
-  for (const place of PLACES) {
+  for (const life of LIVES) {
     const began = Date.now();
-    const out = run(place);
+    const out = run(life);
     expect(out.done, out.note).toBe(true);
     process.stdout.write(
-      `${out.note}\n${place.name}: ${Math.round((Date.now() - began) / 1000)} s\n`,
+      `${out.note}\n${life.seed}: ${Math.round((Date.now() - began) / 1000)} s\n`,
     );
   }
 }, 600_000);
