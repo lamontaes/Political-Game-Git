@@ -23,11 +23,11 @@ Seen: Train b63879a81512d778d4e91be4d5181dd9d4cd9d44 with the test opening offic
 
 **Cause.** Needs cause. Looked at: the test was calling `openOffices` without the start date, which made both cases throw on bad module data. With the date passed, case 1 passes and case 2 fails as above. The pinned premise (that Nevada's lieutenant governor runs for that senate seat in that world) no longer holds. It is not yet known whether this is a fault in the opening terms or only a moved premise.
 
-**Fix.** None until the cause is found. Re-pinning to another seed needs the old premise named and the lead's yes.
+**Fix.** None until the cause is found.
 
 **Time box.** 2 hours, Sonnet at medium effort.
 
-**Rules.** Tests: a re-pin names the old premise and why it moved, and gets the lead's yes first.
+**Rules.** One rule, all 56 places: the test keeps a named place and seed, and a re-pin names the old premise and why it moved, with the lead's yes first.
 
 **Done when.** The case passes at a named place and seed on the Train, with its premise stated in the test, and a second session replays it there and in a drawn place (place and seed named).
 
