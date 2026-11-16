@@ -146,6 +146,7 @@ import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { askAnswerFacts } from "./ask-answer-facts";
 import { careFacts } from "./care-facts";
 import { moveInFacts } from "./move-in-facts";
 import { gatheringFacts } from "./gathering-facts";
@@ -1046,6 +1047,8 @@ function composeBinding(
     ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A partner's ask to live together: who would move, and the asked's kin.
     ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // The answer to the player's own ask out or proposal, and why a no.
+    ...askAnswerFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(

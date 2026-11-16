@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   dateSaid,
   dayAhead,
+  dayLanding,
   dayOpening,
   daySince,
   ordinalDay,
@@ -32,6 +33,24 @@ describe("a day named as people say it", () => {
       "On the afternoon of June 7th",
     );
     expect(dayOpening("2026-06-07", 23 * 60)).toBe("Late on June 7th");
+  });
+  it('names every hour of the day for the part it falls in, midnight and the small hours too (Account lead, Nov 15: 12:00 AM read "Late on January 20th.")', () => {
+    const hours = Array.from({ length: 24 }, (_, hour) =>
+      dayOpening("2025-01-20", hour * 60).replace(" January 20th", ""),
+    );
+    expect(hours).toEqual([
+      ...Array<string>(5).fill("In the middle of the night on"),
+      ...Array<string>(4).fill("First thing on"),
+      ...Array<string>(3).fill("Late in the morning on"),
+      ...Array<string>(2).fill("Around noon on"),
+      ...Array<string>(3).fill("On the afternoon of"),
+      ...Array<string>(3).fill("Toward evening on"),
+      ...Array<string>(4).fill("Late on"),
+    ]);
+    expect(dayLanding("2025-01-20", 0)).toBe(
+      "the middle of the night on January 20",
+    );
+    expect(dayLanding("2025-01-20", 6 * 60)).toBe("early on January 20");
   });
   it("tells a day in another year with its year, never as a bare date (Fable A, Nov 13, rule 3)", () => {
     // Playtester P2, Hewitt NJ: on January 31st, "about what happened on

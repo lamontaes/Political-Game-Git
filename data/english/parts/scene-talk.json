@@ -89259,6 +89259,24 @@
           "role": "asker",
           "purpose": "talk",
           "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "scene-talk.reply-thank.good-i-m-really-glad",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "scene-talk.reply-thank.good-i-m-really-glad",
+          "purpose": "proposal-answer",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -129383,6 +129401,24 @@
           "after": "decline",
           "purpose": "move-in-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
         }
       ],
       "bearing": "steady",
@@ -177344,6 +177380,1159 @@
       "tag": {
         "move": "relent",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-asked-name-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You asked {name} out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-yes"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-picked-up-the-phone-and-asked-name-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You picked up the phone and asked {name} out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; the reader's fault 1, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-asked-name-to-marry-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You asked {name} to marry you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-yes"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-picked-up-the-phone-and-asked-name-to-marry-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You picked up the phone and asked {name} to marry you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; the reader's fault 1, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.yes-i-d-like-that",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Yes. I'd like that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-was-hoping-you-d-ask",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I was hoping you'd ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-s-nice-of-you-i-don-t-really-know-you-yet",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That's nice of you. I don't really know you yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-barely-know"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-d-like-to-get-to-know-you-first-if-that-s-alright",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'd like to get to know you first, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-barely-know"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-flattered-i-m-seeing-someone",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm flattered. I'm seeing someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-with-someone"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-can-t-i-m-with-someone",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I can't. I'm with someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-with-someone"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-don-t-think-so-we-re-at-different-places-in-life",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I don't think so. We're at different places in life.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-age-gap"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.yes-come-here",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Yes! Come here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.yes-i-thought-you-d-never-ask",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Yes. I thought you'd never ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-not-ready-yet-ask-me-again-someday",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm not ready yet. Ask me again someday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-too-soon"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.not-yet-i-m-not-saying-never",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Not yet. I'm not saying never.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-too-soon"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-asked-before-it-s-still-too-soon-for-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You asked before. It's still too soon for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-too-soon", "asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:55Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-still-too-soon-not-much-has-changed-since-you-asked",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's still too soon. Not much has changed since you asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-too-soon", "asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:55Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-care-about-you-i-m-not-sure-enough-to-say-yes",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I care about you. I'm not sure enough to say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-not-sure-yet"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I can't say yes. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-not-sure-yet"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; second words reader's read, Nov 14 16:45Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-asked-me-last-time-i-m-still-not-sure",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You asked me last time. I'm still not sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "said-no",
+            "reason-not-sure-yet",
+            "asked-same-before"
+          ]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:36Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-haven-t-changed-my-mind-yet-give-me-time",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I haven't changed my mind yet. Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "said-no",
+            "reason-not-sure-yet",
+            "asked-same-before"
+          ]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:36Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.good-i-m-really-glad",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Good. I'm really glad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.okay-wow-okay",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Okay. Wow. Okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.fair-enough-thanks-for-being-honest",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Thanks for being honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.can-i-ask-why-not",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can I ask why not?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.that-s-sweet-i-just-don-t-see-us-that-way"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.not-yet-i-m-not-saying-never"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.you-asked-me-last-time-i-m-still-not-sure"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.i-haven-t-changed-my-mind-yet-give-me-time"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.you-asked-before-it-s-still-too-soon-for-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.it-s-still-too-soon-not-much-has-changed-since-you-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.no-problem-forget-i-asked",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "No problem. Forget I asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "withdraw",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.okay-let-s-leave-it-there",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "Okay. Let's leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; second words reader's read, Nov 14 16:45Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "withdraw",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-see-you-soon-then",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll see you soon, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "thank",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thanks-for-asking-though-i-mean-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thanks for asking, though. I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "accept",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "withdraw",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.we-re-okay-i-m-not-going-anywhere",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "We're okay. I'm not going anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "accept",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "withdraw",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-too-soon-for-me-that-s-all-it-is",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's too soon for me. That's all it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-too-soon"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.same-as-before-we-haven-t-had-long-enough",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Same as before. We haven't had long enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-too-soon", "asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:55Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-want-to-be-sure-before-i-say-yes-i-m-not-there-yet",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want to be sure before I say yes. I'm not there yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-not-sure-yet"],
+          "excludesFacts": ["asked-same-before"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-same-reason-as-before-i-need-to-be-sure",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The same reason as before. I need to be sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-not-sure-yet", "asked-same-before"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:36Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.really-you-mean-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Really? You mean it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.you-re-sure",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "You're sure?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.then-it-s-a-date",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Then it's a date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.we-re-getting-married",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "We're getting married.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-really-do",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I really do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ve-never-been-more-sure",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I've never been more sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
       }
     },
     {

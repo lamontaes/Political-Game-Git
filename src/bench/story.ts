@@ -202,6 +202,9 @@ export function storyScene(
       (id) =>
         id !== personId &&
         core.people.get(id)?.alive &&
+        // On a call the other person is on the line, not in the room: no
+        // face is drawn for them (as a Call from the card draws none).
+        scene.setting.kind !== "phone" &&
         // An address heard is on the screen at home, not in the room: the
         // narrator says how it was heard; a floor or stump speech is given
         // by someone standing in it.
@@ -235,6 +238,7 @@ export function storyScene(
           // The exchange the player's replies name: a scene, or one of the
           // bills the day's sitting took in.
           typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
+          ...(scene.setting.kind === "phone" ? { byPhone: true } : {}),
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
           // A floor speech the scene plays is the speaker's opening line,

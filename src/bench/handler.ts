@@ -185,8 +185,17 @@ import {
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
 import type { CoreState, PersonId } from "../core2/types";
+import type { AskWhere } from "../core2/modules/partnerships";
 import { benchProgress } from "./progress";
-import { townPlaces, visitPlace } from "./places";
+import { townPlaces, visitHome, visitPlace } from "./places";
+import {
+  personActs,
+  askFromCard,
+  recordPlayerCall,
+  recordPlayerVisit,
+  visitHoursOf,
+  whereIs,
+} from "./person-acts";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
@@ -208,10 +217,19 @@ interface ServerState {
   conversation: Conversation | undefined;
   filingVisit: BenchFilingVisit | undefined;
   /**
-   * The place the player went to and the day they went: they are there until
-   * they go somewhere else, go home, or the day ends.
+   * Where the player went and the day they went: a place in town (an
+   * organization) or someone's home (the host). They are there until they go
+   * somewhere else, go home, or the day ends.
    */
-  visit: { organizationId: string; date: string } | undefined;
+  visit:
+    | {
+        organizationId?: string;
+        hostId?: string;
+        /** At a workplace: the one the player came to see. */
+        visitedId?: string;
+        date: string;
+      }
+    | undefined;
   /** The election nights each player has watched, and the mornings they canvassed. */
   nightsWatched: Set<string>;
   canvassedOn: Set<string>;
@@ -269,7 +287,29 @@ function sceneNow(current: CoreState, id: string) {
     state.visit = undefined;
   const scene =
     playing && state.visit && at
-      ? visitPlace(current, id, state.visit.organizationId, at.minuteOfDay)
+      ? state.visit.hostId
+        ? visitHome(current, id, state.visit.hostId, at.minuteOfDay)
+        : visitPlace(
+            current,
+            id,
+            state.visit.organizationId ?? "",
+            at.minuteOfDay,
+            // The one the player came to see stays while they are still there.
+            state.visit.visitedId &&
+              (() => {
+                const there = whereIs(
+                  current,
+                  state.visit.visitedId,
+                  at.minuteOfDay,
+                );
+                return (
+                  there.kind === "work" &&
+                  there.organizationId === state.visit.organizationId
+                );
+              })()
+              ? state.visit.visitedId
+              : undefined,
+          )
       : benchScene(
           current,
           id,
@@ -311,7 +351,196 @@ const talkView = (value: Conversation | undefined) =>
     choices: value.choices,
     // The scales' set: the same choices made false (empty dims the scales).
     lies: value.lies,
+    // A call: the screen keeps the player's own room and draws nobody new in it.
+    ...(value.byPhone ? { byPhone: true } : {}),
   };
+/**
+ * Opens a talk with someone, by every road: the room, a scene, a workplace
+ * visit, a person's card (Visit, Call). A talk with no line is no talk
+ * (owner, Nov 1): nothing opens and the answer is none.
+ */
+function openTalk(otherId: string, occasionId?: string, byPhone = false) {
+  if (!state.player?.personId) throw new Error("Choose a resident first.");
+  if (!personOrFillIn(requireCore(), otherId)?.alive)
+    throw new Error("Talk to a living resident.");
+  // The minute the talk is had at: the opening day is that evening at
+  // home, when the household gets home (the opening's talks spend their
+  // minutes from the clock's morning); else the clock.
+  const clockMinute = state.player.packet?.at.minuteOfDay;
+  const arrivalMinute =
+    state.director?.ledger.opening?.date === requireCore().date
+      ? openingArrivalMinute(requireCore(), state.player.personId)
+      : undefined;
+  const minuteOfDay =
+    arrivalMinute === undefined
+      ? clockMinute
+      : Math.max(clockMinute ?? arrivalMinute, arrivalMinute);
+  // The room is handed to the talk (the telling): who else is here hears
+  // it, and nobody is asked after while they stand there.
+  const openingDay =
+    state.director?.ledger.opening?.date === requireCore().date;
+  // At someone's home the room is that home's: their household hears it.
+  const room = state.visit?.hostId
+    ? Object.keys(
+        visitHome(
+          requireCore(),
+          state.player.personId,
+          state.visit.hostId,
+          clockMinute ?? 12 * 60,
+        ).names,
+      ).filter((id) => id !== state.player!.personId)
+    : roomIds(
+        requireCore(),
+        state.player.personId,
+        state.player.packet,
+        openingDay ? minuteOfDay : undefined,
+      );
+  state.conversation = openConversation(
+    requireCore(),
+    state.player.personId,
+    otherId,
+    state.director
+      ? {
+          director: state.director,
+          presentIds: room,
+          ...(byPhone ? { byPhone: true } : {}),
+          ...(occasionId ? { occasionId } : {}),
+          ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
+          // The place the player came to, so a goodbye knows it is said
+          // at the speaker's work.
+          ...(state.visit?.organizationId
+            ? { visitOrganizationId: state.visit.organizationId }
+            : {}),
+        }
+      : {},
+  );
+  // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
+  // the room, a workplace visit. Nothing opens, and the screen hands the
+  // room back.
+  if (!state.conversation.lines.length) {
+    state.conversation = undefined;
+    return undefined;
+  }
+  // The player talked with them: the two have met (the encounters
+  // engine's meeting, through the director's one entry for it).
+  meetOverTalk(requireCore(), state.conversation);
+  // What they said is heard today by the player (the telling's "said
+  // today"): the next housemate says something else.
+  noteHeard(requireCore(), state.conversation);
+  return talkView(state.conversation);
+}
+
+/**
+ * The player's minute now: the clock's, else on the opening day the evening
+ * the household gets home (where the opening scene stands), else midday.
+ */
+function playerMinute(core: CoreState, playerId: string): number {
+  return (
+    state.player?.packet?.at.minuteOfDay ??
+    (state.director?.ledger.opening?.date === core.date
+      ? openingArrivalMinute(core, playerId)
+      : undefined) ??
+    12 * 60
+  );
+}
+
+/**
+ * The room the player stands in now: the place or home they went to, else
+ * their workplace on a shift, else their own home.
+ */
+/**
+ * Where an ask from the card is made: the room the player stands in, in
+ * person when the other is there with them, else by phone from that room.
+ */
+function askWhere(otherId: string): AskWhere | undefined {
+  const playerId = state.player?.personId;
+  if (!playerId) return undefined;
+  const here = sceneNow(requireCore(), playerId).people.some(
+    (person) => person.personId === otherId,
+  );
+  const room = playerRoom();
+  return { ...(room ? { room } : {}), ...(here ? {} : { byPhone: true }) };
+}
+
+function playerRoom(): string | undefined {
+  const playerId = state.player?.personId;
+  if (!playerId) return undefined;
+  const core = requireCore();
+  if (state.visit?.organizationId) return state.visit.organizationId;
+  if (state.visit?.hostId)
+    return core.people.get(state.visit.hostId)?.householdId;
+  const at = whereIs(core, playerId, playerMinute(core, playerId));
+  return at.kind === "work"
+    ? at.organizationId
+    : core.people.get(playerId)?.householdId;
+}
+
+/** The acts the card offers for a person, from where the player stands now. */
+function actsFor(otherId: string) {
+  const player = state.player;
+  if (!player?.personId) return [];
+  const core = requireCore();
+  const minute = playerMinute(core, player.personId);
+  return personActs(core, player.personId, otherId, {
+    minute,
+    held: player.clockHeld(),
+    here: sceneNow(core, player.personId).people.map((p) => p.personId),
+    atHome:
+      !state.visit && whereIs(core, player.personId, minute).kind === "home",
+    ...(state.director ? { director: state.director } : {}),
+  });
+}
+
+/**
+ * The player visits someone: the trip and the visit's hours spent on the
+ * clock, the room that person is in now (their workplace on a shift, else
+ * their home), the visit written to the record, and the talk opened where
+ * they are. Returns the room, the new clock and the talk.
+ */
+function visitPerson(otherId: string) {
+  const player = state.player!;
+  const playerId = player.personId!;
+  const core = requireCore();
+  const parameters = core.data.parameters;
+  // stopgapId: SG-PLAY-trip-time-average
+  const trip = player.spend(
+    parameter("tripMinutes", parameters) /
+      parameter("minutesPerHour", parameters),
+  );
+  // The room as it stands at the arrival minute, then the visit's hours.
+  const minute = playerMinute(core, playerId);
+  const at = whereIs(core, otherId, minute);
+  const room =
+    at.kind === "work"
+      ? {
+          visit: { organizationId: at.organizationId, visitedId: otherId },
+          scene: visitPlace(core, playerId, at.organizationId, minute, otherId),
+        }
+      : {
+          visit: { hostId: otherId },
+          scene: visitHome(core, playerId, otherId, minute),
+        };
+  const hours = visitHoursOf(core);
+  // The visit is written at arrival, before its hours are lived: the hours'
+  // drive prepares the day's next choices (a shift) from the records as they
+  // stand, so a write after it would leave that prepared choice stale.
+  recordPlayerVisit(core, playerId, otherId, minute, hours);
+  const spent = player.spend(hours) ?? trip;
+  const arrived = player.packet?.at;
+  state.visit = arrived ? { ...room.visit, date: arrived.date } : undefined;
+  const talk = openTalk(otherId);
+  return {
+    ...room.scene,
+    ...(spent
+      ? {
+          packet: spent.packet,
+          names: { ...room.scene.names, ...namesFor(spent.packet) },
+        }
+      : {}),
+    talk: talk ?? null,
+  };
+}
+
 /**
  * The sit-down when the player asks someone to serve opens at once: the ask
  * is the player's own press, so its scene is staged now and shown, not held
@@ -672,67 +901,13 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/talk/open",
     run: async ({ url, send }) => {
-      if (!state.player?.personId) throw new Error("Choose a resident first.");
-      const otherId = url.searchParams.get("otherId") ?? "";
-      if (!personOrFillIn(requireCore(), otherId)?.alive)
-        throw new Error("Talk to a living resident.");
-      // A talk a scene opens is about the scene's moment.
-      const occasionId = url.searchParams.get("momentId") ?? undefined;
-      // The minute the talk is had at: the opening day is that evening at
-      // home, when the household gets home (the opening's talks spend their
-      // minutes from the clock's morning); else the clock.
-      const clockMinute = state.player.packet?.at.minuteOfDay;
-      const arrivalMinute =
-        state.director?.ledger.opening?.date === requireCore().date
-          ? openingArrivalMinute(requireCore(), state.player.personId)
-          : undefined;
-      const minuteOfDay =
-        arrivalMinute === undefined
-          ? clockMinute
-          : Math.max(clockMinute ?? arrivalMinute, arrivalMinute);
-      // The room is handed to the talk (the telling): who else is here hears
-      // it, and nobody is asked after while they stand there.
-      const openingDay =
-        state.director?.ledger.opening?.date === requireCore().date;
-      const room = roomIds(
-        requireCore(),
-        state.player.personId,
-        state.player.packet,
-        openingDay ? minuteOfDay : undefined,
+      send(
+        200,
+        openTalk(
+          url.searchParams.get("otherId") ?? "",
+          url.searchParams.get("momentId") ?? undefined,
+        ) ?? null,
       );
-      state.conversation = openConversation(
-        requireCore(),
-        state.player.personId,
-        otherId,
-        state.director
-          ? {
-              director: state.director,
-              presentIds: room,
-              ...(occasionId ? { occasionId } : {}),
-              ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
-              // The place the player came to, so a goodbye knows it is said
-              // at the speaker's work.
-              ...(state.visit
-                ? { visitOrganizationId: state.visit.organizationId }
-                : {}),
-            }
-          : {},
-      );
-      // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
-      // the room, a workplace visit. Nothing opens, and the screen hands the
-      // room back.
-      if (!state.conversation.lines.length) {
-        state.conversation = undefined;
-        send(200, null);
-        return;
-      }
-      // The player talked with them: the two have met (the encounters
-      // engine's meeting, through the director's one entry for it).
-      meetOverTalk(requireCore(), state.conversation);
-      // What they said is heard today by the player (the telling's "said
-      // today"): the next housemate says something else.
-      noteHeard(requireCore(), state.conversation);
-      send(200, talkView(state.conversation));
       return;
     },
   },
@@ -2440,17 +2615,60 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/act",
+    run: async ({ url, send }) => {
+      // An act from a person's card: Visit or Call (person-acts.ts).
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const kind = url.searchParams.get("kind") ?? "";
+      const otherId = url.searchParams.get("other") ?? "";
+      const act = actsFor(otherId).find((row) => row.kind === kind);
+      if (!act?.open) throw new Error("That is not open to you now.");
+      state.conversation = undefined;
+      if (kind === "visit") {
+        send(200, visitPerson(otherId));
+        return;
+      }
+      // Ask out or Propose: the other person answers from their own record
+      // (the partnerships engine), and the answer is a record the director
+      // stages at once as the scene on the player's clock.
+      if (kind === "ask-out" || kind === "propose") {
+        send(200, {
+          talk: null,
+          ...askFromCard(
+            requireCore(),
+            state.director,
+            state.player.personId,
+            otherId,
+            kind,
+            askWhere(otherId),
+          ),
+        });
+        return;
+      }
+      const talk = openTalk(otherId, undefined, true);
+      if (talk)
+        recordPlayerCall(
+          requireCore(),
+          state.player.personId,
+          otherId,
+          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        );
+      send(200, { talk: talk ?? null });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/known",
     run: async ({ url, send }) => {
-      send(
-        200,
-        knownCard(
-          requireCore(),
-          url.searchParams.get("id") ?? "",
-          personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
-            ?.id ?? "",
-        ),
-      );
+      const otherId =
+        personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
+          ?.id ?? "";
+      send(200, {
+        ...knownCard(requireCore(), url.searchParams.get("id") ?? "", otherId),
+        // What the player can do about them from the card (Visit, Call).
+        acts: actsFor(otherId),
+      });
       return;
     },
   },
@@ -2468,13 +2686,20 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       // The card also carries the clock a screen shows: the player's own while it runs, else the
       // world's day (a dev panel's run of days lets the character go and returns no packet), so a
-      // screen that re-reads the card after any change shows today's date.
+      // screen that re-reads the card after any change shows today's date. On the opening day the
+      // clock stands at the evening the household gets home, the minute every talk, ask and
+      // scene of that evening is told at (Account lead, Nov 15: the clock read 12:00 AM under
+      // "Late on January 20th.").
       const core = requireCore();
       send(200, {
         ...personCard(core, url.searchParams.get("id") ?? ""),
         at: state.player?.packet?.at ?? {
           date: makeIsoDate(core.date),
-          minuteOfDay: 0,
+          minuteOfDay:
+            state.player?.personId &&
+            state.director?.ledger.opening?.date === core.date
+              ? openingArrivalMinute(core, state.player.personId)
+              : 0,
         },
       });
       return;

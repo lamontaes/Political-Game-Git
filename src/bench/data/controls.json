@@ -159,6 +159,21 @@
     "newsToastSeconds": 8
   },
   "person": {
+    "actsTitle": "Get in touch",
+    "acts": {
+      "visit": "Visit",
+      "call": "Call",
+      "ask-out": "Ask out",
+      "propose": "Propose"
+    },
+    "actReasons": {
+      "here": "{first} is right here with you.",
+      "elsewhere": "{first} lives too far away to visit.",
+      "held": "Finish what you're in the middle of first.",
+      "home": "{first} lives with you.",
+      "late": "It's too late to go over now.",
+      "nothing-changed": "{first} gave you an answer. Nothing has changed since."
+    },
     "whoIs": "Who {lower} is",
     "whoAre": "Who they are",
     "howISee": "How I see {object}",

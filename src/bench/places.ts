@@ -8,7 +8,7 @@ import { upcomingMeeting } from "../core2/modules/office-day";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { organizationName } from "../director/words";
 import { backdropStaging } from "./staging";
-import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
+import { backdropFor, homeOf, orgPlace, staffOf, peopleHere } from "./scene";
 import { isOnShift } from "./shift";
 import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
@@ -317,6 +317,8 @@ export function visitPlace(
   playerId: string,
   organizationId: string,
   minute: number,
+  /** Someone the player came to see, there by `whereIs`: always in the room. */
+  visitedId?: string,
 ) {
   const org = core.organizations.get(organizationId);
   const place = orgPlace(core, organizationId);
@@ -328,9 +330,15 @@ export function visitPlace(
   const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
   const met = counted.slice(0, Math.max(room - full.length, 0));
   for (const id of met) fillInPerson(core, id);
-  const present = [...full, ...met.filter((id) => core.people.has(id))]
+  const onShift = [...full, ...met.filter((id) => core.people.has(id))]
     .filter((id) => isOnShift(core, id, minute, organizationId))
-    .filter((id) => id !== playerId);
+    .filter((id) => id !== playerId && id !== visitedId);
+  // The one the player came to see stands first, so the room's spots never
+  // leave them out.
+  const present = [
+    ...(visitedId && core.people.has(visitedId) ? [visitedId] : []),
+    ...onShift,
+  ];
   const ids = [playerId, ...present].map((id) => {
     const row = core.people.get(id)!;
     return {
@@ -349,3 +357,51 @@ export function visitPlace(
     ...peopleHere(core, backdrop.file, ids),
   };
 }
+
+/**
+ * The player at someone's home: the room as it stands at this minute, the
+ * host and whoever lives there who is not out on a shift. The visit's
+ * counterpart of `visitPlace`, with the same shape, so the screen draws both
+ * with one renderer. The room is the household's daytime room whatever the
+ * hour: a guest is not shown into a bedroom.
+ */
+export function visitHome(
+  core: CoreState,
+  playerId: string,
+  hostId: string,
+  minute: number,
+) {
+  const host = core.people.get(hostId);
+  if (!host) throw new Error("No such person.");
+  const place = homeOf(core, hostId, NOON);
+  const members = (core.households.get(host.householdId)?.memberIds ?? [])
+    .filter((id) => id !== playerId)
+    .filter((id) => core.people.get(id)?.alive)
+    .filter((id) => id === hostId || !isOnShift(core, id, minute));
+  const ids = [
+    {
+      id: playerId,
+      name: nameOf(core, playerId),
+      reason: "you" as const,
+    },
+    ...members.map((id) => ({
+      id,
+      name: nameOf(core, id),
+      reason: id === hostId ? ("act" as const) : ("household" as const),
+    })),
+  ];
+  const backdrop = backdropFor(core, place, minute, hostId);
+  return {
+    hostId,
+    name: nameOf(core, hostId),
+    place,
+    backdrop,
+    names: Object.fromEntries(ids.map((row) => [row.id, row.name])),
+    ...peopleHere(core, backdrop.file, ids),
+  };
+}
+
+const nameOf = (core: CoreState, id: string) => {
+  const row = core.people.get(id)!;
+  return `${row.givenName} ${row.familyName}`;
+};

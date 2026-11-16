@@ -1356,6 +1356,178 @@
       "stakes": ["home"]
     },
     {
+      "key": "asked-out",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "roles": [
+        {
+          "key": "answering",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "answer", "thank", "accept"],
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
+        },
+        {
+          "key": "asking",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["thank", "accept", "ask", "withdraw"],
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
+        }
+      ],
+      "arrivesBy": "day",
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "stopsDay": true,
+      "answersPress": true,
+      "repeatsBy": "cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.asked-out",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "equals": ["phone"]
+              }
+            ]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.asked-out",
+          "bind": {
+            "answering": "counterpart",
+            "asking": "subject"
+          },
+          "opener": "answering",
+          "opening": "greet",
+          "setting": ["phone"]
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.asked-out",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "absent": true
+              }
+            ]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.asked-out",
+          "bind": {
+            "answering": "counterpart",
+            "asking": "subject"
+          },
+          "opener": "answering",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "ask-out-answer",
+      "asker": "answering",
+      "asked": "asking",
+      "stakes": ["home"]
+    },
+    {
+      "key": "proposal-answered",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "roles": [
+        {
+          "key": "answering",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "answer", "thank", "accept"],
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
+        },
+        {
+          "key": "asking",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["thank", "accept", "ask", "withdraw"],
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
+        }
+      ],
+      "arrivesBy": "day",
+      "setting": ["venue", "home", "public"],
+      "timing": "at-cause",
+      "stopsDay": true,
+      "answersPress": true,
+      "repeatsBy": "cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.proposal-answered",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "equals": ["phone"]
+              }
+            ]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.proposal-answered",
+          "bind": {
+            "answering": "counterpart",
+            "asking": "subject"
+          },
+          "opener": "answering",
+          "opening": "greet",
+          "setting": ["phone"]
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.proposal-answered",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "absent": true
+              }
+            ]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.proposal-answered",
+          "bind": {
+            "answering": "counterpart",
+            "asking": "subject"
+          },
+          "opener": "answering",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "proposal-answer",
+      "asker": "answering",
+      "asked": "asking",
+      "stakes": ["home"]
+    },
+    {
       "key": "breakup",
       "receive": {
         "age": "any",

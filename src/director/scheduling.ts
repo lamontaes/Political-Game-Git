@@ -189,6 +189,12 @@ export interface SituationType {
    */
   stopsDay?: boolean;
   /**
+   * The answer to the player's own press (an Ask out or a Propose from a
+   * card): every press plays its answer, so the season's cap, which spaces
+   * the causes the world brings, never holds it back.
+   */
+  answersPress?: boolean;
+  /**
    * The player's office stop this scene's stop follows (a desk visit follows
    * the desk switch): switched off, the scene does not stop the day, and
    * nothing is decided for the player (owner's card, Nov 14, 02:03Z).
@@ -796,8 +802,20 @@ export function resolveSetting(
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
-    case "venue":
+    case "venue": {
+      // A record made in someone's home (the player's own ask, pressed
+      // where they stand) is set in that home: the subject's own, or the
+      // other's.
+      const home = moment.placeId
+        ? core.households.get(moment.placeId)
+        : undefined;
+      if (home)
+        return {
+          kind: home.id === subject.householdId ? "home" : "other-home",
+          recordId: home.id,
+        };
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    }
     case "chamber": {
       // The body the cause record names (the chamber a vote trade was made in).
       const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
@@ -1128,9 +1146,15 @@ export function scheduleMoment(
   // scene is not staged rather than dropped at its request.
   const nothingToAsk = (row: SceneBinding) =>
     row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
+  // A scene that answers the player's own press, or holds an open decision,
+  // plays past the season's cap of its kind.
+  const pastCap = (key: string) => {
+    const type = library.types.find((row) => row.key === key);
+    return Boolean(type?.answersPress || type?.openDecision);
+  };
   const seasonFull = (row: SceneBinding) =>
     !pressedByPlayer(row) &&
-    !library.types.find((type) => type.key === row.typeKey)?.openDecision &&
+    !pastCap(row.typeKey) &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
