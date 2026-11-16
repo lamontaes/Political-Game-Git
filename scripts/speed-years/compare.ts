@@ -22,7 +22,7 @@ export interface SpeedReceipt {
   readonly place: string;
   readonly stepDays: number;
   readonly head: string;
-  /** Main SHA only when all src/data files match its working content. */
+  /** Work-branch (dev) SHA only when all src/data files match its working content. */
   readonly sourceMain?: string | null;
   readonly host: string;
   readonly exclusive: boolean;
@@ -73,7 +73,7 @@ export function compareYears(
     if (requireIdentical && before.fingerprint !== after.fingerprint) {
       if (!before.tables || !after.tables)
         problems.push(
-          `Year ${after.year}: a receipt has no records proof; rerun main with this run.ts`,
+          `Year ${after.year}: a receipt has no records proof; rerun dev with this run.ts`,
         );
       else if (baseline.seed === candidate.seed) {
         const proof = (row: YearTiming, seed: string) => ({

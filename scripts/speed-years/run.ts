@@ -4,7 +4,7 @@
  * the debug bookkeeping off, as play runs it. Development tooling.
  *
  *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 4] [--max-seconds 120]
- *     [--exclusive] [--out <receipt.json>] [--baseline <main receipt.json>]
+ *     [--exclusive] [--out <receipt.json>] [--baseline <dev receipt.json>]
  *     [--same-records] [--proof-out <proof.json>]
  *
  * The place is drawn from all 56 by the seed unless `--place` names a key.

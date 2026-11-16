@@ -68,15 +68,15 @@ describe("zero-dice guard", () => {
 
   const onMain = mainAllowlist();
   it.skipIf(onMain === null)(
-    "allows no file more lines of a kind than main does",
+    "allows no file more lines of a kind than dev does",
     () => {
       // The change that introduces list-pick records today's inventory in one
-      // step; once main carries it, no file may grow it.
+      // step; once dev carries it, no file may grow it.
       const introduced = !onMain.entries.some(
         (entry: { kind: string }) => entry.kind === "list-pick",
       );
       // The change that points the guard at the live engine in full records
-      // that engine's inventory the same way; once main carries a roll, share
+      // that engine's inventory the same way; once dev carries a roll, share
       // or place case there, no file may grow it.
       const live = (file: string) =>
         SCANNED_ROOTS.some((root: string) => file.startsWith(`${root}/`));
