@@ -699,7 +699,11 @@ export function seatSaid(
     seatWords.body.replace("{body}", named.replace(/^state\s+/i, ""));
   const congress =
     level === "federal" && /house of representatives/i.test(named);
-  if (districted && aboveTown && bodied && seat.bodyName?.trim()) {
+  // A district is said as an ordinal only where its code is a whole number.
+  // A lettered or named district ("A", "5B", "Addison-1") has no ordinal: it
+  // is said by its office and its code, as a county's district is, below.
+  const numbered = /^\d+$/.test(district);
+  if (districted && numbered && aboveTown && bodied && seat.bodyName?.trim()) {
     // Above the town a district's seat is said whole every time, by its body
     // and its district as an ordinal, never as "the seat".
     if (congress)
@@ -757,16 +761,26 @@ export interface EmployerRecord {
 }
 
 /**
+ * Whether an organization is a government's payroll body (its treasury, or an
+ * outside government's account): the employer on an official's job record, and
+ * neither a place anyone goes to nor a room anyone meets in.
+ */
+export function isPayrollOrganization(record: {
+  readonly kind?: string;
+}): boolean {
+  return (
+    record.kind === "government-outside" ||
+    record.kind === "government-treasury"
+  );
+}
+
+/**
  * Whether the employer is a government or one of its offices (a treasury, an
  * outside government, a government's own record): a person works for it,
  * never at it. A business or a school system is not.
  */
 export function employerIsGovernment(record: EmployerRecord): boolean {
-  if (
-    record.kind === "government-outside" ||
-    record.kind === "government-treasury"
-  )
-    return true;
+  if (isPayrollOrganization(record)) return true;
   const business = !!record.classification?.startsWith("enterprise:");
   const government =
     !!record.governmentFacts?.governmentKind ||

@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-6jyjic
 pr: #9080
 after:

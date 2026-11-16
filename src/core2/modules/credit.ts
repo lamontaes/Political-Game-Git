@@ -629,7 +629,14 @@ function lineTerms(
   };
 }
 
-function review(api: CoreAPI): void {
+/**
+ * The monthly review. At the opening (the first day, `opening`) a firm that is
+ * already running holds the line it would have asked for: the same cover, the
+ * same limit and risk rate, with no new choice made (the firm's manager did
+ * its choosing before the world began), so the first payday is not met from
+ * a buffer alone while the first monthly review is still weeks off.
+ */
+function review(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const bank = bankOf(api);
@@ -659,7 +666,12 @@ function review(api: CoreAPI): void {
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const wanted: { id: string; requested: number; decidedBy?: string }[] = [];
+  const wanted: {
+    id: string;
+    requested: number;
+    decidedBy?: string;
+    opening?: boolean;
+  }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -685,6 +697,17 @@ function review(api: CoreAPI): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
+    // At the opening the person who runs the firm opened the line before the
+    // game began: no choice is made now, and the application says so.
+    if (opening) {
+      wanted.push({
+        id,
+        requested,
+        opening: true,
+        ...(ownerId && c.people.has(ownerId) ? { decidedBy: ownerId } : {}),
+      });
+      continue;
+    }
     // Its sales stand for the same weight as its payroll.
     const monthlySales =
       (books.annualDemandMinor *
@@ -728,8 +751,8 @@ function review(api: CoreAPI): void {
       store(api).table("pulls"),
     ))
       wanted.push({ id: row.id, requested: row.requested });
-  for (const { id, requested, decidedBy } of wanted.sort((a, b) =>
-    a.id.localeCompare(b.id),
+  for (const { id, requested, decidedBy, opening: held } of wanted.sort(
+    (a, b) => a.id.localeCompare(b.id),
   )) {
     const books = c.finance.businesses.get(id)!;
     const cash = c.organizations.get(id)!.liquidMinor;
@@ -744,7 +767,9 @@ function review(api: CoreAPI): void {
         bankBookId: `book:${api.state.date}`,
         organizationId: id,
         date: api.state.date,
-        reasonKey: creditData.reasons.applied,
+        reasonKey: held
+          ? creditData.reasons.heldAtOpening
+          : creditData.reasons.applied,
         ...(decidedBy ? { decidedBy } : {}),
         requestedMinor: Math.round(requested),
         cashMinor: cash,
@@ -993,7 +1018,7 @@ export const CREDIT_MODULE: CoreModule = {
           openedAt: core(api).date,
         });
     // Households' months are reviewed with or without a bank in town.
-    if (bank) review(api);
+    if (bank) review(api, true);
     scheduleReview(api);
   },
 };

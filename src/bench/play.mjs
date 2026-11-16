@@ -887,6 +887,13 @@ function inMeeting() {
 function atDesk() {
   return new Promise((resolve) => {
     const words = controls.desk ?? {};
+    // A veto is given with a reason the record supports, or none: Veto opens
+    // the reasons for that bill, and the sponsor hears the one given.
+    let choosing = null;
+    const decide = (billId, how, reason) =>
+      post(
+        `/api/desk?${new URLSearchParams({ billId, how, ...(reason ? { reason } : {}) })}`,
+      );
     const draw = (bills) => {
       if (!bills.length) return finish();
       $("desk-items").replaceChildren(
@@ -895,20 +902,46 @@ function atDesk() {
             item,
             [],
             [
-              ["sign", "veto", "own"].map((how) => {
-                const b = makeButton({
-                  className: "action",
-                  textContent: words[how] ?? how,
-                });
-                b.addEventListener("click", async () =>
-                  draw(
-                    await post(
-                      `/api/desk?${new URLSearchParams({ billId: item.billId, how })}`,
-                    ),
-                  ),
-                );
-                return b;
-              }),
+              choosing === item.billId
+                ? [
+                    prose(words.vetoWhy ?? "", "meeting-note"),
+                    ...(item.vetoReasons ?? []).map((reason) => {
+                      const b = makeButton({
+                        className: "action",
+                        textContent: words.reasons?.[reason] ?? "",
+                      });
+                      b.addEventListener("click", async () => {
+                        choosing = null;
+                        draw(await decide(item.billId, "veto", reason));
+                      });
+                      return b;
+                    }),
+                    (() => {
+                      const b = makeButton({
+                        className: "action",
+                        textContent: words.back ?? "",
+                      });
+                      b.addEventListener("click", () => {
+                        choosing = null;
+                        draw(bills);
+                      });
+                      return b;
+                    })(),
+                  ]
+                : ["sign", "veto", "own"].map((how) => {
+                    const b = makeButton({
+                      className: "action",
+                      textContent: words[how] ?? how,
+                    });
+                    b.addEventListener("click", async () => {
+                      if (how === "veto") {
+                        choosing = item.billId;
+                        return draw(bills);
+                      }
+                      draw(await decide(item.billId, how));
+                    });
+                    return b;
+                  }),
             ],
             (billId) =>
               openBillPaper(
@@ -4836,17 +4869,15 @@ const sheets = {
   },
   /**
    * The title's Saved games, as the Nov 8 front mock draws it (fr-saves): one strip per saved
-   * life, its name over a bust, the game's date and Load. The game keeps one life, the one
-   * Continue opens; more slots and Delete wait for the versioned save format in
-   * early-access preparation (OWNER-DECISIONS: "Saves don't matter" until then), so there
-   * is no Delete here: a control with no effect is a defect.
+   * life, its name over a bust, the game's date and Load, the most recently played first.
+   * There is no Delete: a control with no effect is a defect, and nothing removes a save yet.
    */
   async saves() {
     await controlsReady;
     const words = controls.saves;
-    const life = titleLife;
-    if (!life) return [plate(null, prose(words.none, "saves-none"))];
-    return [
+    if (!titleSaves.length)
+      return [plate(null, prose(words.none, "saves-none"))];
+    return titleSaves.map((life) =>
       personCard(
         { name: life.name, face: life.face },
         {
@@ -4858,13 +4889,13 @@ const sheets = {
               textContent: words.load,
               onclick: () => {
                 closeSheet();
-                $("front-continue").click();
+                void continueLife(life);
               },
             }),
           ],
         },
       ),
-    ];
+    );
   },
   /**
    * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
@@ -6589,6 +6620,8 @@ window.addEventListener("resize", fitUiScale);
 // The title screen: a national scene or event, full window, that moves on with
 // each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
 let titleLife = null;
+// Every saved life the title offers (Saved games), the most recently played first.
+let titleSaves = [];
 // The painting drifts by CSS while the title is open; every few seconds the
 // next scene of the day's rotation fades in over it.
 function rotateTitle(scenes, seconds) {
@@ -6628,6 +6661,7 @@ api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
+  titleSaves = title.saves ?? [];
   $("front-continue").disabled = !titleLife;
   // The mock (fr-title) offers Continue only for a life that exists, by that person's name.
   $("front-continue").hidden = !titleLife;
@@ -6651,9 +6685,32 @@ api("/api/title").then((title) => {
     ),
   );
 });
-$("front-continue").addEventListener("click", async () => {
-  const life = titleLife;
+/**
+ * A saved life not in play is loaded first, behind the loading card: the
+ * server replays its requests (POST /api/load), then it opens as Continue does.
+ */
+async function loadSavedLife(life) {
+  // The loading card, named for the life's place (fr-loading).
+  frontPanel(null);
+  document.querySelector("#front > .title").textContent = life.placeName;
+  const bar = document.querySelector("#front .progress");
+  const progress = followBuild(bar);
+  try {
+    return await post(`/api/load?save=${encodeURIComponent(life.saveId)}`);
+  } catch (error) {
+    bar.hidden = true;
+    $("front-status").textContent = error.message;
+    frontPanel("front-main");
+    return null;
+  } finally {
+    progress.stop();
+  }
+}
+/** Continue, or Load in Saved games: the life opens where it was. */
+async function continueLife(chosen) {
+  const life = chosen.playing ? chosen : await loadSavedLife(chosen);
   if (!life) return;
+  titleLife = { ...life, playing: true };
   me = {
     id: life.personId,
     placeName: life.placeName,
@@ -6673,6 +6730,9 @@ $("front-continue").addEventListener("click", async () => {
   );
   if (opening?.home?.date === life.date)
     showNewsSurface(await nightsNews(life.personId));
+}
+$("front-continue").addEventListener("click", () => {
+  if (titleLife) void continueLife(titleLife);
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -7307,6 +7367,54 @@ function playLoadingStory(story) {
   });
 }
 
+/**
+ * The loading card's bar and line follow the server's build (/api/newlife/progress): a new
+ * life's, or a saved life's while it loads. The server builds the world in twelve steps
+ * (BuildStage in world.ts); a step is named while it runs and the bar fills one twelfth for
+ * each step finished. `onStory` runs once the built world has its story to play.
+ */
+function followBuild(bar, onStory) {
+  const STEPS = [
+    "people",
+    "past",
+    "economy",
+    "core",
+    "government",
+    "elections",
+    "budgets",
+    "legislature",
+    "cabinet",
+    "workings",
+    "history",
+    "warmup",
+    "opening",
+  ];
+  show("front-status", true);
+  bar.hidden = false;
+  bar.firstElementChild.style.width = "0";
+  // A poll still in flight when the build ends leaves the line alone.
+  let built = false;
+  const poll = setInterval(async () => {
+    const p = await api("/api/newlife/progress").catch(() => undefined);
+    if (p?.story) onStory?.();
+    if (!p || built) return;
+    // The step in plain words, and a bar that shows how many steps are done; no counts.
+    const at =
+      p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+    bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
+    $("front-status").textContent = controls.loading?.[p.stage] ?? "";
+  }, 400);
+  return {
+    stop() {
+      clearInterval(poll);
+      built = true;
+      // Built: the bar is full and no "Ready" line is left behind.
+      bar.firstElementChild.style.width = "100%";
+      $("front-status").textContent = "";
+    },
+  };
+}
+
 async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
@@ -7317,63 +7425,27 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     : "";
   if (chosenName)
     document.querySelector("#front > .title").textContent = chosenName;
-  show("front-status", true);
   const bar = document.querySelector("#front .progress");
-  bar.hidden = false;
-  bar.firstElementChild.style.width = "0";
+  // The world's story plays once the world exists (playLoadingStory).
+  let playback = null;
+  const playStory = () =>
+    (playback ??= api("/api/newlife/story")
+      .catch(() => null)
+      .then((story) => playLoadingStory(story)));
+  const progress = followBuild(bar, playStory);
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
     const seed = custom
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
-    // Real progress through every step, from the server's build.
-    // The server builds the world in twelve steps (BuildStage in world.ts); a step is named
-    // while it runs and the bar fills one twelfth for each step finished.
-    const STEPS = [
-      "people",
-      "past",
-      "economy",
-      "core",
-      "government",
-      "elections",
-      "budgets",
-      "legislature",
-      "cabinet",
-      "workings",
-      "history",
-      "warmup",
-      "opening",
-    ];
-    // A poll still in flight when the build ends leaves the line alone.
-    let built = false;
-    // The world's story plays once the world exists (playLoadingStory).
-    let playback = null;
-    const playStory = () =>
-      (playback ??= api("/api/newlife/story")
-        .catch(() => null)
-        .then((story) => playLoadingStory(story)));
-    const poll = setInterval(async () => {
-      const p = await api("/api/newlife/progress").catch(() => undefined);
-      if (p?.story) playStory();
-      if (!p || built) return;
-      // The step in plain words, and a bar that shows how many steps are done; no counts.
-      const at =
-        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-      bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
-      $("front-status").textContent = controls.loading?.[p.stage] ?? "";
-    }, 400);
     let life;
     try {
       life = await post(
         `/api/newlife?${new URLSearchParams({ seed, date: $("date").value, ...(placeKey ? { placeKey } : {}), ...(person ? { person: JSON.stringify(person) } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
       );
     } finally {
-      clearInterval(poll);
-      built = true;
-      // Built: the bar is full and no "Ready" line is left behind.
-      bar.firstElementChild.style.width = "100%";
-      $("front-status").textContent = "";
+      progress.stop();
     }
     // The loading card is named for the place the world is built around (fr-loading).
     const loadingTitle = document.querySelector("#front > .title");

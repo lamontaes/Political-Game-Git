@@ -10,7 +10,7 @@ root: none
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-sltsoz
 pr: #9314
 after:
