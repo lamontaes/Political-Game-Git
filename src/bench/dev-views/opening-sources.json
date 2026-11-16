@@ -54,6 +54,10 @@
       "made": "real-data",
       "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
     },
+    "town.passedOver": {
+      "made": "decision",
+      "by": "src/bench/world.ts passOver: a new game's drawn place where every adult lives in group quarters opens no player, so the draw is taken again without it (the same state's next place by the same ranking in src/bench/place-selection.mjs); no new draw"
+    },
     "town.presidentApproval": {
       "made": "decision",
       "by": "src/core2/modules/national-opinion.ts presidentElection: the share of the two-party vote the 2024 presidential election recorded for the sitting president (src/core2/past-elections.ts, kept on their term), moved from the first month of the term by the economy and the pushes other engines write"
