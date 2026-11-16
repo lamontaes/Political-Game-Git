@@ -27,7 +27,7 @@ const PLACE = {
   election: "2025-11-04",
 };
 const WHERE = `${PLACE.name} (${PLACE.key}), world seed ${PLACE.seed}, as ${PLACE.personId}`;
-// About 75 s alone on a cloud container; the limit is near twice the slower run.
+// About 90 s alone on a cloud container (Nov 16); the limit is near twice that.
 const LIMIT_MS = 180_000;
 
 /** The parts of the bench's replies this test reads. */
