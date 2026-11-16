@@ -18,10 +18,10 @@
  * named only on a question the ticket's office can decide (Account lead,
  * Nov 15 10:45Z): every offered person's price question is checked. From the ask
  * on, the scene, the reply, the seat, the bill, the roll call and the tie are
- * the engines' own; the player's vote is cast the way the vote button casts
- * it (castMemberVote), and the roll call is held the day the bill is drafted
- * through the route dev mode's hold-vote uses (STAGED: the bill's own floor
- * date is eleven months on).
+ * the engines' own; the player drafts from their seat (seatAct), chooses
+ * their vote through their seat (chooseOwnVote) and the body calls the roll
+ * on its own floor day, eleven months on, so each promise case plays those
+ * days (about four minutes each).
  */
 import { expect, it } from "vitest";
 import { seatAct } from "../bench/legislature";
@@ -43,12 +43,12 @@ import {
 import {
   billOf,
   billStances,
-  castMemberVote,
-  holdVote,
+  floorDateOf,
   memberKey,
   members,
   votesOn,
 } from "../core2/modules/legislature";
+import { chooseOwnVote } from "../bench/bill-stage";
 import {
   askToServe,
   offeredRunningMates,
@@ -63,20 +63,26 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
 import { composeJournal } from "./journal";
-import { promiseSubject } from "./promise-talk";
+import { openConversation } from "./conversation";
+import { promiseAnswers, promiseSubject } from "./promise-talk";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const PLACE = "territory:GU:santa-rita";
+/** Days the next talk is opened on until the word is brought up. */
+const TALK_DAYS = 7;
+/** Days the world runs for the body's roll on the bill: a year and a month. */
+const ROLL_DAYS = 400;
 const LEGISLATURE = "office:US-GU:legislature-unicameral";
 
 /**
  * Each seed's priced person, what the player answers, and, after a promise,
- * how the player then votes on a bill that moves the question: against the
- * side promised (broken) or with it (kept). `value` is the bill's section on
- * the question (1 toward yes, -1 away): at seed 9e8d7c6b5a493827 a bill toward
- * yes dies in the territory's committee, so nobody votes on it and the word
- * stays open; the bill drafted there moves it away, and the player votes no.
+ * how the player then votes on a bill that moves the question toward yes:
+ * against the side promised (broken) or with it (kept). The two promise cases
+ * were found by a script outside the test, capped at an hour, over 25 Guam
+ * seeds (the played file of #9548): at seed 9e8d7c6b5a493827, pinned here
+ * before, the bill dies in committee and the word stays open, so the kept case
+ * is now seed 3f1a9c2e7b6d4058.
  */
 const CASES = [
   {
@@ -84,14 +90,12 @@ const CASES = [
     asked: "Sandra Orr",
     take: "promise",
     vote: "against",
-    value: 1,
   },
   {
-    seed: "9e8d7c6b5a493827",
-    asked: "Danielle Moseley",
+    seed: "3f1a9c2e7b6d4058",
+    asked: "Susan Guzman",
     take: "promise",
     vote: "with",
-    value: -1,
   },
   { seed: "1b2c3d4e5f607182", asked: "Alex Knight", take: "refuse" } as const,
 ] as const;
@@ -202,7 +206,7 @@ it(
 for (const c of CASES)
   it(
     `a priced no names its price; the player ${c.take === "promise" ? `promises and votes ${c.vote} it` : "refuses"} (${PLACE}, seed ${c.seed})`,
-    { timeout: 300_000 },
+    { timeout: 500_000 },
     () => {
       setBookkeeping(false);
       try {
@@ -319,13 +323,18 @@ for (const c of CASES)
           `  Journal: ${told[0]!.text}`,
         );
 
-        // The player drafts a bill on the question from their seat and votes
-        // on it at its roll call, with or against the side promised.
+        // The player drafts a bill on the question from their seat (the draft
+        // button's seatAct) and chooses their vote on it before its floor day
+        // through their seat (chooseOwnVote), with or against the side
+        // promised. The body calls the roll on its own floor day (eleven
+        // months on in the territory: this case plays those days, so it runs
+        // about four minutes; the Account lead ruled, Nov 15 20:14Z, that a
+        // vote cast for the player or a roll held early is not play).
         const bill = seatAct(core, player, {
           kind: "draft",
           officeId: LEGISLATURE,
           question,
-          value: c.value,
+          value: 1,
         });
         const billId = bill.id;
         const stance = billStances(api, billOf(api, billId)).find(
@@ -336,15 +345,35 @@ for (const c of CASES)
         expect(toward, where).not.toBe(0);
         const wanted = c.vote === "with" ? side : -side;
         const vote = wanted * toward > 0 ? "yes" : "no";
-        castMemberVote(api, billId, player, vote);
+        chooseOwnVote(core, billId, vote);
+        // The floor day the body sets at drafting; it may move the day as its
+        // calendar fills, so the world runs until the body's roll, whenever
+        // that is.
+        const floor = floorDateOf(api, billId);
+        expect(floor, `${where}: the body set a floor day`).toBeTruthy();
         const before = closenessBetween(core, player, asked!.id as PersonId);
-        // The body holds its vote today, as dev mode's hold-vote does (the
-        // territory's floor leader has it on the calendar eleven months on).
-        const held = holdVote(api, billId, { anyDay: true });
+        // The tie's move for the settled word, read as the promise writes it
+        // (promises.ts moveTie, citing the promise; paid at once when the two
+        // are together, or at their next talk). The whole year's closeness is
+        // not the measure: eleven months of the two working together move
+        // the tie too.
+        const moved: number[] = [];
+        const original = api.relationship;
+        const write = original.bind(api);
+        api.relationship = (...args: Parameters<typeof api.relationship>) => {
+          if (args[5]?.sourceId === factId) moved.push(args[3]);
+          return write(...args);
+        };
+        for (
+          let day = 0;
+          day < ROLL_DAYS && !votesOn(api, billId).length;
+          day += 1
+        )
+          advanceCore(core, addDays(makeIsoDate(core.date), 1));
         const cast = votesOn(api, billId).find((v) => v.memberId === player);
         expect(
           cast,
-          `${where}: the player voted at the roll call (${held.status}, ${votesOn(api, billId).length} votes)`,
+          `${where}: the player voted at the body's roll (${billOf(api, billId).status} on ${core.date}, floor day ${floor})`,
         ).toBeDefined();
         expect(cast!.vote, where).toBe(vote);
         const ended = find();
@@ -355,8 +384,6 @@ for (const c of CASES)
         expect(ended.endedBy, where).toMatch(
           new RegExp(`^bill-vote:${billId}`),
         );
-        if (c.vote === "with") expect(after, where).toBeGreaterThan(before);
-        else expect(after, where).toBeLessThan(before);
         // What the person owed can bring up: the word kept or broken, on the
         // question by its short name (promise-talk.ts).
         const subject = promiseSubject(
@@ -370,8 +397,50 @@ for (const c of CASES)
         );
         expect(subject?.facts["promise-hold-question"], where).toBeDefined();
         expect(subject?.facts.issue?.text, where).toBeTruthy();
+        expect(subject?.facts.about?.text, where).toBe(about);
+        // The next talk: the one owed brings the word up by the proposal, and
+        // the player answers from the promise talk's own answers (Words lead,
+        // Nov 15 17:35Z): a broken word offers owning it, explaining and
+        // denying, and never making it right, since a word on a question is
+        // not renewed. A bigger subject of the day may lead, so the talk is
+        // opened on each of the next days until it is said (as promises.test).
+        let talkNow = openConversation(core, player, asked!.id as PersonId, {
+          director,
+        });
+        const raisedIn = (t: typeof talkNow) =>
+          t.lines.find(
+            (l) => l.kind === subject!.kind && l.speakerId === asked!.id,
+          );
+        for (let day = 0; day < TALK_DAYS && !raisedIn(talkNow); day += 1) {
+          advanceCore(core, addDays(makeIsoDate(core.date), 1));
+          talkNow = openConversation(core, player, asked!.id as PersonId, {
+            director,
+          });
+        }
+        const raise = raisedIn(talkNow);
+        expect(
+          raise?.text,
+          `${where}: ${talkNow.lines.map((l) => l.text).join(" / ")}`,
+        ).toContain(about);
+        expect(
+          talkNow.choices.map((choice) => choice.move).sort(),
+          where,
+        ).toEqual([...promiseAnswers(core, subject!, player)].sort());
+        if (c.vote !== "with")
+          expect(
+            talkNow.choices.map((choice) => choice.move),
+            where,
+          ).not.toContain("make-it-right");
+        api.relationship = original;
+        expect(
+          moved.length,
+          `${where}: the word moved the tie once (floor day ${floor}, ended ${ended.endedAt}, roll ${cast!.vote})`,
+        ).toBe(1);
+        if (c.vote === "with") expect(moved[0], where).toBeGreaterThan(0);
+        else expect(moved[0], where).toBeLessThan(0);
         out.push(
-          `  ${billId} moves ${question} ${toward > 0 ? "toward" : "away from"} yes; the player voted ${vote} on ${ended.endedAt} (${ended.endedBy}): ${ended.outcome}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}`,
+          `  Next talk, ${core.date}: ${c.asked}: ${raise!.text}`,
+          `  ${billId} moves ${question} ${toward > 0 ? "toward" : "away from"} yes; the player voted ${vote} on ${ended.endedAt} (${ended.endedBy}): ${ended.outcome}; the word's own tie move ${moved[0]} hours; closeness ${before.toFixed(5)} when the vote was chosen, ${after.toFixed(5)} after the roll`,
         );
         process.stdout.write(out.join("\n") + "\n");
       } finally {

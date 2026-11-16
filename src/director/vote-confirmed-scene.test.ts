@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -11,7 +10,6 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
-import { SITUATION_LIBRARY } from "./scheduling";
 
 // A vote traded in committee comes due on the floor. When a holdout traded
 // their vote for their own section at the committee's markup, the legislature
@@ -19,7 +17,13 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // comes to the member to make sure of the vote they promised: the member's
 // vote-confirmed scene, about that bill. Places are drawn in turn until one's
 // legislators who are full people made a committee trade that reached the floor.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Old premise: the run drew a fresh seed each time, so it was red by draw on a
+// seed whose four places had no committee trade reach the floor in 90 days
+// (aac128cc..., red on the clean Train too). New: a named seed whose first
+// place, Amesbury, Massachusetts (2501185), holds a trade that reaches the
+// floor, found by a script outside the test; replay another with
+// GOLDEN_PATH_SEED.
+const seed = process.env.GOLDEN_PATH_SEED ?? "vc-pin-7";
 const DAYS = 90;
 const ATTEMPTS = 4;
 
@@ -65,19 +69,12 @@ it(`a vote traded in committee is the member's vote-confirmed scene on the floor
         (row) => row.typeKey === "vote-confirmed",
       );
       if (!binding) {
-        // One sitting covers a day for the same people, and the same scene
-        // with the same people is not staged again within the repeat window
-        // (scheduling.ts): this sponsor already came asking after a promise
-        // of this member's, that day or within the window.
-        const from = addDays(
-          makeIsoDate(promise.date),
-          -SITUATION_LIBRARY.scheduling.repeatDays,
-        );
+        // One sitting covers a day for the same people (scheduling.ts): this
+        // sponsor already came asking after a promise of this member's that day.
         const asked = book.schedule.find(
           (row) =>
             row !== entry &&
-            row.date <= promise.date &&
-            row.date > from &&
+            row.date === promise.date &&
             row.bindings.some(
               (other) =>
                 other.typeKey === "vote-confirmed" &&
@@ -121,4 +118,4 @@ it(`a vote traded in committee is the member's vote-confirmed scene on the floor
   throw new Error(
     `no committee trade by a watched member reached the floor in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
   );
-}, 3_600_000);
+}, 240_000);

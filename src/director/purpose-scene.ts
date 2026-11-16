@@ -7,7 +7,7 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
-import { saidAs, sayableJobTitle } from "../english/said-as";
+import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import { placeStateKey } from "../core2/place-map";
@@ -209,6 +209,7 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   CANVASS_MESSAGE_KIND,
+  PETITION_SHORT_EVENT,
   RIVAL_WORD_EVENT,
   enlistVolunteer,
   rivalWordMoved,
@@ -325,26 +326,11 @@ export function purposeScene(
   const book = director.ledger.people.get(personId);
   const moment = book?.momentsById.get(entry.momentId);
   if (!moment) return null;
-  // Each scene the moment stages, and for a scene about one bill, each bill
-  // the day's sitting took in (one sponsor asking about several bills in one
-  // evening): each is its own exchange, about its own record.
+  // Each scene the moment stages is its own exchange, about its own record.
   const units = entry.bindings.flatMap((binding) => {
-    const type = TYPES.get(binding.typeKey) as
-      (PurposeType & { repeatsBy?: string }) | undefined;
+    const type = TYPES.get(binding.typeKey) as PurposeType | undefined;
     if (!type?.purpose) return [];
-    const joined =
-      type.repeatsBy === "bill"
-        ? (binding.joined ?? []).flatMap((row) => {
-            const other = book!.momentsById.get(row.momentId);
-            return other
-              ? [{ unit: `${binding.typeKey}|${row.causeId}`, moment: other }]
-              : [];
-          })
-        : [];
-    return [{ unit: binding.typeKey, moment }, ...joined].map((row) => ({
-      ...row,
-      binding,
-    }));
+    return [{ unit: binding.typeKey, moment, binding }];
   });
   // Named, that scene; as the moment's next, the first the player has not
   // answered, so a record that stages several plays each in turn.
@@ -629,9 +615,12 @@ function composeBinding(
 
   const record = core.durableLog.get(moment.causeId);
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
+  const askerSaid = sayPerson(asker);
+  const askerBare = bareName(askerSaid, asker);
   const facts: Record<string, Fact> = {
     name: {
-      text: sayPerson(asker),
+      text: askerSaid,
+      ...(askerBare ? { bare: askerBare } : {}),
       sourceRecordIds: [askerId],
     },
     first: { text: asked.givenName, sourceRecordIds: [askedId] },
@@ -1808,6 +1797,18 @@ function composeBinding(
         `moved-${rivalWordMoved(coreAPI(core as CoreState), said.tellerId, said.messageId, record.topic)}`
       ] = { text: "yes", sourceRecordIds: [said.messageId, said.tellerId] };
     }
+  }
+  // A petition that is behind: who tells (the clerk or a helper) and whether
+  // anything is on it yet, each from the record. No count is said.
+  if (record?.kind === PETITION_SHORT_EVENT) {
+    facts[`teller-${said.tellerKind === "clerk" ? "clerk" : "helper"}`] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId],
+    };
+    facts[said.started === "yes" ? "started" : "not-started"] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId, said.petitionId ?? moment.causeId],
+    };
   }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.

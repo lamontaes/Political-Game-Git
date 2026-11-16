@@ -51,7 +51,7 @@ it("a state seat whose holder filed for the US House has its own winner, and no 
     }),
   );
   openLaws(core);
-  openOffices(core, SEED);
+  openOffices(core, SEED, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

@@ -33,8 +33,10 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel, devPanelsRow } from "./ui/dev-bills.mjs";
+import { devViewNodes } from "./ui/dev-views.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { traceBox } from "./ui/dev-trace-box.mjs";
+import { replyWhy } from "./ui/dev-reply-why.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
@@ -2452,6 +2454,9 @@ async function reopenTrail(filingId) {
 // owner grades them, each marked, with the record that fired it.
 const HELD_VIEW =
   new URLSearchParams(window.location.search).get("held") === "1";
+/** The story's query flags: the grading view, and dev mode's "why these lines". */
+const storyFlags = () =>
+  `${HELD_VIEW ? "&held=1" : ""}${devModeOn() ? "&dev=1" : ""}`;
 /** Why a scene is happening: its cause record and the facts it may say, by record. */
 function whyRows(why) {
   return [
@@ -2483,7 +2488,7 @@ function gradeOf(line, momentId) {
 }
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
@@ -2590,9 +2595,27 @@ function playExchange(story) {
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
   talkControls({ silent: false, leave: false });
+  // Dev mode: beside the talk, why each line was placed, each record one
+  // click from the Trace box.
+  const trace = devModeOn() ? traceBox(controls.devTrace.trace) : null;
+  const devWhy = (node, heard) =>
+    trace
+      ? [
+          replyWhy(
+            controls.devReplyWhy,
+            {
+              why: talk.why,
+              lines: heard,
+              replies: node.replies.map((reply) => reply.line),
+            },
+            trace,
+          ),
+        ]
+      : [];
   const play = (node, path) => {
-    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    fillTalk({ lines: shown() });
+    const heard = [...node.lines, ...(node.end?.close ? [node.end.close] : [])];
+    said.push(...heard);
+    fillTalk({ lines: [...shown(), ...devWhy(node, heard)] });
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -2625,7 +2648,7 @@ function playExchange(story) {
 /** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. */
 async function nextScene(story) {
   const next = await api(
-    `/api/story?momentId=${encodeURIComponent(story.momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+    `/api/story?momentId=${encodeURIComponent(story.momentId)}${storyFlags()}`,
   );
   if (next.talk && next.talk.typeKey !== story.talk.typeKey)
     showStory(story.momentId);
@@ -2848,6 +2871,11 @@ async function personCardNode(
         labels: controls.devPerson,
         onDone: () => refresh(),
       }),
+      // Views registered from their own files (ui/dev-views.mjs, slot "person").
+      ...(await devViewNodes("person", {
+        personId: person.personId,
+        onDone: () => refresh(),
+      })),
     );
   if (!stillWanted()) return null;
   return {
@@ -4464,7 +4492,16 @@ const sheets = {
     // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
     const columns = [[], [], []];
     sections.forEach((section, at) => columns[at % 3].push(section));
-    return [stripBoard({ columns: columns.filter((c) => c.length) })];
+    // Views registered from their own files (ui/dev-views.mjs, slot "metrics"), under the board.
+    const devViews = devModeOn()
+      ? await devViewNodes("metrics", {
+          refresh: () => openSheet("metrics"),
+        })
+      : [];
+    return [
+      stripBoard({ columns: columns.filter((c) => c.length) }),
+      ...(devViews.length ? [devPanelsRow(...devViews)] : []),
+    ];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -4747,6 +4784,10 @@ const sheets = {
               onDone: () => refresh(),
             }),
           ].filter(Boolean)
+        : []),
+      // Views registered from their own files (ui/dev-views.mjs, slot "calendar").
+      ...(devModeOn()
+        ? await devViewNodes("calendar", { onDone: () => refresh() })
         : []),
     ];
   },
@@ -5926,7 +5967,15 @@ const sheets = {
         })
       : null;
     const devPanels = devBills
-      ? devPanelsRow(devBills.section, ...(devBribe ? [devBribe] : []))
+      ? devPanelsRow(
+          devBills.section,
+          ...(devBribe ? [devBribe] : []),
+          // Views registered from their own files (ui/dev-views.mjs, slot "panels").
+          ...(await devViewNodes("panels", {
+            billId: devBills.billId,
+            onDone: () => refresh(),
+          })),
+        )
       : null;
     const screen = async () => {
       const level = governmentLevel ?? gov.ownRace?.tier ?? "local";

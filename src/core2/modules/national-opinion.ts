@@ -18,6 +18,8 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const NATIONAL_OPINION_MODULE_ID = "national-opinion";
 const RUN_KIND = "national-opinion";
+/** The offices engine's module id (modules/offices.ts), read by its table. */
+const OFFICES_MODULE = "core2-offices-v1";
 
 const PARAMS = (
   data as unknown as { parameters: Record<string, { value: number }> }
@@ -172,11 +174,87 @@ function monthlyRun(api: CoreAPI): void {
     sourceRecordIds: sources,
   };
   rows.put(row as unknown as { id: string });
+  publishApproval(api, row, previous);
   const state = stateOf(api);
   if (state)
     table(api, "state").put({ ...state, latestId: row.id } as unknown as {
       id: string;
     });
+}
+
+/** The record kind of the month's published approval. */
+export const NATIONAL_APPROVAL = "national.approval";
+
+/**
+ * The month's approval, published as the country's poll: one public news
+ * record, written with the row it reports, which the national press carries
+ * (the wire reads a `national:` place at the nation's level) and its readers
+ * read (news.ts). The record carries the whole percent, as a poll is
+ * published, and whether it rose, fell or held against last month's
+ * published percent: a plain fact a scene can be conditioned on; the
+ * change in points is for weighing, never for a line to recite.
+ */
+function publishApproval(
+  api: CoreAPI,
+  row: ApprovalRow,
+  previous: ApprovalRow | undefined,
+): void {
+  const published = Math.round(row.pct);
+  const before = previous ? Math.round(previous.pct) : undefined;
+  const direction =
+    before === undefined
+      ? undefined
+      : published > before
+        ? "up"
+        : published < before
+          ? "down"
+          : "steady";
+  // The poll is of the sitting President: the record names them, read from
+  // the offices engine's own table (as the macro months are, never by
+  // importing the module).
+  const core = api.state as CoreState;
+  const presidentId = core.modules.has(OFFICES_MODULE)
+    ? (
+        api
+          .moduleState(OFFICES_MODULE)
+          .table("terms")
+          .query("bySeatStatus", [
+            "seat:US:president",
+            "serving",
+          ]) as unknown as { personId: string }[]
+      )[0]?.personId
+    : undefined;
+  api.emit({
+    id: `${NATIONAL_APPROVAL}:${row.month}`,
+    date: api.state.date,
+    kind: NATIONAL_APPROVAL,
+    personIds:
+      presidentId && core.people.has(presidentId as never)
+        ? [presidentId as never]
+        : [],
+    placeId: "national:US",
+    publicRecord: true,
+    news: true,
+    source: {
+      tag: "SOURCED",
+      asOf: api.state.date,
+      citation: `The month's approval row ${row.id}, built from ${row.sourceRecordIds.length ? row.sourceRecordIds.join(", ") : "the opening level"}.`,
+    },
+    facts: {
+      approvalId: row.id,
+      ...(presidentId ? { presidentId } : {}),
+      month: row.month,
+      pct: String(published),
+      ...(previous && before !== undefined && direction
+        ? {
+            previousApprovalId: previous.id,
+            previousPct: String(before),
+            changePoints: String(published - before),
+            direction,
+          }
+        : {}),
+    },
+  });
 }
 
 const monthIndex = (month: string) => {

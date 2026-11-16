@@ -44,3 +44,5 @@ Oct 21 (claude): not built. The Done-when starts from "the branch's whole unplac
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:28 UTC) on branch claude/pool-world-counted-households-transfer-income.
 
 Released (2026-11-11): Full households get no disability, survivor or baseline cash benefits either; findings on PR 8704. Continue on branch claude/pool-world-counted-households-transfer-income.
+
+Nov 16 (account lead, order of work, from the lead): step 1 is world-counted-income-reads-cash-assistance (`householdIncome` reads the welfare line's cash assistance, a small pull request). Step 2 is a design before any code: which transfers a full household has that a counted one lacks (disability, survivor, the baseline benefits), by one rule for both tiers. Step 3 is built only after step 2 folds. The stopgap SG-WORLD-pr-counted-renter-income-third clears when step 3 lets housing-calibration.test.ts meet the HUD bound.

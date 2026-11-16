@@ -26,9 +26,10 @@ import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
 import { countUnmetBuyer, takeHomes } from "./housing-listings";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
-import { depositsHeld, withdrawSavings } from "./modules/budgets";
+import { withdrawSavings } from "./modules/budgets";
 import {
   countedHousingInArrears,
+  countedDeposits,
   countedPayment,
   fundOf,
 } from "./counted-money";
@@ -276,7 +277,7 @@ function weighAndBuy(
   const weight = rt.store.weightOf(h);
   // What it could put down: its own share of its group's account and the savings the bank holds for it, both for every household of the record, as a full renter counts its cash and savings.
   const share = departingCash(rt, h);
-  const banked = depositsHeld(api.state as CoreState, h.id);
+  const banked = countedDeposits(api, rt, h, rt.store.weightedCount(h));
   // A newcomer that owned where it came from also brings what it sold that home for, less its loan, for each household.
   const brought = Math.max(0, Math.floor(home.broughtMinor ?? 0));
   const weighed = weighHome(api, market, world.bankYes, {
@@ -383,7 +384,7 @@ function buy(
   let downPaid = 0;
   // Its share pays first; past it, the savings it needs are drawn from the bank into the account its share moved to, just before each payment.
   let shareLeft = Math.floor(deal.shareMinor * weight);
-  let bankedLeft = depositsHeld(c, h.id);
+  let bankedLeft = countedDeposits(api, rt, h, rt.store.weightedCount(h));
   for (const seller of sellers) {
     const amount = Math.round(deal.down * seller.scale * seller.homes);
     const fromSale = Math.min(
@@ -410,7 +411,7 @@ function buy(
     if (draw > 0)
       bankedLeft -= withdrawSavings(c, api, {
         id: `down-payment-savings:${stamp}:${seller.key}`,
-        holderId: h.id,
+        holderId: fundOf(api, rt, h.group),
         customerAccountId: fundOf(api, rt, h.group),
         amountMinor: draw,
         source,

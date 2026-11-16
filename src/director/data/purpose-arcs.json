@@ -2782,6 +2782,44 @@
         }
       ]
     },
+    "petition-short": {
+      "state": "tell",
+      "replies": ["ask", "promise", "deflect"],
+      "follow": {
+        "ask": ["answer"],
+        "promise": ["thank"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["promise", "deflect", "leave"],
+        "press": ["promise", "deflect", "leave"],
+        "thank": ["leave"]
+      },
+      "endings": [
+        {
+          "id": "going-out",
+          "label": "You'll go out and get names",
+          "keeps": "petition-going-out",
+          "when": {
+            "reply": ["promise"]
+          }
+        },
+        {
+          "id": "not-today",
+          "label": "You let it wait",
+          "keeps": "petition-not-today",
+          "when": {
+            "reply": ["deflect"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "rival-word": {
       "state": "tell",
       "replies": ["ask", "promise", "deflect", "thank"],

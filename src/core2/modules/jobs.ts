@@ -1473,9 +1473,9 @@ export function raiseUnfilledPay(
   if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
   const perMonth = monthDays / trading.days;
-  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review. The trading month's costs already hold all three.
+  // What the last month left after every operating cost (wages, purchases, outside costs, compliance, payroll and premises taxes, energy law charges, premiums), in a month's days, less raises already given this review. The trading month's costs already hold them all.
   let room = (trading.salesMinor - trading.costsMinor) * perMonth;
-  // What one head's seat can carry in a month: sales less purchases and compliance (the costs less the wages they hold), shared across the heads.
+  // What one head's seat can carry in a month: sales less every operating cost but wages (the costs less the wages they hold), shared across the heads.
   const carriesMonthly =
     ((trading.salesMinor - trading.costsMinor + trading.payrollMinor) *
       perMonth) /

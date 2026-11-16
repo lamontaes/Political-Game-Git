@@ -2094,8 +2094,12 @@ const ROUTES: readonly Route[] = [
             (state.director.ledger.opening?.date === requireCore().date
               ? openingArrivalMinute(requireCore(), state.player.personId)
               : 12 * 60),
-          // ?held=1 on the play page: the grading view, held lines marked.
-          { held: url.searchParams.get("held") === "1" },
+          // ?held=1 on the play page: the grading view, held lines marked;
+          // ?dev=1 in dev mode: each line says why it was placed.
+          {
+            held: url.searchParams.get("held") === "1",
+            dev: url.searchParams.get("dev") === "1",
+          },
         ),
       );
       return;
