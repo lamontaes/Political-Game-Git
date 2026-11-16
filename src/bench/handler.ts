@@ -139,6 +139,8 @@ import {
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
+/** Drawn once when the game starts, so each launch's title opens differently. */
+const TITLE_LAUNCH = randomUUID();
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
@@ -146,6 +148,7 @@ import {
   birthYears,
   chosenBirthDate,
   creatorStates,
+  stateCapitolPicture,
   creatorTowns,
   creatorRandomPlace,
   drawBirthday,
@@ -542,6 +545,8 @@ const ROUTES: readonly Route[] = [
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
+          // The state's capitol, behind the world's story while it plays.
+          capitol: stateCapitolPicture(world.place.stateJurisdictionKey),
           date: state.core.date,
           packet: state.player.packet,
           names: {},
@@ -928,10 +933,10 @@ const ROUTES: readonly Route[] = [
     run: async ({ send }) => {
       // One visit to the title: its scene; the life to continue (the one in
       // play, else the most recent save); and every saved life.
-      const scenes = titleRotation(
-        new Date().toISOString().slice(0, 10),
-        state.titleVisits++,
-      );
+      // Fresh each launch and each visit (owner, Nov 16: "each game, it
+      // should start with new ones"): the launch's own seed and the visit.
+      const visit = state.titleVisits++;
+      const scenes = titleRotation(TITLE_LAUNCH, visit);
       const playing = lifeCover();
       const saves = savedLives().map(({ id, save }) => ({
         ...(id === state.lifeId && playing ? playing : save.cover),
@@ -944,7 +949,7 @@ const ROUTES: readonly Route[] = [
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
         // New game's busts, before any world exists.
-        newGame: newGameFaces(),
+        newGame: newGameFaces(`${TITLE_LAUNCH}:${visit}`),
         life: playing
           ? {
               ...playing,

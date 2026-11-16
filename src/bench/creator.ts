@@ -21,6 +21,8 @@ import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { capitolPlaceFor } from "./backdrop-places";
+import { backdropFile } from "./scene";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -96,6 +98,20 @@ export function drawBirthday(seed: string, draw: number) {
 }
 
 /** The states with places to start in, by name. */
+/**
+ * The capitol painting of a state, D.C. or a territory, by its jurisdiction
+ * key ("US-TX"), in midday light: what the loading screen shows behind the
+ * world being built (owner, Nov 16: loading shows the player's state).
+ */
+export function stateCapitolPicture(jurisdictionKey: string): string {
+  const usps = jurisdictionKey.startsWith("US-")
+    ? jurisdictionKey.slice(3)
+    : null;
+  return backdropFile(capitolPlaceFor(usps), NOON).url;
+}
+/** Midday, in minutes after midnight: the light a capitol is shown in while loading. */
+const NOON = 12 * 60;
+
 export function creatorStates() {
   return corePlaceStateIdentities()
     .filter(
@@ -105,7 +121,11 @@ export function creatorStates() {
           scope: "locality",
         }).length > 0,
     )
-    .map((state) => ({ key: state.jurisdictionKey, name: state.name }));
+    .map((state) => ({
+      key: state.jurisdictionKey,
+      name: state.name,
+      capitol: stateCapitolPicture(state.jurisdictionKey),
+    }));
 }
 
 const TOWNS_BY_STATE = new Map<string, ReadonlyMap<string, string>>();

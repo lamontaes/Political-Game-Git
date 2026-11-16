@@ -366,25 +366,29 @@ export function lookFaces(
 /**
  * The busts on New game (the approved front mock, fr-new): someone starting
  * out, in everyday clothes, and three who hold office, each a different one
- * of the bank's people. No world exists yet, so they are the bank's own
- * people in its order, the same every visit: who is pictured, never a choice
- * anyone makes.
+ * of the bank's people. No world exists yet, so they are drawn from `seed`,
+ * the title visit's own (owner, Nov 16: "each game, it should start with new
+ * ones"): new faces each launch and each game. Who is pictured, never a
+ * choice anyone makes.
  */
-export function newGameFaces(): {
+export function newGameFaces(seed: string): {
   start: PersonFace | null;
   advanced: PersonFace[];
 } {
-  const kinds = sexes();
+  const people = [...bustPeople()].sort(
+    (a, b) => hash(`${seed}:who:${a.id}`) - hash(`${seed}:who:${b.id}`),
+  );
   const pictured = (n: number, dress: "everyday" | "official") => {
-    const people = peopleOf(kinds[n % kinds.length]!);
     const person = people[n % people.length]!;
     const choices = bustChoices(person);
-    const face = facesOf(person)[n % facesOf(person).length];
+    const pick = <T>(items: readonly T[], key: string) =>
+      items[hash(`${seed}:${n}:${key}`) % items.length]!;
+    const face = pick(facesOf(person), "face");
     const bust = bustOfLook(
       {
         person: person.id,
-        hair: choices.hair[n % choices.hair.length]!.key,
-        hairColor: choices.hairColor[n % choices.hairColor.length]!.key,
+        hair: pick(choices.hair, "hair").key,
+        hairColor: pick(choices.hairColor, "hair-color").key,
         ...(face ? { face } : {}),
       },
       dress,

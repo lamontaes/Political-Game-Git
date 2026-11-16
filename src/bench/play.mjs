@@ -7506,6 +7506,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     : "";
   if (chosenName)
     document.querySelector("#front > .title").textContent = chosenName;
+  // Loading shows the player's state (owner, Nov 16): its capitol behind the
+  // card, from the state chosen in the creator, or the drawn one once known.
+  if (placeKey && setup.state?.capitol) $("backdrop").src = setup.state.capitol;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;
@@ -7532,6 +7535,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     const loadingTitle = document.querySelector("#front > .title");
     if (loadingTitle && life.placeName)
       loadingTitle.textContent = life.placeName;
+    if (life.capitol) $("backdrop").src = life.capitol;
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
