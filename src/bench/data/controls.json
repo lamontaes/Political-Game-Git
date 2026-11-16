@@ -307,6 +307,9 @@
     "donorsGive": "Donors give",
     "raised": "Raised",
     "noneGave": "No one gave",
+    "petitionBehind": "Petition falls behind",
+    "petitionTold": "Told it is short",
+    "petitionNotTold": "Not told before the deadline",
     "saysYes": "Says yes to volunteering",
     "saysNo": "Says no to volunteering",
     "nobody": "No one to ask"
@@ -507,7 +510,18 @@
   "desk": {
     "sign": "Sign",
     "veto": "Veto",
-    "own": "Decide for me"
+    "own": "Decide for me",
+    "vetoWhy": "Tell them why",
+    "back": "Back",
+    "reasons": {
+      "opposed-voters": "The voters don't want it",
+      "opposed-groups": "Its opponents are right",
+      "opposed-party": "My party is against it",
+      "opposed-views": "People here don't believe in it",
+      "cost": "We can't afford it",
+      "stance": "I've been against it from the start",
+      "none": "Give no reason"
+    }
   },
   "budgetEditor": {
     "0": "No change",
@@ -1530,5 +1544,18 @@
     "trace": "Trace",
     "why": "Why",
     "came": "What came of it"
+  },
+  "devReplyWhy": {
+    "title": "Why these lines",
+    "cause": "Started by",
+    "facts": "What the scene knows",
+    "said": "Said just now",
+    "replies": "Your replies",
+    "needs": "Needs",
+    "rulesOut": "Would be ruled out by",
+    "after": "Follows",
+    "ties": "Also fit",
+    "nothing": "nothing",
+    "unplaced": "No use recorded"
   }
 }

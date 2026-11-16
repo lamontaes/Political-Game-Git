@@ -2,7 +2,7 @@ import type {
   GovernmentLevelWithTownship,
   GovernmentLevel,
 } from "../government-level";
-import { townLean } from "./campaigns";
+import { parsePlatform, townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
@@ -141,7 +141,7 @@ import {
 } from "../legislature-bill-form";
 import { governmentProperName } from "../government-proper-name";
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
-import { worldRoster } from "./elections";
+import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -523,7 +523,14 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
     } satisfies ReplyRow as unknown as ModuleRow);
     // A yes given as a favor is a debt, kept where a deal's debts are: the
     // one who asked owes the one who gave it, until it is called in.
-    if (sign > 0 && event.facts?.keeps === "favor-owed")
+    // Only where the favor carried the yes: a colleague who said yes on their
+    // own lean (the player thanked them) owes the player nothing and is owed
+    // nothing; one who said yes after the player pleaded did them a favor.
+    if (
+      sign > 0 &&
+      event.facts?.keeps === "favor-owed" &&
+      String(event.facts?.asked ?? "") === "plea"
+    )
       table(api, "obligations").put({
         id: `obligation:${bill.id}:${ask.askedId}:reply`,
         owedBy: ask.askerId,
@@ -2012,10 +2019,7 @@ function costOf(api: CoreAPI, provisions: readonly Provision[]) {
 
 const { series: seriesPowers, questions: questionPowers } =
   powers as unknown as {
-    series: Record<
-      string,
-      { levels: string[]; source: string; retainTerms?: boolean }
-    >;
+    series: Record<string, { levels: string[]; source: string }>;
     questions: Record<string, { levels: string[]; source: string }>;
   };
 
@@ -2187,6 +2191,63 @@ export function shapedRate(
       ),
     },
   };
+}
+
+/**
+ * The row a bill's amount amends: the bill's own government's row in force, or,
+ * where that government keeps its law filed per state (the SNAP maximum by
+ * state, a territory's wage), the row in force at the bill's level on the
+ * place's chain.
+ */
+function amendedRow(
+  api: CoreAPI,
+  series: string,
+  jurisdiction: string,
+  level: string,
+): LawRowInput | null {
+  const levels = lawInForce(api, series).levels;
+  return (
+    levels.find((l) => l.jurisdiction === jurisdiction && l.level === level)
+      ?.row ??
+    levels.find((l) => l.jurisdiction === jurisdiction)?.row ??
+    levels.find((l) => l.level === level)?.row ??
+    null
+  );
+}
+
+/** What a law row records of the bill that enacted or repealed it; an amendment writes its own. */
+const BILL_RECORD_TERMS = new Set([
+  "enactedBy",
+  "enactedByBill",
+  "enactedSequence",
+  "margin",
+  "decidedBy",
+  "decision",
+  "repealedBy",
+  "repealedByBill",
+]);
+
+/**
+ * An amendment's terms: every term of the row it amends (a program's table,
+ * a tax's wage base, its eligibility and indexing) but the old bill's own
+ * record, with the bill's shape on top. A flat tax drops the bracket
+ * schedules it replaces.
+ */
+export function amendedTerms(
+  current: LawRowInput | null,
+  shaped: Record<string, unknown> | undefined,
+): Record<string, unknown> {
+  const kept = Object.fromEntries(
+    Object.entries(current?.terms ?? {}).filter(
+      ([key]) =>
+        !BILL_RECORD_TERMS.has(key) &&
+        !(key === "schedules" && shaped?.system === "flat"),
+    ),
+  );
+  const shapedKept = Object.fromEntries(
+    Object.entries(shaped ?? {}).filter(([key]) => !BILL_RECORD_TERMS.has(key)),
+  );
+  return { ...kept, ...shapedKept };
 }
 
 /**
@@ -3923,6 +3984,34 @@ export function signOnRecord(
   return {};
 }
 
+/**
+ * The asker's earlier ask for this member's vote on another bill on the same
+ * question, which the member answered with a no vote: the ask's id, so the
+ * talk can say it was asked before. Read when an ask is composed.
+ */
+export function voteAskedBefore(
+  api: CoreAPI,
+  askerId: string,
+  memberId: string,
+  bill: BillRow,
+): string | undefined {
+  const question = bill.provisions[0]?.question;
+  if (!question) return undefined;
+  const asks = (table(api, "voteAsks").rows() as unknown as VoteAsk[])
+    .filter(
+      (row) =>
+        row.askerId === askerId &&
+        row.askedId === memberId &&
+        row.billId !== bill.id &&
+        billOf(api, row.billId)?.provisions[0]?.question === question &&
+        votesOn(api, row.billId).some(
+          (v) => v.memberId === memberId && v.vote === "no",
+        ),
+    )
+    .sort((a, b) => a.floorDate.localeCompare(b.floorDate));
+  return asks.at(-1)?.id;
+}
+
 /** The asks this asker made of this member of this body that were turned down, oldest first. */
 export function declinedAsks(
   api: CoreAPI,
@@ -4199,6 +4288,14 @@ export function favorWorth(
   memberId: string,
   askerId: string,
 ): number {
+  // A favor the asker still owes this member (the yes they pleaded for, not yet
+  // repaid) is not asked for twice: the member has done them one already.
+  if (
+    obligationsOwedBetween(api, askerId, memberId).some(
+      (o) => o.kind === "favor",
+    )
+  )
+    return 0;
   return dealValue(api, "favor", memberId, askerId);
 }
 
@@ -4220,7 +4317,16 @@ export function favorReturnedSince(
       memberId,
       sponsorId,
     ]) as unknown as ReplyRow[]
-  ).some((row) => row.scope === "bill" && row.sign > 0 && row.date > since);
+  ).some(
+    (row) =>
+      row.scope === "bill" &&
+      row.sign > 0 &&
+      row.date > since &&
+      // A yes the favor carried: it wrote the favor owed (`keepReply`).
+      table(api, "obligations")
+        .rows()
+        .some((o) => (o as unknown as ObligationRow).replyId === row.id),
+  );
 }
 
 /**
@@ -4366,6 +4472,8 @@ export interface ObligationRow {
   /** The record that called it in (an endorsement given), and when. */
   readonly settledBy?: string;
   readonly settledOn?: string;
+  /** The scene reply that wrote it (a yes the favor carried). */
+  readonly replyId?: string;
   /** The record that refused it (the debtor's no when it was called in), and when: a refused favor is not called in again. */
   readonly refusedBy?: string;
   readonly refusedOn?: string;
@@ -7167,10 +7275,7 @@ function enact(
       continue;
     }
     if (provision.kind === "law-amount" && provision.series) {
-      const current =
-        lawInForce(api, provision.series).levels.find(
-          (l) => l.jurisdiction === jurisdiction,
-        )?.row ?? null;
+      const current = amendedRow(api, provision.series, jurisdiction, level);
       const shaped = shapedRate(current, provision);
       enactLaw(api, {
         jurisdiction,
@@ -7188,12 +7293,7 @@ function enact(
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: {
-          // A program's on/off amount changes availability; its formula and
-          // eligibility terms remain available when the body restores it.
-          ...(seriesPowers[provision.series]?.retainTerms
-            ? current?.terms
-            : {}),
-          ...(shaped?.terms ?? {}),
+          ...amendedTerms(current, shaped?.terms),
           ...(terms ?? {}),
           enactedByBill: bill.id,
         },
@@ -7696,6 +7796,97 @@ export function whipCount(
     }
     return { ...count, undecided };
   });
+}
+
+/** Why the members who voted no on a bill did, by kind of reason. */
+export type OpposedReason = "voters" | "groups" | "party" | "views";
+
+/**
+ * The reasons the members who voted no on a bill weigh most against it, from
+ * their positions on record (their voters, the groups that pressed them,
+ * their party, their own views), the heaviest first; only reasons that weigh
+ * against it at all. The one reading the desk visit and the veto's reasons
+ * share.
+ */
+export function opposedReasons(
+  api: CoreAPI,
+  billId: string,
+): readonly { why: OpposedReason; weight: number }[] {
+  const against = votesOn(api, billId).filter((row) => row.vote === "no");
+  const weight: Record<OpposedReason, number> = {
+    voters: 0,
+    groups: 0,
+    party: 0,
+    views: 0,
+  };
+  for (const { position } of against) {
+    weight.voters += position.constituents;
+    weight.groups += position.lobby;
+    weight.party += (position.party ?? 0) + (position.wing ?? 0);
+    weight.views += position.views + position.trait + position.consistency;
+  }
+  return (Object.entries(weight) as [OpposedReason, number][])
+    .map(([why, most]) => ({ why, weight: most }))
+    .filter((row) => row.weight < 0)
+    .sort((a, b) => a.weight - b.weight || a.why.localeCompare(b.why));
+}
+
+/** A reason an executive can give for a veto, and the records it rests on. */
+export interface VetoReason {
+  readonly key: `opposed-${OpposedReason}` | "cost" | "stance" | "none";
+  readonly recordIds: readonly string[];
+}
+
+/**
+ * The reasons the record supports for vetoing a bill (Words lead, desk
+ * ruling 5): the opposition's case (each reason the no votes weigh against it,
+ * the heaviest first),
+ * the cost on the budget (the budget lines it adds), the executive's own
+ * stand (a filed platform against the bill's direction on one of its
+ * questions), and always giving no reason.
+ */
+export function vetoReasons(
+  api: CoreAPI,
+  billId: string,
+  executiveId: string,
+): readonly VetoReason[] {
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill) return [];
+  const out: VetoReason[] = [];
+  const noes = votesOn(api, billId)
+    .filter((row) => row.vote === "no")
+    .map((row) => `vote:${billId}:${row.memberId}`);
+  for (const opposed of opposedReasons(api, billId))
+    out.push({ key: `opposed-${opposed.why}`, recordIds: noes });
+  if (bill.provisions.some((p) => p.kind === "budget-line" && p.value > 0))
+    out.push({ key: "cost", recordIds: [billId] });
+  if (api.state.modules.has(ELECTIONS_MODULE_ID)) {
+    const filed = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [executiveId]) as unknown as FilingRow[]
+    )
+      .filter((row) => row.platform.length)
+      .sort(
+        (a, b) =>
+          b.filedOn.localeCompare(a.filedOn) || a.id.localeCompare(b.id),
+      )[0];
+    const stances = billStances(api, bill);
+    if (
+      filed &&
+      parsePlatform(filed.platform).some((stand) =>
+        stances.some(
+          (s) =>
+            s.question === stand.question && stand.position * s.position < 0,
+        ),
+      )
+    )
+      out.push({ key: "stance", recordIds: [filed.id] });
+  }
+  out.push({ key: "none", recordIds: [] });
+  return out;
 }
 
 export function votesOn(

@@ -60,44 +60,35 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
   }
   const rt = residentsRuntime(core);
   if (rt?.funded) {
-    // Snapshot the groups before any payment, so later households do not receive
-    // smaller shares merely because earlier households deposited first.
-    const groups = new Map<
-      number,
-      { people: number; cash: number; account: string }
-    >();
-    const homes = [...rt.store.liveHouseholds()].filter(
-      (h) => h.placeId === bank.placeId && !core.households.has(h.id),
-    );
-    for (const h of homes) {
+    // A counted group banks as one holder: its cash is one pooled account its
+    // households share by their savings claims, so its savings are banked
+    // under that account too and each household's share of them is the same
+    // as its share of the cash (`countedDeposits`). The group keeps a wallet
+    // of its households' cushions, each real household's times the households
+    // its record stands for.
+    const groups = new Map<number, { account: string; dailyCosts: number }>();
+    for (const h of rt.store.liveHouseholds()) {
+      if (h.placeId !== bank.placeId || core.households.has(h.id)) continue;
+      const members = rt.store.countedMembers(h);
+      if (!members.length || h.group < 0) continue;
       const group = groups.get(h.group) ?? {
-        people: 0,
-        cash: fundBalance(api, rt, h.group),
         account: fundOf(api, rt, h.group),
+        dailyCosts: 0,
       };
-      // A record stands for as many households as its weight says.
-      group.people += rt.store.weightedCount(h);
+      group.dailyCosts +=
+        members.reduce((sum, member) => sum + rt.store.living[member]!, 0) *
+        rt.store.weightOf(h);
       groups.set(h.group, group);
     }
-    for (const h of homes) {
-      const group = groups.get(h.group)!;
-      const members = rt.store.countedMembers(h);
-      if (!members.length || !group.people) continue;
-      const weight = rt.store.weightOf(h);
-      const cashMinor = Math.floor(
-        (group.cash * members.length * weight) / group.people,
-      );
-      // The cushion is each real household's, times the households the record stands for.
-      const dailyCosts =
-        members.reduce((sum, member) => sum + rt.store.living[member]!, 0) *
-        weight;
+    for (const [group, { account, dailyCosts }] of groups) {
+      const cashMinor = fundBalance(api, rt, group);
       targets.push({
-        holderId: h.id,
+        holderId: account,
         kind: "household",
         tier: "counted",
         cashMinor,
         reserveMinor: Math.ceil(dailyCosts * daysPerMonth * months),
-        accounts: [{ id: group.account, cashMinor }],
+        accounts: [{ id: account, cashMinor }],
       });
     }
   }

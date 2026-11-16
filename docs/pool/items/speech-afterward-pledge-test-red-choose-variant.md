@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude (views thread)
 pr: 9283

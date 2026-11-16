@@ -2,7 +2,7 @@
 name: train-gate
 description: >
   The gate a pull request passes before it is named for the train (draft PR
-  #9052 and its successors) while the first account's merging is stopped: the
+  #9554 on `claude/project-thread-lhbwzt-train2`, and its successors) while the first account's merging is stopped: the
   exact checks, why release:check needs a full clone, how to say where each
   check ran, the known reds on a clean train, full 40-character shas, and who
   posts which train-ready line. Use before marking a PR ready, before posting a
@@ -33,7 +33,7 @@ A gate line names each command, its exit code and where it ran (which container,
 
 ## Reds that are not yours
 
-Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. Never skip, loosen or quarantine a test to get green (`pinned-tests`).
+Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. A red on a drawn seed must name its seed: keep the test's own seed line in any filter on the gate's output. A red whose seed was lost is not attributed until five new draws run on the head and every red seed also runs on the clean train head (Account lead, Nov 15). Never skip, loosen or quarantine a test to get green (`pinned-tests`). An accepted PR can still break the world: when a trace shows it, the lead pulls its sha from the Train order and the fix goes on that PR's own branch. A fault found in another PR's fold goes to that PR's builder with the place, seed and figures; the finder's test waits and does not re-pin.
 
 ## A new test's time limit (Account lead, Nov 15)
 
@@ -44,12 +44,13 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 - Always the full 40-character sha. A short sha is refused.
 - The builder reports to the lead with the key diff, the tests and the sha. The lead approves; the builder marks the PR ready and posts `Account lead Tn: train-ready #N <sha>` on #8928; the lead names the sha to the Train.
 - Words and story PRs also need `Words lead: train-ready #N <sha>` before they join.
+- PRs that only work together are named to the Train together, in one message, each with its full sha.
 - A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to main.
 - After a usage limit resets, every thread that failed needs a message.
 
 ## A moved head needs a new stamp
 
-A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
+A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads. A played-file sha may also be waived when the last commit holds a pool item and its release note and nothing else (Account lead, Nov 16).
 
 ## A new core2 source file needs its family and its owner (Nov 15)
 
@@ -76,10 +77,10 @@ After a merge stops on conflicts, count them with `git diff --name-only --diff-f
 - A numbered list that both sides appended to is the same case: keep every item once, the Train's first, then the PR's; renumber, or add the PR's items as plain bullets when the Train's list is bullets. Only the order or number of items differs, never their words. A real rewrite of another PR's words goes back. Skill lists are plain bullets, not numbers, so the next PR does not conflict on the numbers.
 - A fold that carries judged-store conflicts and a skill conflict in the same merge is not a send-back by itself: union the judged stores and bank pieces by key as in `generated-file-merges`, resolve the skill text as above, then regenerate (`words:verdicts`, `words:rules` twice).
 - When a fold changes a test file, run that whole file; once per push, run every test file under `src/director` that any fold in the push touched, so an old red is found on the Train and not first in a builder's PR. A red that is the same on an older base (bisect with a sparse copy: `scripts/storage/helper-checkout.sh new <dir> <branch>`, then `git checkout --detach <sha>` and the one file) is an old Train red; report it and do not hold the push for it.
-- When the Train moves while your sha sits with a reader, merge the Train in and prove your own diff did not change, so the reader can stamp the new sha without reading again: `diff <(git diff OLD_TRAIN OLD_HEAD -- data/english src) <(git diff NEW_TRAIN NEW_HEAD -- data/english src) && echo SAME`. Send the reader both shas and that line.
+- **A stamped or accepted PR never re-merges the Train; an unstamped one merges the newest pushed Train head before stamps and gate (Account lead, Nov 15).** A builder whose branch holds an accepted or stamped sha pushes the next item to a new branch named `<branch>-<item>`, cut from the newest Train head with only its own commits; the old branch does not move.
 - One item per PR: a second pool item that rode along (a cause write-up for another PR's fix, say) comes out before acceptance. Copy its files to `/mnt/project-files/pool-drafts/` and open it as its own small PR after the PR it points at folds.
 - `npx tsc --noEmit -p .` fails at once with TS6310 on the project references; that says nothing about your change. Run `npm run typecheck`.
-- **Two PRs on one branch, in turn.** The one branch holds the PR in flight, so the next PR is built on a clean branch cut from the newest Train head with only its own commits cherry-picked (a merge of the Train into a branch that carried the first PR's skill lines conflicts again and drags the first PR into the second). Gate it there, and push only after the first PR has folded.
+- **Next item, new branch.** The branch holds the PR in flight, so the next PR goes on `<branch>-<item>` cut from the newest Train head with only its own commits cherry-picked (a merge of the Train into a branch that carried the first PR's skill lines conflicts again and drags the first PR into the second). Gate it there, and push only after the first PR has folded.
 
 ## Lessons of Nov 15, afternoon (gate and lines)
 

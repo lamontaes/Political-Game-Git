@@ -378,6 +378,78 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
   return data.ownPlace[tie];
 }
 
+/** A government's class as its record's own name carries it ("Village of X", "X County"), or null. */
+function governmentClassWord(name: string): string | null {
+  const words = data.governmentInTalk.classWords as readonly string[];
+  const first = /^(\w+)\s+of\s+/i.exec(name)?.[1]?.toLowerCase();
+  const last = /\s(\w+)$/.exec(name.trim())?.[1]?.toLowerCase();
+  return [first, last].find((word) => word && words.includes(word)) ?? null;
+}
+
+/**
+ * A government of the talk's own place as people say it in talk (said-as.json
+ * governmentInTalk; Words lead ruling, Nov 15): a state by its level word, a
+ * town or county by its record's class word. Null where the record's class
+ * word is none of these, so the full name is said.
+ */
+export function ownGovernmentSaid(
+  government:
+    | {
+        readonly kind: "state";
+        readonly level: string;
+        /** The state identity's jurisdiction key ("US-KY"), for the places that say it their own way. */
+        readonly key?: string;
+      }
+    | { readonly kind: "local"; readonly name: string },
+): string | null {
+  const row = data.governmentInTalk;
+  if (government.kind === "state")
+    return (
+      (government.key
+        ? (row.stateByKey as Record<string, string>)[government.key]
+        : undefined) ??
+      (row.state as Record<string, string>)[government.level] ??
+      null
+    );
+  const word = governmentClassWord(government.name);
+  return word ? row.ownClass.replace("{class}", word) : null;
+}
+
+/**
+ * A government's name in a text said with the preposition people use for it
+ * (said-as.json publicEmployer): a person works for a government, not at it.
+ */
+export function publicEmployerSaid(text: string, name: string): string {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const slot = `(?<![\\w'])${escaped}(?![\\w'])`;
+  return data.publicEmployer.frames.reduce(
+    (now, frame) =>
+      now.replace(
+        new RegExp(frame.from.replace("{name}", slot), "gi"),
+        frame.to.replace("{name}", name),
+      ),
+    text,
+  );
+}
+
+/**
+ * The place said once in one turn: where the frames above made the employer
+ * "there", a later sentence of the same text that ends on "there" drops it
+ * ("I work there. I'm just a sales associate there." is "I work there. I'm
+ * just a sales associate."), by the one word (said-as.json ownPlaceThere).
+ */
+function placeOnce(now: string, before: string): string {
+  const there = data.ownPlaceThere.said;
+  if (now === before) return now;
+  const first = new RegExp(`\\b${there}\\b`, "i").exec(now);
+  if (!first) return now;
+  const at = first.index + first[0].length;
+  return (
+    now.slice(0, at) +
+    now.slice(at).replace(new RegExp(`\\s+${there}(?=[.,!?]|$)`, "gi"), "")
+  );
+}
+
 /**
  * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
  * every later whole-word mention in these texts, in order, becomes the word
@@ -393,11 +465,33 @@ export function nameOnceThen(
 ): { texts: string[]; named: boolean } {
   const word = ownPlaceSaid(tie);
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
+  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "gi");
+  // A worker's later mention after a frame that already says work, or that
+  // takes "with" or "for", is "there" (said-as.json ownPlaceThere).
+  const frames =
+    tie === "worker"
+      ? data.ownPlaceThere.frames.map(
+          (frame) =>
+            new RegExp(
+              frame.replace("{name}", `(?<![\\w'])${escaped}(?![\\w'])`),
+              "gi",
+            ),
+        )
+      : [];
   let said = named;
   const out = texts.map((text) =>
     sentenceStarts(
-      text.replace(pattern, (match) => {
+      placeOnce(
+        frames.reduce(
+          (now, frame) =>
+            now.replace(frame, (match, before: string) => {
+              if (!said) return match;
+              return `${before}${data.ownPlaceThere.said}`;
+            }),
+          text,
+        ),
+        text,
+      ).replace(pattern, (match) => {
         if (!said) {
           said = true;
           return match;

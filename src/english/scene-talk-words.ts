@@ -202,6 +202,50 @@ export interface WordedMove {
   /** The line invites the other to speak ("Go ahead."), so it cannot end a scene. */
   invites: boolean;
   slotRecordIds: readonly string[];
+  /** Why this wording was placed at its spot: what dev mode shows beside a line. */
+  placed?: Placed;
+}
+
+/**
+ * The use that placed a wording and the wordings it tied with, read from the
+ * same fit the picker made (dev mode's "why this reply", owner, Nov 16: dev
+ * mode does the tracing in the game).
+ */
+export interface Placed {
+  /** The facts the use requires, said in the words (`requiresFacts`). */
+  readonly needs: readonly string[];
+  /** The facts the use relies on without saying them (`onlyWhen`). */
+  readonly onlyWhen: readonly string[];
+  /** The facts that would have ruled it out, none of them held (`excludesFacts`). */
+  readonly rulesOut: readonly string[];
+  /** The move or piece the use follows (`after`). */
+  readonly after?: string;
+  /** The other wordings that fit the spot as closely, by piece key. */
+  readonly ties: readonly string[];
+}
+
+/** The use of a piece that fits a move most closely, and what placed it. */
+function placedBy(
+  part: BankPart,
+  use: SceneMove,
+  steps: readonly string[],
+  facts: Readonly<Record<string, Fact>>,
+  ties: readonly BankPart[],
+): Placed | undefined {
+  let best: PartUse | undefined;
+  let fit = -one;
+  for (const u of part.uses) {
+    const at = useFit(u, use, steps, facts);
+    if (at > fit) [best, fit] = [u, at];
+  }
+  if (!best) return undefined;
+  return {
+    needs: best.requiresFacts ?? [],
+    onlyWhen: best.onlyWhen ?? [],
+    rulesOut: best.excludesFacts ?? [],
+    ...(best.after ? { after: best.after } : {}),
+    ties: ties.filter((row) => row.key !== part.key).map((row) => row.key),
+  };
 }
 
 /** A line that hands the floor to the other person. */
@@ -556,6 +600,7 @@ export function wordSceneMove(input: {
   if (!line) return null;
   const part = parts.find((row) => row.key === line.variantKey);
   const tag = onlyTagged && part ? taggedBy(part) : undefined;
+  const placed = part && placedBy(part, use, steps, facts, parts);
   return {
     // A slot that opens a sentence after another is capitalized as one.
     text: sentenceStarts(line.text),
@@ -567,6 +612,7 @@ export function wordSceneMove(input: {
     asks: /\?$/.test(line.text.trim()),
     invites: INVITES.test(line.text.trim()),
     slotRecordIds: [...line.sourceRecordIds],
+    ...(placed ? { placed } : {}),
   };
 }
 
@@ -648,7 +694,11 @@ function joinedMove(
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
   // A slot that opens a joined sentence is capitalized as its first word.
   const text = sentenceStarts(line.text.trim());
+  const placed =
+    core &&
+    placedBy(core, input.move, steps, input.facts, sentence.parts.core ?? []);
   return {
+    ...(placed ? { placed } : {}),
     text,
     pieceKey: coreKey,
     pieceKeys: line.parts.map((part) => part.variantKey),
@@ -726,4 +776,34 @@ export function pieceAnswers(
     else if (u.after === answered.move) tier = Math.max(tier, one);
   }
   return tier;
+}
+
+/**
+ * One piece worded from a scene's facts, as play words it: dev mode's "why
+ * this reply" shows the wordings that tied with the one said (`Placed.ties`)
+ * in their words, not their slots. Null where the facts cannot word it.
+ */
+export function wordPiece(input: {
+  key: string;
+  facts: Readonly<Record<string, Fact>>;
+  seed: string;
+  speakerId: string;
+  momentKey: string;
+}): string | null {
+  const part = PART_BY_KEY.get(input.key);
+  if (!part) return null;
+  const line = renderLine({
+    seed: input.seed,
+    surface: "dialogue",
+    holderId: input.speakerId,
+    bankKey: `scene-talk:piece:${part.key}`,
+    version: "scene-talk-v1",
+    variants: [{ key: part.key, text: directorSlots(part.text) }],
+    facts: Object.fromEntries(
+      Object.entries(input.facts).filter(([, fact]) => fact.text !== ""),
+    ),
+    momentKey: input.momentKey,
+    fallbackSourceId: input.speakerId,
+  });
+  return line ? sentenceStarts(line.text) : null;
 }

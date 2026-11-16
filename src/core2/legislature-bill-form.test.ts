@@ -100,7 +100,7 @@ describe("a bill's form in its body", () => {
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -203,7 +203,7 @@ describe("a bill's form in its body", () => {
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);

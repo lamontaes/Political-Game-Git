@@ -79,7 +79,7 @@ function world() {
     { modules: [viewsModule] },
   ) as CoreState;
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

@@ -39,3 +39,4 @@ checked: fable 2026-11-10
 
 - Oct 24: found by the effects lead when Merger 3 sent back #5895 (web-views-lived-crime-moves-stance). Sibling of people-counted-readers-stances-from-stories.
 - Nov 15 (views thread): the crime step is built (counted groups live their tallied crimes, test `src/core2/views-counted-victims.test.ts` at Gilliam, Missouri); this item now holds the two parts left, as the Account lead ruled.
+- Nov 15 (views thread): the two parts are built on the next branch (counted ballots read the group's stance through the voter's stance profile; filled-in adults start from the group's stance rows), shown in the same test file; SG-PEOPLE-counted-victims-lived-crime resolved.
