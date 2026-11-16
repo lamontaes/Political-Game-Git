@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: laws thread
-pr:
+pr: #9599
 after: play-draft-phase-in-percent-a-year
 blocked-on:
 lead: laws
@@ -18,7 +18,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 ---
 
-**What.** On the draft card a member of a body picks a subject, types the new amount and presses Draft. Two faults: after the "Raise it by a percent a year" panel opens and closes, Draft lights up even for a subject the body may not write on, which was dark before. And a percent a year or a dated step whose day is today or already past makes Draft do nothing at all: the engine refuses the bill and the screen shows no change.
+**What.** On the draft card a member of a body picks a subject, types the new amount and presses Draft. Two faults: after the "Raise it by a percent a year" panel opens and closes, Draft lights up even for a subject the body may not write on, which was dark before. And a percent a year or a dated step whose day is today or already past makes Draft do nothing at all: the engine refuses the bill and the screen shows no change. Seen: the draft card under Write a bill in Politics, Your office.
 
 **Cause.** Found in code: `checkRise` in src/bench/ui/draft-card.mjs set `draft.disabled = false` when the panel closed, dropping the subject's `blocked`; the card let any day be picked, and `act` in src/bench/play.mjs had no catch, so the refusal from `seatAct` in src/bench/legislature.ts ("Each step of a phase-in takes effect after today and after the step before it.") became a page error. Measured at Bear, Delaware, seed ddf37910-a72f-415e-8c0d-abbf8d0ad0c7, on the Train at 29ef4685.
 
