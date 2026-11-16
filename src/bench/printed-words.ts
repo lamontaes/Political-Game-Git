@@ -422,7 +422,9 @@ class Reader {
    * State Representative"): the title from the office's record and the
    * place it is held for, with the term it is read from.
    */
-  officeWithRealm(id: string): { text: string; recordId: string } | null {
+  officeWithRealm(
+    id: string,
+  ): { text: string; common: string; recordId: string } | null {
     const term = this.termOf(id);
     const office = term
       ? this.row<{ title?: string; jurisdiction?: string }>(
@@ -436,11 +438,23 @@ class Reader {
         placeNameSaid(office.jurisdiction as EntityId))
       : null;
     if (!term || !office?.title) return null;
-    // The nation's offices are held for the whole country ("U.S. Senator"
-    // names its own realm).
-    if (realm) return { text: `${realm} ${office.title}`, recordId: term.id };
+    // A title said as a common noun: its words lower case, an abbreviation
+    // ("U.S.") as written.
+    const common = office.title
+      .split(" ")
+      .map((word) => (/[.]|^[A-Z]{2,}$/.test(word) ? word : word.toLowerCase()))
+      .join(" ");
+    if (realm) {
+      const bare = realm.replace(/^the /, "");
+      return {
+        text: `${realm} ${office.title}`,
+        common: `${/^[AEIOU]/.test(bare) ? "an" : "a"} ${bare} ${common}`,
+        recordId: term.id,
+      };
+    }
+    // The nation's offices are held for the whole country.
     return office.jurisdiction === "US"
-      ? { text: office.title, recordId: term.id }
+      ? { text: office.title, common: `the ${common}`, recordId: term.id }
       : null;
   }
   /** One row of a module's table, when that module is in this world. */
@@ -3220,12 +3234,19 @@ const birth: Builder = (read, f) => {
     );
     const office = holder ? read.officeWithRealm(holder) : null;
     if (!holder || !office) return null;
+    const other = [f.motherId, f.otherParentId].find(
+      (id) => id && id !== holder,
+    );
     return story(
       "birth-elsewhere",
       {
         ...read.who(f.childId, "child", false),
         ...read.who(holder, "parent", false),
+        ...read.who(other, "other-parent", false),
+        // Before a name the title keeps its capitals; in a sentence it is a
+        // common noun with its article (Words lead, Nov 16).
         office: read.fact(office.text, office.recordId),
+        "office-a": read.fact(office.common, office.recordId),
         date: read.date(),
       },
       ["child", "parent", "office"],
