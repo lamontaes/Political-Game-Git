@@ -154,20 +154,21 @@ function approvedOnCrewIssue(rules) {
     repository = process.env.GITHUB_REPOSITORY;
   if (!number || !repository) return false;
   try {
-    const bodies = JSON.parse(
-      execFileSync(
-        "gh",
-        [
-          "api",
-          "--paginate",
-          "--slurp",
-          `repos/${repository}/issues/${rules.crewIssue}/comments?per_page=100`,
-        ],
-        { encoding: "utf8", maxBuffer: 1 << 28 },
-      ),
+    // One JSON string per line, so a comment's own line breaks stay inside it.
+    const bodies = execFileSync(
+      "gh",
+      [
+        "api",
+        "--paginate",
+        `repos/${repository}/issues/${rules.crewIssue}/comments?per_page=100`,
+        "--jq",
+        '.[] | (.body // "") | @json',
+      ],
+      { encoding: "utf8", maxBuffer: 1 << 28 },
     )
-      .flat()
-      .map((row) => row.body ?? "");
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
     return bodies.some((body) => approves(body, number, rules));
   } catch (error) {
     console.error(`Could not read the crew issue: ${error.message}`);
