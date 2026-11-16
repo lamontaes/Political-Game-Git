@@ -72,7 +72,8 @@ const CASES: readonly Case[] = [
     tops: ["top-reason-own-view", "top-reason-sponsor"],
     said: [{ moves: ["answer"], text: "I trust the member who wrote it." }],
   },
-  // On their own bill no part leans no, so neither reason line is offered.
+  // On their own bill no part leans no, so no line gives a reason: the two
+  // plain wordings say the vote and nothing more (Words lead, Nov 16).
   {
     who: "the author",
     seed: "yes-vote-6:0",
@@ -83,7 +84,25 @@ const CASES: readonly Case[] = [
     said: [
       {
         moves: ["answer"],
-        text: "I voted against it. It wasn't right for Bagdad.",
+        text: "When it came to the vote, I couldn't say yes.",
+      },
+    ],
+  },
+  {
+    who: "the author",
+    seed: "pr-4:0",
+    key: "2623500",
+    own: true,
+    vote: "no",
+    tops: [],
+    said: [
+      {
+        moves: ["answer"],
+        text: "I couldn't vote for it. That's the whole of it.",
+      },
+      {
+        moves: ["refuse", "answer"],
+        text: "When it came to the vote, I couldn't say yes.",
       },
     ],
   },
@@ -95,9 +114,16 @@ const CASES: readonly Case[] = [
     vote: "no",
     tops: ["top-reason-own-view"],
     said: [
-      { moves: ["answer"], text: "I voted no because I don't believe in it." },
+      {
+        moves: ["answer"],
+        text: "I voted against it. It wasn't right for Downs.",
+      },
       {
         moves: ["deflect", "answer"],
+        text: "I voted no because I don't believe in it.",
+      },
+      {
+        moves: ["refuse", "answer"],
         text: "I voted against it. Downs deserves better than that.",
       },
     ],
@@ -235,8 +261,15 @@ it.each(CASES)(
     const wrong = c.vote === "yes" ? /I voted (no|against)/ : /I voted for/;
     for (const line of offered) expect(line).not.toMatch(wrong);
     expect(offered.join("\n")).not.toContain("hasn't changed since day one");
-    if (!c.tops.includes("top-reason-own-view"))
-      expect(offered.join("\n")).not.toContain("deserves better than that");
+    // A judgment on the bill needs a reason that leans no (Words lead, Nov 16).
+    if (
+      c.vote === "no" &&
+      !c.tops.some((top) =>
+        ["top-reason-own-view", "top-reason-people"].includes(top),
+      )
+    )
+      for (const judged of ["deserves better than that", "wasn't right for"])
+        expect(offered.join("\n")).not.toContain(judged);
   },
   60_000,
 );

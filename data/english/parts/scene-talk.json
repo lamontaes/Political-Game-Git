@@ -4922,7 +4922,16 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["acted", "voted-no"]
+          "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no", "top-reason-people"]
         }
       ],
       "bearing": "calm",
@@ -4948,6 +4957,15 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no", "top-reason-people"]
         }
       ],
       "bearing": "calm",
@@ -4979,6 +4997,56 @@
       "origin": "authored",
       "author": "Words lead (Fable), Nov 15",
       "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-couldn-t-vote-for-it-that-s-the-whole-of-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I couldn't vote for it. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 16",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.when-it-came-to-the-vote-i-couldn-t-say-yes",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "When it came to the vote, I couldn't say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 16",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "routine"
