@@ -50,25 +50,182 @@ export const DEVELOPER_FILE =
 const DEVELOPER_CALL =
   /(?:\b(?:Error|console\.\w+|assert\w*|fail|gap|log|warn|super|missing)\(\[?[^;(){}]*|\b(?:problems|failures|blocked)\.push\(\s*|\b(?:estimatedFrom|citation|error|hasText):\s*|\bgetByRole\([^;()]*\{\s*name:\s*)$/;
 
-/** String and template literals a player could read, comments skipped. */
-export function literals(source: string): string[] {
-  const code = source
-    .replace(/\/\*[\s\S]*?\*\//g, " ")
-    .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
-  // A single-quoted literal is read whole, so the double quotes inside it are
-  // not taken for literals of their own.
-  return [
-    ...code.matchAll(
-      /"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`|'((?:[^'\\\n]|\\.)*)'/g,
+const LITERAL =
+  /"([^"\\\n]*(?:\\.[^"\\\n]*)*)"|`([^`\\]*(?:\\.[^`\\]*)*)`|'([^'\\\n]*(?:\\.[^'\\\n]*)*)'/g;
+
+/** Source with comments blanked to spaces, so every index still matches the file. */
+function withoutComments(source: string): string {
+  const blank = (text: string) => text.replace(/[^\n]/g, " ");
+  return source
+    .replace(/\/\*[\s\S]*?\*\//g, blank)
+    .replace(
+      /(^|[^:"'`\\])(\/\/[^\n]*)/g,
+      (_, lead: string, rest: string) => lead + blank(rest),
+    );
+}
+
+/** Code with every literal blanked, for counting brackets and finding names. */
+function withoutLiterals(code: string): string {
+  return code.replace(LITERAL, (text) => text.replace(/[^\n]/g, " "));
+}
+
+/** A literal compared with === or !== is a record value the code tests, never something said. */
+const COMPARED_BEFORE = /(?:===|!==)\s*$/;
+const COMPARED_AFTER = /^\s*(?:===|!==)/;
+
+const compared = (code: string, at: number, end: number) =>
+  COMPARED_BEFORE.test(code.slice(Math.max(0, at - 8), at)) ||
+  COMPARED_AFTER.test(code.slice(end, end + 8));
+
+/**
+ * The file's own constants that hold one literal and are only ever compared
+ * (not exported, every other use beside === or !==): what they hold is a
+ * record value the code tests, proved by every use, never something said.
+ */
+function comparedConstants(code: string): Map<string, number> {
+  const plain = withoutLiterals(code);
+  const out = new Map<string, number>();
+  for (const match of code.matchAll(
+    /^const (\w+) =\s*("[^"\\\n]*(?:\\.[^"\\\n]*)*"|'[^'\\\n]*(?:\\.[^'\\\n]*)*');$/gm,
+  )) {
+    const name = match[1]!;
+    const literalAt = match.index + match[0].indexOf(match[2]!);
+    const uses = [...plain.matchAll(new RegExp(`\\b${name}\\b`, "g"))].filter(
+      (use) => use.index !== match.index + "const ".length,
+    );
+    if (
+      uses.length &&
+      uses.every((use) => compared(plain, use.index, use.index + name.length))
+    )
+      out.set(name, literalAt);
+  }
+  return out;
+}
+
+/**
+ * The constants and functions whose literals are never said, each proved by
+ * its readers (line-register-exempt.json): what they hold is read only by
+ * developer files, tests and scripts, or only through the fields named in
+ * `reads`. `exemptProblems` fails the guard when a reader breaks that.
+ */
+interface Exempt {
+  file: string;
+  name: string;
+  reason: string;
+  reads: string[];
+}
+export const EXEMPT: readonly Exempt[] = (
+  JSON.parse(
+    readFileSync(
+      path.join(import.meta.dirname, "line-register-exempt.json"),
+      "utf8",
     ),
-  ]
+  ) as { symbols: Exempt[] }
+).symbols;
+
+/** Where a top-level constant or function is written: from its line to the end of its statement. */
+function spanOf(code: string, name: string): [number, number] | null {
+  const plain = withoutLiterals(code);
+  const start = plain.search(
+    new RegExp(`^(?:export )?(?:const|(?:async )?function) ${name}\\b`, "m"),
+  );
+  if (start < 0) return null;
+  const isFunction = /^(?:export )?(?:async )?function/.test(
+    plain.slice(start),
+  );
+  let depth = 0;
+  for (let at = start; at < plain.length; at += 1) {
+    const char = plain[at]!;
+    if ("{[(".includes(char)) depth += 1;
+    else if ("}])".includes(char)) {
+      depth -= 1;
+      if (isFunction && depth === 0 && char === "}") return [start, at + 1];
+    } else if (!isFunction && char === ";" && depth === 0)
+      return [start, at + 1];
+  }
+  return [start, plain.length];
+}
+
+function exemptSpans(file: string, code: string): [number, number][] {
+  return EXEMPT.filter((row) => row.file === file).flatMap((row) => {
+    const span = spanOf(code, row.name);
+    return span ? [span] : [];
+  });
+}
+
+/** String and template literals a player could read, comments skipped. */
+export function literals(source: string, file = ""): string[] {
+  const code = withoutComments(source);
+  const spans = exemptSpans(file, code);
+  const constants = comparedConstants(code);
+  const constantAt = new Set(constants.values());
+  return [...code.matchAll(LITERAL)]
     .filter(
       (match) =>
         !DEVELOPER_CALL.test(
           code.slice(Math.max(0, match.index - 120), match.index),
-        ),
+        ) &&
+        !compared(code, match.index, match.index + match[0].length) &&
+        !constantAt.has(match.index) &&
+        !spans.some(([from, to]) => match.index >= from && match.index < to),
     )
     .map((match) => match[1] ?? match[2] ?? match[3] ?? "");
+}
+
+/** Files whose code could put words on a player's screen: every source file but tests and developer files. */
+function readerFiles(): string[] {
+  return SOURCE_DIRS.concat(["src/core2"]).flatMap((dir) =>
+    walk(
+      path.join(ROOT, dir),
+      (file) =>
+        /\.(?:tsx?|mjs)$/.test(file) &&
+        !/\.(?:test|spec|browser)\./.test(file) &&
+        !/\.d\.ts$/.test(file) &&
+        !DEVELOPER_FILE.test(relative(file)),
+    ),
+  );
+}
+
+/**
+ * Each exemption proved by its readers: the symbol is still there, and every
+ * use of it in a file that could put words on a screen, outside the exempt
+ * spans themselves and the import lines, reads only a field named in `reads`.
+ */
+export function exemptProblems(): string[] {
+  const problems: string[] = [];
+  const files = readerFiles().map((full) => {
+    const file = relative(full);
+    const code = withoutLiterals(withoutComments(readFileSync(full, "utf8")))
+      // An import names a symbol; only its uses read it.
+      .replace(/^import\s[^;]*;/gm, (text) => text.replace(/[^\n]/g, " "));
+    return {
+      file,
+      code,
+      spans: exemptSpans(file, withoutComments(readFileSync(full, "utf8"))),
+    };
+  });
+  for (const row of EXEMPT) {
+    if (!row.reason.trim()) problems.push(`${row.name}: no reason given`);
+    const home = files.find((entry) => entry.file === row.file);
+    if (!home || !spanOf(home.code, row.name)) {
+      problems.push(`${row.name} is not in ${row.file}`);
+      continue;
+    }
+    const field = new RegExp(
+      `^(?:\\[[^\\]]*\\])*\\??\\.(?:${row.reads.join("|") || "(?!)"})\\b`,
+    );
+    for (const { file, code, spans } of files)
+      for (const use of code.matchAll(new RegExp(`\\b${row.name}\\b`, "g"))) {
+        if (spans.some(([from, to]) => use.index >= from && use.index < to))
+          continue;
+        if (field.test(code.slice(use.index + row.name.length))) continue;
+        const line = code.slice(0, use.index).split("\n").length;
+        problems.push(
+          `${row.name} is read at ${file}:${line}, which could put its words on a screen`,
+        );
+      }
+  }
+  return problems;
 }
 
 /**
@@ -119,7 +276,7 @@ export function codeLines(): Record<string, number> {
         !/\.d\.ts$/.test(file) &&
         !DEVELOPER_FILE.test(relative(file)),
     )) {
-      const count = literals(readFileSync(file, "utf8")).filter(
+      const count = literals(readFileSync(file, "utf8"), relative(file)).filter(
         sentenceShaped,
       ).length;
       if (count) out[relative(file)] = count;
