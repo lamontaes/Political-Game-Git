@@ -86,4 +86,4 @@ it("trust lost takes a share of the tie, so a close tie loses more hours than a 
   expect(strained(close.actorId, close.otherId)).toBe(
     strained(slight[0], slight[1]),
   );
-}, 10_000); // 4.4 s alone, 4.7 s beside promises.test.ts (Nov 16)
+}, 10_000); // 4.7 s alone, 5.2 s beside promises.test.ts (Nov 16)

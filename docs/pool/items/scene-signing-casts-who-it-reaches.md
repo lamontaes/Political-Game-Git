@@ -59,3 +59,5 @@ Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:37 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
 
 Released (2026-11-11): The four executive reply lines are Story's alone to write and casting a resident the law reaches is not in the records the type reads; not built. Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Account lead, Nov 15 19:14Z (review of #9543): an executive and a bill's sponsor share no time at a signing until a signing event with the sponsor present is on a record; #9543 took out hours it had counted per signed bill for that reason. When this scene stages the sponsor at the signing, read the time from its record through the one shared-sitting registry (registerSharedHours in src/core2/closeness.ts), so the two greet as met afterward.

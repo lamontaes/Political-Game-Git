@@ -4,9 +4,14 @@
  * engine lends only to a household's oldest member whose cash is below a
  * month of costs, so a fresh 18-year-old living at home never borrows; the
  * New game creator's birthday (buildBenchWorld's playerBirthDate) picks a
- * player who heads a home with a grown housemate. `PAYDAY_BORROWER` is the
- * named case, found by playing draws of all 56 places: Cherry Hill, Virginia,
- * whose player takes a payday loan on Apr 1, 2025 and misses on Jul 1.
+ * player who heads a home with a grown housemate. `BANK_BORROWER` is the
+ * named case, found by a script outside the test that played draws of all 56
+ * places (one hour, Nov 15): Ragland, Alabama, born 1995, whose player takes
+ * a bank personal loan on Jul 1, 2025 and misses on Aug 1. The case before it
+ * (Cherry Hill, Virginia, born 1985: a payday loan of $317 on Apr 1, missed
+ * Jul 1) hung on the town's payday store having cash, which counted
+ * households drain in the first month since #9117 (pool item
+ * world-counted-households-flood-lenders-month-one); a bank loan does not.
  */
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
@@ -21,8 +26,8 @@ import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 
 export const LOAN_SEED = "promises-real-loan-1";
-/** The player who takes a payday loan and misses its payment (draw and birthday on `LOAN_SEED`). */
-export const PAYDAY_BORROWER = { draw: 2, birth: "1985-03-01" } as const;
+/** The player who takes a bank personal loan and misses its payment (draw and birthday on `LOAN_SEED`). */
+export const BANK_BORROWER = { draw: 16, birth: "1995-03-01" } as const;
 /** Days the player's clock may run before the first missed payment: the loan is written at a month's close and billed monthly. */
 const QUARREL_DAYS = 200;
 

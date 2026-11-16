@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1038,
+  "judged": 1023,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -3257,16 +3257,6 @@
       ],
       "why": "A thank-you and \"figure out the rest as I go\" carry no argument or reason."
     },
-    "1vzjmku590l": {
-      "keys": [
-        "scene-talk.follow-press.written-questions-get-written-answers-and-the-story-won-t-wait-for-th",
-        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
-        "scene-talk.reply-confront.you-re-not-going-to-like-any-answer-i-give",
-        "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
-        "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
-      ],
-      "why": "\"I'll vote yes, and I'll own it\" is a promise without reason, and the other three only deflect."
-    },
     "1w1mbg9et00": {
       "keys": [
         "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
@@ -3813,15 +3803,6 @@
       ],
       "why": "The replies are an unexplained promise of why, a slogan about {place}, a hold for voters and an exit."
     },
-    "27hu1piv6m3": {
-      "keys": [
-        "scene-talk.follow-answer.you-know-i-can-t-tell-you-that",
-        "scene-talk.reply-confess.it-s-true-i-made-a-mistake-and-i-m-not-going-to-hide-behind-a-statement",
-        "scene-talk.reply-deny.that-isn-t-what-happened-show-me-what-you-have",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "An admission of a mistake, a bare denial and an exit give no reason or argument."
-    },
     "27ja7uxraxh": {
       "keys": [
         "scene-talk.state-warn.there-ll-be-two-hundred-people-outside-your-event-saturday-maybe-more-",
@@ -4275,5 +4256,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "1qc55vg9tn9"
+  "yesHash": "0195m95mo4g"
 }
