@@ -842,7 +842,8 @@
       "high": 0.5,
       "unit": "share of the tie",
       "citation": "The spread the Account lead's ruling of Nov 15 checks it against; no study gives a share."
-    }
+    },
+    "role": "coefficient"
   },
   "householdFamilyMinutesPerDay": {
     "value": 243,
