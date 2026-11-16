@@ -474,6 +474,20 @@ export function preStartHistory(
  * Returns the module ids in the order they ran.
  */
 export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
+  const order: string[] = [];
+  for (const step of runPreStartSteps(core, window)) order.push(step.moduleId);
+  return order;
+}
+
+/**
+ * The pre-start run one module at a time: each step runs one module's past and names it, with how many
+ * of the run's modules are done, so the loading screen moves between them (owner, Nov 16: "It should
+ * continue to load."). Stopping between steps changes nothing; the records are the same as one block.
+ */
+export function* runPreStartSteps(
+  core: CoreState,
+  window: PreStartWindow,
+): Generator<{ moduleId: string; done: number; total: number }, void> {
   if (ran.has(core)) throw new Error("The pre-start run already happened.");
   if (window.through >= core.date)
     throw new Error("The pre-start run must end before the start date.");
@@ -483,23 +497,29 @@ export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
   const rows: HistoryRecord[] = [];
   const ids = new Set<string>();
   histories.set(core, rows);
-  const order: string[] = [];
   const modules = [...core.modules.values()] as PreStartModule[];
-  for (const phase of PRE_START_PHASES)
-    for (const module of modules)
-      if (module.preStart?.phase === phase) {
-        const writer: HistoryWriter = {
-          record(row) {
-            rows.push(checkedRow(core, window, ids, row, module.id));
-            // Unsorted again: a later write sorts it the old way first.
-            indexes.delete(rows);
-          },
-          read: (filter) => preStartHistory(core, filter),
-        };
-        module.preStart.run(api, window, writer);
-        order.push(module.id);
-      }
-  rows.sort(historyOrder);
-  indexes.delete(rows);
-  return order;
+  const runs = PRE_START_PHASES.flatMap((phase) =>
+    modules.filter((module) => module.preStart?.phase === phase),
+  );
+  for (const [at, module] of runs.entries()) {
+    const writer: HistoryWriter = {
+      record(row) {
+        rows.push(checkedRow(core, window, ids, row, module.id));
+        // Unsorted again: a later write sorts it the old way first.
+        indexes.delete(rows);
+      },
+      read: (filter) => preStartHistory(core, filter),
+    };
+    module.preStart!.run(api, window, writer);
+    // The last step leaves the history sorted, as one block did.
+    if (at === runs.length - 1) {
+      rows.sort(historyOrder);
+      indexes.delete(rows);
+    }
+    yield { moduleId: module.id, done: at + 1, total: runs.length };
+  }
+  if (!runs.length) {
+    rows.sort(historyOrder);
+    indexes.delete(rows);
+  }
 }

@@ -15,8 +15,8 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
-import { preStartWindow, runPreStart } from "../core2/pre-start";
-import { warmUpOpening } from "../core2/player-warm-up";
+import { preStartWindow, runPreStartSteps } from "../core2/pre-start";
+import { warmUpOpeningDays } from "../core2/player-warm-up";
 import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
@@ -328,6 +328,54 @@ export type BuildStage =
   | "warmup"
   | "opening"
   | "done";
+
+/** The stages in the order a world builds them, before "done". */
+const BUILD_ORDER: readonly BuildStage[] = [
+  "people",
+  "past",
+  "economy",
+  "core",
+  "government",
+  "elections",
+  "budgets",
+  "legislature",
+  "cabinet",
+  "workings",
+  "history",
+  "warmup",
+  "opening",
+];
+
+/**
+ * How much of a world's build is done, from 0 to 1, for the loading bar. Each stage is one part, and
+ * the warm-up is one part per day, since its days are most of the wait; a stage in parts fills its share
+ * as its steps finish, so the bar moves with each day.
+ */
+export function buildShare(
+  stage: BuildStage,
+  step: BuildStep | undefined,
+  warmUpDays: number,
+): number {
+  if (stage === "done") return 1;
+  const size = (key: BuildStage) =>
+    key === "warmup" ? Math.max(1, warmUpDays) : 1;
+  const total = BUILD_ORDER.reduce((sum, key) => sum + size(key), 0);
+  const at = BUILD_ORDER.indexOf(stage);
+  if (at < 0) return 0;
+  const before = BUILD_ORDER.slice(0, at).reduce(
+    (sum, key) => sum + size(key),
+    0,
+  );
+  const within = step && step.total > 0 ? step.done / step.total : 0;
+  return (before + within * size(stage)) / total;
+}
+
+/** A step inside a stage that runs in parts (the history's modules, the warm-up's days): how many are done. */
+export interface BuildStep {
+  stage: BuildStage;
+  done: number;
+  total: number;
+}
 type BuildOptions = {
   placeKey?: string;
   /**
@@ -389,8 +437,13 @@ type BuildOptions = {
 };
 type Built = BenchWorld & { playerId?: string };
 
-/** The warm-up the New game route and the day-zero check use (owner, Nov 14: the town in motion on day one). */
-export const OPENING_WARMUP_DAYS = 31;
+/**
+ * The warm-up the New game route and the day-zero check use (owner, Nov 14: the town in motion on day one).
+ * Two months (owner, Nov 16, asked whether it should run longer: "Longer. Fills more on its own, costs
+ * more time at every new game."): from 31 days to 61, so the world opens on November 20 of the year
+ * before the start, after that year's general election, and no race of the last cycle runs in it.
+ */
+export const OPENING_WARMUP_DAYS = 61;
 
 /** Builds the world in one go (tests and checks). */
 export function buildBenchWorld(
@@ -440,7 +493,7 @@ export async function buildBenchWorldInStages(
   seed: string,
   date: string,
   options: BuildOptions,
-  onStage: (stage: BuildStage) => void,
+  onStage: (stage: BuildStage, step?: BuildStep) => void,
 ): Promise<Built> {
   for (let passing = options; ;) {
     try {
@@ -451,7 +504,8 @@ export async function buildBenchWorldInStages(
           onStage("done");
           return step.value;
         }
-        onStage(step.value);
+        if (typeof step.value === "string") onStage(step.value);
+        else onStage(step.value.stage, step.value);
         await new Promise((resolve) => setImmediate(resolve));
       }
     } catch (error) {
@@ -474,7 +528,7 @@ function* benchWorldStages(
   seed: string,
   date: string,
   options: BuildOptions,
-): Generator<BuildStage, Built> {
+): Generator<BuildStage | BuildStep, Built> {
   const startDate = date;
   const warmUp = Math.max(0, Math.floor(options.warmUpDays ?? 0));
   // A warm-up builds the world that many days early and runs it forward to the start date.
@@ -699,8 +753,11 @@ function* benchWorldStages(
   yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
+  // Between the engines, a step: the loading bar moves while the government opens.
   openLaws(core);
+  yield { stage: "government", done: 1, total: 3 };
   openOffices(core, seed, startDate);
+  yield { stage: "government", done: 2, total: 3 };
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);
@@ -735,6 +792,7 @@ function* benchWorldStages(
   openLeadership(core);
   yield "cabinet";
   openExecutive(core, seed);
+  yield { stage: "cabinet", done: 1, total: 2 };
   // The president's cabinet and the line of succession (OPUS-GOV).
   openSuccession(core);
   openLawReach(core);
@@ -782,8 +840,13 @@ function* benchWorldStages(
   // reached their seat, kept for the person card to read. It takes
   // milliseconds, being coarse steps over the records the opening wrote.
   const preStart = defaultPreStart(core);
+  // One module at a time, so the loading screen moves between them.
   if (preStart)
-    runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+    for (const step of runPreStartSteps(
+      core,
+      preStartWindow(core, preStart.from, preStart.step),
+    ))
+      yield { stage: "history", done: step.done, total: step.total };
   // The people the player starts out knowing have their whole past at the opening.
   openStartingCircle(core);
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
@@ -794,7 +857,16 @@ function* benchWorldStages(
   if (playerId) options.chooseIdentity?.(core, playerId);
   if (warmUp) {
     yield "warmup";
-    director.whileWarming(() => warmUpOpening(core, startDate, playerId));
+    // One day at a time, so the loading screen moves with each day.
+    const days = warmUpOpeningDays(core, startDate, playerId);
+    for (;;) {
+      let day: IteratorResult<{ done: number; total: number }> | undefined;
+      director.whileWarming(() => {
+        day = days.next();
+      });
+      if (!day || day.done) break;
+      yield { stage: "warmup", ...day.value };
+    }
   }
   director.start(core);
   options.onWorld?.(core, playerId);

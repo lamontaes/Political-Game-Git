@@ -7450,26 +7450,11 @@ function playLoadingStory(story) {
 
 /**
  * The loading card's bar and line follow the server's build (/api/newlife/progress): a new
- * life's, or a saved life's while it loads. The server builds the world in twelve steps
- * (BuildStage in world.ts); a step is named while it runs and the bar fills one twelfth for
- * each step finished. `onStory` runs once the built world has its story to play.
+ * life's, or a saved life's while it loads. The server names the step that runs and how much
+ * of the build is done, counting each warm-up day, so the bar moves with each day (owner,
+ * Nov 16: "It should continue to load."). `onStory` runs once the built world has its story to play.
  */
 function followBuild(bar, onStory) {
-  const STEPS = [
-    "people",
-    "past",
-    "economy",
-    "core",
-    "government",
-    "elections",
-    "budgets",
-    "legislature",
-    "cabinet",
-    "workings",
-    "history",
-    "warmup",
-    "opening",
-  ];
   show("front-status", true);
   bar.hidden = false;
   bar.firstElementChild.style.width = "0";
@@ -7479,10 +7464,8 @@ function followBuild(bar, onStory) {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
     if (!p || built) return;
-    // The step in plain words, and a bar that shows how many steps are done; no counts.
-    const at =
-      p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-    bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
+    // The step in plain words, and a bar that shows how much is done; no counts.
+    bar.firstElementChild.style.width = `${Math.round((p.share ?? 0) * 100)}%`;
     $("front-status").textContent = controls.loading?.[p.stage] ?? "";
   }, 400);
   return {
