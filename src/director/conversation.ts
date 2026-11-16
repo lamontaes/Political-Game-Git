@@ -2236,7 +2236,10 @@ function governmentNews(
     -GOVERNMENT_NEWS.withinDays.value,
   );
   const api = coreAPI(core as CoreState);
-  const lean = viewOf(api, speaker.id)?.lean;
+  // Where they lean is read only where the views engine is installed.
+  const lean = core.modules.has(VIEWS_MODULE_ID)
+    ? viewOf(api, speaker.id)?.lean
+    : undefined;
   const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
   for (let at = ids.length - one; at >= zero; at -= one) {
     const row = core.durableLog.get(ids[at] as never) as
@@ -3085,10 +3088,26 @@ export function subjectsBetween(
     // saw her today."). The gap as a greeting hears it, from their own tie.
     const seen = lastContact(core, speakerId, id);
     if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
+    // A person both know is a tie to both: the two relationship rows that
+    // say they know them, and the fact by which the speaker learned of them
+    // (the third person is neither of the pair, so the rule cannot find it
+    // from the facts alone).
+    const mutualTie = [
+      ...new Set(
+        [
+          seen?.tieId,
+          lastContact(core, listenerId, id)?.tieId,
+          speaker.knownIdSources?.[id]?.sourceFactId,
+        ].filter((row): row is string => !!row),
+      ),
+    ];
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
       aboutId: id,
+      ...(mutualTie.length
+        ? { tie: { kind: "record" as const, recordIds: mutualTie } }
+        : {}),
       facts: {
         name: {
           text: spokenName(core, [speakerId, listenerId], id),
