@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9689
 after:
 blocked-on:
 lead: nation
@@ -22,13 +22,13 @@ root: none
 
 **Cause.** Measured: at Wilmont, Minnesota (2770582), seeds approval-a, approval-b and approval-c, by `npx tsx` on a one-year run listing the `national.approval` records: each opens at 41% (41.07 at seed 2cb5aaf1). Found in code: src/core2/modules/national-opinion.ts `monthlyRun` reads `opinionParameter("openingPct")`, which returns the value 41 from src/core2/data/electorate/national-opinion.json and never its spread [36, 45].
 
-**Fix.** Draw the opening once per world inside the parameter's spread through the one world draw (src/core2/world-draw.ts `worldOffsetUnit`, as macro-model.ts does for the economy's past), and keep the 41 as the center.
+**Fix.** Account lead's ruling, Nov 16 08:00Z: no draw and no band. Day one is Inauguration Day (gameStartDate), so the approval starts at the share of the two-party vote the past election recorded for the sitting president (src/core2/past-elections.ts keeps it on their term) and moves from the first month by the existing mover. The 41 row and its spread are deleted.
 
 **Time box.** 1 hour.
 
 **Rules.** Estimate, never UNKNOWN: a value the player sees starts from the real average with a per-world spread.
 
-**Done when.** A second session builds two worlds in a drawn place on two seeds nobody chose, and the January polls differ inside 36 to 45, each naming its parameter row.
+**Done when.** A second session builds two worlds in drawn places on seeds nobody chose, with New Game's warm-up, and dev mode's "How this world opened" names the president's November 2024 race for the day-one approval, at that race's share, with no approval month before January 2025.
 
 **Waits on.** Nothing.
 

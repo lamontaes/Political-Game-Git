@@ -15,16 +15,28 @@
  *
  * Places: Storrs, Connecticut (0973980), the item's case (its 11,452 of
  * 15,207 residents in group quarters once rented as households and filled
- * the year with evictions); and two drawn from all 56 jurisdictions with
- * `drawPlace`'s accept test: one whose sample holds at least one resident of
- * a prison, a juvenile facility or a military base where the draw allows,
- * one with any group quarters. Seed from GOLDEN_PATH_SEED (random when
- * unset), printed with each place.
+ * the year with evictions); Ogden, Utah, whose sample holds residents of a
+ * prison, a juvenile facility or a military base; and Brewer, Maine, with
+ * group quarters of its own.
+ *
+ * Pinned (Nov 16). Before, the test drew its seed at run time from
+ * GOLDEN_PATH_SEED or randomBytes and drew the second and third places from
+ * it with `drawPlace`'s accept tests, so a red came and went with the draw.
+ * The places were found once by running the old draw at seeds pin-gq-0 to
+ * pin-gq-2 (Storrs and Ogden at pin-gq-1, Brewer at pin-gq-0). Two faults
+ * stay here as red cases. Muscatine, Iowa (pin-gq-1's third draw) holds a
+ * group-quarters home neither opened nor admitted on the Train at f26c10de
+ * (item tests-group-quarters-room-neither-opened-nor-admitted; on the Train
+ * at a62a2fda the same fault showed at Storrs, seed 085af212…, and the fault
+ * moves between places as the code changes). Holden, West Virginia (the
+ * institution draw at pin-gq-0) returned a room met on day one to the counts
+ * with no tenure on the Train at f26c10de (item tests-group-quarters-met-
+ * room-returns-without-group-tenure; Mount Hope, West Virginia at pin-gq-2
+ * failed the same way); on the Train at 800ae520 it passes, and it stays
+ * here as an institution place.
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import evictionFilings from "../../data/research/housing/eviction-filings-2026.json" with { type: "json" };
 import { setBookkeeping } from "./bookkeeping";
@@ -54,7 +66,6 @@ import {
   type Source,
 } from "./types";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const INSTITUTIONS = ["adultCorrectional", "juvenile", "military"] as const;
 /** A place's published population, where it has one. */
 const publishedOf = (key: string) => {
@@ -67,21 +78,6 @@ const publishedOf = (key: string) => {
 // least one of its residents: its share of the published population times
 // the sample (the target, or a tenth under the published count where that is
 // smaller, for this world's offset) is one person or more.
-const institution = drawPlace(seed, "group-quarters-institution", (key) => {
-  const row = placeGroupQuarters(key);
-  const published = publishedOf(key);
-  if (!row || !published || !(published > 0)) return false;
-  const sample = Math.min(parameter("targetPopulation"), 0.9 * published);
-  return INSTITUTIONS.some(
-    (type) => (row.byType[type] * sample) / Math.max(published, row.total) >= 1,
-  );
-});
-const drawn = drawPlace(seed, "group-quarters", (key) => {
-  const published = publishedOf(key);
-  return (
-    (placeGroupQuarters(key)?.total ?? 0) > 0 && !!published && published > 0
-  );
-});
 const band = housingParameters.housingEvictionFilingRate.spread;
 /** A state's 2018 filing rate from the research file, by postal code. */
 const stateFilingRate = (usps: string | undefined) => {
@@ -93,23 +89,51 @@ const stateFilingRate = (usps: string | undefined) => {
   return row ? `${usps} ${String(row[rate])} (${String(row[2])})` : "none";
 };
 
-describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
+// Limit, Nov 16 on the Train at 800ae520, alone and beside the other pinned
+// files: Muscatine 356.1 s and 370.5 s, Ogden 355.9 s and 349.7 s, Brewer
+// 312.5 s and 318.5 s, Storrs 236.8 s and 254.7 s, Holden 68.1 s and 72.6 s;
+// twice the slowest is about 750 s.
+describe("group quarters in the played world", { timeout: 750_000 }, () => {
   it.each([
-    { key: "0973980", worldSeed: seed, filingCheck: true, institutions: false },
     {
-      key: institution.key,
-      worldSeed: institution.seed,
+      key: "0973980",
+      worldSeed: "pin-gq-1",
+      filingCheck: true,
+      institutions: false,
+    },
+    {
+      key: "4955980",
+      worldSeed:
+        "66318a1850c99a24802554a26a0eee699788255fdcc3a89b119754cfc3e711aa",
       filingCheck: false,
       institutions: true,
     },
     {
-      key: drawn.key,
-      worldSeed: drawn.seed,
+      key: "2306925",
+      worldSeed:
+        "f8a777ef05665c5c2d45c5f0c5f5fdcf65f128e5592031839c62f0f134041964",
       filingCheck: false,
       institutions: false,
     },
+    // Red: tests-group-quarters-room-neither-opened-nor-admitted.
+    {
+      key: "1955110",
+      worldSeed:
+        "699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764",
+      filingCheck: false,
+      institutions: false,
+    },
+    // Red at f26c10de, green at 800ae520:
+    // tests-group-quarters-met-room-returns-without-group-tenure.
+    {
+      key: "5437948",
+      worldSeed:
+        "a4c19fc64e5227305fec46c6dbde9b82c542f0de603825ab6e966a3140d4a8c9",
+      filingCheck: false,
+      institutions: true,
+    },
   ])(
-    "place $key: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force and an arrival is housed in a room only by the institution's waiting list",
+    "place $key, world seed $worldSeed: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force and an arrival is housed in a room only by the institution's waiting list",
     ({ key, worldSeed, filingCheck, institutions }) => {
       setBookkeeping(false);
       const started = Date.now();
@@ -119,7 +143,7 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
         { twoLevel: true, placeKey: key },
       );
       console.log(
-        `group-quarters: place ${key} (${place.displayName}), seed ${seed}, world seed ${worldSeed}`,
+        `group-quarters: place ${key} (${place.displayName}), world seed ${worldSeed}`,
       );
       const api = coreAPI(core);
       const rt = residentsRuntime(core)!;

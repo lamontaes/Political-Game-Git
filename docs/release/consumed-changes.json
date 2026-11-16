@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.111.2",
+      "releasedOn": "2026-11-15",
+      "revision": "4387b61a32b47a664efe6212b50b5dd53491b9fb",
+      "changeIds": [
+        "laws-congress-holds-two-questions-for-one-federal-wage-rule",
+        "people-coverage-counted-unplaced-record-ranked-as-one-worker",
+        "pool-causes-fable-b-2026-11-15-3",
+        "two-branches-prep",
+        "world-housing-calibration-pinned-count-over-its-pin-on-the-train"
+      ]
+    },
+    {
       "version": "0.111.1",
       "releasedOn": "2026-11-15",
       "revision": "f1db32674575735a7bbb38b5efc5172575d93445",

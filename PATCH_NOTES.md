@@ -296,6 +296,21 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.111.2
+
+_Released November 15, 2026._
+
+### Fixed
+
+- **About half of a town's working households hold a job's health plan, month
+  after month** The share of a town's households that hold a health plan through
+  work could swing from one in twenty to nine in ten between one month and the
+  next, and a small change in pay could set it off. A wage law could leave the
+  town's households tens of millions of dollars poorer in premiums. The count of
+  who holds a plan now weighs each group of households for the workers it stands
+  for, so the share stays near the national one and a pay change no longer moves
+  it.
+
 ## PRE-ALPHA 0.111.1
 
 _Released November 15, 2026._
