@@ -1114,7 +1114,7 @@ export const FAMILY_ASKED_OUT = "family.asked-out";
 /** The record of the partner's answer to the player's proposal. */
 export const FAMILY_PROPOSAL_ANSWERED = "family.proposal-answered";
 
-interface AskRow {
+export interface AskRow {
   /** `<kind>:<asker>:<asked>` */
   id: string;
   kind: AskKind;
@@ -1217,7 +1217,7 @@ function askOutWeight(
 }
 
 /** An answer's weight, the reason a no would give, and the terms it was made of (shown in dev mode). */
-interface Weighed {
+export interface Weighed {
   weight: number;
   reason: AskReason;
   terms: Readonly<Record<string, number>>;
