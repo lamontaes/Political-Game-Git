@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/person-card-pronoun-unknown
-pr:
+pr: #9637
 after:
 blocked-on:
 lead: words
