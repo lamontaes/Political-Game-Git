@@ -362,6 +362,18 @@ $("news-reader-close").addEventListener("click", () =>
 // open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
 // restores focus; when none is open, it opens the session menu"). In order: a person's card, the
 // news reader, a term's card, the open menu. A talk or a scene is not one of them.
+/**
+ * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
+ * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
+ * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
+ * clock closes the cards first.
+ */
+function closeCards() {
+  if (!$("person").hidden) closePerson();
+  show("news-reader", false);
+  show("tip", false);
+  if (openTab) closeSheet();
+}
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
@@ -667,6 +679,7 @@ async function refresh(scene = {}) {
     `/api/election-night?id=${encodeURIComponent(me.id)}`,
   );
   if (night) {
+    closeCards();
     await electionNight(night);
     // That night, once the returns close: the scene of your own result (the
     // concession call or the victory), when the director staged one.
@@ -695,6 +708,13 @@ async function act(path) {
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    // The clock is held (a scene, a meeting, the polls): no menu stays open over it.
+    if (
+      result.packet?.kind === "stop" ||
+      result.pollingPlace ||
+      result.candidateMorning
+    )
+      closeCards();
     if (result.pollingPlace || result.candidateMorning) {
       // Election morning: canvass if you're running, then vote or stay home
       // (or, with no ballot here, go on with the day).
@@ -2504,6 +2524,8 @@ async function showStory(momentId) {
     `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
+  // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
+  closeCards();
   $("backdrop").src = story.backdrop.url;
   drawHere(story);
   show("talk", true);
@@ -3071,9 +3093,10 @@ async function officeParts() {
                       if (asked.packet) renderPacket(asked.packet);
                       const moment = storyStop(asked.packet);
                       closeSheet();
+                      // The sit-down plays with nothing over it; with no scene, back to Office.
                       if (asked.story) await showStory(asked.story);
                       else if (moment) await showStory(moment.recordId);
-                      await openSheet("office");
+                      else await openSheet("office");
                     },
                   }),
                 ),
