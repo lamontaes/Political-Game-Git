@@ -131,6 +131,14 @@ function attempt(drawSeed: string): { proof: string } | { skipped: string } {
   expect(isDemoted(core.people.get(personId)!)).toBe(true);
   advanceCore(core, makeIsoDate(endsBy));
   const kept = core.people.get(personId)!;
+  // Another engine may bring the person back into play before their illness
+  // (an employer's hire fills them in, staff.ts hireStaff); the health engine
+  // then runs their booked illness as a full person's, so this place cannot
+  // show the counted case.
+  if (!isDemoted(kept))
+    return {
+      skipped: `${where}: ${personId} was brought back into play before ${endsBy}`,
+    };
   const booked = healthReport(core).cases.find((c) => c.personId === personId);
   // Counted since the demotion: the health engine began no illness and
   // recorded no death on their kept record.
