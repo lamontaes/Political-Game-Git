@@ -136,6 +136,24 @@ export interface BenchWorld {
  */
 export const PLAYER_MIN_AGE = 18;
 
+/**
+ * A new game cannot open here: no adult lives in a household in the place. `adultsInQuarters`
+ * counts the adults who live in group quarters instead (all of them, when it is above zero).
+ */
+export class NoPlayerHereError extends Error {
+  constructor(
+    readonly placeId: string,
+    readonly adultsInQuarters: number,
+  ) {
+    super(
+      adultsInQuarters
+        ? `No adult resident in a household here: all ${adultsInQuarters} adults live in group quarters.`
+        : "No adult resident here.",
+    );
+    this.name = "NoPlayerHereError";
+  }
+}
+
 /** How the opening set the player's age, kept in the world's place metadata for dev mode. */
 export interface EntrantPick {
   readonly id: string;
@@ -192,7 +210,18 @@ export function entrantChoice(
     }))
     .filter((row) => row.age >= PLAYER_MIN_AGE)
     .sort((a, b) => a.id.localeCompare(b.id));
-  if (!adults.length) throw new Error("No adult resident here.");
+  if (!adults.length) {
+    // Who is in the place at all: a place whose every adult lives in group
+    // quarters (a colony, a dormitory, a barracks) has no household to open in
+    // (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
+    const inQuarters = input.people.filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
+    ).length;
+    throw new NoPlayerHereError(placeId, inQuarters);
+  }
   const unit = seededUnit(input.seed, `opening-player:${placeId}`);
   const pick = adults[Math.floor(unit * adults.length)]!;
   return {
