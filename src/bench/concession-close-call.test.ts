@@ -32,7 +32,34 @@ const WIDER = [
   "Worse than our poll had it. It wasn't close.",
 ];
 
-type Json = Record<string, any>;
+/** The parts of the bench's replies this test reads. */
+interface Packet {
+  readonly kind?: string;
+  readonly pauseId?: string;
+}
+interface Line {
+  readonly text: string;
+}
+interface Reply {
+  readonly line: Line;
+  readonly next?: { readonly lines?: readonly Line[] };
+}
+interface Body {
+  readonly packet?: Packet;
+  readonly life?: { readonly packet?: Packet };
+  readonly filing?: { readonly id: string; readonly status: string };
+  readonly contestId?: string;
+  readonly resultMomentId?: string | null;
+  readonly contacted?: number;
+  readonly talk?: {
+    readonly typeKey: string;
+    readonly tree?: { readonly replies?: readonly Reply[] };
+  };
+}
+interface Json {
+  readonly status?: number;
+  readonly json: Body | null;
+}
 const ask = async (method: string, path: string): Promise<Json> => {
   const reply = await benchRequest(method, new URL(path, "http://bench"), {
     developer: true,
@@ -41,7 +68,10 @@ const ask = async (method: string, path: string): Promise<Json> => {
     typeof reply.body === "string"
       ? reply.body
       : Buffer.from(reply.body ?? "").toString("utf8");
-  return { status: reply.status, json: text ? JSON.parse(text) : null };
+  return {
+    status: reply.status,
+    json: text ? (JSON.parse(text) as Body) : null,
+  };
 };
 const q = (o: Record<string, string>) => new URLSearchParams(o).toString();
 const resume = async (first: Json): Promise<void> => {
@@ -53,7 +83,7 @@ const resume = async (first: Json): Promise<void> => {
   )
     next = await ask(
       "POST",
-      `/api/resume?${q({ kind: "stop", pauseId: next.json.packet.pauseId })}`,
+      `/api/resume?${q({ kind: "stop", pauseId: next.json.packet.pauseId ?? "" })}`,
     );
 };
 const held = async (): Promise<void> => {
@@ -98,7 +128,7 @@ it(
     }
     expect(filingId, `${WHERE}: never filed`).not.toBe("");
     let polled = false;
-    let night: Json | null = null;
+    let night: Body | null = null;
     for (let presses = 0; presses < 200 && !night; presses += 1) {
       await held();
       // A week of raising money, as the Campaign sheet's day does, then the
@@ -143,11 +173,11 @@ it(
       Object.keys(facts).sort(),
       `${WHERE}: ${JSON.stringify(facts)}`,
     ).toEqual(["poll-wider", "recount-none"]);
-    const momentId = night!.resultMomentId as string;
+    const momentId = night!.resultMomentId!;
     const story = (await ask("GET", `/api/story?${q({ momentId })}`)).json;
     const talk = story?.talk;
     const at = (talk?.tree?.replies ?? []).findIndex(
-      (reply: Json) => reply.line.text === "How close was it?",
+      (reply) => reply.line.text === "How close was it?",
     );
     expect(
       at,
@@ -155,10 +185,10 @@ it(
     ).toBeGreaterThanOrEqual(0);
     await ask(
       "POST",
-      `/api/story/reply?${q({ momentId, typeKey: talk.typeKey, path: String(at) })}`,
+      `/api/story/reply?${q({ momentId, typeKey: talk!.typeKey, path: String(at) })}`,
     );
-    const answer = (talk.tree.replies[at].next?.lines ?? []).map(
-      (line: Json) => line.text,
+    const answer = (talk!.tree!.replies![at]!.next?.lines ?? []).map(
+      (line) => line.text,
     );
     expect(answer.join(" "), `${WHERE}: ${momentId}`).not.toMatch(
       /close enough|closer than/i,
