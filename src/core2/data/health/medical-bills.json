@@ -122,7 +122,8 @@
         "high": 0.17,
         "unit": "share of outside patients' care paid by Medicaid",
         "citation": "ESTIMATED from memory: about 6 percent for physician and clinical services up to about 17 percent of all personal health care."
-      }
+      },
+      "role": "coefficient"
     }
   },
   "calibration": {

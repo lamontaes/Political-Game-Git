@@ -29,7 +29,7 @@ claimed-at:
 
 **Rules.** Control names and record data only. Reads only; spends no game time.
 
-**Done when.** A second session opens dev mode on the Danville clinic's card in a played world and reads its receipts by payer for the latest month, then follows the id to the outside patients' record.
+**Done when.** A second session draws a place at random from the 56 in buildBenchWorld, names the place and seed, opens dev mode on its town clinic's card in a played world and reads its receipts by payer for the latest month, then follows the id to the outside patients' record.
 
 **Waits on.** The outside-patients pull request.
 

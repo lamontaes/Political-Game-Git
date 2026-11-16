@@ -97,7 +97,6 @@ import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
-import { townOutsideOf } from "./opening-outside-market";
 import { addResidentFlow, setOutsideSalesBase } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
 
@@ -961,7 +960,10 @@ function outsidePatients(
     let row = rows.get(id) as OutsidePatientsRow | undefined;
     const date = makeIsoDate(core.date);
     if (!row) {
-      const account = townOutsideOf(core.organizations.values(), placeId);
+      // The place's one outside account, where its outside buyers pay from.
+      const account = [...core.organizations.values()].find(
+        (o) => o.placeId === placeId && o.kind === "outside-market",
+      );
       const plans = new Map<string, number>();
       for (const sellerId of sellers) {
         const book = core.finance.businesses.get(sellerId);
