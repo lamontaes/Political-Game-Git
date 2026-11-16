@@ -50,7 +50,7 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 
 ## A moved head needs a new stamp
 
-A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
+A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads. A played-file sha may also be waived when the last commit holds a pool item and its release note and nothing else (Account lead, Nov 16).
 
 ## A new core2 source file needs its family and its owner (Nov 15)
 
