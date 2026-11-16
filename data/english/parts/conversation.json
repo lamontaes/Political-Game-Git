@@ -38212,6 +38212,78 @@
       "bearing": "calm"
     },
     {
+      "key": "conversation.promise-kept-raise.you-said-youd-back-about-you-did",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd back {about}. You did.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-hold-question", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (price said aloud, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-stood-up-for-about-like-you-said-you-would",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You stood up for {about}, like you said you would.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-hold-question", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (price said aloud, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-said-youd-back-about-then-you-went-against-it",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You said you'd back {about}. Then you went against it.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-hold-question", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (price said aloud, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-joined-your-ticket-for-about-you-moved",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I joined your ticket for {about}. You moved.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-hold-question", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (price said aloud, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "guarded"
+    },
+    {
       "key": "conversation.address-point-opener-lead.the-president-blocked-about",
       "move": "address-point-opener-lead",
       "kind": "spoken",

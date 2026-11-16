@@ -12,7 +12,7 @@
  * player's answer; nothing else here writes a line.
  */
 import { billNameOf, billTitleSaid } from "../english/bill-names";
-import { questionSaid } from "../english/question-names";
+import { questionAbout, questionSaid } from "../english/question-names";
 import type { Fact } from "../english/conversation-words";
 import {
   LEGISLATURE_MODULE_ID,
@@ -89,6 +89,16 @@ export function promiseSubject(
   // short name, as the scene where it was given said it.
   const issue = row.question ? questionSaid(row.question) : null;
   if (issue) facts.issue = fact(issue);
+  // The word was given for the proposal itself ("I'm for {about}"), so the
+  // one owed says it back by the proposal, never by the subject alone, which
+  // names no side (Words lead, Nov 15 10:35Z). Only the side for is priced
+  // (Words lead and Account lead, Nov 15 12:26Z), so {about} is said only
+  // when the word was for it.
+  const about =
+    row.question && (row.side ?? one) > zero
+      ? questionAbout(row.question)
+      : null;
+  if (about) facts.about = fact(about);
   // A meeting promised: the body, and the day it was held as a past day
   // ("yesterday", "the other day", "on March 4th"), from the meeting's record.
   const meeting =
@@ -230,7 +240,9 @@ export function promiseAnswers(
     const traits = core.people.get(answererId)?.traits ?? {};
     const lean = (row: PromiseAnswerRow) =>
       row.trait ? (row.sign ?? one) * (traits[row.trait] ?? zero) : zero;
-    return [...answers.kept]
+    const without = new Set(kindOf(subject.promiseKind).keptWithout ?? []);
+    return answers.kept
+      .filter((row) => !without.has(row.id))
       .sort((a, b) => lean(b) - lean(a) || a.id.localeCompare(b.id))
       .slice(zero, answers.keptOffered)
       .map((row) => row.id);

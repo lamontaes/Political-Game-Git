@@ -76,6 +76,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 
 ## Lesson of Nov 15 (the paper's hold for comment)
 
+- **A Journal line is checked by its sentence, not its whole text (Nov 15).** The Journal opens a line on the time since the line before ("One month later, ..."), so a pinned exact-text assert goes red as soon as the Train writes any earlier line in that world (#9477 failed its fold this way on a head four Train pushes old). Assert `line.plain ?? line.text` equals the sentence and `line.text` ends with it, and merge the newest Train before the final gate.
 - **Break it before you trust it.** Two press tests at their pinned places passed with the change and without it, because the place's tip never ran, so the asserts sat inside `if (ran)`. Undo the line under test and run the file. If it still passes, stage the case through the game's own path (here: the player takes the bribe in the offer scene, the offerer leaks it with `leakToReporter`), and assert outside any branch.
 
 ## Lesson of Nov 15 (an at-large race has one result record per seat)
