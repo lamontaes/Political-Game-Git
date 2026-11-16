@@ -91,7 +91,7 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { dayParts } from "./day-part";
 import { bodySaid } from "./body-said";
-import { earlierAddressPieces } from "./opening-facts";
+import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
 import { stateInSentence } from "./words";

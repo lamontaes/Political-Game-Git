@@ -53,7 +53,7 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
-import { ADDRESS_FACT } from "./opening-facts";
+import { saidOf } from "./address-render";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import {
@@ -1832,8 +1832,7 @@ export function createDirector(
       return (
         // A speech heard plays only when its record kept the words.
         row.said
-          ? typeof cause?.facts?.[ADDRESS_FACT.text] === "string" &&
-              !!cause.facts[ADDRESS_FACT.text]
+          ? saidOf(cause?.facts).length > P.zero
           : row.roles.some((role) =>
               role.personIds.some((id) => id !== personId),
             )
