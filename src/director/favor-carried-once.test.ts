@@ -198,4 +198,4 @@ it(`a yes the plea carried is a debt, and the same colleague gives the plain no 
       (o) => o.kind === "favor",
     ),
   ).toHaveLength(1);
-}, 600_000);
+}, 60_000);
