@@ -154,4 +154,4 @@ it("an official's sittings and post fill their day, once, and not a day they sta
     new RegExp(`^${senator}:2025-02-14:district-office:`),
   );
   expect(shown.hoursLeft).toBe(left.get(`2025-02-14:${senator}`));
-}, 180_000);
+}, 85_000);
