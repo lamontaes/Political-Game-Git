@@ -79,13 +79,6 @@
       "adult": 4
     },
     "trailingDays": 365,
-    "seasonCap": {
-      "value": 6,
-      "days": 91,
-      "tag": "TUNABLE",
-      "spread": [3, 12],
-      "note": "The most scenes of one situation type a person is staged in a season (91 days, a quarter of a year); past it, that type's causes go to the journal until the window moves on. Checked against the played year Neodesha, Kansas, seed words-0115 (docs/reports/scene-web.md), where the floor vote fired 121 times and 29 of 80 types fired: six a season leaves room for a legislator's weekly sittings to stage one scene in two and lets other types through (the plan of Oct 28, section 3). The player's own asks (a type that is playerAsks and caused only by an event of the player's act: bill-sign-on, vote-sought, serve-sought) are not counted or held: the record limits them (scheduling.ts pressedByPlayer; stages of a bill, Nov 14)."
-    },
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,
@@ -3576,7 +3569,6 @@
       "key": "emergency-briefing",
       "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "eachCause": true,
-      "openDecision": true,
       "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The head of the department that leads for this disaster (data/executive/emergency.json, by incident type) opens and says what their department's records show of it; the other heads join when a room can seat more than one speaker (pool item director-emergency-briefing-other-heads). The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
       "roles": [
         {

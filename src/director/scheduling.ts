@@ -206,13 +206,6 @@ export interface SituationType {
    */
   playerAsks?: boolean;
   /**
-   * The scene is the player's own decision on a record that stays open until
-   * they answer or its window closes (a governor's emergency offer): the
-   * season cap never holds one back, because a cause with an outcome still
-   * to come is not a repeat of a settled scene.
-   */
-  openDecision?: boolean;
-  /**
    * What keeps the scene worth staging: "contest-open" for a scene about a
    * race (a rival's word of it), which is not staged once the cause's
    * contest has had its election day. Absent: no such condition.
@@ -240,8 +233,6 @@ export interface SituationLibrary {
     paces: Readonly<Record<string, number>>;
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
-    /** The most scenes of one type in a season's window of days. */
-    seasonCap: { value: number; days: number };
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
@@ -313,15 +304,14 @@ export interface ScheduleEntry {
   pace: number;
   bindings: SceneBinding[];
   /**
-   * The types this cause bound that were held back, and why: the type's
-   * season was full (`season-cap`), or a letter would have asked the same with
+   * The types this cause bound that were held back, and why: a letter would have asked the same with
    * nothing on record since (`nothing-changed`), or a friend has nothing
    * to ask that the game can settle (`nothing-to-ask`: no town meeting
    * posted that the player may come to). The journal tells these.
    */
   heldBack?: {
     typeKey: string;
-    reason: "season-cap" | "nothing-changed" | "nothing-to-ask";
+    reason: "nothing-changed" | "nothing-to-ask";
   }[];
   /**
    * The bound scenes with a purpose the player has answered, by type: a
@@ -992,23 +982,6 @@ export function scheduleMoment(
     : staged;
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
-  // One type cannot take a season: past its cap of scenes in the season's
-  // window, its causes go to the journal (the plan of Oct 28, section 3: the
-  // floor vote fired 121 times in one played year).
-  const seasonStart = addDays(
-    makeIsoDate(moment.date),
-    -library.scheduling.seasonCap.days,
-  );
-  const inSeason = new Map<string, number>();
-  for (const entry of book.schedule)
-    if (
-      entry.date > seasonStart &&
-      entry.date <= moment.date &&
-      entry.momentId !== moment.id &&
-      entry.outcome !== "journal-line"
-    )
-      for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
-        inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
   // A cast the type's receive rule refuses goes to the journal: nobody who
   // lives with the person comes to the house, and a seat scene reaches only
   // someone in office.
@@ -1095,41 +1068,19 @@ export function scheduleMoment(
     !eachCause(row) &&
     row.typeKey !== LETTER_TYPE &&
     !!stagedCauses.get(castOf(row))?.has(factsKey(moment.causeId));
-  // A scene the player pressed for themselves (their own ask to a colleague
-  // to sign on, to vote, to serve) is not counted against a season: each one
-  // is a record of the player's own act, already limited by what is on the
-  // record (one sitting a day with the same person, the same bill asked of
-  // the same person once in the repeat window, a person who said no knows it
-  // and says so). A door on the player's canvass is the circumstance
-  // producer's pick of the day and stays under the cap.
-  const pressedByPlayer = (row: SceneBinding) => {
-    const type = library.types.find((t) => t.key === row.typeKey);
-    return (
-      !!type?.playerAsks &&
-      type.causes.every(
-        (cause) => cause.match?.label?.startsWith("cause:event:") ?? false,
-      )
-    );
-  };
   // A friend asks only for what the game can settle now (the Words lead,
   // Nov 15; owner's ruling: a colleague asks only for what the game can do):
   // the next posted town meeting the player may come to. With none, the
   // scene is not staged rather than dropped at its request.
   const nothingToAsk = (row: SceneBinding) =>
     row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
-  const seasonFull = (row: SceneBinding) =>
-    !pressedByPlayer(row) &&
-    !library.types.find((type) => type.key === row.typeKey)?.openDecision &&
-    (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
-      seasonFull(row)
-        ? [{ typeKey: row.typeKey, reason: "season-cap" }]
-        : sameLetter(row) || sameRecordAgain(row)
-          ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
-          : nothingToAsk(row)
-            ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
-            : [],
+      sameLetter(row) || sameRecordAgain(row)
+        ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
+        : nothingToAsk(row)
+          ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
+          : [],
   );
   const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(
