@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: desk thread (claude/project-thread-hkqdh2-who-they-are-dev)
-pr:
+pr: 9651
 after: director-narrator-says-who-a-person-is
 blocked-on:
 lead: words
