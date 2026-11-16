@@ -37,7 +37,7 @@ import {
   residentsRuntime,
   type ResidentsRuntime,
 } from "./modules/residents";
-import { stableHash } from "./kernel/ids";
+import { seededFineUnit } from "./seeded";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
@@ -99,12 +99,14 @@ export function savingWeight(
 ): number {
   if (h.saving === undefined) {
     const sigma = countedParameter("countedSavingsSpreadLog");
-    const uniform = (key: string) =>
-      (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
-    const key = `${seed}:counted-saving:${h.id}`;
+    // Box-Muller on two of the world's seeded units (SHA-256), which are
+    // independent. The FNV hash of the same key ending ":a" and ":b" gave two
+    // units that differ only in their last digits, so z was a function of one
+    // unit and not a normal: 213 of 20,000 ids above 3 against 27.
+    const key = `counted-saving:${h.id}`;
     const z =
-      Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
-      Math.cos(2 * Math.PI * uniform(`${key}:b`));
+      Math.sqrt(-2 * Math.log(seededFineUnit(seed, `${key}:a`) + 2 ** -53)) *
+      Math.cos(2 * Math.PI * seededFineUnit(seed, `${key}:b`));
     h.saving = Math.exp(sigma * z - (sigma * sigma) / 2);
   }
   return h.saving;
