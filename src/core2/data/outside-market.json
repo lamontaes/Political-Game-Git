@@ -158,7 +158,7 @@
       "tag": "ESTIMATED",
       "role": "coefficient",
       "citation": "No share is assumed for wholesale: a wholesaler's sales to the town's own firms are recorded purchase routes (business.sales-input contracts), so a fixed share on top would sell the same goods twice.",
-      "estimatedFrom": "Its outside buyers are what the trade area (opening-outside-market.ts, addTradeArea) adds: its books less the town's recorded purchases from it. At Thief River Falls, Minnesota (seed ind-2764570) the town's firms buy about $0.8 million of books of about $16.1 million a year; before this row nothing bought the rest and the wholesaler closed on Jun 1, 2025."
+      "estimatedFrom": "Its outside buyers are what the trade area (opening-outside-market.ts, addTradeArea) adds: its books less the town's recorded purchases from it. At Thief River Falls, Minnesota (seed ind-2764570) the town's firms and households buy about $80 million of books of about $1.61 billion a year; before this row nothing bought the rest and the wholesaler closed on Jun 1, 2025."
     }
   }
 }

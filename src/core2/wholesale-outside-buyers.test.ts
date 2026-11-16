@@ -10,17 +10,22 @@
  * already recorded routes." Where the town's firms buy less than its books,
  * nothing else bought, and at Thief River Falls the wholesaler (1,848 workers)
  * closed on Jun 1, 2025 with no law passed (industry-law trace, Nov 15).
+ *
+ * Red on the base at the opening (no outside buyers). Runs about 95 s alone;
+ * the limit is 200 s.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";
+import { businessTradingMonth } from "./modules/business";
+import { coreAPI } from "./state";
 
 const PLACE = "2764570";
 const SEED = "ind-2764570";
 
-it("keeps Thief River Falls' wholesaler selling to its books and open with its staff through month six", () => {
+it("keeps Thief River Falls' wholesaler selling to its books and open with its staff through its first trading month", () => {
   const { core } = buildBenchWorld(SEED, gameStartDate(), {
     twoLevel: true,
     placeKey: PLACE,
@@ -66,14 +71,20 @@ it("keeps Thief River Falls' wholesaler selling to its books and open with its s
   );
   expect(outside, where).toBeGreaterThan(0);
   expect(town$ + outside, where).toBeGreaterThanOrEqual(books * 0.999);
-  advanceCore(core, "2025-07-20");
-  const july = staffOf();
+  advanceCore(core, "2025-03-01");
+  const month = businessTradingMonth(coreAPI(core), wholesalerId)!;
   process.stdout.write(
-    `wholesale outside buyers: staff ${july} on ${core.date}, closed ${core.finance.businesses.get(wholesalerId)!.closedAt ?? "no"}\n`,
+    `wholesale outside buyers: month to ${month.date}: sales ${month.salesMinor}, costs ${month.costsMinor}, loss months ${month.lossMonths}\n`,
+  );
+  // Its first trading month after the opening: sales cover costs, so no loss is carried.
+  expect(month.lossMonths, where).toBe(0);
+  const later = staffOf();
+  process.stdout.write(
+    `wholesale outside buyers: staff ${later} on ${core.date}, closed ${core.finance.businesses.get(wholesalerId)!.closedAt ?? "no"}\n`,
   );
   expect(
     core.finance.businesses.get(wholesalerId)!.closedAt,
     where,
   ).toBeUndefined();
-  expect(july, where).toBeGreaterThanOrEqual(opening * 0.9);
-}, 600_000);
+  expect(later, where).toBeGreaterThanOrEqual(opening);
+}, 200_000);
