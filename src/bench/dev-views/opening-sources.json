@@ -105,9 +105,9 @@
       "replace": "Ties from shared records: household, school class, workplace, block"
     },
     "person.conditions": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/modules/health.ts lateConditions and resilienceLine: a hash against each condition's rate",
-      "replace": "The world's seeded unit keyed by person and condition"
+      "made": "generation",
+      "by": "Day one: src/core2/condition-pack.ts startingConditionAssignments, each condition's prevalence count spread through the place and age cell in household income order, smoking and drug use by conscientiousness, no draw. Anyone added later: src/core2/modules/health.ts lateConditions, a stable hash of the world seed, condition and person against the condition's prevalence at their age, moved by conscientiousness. Everyone's resilience line: a stable hash of the world seed and the person, read as the spread of the hazard a person reaches (owner's ruling, Oct 9)",
+      "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
     },
     "household.members": {
       "made": "generation",
@@ -348,14 +348,13 @@
       "what": "The town bank's terms"
     },
     "src/core2/modules/health.ts#lateConditions": {
-      "made": "ad-hoc-draw",
-      "what": "Illnesses people hold, a hash against rates",
-      "replace": "The world's seeded unit keyed by the record's id"
+      "made": "generation",
+      "what": "Illnesses a person added after day one holds, a stable hash of the world seed and the person against the rate at their age, moved by conscientiousness",
+      "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
     },
     "src/core2/modules/health.ts#resilienceLine": {
-      "made": "ad-hoc-draw",
-      "what": "How much a person can take before illness, a hash",
-      "replace": "The world's seeded unit keyed by the record's id"
+      "made": "generation",
+      "what": "How much a person can take before illness, a stable hash of the world seed and the person (owner's ruling, Oct 9)"
     },
     "src/core2/modules/jobs.ts#bandRatio": {
       "made": "world-offset",
