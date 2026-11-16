@@ -4,6 +4,29 @@
   "origin": "authored",
   "author": "Claude Code, pool session",
   "date": "2026-10-16",
+  "ties": {
+    "about": "What each wording of a row rests on when a speech or a talk says it (PartTie, src/english/bank-parts.ts; item words-addresses-are-scenes-with-ties). A side's want, its reason and its account of how the question stands today are that side's view, said as the speaker's stand; the names of the question, the law and what repealing or keeping it means name a law on record. The rest are not said.",
+    "fields": {
+      "about": "law",
+      "said": "law",
+      "to": "law",
+      "repeal": "law",
+      "keep": "law",
+      "law": "law",
+      "again": "law",
+      "for": "stand",
+      "against": "stand",
+      "today": "stand",
+      "todayMore": "stand",
+      "reasons": "stand",
+      "family": "frame",
+      "pole": "frame",
+      "number": "frame",
+      "figures": "frame",
+      "principles": "frame",
+      "points": "frame"
+    }
+  },
   "names": {
     "us-policy-positions:transportation-infrastructure.fare-free-transit": {
       "about": "free fares on public transit",

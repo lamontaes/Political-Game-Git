@@ -11,5 +11,7 @@
     "press": "next-election",
     "consistency": "last-vote",
     "trait": "temper"
-  }
+  },
+  "heldReasonsSaid": ["own-view", "district", "party", "last-vote"],
+  "heldReasonsSaidNote": "The reasons a committee chair gives for holding a bill that the scene-talk bank has a line for (hearing-ask, reply refuse, requiresFacts reason-<key>). A chair whose strongest recorded reason has no line gives the next that has one; with none the chair stalls and then says the answer is given. hold-chair-sought.test.ts checks this list against the bank."
 }
