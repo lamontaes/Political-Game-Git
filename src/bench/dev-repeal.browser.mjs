@@ -98,7 +98,8 @@ try {
   console.log("repeal bill:", billId);
   const openCard = async () => {
     // The sheet open from the last read closes first, so the ring opens it again on Politics.
-    if (await visible("sheet-close")) await page.locator("#sheet-close").click();
+    if (await visible("sheet-close"))
+      await page.locator("#sheet-close").click();
     await page
       .locator('#rings [data-tab="politics"]')
       .first()
