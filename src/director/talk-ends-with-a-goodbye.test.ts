@@ -37,4 +37,4 @@ it(`closes a stranger's talk with their goodbye after the answer to a turned-bac
   expect(talk.choices, "nothing is left to press").toHaveLength(0);
   expect(last.speakerId).not.toBe(me);
   expect(last.kind, "the talk closes on their goodbye").toBe("farewell");
-}, 120_000);
+}, 40_000);
