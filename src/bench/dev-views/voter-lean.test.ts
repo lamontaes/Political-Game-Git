@@ -101,10 +101,12 @@ it("dev mode says why a voter leans: the views row races read, the records that 
     expect(totals.map(([id]) => id).sort()).toEqual(
       [...race.onTheBallot].sort(),
     );
-    for (const [, parts] of Object.entries(race.appeal!))
+    for (const [id, parts] of Object.entries(race.appeal!)) {
       expect(Object.keys(parts)).toEqual(
         expect.arrayContaining(["party", "standing", "incumbent", "total"]),
       );
+      expect(parts.name, `${where}: ${id} has no name`).not.toBe(id);
+    }
     const top = Math.max(...totals.map(([, t]) => t));
     if (race.firstChoice)
       expect(race.appeal![race.firstChoice]!.total).toBe(top);

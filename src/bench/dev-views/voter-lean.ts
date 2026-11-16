@@ -6,7 +6,7 @@
  * what their own past moved and by which record), their party tie, their
  * stances with the records that moved them, and, for each race on the next
  * election day, each candidate's appeal to them by the ballot's own rule
- * (`doorAppealOf`) and whom it puts first. Shown on a person's card in dev
+ * (`doorAppealOf`) and whom it puts first (`doorChoiceOf`). Shown on a person's card in dev
  * mode (slot "person"); every id opens in Trace.
  */
 import type { DevView } from "../dev-views";
@@ -14,13 +14,18 @@ import { coreAPI, personOrFillIn } from "../../core2/state";
 import { VIEWS_MODULE_ID, stancesOf, viewOf } from "../../core2/modules/views";
 import {
   ELECTIONS_MODULE_ID,
+  PARTIES_MODULE_ID,
   ballot,
   contestsOnDate,
+  partyTie,
   type ContestRow,
 } from "../../core2/modules/elections";
-import { doorAppealOf, voterLean } from "../../core2/modules/voting";
-import { countedChoice } from "../../core2/electorate";
-import { PARTIES_MODULE_ID, partyTie } from "../../core2/modules/parties";
+import {
+  doorAppealOf,
+  doorChoiceOf,
+  voterLean,
+} from "../../core2/modules/voting";
+import { personName } from "../legislature";
 import type { CoreState, PersonId } from "../../core2/types";
 
 /** The races on the first election day from today on, as the elections engine lists them. */
@@ -54,13 +59,15 @@ export function voterLeanWhy(core: CoreState, personId: string) {
       title: contest.title,
       electionDate: contest.electionDate,
       onTheBallot: ballot(api, contest.id).map((f) => f.personId),
-      firstChoice: appeal ? countedChoice(appeal) : null,
+      firstChoice: appeal
+        ? (doorChoiceOf(api, person.id, contest.id) ?? null)
+        : null,
       appeal: appeal
         ? Object.fromEntries(
             Object.entries(appeal).map(([candidateId, parts]) => [
               candidateId,
               {
-                name: core.people.get(candidateId as PersonId)?.name,
+                name: personName(core, candidateId),
                 ...parts,
               },
             ]),

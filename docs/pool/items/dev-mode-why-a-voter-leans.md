@@ -22,7 +22,7 @@ source: owner, Nov 16 00:59Z (every trace in dev mode); views thread
 
 **Cause.** Found in code: `DevMode.person` in src/bench/dev-mode.ts filters every views table by `row.personId`, and the views engine's people row (`viewOf`, src/core2/modules/views.ts) has only `id`, so it never shows; the races read `voterLean` and `doorAppealOf` (src/core2/modules/voting.ts), and no dev route calls either.
 
-**Fix.** A view in its own file, src/bench/dev-views/voter-lean.ts, registered through the one point (src/bench/dev-views.ts): GET voter-lean returns the lean races read (`voterLean`) and where it comes from, the views row, the party tie (`partyTie`), the stances with their causes, and for each race on the next election day the ballot (`ballot`), each candidate's appeal parts (`doorAppealOf`) and the first choice (`countedChoice`). Its page part, src/bench/ui/voter-lean.mjs, draws on the person card in dev mode in a new slot "person"; every id opens in Trace. Nothing is computed in the view; each figure is the engine's own reader.
+**Fix.** A view in its own file, src/bench/dev-views/voter-lean.ts, registered through the one point (src/bench/dev-views.ts): GET voter-lean returns the lean races read (`voterLean`) and where it comes from, the views row, the party tie (`partyTie`), the stances with their causes, and for each race on the next election day the ballot (`ballot`), each candidate's appeal parts (`doorAppealOf`) and the first choice (`doorChoiceOf`). Its page part, src/bench/ui/voter-lean.mjs, draws on the person card in dev mode in a new slot "person"; every id opens in Trace. Nothing is computed in the view; each figure is the engine's own reader.
 
 **Time box.** 3 hours, Opus at medium effort.
 
