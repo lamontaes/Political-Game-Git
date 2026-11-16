@@ -16,7 +16,6 @@ import {
   unplacedPoolOf,
 } from "../residents";
 import {
-  depositsHeld,
   drawSavingsToCover,
   transfer,
   transferSplit,
@@ -81,7 +80,7 @@ import { stopgap } from "../stopgaps";
 import { commuterRole } from "./jobs";
 import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
-import { recordEstatePaid, sellHome } from "../housing-sale";
+import { sellHome } from "../housing-sale";
 import {
   addCountedJob,
   countedJobHeads,
@@ -90,10 +89,15 @@ import {
 } from "../residents-economy";
 import {
   chargeGroups,
+  claimMoved,
+  claimsInGroup,
+  savingClaim,
+  savingWeight,
   flowWeights,
   fundGroups,
   HOUSING_KINDS,
   fundBalance,
+  countedDeposits,
   fundOf,
   moveShare,
   payGroups,
@@ -109,6 +113,9 @@ export const DAYS_PER_YEAR = 365;
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
+// A counted household's share of its group's bank savings, its opening savings draw and its group's account, for dev mode's money panel.
+export { countedDeposits, fundOf } from "../counted-money";
+export { householdBalanceDraw } from "../household-balance-draw";
 // The counted jobs of an employer, for engines outside this family (the patrol-hours record).
 export { countedJobHeads, countedJobsOf };
 
@@ -216,6 +223,8 @@ export interface ResidentsRuntime {
     peopleVersion?: number;
     /** The places of `people`'s groups (`placeHasGroups`). */
     places?: { of: Map<number, number>; set: Set<string> };
+    /** Each group's savings claims, kept while no one joins or leaves the counts and no weight changes (`claimsInGroup`). */
+    claims?: { members: number; weights: number; groups: Map<number, number> };
     serial: number;
   };
   /** The engine's own handle on the world, for money a regroup moves. */
@@ -228,6 +237,8 @@ export interface ResidentsRuntime {
     {
       group: number;
       amount: number;
+      /** Its share of its group's bank savings (`countedDeposits`), paid to its people on release. */
+      deposits: number;
       unplaced: number;
       weight: number;
       /** Its share of its group's living-cost arrears, owed on its own flow once it is a full household. */
@@ -236,6 +247,12 @@ export interface ResidentsRuntime {
   >;
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
+  /**
+   * Households that moved in since the housing engine last read them, each
+   * with the household it was drawn like: housing settles each in a home it
+   * rents or buys (housing-counted-buy.ts), then clears the list.
+   */
+  newcomers: { householdId: string; likeId: string }[];
   /**
    * Counted members by the day they pass the counted working age
    * (`countedWorkingAgeBelow`): on that day each takes their share of their
@@ -265,6 +282,8 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
+/** The core a runtime belongs to, for the counted households' income reads before the first day opens its api. */
+const coreOfRuntime = new WeakMap<ResidentsRuntime, CoreState>();
 // The store is plain columns; the record views over it are rebuilt.
 registerSnapshotPart("core2-residents", {
   save: (core) => {
@@ -294,7 +313,7 @@ registerSnapshotPart("core2-residents", {
       "store" | "households" | "householdOfPerson"
     > & { store: unknown; moneySerial?: number };
     const store = decodeStore(saved.store);
-    runtimes.set(core, {
+    const restored: ResidentsRuntime = {
       ...saved,
       input: rebuilt.input,
       moneyCache: { serial: moneySerial ?? 0 },
@@ -305,7 +324,9 @@ registerSnapshotPart("core2-residents", {
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
-    });
+    };
+    runtimes.set(core, restored);
+    coreOfRuntime.set(restored, core);
   },
 });
 
@@ -365,7 +386,19 @@ function householdKeys(
   return out;
 }
 
-/** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
+/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
+type AssistanceReader = (core: CoreState, householdId: string) => number;
+let assistanceReader: AssistanceReader | undefined;
+export function setAssistanceReader(reader: AssistanceReader): void {
+  assistanceReader = reader;
+}
+
+function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
+  const core = coreOfRuntime.get(rt);
+  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
+}
+
+/** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
 export function householdIncome(
   rt: ResidentsRuntime,
   h: CountedHousehold,
@@ -373,7 +406,8 @@ export function householdIncome(
   return (
     h.wagesMinorYear +
     h.retirementMinorYear +
-    h.unplacedWorkers * unplacedPayPerWorker(rt, h)
+    h.unplacedWorkers * unplacedPayPerWorker(rt, h) +
+    assistanceYear(rt, h.id)
   );
 }
 
@@ -466,19 +500,35 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  const people = rt.store.weightedCount(h);
   const key = groupKeyOf(rt, h, date);
-  // The old group's people are read only when the household leaves it: the
-  // count walks every household of the group, and most regroups keep the
-  // household where it is (a share of away work lost each month).
-  const groupBefore =
-    before >= 0 && rt.store.group(key).index !== before
-      ? peopleInGroup(rt, before)
+  // Its claim on the old group's money, and all the claims there, before it
+  // leaves. The old group's claims are read only when the household leaves
+  // it: most regroups keep the household where it is (a share of away work
+  // lost each month).
+  const leaving = before >= 0 && rt.store.group(key).index !== before;
+  const claim = rt.api ? savingClaim(rt, h) : 0;
+  const groupBefore = rt.api && leaving ? claimsInGroup(rt, before) : 0;
+  // And its share of the old group's bank savings, for every household of the record.
+  const banked =
+    rt.api && leaving
+      ? countedDeposits(rt.api, rt, h, rt.store.weightedCount(h))
       : 0;
   rt.store.regroup(h, key);
+  if (rt.api) claimMoved(rt, before, h.group, claim);
   // Its share of the old group's money goes with it.
-  if (rt.api && before !== h.group)
-    moveShare(rt.api, rt, before, h.group, people, groupBefore);
+  if (rt.api && before !== h.group) {
+    moveShare(rt.api, rt, before, h.group, claim, groupBefore);
+    // Its savings leave the old group's deposits for the new group's account,
+    // whose next bank review banks them with the rest of its savings.
+    if (banked > 0)
+      withdrawSavings(rt.api.state as CoreState, rt.api, {
+        id: `counted-regroup-savings:${h.id}:${date}:${rt.moneyCache.serial++}`,
+        holderId: fundOf(rt.api, rt, before),
+        customerAccountId: fundOf(rt.api, rt, h.group),
+        amountMinor: banked,
+        source: rt.input.source,
+      });
+  }
   // A group left with no people owes nothing: its creditors write it off.
   if (before >= 0 && before !== h.group)
     writeOffEmptyGroup(rt, before, h.placeId);
@@ -518,10 +568,10 @@ export function departingCash(
   h: CountedHousehold,
 ): number {
   if (!rt.api || !rt.funded || h.group < 0) return 0;
-  const people = peopleInGroup(rt, h.group);
-  if (people <= 0) return 0;
+  const claims = claimsInGroup(rt, h.group);
+  if (claims <= 0) return 0;
   return Math.floor(
-    (fundBalance(rt.api, rt, h.group) * rt.store.weightedCount(h)) / people,
+    (fundBalance(rt.api, rt, h.group) * savingClaim(rt, h)) / claims,
   );
 }
 
@@ -533,29 +583,30 @@ export function departingCash(
 export function householdCashReader(
   rt: ResidentsRuntime,
 ): (h: CountedHousehold) => number {
-  const groups = new Map<number, { people: number; balance: number }>();
+  const groups = new Map<number, { claims: number; balance: number }>();
   return (h) => {
     if (!rt.api || !rt.funded || h.group < 0) return 0;
     let group = groups.get(h.group);
     if (!group) {
-      const people = peopleInGroup(rt, h.group);
+      const claims = claimsInGroup(rt, h.group);
       group = {
-        people,
-        balance: people > 0 ? fundBalance(rt.api, rt, h.group) : 0,
+        claims,
+        balance: claims > 0 ? fundBalance(rt.api, rt, h.group) : 0,
       };
       groups.set(h.group, group);
     }
-    // One real household's share, and never more than the record's own: a
-    // record that stands for less than one household holds only the part of
-    // the group's money its own people hold, so a household filled in from it
-    // cannot ask for more than the group's fund (Central Falls and the
-    // lender replay, Nov 14: a sole record of weight 0.34 asked three times
-    // the whole fund).
-    return group.people > 0
+    // One household of the record: its members at its savings weight, and
+    // never more than the record's own claim: a record that stands for less
+    // than one household holds only the part of the group's money its own
+    // people hold, so a household filled in from it cannot ask for more than
+    // the group's fund (Central Falls and the lender replay, Nov 14: a sole
+    // record of weight 0.34 asked three times the whole fund).
+    return group.claims > 0
       ? Math.floor(
           (group.balance *
-            Math.min(rt.store.countedCount(h), rt.store.weightedCount(h))) /
-            group.people,
+            Math.min(rt.store.countedCount(h), rt.store.weightedCount(h)) *
+            savingWeight(rt.api.state.seed, h)) /
+            group.claims,
         )
       : 0;
   };
@@ -893,6 +944,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     moneyCache: { serial: 0 },
     fillInCash: new Map(),
     fillIns: 0,
+    newcomers: [],
     workingAgeEnds: new Map(),
     workingAgePassedThrough: core.date,
     regionalGains: new Map(),
@@ -928,6 +980,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     schedule(rt, flow);
   }
   runtimes.set(core, rt);
+  coreOfRuntime.set(rt, core);
 }
 
 /** Cash an owner can spend now: its cash less amounts set aside in other funds. */
@@ -2170,17 +2223,16 @@ export function releaseResidentHousehold(
         reasonKey: "residents.fill-in.cash",
         source: rt.input.source,
       });
-    // Its bank savings were banked for every household the record stood
-    // for: the one filled in keeps its own share, and the rest go back to
-    // its group, which still stands for the others.
-    const held = depositsHeld(core, householdId);
-    const others = Math.floor((held * (cash.weight - 1)) / cash.weight);
-    if (others > 0)
+    // Its share of its group's bank savings comes out to its people, as its
+    // share of the group's cash did; the rest stay banked for the households
+    // the group still stands for. Its own bank review banks them again.
+    const saver = record.people.find((row) => core.people.has(row.id));
+    if (cash.deposits > 0 && saver)
       withdrawSavings(core, rt.api, {
         id: `fill-in:${householdId}:${sequence}:deposits`,
-        holderId: householdId,
-        customerAccountId: fundOf(rt.api, rt, cash.group),
-        amountMinor: others,
+        holderId: fundOf(rt.api, rt, cash.group),
+        customerAccountId: rt.api.accounts().main(saver.id),
+        amountMinor: cash.deposits,
         source: rt.input.source,
       });
   }
@@ -2316,6 +2368,7 @@ export function takeResidentHousehold(
   rt.fillInCash.set(h.id, {
     group: h.group,
     amount: householdCash(rt, h),
+    deposits: rt.api ? countedDeposits(rt.api, rt, h) : 0,
     unplaced: unplacedShare(rt, h),
     weight: store.weightOf(h),
     arrears,
@@ -2356,23 +2409,9 @@ export function keepOneCountedHousehold(
   const rt = runtimes.get(core);
   const weight = rt?.store.weightOf(h) ?? 1;
   if (!rt || h.gone || weight === 1) return;
+  // Its bank savings are its group's (`countedDeposits`): the households it
+  // no longer stands for keep their part of them through the group's claims.
   releaseToOne(core, rt, h);
-  // Its bank savings were banked for every household the record stood for:
-  // the one removed keeps its own share, and the rest go back to its group,
-  // which still stands for the others (as at fill-in).
-  if (rt.api && rt.funded) {
-    const others = Math.floor(
-      (depositsHeld(core, h.id) * (weight - 1)) / weight,
-    );
-    if (others > 0)
-      withdrawSavings(core, rt.api, {
-        id: `kept-one:${h.id}:${core.date}:deposits`,
-        holderId: h.id,
-        customerAccountId: fundOf(rt.api, rt, h.group),
-        amountMinor: others,
-        source: rt.input.source,
-      });
-  }
   delete h.weight;
   const members = new Set(rt.store.memberIdsOf(h));
   for (const job of rt.jobs.values())
@@ -3305,11 +3344,11 @@ export function countedPartDeath(
 }
 
 /**
- * A counted household whose last member died sells the home it owned: the
- * outside market pays its value times the households the record stands for,
- * the lender is paid first, and the surplus goes to the counted residents of
- * its group, as the counted dead's cash does. The sale names the estate and
- * whom it paid.
+ * A counted household whose last member died puts the home it owned on the
+ * market, times the households the record stands for. When buyers take it,
+ * its lender is paid first from what they pay and the rest goes to the
+ * counted residents of its group, as the counted dead's cash does; the sale
+ * names the estate and whom it paid (housing-sale.ts `closeSale`).
  */
 function sellCountedHome(
   rt: ResidentsRuntime,
@@ -3319,8 +3358,7 @@ function sellCountedHome(
 ): void {
   const api = rt.api;
   if (!api || !rt.funded || h.group < 0) return;
-  const fund = fundOf(api, rt, h.group);
-  const sale = sellHome(
+  sellHome(
     api,
     h.id,
     "estate.counted-last-owner",
@@ -3328,21 +3366,25 @@ function sellCountedHome(
     {
       placeId: h.placeId,
       weight: rt.store.weightOf(h),
-      surplus: (amountMinor, id, buyerId) =>
-        api.accounts().transfer({
-          id,
-          from: api.accounts().main(buyerId),
-          to: fund,
-          amountMinor,
-          reasonKey: "residents.counted-estate.home-surplus",
-          source: rt.input.source,
-        }).paidMinor,
+      // What the home brings, after its lender, goes to its group's account, as the counted dead's cash does.
+      surplusAccountId: fundOf(api, rt, h.group),
     },
   );
-  if (sale)
-    recordEstatePaid(api, sale, deathRecordId, [
-      { toId: fund, amountMinor: sale.surplusMinor },
-    ]);
+}
+
+/**
+ * A counted household moving away puts the home it owned on the market, as a
+ * full one does, times the households the record stands for. When buyers take
+ * it, its lender is paid first from what they pay and the rest goes to the
+ * household where it lives now, outside the town's books.
+ */
+function sellLeavingHome(rt: ResidentsRuntime, h: CountedHousehold): void {
+  const api = rt.api;
+  if (!api || !rt.funded || h.group < 0) return;
+  sellHome(api, h.id, "moves.counted-departure", undefined, {
+    placeId: h.placeId,
+    weight: rt.store.weightOf(h),
+  });
 }
 
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */
@@ -3412,6 +3454,8 @@ export function departCountedHousehold(
   const h = ix === undefined ? undefined : rt!.store.households[ix];
   if (!rt || !h || h.gone) return undefined;
   const store = rt.store;
+  // The home it owned is sold before it goes, as a full household's is when it leaves town (moves.ts).
+  sellLeavingHome(rt, h);
   endHouseholdFlows(rt, h, makeIsoDate(core.date));
   const placeId = h.placeId;
   const own = store.countedMembers(h).reduce((n, m) => n + store.liquid[m]!, 0);
@@ -3483,9 +3527,13 @@ export function admitCountedHousehold(
   record: ResidentHouseholdRecord,
   /** Real households it stands for; the place's weight when omitted. */
   weight?: number,
+  /** A household that moved in: the place's household it was drawn like, whose kind of home it looks for. */
+  likeId?: string,
 ): void {
   const rt = runtimes.get(core);
   if (!rt) throw new Error("Residents are not admitted.");
+  if (likeId && core.modules.has("housing"))
+    rt.newcomers.push({ householdId: record.household.id, likeId });
   if (rt.store.householdOf.has(record.household.id))
     throw new Error(`Duplicate counted household: ${record.household.id}`);
   // Newcomers bring money only when the books can take it from outside the town. Admitted before

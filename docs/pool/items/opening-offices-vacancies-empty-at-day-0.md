@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9563
 blocked-on:
 source: "found by the day-zero check (skill day-one-in-motion), Nov 14, measured on train head 8bb1ff9d"
 claimed-at:
@@ -21,7 +21,7 @@ root: day-one-in-motion
 
 **What.** At creation the world keeps no rows in `core2-offices-v1.vacancies`; they fill after a whole year of play (owner, Nov 14: "The town must be in motion on day one... not just town, but country and state. Remember, it's all one simulation."). A real place has this on an ordinary day before anyone starts watching. Seen: the filing screen on day 0: seats that are open right now.
 
-**Cause.** Measured: `node --import tsx scripts/dev-tests/day-zero-year.ts a1 365` and `... b2 365` on train head 8bb1ff9d, Washington, District of Columbia (`drawPlace("a1", "day-zero")`) and Lewiston, Maine (`drawPlace("b2", "day-zero")`), two-level population, opening Jan 20, 2025. Rows at creation / after 1 / 31 / 365 days: `core2-offices-v1.vacancies` (creation / day 1 / day 31 / year 1) 0/0/0/68 at Washington, 0/0/0/65 at Lewiston. Not yet traced to the first writer; the first step is to read the function in src/core2/modules/offices.ts that first writes the table and see what the opening leaves undone.
+**Cause.** Measured: `node --import tsx scripts/dev-tests/day-zero-year.ts a1 365` and `... b2 365` on train head 8bb1ff9d, Washington, District of Columbia (`drawPlace("a1", "day-zero")`) and Lewiston, Maine (`drawPlace("b2", "day-zero")`), two-level population, opening Jan 20, 2025. Rows at creation / after 1 / 31 / 365 days: `core2-offices-v1.vacancies` (creation / day 1 / day 31 / year 1) 0/0/0/68 at Washington, 0/0/0/65 at Lewiston. Traced Nov 15 (Account lead): the only writer is a death. A seat falls vacant when a person dies, and the health engine opened every world with nobody ill and nobody recently dead, so a 31-day warm-up held no death. The original first step was to read the function in src/core2/modules/offices.ts that first writes the table and see what the opening leaves undone.
 
 **Fix.** Give the opening the stock the same engine would hold after a long run: run the engine that writes the table (a warm-up of its own monthly step, or a draw from its own steady state with the place's own figures). Never a hand-filled list and never a second writer. Change the function in src/core2/modules/offices.ts that first writes the table. The numbers come from the place's rows, never from a place named in code.
 
@@ -36,3 +36,5 @@ root: day-one-in-motion
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/offices.ts; src/core2/data/opening/day-zero.json
+
+**Notes.** Nov 15 (Account lead, Health opening stock): the health engine now looks back one illness course when it opens (`scheduleOnset` with `lookback`, src/core2/modules/health.ts). Strain is counted from one course earlier, so a person whose illness began before the start is booked ill with the death due on its own date, and a death inside the warm-up window is heard on its past date and writes its seat's vacancy dated past through the offices engine's own rule. Measured at the two pinned places with the 31-day warm-up: Washington, DC, 2 deaths and 1 vacancy at creation (0 and 0 before); Lewiston, ME, 2 deaths in the window (the Education Secretary and a press owner; neither held an offices-engine seat), 0 vacancies (0 before): that seed's window holds no seat holder, so its day-zero row says so with `zeroAtPlaces` and the test shows why (no one who died in the window held a seat, illnesses in progress). Across Lewiston, DC and Myton drawn places the first 31 days held 3, 11 and 8 deaths (0, 0, 0 before) against a steady 5.5 a month.

@@ -68,6 +68,7 @@ import {
   offerDeal,
   type BillRow,
 } from "./modules/legislature";
+import { headsLocalExecutive, executiveRow } from "./offices-executives";
 
 export const OFFICE_DUTY = "office-duty";
 /**
@@ -549,9 +550,6 @@ export function officeActProviders(host: OfficeActHost) {
   };
 }
 
-/** The executives who give an annual address. */
-const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
-
 /**
  * The world's own mayors and county executives, in the address's season: the
  * first of each month (the office-day module's monthly step) until the season ends, each one who has not given it
@@ -577,7 +575,7 @@ export function worldAddresses(host: OfficeActHost) {
     // The custom's pull: a share of its weight that grows to all of it by the season's last month.
     const custom = api.parameter("addressCustomWeight") * (month / last);
     for (const row of townSeats(api)) {
-      if (!EXECUTIVE_KINDS.has(row.office.kind)) continue;
+      if (!headsLocalExecutive(row.office.kind)) continue;
       const id = row.holder?.personId;
       const person = id ? api.state.people.get(id) : undefined;
       if (!id || !person?.alive || id === player) continue;
@@ -609,7 +607,7 @@ function addressDue(
   const executive = host
     .officesOf(api, personId)
     .some((id) =>
-      EXECUTIVE_KINDS.has(
+      headsLocalExecutive(
         (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
           "",
       ),
@@ -639,9 +637,9 @@ export function budgetProposalDue(
         (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
         "",
     )
-    .find((k) => EXECUTIVE_KINDS.has(k));
+    .find((k) => headsLocalExecutive(k));
   if (!kind) return null;
-  const level = kind === "mayor" ? "city" : "county";
+  const level = executiveRow(kind)!.level;
   const gov = governments(api).find((g) => g.level === level);
   if (!gov) return null;
   const year = Number(api.state.date.slice(0, 4));

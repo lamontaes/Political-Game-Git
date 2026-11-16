@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: account-lead-M4
 pr: 9358

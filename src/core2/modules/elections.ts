@@ -53,6 +53,7 @@ import {
   nextElectionForSeat,
   officeFamily,
   specialElectionDate,
+  termStartAfter,
   type ElectionDates,
   type OfficeFamily,
 } from "../elections-calendar";
@@ -98,6 +99,10 @@ export interface ContestRow extends ElectionDates {
     readonly vacancyId: string;
     readonly termEnd: string | null;
   };
+  /** A held-over seat's regular election before its normal year: its winner serves what is left of the term the law set, to this day. */
+  readonly termEnd?: string;
+  /** That election's cause: the seat's contest no one won, whose holder serves on (dev mode's trace opens it). */
+  readonly heldOverAfter?: string;
 }
 
 export interface FilingRequirements {
@@ -329,6 +334,18 @@ function readRequirements(
       places: Record<string, Record<string, ReadRequirements>>;
     }
   ).places[stateKey]?.[family];
+}
+
+/**
+ * Whether a place takes filings for a family of offices at all: false only
+ * where its record says the family does not apply (a territory with no county
+ * or municipal governments, or local leaders chosen by custom or appointment).
+ */
+export function filingFamilyApplies(
+  stateKey: string,
+  family: OfficeFamily,
+): boolean {
+  return readRequirements(stateKey, family)?.applicable !== false;
 }
 
 /** What one place requires to file for one family of offices. */
@@ -710,17 +727,44 @@ function contestFor(
   // An office its law creates later is first filled at the last election
   // before its first term, as a term ending then would be.
   let dates = at(holder?.endDate ?? office.firstTermStart ?? null);
-  // A holder whose seat's election passed with no one elected holds over;
-  // the seat's next election comes a full term on.
-  if (
-    dates &&
-    dates.electionDate <= api.state.date &&
-    holder?.endDate &&
-    office.termYears
-  )
-    dates = at(
-      `${Number(holder.endDate.slice(0, 4)) + office.termYears}${holder.endDate.slice(4)}`,
-    );
+  // A holder whose term has ended holds over only until a successor is
+  // chosen: the term's clock stays where the law put it. The seat is filled at
+  // the office's next regular election for what is left of that term, then
+  // comes up on its normal year; when the next regular election is the normal
+  // one, it elects a full term.
+  let termEnd: string | null = null;
+  let heldOverAfter: string | null = null;
+  if (holder?.endDate && office.termYears) {
+    const clockEnd = `${Number(holder.endDate.slice(0, 4)) + office.termYears}${holder.endDate.slice(4)}`;
+    if (holder.endDate <= api.state.date) {
+      const normal = at(clockEnd);
+      const sooner = at(null, tomorrow);
+      if (
+        sooner &&
+        sooner.electionDate > api.state.date &&
+        (!normal || sooner.electionDate < normal.electionDate)
+      ) {
+        dates = sooner;
+        // The race no one won, which left the holder serving on.
+        heldOverAfter =
+          (
+            table(api, "contests").query("bySeat", [
+              seat.id,
+            ]) as unknown as ContestRow[]
+          )
+            .filter((c) => c.electionDate <= api.state.date)
+            .sort((a, b) => b.electionDate.localeCompare(a.electionDate))[0]
+            ?.id ?? null;
+        // It ends the day the normal year's winner takes office.
+        termEnd = normal
+          ? termStartAfter(office, normal.electionDate)
+          : clockEnd;
+      } else dates = normal;
+    } else if (dates && dates.electionDate <= api.state.date)
+      // The seat's election has passed and its holder's term runs on: the
+      // next election is a full term on.
+      dates = at(clockEnd);
+  }
   // A seat whose election is today (decided, or with no one elected) looks
   // for the regular election after it.
   if (dates && dates.electionDate <= api.state.date) {
@@ -747,6 +791,8 @@ function contestFor(
     district: seat.district,
     family,
     incumbentTermId: holder?.id ?? null,
+    ...(termEnd ? { termEnd } : {}),
+    ...(heldOverAfter ? { heldOverAfter } : {}),
   });
   // Every contest opens its filing on a day (elections-filing-window-opens):
   // the calendar's read date where it has one, else the window the place's
@@ -1027,33 +1073,45 @@ function homeDistrict(
   return String((draw % districts) + 1);
 }
 
+/** Why the player is not offered a contest today; null where they are (`playerFilingBar`). */
+export type PlayerFilingBar =
+  | "not-your-office"
+  | "not-your-town"
+  | "window-not-open"
+  | "window-closed"
+  | "other-district"
+  | "filed-elsewhere"
+  | "at-large-elsewhere";
+
 /**
- * Whether the player may run in this contest today: an office the player runs
- * for (`playerMayFileForKind`), a seat that covers their home, its filing
- * window open (`filingWindowOpen`), and of a local body's seats only the one
- * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
- * for one council seat"; CTO's town council seats ruling): their own
- * district's seat where the body is elected by district, and where seats are
- * elected at large, the at-large race once, as one candidacy. A candidacy
- * already filed in one of a body's races on that day rules out its others.
+ * The one reader of whether the player is offered a contest and, when not,
+ * the one reason: the clerk's counter, Campaigns and the filing error read
+ * this and keep no copy of the rules (owner, Nov 16: a voter sees and runs
+ * for the seat that is theirs). The order of the checks is the order of the
+ * reasons: the office, the seat's town, the window, the body's other races,
+ * then the district.
  */
-function playerMayFileWith(
+export function playerFilingBar(
   api: CoreAPI,
   contestId: string,
-  localKinds: readonly string[],
-): boolean {
+  localKinds: readonly string[] = townLocalKinds(api),
+): PlayerFilingBar | null {
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  if (!contest) return false;
+  if (!contest) return "not-your-office";
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const office = offices.table("offices").get(contest.officeId) as
     PlayerSeatOffice | undefined;
-  if (!playerMayFileForKind(office?.kind ?? "", localKinds)) return false;
-  if (!filingWindowOpen(contest, api.state.date)) return false;
+  if (!playerMayFileForKind(office?.kind ?? "", localKinds))
+    return "not-your-office";
   const seat = offices.table("seats").get(contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
-  if (seat?.coversTown === false) return false;
-  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return true;
+  if (seat?.coversTown === false) return "not-your-town";
+  if (!filingWindowOpen(contest, api.state.date))
+    return api.state.date < filingWindowOpens(contest)
+      ? "window-not-open"
+      : "window-closed";
+  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return null;
   // The body's other races on the same day: its seats up together.
   const sameDay = (
     table(api, "contests").query("byOffice", [
@@ -1070,11 +1128,13 @@ function playerMayFileWith(
         playerId,
       ]) as unknown as FilingRow[]
     ).some((f) => f.status !== "withdrawn" && others.has(f.contestId));
-    if (filedElsewhere) return false;
+    if (filedElsewhere) return "filed-elsewhere";
   }
   // A district seat: only the home's own district.
   if (seat?.district)
-    return seat.district === homeDistrict(api, contest.officeId, office);
+    return seat.district === homeDistrict(api, contest.officeId, office)
+      ? null
+      : "other-district";
   // The at-large seats up that day are one race (the voting engine counts
   // them together and seats the top finishers, `atLargeGroup`): the player is
   // offered it once, as the first of those seats' contests whose filing is
@@ -1086,7 +1146,47 @@ function playerMayFileWith(
       return !s?.district && filingWindowOpen(other, api.state.date);
     })
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
-  return atLarge[0]?.id === contest.id;
+  return atLarge[0]?.id === contest.id ? null : "at-large-elsewhere";
+}
+
+/**
+ * Whether a district seat is not the viewer's own: a body elected by
+ * district shows its viewer their own district's seat only (Campaigns reads
+ * this, the clerk's counter reads `playerFilingBar`).
+ */
+export function seatIsAnotherDistrict(
+  api: CoreAPI,
+  contestId: string,
+): boolean {
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  if (!contest) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const office = offices.table("offices").get(contest.officeId) as
+    PlayerSeatOffice | undefined;
+  const seat = offices.table("seats").get(contest.seatId) as
+    { district?: string | null } | undefined;
+  if (!office || !seat?.district || !LOCAL_LEVELS.has(office.level ?? ""))
+    return false;
+  return seat.district !== homeDistrict(api, contest.officeId, office);
+}
+
+/**
+ * Whether the player may run in this contest today: an office the player runs
+ * for (`playerMayFileForKind`), a seat that covers their home, its filing
+ * window open (`filingWindowOpen`), and of a local body's seats only the one
+ * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
+ * for one council seat"; CTO's town council seats ruling): their own
+ * district's seat where the body is elected by district, and where seats are
+ * elected at large, the at-large race once, as one candidacy. A candidacy
+ * already filed in one of a body's races on that day rules out its others.
+ */
+function playerMayFileWith(
+  api: CoreAPI,
+  contestId: string,
+  localKinds: readonly string[],
+): boolean {
+  return playerFilingBar(api, contestId, localKinds) === null;
 }
 
 /**

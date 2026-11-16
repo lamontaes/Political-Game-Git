@@ -10,6 +10,7 @@ import {
   askPrice,
   billOf,
   memberPosition,
+  voteAskedBefore,
 } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -20,6 +21,7 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import type { Fact } from "../english/scene-talk-words";
+import { questionSaid } from "../english/question-names";
 import bargainData from "./data/bargain-reasons.json" with { type: "json" };
 
 /**
@@ -77,6 +79,21 @@ export function bargainFacts(
       text: String(price.index + P.one),
       sourceRecordIds: [causeId, billId],
     };
+  // Asked for their vote before on this question, and they voted no: the
+  // talk says so rather than playing the first ask again.
+  const before = voteAskedBefore(api, playerId, colleagueId, bill);
+  if (before) {
+    facts["asked-before"] = {
+      text: "yes",
+      sourceRecordIds: [causeId, before],
+    };
+    // The question both bills are on, as people say it.
+    const [section] = bill.provisions;
+    const question = section?.question;
+    const subject = question ? questionSaid(question) : null;
+    if (subject && !facts.said)
+      facts.said = { text: subject, sourceRecordIds: [causeId, before] };
+  }
   const pending = amendmentsOn(api, billId).find(
     (row) => row.status === "moved",
   );

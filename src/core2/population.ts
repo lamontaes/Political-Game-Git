@@ -40,7 +40,6 @@ import {
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
-  type HouseholdMix,
   type HouseholdShape,
 } from "./household-mix";
 import { createStableId, pairKey, stableHash } from "./kernel/ids";
@@ -95,6 +94,7 @@ import {
   medianTransactionBalance,
 } from "./starting-cash";
 import { placeEarningsOf } from "./residents";
+import { householdBalanceDraw } from "./household-balance-draw";
 import { seedableTraits } from "./opening-trait-table";
 import type { EntityId, IsoDate as WorldDate } from "./kernel/brands";
 import {
@@ -121,6 +121,13 @@ import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import {
+  BIRTHPLACE_FACT,
+  birthOrigin,
+  birthplaceSource as bornSource,
+  bornInStateShare,
+  bornOutsideId,
+} from "./person-birthplace";
+import {
   partnerAgedHousehold,
   partnershipGeo,
   type Sex,
@@ -139,6 +146,7 @@ import {
   type OrganizationInput,
   type PersonInput,
   type HuskInput,
+  type PersonId,
   type Source,
 } from "./types";
 
@@ -147,7 +155,7 @@ export interface PopulationOptions {
   placeKey?: string;
   startedAt: string;
   /**
-   * The date the cohort ages (`cohortAge`, `playerAge`) are read on, when the world is built before its start
+   * The date the creator's age (`playerAge`) is read on, when the world is built before its start
    * date and run forward to it (src/core2/pre-start.ts): the player is the age they read on the start date.
    * Defaults to `startedAt`.
    */
@@ -158,15 +166,9 @@ export interface PopulationOptions {
   /** Independent schedule import switch; runtime can also disable scheduled work. */
   scheduledWork?: boolean;
   /**
-   * An age the opening always holds at least one resident of (the bench's
-   * player is a 17-year-old who turns 18 in play).
-   */
-  cohortAge?: number;
-  /**
-   * The age the New game creator chose for the player. Unlike `cohortAge`
-   * the opening may not hold it (a hamlet's few households), and a grown
-   * resident lives in any kind of household, so the search draws every shape
-   * the place shows, not only families with children.
+   * The age the New game creator chose for the player. The opening may not
+   * hold it (a hamlet's few households), and a grown resident lives in any
+   * kind of household, so the search draws every shape the place shows.
    */
   playerAge?: number;
   /**
@@ -817,76 +819,42 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   let index = p("zero");
   for (; inputs.length < minimumPeople - quartersPeople; index += p("one"))
     addHousehold(index, drawHousehold(index));
-  // The player's cohorts: a town whose own sample shows no family with a
-  // child that age (a small place's survey count can show none at all) still
-  // opens with one. Two ages matter: the age the player is drawn at
-  // (`playerEntryAge`, kept when the opening has no resident that age) and the
-  // caller's `cohortAge` (required). The town's next households are drawn as
-  // families, in the place's split of couples and single parents with children
-  // (the nation's where the place shows neither), and the first holding a
-  // person that age moves in, every member aged from the place's records as above.
-  // A third age, the one the New game creator chose (`playerAge`), is kept the
-  // same way from households of every shape, and may go without.
-  const cohorts: { age: number; required: boolean; anyShape?: boolean }[] = [
-    ...(options.cohortAge !== undefined
-      ? [{ age: options.cohortAge, required: true }]
-      : []),
-    ...(options.cohortAge !== p("playerEntryAge")
-      ? [{ age: p("playerEntryAge"), required: false }]
-      : []),
-    ...(options.playerAge !== undefined
-      ? [{ age: options.playerAge, required: false, anyShape: true }]
-      : []),
-  ];
-  const familyShares = (shares: HouseholdMix["shares"]) =>
-    shares.filter(
-      ([shape, share]) =>
-        share > p("zero") &&
-        (shape === "couple-with-children" || shape === "parent-with-children"),
-    );
-  const families = familyShares(mix.shares).length
-    ? familyShares(mix.shares)
-    : familyShares(householdMixForJurisdiction(null).shares);
+  // The age the New game creator chose (`playerAge`): a town whose own
+  // households hold nobody that age draws its next households, in the
+  // place's own split of every kind of household (the nation's where the
+  // place shows none), and the first holding a person that age moves in,
+  // every member aged from the place's records as above, so the player is a
+  // resident who lived that age's life. A town may go without.
   const everyShape = mix.shares.some(([, share]) => share > p("zero"))
     ? mix.shares.filter(([, share]) => share > p("zero"))
     : householdMixForJurisdiction(null).shares;
-  const totalOf = (shares: HouseholdMix["shares"]) =>
-    shares.reduce((sum, [, share]) => sum + share, p("zero"));
-  for (const { age: cohortAge, required, anyShape } of cohorts) {
-    const shares = anyShape ? everyShape : families;
-    const total = totalOf(shares);
-    const ofCohort = (person: CharacterHistoryContextPersonInput) =>
-      ageOnDate(makeIsoDate(person.birthDate), cohortsOn) === cohortAge;
-    if (inputs.some(ofCohort)) continue;
+  const playerAge = options.playerAge;
+  const ofPlayerAge = (person: CharacterHistoryContextPersonInput) =>
+    ageOnDate(makeIsoDate(person.birthDate), cohortsOn) === playerAge;
+  if (playerAge !== undefined && !inputs.some(ofPlayerAge)) {
+    const total = everyShape.reduce((sum, [, share]) => sum + share, p("zero"));
     // Searched no further than as many households again as the town has, and
     // never fewer than the floor: a town of a few people has a few households.
     const last =
       index + Math.max(plans.length, p("cohortSearchMinimumHouseholds"));
-    for (; index <= last + p("one"); index += p("one")) {
-      if (index > last) {
-        if (required)
-          throw new Error(
-            `No household of ${place.displayName} holds a resident aged ${cohortAge}.`,
-          );
-        break;
-      }
+    for (; index <= last; index += p("one")) {
       let point =
         new SeededRng(seedWorld.seed)
           .fork(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}:cohort`)
           .next() * total;
       const shape =
-        shares.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
-        shares.at(-1)![0];
+        everyShape.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
+        everyShape.at(-1)![0];
       const drawn = drawHousehold(index, shape);
-      if (drawn.people.some(ofCohort)) {
+      if (drawn.people.some(ofPlayerAge)) {
         addHousehold(index, drawn);
         index += p("one");
         break;
       }
     }
   }
-  // The group-quarters rooms, after the player's cohorts, so a juvenile
-  // resident never stands in for the player.
+  // The group-quarters rooms, after the player's age is found, so a
+  // resident of group quarters never stands in for the player.
   const roomMembers = p("groupQuartersRoomMembers");
   for (const [type, count] of quartersSample) {
     groupQuartersStopgaps(type);
@@ -1415,15 +1383,29 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       (sum, id) => sum + (jobByPerson.get(id)?.wageDailyMinor ?? p("zero")),
       p("zero"),
     );
+    // Its median balance (or, with no pay, its cushion of days) times its own
+    // savings draw, fixed by its id (household-balance-draw.ts).
+    const draw = householdBalanceDraw(options.seed, plan.id);
     const reserve =
       dailyPay > p("zero")
         ? Math.round(
-            medianTransactionBalance(
-              (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
-              options.seed,
-            ) * p("minorPerDollar"),
+            draw *
+              medianTransactionBalance(
+                (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
+                options.seed,
+                // The head is the household's oldest adult.
+                Math.max(
+                  ...adults.map((id) =>
+                    ageOnDate(
+                      makeIsoDate(world.people[id]!.birthDate),
+                      startedAt,
+                    ),
+                  ),
+                ),
+              ) *
+              p("minorPerDollar"),
           )
-        : householdDailyCost * p("moneyBufferDays");
+        : Math.round(draw * householdDailyCost * p("moneyBufferDays"));
     for (const id of plan.ids) {
       const adultIndex = adults.indexOf(id);
       const share = (total: number) =>
@@ -1579,6 +1561,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       placeEarningsOf(place.key, options.seed) ??
       nationalMedianAnnualWage("occupation:customer-service", options.seed) ??
       p("zero"),
+    placeKey: place.key,
     startedAt,
     plans: options.kinHouseholdIds
       ? plans.filter((plan) => options.kinHouseholdIds!.has(plan.id))
@@ -1663,6 +1646,8 @@ interface OpeningFamilyInput {
   stateKey?: string;
   /** A year's earnings of one worker of the town, which the relatives' opening cash reads. */
   earnings: number;
+  /** The town's place key, for its citizen share (src/core2/person-birthplace.ts). */
+  placeKey: string;
   startedAt: WorldDate;
   plans: readonly HouseholdPlan[];
   people: readonly PersonInput[];
@@ -1712,6 +1697,24 @@ function openingFamilies(input: OpeningFamilyInput): {
         moverRates.places[input.stateKey as keyof typeof moverRates.places] ??
         moverRates.national
       ).departurePerYearByAge,
+      ...(input.stateKey
+        ? {
+            bornInStateShare: bornInStateShare({
+              seed: input.seed,
+              placeKey: input.placeKey,
+              usps: input.stateKey!.slice("US-".length),
+            }),
+            bornOutside: (adultId: PersonId) =>
+              bornOutsideId(
+                birthOrigin({
+                  seed: input.seed,
+                  personId: adultId,
+                  placeKey: input.placeKey,
+                  usps: input.stateKey!.slice("US-".length),
+                }),
+              ),
+          }
+        : {}),
       name: ({
         stableKey,
         gender,
@@ -1776,7 +1779,7 @@ function openingFamilies(input: OpeningFamilyInput): {
     ]);
   const familyFacts = (personId: string) => {
     const relations = byPerson.get(personId) ?? [];
-    const pastFacts = [
+    const pastFacts: NonNullable<PersonInput["pastFacts"]>[number][] = [
       ...(diedOf.get(personId) ?? []).map((death) => ({
         id: `${personId}:family-died:${death.relation}`,
         date: death.date,
@@ -1902,8 +1905,22 @@ function openingFamilies(input: OpeningFamilyInput): {
       sharedTraitSource: temperamentSource,
     };
   };
+  // Where each grown resident was born, once (src/core2/person-birthplace.ts);
+  // a child's is written from where their parent lived that day, once the
+  // moves before the start are run.
+  const birthplaceSource = bornSource(startedAt);
   const residents = input.people.map((person) => {
     const facts = familyFacts(person.id);
+    const born = kin.birthplaces.get(person.id as PersonId);
+    if (born)
+      facts.pastFacts.push({
+        id: createStableId("fact", `${person.id}:birthplace`),
+        date: person.birthDate,
+        kind: BIRTHPLACE_FACT,
+        summary: `${names.get(person.id)}'s birthplace is established.`,
+        source: birthplaceSource,
+        facts: { placeId: born },
+      });
     return {
       ...person,
       ...withTemperament(
@@ -1952,6 +1969,13 @@ function openingFamilies(input: OpeningFamilyInput): {
       p("zero"),
       adults.length,
       input.seed,
+      householdBalanceDraw(input.seed, row.id),
+      // The head is the household's oldest adult.
+      Math.max(
+        ...adults.map((id) =>
+          ageOnDate(makeIsoDate(kinBirth.get(id)!), startedAt),
+        ),
+      ),
     );
     adults.forEach((id, index) => kinCash.set(id, cash[index]!));
     const daily = householdDailyCostMinor({

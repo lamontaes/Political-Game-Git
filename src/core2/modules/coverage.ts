@@ -8,11 +8,11 @@
  * years people work, with a job, holds an employer plan when the town's
  * working adults ranked by their employer's size (the larger first) and then
  * their pay reach the share who hold their own plan (a parameter, ESTIMATED).
- * The uninsured part of that share is multiplied, for each worker, by the
- * outcome web's factor for health.uninsured-pct at their age and sex (a
- * recession lands on men more than women, Cawley, Moriya and Simon 2015), so
- * the same rank order holds a smaller share for a worker the web has pushed
- * toward being uninsured. The policy covers everyone else in the policyholder's household, at the
+ * The share is of the workers who have a job today: a recession costs plans
+ * through the jobs it ends (men lose more of them, Cawley, Moriya and Simon
+ * 2015), so the outcome web's unemployment-to-uninsured link is not read here
+ * as well, which would count each lost job twice and take plans from workers
+ * who kept theirs. The policy covers everyone else in the policyholder's household, at the
  * family premium when there are two or more people on it and the single
  * premium when there is one. People 65 and over hold Medicare (no premium
  * here). Everyone else is uninsured until another engine (Medicaid, the
@@ -36,8 +36,7 @@
  * from these records and paid, and what goes unpaid is placed for collection
  * as a medical-debt record (medical-bills.ts).
  */
-import { billMedicalCare, EMPLOYER_PLAN_LEAVES_OUT } from "../medical-bills";
-import { webReach } from "../outcome-web-reach";
+import { billMedicalCare } from "../medical-bills";
 import { coreAPI, registerModule } from "../state";
 import { registerPlanReaders } from "../life-plan-readers";
 import { outsideAccountOf } from "../budgets-treasury";
@@ -55,7 +54,9 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
 
-export const COVERAGE_MODULE_ID = "core2-coverage-v1";
+import { COVERAGE_MODULE_ID } from "../coverage-module-id";
+
+export { COVERAGE_MODULE_ID };
 
 export type CoveragePlan = "employer" | "medicare" | "none";
 
@@ -114,14 +115,7 @@ interface Candidate {
   readonly wage: number;
   /** Real workers the candidate stands for: 1 for a full person, the household's weight for a counted one. */
   readonly weight: number;
-  /** What the outcome web's coverage links see of them. */
-  readonly placeId: string;
-  readonly age: number;
-  readonly sex: "female" | "male" | undefined;
 }
-
-const sexOf = (gender: string | undefined) =>
-  gender === "female" || gender === "male" ? gender : undefined;
 
 /**
  * Jobs per employer, full and counted alike: a counted job stands for as many
@@ -166,7 +160,11 @@ function holdersToday(
   api: CoreAPI,
   staff: ReadonlyMap<string, number>,
   unpaid: ReadonlySet<string | null>,
-): { full: Map<string, string>; counted: Map<string, string> } {
+): {
+  full: Map<string, string>;
+  counted: Map<string, string>;
+  summary: EmployerPlansSummary;
+} {
   const core = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
   const date = makeIsoDate(core.date);
@@ -185,9 +183,6 @@ function holdersToday(
       size: staff.get(job.organizationId) ?? 0,
       wage: job.wageDailyMinor,
       weight: 1,
-      placeId: person.placeId,
-      age: ageOnDate(makeIsoDate(person.birthDate), date),
-      sex: sexOf(person.looks?.gender),
     });
   }
   const rt = residentsRuntime(core);
@@ -221,9 +216,6 @@ function holdersToday(
             // The policyholders the record stands for, one to a household:
             // `unplacedWorkers` is one real household's, as a recorded job is.
             weight: Math.min(1, h.unplacedWorkers) * weight,
-            placeId: h.placeId,
-            age: ageOnDate(makeIsoDate(store.born[holder]!), date),
-            sex: sexOf(store.strings[store.genderIx[holder]!]),
           });
       }
       for (const job of h.jobs) {
@@ -236,9 +228,6 @@ function holdersToday(
           size: staff.get(job.organizationId) ?? 0,
           wage: job.wageDailyMinor,
           weight,
-          placeId: h.placeId,
-          age: ageOnDate(makeIsoDate(store.born[m]!), date),
-          sex: sexOf(store.strings[store.genderIx[m]!]),
         });
       }
     }
@@ -256,35 +245,59 @@ function holdersToday(
   );
   const full = new Map<string, string>();
   const heldCounted = new Map<string, string>();
-  let taken = 0;
+  const slots = Math.round(total * share);
+  let taken = 0,
+    heldWeight = 0,
+    lapsedWeight = 0;
   for (const c of candidates) {
-    // The share that hold a policy is the national one, less what the web
-    // says has pushed this worker toward being uninsured (a recession lands
-    // on men more than on women): the uninsured part times the web's factor
-    // for them, in the same rank order.
-    const reach = webReach(
-      api,
-      c.placeId,
-      "health.uninsured-pct",
-      {
-        age: c.age,
-        ...(c.sex ? { sex: c.sex } : {}),
-      },
-      // Medicaid coverage is not an employer plan: no worker's plan, in any
-      // place, reads a Medicaid law (medical-bills.ts).
-      EMPLOYER_PLAN_LEAVES_OUT,
-    );
-    const slots = Math.round(
-      total * Math.min(1, Math.max(0, 1 - (1 - share) * reach.factor)),
-    );
     const held = taken < slots;
     taken += c.weight;
     if (!held) continue;
-    if (unpaid.has(c.personId)) continue;
+    if (unpaid.has(c.personId)) {
+      lapsedWeight += c.weight;
+      continue;
+    }
     const into = counted.has(c.householdId) ? heldCounted : full;
-    if (!into.has(c.householdId)) into.set(c.householdId, c.personId);
+    if (into.has(c.householdId)) continue;
+    into.set(c.householdId, c.personId);
+    heldWeight += c.weight;
   }
-  return { full, counted: heldCounted };
+  return {
+    full,
+    counted: heldCounted,
+    summary: {
+      date: makeIsoDate(core.date),
+      workers: total,
+      share,
+      slots,
+      held: heldWeight,
+      lapsed: lapsedWeight,
+      fullHolders: full.size,
+      countedHolders: heldCounted.size,
+    },
+  };
+}
+
+/**
+ * One ranking of employer plans: workers with a job (by the real workers they
+ * stand for), the share who hold their own plan, the plans that share gives,
+ * those held, and those left out because the holder's last premium went unpaid.
+ */
+export interface EmployerPlansSummary {
+  readonly date: IsoDate;
+  readonly workers: number;
+  readonly share: number;
+  readonly slots: number;
+  readonly held: number;
+  readonly lapsed: number;
+  readonly fullHolders: number;
+  readonly countedHolders: number;
+}
+
+/** The town's employer plans as the review would rank them today, for dev mode. Reads only. */
+export function employerPlansToday(api: CoreAPI): EmployerPlansSummary | null {
+  if (!api.state.modules.has(COVERAGE_MODULE_ID)) return null;
+  return holdersToday(api, staffOf(api), unpaidHolders(api)).summary;
 }
 
 /** The day of the last review: the 1st, or the opening day in the opening month. */

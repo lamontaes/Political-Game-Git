@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: carry-spend-line-names
 pr: #9347
@@ -37,3 +37,5 @@ claimed-at:
 **Files.** data/english/bill-names.json, src/english/bill-names.test.ts
 
 **Notes.** None.
+
+**Notes (second reader's read of #9585, Nov 15, 2026).** The ruled name now plays, and the second reader reads it as a budget category showing through as a bill's name: "First thing on March 20th, you meet Joshua Sargent downtown to talk over the Other Programs Funding Reduction Ordinance." Sheridan, Wyoming (5669845), seed 7, the selectboard member person_0f713cf2e3e20027, March 19 and 20, 2025, in a scene's first line (played file /mnt/project-files/words-lead/played-talks/arrival-first-lines-98f61441.md). For the Words lead: whether "Other Programs" reads as a program anyone would name.

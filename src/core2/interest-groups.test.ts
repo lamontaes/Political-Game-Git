@@ -76,7 +76,7 @@ describe("M3-07 interest groups", () => {
           }),
         );
         openLaws(core);
-        openOffices(core, seed);
+        openOffices(core, seed, core.date);
         openElections(core);
         openCampaigns(core);
         openRecord(core);

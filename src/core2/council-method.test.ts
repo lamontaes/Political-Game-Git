@@ -130,7 +130,7 @@ describe("council election method", () => {
           minimumPeople: 80,
         }),
       );
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       const contest = openContests(coreAPI(core)).find(
         (c) => c.family === "municipalOffice" && c.district !== null,

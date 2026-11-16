@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/words-relation-facts
 pr: #9411

@@ -78,7 +78,12 @@ import {
 import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
-import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  crimeRecord,
+  wantedFacts,
+  type CrimeRecord,
+} from "./corruption";
 import {
   awardsOn,
   CONTRACTS_MODULE_ID,
@@ -151,12 +156,15 @@ import {
   regard,
   runDesk,
   slantOf,
+  usualSpace,
   type DeskContext,
   type DeskOutlet,
   type PrintedStory,
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
+/** A story a paper ran on an official's hidden act: a bribe taken, or a vote for a firm they or their family own. */
+export const PRESS_EXPOSED = "press.exposed";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
@@ -3109,7 +3117,7 @@ function weighTip(
     api.emit({
       id: exposedId,
       date: api.state.date,
-      kind: "press.exposed",
+      kind: PRESS_EXPOSED,
       personIds: api.state.people.has(officialId) ? [officialId] : [],
       placeId: outlet.placeId,
       publicRecord: true,
@@ -3173,7 +3181,7 @@ function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     reporterId,
     {
       id: exposedId,
-      kind: "press.exposed",
+      kind: PRESS_EXPOSED,
       date: api.state.date,
       level: "town",
       topic: `conduct:${officialId}`,
@@ -3888,7 +3896,6 @@ function policeLog(api: CoreAPI): void {
     0,
   );
   if (!(reported > 0)) return;
-  const usual = usualMonth(api, town, month);
   const item: WireItem = {
     id,
     kind: "crime.month",
@@ -3903,36 +3910,119 @@ function policeLog(api: CoreAPI): void {
       // How far the month stands from the town's own usual: the desk's
       // space for the log slides with it, down to nothing (Words lead,
       // Nov 14). A town with no earlier months has no usual to compare.
-      ...(usual
-        ? {
-            vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
-            // The words may compare the month with the town's usual only
-            // once the usual rests on enough closed months (two months are
-            // not a usual month), and only by how far the month stands off
-            // the usual against the town's own spread of months.
-            ...(usual.months >= pressParameter("briefUsualMinMonths")
-              ? {
-                  usual: String(Math.round(usual.total * 10) / 10),
-                  spread: String(Math.round(usual.spread * 10) / 10),
-                  ...(usual.rising ? { rising: usual.rising } : {}),
-                }
-              : {}),
-            // How many closed months the usual rests on, and how often a
-            // month this busy comes by chance at that usual: a town with a
-            // short record or a small usual is not called busy on chance.
-            monthsOfRecord: String(usual.months),
-            chance: String(
-              Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
-                10000,
-            ),
-            ...(monthIsWellOver(usual.months, reported, usual.total)
-              ? { busier: "yes" }
-              : {}),
-          }
-        : {}),
+      ...policeLogComparison(api, town, month, reported),
     },
   };
   table(api, "wire").put(item as unknown as ModuleRow);
+}
+
+/**
+ * How a town's police log for `month` stands against the town's usual: the
+ * facts the wire item carries (vsUsual, usual, spread, rising, the months of
+ * record, the chance and busier), read from the crime engine's month rows.
+ * The desk's space and the words read these from the wire; dev mode's trace
+ * reads the same function, so it shows what the paper read. A town with no
+ * earlier months has no usual to compare.
+ */
+export function policeLogComparison(
+  api: CoreAPI,
+  town: string,
+  month: string,
+  reported: number,
+): Record<string, string> {
+  const usual = usualMonth(api, town, month);
+  return usual
+    ? {
+        vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
+        // The words may compare the month with the town's usual only
+        // once the usual rests on enough closed months (two months are
+        // not a usual month), and only by how far the month stands off
+        // the usual against the town's own spread of months.
+        ...(usual.months >= pressParameter("briefUsualMinMonths")
+          ? {
+              usual: String(Math.round(usual.total * 10) / 10),
+              spread: String(Math.round(usual.spread * 10) / 10),
+              ...(usual.rising ? { rising: usual.rising } : {}),
+            }
+          : {}),
+        // How many closed months the usual rests on, and how often a
+        // month this busy comes by chance at that usual: a town with a
+        // short record or a small usual is not called busy on chance.
+        monthsOfRecord: String(usual.months),
+        chance: String(
+          Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
+            10000,
+        ),
+        ...(monthIsWellOver(usual.months, reported, usual.total)
+          ? { busier: "yes" }
+          : {}),
+      }
+    : {};
+}
+
+/** The town's closed crime months before `month` that its usual rests on, newest first. */
+function usualMonthRows(
+  api: CoreAPI,
+  town: string,
+  month: string,
+): readonly { readonly id: string; readonly month: string }[] {
+  return (
+    api
+      .moduleState(CRIME_MODULE_ID)
+      .table("months")
+      .query("byPlace", [town]) as unknown as {
+      readonly id: string;
+      readonly month: string;
+    }[]
+  )
+    .filter((row) => row.month < month)
+    .sort((a, b) => b.month.localeCompare(a.month))
+    .slice(0, pressParameter("usualMonths"));
+}
+
+/**
+ * Why a town's police log for a crime month stood where it did on the page,
+ * for dev mode's trace (owner, Nov 16: what a thread traces by script, dev
+ * mode traces in the game): the month's reported count, the comparison the
+ * wire carried (`policeLogComparison`), the closed months the usual rests
+ * on, and the share of a brief's space the desk gave it (`usualSpace`).
+ * Read from the crime engine's month rows; nothing is kept.
+ */
+export function policeLogWhy(
+  api: CoreAPI,
+  monthRowId: string,
+):
+  | {
+      readonly reported: number;
+      readonly comparison: Readonly<Record<string, string>>;
+      readonly usualMonthIds: readonly string[];
+      readonly space: number;
+    }
+  | undefined {
+  const row = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(monthRowId) as unknown as
+    | {
+        readonly placeId: string;
+        readonly month: string;
+        readonly types?: Record<string, { readonly reported?: number }>;
+      }
+    | undefined;
+  if (!row) return undefined;
+  const reported = Object.values(row.types ?? {}).reduce(
+    (sum, type) => sum + (type.reported ?? 0),
+    0,
+  );
+  const comparison = policeLogComparison(api, row.placeId, row.month, reported);
+  return {
+    reported,
+    comparison,
+    usualMonthIds: usualMonthRows(api, row.placeId, row.month).map(
+      (month) => month.id,
+    ),
+    space: usualSpace({ facts: comparison }, pressParameter),
+  };
 }
 
 /**
@@ -3952,15 +4042,7 @@ function usualMonth(
     readonly month: string;
     readonly types?: Record<string, { readonly reported?: number }>;
   };
-  const rows = (
-    api
-      .moduleState(CRIME_MODULE_ID)
-      .table("months")
-      .query("byPlace", [town]) as unknown as Month[]
-  )
-    .filter((row) => row.month < month)
-    .sort((a, b) => b.month.localeCompare(a.month))
-    .slice(0, pressParameter("usualMonths"));
+  const rows = usualMonthRows(api, town, month) as readonly Month[];
   if (rows.length < 2) return undefined;
   const mean = (read: (row: Month) => number) =>
     rows.reduce((sum, row) => sum + read(row), 0) / rows.length;
@@ -4796,26 +4878,53 @@ export function commentOn(api: CoreAPI, causeId: string): CommentRow | null {
   );
 }
 
+/** The scandal call's answers the paper quotes: owning it, denying it, or a lie. */
+const CALL_ANSWERS: ReadonlySet<string> = new Set(["confess", "deny", "lie"]);
+/** The endings whose story quotes what the person said (purpose-arcs.json). */
+const SAID_ENDINGS: ReadonlySet<string> = new Set([
+  "on-record",
+  "on-the-record",
+  "denial-printed",
+  "lie-printed",
+  "caught",
+]);
+
 /**
  * A press interview that ends on the record keeps what the person said; one
  * that ends in no comment or a walk-off keeps that they declined. A story
  * that runs (the ending's keeps) is told in the paper's story of the record
- * the reporter asked about.
+ * the reporter asked about. The reporter's call on an exposure (a scandal
+ * call) is kept the same way, before the story runs (runExposure): what the
+ * paper quotes is the official's own answer on the call (owning it, denying
+ * it or a lie), not a parting line after it; an answer is kept as it is said,
+ * so a call that stops after it still reaches the story; a call that ends
+ * without one is a decline. With no call there is no row, and the story
+ * says nothing of comment.
  */
 function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
-  if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
-    return;
+  const call = facts.typeKey === "scandal";
+  const answer = call && CALL_ANSWERS.has(String(facts.move ?? ""));
+  const kept =
+    (facts.typeKey === "press-interview" && facts.keeps === "story-runs") ||
+    (call && (answer || Boolean(facts.ending)));
+  if (!kept) return;
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  const line = String(facts.line ?? "") || null;
+  const answered = call ? (commentOn(api, causeId)?.quote ?? null) : null;
+  const quote = answer
+    ? line
+    : SAID_ENDINGS.has(String(facts.ending ?? ""))
+      ? (answered ?? line)
+      : null;
   table(api, "comments").put({
     id: causeId,
     causeId,
     personId,
     date: api.state.date,
-    quote: said ? String(facts.line ?? "") || null : null,
+    quote,
     replyId: event.id,
   } satisfies CommentRow as unknown as ModuleRow);
 }
@@ -5009,3 +5118,75 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
       reached: (delivered * followers) / total,
     }));
 });
+
+/*
+ * What a paper found when it exposed an official (`press.exposed`),
+ * read from the act's own record so the reporter who calls says what the
+ * story says, not only that there is one (owner, Nov 15, on the scandal call:
+ * "I've got a story about the water rates, and your name is in it... that's
+ * very ambiguous"; Words lead's lines in reply-sets/oath-bribe-scandal.md C).
+ *
+ * - a bribe taken (corruption.ts crime record): who paid, and what the money
+ *   was for, the bill or the contract award, read the same way the offer
+ *   scene reads it (`wantedFacts`);
+ * - a conflict on an award (contracts.ts award row, its conflict): the award
+ *   by the work it pays for, the firm, and whose firm it is, the official's
+ *   own or a relative's.
+ */
+/** The finding behind an exposure, with the records that hold it. */
+export interface ExposedFinding {
+  readonly found: "bribe" | "conflict";
+  /** The crime record or the award the story is on. */
+  readonly recordId: string;
+  /** The bill a bribe bought a vote on. */
+  readonly billId?: string;
+  /** The award, by its id and its spending line. */
+  readonly contractId?: string;
+  readonly contractLine?: string;
+  /** Who paid the bribe. */
+  readonly briberId?: string;
+  /** The firm an interested member chose, its owner and the owner's relation to the member. */
+  readonly firmId?: string;
+  readonly ownerId?: string;
+  readonly ownFirm?: boolean;
+}
+
+/** The finding an exposure's facts name; null when its record is gone. */
+export function exposedFinding(
+  api: CoreAPI,
+  said: Readonly<Record<string, string>>,
+): ExposedFinding | null {
+  const key = (prefix: string) =>
+    Object.keys(said).find((row) => row.startsWith(prefix));
+  const crimeKey = key("crime:");
+  if (crimeKey && said[crimeKey] === "bribe-taken") {
+    if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return null;
+    const crimeId = crimeKey.slice("crime:".length);
+    const crime = crimeRecord(api, crimeId);
+    if (!crime) return null;
+    const wanted = wantedFacts(crime.subjectId);
+    return {
+      found: "bribe",
+      recordId: crime.id,
+      briberId: crime.offererId,
+      ...(wanted.billId ? { billId: wanted.billId } : {}),
+      ...(wanted.contractId ? { contractId: wanted.contractId } : {}),
+      ...(wanted.contractLine ? { contractLine: wanted.contractLine } : {}),
+    };
+  }
+  const awardKey = key("award:");
+  if (awardKey && said[awardKey] === "conflict-of-interest") {
+    const awardId = awardKey.slice("award:".length);
+    const wanted = wantedFacts(awardId);
+    return {
+      found: "conflict",
+      recordId: awardId,
+      contractId: awardId,
+      ...(wanted.contractLine ? { contractLine: wanted.contractLine } : {}),
+      ...(said.organizationId ? { firmId: said.organizationId } : {}),
+      ...(said.ownerId ? { ownerId: said.ownerId } : {}),
+      ownFirm: said.relation === OWNER_RELATION,
+    };
+  }
+  return null;
+}

@@ -448,18 +448,26 @@ function lendingRoom(api: CoreAPI, book: ReturnType<typeof equity>): number {
 const openingHeld = new WeakMap<CoreState, number>();
 
 /** What the opening's mortgages held by the bank owe now, and owed at the opening. */
-function heldMortgages(api: CoreAPI, bankId: string) {
+export function heldMortgages(api: CoreAPI, bankId: string) {
   const c = core(api);
   if (!c.modules.has("housing")) return { now: 0, opening: 0 };
+  // A counted household's mortgage row is one household's loan; its record
+  // stands for its weight of households, each owing it (one model, two tiers).
+  const counted = residentsRuntime(c) !== undefined;
   let opening = openingHeld.get(c);
   if (opening === undefined) {
     opening = 0;
     const raw = c.placeMetadata?.housingMortgages;
     for (const row of raw
-      ? (JSON.parse(raw) as { holderId: string; balanceMinor: number }[])
+      ? (JSON.parse(raw) as {
+          holderId: string;
+          householdId: string;
+          balanceMinor: number;
+        }[])
       : [])
-      if (row.holderId === bankId) opening += row.balanceMinor;
-    openingHeld.set(c, opening);
+      if (row.holderId === bankId)
+        opening += row.balanceMinor * loanWeight(api, row.householdId);
+    if (counted) openingHeld.set(c, opening);
   }
   let now = 0;
   const rows = api
@@ -467,11 +475,14 @@ function heldMortgages(api: CoreAPI, bankId: string) {
     .table("mortgages")
     .rows() as unknown as {
     holderId: string;
+    householdId: string;
     balanceMinor: number;
   }[];
   // Before housing opens its table, the opening balances stand.
   if (!rows.length) return { now: opening, opening };
-  for (const row of rows) if (row.holderId === bankId) now += row.balanceMinor;
+  for (const row of rows)
+    if (row.holderId === bankId && row.balanceMinor > 0)
+      now += row.balanceMinor * loanWeight(api, row.householdId);
   return { now, opening };
 }
 
@@ -507,6 +518,27 @@ export function bankYes(
 }
 
 /**
+ * What the town bank can lend on a new home loan today, by the same capital
+ * rule `lendMortgage` applies: undefined where the place has no town bank.
+ */
+export function mortgageRoom(
+  api: CoreAPI,
+): { bankId: string; roomMinor: number } | undefined {
+  const bank = bankOf(api);
+  if (!bank) return undefined;
+  const book = equity(api, bank.organizationId);
+  return {
+    bankId: bank.organizationId,
+    roomMinor: Math.max(
+      0,
+      book.equity * api.parameter("creditMaxLimitsPerEquity") -
+        book.limits -
+        book.loans,
+    ),
+  };
+}
+
+/**
  * A home loan from the town bank: the bank pays the seller the principal and
  * the household repays monthly like any loan. Zero when the bank has no room.
  */
@@ -522,15 +554,11 @@ export function lendMortgage(
   },
 ): number {
   const bank = bankOf(api);
-  if (!bank) return 0;
+  const room = mortgageRoom(api);
+  if (!bank || !room) return 0;
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
-  const amount = Math.min(input.principalMinor, room);
+  const amount = Math.min(input.principalMinor, room.roomMinor);
   if (amount <= 0) return 0;
   const id = `mortgage-loan:${input.householdId}:${c.date}`;
   const lent = transferCash(
@@ -601,7 +629,14 @@ function lineTerms(
   };
 }
 
-function review(api: CoreAPI): void {
+/**
+ * The monthly review. At the opening (the first day, `opening`) a firm that is
+ * already running holds the line it would have asked for: the same cover, the
+ * same limit and risk rate, with no new choice made (the firm's manager did
+ * its choosing before the world began), so the first payday is not met from
+ * a buffer alone while the first monthly review is still weeks off.
+ */
+function review(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const bank = bankOf(api);
@@ -631,7 +666,12 @@ function review(api: CoreAPI): void {
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const wanted: { id: string; requested: number; decidedBy?: string }[] = [];
+  const wanted: {
+    id: string;
+    requested: number;
+    decidedBy?: string;
+    opening?: boolean;
+  }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -657,6 +697,17 @@ function review(api: CoreAPI): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
+    // At the opening the person who runs the firm opened the line before the
+    // game began: no choice is made now, and the application says so.
+    if (opening) {
+      wanted.push({
+        id,
+        requested,
+        opening: true,
+        ...(ownerId && c.people.has(ownerId) ? { decidedBy: ownerId } : {}),
+      });
+      continue;
+    }
     // Its sales stand for the same weight as its payroll.
     const monthlySales =
       (books.annualDemandMinor *
@@ -700,8 +751,8 @@ function review(api: CoreAPI): void {
       store(api).table("pulls"),
     ))
       wanted.push({ id: row.id, requested: row.requested });
-  for (const { id, requested, decidedBy } of wanted.sort((a, b) =>
-    a.id.localeCompare(b.id),
+  for (const { id, requested, decidedBy, opening: held } of wanted.sort(
+    (a, b) => a.id.localeCompare(b.id),
   )) {
     const books = c.finance.businesses.get(id)!;
     const cash = c.organizations.get(id)!.liquidMinor;
@@ -716,7 +767,9 @@ function review(api: CoreAPI): void {
         bankBookId: `book:${api.state.date}`,
         organizationId: id,
         date: api.state.date,
-        reasonKey: creditData.reasons.applied,
+        reasonKey: held
+          ? creditData.reasons.heldAtOpening
+          : creditData.reasons.applied,
         ...(decidedBy ? { decidedBy } : {}),
         requestedMinor: Math.round(requested),
         cashMinor: cash,
@@ -965,7 +1018,7 @@ export const CREDIT_MODULE: CoreModule = {
           openedAt: core(api).date,
         });
     // Households' months are reviewed with or without a bank in town.
-    if (bank) review(api);
+    if (bank) review(api, true);
     scheduleReview(api);
   },
 };
@@ -1513,6 +1566,8 @@ function serviceLoans(api: CoreAPI): void {
           citation: creditData.source.citation,
           estimatedFrom: `${loan.id}: the borrower's cash covered ${paid} of the ${Math.round(due)} due.`,
         },
+        // The loan behind it, so a talk can name the payment (promise-talk.ts).
+        facts: { loanId: loan.id, loanKind: loan.kind },
         ...severityImpulse(api, DEFAULT_HEALTH_DATA.missedPaymentSeverity),
       });
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;

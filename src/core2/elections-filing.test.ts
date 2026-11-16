@@ -73,7 +73,7 @@ function world(placeKey: string) {
   );
   // The filing check reads the state's term-limit law, so the laws engine is in.
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   return core;
 }

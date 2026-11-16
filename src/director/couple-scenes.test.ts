@@ -10,7 +10,6 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { FAMILY_ENGAGED, FAMILY_MARRIED } from "../core2/modules/partnerships";
 import { purposeScene } from "./purpose-scene";
-import { SITUATION_LIBRARY } from "./scheduling";
 
 // The player's own couple records stage their scenes (Lives, Nov 8, 2026):
 // `family.partnered` (union dating) is a date, `family.engaged` a proposal,
@@ -85,7 +84,7 @@ describe("a player's own couple records stage their scenes", () => {
         source,
       });
     const ids: [PersonId, PersonId] = [player.id, other.id];
-    const gap = SITUATION_LIBRARY.scheduling.repeatDays + 1;
+    const gap = 1;
     const stage = (kind: string, write: () => void, type: string) => {
       advanceCore(core, addDays(makeIsoDate(core.date), gap));
       write();

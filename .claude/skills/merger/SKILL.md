@@ -68,7 +68,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 - Ready means the pull request is no longer a draft. A builder marks it ready with `gh pr ready <number>` or its tool's own button or API.
 - If a tool cannot take a pull request out of draft, the builder posts one comment on it starting with `Ready for the desk:` and the head commit's hash. The desk treats that the same way.
 - The merge desk scans open pull requests whose body names a pool item and gates each one that is ready by either signal, oldest first after the merge-first group (rules, checks and skills).
-- Its `Merge desk: ready #N <sha>` line still goes on issue 8928 for the CTO to merge.
+- Its `Merge desk: ready #N <sha>` line goes on issue 8928 for the CTO to merge, or on the PR while 8928 refuses comments (Nov 16).
 - A send-back goes on the item's own pull request, not on issue 8928. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`).
 
 ## 1c. A stack gated as one tree (CTO, Nov 10)
