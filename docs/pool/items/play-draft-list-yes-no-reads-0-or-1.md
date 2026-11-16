@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p2-draft-yes-no
 pr: #9017
@@ -16,6 +16,7 @@ model: haiku
 effort: low
 root: none
 source: Playtester P2, Nov 13 (Hazen, Arkansas, seed 5b5ef2fb-d923-42b4-a72c-f0abb12bb3e9)
+merged-at: 2026-11-15T22:08:39.028Z
 ---
 
 **What.** On main 596d5127, an Advanced start in Hazen, Arkansas (seed 5b5ef2fb-d923-42b4-a72c-f0abb12bb3e9) as Council member Brenda Cabrera. Politics → Your office → Draft a bill lists "Fare free transit 0", "Shift highway funds to transit 0", "Allow multifamily in single family zones 0" and "Exempt groceries from sales tax · State law preempts this 1", and a subject's page says "In force today 0". The Issues tab says the same laws are Yes or No. Seen: the draft list and the subject's page say Yes or No for a yes-or-no law.

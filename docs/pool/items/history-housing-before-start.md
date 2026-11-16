@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-l20ff2
 pr: #9084
