@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: laws-and-effects (builder crew, Nov 16)
-pr:
+pr: #9764
 after:
 blocked-on:
 lead: laws
