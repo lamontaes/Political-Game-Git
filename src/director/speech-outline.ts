@@ -1703,7 +1703,21 @@ function conditionFacts(
   if (enacted || disaster) return out;
   const closing = closingOfYear(core, yearAgo);
   if (closing) return { ...out, ...closing };
-  return { ...out, ...electionOfYear(core, level, local, speakerId, yearAgo) };
+  return {
+    ...out,
+    ...electionOfYear(
+      core,
+      level,
+      local,
+      speakerId,
+      yearAgo,
+      local
+        ? local.realmName
+        : jurisdiction
+          ? coreStateName(jurisdiction.replace(/^US-/, ""))
+          : null,
+    ),
+  };
 }
 
 /**
@@ -1763,6 +1777,7 @@ function electionOfYear(
   local: OutlineSpeaker["local"],
   speakerId: string,
   yearAgo: string,
+  realm: string | null,
 ): Facts {
   if (!core.modules.has(OFFICES_MODULE_ID)) return {};
   const api = coreAPI(core);
@@ -1795,10 +1810,13 @@ function electionOfYear(
     api.moduleState(OFFICES_MODULE_ID).table("offices").get(filled.officeId) as
       { title?: string } | undefined
   )?.title?.toLocaleLowerCase("en-US");
+  // Said with the place whose seat it is ("Dixie County commissioner",
+  // "Georgia governor"): the record's seat, never a title any county shares.
+  const office = title && realm ? `${realm} ${title}` : title;
   return {
     "condition-election": fact("yes", ...voted.map((term) => term.id)),
     ...(title
-      ? { "condition-office": fact(title, filled.id, filled.officeId) }
+      ? { "condition-office": fact(office!, filled.id, filled.officeId) }
       : {}),
     ...(own[P.zero]
       ? { "condition-elected-here": fact("yes", own[P.zero]!.id) }

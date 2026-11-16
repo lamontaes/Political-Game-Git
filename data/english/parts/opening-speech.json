@@ -87,7 +87,7 @@
     "asked-about": "the close's ask, by its question's plain name (question-names `about`)",
     "body-word": "the body the speaker's party holds or lacks, by its one word: the legislature, or the word a local body's record name holds (council, board)",
     "condition-closure": "the played place's business that closed this past year with the most jobs ended, by its name (the finance engine's closure record)",
-    "condition-office": "the office filled at this past year's election in the speaker's government, by its title on the offices engine's row, lower case"
+    "condition-office": "the office filled at this past year's election in the speaker's government, by the place whose seat it is and its title on the offices engine's row, lower case (\"Dixie County commissioner\", \"Georgia governor\")"
   },
   "maxWords": 40,
   "mining": {
