@@ -66,7 +66,7 @@ The Long game lane splits the checks first, and builds the rule-1 guard in the s
 
 - A fast set runs on every push: build, typecheck, guards, and the tests for changed files.
 - A heavy set runs on a schedule and before the CTO merges: the full suite and the 20-year drawn-place run.
-- The full run must finish. Today it is cancelled at 45 minutes.
+- The full run must finish. Today it is canceled at 45 minutes.
 
 Until that lands, run the gate your role's skill names (`train-gate`, `checker`).
 
