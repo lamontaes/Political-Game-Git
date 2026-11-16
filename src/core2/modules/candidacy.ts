@@ -82,10 +82,8 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import {
-  prisonersBarredHere,
-  revolvingDoorFor,
-} from "../law-reach/group-a-voting";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import { countedVoters } from "./voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -1282,21 +1280,17 @@ function countedScreen(
     held.year !== year ||
     !placeIds.every((id) => held!.places.includes(id))
   ) {
-    // Counted residents of adult correctional rooms are not drawn to run
-    // where the state bars people held in prison (`incarceratedMayVote`).
-    const barredRooms = prisonersBarredHere(api);
+    // Only the counted residents who vote are drawn to run (`countedVoters`,
+    // which leaves out the rooms of people the state bars while held in
+    // prison).
     const places = [
       ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
     ];
     held = {
       year,
       places,
-      rows: countedResidents(api.state as CoreState)
-        .filter(
-          (voter) =>
-            places.includes(voter.placeId) &&
-            !(barredRooms && voter.quarters === "adultCorrectional"),
-        )
+      rows: countedVoters(api)
+        .filter((voter) => places.includes(voter.placeId))
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
