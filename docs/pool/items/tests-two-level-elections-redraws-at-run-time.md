@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-hjvzia-redraw
 pr:
 after:
 blocked-on:
@@ -32,4 +32,4 @@ source: Account lead, Nov 15 (seen while tracing tl-c)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/two-level-elections.test.ts, scripts/ (new script)
+**Files.** src/core2/two-level-elections.test.ts, scripts/elections/two-level-places.ts (new)
