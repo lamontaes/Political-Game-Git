@@ -28,6 +28,7 @@ import { coreAPI } from "./state";
 import { justiceChains } from "./justice-chain";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 // The player's own act, in the world the owner plays (a seed nobody chose):
 // the player offers bribes to the town's members; a member who refuses may
@@ -136,20 +137,16 @@ const { world, core, api, offers, playerId } = named(
         .filter((t) => t.status === "serving" && t.personId)
         .map((t) => t.personId!),
     );
-    const candidates = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.tier !== "husk" &&
-          p.placeId === town &&
-          !members.includes(p.id) &&
-          !holdsOffice.has(p.id) &&
-          accounts.has(p.id) &&
-          ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >= 25,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const candidates = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.tier !== "husk" &&
+        p.placeId === town &&
+        !members.includes(p.id) &&
+        !holdsOffice.has(p.id) &&
+        accounts.has(p.id) &&
+        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >= 25,
+    );
 
     // The player: the first well-off resident whose own traits lead them to
     // offer, to members of whom at least one refuses and, from their own reasons,

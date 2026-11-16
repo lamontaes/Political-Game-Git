@@ -17,6 +17,7 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { countyPlaceOfWorld } from "../electorate-places";
 import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
 import {
@@ -660,6 +661,7 @@ export function openElections(core: CoreState): void {
     stateKey,
     geoid,
     townPlaceId: place.context.jurisdiction.id,
+    countyPlaceId: countyPlaceOfWorld(api.state),
   });
   for (const entry of townSeats(api)) {
     const contest = contestFor(api, entry);
@@ -906,7 +908,26 @@ function town(api: CoreAPI) {
     stateKey: string;
     geoid: string;
     townPlaceId: string;
+    /** The town's county place, where the world records one. */
+    countyPlaceId?: string | null;
   };
+}
+
+/**
+ * The places whose residents live in the area a local seat serves: the town
+ * for a town seat, and the town's county as well for a county seat (the
+ * filing data's residency for a county seat is "resident of the county or
+ * district"). The one list the clerk's residency check and the pool of people
+ * who weigh the seat both read.
+ */
+export function localResidencePlaces(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "family">,
+): readonly string[] {
+  const { townPlaceId, countyPlaceId } = town(api);
+  return contest.family === "countyOffice" && countyPlaceId
+    ? [townPlaceId, countyPlaceId]
+    : [townPlaceId];
 }
 
 /**
@@ -1254,6 +1275,51 @@ function townName(api: CoreAPI): string | null {
   return place ? placeNameWithinState(place) : null;
 }
 
+/** The town's county, as its clerk says it, or null where the world records none. */
+function countyName(api: CoreAPI): string | null {
+  const id = town(api).countyPlaceId;
+  return id
+    ? (corePlaceByJurisdictionId(id as never)?.displayName ?? null)
+    : null;
+}
+
+/** Whether someone serves the contest's seat today (they met its residency rule when they took it). */
+function servesSeat(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "seatId">,
+  personId: string,
+): boolean {
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+  ).some((t) => t.personId === personId);
+}
+
+/**
+ * The residency rule, the one copy: where a person must live to file for the
+ * contest's seat. The state for a state or federal seat (any state for the
+ * president), the town for a town seat, the town or its county for a county
+ * seat; a serving holder met it when they took the seat. The clerk's check
+ * and the pool of people who weigh running both read it.
+ */
+export function livesWhereSeatServes(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "seatId" | "officeId" | "level" | "family">,
+  person: Readonly<Pick<PersonState, "id" | "placeId">>,
+): boolean {
+  if (servesSeat(api, contest, person.id)) return true;
+  if (contest.level === "federal" || contest.level === "state")
+    return contest.officeId === "office:US:president"
+      ? placeStateKey(person.placeId) !== null
+      : placeStateKey(person.placeId) === town(api).stateKey;
+  return localResidencePlaces(api, contest).includes(person.placeId);
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -1284,23 +1350,8 @@ export function checkEligibility(
   // or federal one (a district's own residency rule is in the requirement
   // text the place's records give).
   // Whoever holds the seat met its residency rule when they took it.
-  const holdsSeat = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-  ).some((t) => t.personId === personId);
-  const national = contest.officeId === "office:US:president";
-  const resident =
-    holdsSeat ||
-    (contest.level === "federal" || contest.level === "state"
-      ? national
-        ? placeStateKey(person.placeId) !== null
-        : placeStateKey(person.placeId) === town(api).stateKey
-      : person.placeId === town(api).townPlaceId);
+  const holdsSeat = servesSeat(api, contest, personId);
+  const resident = livesWhereSeatServes(api, contest, person);
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
@@ -1341,7 +1392,8 @@ export function checkEligibility(
           ? (stateNameOf(api) ??
             rules.residency ??
             "lives in the area the office serves")
-          : (townName(api) ??
+          : ((contest.family === "countyOffice" ? countyName(api) : null) ??
+            townName(api) ??
             rules.residency ??
             "lives in the area the office serves"),
       actual: resident
@@ -1979,5 +2031,10 @@ export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
 // Re-exported so the opening county sample reads them through this entry (families guard).
-export { countyPlaceIdOf, statePlaces } from "../electorate-places";
+export {
+  countyOf,
+  countyPlaceIdOf,
+  countyPlaceOfWorld,
+  statePlaces,
+} from "../electorate-places";
 export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";

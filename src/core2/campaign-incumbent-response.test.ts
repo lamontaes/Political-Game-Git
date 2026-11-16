@@ -70,6 +70,7 @@ import {
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 /**
@@ -153,13 +154,11 @@ function incumbentRace(
 ):
   | { contest: ContestRow; incumbent: FilingRow; challenger: FilingRow }
   | string {
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   const file = (personId: string, contestId: string) => {
     const result = fileCandidacy(api, { personId, contestId, platform: [] });
     return result.status !== "refused" &&

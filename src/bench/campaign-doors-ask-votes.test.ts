@@ -18,6 +18,7 @@ import {
 import { petitionSigners } from "../core2/modules/elections";
 import { campaignDay } from "./campaign";
 import { buildBenchWorld } from "./world";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // Owner, Nov 14 (decision card "Switch to asking for votes"): once the petition
 // holds what a campaign gathers (the clerk's count plus the cushion), the
@@ -41,7 +42,7 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   const town = corePlaceByKey(PLACE)?.context.jurisdiction.id;
   const start = makeIsoDate(core.date);
-  const adults = [...core.people.values()]
+  const adults = townResidentsByCash(core, coreAPI(core))
     .filter(
       (row) =>
         row.alive &&
@@ -49,7 +50,6 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
         row.tier !== "husk" &&
         ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
     )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
     .slice(0, 60);
   let filed: { personId: string; filingId: string } | null = null;
   for (const adult of adults) {

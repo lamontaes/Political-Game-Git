@@ -39,6 +39,7 @@ import {
 import { coreAPI } from "./state";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import type { CoreState } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const PLACES = [
   {
@@ -132,16 +133,12 @@ for (const place of [
     ).townPlaceId;
     api.addOrganization(outsideMarketAccount(town, START));
     const outside = townOutsideOf(core.organizations.values(), town)!;
-    const residents = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === town &&
-          2026 - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const residents = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === town &&
+        2026 - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     let filingId: string | null = null;
     let candidate = residents[0]!;
     for (const resident of residents.slice(0, 5)) {

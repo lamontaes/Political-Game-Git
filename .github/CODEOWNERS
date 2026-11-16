@@ -33,6 +33,7 @@
 /src/core2/bug-report.ts @lamontaes
 /src/core2/gov-test-report.ts @lamontaes
 /src/core2/law-test-start.ts @lamontaes
+/src/core2/resident-adults-test-kit.ts @lamontaes
 /src/core2/free-block.ts @lamontaes
 /src/core2/focus.ts @lamontaes
 /src/core2/gov-rules/place-population.ts @lamontaes
