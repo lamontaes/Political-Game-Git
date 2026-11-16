@@ -8437,30 +8437,6 @@
       "date": "2026-11-16"
     },
     {
-      "key": "conversation.acquittal-reply-back-core.thank-you-i-needed-somebody-to-say-that",
-      "move": "acquittal-reply-back-core",
-      "kind": "spoken",
-      "text": "Thank you. I needed somebody to say that.",
-      "uses": [
-        {
-          "move": "acquittal-reply-back-core",
-          "subject": "acquittal-reply-back",
-          "role": "core",
-          "stages": ["comfort"],
-          "requiresFacts": ["told-offense"]
-        }
-      ],
-      "piece": {
-        "of": "acquittal-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (leftovers deletion, Nov 16)",
-      "date": "2026-11-16"
-    },
-    {
       "key": "conversation.acquittal-reply-back-core.behind-me-now",
       "move": "acquittal-reply-back-core",
       "kind": "spoken",
