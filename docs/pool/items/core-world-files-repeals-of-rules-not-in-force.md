@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/fable-b-traded-sections-need-a-law-to-change
 pr: #9452
 after:
@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+merged-at: 2026-11-16T01:35:38.104Z
 ---
 
 **What.** In Lino Lakes, Minnesota (bench seed `046d2235-27df-4daa-a680-423d6f24d0d7`, the world as Advanced builds it, run to February 4, 2025), the city council filed and enacted Ordinance 2025-1, whose section 2 repeals "the rules now in force on highway money used for transit" (`shift-highway-funds-to-transit`, value -1), and Ordinance 2025-3, whose section 2 repeals "the rules now in force on limits on rent increases" (`rent-stabilization`, value -1). For both, the bill's own record gives the town's law in force as 0 (`billForm(api, bill).sections[1].before.value`), so each repeal repeals nothing, and a player reading the ordinance is told of rules the town never had. Seen: Politics, Bills, the ordinance's text and its Compare view (docs/seen/play-bill-compare-strikes-and-adds-the-same-sentence/compare-after-lino-lakes-mn.png on #8868).
