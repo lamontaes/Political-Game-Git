@@ -23,6 +23,10 @@ import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import type {
+  BusinessMonthCharge,
+  BusinessTradingMonth,
+} from "../core2/modules/business";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
@@ -149,6 +153,7 @@ function closingPanels(core: CoreState, organizationId: string): WhyPanel[] {
         value: money(Number(owner.retainedMinor ?? 0)),
       },
     );
+  rows.push(...monthBillRows(core, owner?.tradingId));
   const choices = table(core, BUSINESS_MODULE_ID, "choices")
     .filter((row) => row.organizationId === organizationId)
     .sort((a, b) => String(a.date).localeCompare(String(b.date)));
@@ -188,6 +193,45 @@ function closingPanels(core: CoreState, organizationId: string): WhyPanel[] {
     },
   ];
 }
+
+/**
+ * The last booked month's full bill: every cost by name, the law rows behind
+ * it, and whether the staffing and closing decisions weighed it (the trading
+ * row the business engine wrote, which those decisions read).
+ */
+function monthBillRows(core: CoreState, tradingId: unknown): WhyRow[] {
+  if (typeof tradingId !== "string" || !core.modules.get(BUSINESS_MODULE_ID))
+    return [];
+  const month = coreAPI(core)
+    .moduleState(BUSINESS_MODULE_ID)
+    .table("trading")
+    .get(tradingId) as unknown as BusinessTradingMonth | undefined;
+  if (!month) return [];
+  return [
+    {
+      label: `the month's books to ${month.date}`,
+      value: `sales ${money(month.salesMinor)}, costs weighed ${money(month.costsMinor)}, staff ${number(month.staff ?? 0)}`,
+      id: month.id,
+    },
+    ...(month.charges ?? []).map((charge) => ({
+      label: `  ${CHARGE_LABELS[charge.kind]}`,
+      value: `${money(charge.minor)}, ${charge.weighed ? "weighed in hiring, layoffs and closing" : "not weighed as a loss; it comes out of cash"}${charge.lawIds.length ? `, under ${charge.lawIds.length === 1 ? "one law" : `${charge.lawIds.length} laws`}` : ""}`,
+      ...(charge.lawIds[0] ? { id: charge.lawIds[0] } : {}),
+    })),
+  ];
+}
+
+const CHARGE_LABELS: Record<BusinessMonthCharge["kind"], string> = {
+  wages: "wages",
+  supplies: "supplies bought in town",
+  "outside-costs": "costs paid outside the town",
+  compliance: "compliance duties",
+  "payroll-taxes": "employer's payroll taxes",
+  "premises-tax": "property tax on its premises",
+  "energy-laws": "energy price laws",
+  "health-premiums": "health premiums",
+  "profit-tax": "profit tax",
+};
 
 // ---- A budget line change --------------------------------------------------
 
