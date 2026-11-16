@@ -610,7 +610,55 @@ export class DevMode {
       unit: row.unit ?? "",
       effectiveDate,
     });
-    return { mark, law: row, reach: this.reach(row.id) };
+    return {
+      mark,
+      law: row,
+      reach: this.reach(row.id),
+      replaced: this.replacedBy(row).map((ended) => this.endedLaw(ended)),
+    };
+  }
+
+  /**
+   * The law rows a row took over from at its own level and jurisdiction: the
+   * rows on its series in force the day before it took effect (each tier of a
+   * tiered law). A row that sets a law to nothing, lowers it or raises it reads
+   * what the law it replaced reached through these. Reads only.
+   */
+  private replacedBy(row: LawRowInput): LawRowInput[] {
+    if (!has(this.core, LAWS_MODULE_ID)) return [];
+    const before = addDays(makeIsoDate(row.effectiveDate), -1);
+    return (
+      this.api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .query("bySeriesOnly", [row.series]) as unknown as LawRowInput[]
+    ).filter(
+      (other) =>
+        other.id !== row.id &&
+        other.jurisdiction === row.jurisdiction &&
+        other.level === row.level &&
+        inForceOn(other, before),
+    );
+  }
+
+  /**
+   * A law row a bill or a dev-mode law ended or replaced, with its reach: who
+   * it reached while in force and the part of that which has ended
+   * (`reach.ended`, read from the end days the engines record). Reads only.
+   */
+  private endedLaw(row: LawRowInput) {
+    return {
+      id: row.id,
+      series: row.series,
+      level: row.level,
+      jurisdiction: row.jurisdiction,
+      value: row.value,
+      unit: row.unit ?? "",
+      effectiveDate: row.effectiveDate,
+      endDate: row.endDate,
+      inForce: inForceOn(row, this.core.date),
+      reach: this.reach(row.id),
+    };
   }
 
   /**
@@ -653,20 +701,19 @@ export class DevMode {
       .table("bills")
       .get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
-    const laws = has(this.core, LAWS_MODULE_ID)
-      ? (
-          api
-            .moduleState(LAWS_MODULE_ID)
-            .table("laws")
-            .rows() as unknown as LawRowInput[]
-        ).filter((row) =>
-          // The bill's own id where the law row keeps it; else the body's designation.
-          row.terms?.enactedByBill !== undefined
-            ? row.terms.enactedByBill === bill.id
-            : row.terms?.enactedBy === bill.number &&
-              row.effectiveDate >= bill.introduced,
-        )
+    const rows = has(this.core, LAWS_MODULE_ID)
+      ? (api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .rows() as unknown as LawRowInput[])
       : [];
+    const laws = rows.filter((row) =>
+      // The bill's own id where the law row keeps it; else the body's designation.
+      row.terms?.enactedByBill !== undefined
+        ? row.terms.enactedByBill === bill.id
+        : row.terms?.enactedBy === bill.number &&
+          row.effectiveDate >= bill.introduced,
+    );
     const ending = billEnding(api, bill.id);
     const nameOf = (id: string) => {
       const person = this.core.people.get(id);
@@ -710,7 +757,17 @@ export class DevMode {
         effectiveDate: row.effectiveDate,
         inForce: row.effectiveDate <= this.core.date,
         reach: this.reach(row.id),
+        /** The rows it took over from at its level, with what they reached and what of that ended. */
+        replaced: this.replacedBy(row).map((ended) => this.endedLaw(ended)),
       })),
+      /**
+       * The law rows the bill's repeal sections ended (`repealLaw` keeps the
+       * row with its end day and the bill's id), with what each reached while
+       * in force and what of that has ended.
+       */
+      ended: rows
+        .filter((row) => row.terms?.repealedByBill === bill.id)
+        .map((row) => this.endedLaw(row)),
     };
   }
 
@@ -2078,6 +2135,8 @@ export class DevMode {
       if (
         input.subject &&
         facts.lawId !== input.subject &&
+        // A repeal's end day names the row it ended apart from the row that governs now.
+        facts.endedLawId !== input.subject &&
         facts.billId !== input.subject &&
         facts.contestId !== input.subject
       )
