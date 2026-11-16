@@ -192160,7 +192160,7 @@
       "key": "scene-talk.follow-answer.the-doors-in-town-won-t-cover-it-voters-for-office-live-outside-town-too-campaigns-pay-people-to-carry-petitions-out-there",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The doors in town won't cover it. Voters for {office} live outside town too. Campaigns pay people to carry petitions out there.",
+      "text": "Knocking in town won't cover it. Voters for {office} live outside town too. Campaigns pay people to carry petitions out there.",
       "uses": [
         {
           "subject": "scene",
