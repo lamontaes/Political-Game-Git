@@ -39,13 +39,16 @@ A world can be built `warmUpDays` before its start date and run forward to it wi
 A skill alone does not hold, so three things enforce it:
 
 - `src/core2/data/opening/day-zero.json` calls each table stock (a real place has it on an ordinary day before anyone watches), flow-only, or unsure. The test of stock: would a real town, state or country have this record on an ordinary day?
-- `src/core2/day-zero.test.ts` builds a world with the warm-up at two pinned places (`pinned-tests`; one world covers town, state and federal, since it is one simulation) and fails by name where a stock table has no rows at creation. A still-empty stock table is known-red and names its pool item (never a stopgap id); the list only shrinks, and a known-red table that has rows fails until its mark is removed.
+- `src/core2/day-zero.test.ts` builds a world with the warm-up at two pinned places (`pinned-tests`; one world covers town, state and federal, since it is one simulation) and fails by name where a stock table has no rows at creation. A still-empty stock table is known-red and names its pool item (never a stopgap id); a new mark needs a CTO line on that pull request (`done-proof`), the list only shrinks, and a known-red table that has rows fails until its mark is removed.
 - `tests/guards/day-zero.test.ts` fails when a module id in `src/core2` is not in the file's `modules` list, so a new module cannot ship without answering the question, and when a known-red table is not in `tests/guards/day-zero-baseline.json`.
 
 Measure a table with `node --import tsx scripts/dev-tests/day-zero-year.ts <seed> 365`. It reads at creation and after 1, 31 and 365 days, because an engine's first step seats much of the opening: a table empty at creation and filled a day later is a smaller finding than one empty for a year, but a player can read it before the step runs.
 
 ## Traps
 
+- **The opening is traced in dev mode with its source (owner, Nov 16: "track everything at open").** Each thing the opening sets names where it came from. A random draw nobody can explain, or a number the same for every place, is a defect; draw from the world's seeded units keyed by id, never an ad hoc hash.
+
 - A unit test that builds its own small world proves nothing about day 0. Read the table in `buildBenchWorld` (`recordProof` lists every table's row count).
 - "It fills in a month" is the bug: the player's first screens, the paper, the first scene and the town meeting all read day 0.
 - A level you did not look at is a level that is empty. Look at the state and the country, not only the town.
+- **A table that stays empty at a pinned place may be a true zero, and the test says why (Nov 15).** The vacancies row has `zeroAtPlaces` in `day-zero.json` for a place whose warm-up window held no death of a seat holder; `src/core2/day-zero.test.ts` asserts the cause there (none who died held a seat, illnesses in progress), never a bare waiver. Check the cause before writing it: Lewiston's window held two deaths (a cabinet secretary already replaced, a press owner), so "no one died" was false. An opening whose health engine starts from nobody ill (no look-back) cannot have a dated-past death at all.

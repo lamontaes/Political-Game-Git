@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 989,
+  "judged": 971,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -42,19 +42,6 @@
         "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it"
       ],
       "why": "'I'm in', 'It's a no' and the road-money condition repeat the first yes, refusal and conditional-yes replies."
-    },
-    "00lbudgv4oe": {
-      "keys": [
-        "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Not yet. I'm sorry' and 'splash some water on my face first' repeat the first refusal and stall options, leaving only 'For them' new."
     },
     "01ezaq9gift": {
       "keys": [
@@ -105,19 +92,6 @@
         "scene-talk.reply-decline.i-can-t-say-yes-i-m-happy-with-what-we-have-i-just-can-t-picture-the-w"
       ],
       "why": "Both replies are the yes and no from the opening options again, now in new words."
-    },
-    "02co7m36nc4": {
-      "keys": [
-        "scene-talk.follow-plea.it-s-one-hearing-it-costs-you-an-afternoon",
-        "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
-        "scene-talk.reply-refuse.it-doesn-t-get-a-hearing-from-me",
-        "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
-        "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
-        "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session",
-        "scene-talk.reply-leave.i-m-late-for-a-meeting-we-ll-pick-this-up-another-time"
-      ],
-      "why": "Setting the date and 'isn't going on my calendar this session' restate the first yes and next-session options."
     },
     "02e8nvq1net": {
       "keys": [
@@ -809,19 +783,6 @@
       ],
       "why": "Refusing, keeping it, reporting and ending the talk are the first bribe choices again."
     },
-    "0cz35rw9oh2": {
-      "keys": [
-        "scene-talk.follow-press.everyone-s-waiting-to-see-how-you-lose-do-it-well",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "Making the call, waiting till morning and stepping out repeat the opening dial, not-tonight and delay replies."
-    },
     "0dc3974nusy": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -847,19 +808,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "0dmbbivq6w0": {
-      "keys": [
-        "scene-talk.follow-plea.you-will-your-volunteers-have-to-live-with-it-too",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Okay. For them', 'Not yet' and splashing water are the opening dial, wait and step-away choices again."
     },
     "0e2bo5lbu1x": {
       "keys": [
@@ -1044,19 +992,6 @@
         "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
       ],
       "why": "Besides 'Thursday, on the record', the replies repeat the sorry, the walk-away line nearly word for word and the 'bringing up the past' complaint."
-    },
-    "0hgrpan34ok": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it-and-the-count-was-margin",
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
-        "scene-talk.reply-blame.i-should-have-asked-for-more-help-sooner-margin-is-not-much-to-lose-by",
-        "scene-talk.reply-deflect.not-tonight-ask-me-in-the-morning",
-        "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close",
-        "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again"
-      ],
-      "why": "'Couldn't have run it without you' and 'I'm running again' restate the first you-gave-your-time and run-again options."
     },
     "0i69h6qm6db": {
       "keys": [
@@ -1862,19 +1797,6 @@
       ],
       "why": "'Find a job, save something, then see' is the first 'work first and figure out the rest' again and 'I'll tell you when I know' is 'you'll see' again, leaving only enjoying the day new."
     },
-    "0uviky4wp6y": {
-      "keys": [
-        "scene-talk.follow-press.everyone-s-waiting-to-see-how-you-lose-do-it-well",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "Making the call, waiting till morning and stepping out reword the opening dial, wait-for-certification and time-alone replies."
-    },
     "0v5vbjz7abb": {
       "keys": [
         "scene-talk.follow-answer.yes-the-money-too-i-d-put-my-name-on-the-lease-with-yours-and-open-one",
@@ -1938,19 +1860,6 @@
         "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "0vz4009tmyv": {
-      "keys": [
-        "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.you-re-right-get-me-the-phone-and-get-the-volunteers-a-microphone",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Get me the phone', 'Not yet' and splashing water are the opening dial, wait and step-away replies reworded."
     },
     "0w2a8imwfkj": {
       "keys": [
@@ -2438,19 +2347,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "16xu9lcef75": {
-      "keys": [
-        "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.you-re-right-hand-it-here",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Hand it here', 'Not yet' and splashing water restate the opening dial, wait and delay replies."
-    },
     "17135bzf7zz": {
       "keys": [
         "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
@@ -2689,19 +2585,6 @@
         "scene-talk.reply-leave.i-have-to-go-ill-call-you-but-not-about-this"
       ],
       "why": "Put that away, I can't do this and I trust you replay the first not-even-for-you, sorry and for-you-fine options."
-    },
-    "1c47ywouptb": {
-      "keys": [
-        "scene-talk.follow-press.the-volunteers-already-know-they-re-waiting-on-you-to-say-it",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.not-yet-i-m-not-ready",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call', 'Not yet. I'm not ready' and 'I'll be right back' repeat dial, wait and step away from the start."
     },
     "1c4av7kq5xh": {
       "keys": [
@@ -3078,19 +2961,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "1jva5uzhfu7": {
-      "keys": [
-        "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.okay-the-call-first-then-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'The call first', 'Not yet' and splashing water are the opening dial, wait and time-alone choices in new words."
-    },
     "1kf24isfou9": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -3300,19 +3170,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "Still no, reporting it and honest ways to get help reword three first options; only 'done talking' is new."
-    },
-    "1pc8m3uahws": {
-      "keys": [
-        "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.okay-the-call-first-then-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "Calling, 'Not yet' and splashing water just restate the opening dial, wait and time-alone replies."
     },
     "1pn4545aodz": {
       "keys": [
@@ -3613,19 +3470,6 @@
         "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "1wcp0h0glid": {
-      "keys": [
-        "scene-talk.follow-plea.people-are-counting-on-this-i-can-t-go-home-with-nothing",
-        "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
-        "scene-talk.reply-refuse.it-doesn-t-get-a-hearing-from-me",
-        "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
-        "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
-        "scene-talk.reply-refuse.i-won-t-schedule-it-that-s-my-call-and-it-s-made",
-        "scene-talk.reply-leave.i-have-to-get-to-the-floor"
-      ],
-      "why": "'I'll set the date' and 'I won't schedule it' restate the first yes and no options."
     },
     "1wgacekydqy": {
       "keys": [
@@ -4156,19 +4000,6 @@
       ],
       "why": "Two of three replies restate first options: the offer to tell all of it repeats the offer to explain, and blaming the complaint repeats the denial."
     },
-    "29c0w7223y7": {
-      "keys": [
-        "scene-talk.follow-press.certification-takes-a-week-every-hour-you-wait-it-looks-worse",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.then-it-ll-look-bad-i-ll-live",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call' rewords 'Dial it' and 'I'll be right back' rewords 'ten minutes alone', two of three."
-    },
     "29cdfnkmcz4": {
       "keys": [
         "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
@@ -4222,19 +4053,6 @@
         "scene-talk.reply-decline.that-s-more-than-i-can-do-i-m-sorry"
       ],
       "why": "\"I'll do it,\" \"write you what I find\" and \"more than I can do\" restate the first promise, write-back and refusal."
-    },
-    "2b1m5c60q9d": {
-      "keys": [
-        "scene-talk.follow-press.the-volunteers-already-know-they-re-waiting-on-you-to-say-it",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.i-m-not-doing-it-on-anybody-s-schedule-but-mine",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call' is 'Dial it' again and 'I'll be right back' is another stall like talking to the volunteers first, so most rehash."
     },
     "2bdhtcy12v5": {
       "keys": [
@@ -4355,20 +4173,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "2db4mc268hx": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.then-let-s-do-it-right-get-them-on-the-line",
-        "scene-talk.reply-refuse.then-it-s-close-enough-to-wait-for-the-last-count",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-leave.i-m-going-to-walk-around-the-block-once"
-      ],
-      "why": "'Get them on the line' rewords 'Dial it', 'wait for the last count' rewords 'Not tonight', and the two pauses repeat the delay option."
-    },
     "2dngbkbdhsz": {
       "keys": [
         "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
@@ -4422,19 +4226,6 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "Refusing, keeping it, reporting and ending the talk are the first bribe choices again."
-    },
-    "2eal6g2n6pi": {
-      "keys": [
-        "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Okay. For them', 'Not yet' and splashing water reword dial, not tonight and step away from the start."
     },
     "2edkova0qdc": {
       "keys": [
@@ -4541,5 +4332,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "2ci8gvzplec"
+  "yesHash": "2efc357z26y"
 }

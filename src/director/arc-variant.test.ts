@@ -29,6 +29,7 @@ import {
   type SceneTalk,
   type TreeNode,
 } from "./scene-talk";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // One kind of scene, several arcs (owner, Nov 8, 9:50 voice note): the
 // variants of the corruption scenes, picked from the records by one engine.
@@ -429,19 +430,15 @@ describe(`variants in a played year (seed ${seed})`, () => {
   const me = world.playerId as PersonId;
   const { core: played, director: dir } = world;
   const residents = () =>
-    [...played.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.tier !== "husk" &&
-          row.id !== me &&
-          row.birthDate <= "2000-01-01" &&
-          row.livingCostDailyMinor > 0 &&
-          row.liquidMinor > 0,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    townResidentsByCash(played, coreAPI(played)).filter(
+      (row) =>
+        row.alive &&
+        row.tier !== "husk" &&
+        row.id !== me &&
+        row.birthDate <= "2000-01-01" &&
+        row.livingCostDailyMinor > 0 &&
+        row.liquidMinor > 0,
+    );
   const entryOf = (eventId: string) =>
     dir.ledger.people
       .get(me)

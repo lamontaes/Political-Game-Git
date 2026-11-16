@@ -150,7 +150,7 @@ function town(
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -1459,7 +1459,7 @@ describe("a Congress member from elsewhere", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openLegislature(core);

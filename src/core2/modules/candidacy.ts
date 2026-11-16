@@ -1,4 +1,3 @@
-import { countyPlaceOfWorld } from "../opening-county-sample";
 import {
   standingPool,
   partyOf,
@@ -58,6 +57,8 @@ import {
   filingRulesFor,
   filledByTickets,
   checkEligibility,
+  livesWhereSeatServes,
+  localResidencePlaces,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
   type ContestRow,
@@ -65,6 +66,7 @@ import {
   type OfficeFamily,
   atLargeGroup,
 } from "./elections";
+import { filingOfficerIds } from "./filing-clerk";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
@@ -82,10 +84,8 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import {
-  prisonersBarredHere,
-  revolvingDoorFor,
-} from "../law-reach/group-a-voting";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import { countedVoters } from "./voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -636,6 +636,13 @@ export function decideToRun(
 ): CandidacyDecision | null {
   const person = api.state.people.get(personId);
   if (!person?.alive) return null;
+  // Whoever staffs the filing counter takes the filings of the races, so they
+  // never weigh standing in one.
+  // stopgapId: SG-GOV-filing-officer-never-runs
+  if (filingOfficerIds(api).has(personId)) {
+    api.stopgap("SG-GOV-filing-officer-never-runs");
+    return null;
+  }
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;
@@ -797,75 +804,6 @@ interface Queues {
 }
 const queues = new WeakMap<object, Queues>();
 
-/**
- * Those who decided to run and were refused at the counter only for the filing
- * fee, by contest: they try again each day until they file or the window
- * closes, since what they hold changes with pay days (owner, Nov 15: a person
- * who decided to stand and could not pay on one day keeps trying). Kept for
- * the people refused, a handful at a time.
- */
-const refiling = new WeakMap<object, Map<string, Set<PersonId>>>();
-
-/** A refusal that only the person's cash can change. */
-function refusedOnlyForFee(
-  filing: NonNullable<CandidacyDecision["filing"]>,
-): boolean {
-  return (
-    filing.status === "refused" &&
-    filing.unmet.length > 0 &&
-    filing.unmet.every((rule) => rule === "filing-fee")
-  );
-}
-
-/** A person refused only for the fee is kept to try again while the window is open. */
-function keepTryingForFee(
-  api: CoreAPI,
-  contestId: string,
-  personId: PersonId,
-  filing: NonNullable<CandidacyDecision["filing"]>,
-): void {
-  if (!refusedOnlyForFee(filing)) return;
-  const held = refiling.get(api.state) ?? new Map<string, Set<PersonId>>();
-  refiling.set(api.state, held);
-  const people = held.get(contestId) ?? new Set<PersonId>();
-  held.set(contestId, people);
-  people.add(personId);
-}
-
-/** Try again for each person refused only for the fee, while their window is open. */
-function refileRefused(api: CoreAPI): void {
-  const held = refiling.get(api.state);
-  if (!held?.size) return;
-  const today = api.state.date;
-  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
-  for (const [contestId, people] of [...held]) {
-    const contest = contests.get(contestId) as unknown as
-      ContestRow | undefined;
-    if (!contest || contest.filingDeadline < today) {
-      held.delete(contestId);
-      continue;
-    }
-    for (const personId of [...people]) {
-      const decision = decisionOf(api, contestId, personId);
-      const person = api.state.people.get(personId);
-      if (!decision?.run || !person?.alive) {
-        people.delete(personId);
-        continue;
-      }
-      const filing = fileFor(
-        api,
-        person,
-        contest,
-        Boolean(seatParty(api, contest)),
-      );
-      if (refusedOnlyForFee(filing)) continue;
-      table(api).put({ ...decision, filing } as unknown as { id: string });
-      people.delete(personId);
-    }
-    if (!people.size) held.delete(contestId);
-  }
-}
-
 /** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
 function queuesFor(api: CoreAPI): Queues | null {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return null;
@@ -1021,15 +959,9 @@ export function weighContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number = LOCAL_RANK,
-  /** The incumbent's own filing is already on record (a race that closed before the opening). */
-  incumbentFiled = false,
   /** Those who stayed out weigh it again from today's record (filing opens). */
   reconsider = false,
 ): WeighedContest {
-  const town = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("town")
-    .get("town") as unknown as { townPlaceId: string };
   // Whoever serves the seat today, so a member seated by a special election
   // after the contest was recorded is its incumbent; else the term the
   // contest names.
@@ -1121,26 +1053,15 @@ export function weighContest(
     );
   // A seat's serving holder weighs standing again wherever they live: a
   // county officeholder from outside the town still holds the county's seat.
+  const residence = localResidencePlaces(api, contest);
   const weighs = (p: PersonState) =>
     p.alive &&
-    (p.placeId === town.townPlaceId ||
-      (contest.family === "countyOffice" &&
-        p.placeId === countyPlaceOfWorld(api.state)) ||
-      pool.has(p.id) ||
-      p.id === incumbentId) &&
+    (residence.includes(p.placeId) || pool.has(p.id) || p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
-    // The filing fee weighs in the decision: someone who cannot cover it from
-    // their own cash does not decide to run (the counter's refusal is left
-    // for the player and for money that ran out in between).
-    p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
-    !(incumbentFiled && p.id === incumbentId) &&
-    (!wide ||
-      !checkEligibility(api, p.id, contest.id, null).some(
-        (check) => check.rule === "residency" && !check.met,
-      ));
+    livesWhereSeatServes(api, contest, p);
   // The incumbent weighs standing again first: one who stands down leaves
   // the seat open, and everyone else weighs it as an open seat, citing the
   // decision that opened it.
@@ -1167,9 +1088,7 @@ export function weighContest(
     const screen = countedScreen(
       api,
       { ...field, runners: raceRunners },
-      contest.family === "countyOffice"
-        ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
-        : [town.townPlaceId],
+      residence,
       rules.minimumAge,
     );
     countedWeighed = screen.weighed;
@@ -1230,11 +1149,7 @@ export function weighContest(
       const voters = stranded.size
         ? countedResidents(api.state as CoreState).filter(
             (voter) =>
-              stranded.has(voter.id) &&
-              (contest.family === "countyOffice"
-                ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
-                : [town.townPlaceId]
-              ).includes(voter.placeId),
+              stranded.has(voter.id) && residence.includes(voter.placeId),
           )
         : [];
       for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
@@ -1358,21 +1273,17 @@ function countedScreen(
     held.year !== year ||
     !placeIds.every((id) => held!.places.includes(id))
   ) {
-    // Counted residents of adult correctional rooms are not drawn to run
-    // where the state bars people held in prison (`incarceratedMayVote`).
-    const barredRooms = prisonersBarredHere(api);
+    // Only the counted residents who vote are drawn to run (`countedVoters`,
+    // which leaves out the rooms of people the state bars while held in
+    // prison).
     const places = [
       ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
     ];
     held = {
       year,
       places,
-      rows: countedResidents(api.state as CoreState)
-        .filter(
-          (voter) =>
-            places.includes(voter.placeId) &&
-            !(barredRooms && voter.quarters === "adultCorrectional"),
-        )
+      rows: countedVoters(api)
+        .filter((voter) => places.includes(voter.placeId))
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
@@ -1448,7 +1359,7 @@ export function fileRunners(
   const askedFirst = askBeforeWeighing(api, contest);
   const row =
     first.date < api.state.date
-      ? weighContest(api, contest, localRank, false, true)
+      ? weighContest(api, contest, localRank, true)
       : first;
   // Every drawn counted runner is filled in before any platform is read, so
   // the electorate the platforms weigh is rebuilt once for the contest, not
@@ -1467,7 +1378,6 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
-    keepTryingForFee(api, contest.id, personId, filing);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1488,7 +1398,6 @@ export function fileRunners(
     table(api).put({ ...decision, filing: refused } as unknown as {
       id: string;
     });
-    keepTryingForFee(api, contest.id, decision.personId, refused);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
@@ -1794,15 +1703,13 @@ function askBeforeWeighing(
   for (const { party, chairId, members } of partyProspects(api, contest)) {
     // The first member who has not already decided to run: an ask is for
     // someone who might be brought in.
-    // The day's weighing is the member's own: one who could not cover the
-    // fee does not weigh it, and the player answers in the scene their ask
-    // stages (after the weighing, for a party with no one filed), never in it.
-    const fee = filingRulesFor(api, contest, "party").feeMinor;
+    // The day's weighing is the member's own; the player answers in the scene
+    // their ask stages (after the weighing, for a party with no one filed),
+    // never in it.
     const person = members.find(
       (member) =>
         !decisionOf(api, contest.id, member.id)?.run &&
-        !isExplicitlyControlledPersonV1(api.state, member.id) &&
-        member.liquidMinor >= fee,
+        !isExplicitlyControlledPersonV1(api.state, member.id),
     );
     if (!person) continue;
     const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
@@ -2016,22 +1923,20 @@ function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 }
 
 /**
- * A race whose filing closed before the record began: the town's adults
- * weighed it then, and each runner's filing is part of the opening record
- * (dated at the deadline), beside the incumbent's. Its petition was checked
- * before the record began, so the filing stands on the ballot.
+ * A race whose filing closed before the record began: the seat's holder and
+ * the town's adults weighed it then, and each runner's filing, the holder's
+ * among them, is part of the opening record (dated at the deadline). Its
+ * petition was checked before the record began, so the filing stands on the
+ * ballot.
  */
 function weighClosedContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number,
 ): void {
-  const row = weighContest(
-    api,
-    contest,
-    localRank,
-    contest.level !== "state" && contest.level !== "federal",
-  );
+  // The seat's holder weighs standing again like anyone (`standsAgain`):
+  // nothing filed for them before the record began.
+  const row = weighContest(api, contest, localRank);
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const positions = contestPositions(api, contest);
   // A counted adult who decided to run on their counted record is made a
@@ -2145,7 +2050,6 @@ function candidacyDay(api: CoreAPI): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
-  refileRefused(api);
   while (held.opening.length) {
     const contest = held.opening.shift()!;
     weighClosedContest(api, contest, held.localRank);

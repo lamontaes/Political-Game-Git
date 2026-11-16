@@ -7,7 +7,7 @@ import {
   type TreeNode,
 } from "../director/scene-talk";
 import { dateSaid } from "../english/day-words";
-import { shipped } from "../english/scene-talk-words";
+import { shipped, wordPiece, type Fact } from "../english/scene-talk-words";
 import { bodyPicture } from "./legislature";
 import { officeWords } from "../english/said-as";
 import { scenePicture } from "./scene-picture";
@@ -16,8 +16,51 @@ import { backdropFor, peopleHere, type StageReason } from "./scene";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 
+/**
+ * Dev mode's "why this reply": the scene's facts with the records each cites,
+ * read once per scene, so a line's placing names its records.
+ */
+interface WhyPlaced {
+  facts: ReadonlyMap<string, { text: string; recordIds: readonly string[] }>;
+  seed: string;
+  momentKey: string;
+}
+
+/** Why the English engine placed a line (scene-talk-words.ts `Placed`), by record. */
+function placedShown(line: SceneTalkLine, why: WhyPlaced) {
+  const placed = line.placed;
+  if (!placed) return undefined;
+  const cited = (key: string) => ({
+    key,
+    recordIds: [...(why.facts.get(key)?.recordIds ?? [])],
+  });
+  const facts: Record<string, Fact> = Object.fromEntries(
+    [...why.facts].map(([key, row]) => [
+      key,
+      { text: row.text, sourceRecordIds: [...row.recordIds] },
+    ]),
+  );
+  return {
+    needs: [...placed.needs, ...placed.onlyWhen].map(cited),
+    rulesOut: [...placed.rulesOut],
+    ...(placed.after ? { after: placed.after } : {}),
+    ties: placed.ties.map((key) => ({
+      key,
+      text:
+        wordPiece({
+          key,
+          facts,
+          seed: why.seed,
+          speakerId: line.speakerId ?? "",
+          momentKey: why.momentKey,
+        }) ?? key,
+    })),
+  };
+}
+
 /** A line of a scene with a purpose, as the screen shows it. */
-function shownLine(line: SceneTalkLine) {
+function shownLine(line: SceneTalkLine, why?: WhyPlaced) {
+  const placed = why && placedShown(line, why);
   return {
     speaker: line.speaker,
     ...(line.speakerId ? { speakerId: line.speakerId } : {}),
@@ -27,6 +70,8 @@ function shownLine(line: SceneTalkLine) {
     parts: line.parts,
     // A piece held until the owner grades it, shown only in the grading view.
     held: !line.parts.every(shipped),
+    // Dev mode only: why this wording was placed here.
+    ...(placed ? { placed } : {}),
   };
 }
 type ShownNode = {
@@ -34,20 +79,21 @@ type ShownNode = {
   replies: { line: ReturnType<typeof shownLine>; next: ShownNode | null }[];
   end?: { outcome: string; close?: ReturnType<typeof shownLine> };
 };
-function shownNode(branched: TreeNode): ShownNode {
+function shownNode(branched: TreeNode, why?: WhyPlaced): ShownNode {
   // After a lie, the outcome the records give (caught or believed).
   const node = playedNode(branched);
+  const shown = (line: SceneTalkLine) => shownLine(line, why);
   return {
-    lines: node.lines.map(shownLine),
+    lines: node.lines.map(shown),
     replies: node.replies.map((reply) => ({
-      line: shownLine(reply.line),
-      next: reply.next ? shownNode(reply.next) : null,
+      line: shown(reply.line),
+      next: reply.next ? shownNode(reply.next, why) : null,
     })),
     ...(node.end
       ? {
           end: {
             outcome: node.end.outcome,
-            ...(node.end.close ? { close: shownLine(node.end.close) } : {}),
+            ...(node.end.close ? { close: shown(node.end.close) } : {}),
           },
         }
       : {}),
@@ -71,8 +117,11 @@ export function storyScene(
   personId: string,
   momentId: string,
   minuteOfDay: number,
-  /** The grading view: a scene with a purpose may say lines still held. */
-  options: { held?: boolean } = {},
+  /**
+   * The grading view: a scene with a purpose may say lines still held. Dev
+   * mode: each line says why it was placed (`placed`).
+   */
+  options: { held?: boolean; dev?: boolean } = {},
 ) {
   const book = director.ledger.people.get(personId);
   const entry = book?.schedule.find((row) => row.momentId === momentId);
@@ -167,6 +216,19 @@ export function storyScene(
       reason: reasonOf(id),
     };
   });
+  const why: WhyPlaced | undefined =
+    options.dev && purpose?.kind === "composed"
+      ? {
+          facts: new Map(
+            purpose.scene.facts.map((row) => [
+              row.key,
+              { text: row.text, recordIds: row.recordIds },
+            ]),
+          ),
+          seed: core.seed,
+          momentKey: momentId,
+        }
+      : undefined;
   const talk =
     purpose?.kind === "composed"
       ? {
@@ -180,8 +242,8 @@ export function storyScene(
           opening: [
             ...(purpose.scene.talk.open ? [purpose.scene.talk.open] : []),
             ...(scene.speech?.opens ? [] : [purpose.scene.talk.state]),
-          ].map(shownLine),
-          tree: shownNode(purpose.scene.talk.tree),
+          ].map((line) => shownLine(line, why)),
+          tree: shownNode(purpose.scene.talk.tree, why),
           // Why it is happening: the record that fired it and every fact said.
           why: { cause: purpose.scene.cause, facts: purpose.scene.facts },
         }

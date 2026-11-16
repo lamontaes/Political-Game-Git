@@ -57,7 +57,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import { enactLaw, lawChain, lawInForce } from "./laws";
+import { answerIn, enactLaw, lawChain, lawInForce } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
   appointerWeighing,
@@ -71,9 +71,13 @@ import { personLean } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { leanOf, mayorVeto, memberKey, members } from "./legislature";
-import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetweenText,
+  makeIsoDate,
+} from "../kernel/dates";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -81,9 +85,14 @@ import {
   governments,
 } from "./budgets";
 import { federalAidFor } from "./disasters";
-import { lineForPost, postPayCapDaily } from "../budgets-treasury";
+import {
+  lineForPost,
+  postPayCapDaily,
+  treasuryParameter,
+} from "../budgets-treasury";
+import { giveLivingCost, spendLivingCost } from "../official-living";
 import { startPublicJob } from "../public-payroll";
-import { filingRequirements } from "./elections";
+import { filingFamilyApplies, filingRequirements } from "./elections";
 import {
   describesByRule,
   ruleOfficeBody,
@@ -91,6 +100,7 @@ import {
 } from "../filing-rule-office";
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
+import { headsLocalExecutive } from "../offices-executives";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -158,10 +168,13 @@ export const EXECUTIVE_MODULE: CoreModule = {
       emergencyOffers: {},
       nominations: {},
       review: {},
+      /** Appointees from elsewhere given a household cost here (giveLivingCost), and the day they last spent it. */
+      livingCosts: {},
     },
   },
   onCalendarWork: (api, work) => {
     if (work.kind === POST_JOB_END) return endPostJobOnCalendar(api, work);
+    if (work.kind === LIVING_COST) return spendAppointeesLiving(api);
     if (work.kind === OFFER_LAPSE) return lapseEmergencyOffer(api, work);
     if (work.kind === OFFER_MIDWAY)
       return meetEmergencyOfferAgain(api, work, "midway");
@@ -241,6 +254,81 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(EXECUTIVE_MODULE_ID).table(name);
 
 const POST_JOB_END = "post-job-end";
+
+/** The monthly calendar work on which appointees from elsewhere spend their household cost. */
+const LIVING_COST = "appointee-living-cost";
+
+/**
+ * An appointee filled in from elsewhere (a cabinet member living outside the
+ * town, an officer drawn for a counter) comes with no household cost: give
+ * them what officials get, the household cost and the savings a family at the
+ * post's pay keeps (`giveLivingCost`, as staff and seated officials get it),
+ * and spend it out on the 1st of each month.
+ */
+function keepAppointeeHousehold(
+  api: CoreAPI,
+  personId: string,
+  stateKey: string,
+): void {
+  const given = giveLivingCost(api, {
+    personId,
+    stateKey,
+    annualMinor:
+      campaignParameter("appointeeHourlyMinor") *
+      treasuryParameter("fullTimeHoursPerYear"),
+    governmentKey: stateKey,
+  });
+  if (!given) return;
+  table(api, "livingCosts").put({
+    id: personId,
+    livedThrough: api.state.date,
+  } as unknown as ModuleRow);
+  scheduleLivingCost(api, personId);
+}
+
+function scheduleLivingCost(api: CoreAPI, recordId: string): void {
+  const calendar = api.moduleCalendar(EXECUTIVE_MODULE_ID);
+  const date = makeIsoDate(
+    `${addDays(makeIsoDate(`${api.state.date.slice(0, 8)}01`), 32).slice(0, 8)}01`,
+  );
+  const key = `${LIVING_COST}:${date}`;
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date,
+    kind: LIVING_COST,
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "The 1st of the month: appointees from elsewhere spend their household cost.",
+      asOf: api.state.date,
+      estimatedFrom:
+        "BLS Consumer Expenditure Survey and HUD fair market rent (official-living)",
+    },
+    sourceRecordIds: [recordId],
+  });
+}
+
+/** Each appointee given a household cost spends what it came to since last time; one who died stops. */
+function spendAppointeesLiving(api: CoreAPI): void {
+  const today = api.state.date;
+  let first: string | undefined;
+  for (const raw of table(api, "livingCosts").rows()) {
+    const row = raw as unknown as { id: string; livedThrough: string };
+    if (!api.state.people.get(row.id)?.alive) {
+      table(api, "livingCosts").remove(row.id);
+      continue;
+    }
+    first ??= row.id;
+    if (row.livedThrough >= today) continue;
+    spendLivingCost(api, row.id, daysBetweenText(row.livedThrough, today));
+    table(api, "livingCosts").put({
+      ...row,
+      livedThrough: today,
+    } as unknown as ModuleRow);
+  }
+  if (first) scheduleLivingCost(api, first);
+}
 
 /**
  * The job of a post's replaced holder ends the day the new appointee takes
@@ -753,7 +841,8 @@ function appointTownDepartments(api: CoreAPI): void {
   if (
     !townSeats(api).some(
       (s) =>
-        [...BOARD_KINDS, "mayor", "county-executive"].includes(s.office.kind) &&
+        (BOARD_KINDS.includes(s.office.kind) ||
+          headsLocalExecutive(s.office.kind)) &&
         s.holder,
     )
   )
@@ -988,6 +1077,8 @@ function seatCabinetPerson(
       citation: `Appointment ${input.appointmentId}`,
     });
   }
+  if (chosen.lives === "elsewhere")
+    keepAppointeeHousehold(api, personId, input.state);
   return personId;
 }
 
@@ -1139,6 +1230,10 @@ export const LOCAL_FILING_OFFICER_POST = "local-filing-officer";
 function seatLocalFilingOfficers(api: CoreAPI, worldSeed: string): void {
   const { stateKey, townPlaceId } = lawChain(api);
   for (const family of ["municipalOffice", "countyOffice"] as const) {
+    // A place whose records say it takes no filings for the family (a
+    // territory with no county or municipal governments) has no counter to
+    // staff.
+    if (!filingFamilyApplies(stateKey, family)) continue;
     const office = filingRequirements(stateKey, family).filedWith;
     if (
       !describesByRule(office) &&
@@ -1253,6 +1348,7 @@ function seatDrawnOfficer(
       estimatedFrom: spec.estimatedFrom,
     },
   });
+  keepAppointeeHousehold(api, personId, state);
   table(api, "agencyHeads").put({
     id,
     government: spec.government,

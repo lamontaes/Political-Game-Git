@@ -13,6 +13,7 @@ import {
 } from "../core2/modules/corruption";
 import { coreAPI } from "../core2/state";
 import { purposeScene } from "./purpose-scene";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // A bribe offered to the player's seat is the player's to answer (owner, Nov
 // 8: "the player gets the choice wherever the world offers them something;
@@ -37,15 +38,13 @@ describe("a bribe offered to the player's seat", () => {
   it("is not decided by the player's traits: it waits for the player's answer, and only taking it moves the money", () => {
     if (!director.ledger.people.has(playerId!)) director.watch(core, playerId!);
     const player = core.people.get(playerId!)!;
-    const offerers = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.id !== playerId &&
-          row.alive &&
-          row.placeId === player.placeId &&
-          row.liquidMinor > 0,
-      )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor);
+    const offerers = townResidentsByCash(core, coreAPI(core)).filter(
+      (row) =>
+        row.id !== playerId &&
+        row.alive &&
+        row.placeId === player.placeId &&
+        row.liquidMinor > 0,
+    );
     let crimeId: string | undefined;
     let offererId: string | undefined;
     for (const offerer of offerers.slice(0, 40)) {
@@ -114,15 +113,13 @@ describe("a bribe offered to the player's seat", () => {
 
   it("pays the offerer's money to the player only when the player takes it", () => {
     const player = core.people.get(playerId!)!;
-    const offerers = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.id !== playerId &&
-          row.alive &&
-          row.placeId === player.placeId &&
-          row.liquidMinor > 0,
-      )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor);
+    const offerers = townResidentsByCash(core, coreAPI(core)).filter(
+      (row) =>
+        row.id !== playerId &&
+        row.alive &&
+        row.placeId === player.placeId &&
+        row.liquidMinor > 0,
+    );
     for (const offerer of offerers.slice(0, 40)) {
       const record = considerBribe(api, {
         offererId: offerer.id,

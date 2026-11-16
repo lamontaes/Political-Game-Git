@@ -29,13 +29,15 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 4. **Name every place passed over,** with the date reached and the reason (each refusal's rule, each count that was zero). A reader of the log must be able to tell a thin place from a defect.
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
-   On the train (Nov 13 to 14) the Account lead requires tests that gate a PR to be pinned in the test file to named places and fixed seeds so they are never red by draw; see `pinned-tests`. The CTO reconciles the two. Reading of the history: this skill's tests hunt for faults across the 56 places, so a drawn place is the point; a pinned test only gates a PR on one known case.
+   The CTO reconciled this with the Account lead's pinned tests on Nov 16 (`done-proof`): a test draws its place, and a test pinned to a named place or seed, a labeled case included, is added only when a CTO line on the crew's thread approves that exact pull request. It is then written as `pinned-tests` says.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
 ## Before you call a red a flake
 
 Replay it. A check that failed once and passed on a second draw has told you nothing yet: run it again on the failed seed (`BENCH_SEED` for a browser check). If it fails every time on that seed, it is a finding about that place. On Nov 11 the merge desk saw `bill-stage` time out once in Red Hook, U.S. Virgin Islands. On replay it failed every time, and showed three defects: Play as offered another place's council, a bill's page cut off its vote, and a heading stood with nothing under it.
+
+**Compare a branch with its base on the same seed (story builder, Nov 15).** A test that takes `GOLDEN_PATH_SEED ?? randomBytes(...)` draws a new world every run, so "red on my head, green on the base" proves nothing until both ran with the failed seed in `GOLDEN_PATH_SEED`. On Nov 15 `src/director/ask-vote-variants.test.ts` and `ask-before-the-roll.test.ts` were red at all six places on a #9369 head; both failed the same on the clean Train at the same seeds, and a revert bisect had begun before the seed was read from the log.
 
 - **A check that steps in as an official picks one whose office the played place runs.** A match on a word in the list ("council") found another place's council, whose office is held as results only. Match the body by its government, never by a word in a name.
 - **A check never drafts around a missing case.** One that fell back to "the first subject" when none had a law in force went on and failed two minutes later, somewhere else. Fail by name at the point the case is missing, with the seed and what was passed over.

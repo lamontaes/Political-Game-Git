@@ -7,6 +7,7 @@
  * it came from. A record whose facts can't be said is left unworded here.
  */
 import { governmentProperName } from "../core2/government-proper-name";
+import { rememberedOf } from "../director/address-render";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
@@ -45,12 +46,10 @@ import { officialOf } from "../core2/modules/officials";
 import {
   commentOn,
   PRESS_MODULE_ID,
+  printedStoryOf,
   type InterviewRow,
 } from "../core2/modules/press";
-import {
-  corePlaceByJurisdictionId,
-  coreStateName,
-} from "../core2/place-lookup";
+import { placeNameSaid, coreStateName } from "../core2/place-lookup";
 import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
@@ -70,7 +69,7 @@ import {
   causeGroupForm,
   causeGroupName,
   stanceGroupForm,
-  stanceGroupName,
+  stanceGroupAmong,
 } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
@@ -266,13 +265,21 @@ export function printedFacts(
         facts?: Record<string, string>;
       }
     | undefined;
-  // A source the durable log doesn't keep (a module's own record, a dated
-  // event) is named by its id: "event:<kind>:…" or "<kind>:…".
+  // A source the durable log doesn't keep (a public record of a place the
+  // player can't see, a module's own record, a dated event) is the kind the
+  // press desk printed the story as, where a story of that kind is worded;
+  // else it is named by its id: "event:<kind>:…" or "<kind>:…". A birth's id
+  // begins with the baby's, so only the desk's own row says it was a birth.
+  const printedAs = source
+    ? undefined
+    : printedStoryOf(coreAPI(core), story.id)?.kind;
   const kind =
     source?.kind ??
-    (sourceId.startsWith("event:")
-      ? sourceId.split(":")[1]!
-      : sourceId.split(":")[0]!);
+    (printedAs && BUILDERS[printedAs]
+      ? printedAs
+      : sourceId.startsWith("event:")
+        ? sourceId.split(":")[1]!
+        : sourceId.split(":")[0]!);
   const facts: Record<string, string> = { ...(source?.facts ?? {}) };
   for (const [key, value] of Object.entries(story.facts))
     if (typeof value === "string") facts[key] = value;
@@ -409,6 +416,46 @@ class Reader {
         []) as unknown as { officeId: string; status: string }[]
     ).find((row) => row.status === "serving");
     return serving ? this.officeTitle(serving.officeId) : null;
+  }
+  /**
+   * The office a person serves in, as a title with its realm ("Massachusetts
+   * State Representative"): the title from the office's record and the
+   * place it is held for, with the term it is read from.
+   */
+  officeWithRealm(
+    id: string,
+  ): { text: string; common: string; recordId: string } | null {
+    const term = this.termOf(id);
+    const office = term
+      ? this.row<{ title?: string; jurisdiction?: string }>(
+          OFFICES_MODULE_ID,
+          "offices",
+          term.officeId,
+        )
+      : undefined;
+    const realm = office?.jurisdiction
+      ? (this.place(office.jurisdiction) ??
+        placeNameSaid(office.jurisdiction as EntityId))
+      : null;
+    if (!term || !office?.title) return null;
+    // A title said as a common noun: its words lower case, an abbreviation
+    // ("U.S.") as written.
+    const common = office.title
+      .split(" ")
+      .map((word) => (/[.]|^[A-Z]{2,}$/.test(word) ? word : word.toLowerCase()))
+      .join(" ");
+    if (realm) {
+      const bare = realm.replace(/^the /, "");
+      return {
+        text: `${realm} ${office.title}`,
+        common: `${/^[AEIOU]/.test(bare) ? "an" : "a"} ${bare} ${common}`,
+        recordId: term.id,
+      };
+    }
+    // The nation's offices are held for the whole country.
+    return office.jurisdiction === "US"
+      ? { text: office.title, common: `the ${common}`, recordId: term.id }
+      : null;
   }
   /** One row of a module's table, when that module is in this world. */
   row<T>(module: string, name: string, id: string | undefined): T | undefined {
@@ -597,38 +644,16 @@ class Reader {
   }
   /**
    * A group formed over a stance, named from the cause its side would put on
-   * a sign (group-names.ts `stanceGroupName`, Words lead Nov 14). The town's
+   * a sign (group-names.ts `stanceGroupAmong`, Words lead Nov 14). The town's
    * earlier groups (by the day each was formed, then id) hold their names
    * first, so no two groups of one town share a name and a name never changes
    * when a later group forms.
    */
   stanceGroup(id: EntityId): { name: string; plural: boolean } | null {
     const org = this.core.organizations.get(id);
-    if (!org?.topic || !/:(for|against)$/.test(org.id)) return null;
-    // The day a group was formed is its record's own date (its source's asOf).
-    const formed = (orgId: string): string =>
-      this.core.organizations.get(orgId as EntityId)?.source?.asOf ?? "";
-    const order = (a: string, b: string) =>
-      formed(a).localeCompare(formed(b)) || a.localeCompare(b);
     const town =
-      org.placeId === lawChain(this.api).townPlaceId ? this.place() : null;
-    const taken = new Set<string>();
-    const earlier = [...this.core.organizations.values()]
-      .filter(
-        (other) =>
-          other.id !== org.id &&
-          other.kind === "interest-group" &&
-          other.topic &&
-          other.placeId === org.placeId &&
-          /:(for|against)$/.test(other.id) &&
-          order(other.id, org.id) < 0,
-      )
-      .sort((a, b) => order(a.id, b.id));
-    for (const other of earlier) {
-      const made = stanceGroupName(other.id, other.topic!, town, taken);
-      if (made) taken.add(made.name);
-    }
-    return stanceGroupName(org.id, org.topic, town, taken);
+      org?.placeId === lawChain(this.api).townPlaceId ? this.place() : null;
+    return stanceGroupAmong(this.core.organizations, id, town);
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -671,8 +696,7 @@ class Reader {
       return name ? stateInSentence(name) : name;
     }
     if (jurisdiction && jurisdiction !== chain.townPlaceId) return null;
-    const town = corePlaceByJurisdictionId(chain.townPlaceId as EntityId);
-    return town ? (town.formalName ?? town.displayName.split(",")[0]!) : null;
+    return placeNameSaid(chain.townPlaceId as EntityId);
   }
   /** The first person the record names who has a name. */
   first(ids: readonly string[] = this.people): string | undefined {
@@ -1515,6 +1539,34 @@ const rateDecision: Builder = (read) => {
   );
 };
 
+/**
+ * The month's poll of the President's approval (national-opinion.ts): the
+ * whole percent once, as a poll is reported, whether it rose, fell or held
+ * against last month's, and the President by name. The change in points is
+ * the record's, for weighing, and is not said.
+ */
+const approval: Builder = (read, f) => {
+  const pct = num(f.pct);
+  if (pct === undefined) return null;
+  return story(
+    "approval",
+    {
+      ...read.who(f.presidentId),
+      percent: read.fact(`${pct}%`, f.approvalId ?? read.sourceId),
+      ...(f.direction === "up" || f.direction === "down"
+        ? { [f.direction]: read.yes() }
+        : f.direction === "steady"
+          ? { held: read.yes() }
+          : {}),
+      ...(f.month
+        ? { month: read.fact(MONTHS[Number(f.month.slice(5, 7)) - 1]!) }
+        : {}),
+      date: read.date(),
+    },
+    ["percent"],
+  );
+};
+
 /** An official's town hall. */
 const townHall: Builder = (read, f) =>
   story(
@@ -2095,11 +2147,15 @@ function winnersOn(read: Reader, date: string): string[] {
 
 /**
  * Which of the town's outlets that printed a race this story is, in the
- * order of their ids: each takes its own wordings (rule 37). An at-large
- * race may be printed from any of its seats' records.
+ * order of their ids: each takes its own wordings (rule 37), and a town with
+ * one paper takes none by turn. An at-large race may be printed from any of
+ * its seats' records.
  */
-function raceTurn(read: Reader, contest: ContestRow | undefined): number {
-  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return 0;
+function raceTurn(
+  read: Reader,
+  contest: ContestRow | undefined,
+): number | undefined {
+  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return undefined;
   const outlets = new Set<string>();
   for (const seat of atLargeGroup(read.api, contest))
     for (const row of read.query<{ outletId: string }>(
@@ -2109,6 +2165,9 @@ function raceTurn(read: Reader, contest: ContestRow | undefined): number {
       [`election-result:${seat.id}`],
     ))
       outlets.add(row.outletId);
+  // A town with one paper has no other outlet's wording to differ from, so
+  // its stories take the composer's own pick by story, not all the first.
+  if (outlets.size < 2) return undefined;
   const mine = /^printed:(.+?):election-result:/.exec(read.story.id)?.[1];
   return Math.max(0, [...outlets].sort().indexOf(mine ?? ""));
 }
@@ -3161,8 +3220,39 @@ const campaignGift: Builder = (read, f) => {
   );
 };
 
-/** A birth in the town. */
+/**
+ * A birth. One the town does not keep a record of (a birth in a place the
+ * player can't see) reaches its papers only because a parent holds an office
+ * there (press-topics.ts wireItem), so its story says who that parent is,
+ * from their term (Words lead, Nov 16: a story printed because of who someone
+ * is says who they are); without such a parent it is not printed here.
+ */
 const birth: Builder = (read, f) => {
+  if (!read.core.durableLog.has(read.sourceId as EntityId)) {
+    const holder = [f.motherId, f.otherParentId].find(
+      (id) => id && read.officeWithRealm(id),
+    );
+    const office = holder ? read.officeWithRealm(holder) : null;
+    if (!holder || !office) return null;
+    const other = [f.motherId, f.otherParentId].find(
+      (id) => id && id !== holder,
+    );
+    return story(
+      "birth-elsewhere",
+      {
+        ...read.who(f.childId, "child", false),
+        ...read.who(holder, "parent", false),
+        ...read.who(other, "other-parent", false),
+        // Before a name the title keeps its capitals; in a sentence it is a
+        // common noun with its article (Words lead, Nov 16).
+        office: read.fact(office.text, office.recordId),
+        "office-a": read.fact(office.common, office.recordId),
+        date: read.date(),
+      },
+      ["child", "parent", "office"],
+      f.childId,
+    );
+  }
   const town = read.residence(f.childId);
   return story(
     "birth",
@@ -3920,6 +4010,7 @@ const localAddress =
   (read, f) => {
     const id = f["address:speaker"];
     const style = f["address:style"];
+    const quote = rememberedOf(f);
     return story(
       "local-address",
       {
@@ -3927,9 +4018,7 @@ const localAddress =
         date: read.date(),
         [level]: read.yes(),
         ...(style ? { [`style-${style}`]: read.yes() } : {}),
-        ...(f["address:remembered"]
-          ? { quote: read.fact(f["address:remembered"], id ?? "") }
-          : {}),
+        ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
       },
       ["name"],
       id,
@@ -4134,6 +4223,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "economy.state-jobs-report": jobsReport,
   "outcome-web.month": conditions,
   "central-bank-rate-decision": rateDecision,
+  "national.approval": approval,
   meeting: rateDecision,
   "town-hall": townHall,
   "public-meeting": publicMeeting,

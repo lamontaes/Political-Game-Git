@@ -24,6 +24,7 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import { viewQuestionKey } from "./view-learned";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // A door the player's own canvass knocks, where the resident's agreement is
 // the day's strongest, plays as the player's ask: the player asks for their
@@ -89,17 +90,13 @@ it(`a door the player knocks plays as the player's ask, answered from the knock 
     const start = makeIsoDate(core.date);
     // The town's own residents (officials living elsewhere cannot file here).
     const town = corePlaceByKey(place.key)?.context.jurisdiction.id;
-    const adults = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.placeId === town &&
-          row.tier !== "husk" &&
-          ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (row) =>
+        row.alive &&
+        row.placeId === town &&
+        row.tier !== "husk" &&
+        ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
+    );
     let filing: ReturnType<typeof fileLocal> = null;
     let personId: PersonId | undefined;
     for (const row of adults.slice(0, 60)) {

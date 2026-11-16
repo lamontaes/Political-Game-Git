@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-78e8u3
 pr: #9316
 after:

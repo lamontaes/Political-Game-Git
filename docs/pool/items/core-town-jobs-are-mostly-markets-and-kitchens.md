@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/jobs-real-town-work
 pr: #8942
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at: 2026-11-12T20:19:20.016Z
+merged-at: 2026-11-15T23:55:48.766Z
 ---
 
 **What.** Seen: the jobs a player meets in the first weeks. Owner, Nov 12, 2026, life 1 in Wofford Heights, California (seed a9c85de3-e7fa-4418-8499-569a5c5e6e10): "it's only the market and like craft shops. Why are there no real jobs?" The player was a stocker at Sullivan's Market, and a housemate "works outside the town". Seen: the Jobs screen, a person's card and talk at home name jobs from many kinds of workplace

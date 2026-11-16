@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: Account lead (bargaining thread)
 pr: 9167
 after:

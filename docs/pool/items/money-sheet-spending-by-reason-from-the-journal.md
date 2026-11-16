@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-nit8xn
 pr: #8965
 after:

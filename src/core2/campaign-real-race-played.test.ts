@@ -437,7 +437,7 @@ function playRace(
       !petition ||
       !petitionCirculating(api, filing.id) ||
       petitionSigners(api, filing.id).length >=
-        signaturesToGather(petition.needed)
+        signaturesToGather(api, filing.id)
     )
       break;
     liveUntil(addDays(makeIsoDate(core.date), 1));

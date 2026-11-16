@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9023
 after:
 blocked-on:
 lead: governing
@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: "Playtester P3, Nov 13, 2026 (crew line #8928)"
 checked:
 claimed-at:
+merged-at: 2026-11-15T21:47:07.768Z
 ---
 
 **What.** Three selectboard seats were up on Town Meeting Day. The clerk filed the player against one seat's holder ("You and Stephen Pugh for the selectboard, then"), Politics → Elections listed each seat with its own field ("Selectboard member (Stephen Pugh): You are running"; "Selectboard member (George Long): 1 running"), and the ballot paper printed three separate "For Selectboard member" blocks. The count then pooled all four names: Stephen Pugh 116, Sofia Nash 58, Logan Tyson 29, Donald Riddle 26, and seated the top three. The player, who lost her own seat's race, took office on April 2 ("I took office as Selectboard member."), Donald Riddle, unopposed for his seat, was left out, the winner phoned the player with a concession, the father said Pugh "drew 51 percent", and the paper printed "Stephen Pugh won with 50.7% of the vote. 229 votes were cast." This is the golden path's win-or-lose step. Seen: the clerk's counter, the Elections tab, the ballot paper, election night and the seated members on Government after a town election with more than one seat.
