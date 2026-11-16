@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/greet-one-turn
-pr:
+pr: #9626
 after:
 blocked-on:
 lead: words
