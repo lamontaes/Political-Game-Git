@@ -26,6 +26,14 @@ import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
+  countedDeposits,
+  householdBalanceDraw,
+  fundOf,
+  householdCash,
+  residentsRuntime,
+} from "../core2/modules/residents";
+import { JOBS_MODULE_ID, countedDaysOfMoney } from "../core2/modules/jobs";
+import {
   COUNTRY_SECTORS,
   MACRO_MODULE_ID,
   countryStateParts,
@@ -39,6 +47,7 @@ import type {
   DecisionReason,
   DecisionResult,
   LogRecord,
+  PersonId,
 } from "../core2/types";
 
 export interface WhyRow {
@@ -719,6 +728,127 @@ function countryStatePartPanels(
 
 // ---- The entry point -------------------------------------------------------
 
+/**
+ * A counted household's money (owner, Nov 16: what a trace finds, dev mode
+ * shows): its share of its group's cash and bank savings, the months they
+ * cover its costs, and what it opened with against the survey's median for a
+ * family like it, spread by its own savings draw. Then why each of its people
+ * out of work is looking: the search's recorded reason and the chooser's
+ * terms. All read from the residents and jobs engines; nothing is worked out
+ * here that they do not keep.
+ */
+function countedMoneyPanels(core: CoreState, householdId: string): WhyPanel[] {
+  const rt = residentsRuntime(core);
+  const ix = rt?.store.householdOf.get(householdId);
+  const home = ix === undefined ? undefined : rt!.store.households[ix];
+  if (!rt || !home) return [];
+  const api = coreAPI(core);
+  const monthDays =
+    api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
+  let opened = 0,
+    dailyCost = 0;
+  for (const member of rt.store.factsOfHousehold(home)) {
+    opened += member.liquidMinor;
+    dailyCost += member.livingCostDailyMinor;
+  }
+  const cash = householdCash(rt, home);
+  const banked = rt.api ? countedDeposits(rt.api, rt, home) : 0;
+  const days = countedDaysOfMoney(rt, home, (h) => householdCash(rt, h));
+  const monthly = dailyCost * monthDays;
+  const spread = householdBalanceDraw(core.seed, home.id);
+  const account =
+    rt.api && home.group >= 0 ? fundOf(rt.api, rt, home.group) : undefined;
+  const moneyRows: WhyRow[] = [
+    {
+      label: "cash, its share of its group's account",
+      value: money(cash),
+      ...(account ? { id: account } : {}),
+    },
+    { label: "bank savings, its share of its group's", value: money(banked) },
+    { label: "living costs a month", value: money(Math.round(monthly)) },
+    {
+      label: "months its cash covers (what a search for work reads)",
+      value: Number.isFinite(days)
+        ? Number((days / monthDays).toFixed(2))
+        : "no costs",
+    },
+    {
+      label: "months its cash and savings cover",
+      value:
+        monthly > 0
+          ? Number(((cash + banked) / monthly).toFixed(2))
+          : "no costs",
+    },
+    { label: "wages a year", value: money(home.wagesMinorYear) },
+    {
+      label: "retirement income a year",
+      value: money(home.retirementMinorYear),
+    },
+    {
+      label:
+        "opened with (the survey's median for a family like it, times its own savings draw)",
+      value: money(opened),
+    },
+    {
+      label: "the survey's median for a family like it",
+      value: money(Math.round(opened / spread)),
+    },
+    { label: "its own savings draw", value: Number(spread.toFixed(3)) },
+  ];
+  const seekers = table(core, JOBS_MODULE_ID, "countedSeekers");
+  const looking: WhyRow[] = [];
+  for (const personId of rt.store.memberIdsOf(home)) {
+    const row = seekers.find((r) => r.personId === personId && !r.employed);
+    if (!row) continue;
+    const terms = Object.entries((row.reasons ?? {}) as Record<string, number>)
+      .filter(([, v]) => typeof v === "number" && v !== 0)
+      .map(([k, v]) => `${k} ${v.toFixed(3)}`)
+      .join(", ");
+    looking.push({
+      label: `${String(row.reasonKey)} since ${String(row.since)}`,
+      value: terms || "no terms kept",
+      id: personId,
+    });
+  }
+  return [
+    { title: "Money", rows: moneyRows },
+    {
+      title: "Looking for work",
+      rows: looking,
+      ...(looking.length
+        ? {}
+        : { gap: "Nobody in this household is looking for work." }),
+    },
+  ];
+}
+
+/**
+ * A full household's opening savings draw (owner, Nov 16: what a trace finds,
+ * dev mode shows): every household opened at the survey's median for a family
+ * like it times this draw, fixed by the world's seed and the household's id
+ * and never redrawn (household-balance-draw.ts); a counted household's Money
+ * panel shows the same draw beside what it opened with.
+ */
+function openingDrawPanels(core: CoreState, personId: string): WhyPanel[] {
+  const householdId = core.people.get(personId as PersonId)?.householdId;
+  if (!householdId) return [];
+  return [
+    {
+      title: "Opening savings",
+      rows: [
+        { label: "household", value: householdId, id: householdId },
+        {
+          label:
+            "its own savings draw (it opened at the survey's median for a family like it times this)",
+          value: Number(
+            householdBalanceDraw(core.seed, householdId).toFixed(3),
+          ),
+        },
+      ],
+    },
+  ];
+}
+
 export function whyPanels(
   core: CoreState,
   id: string,
@@ -742,7 +872,14 @@ export function whyPanels(
       linePanel(core, String(record.governmentId), line),
     );
   if (found.kind === "person")
-    return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
+    return [
+      ...ledgerPanels(core, id),
+      ...decisionPanels(core, id),
+      ...openingDrawPanels(core, id),
+    ];
+  if (found.kind === "counted-household") return countedMoneyPanels(core, id);
+  if (found.kind === "counted-person" && typeof record.householdId === "string")
+    return countedMoneyPanels(core, record.householdId);
   if (found.engine === `${MACRO_MODULE_ID}.countryStates`)
     return [
       ...countryStatePartPanels(core, record as unknown as CountryState),

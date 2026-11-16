@@ -32,12 +32,8 @@ import {
 } from "./modules/budgets";
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import {
-  countedParameter,
-  residentsRuntime,
-  type ResidentsRuntime,
-} from "./modules/residents";
-import { seededFineUnit } from "./seeded";
+import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
+import { balanceDrawZ, balanceSpreadLog } from "./household-balance-draw";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
@@ -98,16 +94,8 @@ export function savingWeight(
   h: { readonly id: string; saving?: number },
 ): number {
   if (h.saving === undefined) {
-    const sigma = countedParameter("countedSavingsSpreadLog");
-    // Box-Muller on two of the world's seeded units (SHA-256), which are
-    // independent. The FNV hash of the same key ending ":a" and ":b" gave two
-    // units that differ only in their last digits, so z was a function of one
-    // unit and not a normal: 213 of 20,000 ids above 3 against 27.
-    const key = `counted-saving:${h.id}`;
-    const z =
-      Math.sqrt(-2 * Math.log(seededFineUnit(seed, `${key}:a`) + 2 ** -53)) *
-      Math.cos(2 * Math.PI * seededFineUnit(seed, `${key}:b`));
-    h.saving = Math.exp(sigma * z - (sigma * sigma) / 2);
+    const sigma = balanceSpreadLog();
+    h.saving = Math.exp(sigma * balanceDrawZ(seed, h.id) - (sigma * sigma) / 2);
   }
   return h.saving;
 }
