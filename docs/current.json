@@ -570,6 +570,18 @@
       "now": "desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f",
       "when": "2026-11-15",
       "why": "It tested saved-identity-proof.mjs, deleted with it."
+    },
+    {
+      "old": "src/bench/creator-random-name.browser.mjs",
+      "now": "src/bench/creator-person.browser.mjs (the one Random for the whole person)",
+      "when": "2026-11-16",
+      "why": "The creator's separate Randomize name and Random place buttons were replaced by one Random (owner, Nov 16)."
+    },
+    {
+      "old": "src/bench/creator-random-place.browser.mjs",
+      "now": "src/bench/creator-person.browser.mjs (the one Random for the whole person)",
+      "when": "2026-11-16",
+      "why": "The creator's separate Randomize name and Random place buttons were replaced by one Random (owner, Nov 16)."
     }
   ]
 }
