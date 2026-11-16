@@ -170,6 +170,29 @@ describe("the promote chain", () => {
     expect(publisher).toContain("mainSha:$mainSha,devSha:$devSha");
   });
 
+  it("skips the apps, green, for a version commit main already holds inside a later promote", () => {
+    // Before: desktop_package ran whenever find_candidate said package == 'true',
+    // so a superseded version commit failed at the promote job on every run.
+    // After: both desktop jobs also need promote's superseded output to be not 'true'.
+    expect(desktopPackager).toContain(
+      "needs.promote.outputs.superseded != 'true'",
+    );
+    const publisher = packaging.slice(packaging.indexOf("  desktop_publish:"));
+    expect(publisher).toContain("needs.promote.outputs.superseded != 'true'");
+    expect(promoteWorkflow).toContain(
+      "superseded: ${{ steps.promote.outputs.superseded }}",
+    );
+    expect(promoteWorkflow).toContain("promote.mjs --state");
+    expect(promoteWorkflow).toContain("this release gets no app of its own");
+    expect(promoteWorkflow).toContain("The next release carries it.");
+  });
+
+  it("ends a manual promote with nothing to promote green", () => {
+    // Before: --find exited 2 after "Nothing to promote" and the step went red.
+    expect(promoteWorkflow).toContain("Nothing to promote: main already holds");
+    expect(promoteWorkflow).toContain('elif [[ -n "$WORK_SHA" ]]; then');
+  });
+
   it("promotes only a commit that is on dev, finds a promote it already made, and keeps the manual run", () => {
     expect(promoteWorkflow).toContain("workflow_call:");
     expect(promoteWorkflow).toContain("workflow_dispatch:");

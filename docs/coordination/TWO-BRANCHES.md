@@ -287,6 +287,9 @@ Steps 1 to 4 can be done at any time and change nothing for anyone.
    `main`, which removes the test files from `main` for the first time.
    Check that `main` builds: `npm run build`, `npm run new-game-check`.
    (The acting CTO.)
+   This also supersedes any version commit that has a publish record but no
+   app yet: that release gets no app of its own and the next one carries it.
+   Do step 8 when the newest release already has its app.
 9. **Chain the promote to the work branch's checks.** Add the `workflow_run`
    trigger to `promote.yml` (after `validate` and `golden-path` succeed on a push to `dev`),
    and move the release package workflow to build from `main`

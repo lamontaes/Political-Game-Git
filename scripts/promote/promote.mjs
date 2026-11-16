@@ -22,6 +22,8 @@
 //      message "Promote <W>: the game without test files".
 //   (With --find <work-sha>: print the main commit that carries that work commit
 //   and exit 0, or exit 2 when main has none. Nothing is built or pushed.)
+//   (With --state <work-sha>: print "promoted <main sha>", "superseded <main sha>
+//   <source sha>" or "pending", and exit 0. Read only.)
 //   6. With --push, pushes it to main as a fast-forward and retries when main
 //      moved. Without --push it only prints the commit and leaves it under
 //      refs/promote/candidate for a look.
@@ -143,6 +145,28 @@ export function findPromoted(root, mainRef, work) {
   return null;
 }
 
+/**
+ * Where a work commit stands against main, as one line (read only):
+ *   "promoted <main sha>"                 main holds exactly this work commit;
+ *   "superseded <main sha> <source sha>"  main's last promoted source is a
+ *                                         strict descendant of it, so main
+ *                                         already holds everything it had (a
+ *                                         later promote went past it);
+ *   "pending"                             neither: promote it.
+ * The release package workflow reads this so a version commit that main has
+ * moved past is skipped cleanly instead of failing at the promote step.
+ */
+export function promoteState(root, mainRef, work) {
+  const held = findPromoted(root, mainRef, work);
+  if (held) return `promoted ${held}`;
+  const last = lastPromoted(root, mainRef);
+  if (last && last !== work && isAncestor(root, work, last)) {
+    const mainSha = findPromoted(root, mainRef, last);
+    if (mainSha) return `superseded ${mainSha} ${last}`;
+  }
+  return "pending";
+}
+
 export function isAncestor(root, a, b) {
   try {
     execFileSync("git", ["merge-base", "--is-ancestor", a, b], {
@@ -208,6 +232,7 @@ function parse(argv) {
     push: false,
     remote: "origin",
     find: null,
+    state: null,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -216,6 +241,7 @@ function parse(argv) {
     else if (a === "--main") o.main = argv[++i];
     else if (a === "--remote") o.remote = argv[++i];
     else if (a === "--find") o.find = argv[++i];
+    else if (a === "--state") o.state = argv[++i];
     else throw new Error(`Unknown argument ${a}`);
   }
   o.main ??= `${o.remote}/main`;
@@ -328,7 +354,12 @@ if (
 ) {
   try {
     const o = parse(process.argv.slice(2));
-    if (o.find) {
+    if (o.state) {
+      if (!/^[0-9a-f]{40}$/.test(o.state))
+        throw new Error("--state needs a full 40-character work commit sha.");
+      fetchMain(process.cwd(), o);
+      console.log(promoteState(process.cwd(), o.main, o.state));
+    } else if (o.find) {
       if (!/^[0-9a-f]{40}$/.test(o.find))
         throw new Error("--find needs a full 40-character work commit sha.");
       fetchMain(process.cwd(), o);

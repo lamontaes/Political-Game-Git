@@ -12,6 +12,7 @@ import { afterAll, describe, expect, it } from "vitest";
 // @ts-expect-error plain JavaScript module with no types
 import {
   findPromoted,
+  promoteState,
   lastPromoted,
   mainPackageJson,
   promote,
@@ -157,6 +158,31 @@ describe("promote: the commit on main", () => {
     put(dir, { "src/e.ts": "export const e = 5;\n" });
     g(dir, "commit", "-qm", "unpromoted");
     expect(findPromoted(dir, "main", g(dir, "rev-parse", "HEAD"))).toBeNull();
+  });
+
+  it("says promoted, superseded or pending for a work commit", () => {
+    const dir = setup();
+    const v = g(dir, "rev-parse", "HEAD");
+    // Never promoted, nothing promoted yet.
+    expect(promoteState(dir, "main", v)).toBe("pending");
+    // A newer work commit is promoted; the older one is inside it.
+    put(dir, { "src/c.ts": "export const c = 3;\n" });
+    g(dir, "commit", "-qm", "newer");
+    const newer = g(dir, "rev-parse", "HEAD");
+    const first = promote(
+      dir,
+      { work: "HEAD", main: "main", remote: "origin", push: false },
+      quiet,
+    );
+    g(dir, "update-ref", "refs/heads/main", first);
+    expect(promoteState(dir, "main", newer)).toBe(`promoted ${first}`);
+    expect(promoteState(dir, "main", v)).toBe(`superseded ${first} ${newer}`);
+    // A commit past the last promoted one is pending.
+    put(dir, { "src/d.ts": "export const d = 4;\n" });
+    g(dir, "commit", "-qm", "newest");
+    expect(promoteState(dir, "main", g(dir, "rev-parse", "HEAD"))).toBe(
+      "pending",
+    );
   });
 
   it("drops the desktop package's test script too, and keeps its other scripts", () => {

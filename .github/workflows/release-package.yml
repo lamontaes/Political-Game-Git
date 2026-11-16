@@ -167,7 +167,11 @@ jobs:
     needs:
       - find_candidate
       - promote
-    if: needs.find_candidate.outputs.package == 'true'
+    # A superseded version commit (main already holds it inside a later
+    # promote) gets no app of its own; the run ends green at the promote job.
+    if: >-
+      needs.find_candidate.outputs.package == 'true' &&
+      needs.promote.outputs.superseded != 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -298,6 +302,7 @@ jobs:
       - desktop_package
     if: >-
       needs.find_candidate.outputs.package == 'true' &&
+      needs.promote.outputs.superseded != 'true' &&
       needs.desktop_package.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15

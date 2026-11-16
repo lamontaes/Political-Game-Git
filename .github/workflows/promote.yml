@@ -39,6 +39,9 @@ on:
       main_sha:
         description: The main commit that carries work_sha (made now, or found from an earlier run).
         value: ${{ jobs.promote.outputs.main_sha }}
+      superseded:
+        description: "'true' when main already holds everything the work commit had, as part of a later promote; main_sha is then empty and nothing was pushed."
+        value: ${{ jobs.promote.outputs.superseded }}
   workflow_dispatch:
     inputs:
       work_branch:
@@ -66,6 +69,7 @@ jobs:
       cancel-in-progress: false
     outputs:
       main_sha: ${{ steps.promote.outputs.main_sha }}
+      superseded: ${{ steps.promote.outputs.superseded }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -94,19 +98,34 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "superseded=false" >> "$GITHUB_OUTPUT"
           if [[ -n "$WORK_SHA" ]]; then
             [[ "$WORK_SHA" =~ ^[0-9a-f]{40}$ ]]
             [[ "$(git rev-parse HEAD)" == "$WORK_SHA" ]]
             # Only a commit that is on dev is ever promoted.
             git fetch --no-tags origin dev
             git merge-base --is-ancestor "$WORK_SHA" origin/dev
-            # Already promoted by an earlier run (the push worked, a later step
-            # failed): use that main commit and make no second one.
-            if found="$(node scripts/promote/promote.mjs --find "$WORK_SHA")"; then
-              echo "main_sha=$found" >> "$GITHUB_OUTPUT"
-              echo "Main already holds $WORK_SHA as $found; nothing to promote." | tee -a "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
+            # Where this commit stands against main (read only).
+            state="$(node scripts/promote/promote.mjs --state "$WORK_SHA")"
+            read -r word first second <<< "$state"
+            case "$word" in
+              promoted)
+                # An earlier run pushed it and a later step failed: use that
+                # main commit and make no second one.
+                echo "main_sha=$first" >> "$GITHUB_OUTPUT"
+                echo "Main already holds $WORK_SHA as $first; nothing to promote." | tee -a "$GITHUB_STEP_SUMMARY"
+                exit 0
+                ;;
+              superseded)
+                # A later promote (for example a manual one of dev's tip) went
+                # past this commit, so main has everything it had. Push nothing.
+                echo "superseded=true" >> "$GITHUB_OUTPUT"
+                echo "Version commit $WORK_SHA is already inside main as part of $second; this release gets no app of its own. The next release carries it." | tee -a "$GITHUB_STEP_SUMMARY"
+                exit 0
+                ;;
+              pending) ;;
+              *) echo "::error::Unexpected promote state: $state"; exit 1 ;;
+            esac
           else
             [[ "$WORK_BRANCH" =~ ^[A-Za-z0-9._/-]+$ ]]
             [[ "$WORK_BRANCH" != "main" ]]
@@ -122,7 +141,15 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
           if [[ "$PUSH" == "true" ]]; then
-            # The commit just pushed, found by the work sha it names.
-            main_sha="$(node scripts/promote/promote.mjs --find "$(git rev-parse HEAD)")"
-            echo "main_sha=$main_sha" >> "$GITHUB_OUTPUT"
+            # The main commit that carries this work commit, if there is one.
+            # A manual run with nothing to promote has none, and that is fine;
+            # a release run must have it.
+            if main_sha="$(node scripts/promote/promote.mjs --find "$(git rev-parse HEAD)")"; then
+              echo "main_sha=$main_sha" >> "$GITHUB_OUTPUT"
+            elif [[ -n "$WORK_SHA" ]]; then
+              echo "::error::Promoted $WORK_SHA but main holds no commit for it."
+              exit 1
+            else
+              echo "Nothing to promote: main already holds this commit's work." | tee -a "$GITHUB_STEP_SUMMARY"
+            fi
           fi
