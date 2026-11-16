@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: T54
-pr:
+pr: "#9645"
 after: counted-savings-banked-by-group
 blocked-on:
 root: none

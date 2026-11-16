@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: account-lead-f1
 pr: 9414
 blocked-on:

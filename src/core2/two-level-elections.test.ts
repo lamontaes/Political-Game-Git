@@ -18,6 +18,8 @@ import {
   ballot,
   ELECTIONS_MODULE_ID,
   openElections,
+  runningMateOf,
+  ticketGovernorContest,
   type ContestRow,
 } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
@@ -134,12 +136,18 @@ function playTo(draw: number) {
     // ballot with party labels whole to its first place, on one without by
     // each candidate's logistic share at appealPerShare's slope, worked
     // out here; a household that gave its word at a door votes whole on it.
-    const kept = countedBallotsOf(api, contest.id);
+    // A ticket office (a lieutenant governor elected on the governor's
+    // ticket) is decided by its governor race's count (`decideTicket`): its
+    // counted ballots are that race's, each governor candidate's votes going
+    // to their running mate.
+    const governor = ticketGovernorContest(api, contest);
+    const counting = governor ?? contest;
+    const kept = countedBallotsOf(api, counting.id);
     expect(kept.length, contest.title).toBeGreaterThan(0);
     const row = api
       .moduleState(VOTING_MODULE_ID)
       .table("countedBallots")
-      .get(`counted:${contest.id}`) as unknown as {
+      .get(`counted:${counting.id}`) as unknown as {
       readonly field: readonly {
         readonly id: string;
         readonly side: number;
@@ -192,6 +200,15 @@ function playTo(draw: number) {
     // stands on the labeled ballot without a side, and a voter goes whole to
     // the first in their own appeal (countedShareRule): one with no votes is
     // one no kept ballot put first, read from the ballots themselves.
+    // On a ticket office's ballot, the governor candidate each filing runs with.
+    const runsWith = new Map(
+      governor
+        ? ballot(api, governor.id).flatMap((g) => {
+            const mate = runningMateOf(api, g, contest);
+            return mate ? [[mate.personId, g.personId] as const] : [];
+          })
+        : filings.map((f) => [f.personId, f.personId] as const),
+    );
     for (const f of filings) {
       const got = result.totals[f.personId] ?? 0;
       if (f.party || got > 0) {
@@ -199,7 +216,11 @@ function playTo(draw: number) {
         continue;
       }
       expect(
-        kept.filter((b) => countedChoice(b.appeal) === f.personId).length,
+        kept.filter(
+          (b) =>
+            countedChoice(b.appeal) ===
+            (runsWith.get(f.personId) ?? f.personId),
+        ).length,
         `${state} ${key}, seed ${seed}: ${contest.title}: ${f.personId} of no party got no votes though a kept ballot put them first`,
       ).toBe(0);
     }
@@ -219,7 +240,7 @@ function playTo(draw: number) {
       ).toBeLessThan(0.15);
     }
     report.push(
-      `${contest.title}: R ${share.toFixed(3)} of ${r + d} (counted ${result.countedTurnout}/${result.countedEligible}, named ${result.namedTurnout}/${result.namedEligible})`,
+      `${contest.title}: R ${share.toFixed(3)} of ${r + d} (counted ${result.countedTurnout}/${result.countedEligible}, named ${result.namedTurnout}/${result.namedEligible})${governor ? ", on the governor's ticket" : ""}`,
     );
   }
   return { state, key, core, api, counted, report, partisan };
