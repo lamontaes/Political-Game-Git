@@ -69,7 +69,7 @@ function clinicReceipts(cut: boolean) {
   };
 }
 
-describe("a seller is paid each payer's part", { timeout: 600_000 }, () => {
+describe("a seller is paid each payer's part", { timeout: 180_000 }, () => {
   it("West Union: the clinic's receipts carry Medicare's and the insurer's parts, and a Medicaid cut lowers them", () => {
     const control = clinicReceipts(false);
     // All four payers appear on the clinic's bills.
