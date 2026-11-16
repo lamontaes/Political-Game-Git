@@ -28,7 +28,7 @@ source: owner, Nov 16 00:59Z, "if it's not already being traced by the dev mode,
 
 **Rules.** Wire to the world: the screen reads the director's own schedule entries and writes nothing and spends no game time. Replace, never layer: it reads the ledger's entries, never a copy kept for the screen. Ask why: every row carries the cause record id and the reason the director gave, by record.
 
-**Done when.** A second session in the running game at a drawn place, with dev mode on, picks the player or a watched official, opens the director's day for a date with a held scene, and sees each moment with its cause record, its outcome and the reason it was held, and opens the cause in the trace box. A test at a named place and seed shows the route's rows equal the ledger's entries for that day, by record id.
+**Done when.** A second session in the running game at a drawn place, with dev mode on, picks the player or a watched official, opens the director's day for a date with a held scene, and sees each moment with its cause record, its outcome and the reason it was held, opens the cause in the trace box, and sees counts of the day's moments by outcome (scene now, scene waiting, journal line) and by held or closed reason, each moment shown staged or as a journal line with its closed reason. A test at a named place and seed shows the route's rows equal the ledger's entries for that day, by record id.
 
 **Waits on.** Nothing. The reasons it shows grow as `director-cap-on-scene-repeats` and the candidate-pick item land.
 
