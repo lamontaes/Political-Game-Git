@@ -31,8 +31,7 @@ import {
   householdIncome,
   residentsRuntime,
 } from "./modules/residents";
-import { claimsInGroup, fundBalance } from "./counted-money";
-import { depositsHeld } from "./modules/budgets";
+import { claimsInGroup, countedDeposits, fundBalance } from "./counted-money";
 import { coreAPI } from "./state";
 
 const PLACE = "2204685";
@@ -74,7 +73,9 @@ it("counted renters on their lease month buy from their own savings, short ones 
       {
         id: h.id,
         // Its own savings: its share of its group's account and its savings at the bank, for every household the record stands for.
-        savings: departingCash(rt, h) + depositsHeld(core, h.id),
+        savings:
+          departingCash(rt, h) +
+          countedDeposits(api, rt, h, rt.store.weightedCount(h)),
         down: value * share * rt.store.weightOf(h),
       },
     ];
@@ -126,7 +127,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
         {
           group: h.group,
           cash: departingCash(rt, h),
-          banked: depositsHeld(core, h.id),
+          banked: countedDeposits(api, rt, h, rt.store.weightedCount(h)),
         },
       ];
     }),

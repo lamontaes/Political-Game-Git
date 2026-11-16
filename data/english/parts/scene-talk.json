@@ -4879,17 +4879,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["voted-no"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-yes"],
-          "excludesFacts": ["voted-no"]
+          "excludesFacts": ["voted-no", "acted"]
         }
       ],
       "bearing": "calm",
@@ -4914,7 +4904,16 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["acted", "voted-no"]
+          "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no", "top-reason-people"]
         }
       ],
       "bearing": "calm",
@@ -4927,10 +4926,69 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-voted-no-i-ll-stand-on-that",
+      "key": "scene-talk.reply-answer.i-voted-against-it-place-deserves-better-than-that",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I voted no. I'll stand on that.",
+      "text": "I voted against it. {place} deserves better than that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no", "top-reason-people"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-no-because-i-don-t-believe-in-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted no because I don't believe in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-couldn-t-vote-for-it-that-s-all-there-is-to-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I couldn't vote for it. That's all there is to it.",
       "uses": [
         {
           "subject": "scene",
@@ -4944,18 +5002,18 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words lead (Fable), Nov 15",
-      "date": "2026-11-15",
+      "author": "Words lead (Fable), Nov 16",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "routine"
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-voted-for-it-i-d-vote-for-it-again",
+      "key": "scene-talk.reply-answer.when-it-came-to-the-vote-i-couldn-t-say-yes",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I voted for it. I'd vote for it again.",
+      "text": "When it came to the vote, I couldn't say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -4964,7 +5022,107 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["acted", "voted-yes"]
+          "requiresFacts": ["acted", "voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 16",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.it-s-my-bill-i-believe-in-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "It's my bill. I believe in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-own-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-for-it-because-i-believe-in-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for it because I believe in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-own-view"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.people-here-want-it-i-voted-with-them",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "People here want it. I voted with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-people"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-trust-the-member-who-wrote-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I trust the member who wrote it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-sponsor"]
         }
       ],
       "bearing": "calm",
@@ -11118,30 +11276,6 @@
           "step": "reply",
           "subject": "scene",
           "excludesFacts": ["voted-no"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "lie",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.my-position-hasn-t-changed-since-day-one",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "My position hasn't changed since day one.",
-      "uses": [
-        {
-          "key": "routine",
-          "move": "lie",
-          "purpose": "press-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
         }
       ],
       "bearing": "calm",
@@ -18412,7 +18546,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.try-me-give-me-a-reason-i-d-get-wrong"
+          "after": "scene-talk.follow-answer.try-me-give-me-a-reason-i-d-get-wrong",
+          "excludesFacts": ["wrote-bill"]
         }
       ],
       "bearing": "braced",
@@ -56322,31 +56457,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.a-year-i-ll-hold-you-to-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "A year. I'll hold you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "boast"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-will-i-ll-print-what-i-find",
       "move": "follow-accept",
       "kind": "spoken",
@@ -57104,31 +57214,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-ve-got-numbers-that-say-otherwise",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I've got numbers that say otherwise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "lie",
         "key": "routine"
       }
     },
@@ -191563,379 +191648,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-you-go-to-see-first",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You have {bill} drafted and no names on it but yours. You go to see {first}.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), co-sponsor ask",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["bill"],
-          "excludesFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.first-said-no-the-last-time-you-brought-a-bill-on-said-you-ask-again",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{first} said no the last time you brought a bill on {said}. You ask again.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["asked-before", "said"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-ve-asked-first-to-sign-on-to-a-bill-on-said-before-the-answer-was-no",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You've asked {first} to sign on to a bill on {said} before. The answer was no.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["asked-before", "said"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.state-request.i-m-asking-you-again-on-said-will-you-sign-on-this-time",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'm asking you again on {said}. Will you sign on this time?",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["asked-before", "said"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-first-voted-against-your-last-bill-on-said",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "The vote on {bill} is tomorrow. {first} voted against your last bill on {said}.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "vote-sought"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-vote",
-          "key": "vote-sought",
-          "requiresFacts": ["asked-before", "said", "vote-tomorrow"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "You asked me last time, and I voted no. I'm voting no again.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      },
-      "bearing": "steady",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-stall.you-asked-before-i-still-haven-t-made-up-my-mind",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "You asked before. I still haven't made up my mind.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "stall",
-        "key": "bill-sign-on"
-      },
-      "bearing": "steady",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
-      "move": "follow-defer",
-      "kind": "spoken",
-      "text": "Read it. That's all I'm asking.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "defer",
-        "key": "bill-sign-on"
-      },
-      "bearing": "calm",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "defer",
-          "role": "asker",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "after": "stall",
-          "requiresFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.follow-defer.take-the-time-you-need",
-      "move": "follow-defer",
-      "kind": "spoken",
-      "text": "Take the time you need.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "defer",
-        "key": "vote-wanted"
-      },
-      "bearing": "calm",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "defer",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "stall",
-          "requiresFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I was a no last time. Don't count me either way yet.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "stall",
-        "key": "vote-wanted"
-      },
-      "bearing": "steady",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "I backed you when it counted. I need your vote on this one.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "plea",
-        "key": "vote-wanted"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["asked-before"],
-          "onlyWhen": ["read-favor-given"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-turned-you-down-for-office-once-you-ask-again",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} turned you down for {office} once. You ask again.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "serve-asked"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["asked-before"],
-          "excludesFacts": ["asked-more-than-once"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-already-said-no-to-office-and-said-it-again-you-ask-anyway",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} has already said no to {office}, and said it again. You ask anyway.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "serve-asked"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["asked-more-than-once"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "My answer isn't going to change. Let it go.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      },
-      "bearing": "firm",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["asked-more-than-once"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I gave you my answer. It hasn't changed.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      },
-      "bearing": "steady",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["nothing-moved"],
-          "excludesFacts": ["asked-more-than-once"]
-        }
-      ]
-    },
-    {
       "key": "scene-talk.state-tell.your-petition-for-office-is-thin-and-time-is-short",
       "move": "state-tell",
       "kind": "spoken",
@@ -192614,6 +192326,379 @@
         "move": "narrate",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-you-go-to-see-first",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have {bill} drafted and no names on it but yours. You go to see {first}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), co-sponsor ask",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.first-said-no-the-last-time-you-brought-a-bill-on-said-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{first} said no the last time you brought a bill on {said}. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-asked-first-to-sign-on-to-a-bill-on-said-before-the-answer-was-no",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You've asked {first} to sign on to a bill on {said} before. The answer was no.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-again-on-said-will-you-sign-on-this-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you again on {said}. Will you sign on this time?",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-first-voted-against-your-last-bill-on-said",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The vote on {bill} is tomorrow. {first} voted against your last bill on {said}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "requiresFacts": ["asked-before", "said", "vote-tomorrow"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked me last time, and I voted no. I'm voting no again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.you-asked-before-i-still-haven-t-made-up-my-mind",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "You asked before. I still haven't made up my mind.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "bill-sign-on"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read it. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.take-the-time-you-need",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Take the time you need.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I was a no last time. Don't count me either way yet.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I backed you when it counted. I need your vote on this one.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turned-you-down-for-office-once-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} turned you down for {office} once. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-already-said-no-to-office-and-said-it-again-you-ask-anyway",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} has already said no to {office}, and said it again. You ask anyway.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My answer isn't going to change. Let it go.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I gave you my answer. It hasn't changed.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["nothing-moved"],
+          "excludesFacts": ["asked-more-than-once"]
+        }
+      ]
     },
     {
       "key": "scene-talk.follow-answer.the-doors-in-town-won-t-cover-it-voters-for-office-live-outside-town-too-campaigns-pay-people-to-carry-petitions-out-there",

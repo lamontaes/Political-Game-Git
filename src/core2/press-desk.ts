@@ -488,6 +488,10 @@ export function printItem(
       facts: {
         ...item.facts,
         sourceRecordId: item.id,
+        // Where the record happened, as the wire read it from the record's
+        // own fields (town, county, state or nation): a reader can bring up
+        // a national public event they read (news.ts).
+        wireLevel: item.level,
         // The reporter makes the story's case, so a reader moves by their
         // standing with the reporter (views engine); the outlet's line already
         // chose the change the story argues. Which outlet printed it is the

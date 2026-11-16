@@ -15788,6 +15788,93 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.approval.president-name-s-approval-fell-to-percent-in-month",
+      "move": "approval",
+      "kind": "written",
+      "text": "President {name}'s approval fell to {percent} in {month}.",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "news",
+          "role": "approval",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.approval.president-name-s-approval-held-at-percent-in-month",
+      "move": "approval",
+      "kind": "written",
+      "text": "President {name}'s approval held at {percent} in {month}.",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "news",
+          "role": "approval",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.approval.president-name-s-approval-did-not-move-in-month-it-stayed-at",
+      "move": "approval",
+      "kind": "written",
+      "text": "President {name}'s approval did not move in {month}. It stayed at {percent}.",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "news",
+          "role": "approval",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.approval.president-name-s-approval-stood-at-percent-in-month",
+      "move": "approval",
+      "kind": "written",
+      "text": "President {name}'s approval stood at {percent} in {month}.",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "news",
+          "role": "approval",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

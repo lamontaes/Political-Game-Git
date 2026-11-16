@@ -1157,7 +1157,8 @@
     "reasonKey": "p13-story-director:waiting-scene",
     "citation": "The story director's staged scene that ranked within the life's pace and waited for the player (docs/design/story-director.md, part 4, When: at the cause, the scene opens the first time the player has control after the record is written; on an effective date, that day). One a morning, the highest-ranked first.",
     "notMet": "not met in time",
-    "silent": "no one there to speak"
+    "silent": "no one there to speak",
+    "nothingSaid": "nothing to say past its opener"
   },
   "interruptStop": {
     "reasonKey": "p13-story-director:interrupting-moment",

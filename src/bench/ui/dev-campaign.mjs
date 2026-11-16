@@ -77,37 +77,7 @@ export async function devCampaignPanel({ labels, onDone }) {
       out.told ? labels.petitionTold : labels.petitionNotTold,
       ...(out.tellerId ? [out.tellerId] : []),
       `${out.signed}/${out.gathers}`,
-      ...(out.circulators
-        ? [
-            out.money
-              ? out.coversPart
-                ? labels.petitionPayPart
-                : labels.petitionPayOffered
-              : labels.petitionPayNoMoney,
-          ]
-        : []),
       out.mark.id,
-    ].join(" · ");
-  });
-  const counted = makeButton({ className: "action" }, labels.petitionCount);
-  counted.dataset.testid = "dev-petition-count";
-  act(counted, async () => {
-    const out = await send("petition-count", { filingId: campaign.value });
-    return [
-      `${out.signed}/${out.needed}`,
-      `${labels.petitionInTown} ${out.inTown}`,
-      `${labels.petitionOutside} ${out.outsideTown}`,
-      `${labels.petitionDoors} ${out.byDoor}`,
-      `${labels.petitionGap} ${out.gap}`,
-      ...(out.daysLeft === null
-        ? []
-        : [`${labels.petitionDaysLeft} ${out.daysLeft}`]),
-      ...(out.circulatorFundMinor > 0
-        ? [`$${Math.round(out.circulatorFundMinor / 100)}`]
-        : []),
-      ...(out.check
-        ? [`${labels.petitionChecked} ${out.check.valid}/${out.needed}`]
-        : []),
     ].join(" · ");
   });
   const cast = (yes) => async () => {
@@ -129,7 +99,7 @@ export async function devCampaignPanel({ labels, onDone }) {
     "section",
     { className: "dev-only dev-campaign" },
     el("h3", { textContent: labels.title }),
-    el("div", { className: "dev-run-row" }, campaign, give, behind, counted),
+    el("div", { className: "dev-run-row" }, campaign, give, behind),
     el("div", { className: "dev-run-row" }, people, yes, no),
     result,
   );

@@ -79,16 +79,12 @@ import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   petitionOf,
-  petitionSigners,
   playerContests,
 } from "../core2/modules/elections";
 import {
   campaignFor,
   castVolunteer,
-  circulatorsCanWork,
-  freeMinor,
   PETITION_SHORT_EVENT,
-  petitionShortReading,
   signaturesToGather,
   volunteerReason,
 } from "../core2/modules/campaigns";
@@ -430,8 +426,8 @@ export class DevMode {
       : this.placeId;
   }
 
-  /** A dev-mode change record on the core, dated today. */
-  private mark(
+  /** A dev-mode change record on the core, dated today. A view's controls (dev-views.ts) mark through it too. */
+  mark(
     control: string,
     recordIds: readonly string[],
     facts: Record<string, string>,
@@ -1667,75 +1663,6 @@ export class DevMode {
       daysLeft: record ? Number(record.facts?.daysLeft) : null,
       canAddAfterNextTurn: record
         ? Number(record.facts?.canAddAfterNextTurn)
-        : null,
-      // Whether the scene may offer paid circulators (the race has voters
-      // outside the town and no fund is running) and whether the campaign
-      // held money for them that day, from the record's own facts.
-      circulators: record ? record.facts?.circulators === "yes" : null,
-      money: record ? record.facts?.money === "yes" : null,
-      // The free money buys fewer names than the gap still needs.
-      coversPart: record ? record.facts?.covers === "part" : null,
-      // The fund set aside and the signatures held now, after any answer.
-      circulatorFundMinor:
-        campaignFor(this.api, filingId).circulatorFundMinor ?? 0,
-      signedNow: petitionOf(this.api, filingId)!.signed,
-    };
-  }
-
-  /**
-   * A petition's whole count, read from the records and changing none: what
-   * the law asks, what a campaign gathers, who signed and how (a door, an
-   * event, the circle), what paid circulators brought outside the town, who
-   * is on the campaign, the gap, and why it is short or was struck: the days
-   * left against what a canvass shift a day can add, the fund (if any), and
-   * the clerk's check.
-   */
-  petitionCount(filingId: string) {
-    if (campaignFor(this.api, filingId).candidateId !== this.core.playerId)
-      throw new Error("That is not your campaign.");
-    const petition = petitionOf(this.api, filingId);
-    if (!petition) throw new Error("That filing has no petition.");
-    const campaign = campaignFor(this.api, filingId);
-    const signers = petitionSigners(this.api, filingId);
-    const via = { door: 0, event: 0, circle: 0 };
-    for (const signer of signers) via[signer.via] += 1;
-    const outside = Object.values(petition.outsideSigned ?? {}).reduce(
-      (sum, count) => sum + count,
-      0,
-    );
-    const reading = petitionShortReading(this.api, filingId, 0);
-    const gathers = signaturesToGather(petition.needed);
-    return {
-      needed: petition.needed,
-      gathers,
-      signed: petition.signed,
-      inTown: signers.length,
-      outsideTown: outside,
-      byDoor: via.door,
-      byEvent: via.event,
-      byCircle: via.circle,
-      signers: signers.map((signer) => ({
-        personId: signer.personId,
-        on: signer.on,
-        via: signer.via,
-      })),
-      staffIds: [...campaign.staffIds],
-      volunteerIds: [...campaign.volunteerIds],
-      doorsKnocked: campaign.doorsKnockedCount ?? 0,
-      gap: Math.max(0, petition.needed - petition.signed),
-      gapToGathers: Math.max(0, gathers - petition.signed),
-      daysLeft: reading ? reading.daysLeft : null,
-      canAddByCanvass: reading ? Number(reading.canAdd.toFixed(1)) : null,
-      circulatorsCanWork: circulatorsCanWork(this.api, filingId),
-      circulatorFundMinor: campaign.circulatorFundMinor ?? 0,
-      // What the campaign holds and has not set aside, the budget a hire is limited to.
-      freeMinor: freeMinor(campaign),
-      check: petition.check
-        ? {
-            on: petition.check.on,
-            valid: petition.check.valid,
-            struck: petition.check.struckIds.length,
-          }
         : null,
     };
   }

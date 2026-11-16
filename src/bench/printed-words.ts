@@ -1489,6 +1489,34 @@ const rateDecision: Builder = (read) => {
   );
 };
 
+/**
+ * The month's poll of the President's approval (national-opinion.ts): the
+ * whole percent once, as a poll is reported, whether it rose, fell or held
+ * against last month's, and the President by name. The change in points is
+ * the record's, for weighing, and is not said.
+ */
+const approval: Builder = (read, f) => {
+  const pct = num(f.pct);
+  if (pct === undefined) return null;
+  return story(
+    "approval",
+    {
+      ...read.who(f.presidentId),
+      percent: read.fact(`${pct}%`, f.approvalId ?? read.sourceId),
+      ...(f.direction === "up" || f.direction === "down"
+        ? { [f.direction]: read.yes() }
+        : f.direction === "steady"
+          ? { held: read.yes() }
+          : {}),
+      ...(f.month
+        ? { month: read.fact(MONTHS[Number(f.month.slice(5, 7)) - 1]!) }
+        : {}),
+      date: read.date(),
+    },
+    ["percent"],
+  );
+};
+
 /** An official's town hall. */
 const townHall: Builder = (read, f) =>
   story(
@@ -4115,6 +4143,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "economy.state-jobs-report": jobsReport,
   "outcome-web.month": conditions,
   "central-bank-rate-decision": rateDecision,
+  "national.approval": approval,
   meeting: rateDecision,
   "town-hall": townHall,
   "public-meeting": publicMeeting,

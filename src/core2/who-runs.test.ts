@@ -66,7 +66,7 @@ describe("who runs in the town's races", () => {
         { data: peopleData(DEFAULT_DATA), modules: peopleModules() },
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);

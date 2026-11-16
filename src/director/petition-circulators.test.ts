@@ -22,7 +22,10 @@ import { appendFileSync, writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { fileForOffice, governmentView } from "../bench/government";
 import { petitionView } from "../bench/campaign";
-import { DevMode } from "../bench/dev-mode";
+import {
+  petitionCountOf,
+  petitionCounts,
+} from "../bench/dev-views/petition-count";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { campaignDayOpen, takeCampaignDayChoice } from "../core2/campaign-day";
@@ -166,15 +169,13 @@ function told(world: World, label: string) {
   return { entry: entry!, scene: result.scene, all, record };
 }
 
-/** The petition's count as dev mode shows it, written to the played file. */
+/** The petition's count as dev mode's view shows it, written to the played file. */
 function counted(world: World, label: string) {
-  const dev = new DevMode(
-    world.core,
-    world.director,
-    undefined,
-    world.place.key,
-  );
-  const count = dev.petitionCount(world.filing.id);
+  const count = petitionCountOf(world.core, world.filing.id);
+  expect(
+    petitionCounts(world.core).map((row) => row.filingId),
+    "the view lists the player's petition",
+  ).toContain(world.filing.id);
   const rest = { ...count, signers: count.signers.length };
   write(
     `${label}, dev mode's petition count: ${JSON.stringify(rest)}\nThe Campaign tab's petition: ${JSON.stringify(petitionView(world.api, world.filing.id))}\n`,
@@ -253,7 +254,7 @@ it("Newry: the clerk, with money raised by the player's own calls, says how peti
   write(
     `Newry: ${after.signed} of ${after.needed} signed after the circulators; clerk's check ${JSON.stringify(after.check)}.\n`,
   );
-}, 1_200_000);
+}, 180_000);
 
 it("Newry: with no money held the clerk still says how petitions are carried and no hire reply is offered", () => {
   const world = filer(NEWRY);
@@ -273,7 +274,7 @@ it("Newry: with no money held the clerk still says how petitions are carried and
     "no hire reply when nothing is free",
   ).toBe(-1);
   counted(world, "Newry, no money, told");
-}, 1_200_000);
+}, 140_000);
 
 it("Kingston: a helper tells them paid people can carry it past the town line, and the yes hires them", () => {
   const world = filer(KINGSTON);
@@ -306,7 +307,7 @@ it("Kingston: a helper tells them paid people can carry it past the town line, a
     expect(after.outsideTown, "paid circulators brought names").toBeGreaterThan(
       0,
     );
-}, 1_800_000);
+}, 920_000);
 
 it("Ashaway: the governor's race, the clerk, the yes hires and the count is read after the deadline", () => {
   const world = filer(ASHAWAY);
@@ -325,7 +326,7 @@ it("Ashaway: the governor's race, the clerk, the yes hires and the count is read
   counted(world, "Ashaway, after the yes");
   advanceCore(core, addDays(makeIsoDate(petitionOf(api, filing.id)!.due), 1));
   counted(world, "Ashaway, after the deadline");
-}, 1_800_000);
+}, 290_000);
 
 it("Kingston with no calls for money: the helper says the campaign can't pay, no hire reply is offered", () => {
   const world = filer(KINGSTON);
@@ -343,4 +344,4 @@ it("Kingston with no calls for money: the helper says the campaign can't pay, no
   const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
   expect(replyIndex(scene.talk.tree.replies[ask]!.next, HIRE)).toBe(-1);
   counted(world, "Kingston, no money, told");
-}, 1_800_000);
+}, 920_000);

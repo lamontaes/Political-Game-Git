@@ -110,7 +110,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     advanceToFilingOpen(core);
@@ -282,7 +282,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
         }),
       );
       openLaws(core);
-      openOffices(core, drawSeed);
+      openOffices(core, drawSeed, core.date);
       openElections(core);
       openCampaigns(core);
       advanceToFilingOpen(core);

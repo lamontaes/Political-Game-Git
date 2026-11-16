@@ -50,7 +50,7 @@ it("outside races counted before the previous general fold into their seat's new
     }),
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
