@@ -13,7 +13,7 @@ import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
 import { createStableId } from "./kernel/ids";
 import { ageInYears } from "./kernel/dates";
-import { countyPlaceOfWorld } from "./opening-county-sample";
+import { countyPlaceOfWorld } from "./electorate-places";
 import { partyActivityOf } from "./opening-roles";
 import { parameter as p } from "./parameters";
 

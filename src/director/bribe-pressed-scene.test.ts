@@ -14,6 +14,7 @@ import {
 import { coreAPI, registerModule } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // The open threat (owner, Nov 8: "subtle and open threats"). Someone offers the
 // player's seat a bribe through the corruption engine; the player hands it
@@ -48,7 +49,7 @@ it(`an offerer who presses after a refusal is a scene for the player (seed ${see
         pressedIds.push(event.id);
       },
     });
-    const adults = [...core.people.values()]
+    const adults = townResidentsByCash(core, coreAPI(core))
       .filter(
         (person) =>
           person.alive &&
@@ -56,7 +57,6 @@ it(`an offerer who presses after a refusal is a scene for the player (seed ${see
           person.id !== me &&
           person.birthDate <= "2000-01-01",
       )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
       .slice(0, 80);
     let pressedCrime: string | undefined;
     let offers = 0;

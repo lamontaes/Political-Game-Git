@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9564
 after:
 blocked-on:
 lead: jobs
@@ -16,6 +16,7 @@ source: "Account lead F1, Nov 14, 2026, from the coordinator's one-model-two-tie
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+merged-at: 2026-11-16T19:58:24.591Z
 ---
 
 **What.** About a third of a small town's workers (196 of 524 at Tanapag) work out of town, and nothing ever ends their work: the monthly layoff pull reaches the town's own jobs and the counted people who found regional work by name, but not the household's away workers, which are only a share on the household record. So the same worker is let go at the state's pace if they work in town and never if they work out of town, and the town's jobless stock drains in the months after the opening. A player who opens a town with high unemployment watches it fall for no reason the world holds. Seen: the Metrics tab's jobless count month by month in a town that opens high.

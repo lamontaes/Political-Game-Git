@@ -22,6 +22,7 @@ import {
 import { debatesIn } from "../core2/modules/meetings";
 import { lawChain } from "../core2/modules/laws";
 import { campaignView, debateAnswer } from "./campaign";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -48,16 +49,12 @@ it("lists the invited debate for the player, who answers it, and it is held with
     // Filing refuses a resident of another town (residency), so the
     // candidates are the town's own people.
     const town = lawChain(api).townPlaceId;
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === town &&
-          Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === town &&
+        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     let pair: { you: FilingRow; rival: FilingRow } | undefined;
     // The world runs a week at a time until a race on the clerk's list takes
     // two of them; a race that refuses them does not end the wait.

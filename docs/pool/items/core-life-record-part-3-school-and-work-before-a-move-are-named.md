@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-life-record-part-3-school-and-work-before-a-move-are-named
 pr: #8648
@@ -18,6 +18,7 @@ root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:23:47.736Z
+merged-at: 2026-11-16T00:52:49.231Z
 ---
 
 **What.** A person's past now reaches back to their birth. For the years before they moved to town, the school has no name and the work has no employer, so the card reads as a gap. This part names a school and an employer in the place the person came from, the same every time they are opened. Seen: the school and employer a person's card names for the years before they moved to town.

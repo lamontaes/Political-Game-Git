@@ -11,7 +11,19 @@ import { openConversation, say } from "./conversation";
 // scenes over its first four months. Before the asker's own recent contact
 // held the question back, the first talk here was "Have you heard from
 // Ariana?" ... "I saw her today."
-const SEED = "7952d3f3e3253ee4";
+// Re-pinned Nov 16 from seed 7952d3f3e3253ee4 to d4 (Sidon, Mississippi). Old premise: at that seed the
+// world had a scene that ends in this question; since start at 18 moved the people and the
+// opening, none leads to it any more (0 asked of 45 and 48 scenes), and asked-mutual is no
+// opening subject, only a follow-up. Scanned over 120 days at nine seeds: asked at a1, d4, f6
+// and 18 (one to three times), never at 7952d3f3, 9f8e7d6c, b2, e5 or 07. Red at the old seed
+// (0 asked), green at d4.
+// Re-pinned Nov 16 from that seed to d4 (Sidon, Mississippi). Old premise: at seed
+// 7952d3f3e3253ee4 the world had a talk that ends in this question; since start at 18 moved
+// the people and the opening, no scene there leads to it any more (0 asked of 45 scenes),
+// and asked-mutual is no opening subject, only a follow-up. Scanned at nine seeds over 120
+// days: asked at a1, d4, f6 and 18 (one to three times), never at 7952d3f3, 9f8e7d6c, b2,
+// e5 or 07; red at the old seed (0 asked), green at d4.
+const SEED = "d4";
 
 describe("a question about someone both know", () => {
   it("is answered back by the asker after the player's answer", () => {

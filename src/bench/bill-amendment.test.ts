@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -16,17 +15,33 @@ import { buildBenchWorld } from "./world";
 
 // An amendment is its own record: the section struck and the one inserted, the bill's
 // estimate with it, the body's roll call by member, and the bill rewritten only when the
-// body adopts it. A place drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.BILL_AMEND_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// body adopts it. Played at the pinned place below.
+// Pinned (Nov 16). Before, the seed came at run time from BILL_AMEND_SEED,
+// GOLDEN_PATH_SEED or randomBytes, and the case drew up to twelve places until
+// one let a member draft the local minimum-wage ordinance. Most draws land in
+// states whose law gives towns no minimum-wage authority, where the draft is
+// rightly blocked (12 of 12 at seed pin-bill-amendment on the Train at
+// 6d12556a; Brookfield Center CT, Grenloch NJ and Beatty NV read
+// "state-gives-no-local-minimum-wage"). The place below is the old loop's
+// 25th draw at seed pin-bill-amendment, Fulton, Illinois, in a state whose
+// row grants the authority (law:US-IL local-minimum-wage-authority, value 1);
+// its council of five drafts the ordinance.
+// Limit: the case took 38 s, run beside two other test files (Nov 16, Train 544056f5); its limit is about twice that, 80 s.
+const seed = "pin-bill-amendment";
+const PLACE = {
+  key: "1728144",
+  name: "Fulton, Illinois",
+  seed: "8ef1f310c74ca4c558ddc233d0deafd9f197641b84fe62caf59434102cb9f176",
+};
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:24`, "bill-amend")).toMatchObject(PLACE);
+});
 
 describe(`an amendment (seed ${seed})`, () => {
   it("is voted by the body's own positions and rewrites the bill only when adopted", () => {
     let proved = false;
-    for (let i = 0; i < 12 && !proved; i += 1) {
-      const draw = drawPlace(`${seed}:${i}`, "bill-amend");
+    for (const draw of [PLACE]) {
       const world = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: draw.key,
@@ -88,5 +103,5 @@ describe(`an amendment (seed ${seed})`, () => {
       proved = true;
     }
     expect(proved, "a place where an amendment is voted").toBe(true);
-  }, 300_000);
+  }, 80_000);
 });

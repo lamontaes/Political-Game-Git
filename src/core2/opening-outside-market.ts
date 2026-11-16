@@ -148,10 +148,14 @@ export function addOutsideMarket(
           "BusinessBooksState.annualOtherCostsMinor less operatingPaidMinor.",
       },
     });
-    const weekly = share
-      ? Math.round((book.annualDemandMinor * share.value) / data.weeksPerYear)
-      : 0;
-    if (!share || weekly <= 0) continue;
+    // A kind with a row has outside buyers: its share is a floor, and the
+    // trade area (`addTradeArea`) lifts the flow to what the town's own buyers
+    // leave of its books. A floor of zero (wholesale) still opens the flow.
+    if (!share) continue;
+    const weekly = Math.max(
+      0,
+      Math.round((book.annualDemandMinor * share.value) / data.weeksPerYear),
+    );
     const source: Source = {
       tag: share.tag,
       asOf: start,

@@ -14,8 +14,8 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
-import { countedPayment } from "../counted-money";
-import { depositsHeld, withdrawSavings } from "./budgets";
+import { countedHouseholdSavings, countedPayment } from "../counted-money";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
@@ -82,10 +82,17 @@ import {
   EMPLOYER_TAXES_MODULE_ID,
   employerTaxShareOfWage,
   premisesTaxYearMinor,
-} from "./employer-taxes";
+} from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
 
 export { BUSINESS_MODULE_ID };
+export { DEFAULT_BUSINESS_BOOKS_DATA };
+/** A business's books and its kind's national sector, as other families read them (dev mode's Industries view). */
+export { sectorOfKind } from "../business-books";
+export {
+  businessBooksView,
+  type BusinessBooksView,
+} from "../business-books-view";
 /** What a business paid by name under a law or tax: every payer engine records it here (business-charges.ts). */
 export { firmCharged } from "../business-charges";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
@@ -426,21 +433,28 @@ function ownerPerson(c: CoreState, personId: string) {
     : undefined;
 }
 
-/** A household's common savings are available to a founder on the same per-person basis in either tier. */
+/** A household's common savings are available to a founder on the same per-person basis in either tier: a counted household's are its share of its group's (`countedHouseholdSavings`). */
 function founderSavings(
-  c: CoreState,
+  api: CoreAPI,
   personId: string,
 ): { holderId: string; minor: number } {
+  const c = api.state as CoreState;
   const person = c.people.get(personId);
   const counted = person ? undefined : countedFacts(c, personId);
-  const holderId = person?.householdId ?? counted?.householdId ?? "";
-  const full = c.households.get(holderId);
+  const householdId = person?.householdId ?? counted?.householdId ?? "";
+  const full = c.households.get(householdId);
   const people = full
     ? full.memberIds.filter((id) => c.people.get(id)?.alive).length
     : (counted?.people ?? 0);
+  const saved = full
+    ? { holderId: householdId, minor: depositsHeld(c, householdId) }
+    : (countedHouseholdSavings(api, householdId) ?? {
+        holderId: householdId,
+        minor: 0,
+      });
   return {
-    holderId,
-    minor: people ? Math.floor(depositsHeld(c, holderId) / people) : 0,
+    holderId: saved.holderId,
+    minor: people ? Math.floor(saved.minor / people) : 0,
   };
 }
 
@@ -653,7 +667,7 @@ function membershipPayouts(api: CoreAPI): void {
 }
 
 /** The owner closes the business by choice; its remaining cash goes to them (or their place's pool while counted). */
-function closeByChoice(
+export function closeByChoice(
   api: CoreAPI,
   organizationId: string,
   ownerId: string,
@@ -1600,6 +1614,8 @@ const AGE_VERIFICATION_QUESTION =
 
 interface BusinessDuty {
   readonly question: string;
+  /** The statute's own size test: a business with yearly sales below this parameter is not bound. */
+  readonly minSalesParameter?: keyof typeof businessParameters;
   /** The classifications it binds; every enterprise where empty. */
   readonly classifications: readonly string[];
   /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
@@ -1615,12 +1631,14 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+    minSalesParameter: "businessDataPrivacyMinSalesMinor",
   },
   {
     question: FEDERAL_DATA_PRIVACY_QUESTION,
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+    minSalesParameter: "businessDataPrivacyMinSalesMinor",
     unlessQuestion: DATA_PRIVACY_QUESTION,
   },
   {
@@ -1633,17 +1651,33 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
 
 const dutyCause = (question: string) => `law:${question}`;
 
+/** Whether a business of these yearly sales is large enough for the duty's statute to bind it. */
+function boundBySize(
+  api: CoreAPI,
+  duty: BusinessDuty,
+  annualSalesMinor: number,
+): boolean {
+  return (
+    duty.minSalesParameter === undefined ||
+    annualSalesMinor >= api.parameter(duty.minSalesParameter)
+  );
+}
+
 /**
  * What a consumer data privacy law costs an employing business in a year: the
  * share of its other operating costs the monthly cost review charges while
- * the law stands (null for any other law).
+ * the law stands, and nothing for a business under the statute's size test
+ * (null for any other law).
  */
 export function businessDataPrivacyCostYear(
   api: CoreAPI,
   question: string,
   annualOtherCostsMinor: number,
+  annualSalesMinor: number,
 ): number | null {
   if (question !== DATA_PRIVACY_QUESTION) return null;
+  const duty = BUSINESS_DUTIES.find((row) => row.question === question)!;
+  if (!boundBySize(api, duty, annualSalesMinor)) return 0;
   return Math.round(
     annualOtherCostsMinor * api.parameter("businessDataPrivacyShareOfCosts"),
   );
@@ -1676,6 +1710,7 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
       (duty.classifications.length > 0 &&
         !duty.classifications.includes(classification)) ||
       (duty.employingOnly && !employing) ||
+      !boundBySize(api, duty, book.annualDemandMinor) ||
       // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
       !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||
@@ -2168,7 +2203,7 @@ function foundings(api: CoreAPI): void {
           trait: foundTerm({ traits: counted!.packedTraits(m) }),
           unemployed: seeker && !seeker.employed ? 1 : 0,
           income: incomeOf(personId),
-          cash: counted!.liquid[m]! + founderSavings(c, personId).minor,
+          cash: counted!.liquid[m]! + founderSavings(api, personId).minor,
         });
       }
     }
@@ -2257,7 +2292,7 @@ function foundings(api: CoreAPI): void {
             capital(
               market,
               incomeOf(person.id),
-              person.liquidMinor + founderSavings(c, person.id).minor,
+              person.liquidMinor + founderSavings(api, person.id).minor,
             ),
         }),
       ]);
@@ -2363,7 +2398,7 @@ function found(
   if (!ownerFrom) return false;
   const savings = location
     ? { holderId: location.parentId, minor: depositsHeld(c, location.parentId) }
-    : founderSavings(c, founderId);
+    : founderSavings(api, founderId);
   const beforeSavings = founder.liquidMinor;
   const withdrawn = withdrawSavings(c, api, {
     id: `startup-savings:${id}`,

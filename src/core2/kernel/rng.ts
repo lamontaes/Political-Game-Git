@@ -1,4 +1,5 @@
 /** The core's seeded generator. */
+import { recordDraw } from "./draw-recorder";
 const UINT32_RANGE = 0x1_0000_0000;
 
 function hashSeed(seed: string): number {
@@ -38,6 +39,7 @@ export class SeededRng {
   }
 
   public nextUint32(): number {
+    recordDraw("seeded stream");
     this.#state = (this.#state + 0x6d2b79f5) >>> 0;
     let value = this.#state;
     value = Math.imul(value ^ (value >>> 15), value | 1);

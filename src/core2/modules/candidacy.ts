@@ -1,4 +1,3 @@
-import { countyPlaceOfWorld } from "../opening-county-sample";
 import {
   standingPool,
   partyOf,
@@ -58,6 +57,8 @@ import {
   filingRulesFor,
   filledByTickets,
   checkEligibility,
+  livesWhereSeatServes,
+  localResidencePlaces,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
   type ContestRow,
@@ -65,6 +66,7 @@ import {
   type OfficeFamily,
   atLargeGroup,
 } from "./elections";
+import { filingOfficerIds } from "./filing-clerk";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
@@ -634,6 +636,13 @@ export function decideToRun(
 ): CandidacyDecision | null {
   const person = api.state.people.get(personId);
   if (!person?.alive) return null;
+  // Whoever staffs the filing counter takes the filings of the races, so they
+  // never weigh standing in one.
+  // stopgapId: SG-GOV-filing-officer-never-runs
+  if (filingOfficerIds(api).has(personId)) {
+    api.stopgap("SG-GOV-filing-officer-never-runs");
+    return null;
+  }
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;
@@ -953,10 +962,6 @@ export function weighContest(
   /** Those who stayed out weigh it again from today's record (filing opens). */
   reconsider = false,
 ): WeighedContest {
-  const town = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("town")
-    .get("town") as unknown as { townPlaceId: string };
   // Whoever serves the seat today, so a member seated by a special election
   // after the contest was recorded is its incumbent; else the term the
   // contest names.
@@ -1048,21 +1053,15 @@ export function weighContest(
     );
   // A seat's serving holder weighs standing again wherever they live: a
   // county officeholder from outside the town still holds the county's seat.
+  const residence = localResidencePlaces(api, contest);
   const weighs = (p: PersonState) =>
     p.alive &&
-    (p.placeId === town.townPlaceId ||
-      (contest.family === "countyOffice" &&
-        p.placeId === countyPlaceOfWorld(api.state)) ||
-      pool.has(p.id) ||
-      p.id === incumbentId) &&
+    (residence.includes(p.placeId) || pool.has(p.id) || p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
-    (!wide ||
-      !checkEligibility(api, p.id, contest.id, null).some(
-        (check) => check.rule === "residency" && !check.met,
-      ));
+    livesWhereSeatServes(api, contest, p);
   // The incumbent weighs standing again first: one who stands down leaves
   // the seat open, and everyone else weighs it as an open seat, citing the
   // decision that opened it.
@@ -1089,9 +1088,7 @@ export function weighContest(
     const screen = countedScreen(
       api,
       { ...field, runners: raceRunners },
-      contest.family === "countyOffice"
-        ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
-        : [town.townPlaceId],
+      residence,
       rules.minimumAge,
     );
     countedWeighed = screen.weighed;
@@ -1152,11 +1149,7 @@ export function weighContest(
       const voters = stranded.size
         ? countedResidents(api.state as CoreState).filter(
             (voter) =>
-              stranded.has(voter.id) &&
-              (contest.family === "countyOffice"
-                ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
-                : [town.townPlaceId]
-              ).includes(voter.placeId),
+              stranded.has(voter.id) && residence.includes(voter.placeId),
           )
         : [];
       for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
