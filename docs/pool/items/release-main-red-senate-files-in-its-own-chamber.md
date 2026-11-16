@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-m0-13-filer-member
 pr: #9047
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (Account lead T5 on #8928, comment 6848663002)
+merged-at: 2026-11-15T22:17:49.440Z
 ---
 
 Same defect as `gov-executive-asked-member-missing-among-filers-crashes-filing`; #9053 contains this change (at 93599ed9) and closes both items.

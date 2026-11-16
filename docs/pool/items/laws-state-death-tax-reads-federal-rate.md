@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 claimed-by: bargaining thread (brief O)
 pr: 9356
 after:

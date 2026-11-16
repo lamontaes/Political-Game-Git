@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: account-lead-M4
 pr: 9130

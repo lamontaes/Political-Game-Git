@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: S4 (Fix town job titles and labels)
 pr: 9144
 blocked-on:

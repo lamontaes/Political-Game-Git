@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-campaign-turn-pairs-wait
-pr: 8998
+pr: #8998
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (merger codex-4629 on #8928, comment 6843205369)
+merged-at: 2026-11-15T22:29:51.335Z
 ---
 
 **What.** `src/core2/campaign-turn.test.ts`, "a world candidate's turn is a campaign day taken through the player's own choices" (shared-day) and the questions case, fail on clean main 8cf594ae at GOLDEN_PATH_SEED=2203a4f9e9da5453d59cffbabf5e513e7a7d0862: all eight drawn places say "no two candidates for the first contest". At 2156a52d6c6f3a95 seven of eight places say the same. Seen: the campaign-turn cases run in a drawn place where a race is open for filing.
