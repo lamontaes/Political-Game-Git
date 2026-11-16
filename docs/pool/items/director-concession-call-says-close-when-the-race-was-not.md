@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 standard: 2
-claimed-by: claude/project-thread-5efbu8-concede
+claimed-by: claude/project-thread-5efbu8-concede2
 pr:
 after:
 blocked-on:

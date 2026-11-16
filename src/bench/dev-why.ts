@@ -766,7 +766,7 @@ function racePanels(
           ...(rows.length
             ? {}
             : {
-                gap: "This candidate's campaign bought no poll before the vote, so nothing on the record says what it expected.",
+                gap: "This candidate's campaign bought no poll before the vote, so it kept nothing that says what it expected.",
               }),
         };
       }),

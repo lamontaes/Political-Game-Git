@@ -137,9 +137,10 @@ export function raceReadFacts(
     candidateId === result.winnerCandidateId
       ? Object.entries(result.totals)
           .filter(([id]) => id !== candidateId)
-          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[P.zero]?.[
-          P.zero
-        ]
+          .sort(
+            ([idA, votesA], [idB, votesB]) =>
+              votesB - votesA || idA.localeCompare(idB),
+          )[P.zero]?.[P.zero]
       : result.winnerCandidateId;
   const cast = Object.values(result.totals).reduce((a, b) => a + b, P.zero);
   if (!rival || cast <= P.zero || !core.modules.has(CAMPAIGNS_MODULE_ID))
