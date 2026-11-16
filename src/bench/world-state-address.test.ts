@@ -119,6 +119,29 @@ describe.each(PINNED)(
           process.env.ACTS_OUT,
           `${place.name} states ${states.size} gave ${gaveStates.size} noSession ${JSON.stringify(noSession)} earlier ${JSON.stringify(earlier)} other ${JSON.stringify(other)}\n`,
         );
+      // The address is the seat's, read on its day: whoever gave it held that
+      // state's governor seat on that date, so a governor who left between the
+      // first of the month and the day (Arkansas's, April 3, 2026, at this place)
+      // is replaced by a successor who gives it, and no state goes without.
+      for (const g of governors) {
+        const held = (
+          terms as unknown as {
+            personId?: string;
+            seatId?: string;
+            startDate: string;
+            endDate: string | null;
+            status: string;
+          }[]
+        ).filter((t) => t.personId === g.holderId);
+        expect(
+          held.some(
+            (t) =>
+              t.startDate <= g.date &&
+              (t.endDate === null || t.endDate >= g.date),
+          ),
+          `${place.name}: ${g.holderId.slice(-6)} held the seat on ${g.date}`,
+        ).toBe(true);
+      }
       expect(gaveStates.size, place.name).toBeGreaterThan(40);
       expect(other, place.name).toEqual([]);
       expect(
