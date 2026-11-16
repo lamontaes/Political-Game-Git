@@ -293,14 +293,7 @@
     "running": "Running modules",
     "year": "Year",
     "stateChanges": "Laws other states changed",
-    "statesChanging": "States that changed one",
-    "healthPlans": "Employer health plans today",
-    "workers": "Workers with a job",
-    "planShare": "Share who hold their own plan",
-    "plansGiven": "Plans that share gives",
-    "plansHeld": "Plans held",
-    "premiumMissed": "Left out for a missed premium",
-    "heldShare": "Held, of workers"
+    "statesChanging": "States that changed one"
   },
   "devRecords": {
     "title": "Records",

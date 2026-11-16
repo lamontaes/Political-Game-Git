@@ -34,10 +34,9 @@ const evidenceIds = (e) =>
 
 /** The sections. `labels` is controls.devWatch; `playerId` the player, for the golden path. */
 export async function devWatchSections({ labels, playerId }) {
-  const [view, loans, plans, progress] = await Promise.all([
+  const [view, loans, progress] = await Promise.all([
     get("/api/dev/watch"),
     get("/api/dev/loans"),
-    get("/api/dev/health-plans"),
     get(
       `/api/progress${playerId ? `?id=${encodeURIComponent(playerId)}` : ""}`,
     ),
@@ -174,36 +173,6 @@ export async function devWatchSections({ labels, playerId }) {
         ),
       )
     : null;
-  // Who holds an employer plan as the coverage review ranks them today
-  // (src/core2/modules/coverage.ts employerPlansToday).
-  const count = (n) => Math.round(n).toLocaleString("en-US");
-  const healthPlans = plans
-    ? stripSection(
-        11,
-        labels.healthPlans,
-        table(
-          [
-            { name: labels.date, value: (r) => r.date },
-            { name: labels.workers, value: (r) => count(r.workers) },
-            {
-              name: labels.planShare,
-              value: (r) => `${Math.round(r.share * 100)}%`,
-            },
-            { name: labels.plansGiven, value: (r) => count(r.slots) },
-            { name: labels.plansHeld, value: (r) => count(r.held) },
-            { name: labels.premiumMissed, value: (r) => count(r.lapsed) },
-            {
-              name: labels.heldShare,
-              value: (r) =>
-                r.workers > 0
-                  ? `${Math.round((r.held / r.workers) * 100)}%`
-                  : "",
-            },
-          ],
-          [plans],
-        ),
-      )
-    : null;
   const path = stripSection(
     10,
     labels.path,
@@ -248,7 +217,6 @@ export async function devWatchSections({ labels, playerId }) {
     { className: "dev-only dev-watch" },
     watch,
     ...(lenders ? [lenders] : []),
-    ...(healthPlans ? [healthPlans] : []),
     path,
     trace,
   );

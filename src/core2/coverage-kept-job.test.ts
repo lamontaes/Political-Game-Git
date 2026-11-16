@@ -13,7 +13,8 @@ import { countedJob, residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-// A worker who keeps the job and pays every premium keeps the plan
+// A worker who keeps the job and pays every premium keeps the plan for the
+// household (the policy may pass to another earner in it)
 // (premiums-coverage-double-count). The share of workers who hold their own
 // plan is a share of the workers who have a job today: a lost job already
 // ends a plan, so the town's unemployment must not also take plans from
@@ -121,13 +122,16 @@ it(`workers who keep their job and pay keep their plan as the town's jobless sha
   for (const day of MONTHS) {
     advanceCore(core, makeIsoDate(day));
     for (const id of short(core)) missed.add(id);
-    const now = holders(core);
+    // A household whose plan passed to another earner in it still holds one.
+    const covered = new Set(
+      [...holders(core).values()].map((h) => h.householdId),
+    );
     let kept = 0,
       lost = 0;
     const lostIds: string[] = [];
     for (const [personId, was] of opening) {
       if (missed.has(personId) || !keptJob(core, personId, was)) continue;
-      if (now.has(personId)) kept += was.weight;
+      if (covered.has(was.householdId)) kept += was.weight;
       else {
         lost += was.weight;
         if (lostIds.length < 5) lostIds.push(personId);

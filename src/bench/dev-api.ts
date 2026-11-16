@@ -11,8 +11,6 @@ import { traceReport } from "./dev-trace";
 import { devViewList, devViewRoute, loadDevViews } from "./dev-views";
 import { compareProofs, recordProof, type RecordProof } from "./dev-proof";
 import type { CoreState } from "../core2/types";
-import { coreAPI } from "../core2/state";
-import { employerPlansToday } from "../core2/modules/coverage";
 import type { Director } from "../director/ledger";
 import type { BenchPlayer } from "./player";
 
@@ -244,9 +242,6 @@ export async function handleDev(
     }
     case "GET loans":
       send(200, mode.smallDollarLoans());
-      return true;
-    case "GET health-plans":
-      send(200, employerPlansToday(coreAPI(mode.core)));
       return true;
     case "GET scenes":
       send(200, mode.scenes());
