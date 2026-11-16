@@ -124,7 +124,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       lawReach(api(), lawId, lawChain(api()).townPlaceId).records,
       where,
     ).toBe(reach.records);
-  }, 600_000);
+  }, 140_000);
 
   it("the law control refuses an amount of money that is not whole cents", () => {
     expect(() =>
@@ -169,7 +169,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       expect(result.ending.no, where).toBeGreaterThan(0);
     }
     expect(dev.billOutcome(bill.id).ending, where).toEqual(result.ending);
-  }, 120_000);
+  }, 1_000);
 
   it("Congress at a bare majority fails for want of the votes to end debate, and says so; at a wide margin the bill is law", () => {
     const house = dev.lawmakingBodies().find((b) => b.id === FEDERAL_HOUSE);
@@ -248,7 +248,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
     const outcome = dev.billOutcome(wide.id);
     expect(outcome.laws.length, where).toBeGreaterThan(0);
     for (const law of outcome.laws) expect(law.reach.lawId, where).toBe(law.id);
-  }, 300_000);
+  }, 4_000);
 
   it("a chair who holds a bill unheard is named as why it failed, and casting the chair to hear it removes that ending", () => {
     // State chambers have committees; a chair holds a bill their own position and temperament are against.
@@ -288,7 +288,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
         `${where}: the chair's own reasons sum below zero`,
       ).toBeLessThan(0);
     }
-  }, 600_000);
+  }, 1_000);
 
   it("run-until stops on a law of the player's own governments, and on another place's only when asked", () => {
     const chain = lawChain(api());
@@ -317,7 +317,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
     });
     expect(never.reason, where).toBe("cap");
     expect(never.days, where).toBe(20);
-  }, 900_000);
+  }, 24_000);
 
   it("run-until a bill passes stops on the bill when its body votes it into law on its own floor day", () => {
     const body = dev.lawmakingBodies().find((b) => b.id === FEDERAL_HOUSE)!;
@@ -357,7 +357,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
     if (!run.records.includes(bill.id))
       expect(mine.records, where).toEqual([bill.id]);
     expect(dev.billOutcome(bill.id).ending.how, where).toBe("law");
-  }, 900_000);
+  }, 20_000);
 
   it("the money check finds the dollars a passed law moved, by who holds them, and they sum to zero with the outside", () => {
     // A state wage floor set through dev mode's own law control, then paydays under it.
@@ -394,5 +394,5 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
           holder.hereMinor === 0,
         `${where}: ${holder.id}`,
       ).toBe(true);
-  }, 900_000);
+  }, 216_000);
 });
