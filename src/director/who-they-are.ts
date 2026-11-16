@@ -333,7 +333,8 @@ export function whyNamed(
     metThen = !!before;
     metBy = before?.by ?? null;
     metSource = before ? { id: before.id, date: before.date } : null;
-    metLater = before ? null : (records[0] ?? null);
+    const [earliest] = records;
+    metLater = before ? null : (earliest ?? null);
   }
   const base = { metBy, metSource, metLater };
   if (metThen)
