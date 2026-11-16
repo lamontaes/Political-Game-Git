@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: laws thread (claude/project-thread-8fxsy5-medicaid)
-pr: '#9660'
+pr: "#9660"
 blocked-on:
 after:
 lead: laws
