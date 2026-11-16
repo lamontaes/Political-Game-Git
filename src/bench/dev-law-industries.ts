@@ -36,7 +36,6 @@ import {
   lawInForce,
   LAWS_MODULE_ID,
 } from "../core2/modules/laws";
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/modules/business";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState } from "../core2/types";
 import {
@@ -219,14 +218,6 @@ function businessFigures(row: IndustryBusiness): BusinessFigures {
   };
 }
 
-/** The industry's name in the business books, else its kind. */
-function industryName(kindId: string): string {
-  return (
-    DEFAULT_BUSINESS_BOOKS_DATA.kinds.find((kind) => kind.id === kindId)
-      ?.industry ?? kindId
-  );
-}
-
 /** Two tallies matched by kind and by business: the one count, read twice. */
 export function compareTallies(
   here: IndustryTally,
@@ -241,7 +232,7 @@ export function compareTallies(
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([kindId, pair]) => ({
       kindId,
-      name: industryName(kindId),
+      name: (pair.here ?? pair.twin)!.name,
       sector: (pair.here ?? pair.twin)!.sector,
       here: pair.here ? figures(pair.here) : NO_FIGURES,
       twin: pair.twin ? figures(pair.twin) : NO_FIGURES,

@@ -7,11 +7,13 @@
  * and creates no facts.
  */
 import type { CoreAPI, CoreState } from "../core2/types";
-import { businessBooksView } from "../core2/business-books-view";
-import { sectorOfKind } from "../core2/business-books";
-import type { CountrySector } from "../core2/country-model";
-import { countedHeadcountOf } from "../core2/residents-economy";
-import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import {
+  BUSINESS_MODULE_ID,
+  DEFAULT_BUSINESS_BOOKS_DATA,
+  businessBooksView,
+  businessesIn,
+  sectorOfKind,
+} from "../core2/modules/business";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 
 export interface IndustryBusiness {
@@ -35,6 +37,8 @@ export interface IndustryBusiness {
 
 export interface IndustryRow {
   readonly kindId: string;
+  /** The kind's industry, as the business books name it. */
+  readonly name: string;
   readonly sector: CountrySector | null;
   readonly open: number;
   readonly closed: number;
@@ -56,18 +60,28 @@ export interface IndustryTally {
   readonly industries: readonly IndustryRow[];
 }
 
-function staffOf(c: CoreState, organizationId: string): number {
-  return (
-    [...(c.finance.jobsByOrganization.get(organizationId) ?? [])].filter(
-      (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-    ).length + countedHeadcountOf(c, organizationId)
-  );
+type CountrySector = NonNullable<ReturnType<typeof sectorOfKind>>;
+
+/** Staff by business, from the business engine's own count (businessesIn), one place at a time. */
+function staffReader(
+  api: CoreAPI,
+): (organizationId: string, placeId: string) => number {
+  const byPlace = new Map<string, Map<string, number>>();
+  return (organizationId, placeId) => {
+    let staff = byPlace.get(placeId);
+    if (!staff) {
+      staff = new Map(businessesIn(api, placeId).map((b) => [b.id, b.staff]));
+      byPlace.set(placeId, staff);
+    }
+    return staff.get(organizationId) ?? 0;
+  };
 }
 
 /** Every business in the world, or in one place, grouped by its kind. */
 export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
   const c = api.state as CoreState;
   const byKind = new Map<string, IndustryBusiness[]>();
+  const staffOf = staffReader(api);
   for (const book of c.finance.businesses.values()) {
     const at = c.organizations.get(book.organizationId)?.placeId;
     if (!at || (placeId !== undefined && at !== placeId)) continue;
@@ -77,7 +91,7 @@ export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
       organizationId: book.organizationId,
       name: c.organizations.get(book.organizationId)?.name ?? "",
       placeId: at,
-      staff: book.closedAt ? 0 : staffOf(c, book.organizationId),
+      staff: book.closedAt ? 0 : staffOf(book.organizationId, at),
       salesMinor: view.salesMinor,
       wagesPaidMinor: view.wagesPaidMinor,
       operatingCostsMinor: view.operatingCostsMinor,
@@ -110,6 +124,9 @@ export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
             businesses.length;
       return {
         kindId,
+        name:
+          DEFAULT_BUSINESS_BOOKS_DATA.kinds.find((kind) => kind.id === kindId)
+            ?.industry ?? kindId,
         sector: sectorOfKind(kindId),
         open: businesses.filter((b) => !b.closedAt).length,
         closed: businesses.filter((b) => b.closedAt).length,
@@ -228,7 +245,8 @@ export function industryBusiness(
     name: c.organizations.get(organizationId)?.name ?? "",
     kindId: book.kindId,
     ...(placeId ? { placeId } : {}),
-    staff: book.closedAt ? 0 : staffOf(c, organizationId),
+    staff:
+      book.closedAt || !placeId ? 0 : staffReader(api)(organizationId, placeId),
     ...(book.closedAt ? { closedAt: book.closedAt } : {}),
     months,
     recordIds,
