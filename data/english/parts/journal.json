@@ -11073,6 +11073,32 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.scene-line-petition-circulators.i-paid-people-to-carry-my-office-petition",
+      "move": "scene-line-petition-circulators",
+      "kind": "spoken",
+      "text": "I paid people to carry my {office} petition.",
+      "uses": [
+        {
+          "move": "scene-line-petition-circulators",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-circulators",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-circulators",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

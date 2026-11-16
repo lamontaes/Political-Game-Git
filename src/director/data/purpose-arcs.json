@@ -2790,12 +2790,14 @@
       "follow": {
         "ask": ["answer"],
         "promise": ["thank"],
+        "hire": ["take"],
         "deflect": ["press", "accept"]
       },
       "again": {
-        "answer": ["promise", "deflect", "leave"],
+        "answer": ["promise", "hire", "deflect", "leave"],
         "press": ["promise", "deflect", "leave"],
-        "thank": ["leave"]
+        "thank": ["leave"],
+        "take": ["leave"]
       },
       "endings": [
         {
@@ -2804,6 +2806,14 @@
           "keeps": "petition-going-out",
           "when": {
             "reply": ["promise"]
+          }
+        },
+        {
+          "id": "hiring",
+          "label": "You'll pay people to carry it",
+          "keeps": "petition-circulators",
+          "when": {
+            "reply": ["hire"]
           }
         },
         {

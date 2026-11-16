@@ -285,6 +285,11 @@ export async function handleDev(
       send(200, mode.petitionShort(String(input.filingId)));
       return true;
     }
+    case "POST petition-count": {
+      const input = await body(request);
+      send(200, mode.petitionCount(String(input.filingId)));
+      return true;
+    }
     case "POST volunteer-cast": {
       const input = await body(request);
       send(

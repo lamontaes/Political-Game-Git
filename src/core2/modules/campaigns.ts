@@ -8513,27 +8513,73 @@ export function tellPetitionShort(
       daysLeft: String(reading.daysLeft),
       canAddAfterNextTurn: reading.canAddAfterNextTurn.toFixed(1),
       ...(contest ? { office: contest.title } : {}),
+      ...circulatorOffer(api, filingId),
     },
   });
   return true;
 }
 
 /**
+ * What the scene may say about paid circulators the day it tells the player
+ * (Words lead's ruling, Nov 16): `circulators` when the race has voters
+ * outside the town to carry the petition to and no circulator fund is running
+ * for it already, `money` when the campaign holds money it has not set aside.
+ * Facts the record keeps, so the scene reads what was true when it told them.
+ */
+function circulatorOffer(
+  api: CoreAPI,
+  filingId: string,
+): Record<string, string> {
+  const campaign = campaignFor(api, filingId);
+  if (
+    !circulatorsCanWork(api, filingId) ||
+    (campaign.circulatorFundMinor ?? 0) > 0
+  )
+    return {};
+  const hasAccount = (api.state as CoreState).cashJournal.accounts.get(
+    `cash:${campaign.organizationId}:residual`,
+  );
+  return {
+    circulators: "yes",
+    ...(hasAccount && freeMinor(campaign) > 0 ? { money: "yes" } : {}),
+  };
+}
+
+/**
  * The player's answer in the scene that tells them the petition is short: a
  * yes ("I'll go out and knock on doors") takes their canvass day, the same
- * choice the Campaign tab offers; any other answer leaves things as they are.
+ * choice the Campaign tab offers; a yes to paying people to carry it out of
+ * town sets aside what the gap costs from the campaign's free money (the
+ * circulators the Campaign tab hires); any other answer leaves things as they
+ * are.
  */
 function answerPetitionShort(
   api: CoreAPI,
   event: Readonly<CoreEventInput>,
 ): void {
   const facts = event.facts ?? {};
-  if (facts.typeKey !== "petition-short" || facts.ending !== "going-out")
+  if (
+    facts.typeKey !== "petition-short" ||
+    !["going-out", "hiring"].includes(String(facts.ending))
+  )
     return;
   const told = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (told?.kind !== PETITION_SHORT_EVENT) return;
   const filingId = String(told.facts?.filingId ?? "");
   if (!petitionCirculating(api, filingId)) return;
+  if (facts.ending === "hiring") {
+    // The player's yes to paying people to carry the petition out of town:
+    // what the signatures still to gather cost at the circulators' own price,
+    // and no more than the campaign holds free. That limit is the campaign's
+    // budget (hireCirculators sets aside only what is free), not a tuned cap.
+    const petition = petitionOf(api, filingId)!;
+    const gap = Math.max(
+      0,
+      signaturesToGather(petition.needed) - petition.signed,
+    );
+    hireCirculators(api, filingId, gap * unitPrice(api, "petition-signature"));
+    return;
+  }
   if (
     !campaignDayOpen(api, filingId).find((c) => c.kind === "canvass")?.available
   )

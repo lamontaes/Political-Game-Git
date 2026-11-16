@@ -691,6 +691,12 @@
       "toldWithoutOther": true
     },
     {
+      "kindPrefix": "scene-ending:petition-circulators",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
       "kindPrefix": "scene-ending:petition-not-today",
       "turn": false,
       "entry": "story",

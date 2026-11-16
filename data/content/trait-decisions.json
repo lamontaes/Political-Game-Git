@@ -644,6 +644,14 @@
           "actKinds": ["help-others", "engage"]
         },
         {
+          "id": "hire",
+          "actKinds": ["commit", "engage"]
+        },
+        {
+          "id": "take",
+          "actKinds": ["cooperate"]
+        },
+        {
           "id": "comfort",
           "actKinds": ["help-others"]
         },

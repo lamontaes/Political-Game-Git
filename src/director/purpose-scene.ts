@@ -1815,6 +1815,16 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [moment.causeId, said.petitionId ?? moment.causeId],
     };
+    // Paid circulators: the race has voters outside the town and no fund is
+    // running (`circulators`), and whether the campaign held money to pay
+    // them the day it was told (`money`, else `no-money`).
+    if (said.circulators === "yes") {
+      facts.circulators = { text: "yes", sourceRecordIds: [moment.causeId] };
+      facts[said.money === "yes" ? "money" : "no-money"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
+    }
   }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.

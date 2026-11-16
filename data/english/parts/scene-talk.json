@@ -192155,6 +192155,274 @@
         "move": "narrate",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-doors-in-town-won-t-cover-it-voters-for-office-live-outside-town-too-campaigns-pay-people-to-carry-petitions-out-there",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The doors in town won't cover it. Voters for {office} live outside town too. Campaigns pay people to carry petitions out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["teller-clerk", "circulators", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.town-alone-won-t-do-it-some-campaigns-pay-people-to-carry-their-petitions-farther-out-that-s-allowed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Town alone won't do it. Some campaigns pay people to carry their petitions farther out. That's allowed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["teller-clerk", "circulators"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.town-doors-won-t-get-us-there-we-can-pay-people-to-carry-it-to-the-voters-outside-town",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Town doors won't get us there. We can pay people to carry it to the voters outside town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["teller-helper", "circulators", "money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.knocking-here-isn-t-enough-the-race-runs-past-the-town-line-we-d-have-to-pay-people-to-carry-sheets-out-there",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Knocking here isn't enough. The race runs past the town line. We'd have to pay people to carry sheets out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["teller-helper", "circulators", "money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.town-doors-won-t-get-us-there-people-can-be-paid-to-carry-it-farther-but-the-campaign-doesn-t-have-the-money",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Town doors won't get us there. People can be paid to carry it farther, but the campaign doesn't have the money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["teller-helper", "circulators", "no-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-needs-people-out-past-the-town-line-and-we-can-t-pay-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It needs people out past the town line, and we can't pay them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["teller-helper", "circulators", "no-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-hire.then-i-ll-pay-people-to-carry-it",
+      "move": "reply-hire",
+      "kind": "spoken",
+      "text": "Then I'll pay people to carry it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "hire",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["circulators", "money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "hire",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-hire.i-ll-put-the-campaign-s-money-into-it",
+      "move": "reply-hire",
+      "kind": "spoken",
+      "text": "I'll put the campaign's money into it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "hire",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["circulators", "money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "hire",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-take.that-s-yours-to-decide-the-deadline-doesn-t-move",
+      "move": "follow-take",
+      "kind": "spoken",
+      "text": "That's yours to decide. The deadline doesn't move.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "take",
+          "role": "asker",
+          "after": "hire",
+          "requiresFacts": ["teller-clerk"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "take",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-take.good-that-gets-the-sheets-past-the-town-line",
+      "move": "follow-take",
+      "kind": "spoken",
+      "text": "Good. That gets the sheets past the town line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "take",
+          "role": "asker",
+          "after": "hire",
+          "requiresFacts": ["teller-helper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "take",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-take.alright-i-can-t-tell-you-it-ll-be-enough",
+      "move": "follow-take",
+      "kind": "spoken",
+      "text": "Alright. I can't tell you it'll be enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "take",
+          "role": "asker",
+          "after": "hire"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "take",
+        "key": "news-received"
+      }
     }
   ]
 }
