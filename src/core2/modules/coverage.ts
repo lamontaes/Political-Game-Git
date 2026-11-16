@@ -218,7 +218,9 @@ function holdersToday(
             wage: Math.round(
               unplacedPayPerWorker(rt, h) / p("daysPerMeanYear"),
             ),
-            weight: h.unplacedWorkers,
+            // The policyholders the record stands for, one to a household:
+            // `unplacedWorkers` is one real household's, as a recorded job is.
+            weight: Math.min(1, h.unplacedWorkers) * weight,
             placeId: h.placeId,
             age: ageOnDate(makeIsoDate(store.born[holder]!), date),
             sex: sexOf(store.strings[store.genderIx[holder]!]),
