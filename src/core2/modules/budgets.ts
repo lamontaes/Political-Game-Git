@@ -2615,6 +2615,66 @@ export function lineChangedInYear(
     { byYear?: Record<string, Record<string, number>> } | undefined;
   return row?.byYear?.[String(fy)]?.[line] ?? 0;
 }
+/**
+ * What a government's year has brought in against what it was bringing in
+ * when its budget was written, net of what its body has already amended in:
+ * the room a body has to amend the adopted budget (owner, Nov 15: a council
+ * amends for a cause on record, not because members wish a line were
+ * different). The cause is the treasury's own months: what it took in a month
+ * (collected, borrowing left out, plus aid received) since the fiscal year
+ * began, over the months before it, as a share of the year's planned revenue
+ * for the months closed. Receipts are compared with the treasury's own earlier
+ * pace so the answer holds for a town, a county and a state alike. Positive
+ * room is money over plan a body may raise lines by; negative is the shortfall
+ * it must cut by; null before a month of the year has closed or with no month
+ * before it to compare.
+ */
+export function amendmentRoom(
+  api: CoreAPI,
+  governmentId: string,
+): {
+  readonly roomMinor: number;
+  readonly cause: "receipts-over-plan" | "receipts-under-plan";
+  readonly months: number;
+} | null {
+  const gov = governmentOfJurisdiction(api, governmentId);
+  if (!gov) return null;
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const budget = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  if (!budget) return null;
+  const took = (m: {
+    collectedMinor: number;
+    borrowedMinor: number;
+    aidReceivedMinor: number;
+  }) => m.collectedMinor - m.borrowedMinor + m.aidReceivedMinor;
+  const all = treasuryMonthsOf(api, gov.id);
+  const since = all.filter(
+    (m) => m.date >= budget.startsOn && m.date <= api.state.date,
+  );
+  const before = all
+    .filter((m) => m.date < budget.startsOn)
+    .slice(-treasuryMonthsPerYear());
+  if (!since.length || !before.length) return null;
+  const pace = before.reduce((a, m) => a + took(m), 0) / before.length;
+  if (!(pace > 0)) return null;
+  const now = since.reduce((a, m) => a + took(m), 0) / since.length;
+  const planned =
+    (Object.values(budget.revenueMinor).reduce((a, v) => a + v, 0) *
+      since.length) /
+    treasuryMonthsPerYear();
+  const enacted = table(api, "enacted").get(gov.id) as unknown as
+    { byYear?: Record<string, Record<string, number>> } | undefined;
+  const amended = Object.values(enacted?.byYear?.[String(fy)] ?? {}).reduce(
+    (a, v) => a + v,
+    0,
+  );
+  const roomMinor = Math.round(planned * (now / pace - 1) - amended);
+  return {
+    roomMinor,
+    cause: roomMinor >= 0 ? "receipts-over-plan" : "receipts-under-plan",
+    months: since.length,
+  };
+}
 export function budgetsOf(
   api: CoreAPI,
   governmentId: string,
