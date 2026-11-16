@@ -7042,6 +7042,7 @@ for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
 function pickGender(g) {
   setup.gender = g;
+  noGenderYet();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
@@ -7051,16 +7052,8 @@ function pickGender(g) {
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
-$("cr-random-name").addEventListener("click", async () => {
-  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
-  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
-  if (!setup.gender) {
-    document
-      .querySelector("[data-gender]")
-      ?.closest(".group")
-      ?.classList.add("missing");
-    return;
-  }
+/** A name drawn for the chosen gender (owner, Nov 1), part of the one Random. */
+async function randomName() {
   setup.nameDraws++;
   const name = await api(
     `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
@@ -7069,7 +7062,7 @@ $("cr-random-name").addEventListener("click", async () => {
   $("cr-family").value = name.familyName;
   filledIn();
   nameFigure();
-});
+}
 async function randomBirthday() {
   setup.birthdayDraws++;
   const b = await api(
@@ -7080,7 +7073,6 @@ async function randomBirthday() {
   $("cr-day").value = String(b.day);
   await fillYears(b.year);
 }
-$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
 
 /** Opens the creator for Start a life. */
 async function openCreator() {
@@ -7090,8 +7082,16 @@ async function openCreator() {
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  // A bust stands in the creator from its first frame, before a gender is chosen.
-  void openLook();
+  // Nobody is shown until a gender is chosen (owner, Nov 16: "a person
+  // shouldn't even pop up until I pick a gender"): the bust and How I look
+  // wait for it, and the screen holds only what can be filled in yet.
+  noGenderYet();
+  if (setup.gender) void openLook();
+}
+/** The creator before a gender: no bust, no look. */
+function noGenderYet() {
+  $("cr-screen").classList.toggle("no-gender", !setup.gender);
+  if (!setup.gender) $("cr-bust").replaceChildren();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -7192,7 +7192,8 @@ $("cr-town-search").addEventListener("input", () => void listTowns());
 // Random place: the world's own draw of a state and town from all 56, then
 // on to the look, as picking the town does (owner, Oct 28: "Add a Random
 // button to picking where you live").
-$("cr-place-random").addEventListener("click", async () => {
+/** A state and town drawn from all 56, part of the one Random. */
+async function randomPlace() {
   setup.placeDraws++;
   const { state, town } = await api(
     `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
@@ -7203,7 +7204,7 @@ $("cr-place-random").addEventListener("click", async () => {
   showPlaceName();
   filledIn();
   await showStates();
-});
+}
 
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
@@ -7214,11 +7215,12 @@ function showLook(view) {
   setup.lookView = view;
   const tab = setup.lookTab;
   $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
+    drawFace(view.faces[tab], { shape: "bust", column: 290 }),
   );
   const row = (r) =>
     lookRow(r, {
       onMove: (id, by) => void moveLook(id, by),
+      onPick: (id, key) => void pickLook(id, key),
       arrowLabel: (by, it) =>
         controls.creator[by < 0 ? "previous" : "next"].replace(
           "{row}",
@@ -7290,6 +7292,14 @@ async function moveLook(row, by) {
   setup.previous = [...setup.previous, setup.recipe].slice(-20);
   showLook(view);
 }
+/** A swatch or a picture clicked: the row set to that choice. */
+async function pickLook(row, key) {
+  const view = await post(
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, pick: key })}`,
+  );
+  setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(view);
+}
 async function setLook(recipe, keepHistory) {
   if (keepHistory)
     setup.previous = [...setup.previous, setup.recipe].slice(-20);
@@ -7299,8 +7309,17 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
+/**
+ * The one Random (owner, Nov 16: "one Random for the whole person"): a name
+ * for the chosen gender, a birthday, a place and a look, all drawn from the
+ * world's seed. It stands under the bust, so like the bust it waits for a
+ * gender (owner, Nov 1: "Randomized name shouldn't work until you choose a
+ * gender").
+ */
 $("cr-randomize").addEventListener("click", async () => {
+  if (!setup.gender) return;
   setup.appearanceDraws++;
+  await Promise.all([randomName(), randomBirthday(), randomPlace()]);
   const view = await api(`/api/creator/appearance?${lookQuery({})}`);
   await setLook(view.recipe, true);
 });

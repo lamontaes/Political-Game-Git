@@ -226,7 +226,12 @@
           <div id="cr-figure" class="mx3left">
             <div id="cr-bust" data-testid="creator-bust"></div>
             <p id="cr-figure-name" class="strip-name"></p>
-            <button id="cr-randomize" class="action small" type="button">
+            <button
+              id="cr-randomize"
+              class="action small"
+              type="button"
+              data-testid="creator-random"
+            >
               Random
             </button>
           </div>
@@ -279,14 +284,6 @@
                       >Last name
                       <input id="cr-family" maxlength="40" autocomplete="off"
                     /></label>
-                    <button
-                      id="cr-random-name"
-                      class="action small"
-                      type="button"
-                      data-testid="creator-randomize-name"
-                    >
-                      Randomize name
-                    </button>
                   </div>
                   <div
                     class="group row"
@@ -318,13 +315,34 @@
                         ></select
                       ></label>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section id="cr-look-sec" class="sec strips dp3">
+              <h3 class="sechead">How I look</h3>
+              <div class="secbody">
+                <div id="cr-look" data-testid="creator-stage-appearance">
+                  <div
+                    id="cr-rows"
+                    data-testid="engine-appearance-controls"
+                  ></div>
+                  <div class="acts">
                     <button
-                      id="cr-random-birthday"
+                      id="cr-reset"
                       class="action small"
                       type="button"
-                      data-testid="creator-randomize-birthday"
+                      data-testid="creator-reset-appearance"
                     >
-                      Randomize birthday
+                      Reset appearance
+                    </button>
+                    <button
+                      id="cr-undo"
+                      class="action small"
+                      type="button"
+                      data-testid="creator-undo-appearance"
+                    >
+                      Undo
                     </button>
                   </div>
                 </div>
@@ -380,44 +398,7 @@
                       data-testid="place-choices"
                     ></div>
                   </div>
-                  <div class="acts">
-                    <button
-                      id="cr-place-random"
-                      class="action small"
-                      type="button"
-                      data-testid="creator-random-place"
-                      data-label="creator.randomPlace"
-                    ></button>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="sec strips dp3">
-              <h3 class="sechead">How I look</h3>
-              <div class="secbody">
-                <div id="cr-look" data-testid="creator-stage-appearance">
-                  <div
-                    id="cr-rows"
-                    data-testid="engine-appearance-controls"
-                  ></div>
-                  <div class="acts">
-                    <button
-                      id="cr-reset"
-                      class="action small"
-                      type="button"
-                      data-testid="creator-reset-appearance"
-                    >
-                      Reset appearance
-                    </button>
-                    <button
-                      id="cr-undo"
-                      class="action small"
-                      type="button"
-                      data-testid="creator-undo-appearance"
-                    >
-                      Undo
-                    </button>
-                  </div>
+                  <div class="acts"></div>
                 </div>
               </div>
             </section>

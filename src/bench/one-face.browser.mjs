@@ -53,7 +53,7 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
   await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-randomize").click();
   await page.waitForFunction(() => document.getElementById("cr-given").value);
   if (process.env.STATE)
     await page.locator("#cr-state-search").fill(process.env.STATE);

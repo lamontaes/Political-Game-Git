@@ -154,6 +154,7 @@ import {
 } from "./creator";
 import {
   appearanceRows,
+  pickAppearance,
   drawnAppearance,
   lookForGender,
   moveAppearance,
@@ -902,12 +903,19 @@ const ROUTES: readonly Route[] = [
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
-            ? moveAppearance(
-                readRecipe(q.get("recipe")!),
-                gender,
-                q.get("row") ?? "",
-                Number(q.get("by") ?? 1),
-              )
+            ? q.has("pick")
+              ? pickAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  q.get("pick") ?? "",
+                )
+              : moveAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  Number(q.get("by") ?? 1),
+                )
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);

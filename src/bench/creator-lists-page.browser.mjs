@@ -35,7 +35,7 @@ try {
   await page.locator("#new-start").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-randomize").click();
   await page.locator("#cr-given:not([value=''])").waitFor();
   await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("#cr-states button").first().waitFor();

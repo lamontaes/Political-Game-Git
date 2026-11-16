@@ -6,7 +6,6 @@
     "countyLine": "in {county}",
     "previous": "Previous {row}",
     "next": "Next {row}",
-    "randomPlace": "Random place",
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to continue.",
     "missingName": "Type a first and last name to continue.",

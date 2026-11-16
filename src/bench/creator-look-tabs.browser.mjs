@@ -54,7 +54,7 @@ try {
       const drawn = page.waitForResponse((r) =>
         r.url().includes("/api/creator/place"),
       );
-      await page.locator("#cr-place-random").click();
+      await page.locator("#cr-randomize").click();
       place = await (await drawn).json();
     }
     const town = place.town.name.includes(place.state.name)
@@ -133,7 +133,7 @@ try {
       `${where}: a step left the Everyday tab`,
     );
     // Begin the life: the played player's bust wears the chosen top.
-    await page.locator("#cr-random-name").click();
+    await page.locator("#cr-randomize").click();
     await page.waitForFunction(
       () =>
         document.getElementById("cr-given").value &&

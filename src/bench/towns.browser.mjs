@@ -47,7 +47,7 @@ try {
       await page.locator("#new-start").click();
       await page.locator("#cr-screen:not([hidden])").waitFor();
       await page.locator("[data-gender=male]").click();
-      await page.locator("#cr-random-name").click();
+      await page.locator("#cr-randomize").click();
       await page.waitForFunction(
         () => document.getElementById("cr-given").value,
       );

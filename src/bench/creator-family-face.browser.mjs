@@ -23,9 +23,9 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
   await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-randomize").click();
   await page.waitForFunction(() => document.getElementById("cr-given").value);
-  await page.locator("#cr-place-random").click();
+  await page.locator("#cr-randomize").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
   const line = page.locator("[data-testid=engine-appearance-skin]");
   for (let i = 0; i < 16; i += 1) {

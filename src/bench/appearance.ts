@@ -7,6 +7,8 @@ import {
   lookTop,
   bustPeople,
   bustPerson,
+  bustSwatch,
+  bustChoiceLabel,
   skinLabel,
   type BustLook,
   type BustPerson,
@@ -36,6 +38,24 @@ export interface AppearanceRow {
   readonly value: string;
   /** The tab the row sits in; absent for a row both tabs share. */
   readonly tab?: LookTab;
+  /** A color row's choices as swatches (owner, Nov 16: "skin and colors as swatches"). */
+  readonly swatches?: readonly AppearanceSwatch[];
+  /** A hairstyle or facial hair row's choices as pictures of the look wearing each (owner, Nov 16). */
+  readonly pictures?: readonly AppearancePicture[];
+}
+/** One color on a swatch row; no color for "none" (no tie, no jacket). */
+export interface AppearanceSwatch {
+  readonly id: string;
+  readonly label: string;
+  readonly color?: string;
+  readonly chosen: boolean;
+}
+/** One style on a picture row: the look's face wearing it. */
+export interface AppearancePicture {
+  readonly id: string;
+  readonly label: string;
+  readonly face: PersonFace | null;
+  readonly chosen: boolean;
 }
 
 const LABELS = rules.creator;
@@ -87,6 +107,124 @@ export function appearanceRows(
   recipe: LookRecipe,
   gender: string,
 ): AppearanceRow[] {
+  return namedRows(recipe, gender).map((row) =>
+    withChoices(row, recipe, gender),
+  );
+}
+
+/** The keys a row may be set to, in the order its arrows step through them. */
+function rowKeys(
+  recipe: LookRecipe,
+  rowId: string,
+): readonly (string | undefined)[] {
+  const person = bustPerson(recipe.person)!;
+  const choices = bustChoices(person);
+  const keys = (list: readonly { key: string }[]) => list.map((c) => c.key);
+  if (rowId === "skin") return peopleOf(person.sex).map((row) => row.id);
+  if (rowId === "hair") return keys(choices.hair);
+  if (rowId === "hair-color") return keys(choices.hairColor);
+  if (rowId === "face") return facesOf(person);
+  if (rowId === "shirt") return keys(choices.shirt);
+  if (rowId === "tie" || rowId === "jacket") return orNone(person, rowId);
+  if (rowId === "top-color")
+    return keys(bustTopColors(person, lookTop(recipe)?.top));
+  return [];
+}
+/** What a row holds now, as one of its keys. */
+function rowKey(recipe: LookRecipe, rowId: string): string | undefined {
+  if (rowId === "skin") return recipe.person;
+  if (rowId === "hair") return recipe.hair;
+  if (rowId === "hair-color") return recipe.hairColor;
+  if (rowId === "face") return recipe.face;
+  if (rowId === "shirt") return recipe.shirt;
+  if (rowId === "tie") return recipe.tie;
+  if (rowId === "jacket") return recipe.jacket;
+  if (rowId === "top-color") return lookTop(recipe)?.color;
+  return undefined;
+}
+const SWATCH_KIND = {
+  skin: "skin",
+  "hair-color": "hairColor",
+  shirt: "shirt",
+  tie: "tie",
+  jacket: "jacket",
+  "top-color": "top",
+} as const;
+const PICTURE_ROWS = new Set(["hair", "face"]);
+
+/** A row with its choices: swatches for a color, pictures for a hairstyle or facial hair. */
+function withChoices(
+  row: AppearanceRow,
+  recipe: LookRecipe,
+  gender: string,
+): AppearanceRow {
+  const person = bustPerson(recipe.person)!;
+  const now = rowKey(recipe, row.id);
+  const kind = SWATCH_KIND[row.id as keyof typeof SWATCH_KIND];
+  if (kind)
+    return {
+      ...row,
+      swatches: rowKeys(recipe, row.id).map((key) => ({
+        id: key ?? "",
+        label: key
+          ? kind === "skin"
+            ? skinLabel(bustPerson(key)!)
+            : (bustChoiceLabel(key) ?? key)
+          : LABELS.none,
+        ...(key
+          ? { color: bustSwatch(person, kind, key, lookTop(recipe)?.top) }
+          : {}),
+        chosen: key === now,
+      })),
+    };
+  if (PICTURE_ROWS.has(row.id))
+    return {
+      ...row,
+      pictures: rowKeys(recipe, row.id).map((key) => {
+        const look = pickAppearance(recipe, gender, row.id, key ?? "");
+        return {
+          id: key ?? "",
+          label: key ? (bustChoiceLabel(key) ?? key) : LABELS.none,
+          face: portraitFace(look),
+          chosen: key === now,
+        };
+      }),
+    };
+  return row;
+}
+
+/**
+ * The look with one row set to a chosen key (a swatch or a picture clicked);
+ * "" is none on a row that may be empty. A key the row does not offer is refused.
+ */
+export function pickAppearance(
+  recipe: LookRecipe,
+  gender: string,
+  rowId: string,
+  key: string,
+): LookRecipe {
+  const offered = rowKeys(recipe, rowId);
+  const want = key === "" ? undefined : key;
+  if (!offered.includes(want)) throw new Error("No such appearance choice.");
+  if (rowId === "skin") {
+    const wearer = bustPerson(key)!;
+    return lookForGender(onPerson(recipe, wearer.sex, wearer.tone), gender);
+  }
+  if (rowId === "hair") return { ...recipe, hair: key };
+  if (rowId === "hair-color") return { ...recipe, hairColor: key };
+  if (rowId === "face") return withPiece(recipe, "face", want);
+  if (rowId === "shirt") return { ...recipe, shirt: key };
+  if (rowId === "tie" || rowId === "jacket")
+    return withPiece(recipe, rowId, want);
+  if (rowId === "top-color") {
+    const top = lookTop(recipe)!;
+    return { ...recipe, top: top.top, topColor: key };
+  }
+  throw new Error("No such appearance row.");
+}
+
+/** The rows' names and current values, before their choices are added. */
+function namedRows(recipe: LookRecipe, gender: string): AppearanceRow[] {
   const person = bustPerson(recipe.person)!;
   const choices = bustChoices(person);
   const named = (list: typeof choices.hair, key: string | undefined) =>

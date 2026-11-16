@@ -17,6 +17,7 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  pickAppearance,
   portraitFace,
   lookFaces,
   readRecipe,
@@ -383,6 +384,51 @@ describe("the life drawn for the age the creator chose", () => {
 // Owner's playtest, Oct 27: a male character could step to a female body. A
 // look the page sends back (after Undo or Reset) is redrawn on the chosen
 // gender's body, by the creator route and by New game.
+describe("hair as pictures, skin and colors as swatches (owner, Nov 16)", () => {
+  it("gives every color row a painted swatch and every hair row a picture of the look wearing it", () => {
+    for (const gender of ["female", "male"]) {
+      const look = drawnAppearance(gender, "swatch-seed", 1);
+      const rows = appearanceRows(look, gender);
+      for (const id of ["skin", "hair-color"]) {
+        const row = rows.find((r) => r.id === id)!;
+        expect(row.swatches!.length).toBeGreaterThan(1);
+        for (const swatch of row.swatches!)
+          expect(swatch.color).toMatch(/^#[0-9a-f]{6}$/);
+        expect(row.swatches!.filter((s) => s.chosen)).toHaveLength(1);
+      }
+      // Two colors of hair are two different swatches, read from the paintings.
+      const colors = new Set(
+        rows.find((r) => r.id === "hair-color")!.swatches!.map((s) => s.color),
+      );
+      expect(colors.size).toBe(
+        rows.find((r) => r.id === "hair-color")!.swatches!.length,
+      );
+      const hair = rows.find((r) => r.id === "hair")!;
+      expect(hair.pictures!.length).toBeGreaterThan(1);
+      for (const picture of hair.pictures!) {
+        const worn = pickAppearance(look, gender, "hair", picture.id);
+        expect(picture.face).toEqual(portraitFace(worn));
+      }
+    }
+  });
+
+  it("sets a row to a picked choice and refuses one it does not offer", () => {
+    const look = drawnAppearance("male", "pick-seed", 2);
+    const rows = appearanceRows(look, "male");
+    const other = rows
+      .find((r) => r.id === "hair")!
+      .pictures!.find((p) => !p.chosen)!;
+    expect(pickAppearance(look, "male", "hair", other.id).hair).toBe(other.id);
+    const skin = rows
+      .find((r) => r.id === "skin")!
+      .swatches!.find((s) => !s.chosen)!;
+    expect(pickAppearance(look, "male", "skin", skin.id).person).toBe(skin.id);
+    expect(() =>
+      pickAppearance(look, "male", "hair", "no-such-style"),
+    ).toThrow();
+  });
+});
+
 describe("a look always has the chosen gender's body", () => {
   it("redraws a woman's look on a man's body, keeping her skin", () => {
     const hers = drawnAppearance("female", "seed", 3);

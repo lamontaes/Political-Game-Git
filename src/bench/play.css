@@ -121,6 +121,10 @@
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
+  /* The creator: the town list's height, and a hair or facial hair picture's side. */
+  --creator-list-h: 220px;
+  --creator-bust: 290px;
+  --look-picture: 46px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -1355,11 +1359,34 @@ input[type="range"]::-moz-range-thumb {
   width: min(1180px, calc(var(--vw) * 0.94));
 }
 #cr-screen {
-  grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: var(--creator-bust) minmax(0, 1fr) minmax(0, 1fr);
   gap: 22px;
+  align-items: stretch;
 }
+/* The bust, its name and Random stand in the middle of their column. */
 #cr-figure {
   align-items: center;
+  justify-content: center;
+}
+/* Where I'm from fills its column: the town list grows to the column's foot
+   and Begin my life sits at the bottom (no empty space under it). */
+#cr-screen > .mx3col:last-child {
+  display: flex;
+  flex-direction: column;
+}
+#cr-place-sec,
+#cr-place-sec .secbody,
+#cr-place,
+#cr-state-pick:not([hidden]),
+#cr-town-pick:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#cr-screen .choice-list {
+  flex: 1 1 var(--creator-list-h);
+  min-height: 0;
 }
 #cr-figure .strip-name {
   text-align: center;
@@ -1368,7 +1395,69 @@ input[type="range"]::-moz-range-thumb {
   padding-bottom: 8px;
 }
 #cr-screen .choice-list {
-  max-height: 150px;
+  max-height: none;
+}
+/* Before a gender is chosen nobody is shown (owner, Nov 16): no bust and no
+   How I look, and the two sections that can be filled in share the panel. */
+#cr-screen.no-gender {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+#cr-screen.no-gender #cr-figure,
+#cr-screen.no-gender #cr-look-sec {
+  display: none;
+}
+/* A chosen gender is a lit brass fill, as every selected control is (MENU-LOOK.md, States). */
+#cr-screen [data-gender][aria-pressed="true"] {
+  background: var(--pick-on);
+  color: var(--text-strong);
+}
+/* Hair and facial hair as pictures of the look wearing each (owner, Nov 16). */
+.look-row.picture-row {
+  grid-template-columns: 110px 1fr;
+  row-gap: 2px;
+}
+.look-row.picture-row .look-value {
+  grid-column: 2;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 var(--t-label) var(--ui);
+}
+.pictures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.picture-button {
+  width: var(--look-picture);
+  height: var(--look-picture);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  opacity: 0.78;
+}
+.picture-button .headshot {
+  border-width: 1px;
+  width: 100%;
+  height: 100%;
+}
+.picture-button:hover {
+  opacity: 1;
+  box-shadow: var(--halo-glow, 0 0 10px rgba(214, 189, 132, 0.3));
+}
+.picture-button[aria-pressed="true"] {
+  opacity: 1;
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+.picture-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+/* No tie, no jacket: an empty ring. */
+.swatch-button.none {
+  background: transparent;
 }
 #cr-screen .acts {
   justify-content: flex-end;
