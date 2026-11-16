@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 9533
+pr: #9533
 after:
 blocked-on:
 lead: m0-m2
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: "Fable B, Nov 15 (the golden-path check M0-09 was red on GitHub for a pull request that changed one unrelated test)"
+merged-at: 2026-11-16T01:32:43.378Z
 ---
 
 **What.** The golden path's M0-09 spec ("the four core pieces") goes red by the draw: `src/core2/voter-groups.test.ts` fails in any town that has an adult correctional facility in a state that bars people held in prison from voting. At Ness City, Kansas it expects 930 counted adults in the electorate sample and finds 914. Any pull request whose commit draws such a town shows a red golden-path check that has nothing to do with it. Seen: the golden-path check on a pull request, and the test's message.
