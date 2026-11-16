@@ -45,9 +45,8 @@ const MOST_DAYS = 240;
 /**
  * Why the director kept an ask that is on the record off the stage, by its own
  * scheduling rules (`scheduleMoment`): the sitting that evening, with the same
- * two people, took the ask in; or the member's season of vote-ask scenes is
- * full (`seasonCap`: past it a type's causes go to the journal). Undefined
- * when neither explains it, which is a real miss.
+ * two people, took the ask in. Undefined when that does not explain it, which
+ * is a real miss.
  */
 function notStagedBecause(
   book: PersonLedger,
@@ -61,30 +60,6 @@ function notStagedBecause(
     ),
   );
   if (taken) return `taken into the sitting of ${taken.momentId}`;
-  // The cap explains only an ask the director did record, as a journal line
-  // with no vote-ask scene, and counts only the scenes already staged when it
-  // was scheduled (the entries before it), as scheduleMoment counts them.
-  const at = book.schedule.findIndex((row) => row.momentId.includes(ask.id));
-  const entry = at >= 0 ? book.schedule[at] : undefined;
-  if (
-    !entry ||
-    entry.outcome !== "journal-line" ||
-    entry.bindings.some((b) => b.typeKey === "vote-asked")
-  )
-    return undefined;
-  const { value, days } = SITUATION_LIBRARY.scheduling.seasonCap;
-  const from = addDays(makeIsoDate(ask.date), -days);
-  const staged = book.schedule
-    .slice(0, at)
-    .filter(
-      (row) =>
-        row.date > from &&
-        row.date <= ask.date &&
-        row.outcome !== "journal-line" &&
-        row.bindings.some((b) => b.typeKey === "vote-asked"),
-    );
-  if (staged.length >= value)
-    return `the director's season cap: ${staged.length} vote-ask scenes already staged for the member in the ${days} days to ${ask.date} (cap ${value})`;
   return undefined;
 }
 

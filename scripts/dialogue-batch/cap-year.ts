@@ -3,7 +3,7 @@
  * situation type how many scenes were staged, how many the cap (or another reason) held back, and how many staged scenes
  * repeated an earlier staged scene's type and cast. Development tooling for the PR's proof; shipped play never imports it.
  *
- *   node --import tsx scripts/dialogue-batch/cap-year.ts --place <key> --seed <seed> --persona governor|legislator|mayor [--cap on|off] [--days 365] [--out file.json]
+ *   node --import tsx scripts/dialogue-batch/cap-year.ts --place <key> --seed <seed> --persona governor|legislator|mayor [--days 365] [--out file.json]
  */
 import { writeFileSync } from "node:fs";
 import { BenchPlayer } from "../../src/bench/player";
@@ -18,7 +18,6 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { memberKey } from "../../src/core2/modules/legislature";
 import { townSeats } from "../../src/core2/modules/offices";
 import { coreAPI } from "../../src/core2/state";
-import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 
 const option = (name: string, fallback: string) => {
   const at = process.argv.indexOf(`--${name}`);
@@ -27,12 +26,10 @@ const option = (name: string, fallback: string) => {
 const place = option("place", "");
 const seed = option("seed", "");
 const persona = option("persona", "governor");
-const cap = option("cap", "on");
 const days = Number(option("days", "365"));
 const out = option("out", "");
 if (!place || !seed) throw new Error("--place and --seed are required");
 
-if (cap === "off") SITUATION_LIBRARY.scheduling.seasonCap.value = 1_000_000;
 setBookkeeping(false);
 const world = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
@@ -81,7 +78,6 @@ for (
 
 type Row = {
   staged: number;
-  heldSeasonCap: number;
   heldOther: number;
   sameCastRepeat: number;
 };
@@ -94,7 +90,6 @@ const row = (key: string): Row => {
       key,
       (r = {
         staged: 0,
-        heldSeasonCap: 0,
         heldOther: 0,
         sameCastRepeat: 0,
         heldReasons: {},
@@ -110,7 +105,7 @@ for (const [who, book] of world.director.ledger.people) {
     const cast = (moment?.counterpartIds ?? []).slice().sort().join("+");
     for (const held of entry.heldBack ?? []) {
       const r = row(held.typeKey);
-      r[held.reason === "season-cap" ? "heldSeasonCap" : "heldOther"] += 1;
+      r.heldOther += 1;
       r.heldReasons[held.reason] = (r.heldReasons[held.reason] ?? 0) + 1;
     }
     if (entry.outcome === "journal-line") continue;
@@ -130,7 +125,6 @@ const report = {
   place,
   seed,
   persona,
-  cap,
   days,
   player: pid,
   seat: chosen.office.kind,
@@ -139,10 +133,7 @@ const report = {
   records: core.durableLog.size,
   seconds: Math.round((Date.now() - started) / 100) / 10,
   types: Object.fromEntries(
-    [...types].sort(
-      (a, b) =>
-        b[1].staged + b[1].heldSeasonCap - (a[1].staged + a[1].heldSeasonCap),
-    ),
+    [...types].sort((a, b) => b[1].staged - a[1].staged),
   ),
 };
 if (out) writeFileSync(out, JSON.stringify(report, null, 1));
