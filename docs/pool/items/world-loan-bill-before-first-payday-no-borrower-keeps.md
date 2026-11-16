@@ -40,3 +40,5 @@ checked:
 **Waits on.** The renters thread's lenders pair (fix A, `claude/project-thread-w31iec-loans`, and the other borrowing reasons) lands first, because it changes who borrows and for how much.
 
 **Files.** src/core2/modules/credit.ts, src/core2/work-pay-period.ts, src/core2/data/credit/parameters.json, src/director/promises.test.ts, tests/support/real-borrower.ts
+
+**Notes.** Nov 16: the kept line "You paid {payment} on time. I noticed." (conversation.promise-kept-raise.you-paid-payment-on-time-i-noticed, Words lead, Nov 15) was taken out of data/english/parts/conversation.json on #9517 because no played borrower reaches it (second reader hold, Account lead 02:23Z). It returns with the kept half of the pay test, through the Words lead, once a pinned place plays it.

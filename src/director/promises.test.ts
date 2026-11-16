@@ -216,7 +216,7 @@ function talkOf(
         .map((line) => `${name(line.speakerId)}: ${line.text}`)
         .join(
           " / ",
-        )} [${answer!.id}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}${renewed ? `; new promise ${renewed.id}` : ""}]`,
+        )} [${answer!.id}; closeness ${before.toFixed(8)} to ${after.toFixed(8)}${renewed ? `; new promise ${renewed.id}` : ""}]`,
     );
   }
   // Denying ends below owning it, except where the tie is already at its
@@ -428,7 +428,7 @@ it(
         );
         expect(payment, `${where}: ${said}`).toBeTruthy();
         done.push(
-          `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
+          `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id} over the earlier missed payment ${String(quarrel!.facts?.missedId)}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
         );
       }
       process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
