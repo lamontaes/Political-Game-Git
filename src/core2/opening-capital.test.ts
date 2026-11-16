@@ -12,6 +12,7 @@ import {
 import reference from "./data/opening-employer-cash-reference.json" with { type: "json" };
 import originalContext from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
+import { seededUnit } from "./seeded";
 import { buildPopulation } from "./population";
 import { buildOpeningCustomers } from "./opening-customers";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
@@ -128,6 +129,16 @@ function fixture(): CoreInput {
   };
 }
 
+/** A business's place in its industry's spread: the world's seeded unit keyed by the business (opening-capital.ts). */
+const unitOf = (seed: string, organizationId: string) =>
+  seededUnit(
+    seed,
+    `${DEFAULT_OPENING_CAPITAL_DATA.openingPriorNamespace}:${organizationId}`,
+  );
+const daysOf = (industry: string, seed: string, organizationId: string) =>
+  openingEmployerCashBufferAtQuantile(industry, unitOf(seed, organizationId))
+    .bufferDays;
+
 function estimate(input: CoreInput = fixture()) {
   return createOpeningEmployerCapital(
     input,
@@ -143,8 +154,12 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = result.estimates[0]!;
     expect(row.status).toBe("estimated-private-buffer");
     expect(row.industry).toBe("restaurants");
-    expect(row.bufferDays).toBe(36.565519619965926);
-    expect(row.startupQuantile).toBe(0.7843550593825057);
+    expect(row.startupQuantile).toBe(
+      unitOf(input.seed, input.organizations[0]!.id),
+    );
+    expect(row.bufferDays).toBe(
+      daysOf("restaurants", input.seed, input.organizations[0]!.id),
+    );
     expect(row.observedBufferDays).toEqual({
       percentile25: 9,
       median: 16,
@@ -157,7 +172,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       15335.883907495925,
       p("emotionComparisonDigits"),
     );
-    expect(row.liquidMinor).toBe(2057);
+    expect(row.liquidMinor).toBe(1375);
     expect(row.commitmentIds).toEqual(["capital:commitment"]);
     expect(row.source.citation).toContain("JPMorgan Chase Institute");
     expect(row.source.citation).toContain("IRS");
@@ -192,7 +207,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(hourly).estimates[0]!.plannedPayrollMinor).toBe(10400);
-    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(4115);
+    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(2750);
     const shorter = {
       ...input,
       workCommitments: input.workCommitments!.map((row) => ({
@@ -204,7 +219,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(shorter).estimates[0]!.plannedPayrollMinor).toBe(2600);
-    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(1029);
+    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(687);
   });
 
   it("counts a leap-year calendar and its 53 Mondays without a mean-year shortcut", () => {
@@ -221,7 +236,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(leap).estimates[0]!;
     expect(row.calendarDays).toBe(366);
     expect(row.plannedPayrollMinor).toBe(5300);
-    expect(row.liquidMinor).toBe(2091);
+    expect(row.liquidMinor).toBe(1398);
     expect(row.bufferDays).toBe(estimate(input).estimates[0]!.bufferDays);
     expect(row.from).toBe("2024-01-01");
     expect(row.through).toBe("2024-12-31");
@@ -241,7 +256,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(midyear).estimates[0]!;
     expect(row.calendarDays).toBe(184);
     expect(row.plannedPayrollMinor).toBe(2600);
-    expect(row.liquidMinor).toBe(2041);
+    expect(row.liquidMinor).toBe(1364);
     expect(row.startupQuantile).toBe(
       estimate(input).estimates[0]!.startupQuantile,
     );
@@ -283,7 +298,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(endsOnOpening).estimates[0]!.plannedPayrollMinor).toBe(100);
-    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(40);
+    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(26);
   });
 
   it.each([
@@ -308,7 +323,9 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       expect(row.overallFallback).toBe(true);
       expect(row.industry).toBe("all-small-businesses");
       expect(row.observedBufferDays!.median).toBe(27);
-      expect(row.bufferDays).toBe(74.98621244658716);
+      expect(row.bufferDays).toBe(
+        daysOf("all-small-businesses", input.seed, input.organizations[0]!.id),
+      );
       expect(row.parameterRefs).toContain("openingEmployerCashBufferDaysAll");
     },
   );
@@ -802,8 +819,12 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       input.organizations[0]!.id,
       "restaurants",
     );
-    expect(prior.startupQuantile).toBe(0.7843550593825057);
-    expect(prior.bufferDays).toBe(36.565519619965926);
+    expect(prior.startupQuantile).toBe(
+      unitOf(input.seed, input.organizations[0]!.id),
+    );
+    expect(prior.bufferDays).toBe(
+      daysOf("restaurants", input.seed, input.organizations[0]!.id),
+    );
     expect(prior.startupQuantile).toBeGreaterThan(0);
     expect(prior.startupQuantile).toBeLessThan(1);
     expect(
@@ -856,10 +877,9 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       workCommitments: copies.map((row) => row.commitment),
     };
     const rows = estimate(input).estimates;
-    expect(rows.map((row) => row.bufferDays)).toEqual([
-      14.458679203409702, 45.85195936751552, 2.404475898016244,
-      20.640802482608706, 51.90658151335083,
-    ]);
+    expect(rows.map((row) => row.bufferDays)).toEqual(
+      rows.map((row) => daysOf("restaurants", input.seed, row.organizationId)),
+    );
     expect(new Set(rows.map((row) => row.startupQuantile)).size).toBe(5);
     expect(new Set(rows.map((row) => row.liquidMinor)).size).toBe(5);
     expect(new Set(rows.map((row) => row.plannedPayrollMinor))).toEqual(
@@ -1080,10 +1100,6 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       ["zero", 1],
       ["one", 2],
       ["two", 3],
-      ["seedPlaceHashRadix", 10],
-      ["seedHashDigits", 0],
-      ["seedHashDigits", 14],
-      ["seedHashDigits", 1.5],
     ])
       expect(() =>
         openingEmployerCashBufferPrior(
