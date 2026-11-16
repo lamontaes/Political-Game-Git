@@ -9,11 +9,12 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: governing
 model: sonnet
 effort: medium
+root: rc8-law-judged-by-paperwork
 root: none
 source: added with npm run pool -- add
 ---

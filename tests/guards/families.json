@@ -122,7 +122,8 @@
         "src/core2/modules/president-acts.ts",
         "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts",
-        "src/core2/government-proper-name.ts"
+        "src/core2/government-proper-name.ts",
+        "src/core2/offices-executives.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
