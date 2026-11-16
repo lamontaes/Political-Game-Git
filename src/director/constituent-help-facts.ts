@@ -21,10 +21,8 @@ import {
 } from "../core2/modules/offices";
 import { caseLoad } from "../core2/modules/constituent-cases";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
-import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
 import { lawInForce } from "../core2/modules/laws";
-import { rentHelpPaid } from "../core2/housing-assistance";
 import { JUSTICE_MODULE_ID, type CustodyRow } from "../core2/modules/justice";
 import { familyFactsOf } from "../core2/closeness";
 import { JOURNAL_WORDS } from "../english/journal-words";
@@ -42,7 +40,6 @@ const PROBLEM_FACT: Record<CaseRow["problem"], string> = {
   "looking-for-work": "problem-work",
   "paid-under-minimum-wage": "problem-wage",
   "family-in-custody": "problem-custody",
-  "behind-on-rent": "problem-eviction",
   "caring-for-someone-ill": "problem-sick",
 };
 
@@ -159,50 +156,6 @@ export function caseFacts(
           sourceRecordIds: ids,
         };
     }
-  } else if (row.problem === "behind-on-rent") {
-    // The rent notice: how far behind (the arrears in months of rent, as a
-    // span), the day it must be paid by, the landlord who served it, and
-    // whether the town pays rent help an official can put them first for.
-    const notice = api
-      .moduleState(HOUSING_MODULE_ID)
-      .table("cases")
-      .get(String(row.facts.housingCaseId ?? "")) as unknown as
-      | {
-          id: string;
-          leaseId: string;
-          landlordId?: string;
-          owedAtNoticeMinor?: number;
-          cureBy?: string;
-        }
-      | undefined;
-    if (notice) {
-      const ids = [notice.id];
-      const rent = core.finance.contracts.get(notice.leaseId)?.amountMinor;
-      if (rent && (notice.owedAtNoticeMinor ?? P.zero) > P.zero)
-        facts.behind = {
-          text: spanSaid(
-            Math.round(
-              ((notice.owedAtNoticeMinor! / rent) * P.daysPerMeanYear) /
-                P.monthsPerYear,
-            ),
-          ),
-          sourceRecordIds: [notice.id, notice.leaseId],
-        };
-      if (notice.cureBy && notice.cureBy > cause.date)
-        facts["cure-by"] = {
-          text: spokenDate(notice.cureBy, cause.date),
-          sourceRecordIds: ids,
-        };
-      const landlord = notice.landlordId
-        ? core.organizations.get(notice.landlordId)
-        : undefined;
-      if (landlord)
-        facts.landlord = {
-          text: organizationName(landlord),
-          sourceRecordIds: [notice.id, landlord.id],
-        };
-    }
-    facts[rentHelpPaid(api) ? "rent-help" : "no-rent-help"] = said("yes");
   } else if (row.problem === "caring-for-someone-ill") {
     // Who is ill (the resident or a relative at home), and whether anyone in
     // the household holds a plan, from the health and coverage records.

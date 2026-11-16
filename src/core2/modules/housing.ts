@@ -2917,9 +2917,6 @@ export const HOUSING_MODULE: PreStartModule = {
           byHousehold: { fields: ["householdId"] },
         },
       },
-      // An official's referral that puts a household first for rent help
-      // (housing-assistance.ts referForRentHelp), read by payRentAssistance.
-      rentHelpReferrals: {},
       renewals: {},
       mortgages: {},
       purchases: {},

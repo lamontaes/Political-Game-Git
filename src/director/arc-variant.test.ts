@@ -144,13 +144,6 @@ const helpFacts: Record<string, Fact> = {
 };
 // Each case's own facts, in place of the plain visit's out-of-work fact.
 const caseFacts: Record<string, Record<string, Fact>> = {
-  eviction: {
-    "problem-eviction": fact("yes"),
-    behind: fact("two months"),
-    "cure-by": fact("March 14th"),
-    landlord: fact("Hartley Rentals"),
-    "rent-help": fact("yes"),
-  },
   custody: {
     "problem-custody": fact("yes"),
     relation: fact("brother"),
@@ -222,7 +215,6 @@ const compose = (
 // The endings each office-hours case reaches: the official's act for the case,
 // or the honest no where the office has none (illness).
 const CASE_ENDINGS: Record<string, string[]> = {
-  eviction: ["rent-help-first", "cant-help"],
   custody: ["visit-asked", "cant-help"],
   sick: ["cant-help"],
 };

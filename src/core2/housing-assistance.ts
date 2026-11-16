@@ -25,89 +25,8 @@ import { lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { noteLinePaid } from "./budgets-treasury";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState } from "./types";
-import type { ModuleRow } from "./module-data";
-
-/** The housing engine's store (modules/housing.ts HOUSING_MODULE_ID; that module imports this file, so the id is named here). */
-const HOUSING_MODULE_ID = "housing";
 
 export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
-
-/**
- * What one government's housing line pays in rent help this month, as the
- * number of households it covers at the average voucher, or null where the
- * line stands at or under its Census base.
- */
-function helpLine(api: CoreAPI, gov: ReturnType<typeof governments>[number]) {
-  const budget = budgetToday(api, gov);
-  if (!budget) return null;
-  const annual = lawParameters.parameters.housingAssistanceAnnualMinor.value;
-  // The line above its Census base: this year's amendments and every budget bill the body has passed, which later years' budgets start from.
-  const extra = lineExtra(api, gov, budget, "housing");
-  // A state's or county's line is shared across all its people: the played
-  // town receives the part its own people stand for (1 for the city's own
-  // line). ESTIMATED from the population share, as renter households are
-  // not recorded for the whole government.
-  const share = townShare(api, gov);
-  // stopgapId: SG-GOV-rent-help-population-share
-  if (share < 1 && extra > 0) api.stopgap("SG-GOV-rent-help-population-share");
-  const slots = (extra * share) / annual;
-  return slots > 0 ? { budget, slots } : null;
-}
-
-/** Whether any government's housing line pays the town rent help this month. */
-export function rentHelpPaid(api: CoreAPI): boolean {
-  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return false;
-  return governments(api).some((gov) => helpLine(api, gov) !== null);
-}
-
-/** An official's referral that puts a household first in line for rent help. */
-export interface RentHelpReferral {
-  readonly id: string;
-  readonly caseId: string;
-  readonly householdId: string;
-  /** The rent notice the household is behind on (the housing engine's case). */
-  readonly housingCaseId: string;
-  readonly officialId: string;
-  readonly referred: string;
-}
-
-const REFERRALS = "rentHelpReferrals";
-/** Sorts after any date: a household no official referred. */
-const NOT_REFERRED = "~";
-
-/** The official's call on a constituent's rent notice: their household goes first in the town's rent help while the notice is open. */
-export function referForRentHelp(
-  api: CoreAPI,
-  referral: Omit<RentHelpReferral, "id" | "referred">,
-): RentHelpReferral {
-  const row: RentHelpReferral = {
-    ...referral,
-    id: `rent-help-referral:${referral.caseId}`,
-    referred: api.state.date,
-  };
-  api
-    .moduleState(HOUSING_MODULE_ID)
-    .table(REFERRALS)
-    .put(row as unknown as ModuleRow);
-  return row;
-}
-
-/** Each referred household with its referral day, while the notice it was referred for is still open. */
-function referredFirst(api: CoreAPI): Map<string, string> {
-  const first = new Map<string, string>();
-  if (!api.state.modules.has(HOUSING_MODULE_ID)) return first;
-  const housing = api.moduleState(HOUSING_MODULE_ID);
-  for (const row of housing
-    .table(REFERRALS)
-    .rows() as unknown as RentHelpReferral[]) {
-    const notice = housing.table("cases").get(row.housingCaseId) as
-      { open?: boolean } | undefined;
-    if (!notice?.open) continue;
-    const had = first.get(row.householdId);
-    if (!had || row.referred < had) first.set(row.householdId, row.referred);
-  }
-  return first;
-}
 
 /** Pay this month's rent assistance and end it for households no longer covered. */
 export function payRentAssistance(
@@ -123,12 +42,21 @@ export function payRentAssistance(
   const today = makeIsoDate(c.date);
   const funded = new Set<string>();
   let renters: ReturnType<typeof tenants> | undefined;
-  const first = referredFirst(api);
   for (const gov of governments(api)) {
-    const line = helpLine(api, gov);
-    if (!line) continue;
-    const { budget } = line;
-    let slots = line.slots;
+    const budget = budgetToday(api, gov);
+    if (!budget) continue;
+    // The line above its Census base: this year's amendments and every budget bill the body has passed, which later years' budgets start from.
+    const extra = lineExtra(api, gov, budget, "housing");
+    // A state's or county's line is shared across all its people: the played
+    // town receives the part its own people stand for (1 for the city's own
+    // line). ESTIMATED from the population share, as renter households are
+    // not recorded for the whole government.
+    const share = townShare(api, gov);
+    // stopgapId: SG-GOV-rent-help-population-share
+    if (share < 1 && extra > 0)
+      api.stopgap("SG-GOV-rent-help-population-share");
+    let slots = (extra * share) / annual;
+    if (!(slots > 0)) continue;
     // The measure that last changed this line is the law the help is paid under.
     const lawId = String(
       mechanicRow(api, housingLineMeasureId(gov.id))?.facts.lawId ?? budget.id,
@@ -138,15 +66,8 @@ export function payRentAssistance(
       .filter((t) => t.memberIds.length > 0)
       .sort(
         (a, b) =>
-          // A household an official put first in line is served first, the
-          // earliest referral before a later one; then the least income per
-          // member.
-          (first.get(a.id) ?? NOT_REFERRED).localeCompare(
-            first.get(b.id) ?? NOT_REFERRED,
-          ) ||
           a.incomeMinor / a.memberIds.length -
-            b.incomeMinor / b.memberIds.length ||
-          a.id.localeCompare(b.id),
+            b.incomeMinor / b.memberIds.length || a.id.localeCompare(b.id),
       );
     for (const tenant of ranked) {
       if (slots <= 0) break;

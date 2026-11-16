@@ -779,14 +779,12 @@
     "kind": "missing-producer",
     "file": "src/core2/modules/constituent-cases.ts",
     "line": 139,
-    "whatItFakes": "The eviction and sick variants of a constituent's visit now play from the household's own rent notice and care need, but the constituent-cases engine opens cases only for looking for work and pay under the minimum wage, so a visitor behind on rent or caring for someone ill has no case and the official's help changes nothing for them.",
+    "whatItFakes": "The eviction variant of a constituent's visit reads the household's own rent notice, but the constituent-cases engine opens no case for a rent notice, so a visitor behind on rent has no case and the official's help changes nothing for them. (Care is built: problemOf opens caring-for-someone-ill from a serious illness in the household, Nov 16.)",
     "why": "The variants were chosen from the visitor's own records alone, so in New Brockton, Alabama (seed 8abcef2cc056600dfd4f33872ea12afe00f471b3, attempt 2) a resident whose case was looking for work opened with a line about taking a relative to every appointment. The case on record is the scene's cause and decides what the visitor asks for.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The constituent-cases engine (src/core2/modules/constituent-cases.ts, problemOf) opens a case from a served rent notice (problem behind-on-rent) and from a care need in the household (problem caring-for-someone-ill); the two variants then play from those cases with no change here.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-15",
-    "resolvedBy": "civic roles builder, words-office-hours-says-the-act: problemOf in src/core2/modules/constituent-cases.ts opens behind-on-rent from an open rent notice and caring-for-someone-ill from a serious illness in the household; the eviction and sick variants play from those cases (Nov 15)"
+    "replacement": "The constituent-cases engine (src/core2/modules/constituent-cases.ts, problemOf) opens a case from a served rent notice (problem behind-on-rent) once the town's own renters get notices and counted residents bring rent cases (pool items world-rent-notices-miss-town-renters and office-hours-rent-case-waits-on-town-notices); the eviction variant then plays from those cases.",
+    "status": "open"
   },
   {
     "id": "SG-WORDS-speech-outline-other-kinds",

@@ -43,8 +43,6 @@ import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
 import { referCustody, servingCustodyOf } from "./justice";
 import { careNeedOf, seriousIllnessOf } from "./health";
-import { HOUSING_MODULE_ID } from "./housing";
-import { referForRentHelp, rentHelpPaid } from "../housing-assistance";
 import { residentsRuntime } from "./residents";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
@@ -56,7 +54,6 @@ export type Problem =
   | "looking-for-work"
   | "paid-under-minimum-wage"
   | "family-in-custody"
-  | "behind-on-rent"
   | "caring-for-someone-ill";
 
 const PROBLEM_QUESTIONS = (
@@ -191,49 +188,6 @@ function localOfficials(api: CoreAPI): readonly TermRow[] {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/**
- * The household's open rent case while rent help can still end it: a notice
- * not yet past its day to pay, or a filing not yet heard, since the hearing
- * dismisses a case whose rent is paid up by then (housing.ts, the hearing
- * step). `endsAt` is that day.
- */
-export function openRentNotice(
-  api: CoreAPI,
-  householdId: string,
-): { id: string; noticeAt: string; endsAt: string } | undefined {
-  if (!api.state.modules.has(HOUSING_MODULE_ID)) return undefined;
-  const today = api.state.date;
-  return (
-    api
-      .moduleState(HOUSING_MODULE_ID)
-      .table("cases")
-      .query("byHousehold", [householdId]) as unknown as {
-      id: string;
-      open?: boolean;
-      stage?: string;
-      noticeAt?: string;
-      cureBy?: string;
-      hearingAt?: string;
-    }[]
-  )
-    .filter((row) => row.open)
-    .map((row) => ({
-      id: row.id,
-      noticeAt: row.noticeAt ?? row.cureBy ?? today,
-      endsAt:
-        row.stage === "notice"
-          ? row.cureBy
-          : row.stage === "filed"
-            ? row.hearingAt
-            : undefined,
-    }))
-    .filter(
-      (row): row is { id: string; noticeAt: string; endsAt: string } =>
-        !!row.endsAt && row.endsAt >= today,
-    )
-    .sort((a, b) => b.id.localeCompare(a.id))[0];
-}
-
 /** The member of a person's household, themselves first, with a serious illness on the health record. */
 function seriouslyIll(
   api: CoreAPI,
@@ -273,19 +227,6 @@ export function problemOf(
       problem: "family-in-custody",
       severity: term > 0 ? Math.max(0, Math.min(1, ahead / term)) : 0,
       facts: { relativeId: kinId, custodyId: custody.id },
-    };
-  }
-  // A rent case on their household that rent help can still end: how close
-  // its day (the day to pay, or the hearing) is presses on them, read from
-  // the housing case.
-  const notice = openRentNotice(api, person.householdId);
-  if (notice) {
-    const span = Date.parse(notice.endsAt) - Date.parse(notice.noticeAt);
-    const left = Date.parse(notice.endsAt) - Date.parse(date);
-    return {
-      problem: "behind-on-rent",
-      severity: span > 0 ? Math.max(0, Math.min(1, 1 - left / span)) : 1,
-      facts: { housingCaseId: notice.id },
     };
   }
   // A serious illness in the household, theirs or a relative's at home: the
@@ -800,26 +741,6 @@ function resolve(
       officialId: row.officialId,
     });
     outcome = "referred-to-custody-review";
-  } else if (decision === "help" && row.problem === "behind-on-rent") {
-    // The housing engine's rent help pays a referred household first while
-    // its notice is open; where no housing line pays help, there is nothing
-    // to put them first for, and the office says so.
-    if (rentHelpPaid(api)) {
-      referForRentHelp(api, {
-        caseId: row.id,
-        householdId: String(
-          api.state.people.get(row.personId as PersonId)?.householdId ??
-            row.facts.householdId ??
-            "",
-        ),
-        housingCaseId: String(row.facts.housingCaseId),
-        officialId: row.officialId,
-      });
-      outcome = "referred-to-rent-help";
-    } else {
-      decision = "decline";
-      outcome = "no-rent-help";
-    }
   } else if (decision === "help" && row.problem === "caring-for-someone-ill") {
     // Coverage comes from a job, from Medicare at 65 or from the state's
     // program, each by its own engine (coverage.ts, the Medicaid reach); none

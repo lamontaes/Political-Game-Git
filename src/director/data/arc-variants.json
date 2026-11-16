@@ -2856,29 +2856,40 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["promise", "ask", "decline"],
+            "replies": ["promise", "ask", "decline", "offer"],
             "follow": {
               "promise": ["thank", "press"],
               "ask": ["answer"],
-              "decline": ["plea", "press", "accept"]
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
             },
             "again": {
-              "answer": ["promise", "decline", "leave"],
-              "plea": ["promise", "decline"],
-              "press": ["apologize", "leave"]
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
             },
             "repeatable": {
-              "answer": ["promise"]
+              "answer": ["promise", "offer"]
             },
             "endings": [
               {
-                "id": "rent-help-first",
+                "id": "will-call",
                 "settles": "help",
                 "opens": "office",
-                "label": "Put first for rent help",
+                "label": "You'll make the call",
                 "keeps": "promise",
                 "when": {
                   "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "settles": "help",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
                 }
               },
               {
@@ -2888,6 +2899,22 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
                 }
               },
               {

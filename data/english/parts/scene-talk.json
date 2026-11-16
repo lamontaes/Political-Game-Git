@@ -30,9 +30,6 @@
     "relation": "How the person in the scene is related to someone in their case (\"brother\", \"daughter\"), from the family records.",
     "held-for": "How long a relative has been held, as a span (\"three months\"), from the custody record.",
     "out-in": "How long until a held relative is due out, as a bare span (\"two years\"), from the custody record.",
-    "behind": "How much back rent a household owes, as a span of months (\"two months\"), from the notice and the lease.",
-    "cure-by": "The day a rent notice gives to pay, as people say it, from the notice record.",
-    "landlord": "The name of the landlord on a rent notice, from the lease and its owner's record.",
     "candidate": "Present when the person in the scene filed for office, from the filing record.",
     "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
     "kid": "The household's new child, by name, from the household record.",
@@ -146661,6 +146658,318 @@
       }
     },
     {
+      "key": "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call the housing office myself and ask them to hold the filing until you've been seen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-find-out-today-whether-the-town-has-any-rent-help-left-and-i-ll-tell-you-th",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll find out today whether the town has any rent help left, and I'll tell you the name of the person I spoke to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask the legal aid office to take your notice before the date on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-did-the-notice-come-and-have-you-paid-anything-since",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When did the notice come, and have you paid anything since?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who signed it, and has the landlord said anything to you in person?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-tell-the-landlord-and-what-did-they-say-back",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you tell the landlord, and what did they say back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My caseworker can call the landlord with you in the room. Stay for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.leave-the-notice-with-my-staff-they-ll-copy-it-and-call-the-landlord-s-office-to",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave the notice with my staff. They'll copy it and call the landlord's office tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.sit-down-with-the-caseworker-and-bring-your-lease-together-you-can-read-what-tha",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Sit down with the caseworker and bring your lease. Together you can read what that notice has to follow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't stop a landlord from filing. I can tell you where tenants get free help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "The town doesn't pay rent. I wish it did. Legal aid takes cases like yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-people-waiting-but-you-re-not-leaving-empty-go-to-the-desk-and-my-staff-w",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have people waiting, but you're not leaving empty. Go to the desk and my staff will start a file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-started-with-what-i-can-t-do-read-me-the-notice-line-by-line",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I started with what I can't do. Read me the notice, line by line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-answer.it-came-last-week-i-paid-what-i-had-on-the-third-and-they-gave-me-a-receipt-that",
       "move": "follow-answer",
       "kind": "spoken",
@@ -181868,15 +182177,6 @@
           "role": "asker",
           "after": "promise",
           "requiresFacts": ["problem-custody"]
-        },
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise",
-          "requiresFacts": ["problem-eviction"]
         }
       ],
       "origin": "authored",
@@ -181925,15 +182225,6 @@
           "role": "asker",
           "after": "promise",
           "requiresFacts": ["problem-custody"]
-        },
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "promise",
-          "requiresFacts": ["problem-eviction"]
         }
       ],
       "origin": "authored",
@@ -191219,416 +191510,6 @@
       "bearing": "calm",
       "piece": {
         "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-eviction-1",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I got an eviction notice. I'm {behind} behind on rent.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction", "behind"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-eviction-2",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{landlord} gave me a notice. I have until {cure-by} to pay.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction", "landlord", "cure-by"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-request.case-help-eviction-3",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'm about to lose my home. I can't cover the rent I owe.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-eviction-1",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How far behind are you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "behind"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-eviction-1",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{behind}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction", "behind"],
-          "after": "scene-talk.reply-ask.case-help-eviction-1"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.case-help-eviction-2",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "When do you have to pay by?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "cure-by"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "ask",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.case-help-eviction-2",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{cure-by}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction", "cure-by"],
-          "after": "scene-talk.reply-ask.case-help-eviction-2"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "answer",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-eviction-1",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "The town has rent help. I'll put your case first in line.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "rent-help"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-eviction-2",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll move you to the front for rent help today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "rent-help"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-eviction-3",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll see your case is the next one the town pays.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "rent-help"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-eviction-1",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "The town has no rent help to give. I'm sorry.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "no-rent-help"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-eviction-2",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "There's no money for rent help here. I can't change that today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["problem-eviction", "no-rent-help"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.case-help-eviction-1",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I have until {cure-by}. After that I'm out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction", "cure-by"],
-          "after": "decline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "press",
-        "key": "case-help"
-      },
-      "bearing": "braced",
-      "piece": {
-        "of": "case-help.follow-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-eviction-1",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. I have nowhere else to go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "requiresFacts": ["problem-eviction"],
-          "after": "decline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
         "part": "core",
         "required": true
       }
