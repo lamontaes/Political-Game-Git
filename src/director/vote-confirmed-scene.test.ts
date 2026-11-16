@@ -118,4 +118,4 @@ it(`a vote traded in committee is the member's vote-confirmed scene on the floor
   throw new Error(
     `no committee trade by a watched member reached the floor in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
   );
-}, 3_600_000);
+}, 240_000);
