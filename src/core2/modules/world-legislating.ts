@@ -420,7 +420,7 @@ export function filerOf(api: CoreAPI, term: TermRow): Filer {
  * fresher it is and the wider it passed (owner, Oct 14: no body's rules are
  * in data, so a sliding reluctance from recency and margin; no fixed cooldown).
  */
-function lawStanding(
+export function lawStanding(
   api: CoreAPI,
   question: string,
   direction: number,

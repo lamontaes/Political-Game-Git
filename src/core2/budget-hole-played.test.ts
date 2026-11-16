@@ -27,6 +27,7 @@ import {
   members,
 } from "./modules/legislature";
 import { lawChain, lawInForce } from "./modules/laws";
+import { lawStanding } from "./modules/world-legislating";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 
@@ -70,6 +71,12 @@ it(`a tax repeal's hole in the budget weighs on every member: ${place.name}, rep
     );
     // Adopting a tax gives up nothing.
     expect(revenueGivenUp(api, "US", { question, direction: 1 })).toBe(0);
+    // The agenda reads the same hole when a member weighs filing the repeal.
+    expect(lawStanding(api, question, -1, "US").hole).toBeCloseTo(
+      federal.share,
+      12,
+    );
+    expect(lawStanding(api, question, 1, "US").hole).toBe(0);
 
     const sponsor = memberKey(members(api, FEDERAL_HOUSE)[0]!);
     const draft = (
@@ -182,6 +189,10 @@ it(`a tax repeal's hole in the budget weighs on every member: ${place.name}, rep
     expect(
       revenueGivenUp(api, stateKey, { question, direction: -1 }),
     ).toBeCloseTo(state.share, 12);
+    expect(lawStanding(api, question, -1, stateKey).hole).toBeCloseTo(
+      state.share,
+      12,
+    );
     const seat = townSeats(api).find(
       (r) =>
         r.office.level === "state" &&
