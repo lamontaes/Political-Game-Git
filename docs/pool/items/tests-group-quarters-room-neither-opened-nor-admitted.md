@@ -11,7 +11,7 @@ claimed-by:
 pr:
 after:
 blocked-on:
-root: core-group-quarters-turnover
+root: design-one-model-two-tiers
 lead: renters
 model: sonnet
 effort: medium
@@ -29,7 +29,7 @@ Seen: Storrs, Connecticut (0973980), seed 085af212ffbc1c6c40eb8b1d4c7b8799395ba9
 
 **Rules.** One rule, all 56 places: the test names its places and seeds, found once by script, never drawn at run time.
 
-**Done when.** The Storrs seed above passes, the test names its places and seeds, and a second session replays it on the Train and sees all four cases pass.
+**Done when.** The Storrs seed above passes, the test names its places and seeds, and a second session replays it on the Train and sees all four cases pass, then plays a drawn place (place and seed named) and sees no group-quarters home without an opening or admission record.
 
 **Waits on.** Nothing.
 
