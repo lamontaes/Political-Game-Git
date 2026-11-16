@@ -296,6 +296,32 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.111.1
+
+_Released November 15, 2026._
+
+### Fixed
+
+- **A year in a large town runs about a seventh faster** Each month the game
+  went through every group of households that works out of town and, for each
+  one, counted everyone in a much larger group of households again, though the
+  count was only needed when a household changed groups. It now counts only
+  then. A year at Alamogordo, New Mexico ran in about 280 seconds where it took
+  331, with every record the same.
+
+- **Ordinances no longer repeal rules your town never had** A council member or
+  county commissioner who traded a vote for a section of their own could win a
+  repeal of a rule the body had never made, and the ordinance then told you it
+  repealed "the rules now in force" on it. A member now asks only for a section
+  that would change the body's law, by the same rule that decides which bills
+  get filed.
+
+- **A counted voter's reasons match how their vote was counted** When you looked
+  at why one of the town's counted voters voted as they did, the reasons shown
+  were rebuilt without two things the count had weighed: the world's own view of
+  each question and the household's circumstances. The count now keeps both with
+  the ballot, so the reasons read back are the ones that were counted.
+
 ## PRE-ALPHA 0.111.0
 
 _Released November 15, 2026._

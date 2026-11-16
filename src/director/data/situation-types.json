@@ -79,8 +79,6 @@
       "adult": 4
     },
     "trailingDays": 365,
-    "repeatDays": 30,
-    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running.",
     "seasonCap": {
       "value": 6,
       "days": 91,
@@ -2373,7 +2371,6 @@
       ],
       "setting": ["venue", "phone"],
       "timing": "at-cause",
-      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -2945,7 +2942,7 @@
       "stakes": ["job", "years"]
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "vote-asked",
       "receive": {
         "age": "any",
@@ -3171,7 +3168,7 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "ask-vote",
       "playerAsks": true,
       "asker": "colleague",
@@ -4156,7 +4153,7 @@
       }
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "section-bargain",
       "receive": {
         "age": "any",
@@ -5950,7 +5947,7 @@
         "seat": "serving"
       },
       "note": "The player drafts a bill and goes to a colleague they know to sign on as a co-sponsor (brief V, stage 2). The colleague answers from where they stand on the bill and what a favor to the player is worth to them, never by a roll; a yes puts their name on the bill, which the committee chair weighs in deciding to hear it (legislature.ts askToSignOn, answerSignOn, chairHears).",
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "cosponsor-ask",
       "playerAsks": true,
       "asker": "colleague",

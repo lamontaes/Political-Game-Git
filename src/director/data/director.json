@@ -256,7 +256,7 @@
         "low": 7,
         "high": 45,
         "unit": "days",
-        "citation": "Fewest days between two scenes of household members bringing home a story they read: the scheduler's window for the same scene with the same people (repeatDays, 30), so a household with one reader is not cut short."
+        "citation": "Fewest days between two scenes of household members bringing home a story they read: a household with one reader is not cut short."
       }
     },
     "directorCircumstanceWorkEveryDays": {

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 pr: #8390
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T01:02:21.813Z
+merged-at: 2026-11-16T00:32:09.484Z
 ---
 
 **What.** On day one the offices engine writes, for every seat of every other state, the holder's earlier terms of the seat: about 12,700 of the 20,600 term rows in a drawn world (Hagåtña, Guam, seed oe1; Greenwood, Delaware, seed 1f0206147ad606b1). Nobody reads them until the player opens that holder's card. This part keeps the serving term with the holder's whole service on it and writes the earlier terms the first time the holder is opened, from the world's seed and the opening date, so they are the same whenever they are opened. It is the first slice of core-officials-elsewhere-built-as-full-people-at-the-opening. Seen: on the bench, a legislator of another state opened from the government screen shows a card that tells every term they served in the seat.

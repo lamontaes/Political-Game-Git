@@ -113,6 +113,9 @@ export const DAYS_PER_YEAR = 365;
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
+// A counted household's share of its group's bank savings, its opening savings draw and its group's account, for dev mode's money panel.
+export { countedDeposits, fundOf } from "../counted-money";
+export { householdBalanceDraw } from "../household-balance-draw";
 // The counted jobs of an employer, for engines outside this family (the patrol-hours record).
 export { countedJobHeads, countedJobsOf };
 
@@ -279,6 +282,8 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
+/** The core a runtime belongs to, for the counted households' income reads before the first day opens its api. */
+const coreOfRuntime = new WeakMap<ResidentsRuntime, CoreState>();
 // The store is plain columns; the record views over it are rebuilt.
 registerSnapshotPart("core2-residents", {
   save: (core) => {
@@ -308,7 +313,7 @@ registerSnapshotPart("core2-residents", {
       "store" | "households" | "householdOfPerson"
     > & { store: unknown; moneySerial?: number };
     const store = decodeStore(saved.store);
-    runtimes.set(core, {
+    const restored: ResidentsRuntime = {
       ...saved,
       input: rebuilt.input,
       moneyCache: { serial: moneySerial ?? 0 },
@@ -319,7 +324,9 @@ registerSnapshotPart("core2-residents", {
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
-    });
+    };
+    runtimes.set(core, restored);
+    coreOfRuntime.set(restored, core);
   },
 });
 
@@ -379,7 +386,19 @@ function householdKeys(
   return out;
 }
 
-/** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
+/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
+type AssistanceReader = (core: CoreState, householdId: string) => number;
+let assistanceReader: AssistanceReader | undefined;
+export function setAssistanceReader(reader: AssistanceReader): void {
+  assistanceReader = reader;
+}
+
+function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
+  const core = coreOfRuntime.get(rt);
+  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
+}
+
+/** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
 export function householdIncome(
   rt: ResidentsRuntime,
   h: CountedHousehold,
@@ -387,7 +406,8 @@ export function householdIncome(
   return (
     h.wagesMinorYear +
     h.retirementMinorYear +
-    h.unplacedWorkers * unplacedPayPerWorker(rt, h)
+    h.unplacedWorkers * unplacedPayPerWorker(rt, h) +
+    assistanceYear(rt, h.id)
   );
 }
 
@@ -480,15 +500,20 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  // Its claim on the old group's money, and all the claims there, before it leaves.
+  const key = groupKeyOf(rt, h, date);
+  // Its claim on the old group's money, and all the claims there, before it
+  // leaves. The old group's claims are read only when the household leaves
+  // it: most regroups keep the household where it is (a share of away work
+  // lost each month).
+  const leaving = before >= 0 && rt.store.group(key).index !== before;
   const claim = rt.api ? savingClaim(rt, h) : 0;
-  const groupBefore = rt.api && before >= 0 ? claimsInGroup(rt, before) : 0;
+  const groupBefore = rt.api && leaving ? claimsInGroup(rt, before) : 0;
   // And its share of the old group's bank savings, for every household of the record.
   const banked =
-    rt.api && before >= 0
+    rt.api && leaving
       ? countedDeposits(rt.api, rt, h, rt.store.weightedCount(h))
       : 0;
-  rt.store.regroup(h, groupKeyOf(rt, h, date));
+  rt.store.regroup(h, key);
   if (rt.api) claimMoved(rt, before, h.group, claim);
   // Its share of the old group's money goes with it.
   if (rt.api && before !== h.group) {
@@ -955,6 +980,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     schedule(rt, flow);
   }
   runtimes.set(core, rt);
+  coreOfRuntime.set(rt, core);
 }
 
 /** Cash an owner can spend now: its cash less amounts set aside in other funds. */

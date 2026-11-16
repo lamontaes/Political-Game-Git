@@ -342,7 +342,12 @@ async function outcomeLines({ billId, labels, onDone }) {
       "dev-bill-added-sections",
     ),
   ];
-  if (outcome.ending.how === "law" && !outcome.laws.length && !outcome.budget)
+  if (
+    outcome.ending.how === "law" &&
+    !outcome.laws.length &&
+    !outcome.ended.length &&
+    !outcome.budget
+  )
     out.push(line(labels.noLaw));
   for (const law of outcome.laws) {
     const r = law.reach;
@@ -378,7 +383,25 @@ async function outcomeLines({ billId, labels, onDone }) {
       out.push(el("div", { className: "acts" }, run));
     }
     out.push(...reachLines(r, labels, line));
+    for (const before of law.replaced)
+      out.push(
+        ...endedLines(before, labels, line, onDone, {
+          heading: labels.ended.replaced,
+          when: labels.ended.replacedOn.replace("{date}", law.effectiveDate),
+        }),
+      );
   }
+  // The law rows the bill's repeal sections ended.
+  for (const row of outcome.ended)
+    out.push(
+      ...endedLines(row, labels, line, onDone, {
+        heading: labels.ended.repealed,
+        when: (row.inForce
+          ? labels.ended.endsOn
+          : labels.ended.endedOn
+        ).replace("{date}", row.endDate),
+      }),
+    );
   if (outcome.budget) {
     out.push(
       line(
@@ -393,11 +416,69 @@ async function outcomeLines({ billId, labels, onDone }) {
   return out;
 }
 
-/** Who a law or a bill's budget lines reached, by the core's one reach reader. */
-function reachLines(r, labels, line) {
+/**
+ * A law row a bill ended or a new law took over from: the row, when it ended,
+ * who it reached while in force, and what of that has ended (the reach
+ * reader's `ended`, from the end days the engines record). A repeal dated
+ * ahead offers Run until it ends.
+ */
+function endedLines(row, labels, line, onDone, { heading, when }) {
+  const t = labels.ended;
   const out = [
-    el("h4", { className: "label", textContent: labels.reach.title }),
+    el("h4", { className: "label", textContent: heading }),
+    line(
+      [
+        row.series,
+        row.level,
+        `${row.value}${row.unit ? ` ${row.unit}` : ""}`,
+        when,
+      ].join(" · "),
+      "dev-bill-ended-law",
+    ),
   ];
+  if (row.inForce && row.endDate) {
+    const run = makeButton({ className: "action small" }, t.runToEnd);
+    run.dataset.testid = "dev-bill-run-to-end";
+    run.addEventListener("click", async () => {
+      run.disabled = true;
+      try {
+        await send("run-until", {
+          event: "law-takes-effect",
+          subject: row.id,
+          cap: 800,
+        });
+        await onDone();
+      } finally {
+        run.disabled = false;
+      }
+    });
+    out.push(el("div", { className: "acts" }, run));
+  }
+  const e = row.reach.ended;
+  out.push(
+    ...reachLines(row.reach, labels, line, t.whileInForce),
+    el("h4", { className: "label", textContent: t.noLongerReached }),
+    e.records
+      ? line(
+          [
+            `${labels.reach.records} ${e.records}`,
+            `${labels.reach.fullPeople} ${e.fullPeople}`,
+            `${labels.reach.counted} ${Math.round(e.counted)}`,
+            `${labels.reach.organizations} ${e.organizations}`,
+            `${labels.reach.governments} ${e.governments}`,
+            `${labels.reach.money} ${dollars(e.amountMinor)}`,
+            t.since.replace("{date}", e.lastEndedOn),
+          ].join(" · "),
+          "dev-bill-no-longer-reached",
+        )
+      : line(t.noneEnded, "dev-bill-none-ended"),
+  );
+  return out;
+}
+
+/** Who a law or a bill's budget lines reached, by the core's one reach reader. */
+function reachLines(r, labels, line, title = labels.reach.title) {
+  const out = [el("h4", { className: "label", textContent: title })];
   if (!r.records) {
     out.push(line(labels.reach.none, "dev-bill-reach-none"));
     return out;

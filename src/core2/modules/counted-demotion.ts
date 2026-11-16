@@ -22,7 +22,8 @@ import {
 import { workedToday } from "./jobs";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
-import { stableHash, pairKey } from "../kernel/ids";
+import { stableHash } from "../kernel/ids";
+import { lastTogether } from "../closeness";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { VIEWS_MODULE_ID } from "./views";
@@ -129,10 +130,10 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
   return out;
 }
 
-/** When the player last had contact with this person (their relationship), if ever. */
+/** When the player and this person were last together (their tie or a sitting both sat), if ever. */
 function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
   if (!core.playerId) return undefined;
-  return core.relationships.get(pairKey(core.playerId, id))?.lastContactDate;
+  return lastTogether(core, core.playerId, id) ?? undefined;
 }
 
 /** A demoted person's record, as the counts keep it. */

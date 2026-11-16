@@ -782,6 +782,22 @@ export function committeeRoster(
 }
 
 /**
+ * A chamber's committees as leadership last seated them, without seating them
+ * again: read by the sitting reader (`office-day-state.ts` ROOMS), which
+ * leadership's own elections read through closeness, so organizing from it
+ * would loop. Empty before the chamber is first organized.
+ */
+export function seatedCommittees(
+  api: CoreAPI,
+  body: string,
+): readonly CommitteeRow[] {
+  if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
+  return table(api, "committees").query("byChamber", [
+    chamberOf(api, body),
+  ]) as unknown as CommitteeRow[];
+}
+
+/**
  * The record that seated a committee: its id (`chamber:committee`), who
  * assigned it and the day, for a member told where they sit. Null where the
  * body has no such committee.
