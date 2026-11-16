@@ -226,7 +226,11 @@ function play(c: Case) {
   const walk = (moves: readonly string[]) => {
     let node: TreeNode | null = scene.talk.tree;
     const path: number[] = [];
-    const said: string[] = [`Reporter: ${scene.talk.state.text}`];
+    const said: string[] = [
+      ...scene.talk.narration.map((l) => `(${l.text})`),
+      ...(scene.talk.open ? [`Reporter: ${scene.talk.open.text}`] : []),
+      `Reporter: ${scene.talk.state.text}`,
+    ];
     let last = "";
     for (const move of moves) {
       const index = node!.replies.findIndex((r) => r.line.move === move);
@@ -244,7 +248,11 @@ function play(c: Case) {
       last = reply.line.text;
       said.push(`You: ${last}`);
       node = reply.next ? playedNode(reply.next) : null;
-      for (const l of node?.lines ?? []) said.push(`Reporter: ${l.text}`);
+      for (const l of node?.lines ?? [])
+        said.push(
+          l.role === "narrator" ? `(${l.text})` : `Reporter: ${l.text}`,
+        );
+      if (node?.end?.close) said.push(`Reporter: ${node.end.close.text}`);
     }
     return { said, last };
   };
