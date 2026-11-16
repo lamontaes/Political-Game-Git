@@ -101,6 +101,9 @@ const words = (node: TreeNode | null, depth = 0): string[] =>
         ...words(reply.next, depth + 1),
       ]);
 
+// Each test here plays its own Pulaski world: 19 to 25 s beside the other
+// changed tests, and 33 to 46 s on CI's runner (unit job, Nov 16, 7d515399),
+// where a 45 s limit timed one out. Each limit is near twice the slower.
 it("asked out by the player, someone seeing someone says so in a scene; waving it off cools the tie a little (Pulaski, Ohio)", () => {
   const { core, director, api, me, singles, where } = world();
   // The single the player is closest to is seeing someone else.
@@ -163,7 +166,7 @@ it("asked out by the player, someone seeing someone says so in a scene; waving i
   const reply = core.durableLog.get(id!);
   expect(reply?.facts?.keeps, where).toBe("relationship-cooled");
   expect(closenessBetween(core, me, taken!.id), where).toBeLessThan(before);
-}, 45_000);
+}, 90_000);
 
 it("the player proposes on the first day of dating: the partner says not yet, and why, in a scene (Pulaski, Ohio)", () => {
   const { core, director, api, me, singles, where } = world();
@@ -230,7 +233,7 @@ it("the player proposes on the first day of dating: the partner says not yet, an
   );
   expect(keys, where).not.toContain("by-phone");
   expect(scene.scene.talk.state.text, where).not.toMatch(/^Yes/);
-}, 45_000);
+}, 90_000);
 
 it('asked out a second time, a yes is not one that was waited for: no "I was hoping you\'d ask" (Pulaski, Ohio)', () => {
   const { core, director, api, bench, me, singles, where } = world();
@@ -302,7 +305,7 @@ it('asked out a second time, a yes is not one that was waited for: no "I was hop
   expect(scene.scene.talk.state.text, where).not.toBe(
     "I was hoping you'd ask.",
   );
-}, 45_000);
+}, 90_000);
 
 it("every ask the player makes is answered in a scene, past the season's cap of one kind (Pulaski, Ohio)", () => {
   const { core, director, bench, me, singles, where } = world();
@@ -359,4 +362,4 @@ it("every ask the player makes is answered in a scene, past the season's cap of 
     if (packet?.kind === "stop")
       bench.resume({ kind: "stop", pauseId: packet.pauseId });
   }
-}, 45_000);
+}, 90_000);
