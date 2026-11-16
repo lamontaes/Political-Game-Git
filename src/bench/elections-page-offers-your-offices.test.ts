@@ -102,3 +102,35 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
     ).toThrow(controls.localRaces.refusal["not-your-office"]);
   }, 900_000);
 });
+
+describe("dev mode's Election offers (McMinnville)", () => {
+  it("lists every office the page shows with the one reason it is or is not offered", async () => {
+    const { core, where } = opening("e:5", "McMinnville");
+    const view = (await import("./dev-views/election-offers")).default;
+    const { offers } = view.routes!["GET election-offers"]!({
+      mode: { core },
+      q: () => "",
+      input: {},
+    } as never) as {
+      offers: {
+        title: string;
+        offered: boolean;
+        bar: string | null;
+        metOn: string | null;
+      }[];
+    };
+    expect(offers.length, where).toBe(
+      (localRaces(core) as { races: unknown[] }).races.length,
+    );
+    expect(
+      offers.every((o) => !o.offered),
+      where,
+    ).toBe(true);
+    const council = offers.find((o) => o.title === "Council member")!;
+    expect(council.bar, where).toBe("window-not-open");
+    expect(council.metOn, where).toBeTruthy();
+    expect(offers.find((o) => o.title === "Sheriff")?.bar, where).toBe(
+      "not-your-office",
+    );
+  }, 900_000);
+});
