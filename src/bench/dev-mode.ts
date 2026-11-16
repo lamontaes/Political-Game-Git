@@ -32,6 +32,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
 import type { LawRowInput } from "../core2/laws-starting";
@@ -102,8 +103,10 @@ import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
+  COVERAGE_MODULE_ID,
   HEALTH_MODULE,
   healthReport,
+  type MedicalBillRow,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
@@ -2419,6 +2422,53 @@ export class DevMode {
         .map((id) => core.durableLog.get(id))
         .filter((row) => row !== undefined),
       pending: this.pending.get(personId) ?? null,
+      laws: this.lawsOn(personId, person.householdId),
+    };
+  }
+
+  /**
+   * The laws that reached one person, current and ended, from the law reach's
+   * own reader (`reachOn`, law-reach/host.ts), each with the law row it names
+   * (its series, level, jurisdiction and dates), and the person's line on
+   * their household's latest medical bill (the plan it priced them on). A
+   * person who lives outside the town opens here like one in it. Reads only.
+   */
+  private lawsOn(personId: string, householdId: string) {
+    const api = this.api;
+    const laws = has(this.core, LAWS_MODULE_ID)
+      ? api.moduleState(LAWS_MODULE_ID).table("laws")
+      : null;
+    const reached = reachOn(api, personId).map((row) => {
+      const law = laws?.get(row.lawId) as unknown as LawRowInput | undefined;
+      return {
+        ...row,
+        law: law
+          ? {
+              series: law.series,
+              level: law.level,
+              jurisdiction: law.jurisdiction,
+              value: law.value,
+              effectiveDate: law.effectiveDate,
+              endDate: law.endDate ?? null,
+            }
+          : null,
+      };
+    });
+    const bill = has(this.core, COVERAGE_MODULE_ID)
+      ? (
+          api
+            .moduleState(COVERAGE_MODULE_ID)
+            .table("medicalBills")
+            .rows() as unknown as MedicalBillRow[]
+        ).find((row) => row.householdId === householdId)
+      : undefined;
+    const line = bill?.members.find((m) => m.personId === personId);
+    return {
+      reached,
+      medicalBill:
+        bill && line
+          ? { billId: bill.id, date: bill.date, placeId: bill.placeId, ...line }
+          : null,
     };
   }
 
