@@ -434,6 +434,9 @@ export const PRESS_MODULE: CoreModule = {
       tips: {},
       // Stories the press wrote about the year before day one.
       archive: { indexes: { byOutlet: { fields: ["outletId"] } } },
+      // How the desk weighed a closing, a layoff or a disaster at each outlet
+      // (dev mode's bookkeeping only; play keeps none).
+      weighings: { indexes: { byWire: { fields: ["wireId"] } } },
       stories: {
         indexes: {
           byWire: { fields: ["wireId"] },
@@ -2898,6 +2901,12 @@ export function deskContext(api: CoreAPI): DeskContext {
     printedAnywhere: (wireId) =>
       (table(api, "stories").query("byWire", [wireId]) as unknown[]).length > 0,
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
+    ...(bookkeeping()
+      ? {
+          weighed: (row) =>
+            table(api, "weighings").put(row as unknown as ModuleRow),
+        }
+      : {}),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
     paperOfRecord: (outlet) =>
       outlet.tier !== "national" && townOutlet(api)?.id === outlet.id,

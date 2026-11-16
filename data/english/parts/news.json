@@ -15787,6 +15787,182 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.organization-closed.subject-has-closed-number-people-worked-there",
+      "move": "organization-closed",
+      "kind": "written",
+      "text": "{subject} has closed. {number} people worked there.",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "news",
+          "role": "organization.closed",
+          "choice": "lede",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-closed.subject-the-largest-employer-in-place-has-closed",
+      "move": "organization-closed",
+      "kind": "written",
+      "text": "{subject}, the largest employer in {place}, has closed. {number} people worked there.",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "news",
+          "role": "organization.closed",
+          "choice": "lede",
+          "requiresFacts": ["largest", "place", "number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.its-owner-owner-is-retiring",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "Its owner, {owner}, is retiring.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring", "owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-found-nobody-to-take-the-business-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} found nobody to take the business over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.the-business-had-been-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "The business had been losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.the-business-ran-out-of-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "The business ran out of money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut-remaining.staff-people-still-work-there",
+      "move": "staff-cut-remaining",
+      "kind": "written",
+      "text": "{staff} people still work there.",
+      "uses": [
+        {
+          "move": "staff-cut-remaining",
+          "subject": "news",
+          "role": "staff-cut-remaining",
+          "choice": "context",
+          "requiresFacts": ["staff", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut-remaining.subject-is-the-largest-employer-in-place",
+      "move": "staff-cut-remaining",
+      "kind": "written",
+      "text": "{subject} is the largest employer in {place}.",
+      "uses": [
+        {
+          "move": "staff-cut-remaining",
+          "subject": "news",
+          "role": "staff-cut-remaining",
+          "choice": "context",
+          "requiresFacts": ["largest", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (pool item play-local-layoffs-on-screen)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

@@ -14,6 +14,12 @@
  * reporter who wrote it.
  */
 import { OUTCOME_MONTH_KIND } from "./outcome-news";
+import { townJobsPanel } from "./modules/world-panels";
+import {
+  disasterPeople,
+  nationalPeople,
+  NATIONAL_DISASTER,
+} from "./modules/national-events";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
@@ -190,6 +196,38 @@ export interface PrintedStory {
   readonly interviewId: string | null;
 }
 
+/** The kinds whose size the desk weighs, and so the ones dev mode shows the weighing of. */
+export const SIZED_KINDS: ReadonlySet<string> = new Set([
+  "organization.closed",
+  "business.staff-reduced",
+  NATIONAL_DISASTER,
+]);
+
+/** One weighing of an item at one outlet: the desk's terms, its place among the week's items and why it ran or not. */
+export interface DeskWeighing {
+  readonly id: string;
+  readonly outletId: string;
+  readonly reporterId: string;
+  readonly wireId: string;
+  readonly kind: string;
+  readonly date: string;
+  /** How many of the outlet's followers the record reaches (named and counted). */
+  readonly reached: number;
+  readonly proximity: number;
+  readonly readerCare: number;
+  readonly people: number;
+  readonly renown: number;
+  readonly drive: number;
+  readonly score: number;
+  /** Its place among what the reporter weighed (1 is first). */
+  readonly place: number;
+  readonly weighed: number;
+  /** The stories the reporter files this week. */
+  readonly stories: number;
+  readonly ran: boolean;
+  readonly why: "ran" | "below-the-weeks-stories" | "no-room-at-its-level";
+}
+
 /** What the desk needs from the press module. */
 export interface DeskContext {
   readonly parameter: (key: string) => number;
@@ -213,6 +251,12 @@ export interface DeskContext {
    */
   readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;
+  /**
+   * Writes down how the desk weighed an item of a kind with a size (a
+   * closing, a layoff, a disaster) at one outlet: each term, where it stood
+   * and why it ran or did not. Only while bookkeeping is on (dev mode).
+   */
+  readonly weighed?: (row: DeskWeighing) => void;
   /**
    * The stories of each level an outlet has room for this week, which the
    * desk spends as it prints: a level that is a sliver of the outlet's
@@ -888,6 +932,33 @@ export function runDesk(
         Math.min(1, Number(item.facts?.magnitude ?? 0)) *
         (followers.length + ctx.countedFollowers(outlet))
       );
+    // A disaster reaches the share of the nation's people who live in the
+    // counties its declaration names, as many of the outlet's followers.
+    if (item.kind === NATIONAL_DISASTER) {
+      const struck = disasterPeople(
+        String(item.facts?.stateKey ?? ""),
+        Number(item.facts?.disasterNumber ?? 0),
+      );
+      return (
+        Math.min(1, struck / nationalPeople()) *
+        (followers.length + ctx.countedFollowers(outlet))
+      );
+    }
+    // A closing or a layoff takes the share of the town's jobs it ended, and
+    // reaches that share of the outlet's followers: the jobs the town has
+    // now plus the ones it lost are the jobs it had.
+    if (
+      item.kind === "organization.closed" ||
+      item.kind === "business.staff-reduced"
+    ) {
+      const lost = Number(item.facts?.headsLost ?? 0);
+      if (!(lost > 0)) return 0;
+      const before = townJobsPanel(api, ctx.townPlaceId).employed + lost;
+      return (
+        Math.min(1, lost / before) *
+        (followers.length + ctx.countedFollowers(outlet))
+      );
+    }
     // A budget line a measure changed binds what the line pays for, as a law
     // in force does: the people its engines applied the change to (else every
     // named follower) and the counted followers. The year's adoption is the
@@ -947,6 +1018,7 @@ export function runDesk(
         ],
       ),
       readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
+      reached: SIZED_KINDS.has(item.kind) ? involved(item) : 0,
       people: Math.log1p(
         Math.max(
           item.subjectIds.filter(inTown).length + countedInTown(item),
@@ -1071,7 +1143,37 @@ export function runDesk(
         );
       }
     }
+    if (ctx.weighed)
+      scored.forEach((row, at) => {
+        if (!SIZED_KINDS.has(row.item.kind)) return;
+        const ran = out.some((story) => story.wireId === row.item.id);
+        ctx.weighed!({
+          id: `weighed:${outlet.id}:${row.item.id}:${api.state.date}`,
+          outletId: outlet.id,
+          reporterId,
+          wireId: row.item.id,
+          kind: row.item.kind,
+          date: api.state.date,
+          reached: row.reached,
+          proximity: row.proximity,
+          readerCare: row.readerCare,
+          people: row.people,
+          renown: row.renown,
+          drive: row.drive,
+          score: row.score,
+          place: at + 1,
+          weighed: scored.length,
+          stories: count,
+          ran,
+          why: ran
+            ? "ran"
+            : at + 1 > count
+              ? "below-the-weeks-stories"
+              : "no-room-at-its-level",
+        });
+      });
   }
+
   // The briefs column (owner, Oct 29: side stories, "a line or two"): a
   // local outlet prints the short items from the town's own records that its
   // reporters left (data/press/briefs.json), the most read first, up to its

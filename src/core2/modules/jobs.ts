@@ -1798,6 +1798,8 @@ function reviewEmployers(api: CoreAPI): void {
       need -= stands;
     }
     const jobChangeIds: string[] = [];
+    // The heads those layoffs took: one counted job can stand for several.
+    let headsLost = 0;
     for (;;) {
       if (withdrawable()) {
         const position = positions[positions.length - 1]!;
@@ -1840,7 +1842,10 @@ function reviewEmployers(api: CoreAPI): void {
       // The next worker to go stands for more jobs than the staff is over by,
       // or worked today already: wait for the next review.
       if (laid === "over" || laid === undefined) break;
-      if (laid?.id) jobChangeIds.push(laid.id);
+      if (laid?.id) {
+        jobChangeIds.push(laid.id);
+        headsLost += laid.heads ?? 1;
+      }
       need += laid?.heads ?? 1;
     }
     if (jobChangeIds.length) {
@@ -1859,6 +1864,7 @@ function reviewEmployers(api: CoreAPI): void {
           organizationId: row.id,
           jobChangeIds: JSON.stringify(jobChangeIds),
           jobsLost: String(jobChangeIds.length),
+          headsLost: String(headsLost),
           projectedStaff: String(projected),
           targetStaff: String(target),
           // The staff the business has after the cut, from its own jobs: what a story says still work there.

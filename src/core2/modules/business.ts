@@ -2635,7 +2635,9 @@ export const BUSINESS_MODULE: PreStartModule = {
             },
           }
         : {}),
-      publicRecord: true,
+      // Not the wire's: the closing's one story is the employer-closed record
+      // (this one is the owner's, for the drives about it).
+      publicRecord: false,
       topic: organizationId,
     });
   },

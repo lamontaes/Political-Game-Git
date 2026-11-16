@@ -6,7 +6,7 @@ import {
   supplierBillsOwedTo,
 } from "./modules/residents";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
@@ -1919,6 +1919,11 @@ function windDownEmployer(
     publicRecord: true,
     source: closure.source,
     facts: {
+      // The jobs the closing ended, in heads: the size the desk weighs it by.
+      headsLost: String(
+        endedJobIds.length +
+          countedJobs.reduce((n, job) => n + countedJobHeads(core, job), 0),
+      ),
       [`organization:${organizationId}:status`]: "closed",
       [`organization:${organizationId}:closure-source`]: sourceReceiptId,
     },

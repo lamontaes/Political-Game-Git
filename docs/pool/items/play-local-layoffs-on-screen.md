@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
 pr:
@@ -33,6 +33,8 @@ checked: fable 2026-11-10
 **Done when.** A second session, in a drawn place on the bench over a played half year, sees News show at least one local layoff or hiring story whose employer and count match job-change record ids named in a test, shown by a screenshot with the place and seed named. The owner sees it on News in his own game without opening dev mode.
 
 **Waits on.** world-job-turnover-far-below-jolts (open) for layoffs and hires to happen at real volume.
+
+**Notes.** Nov 16, builder M3 (desk-size PR): the paper now weighs a closing and a layoff by the share of the town's jobs they ended (`headsLost` on `organization.closed` and `business.staff-reduced`, read by `involved` in press-desk.ts), prints one story per closing (the `business.closed` owner record leaves the wire) and a layoff's story prints the job count. Seen at Thief River Falls MN (seed ind-2764570: the wholesaler's closing prints) and Center ND (seed ind-3813180: March, April and May layoffs each weighed). Still waits on turnover: hiring stories, and the rates in world-job-turnover-far-below-jolts.
 
 **Files.** src/bench/story.ts, src/bench/play.mjs, src/core2/modules/jobs.ts
 
