@@ -500,7 +500,7 @@ export function answerWhip(
   if (chosen === "commit") castMemberVote(api, billId, personId, ask.side);
   const step =
     federalParameter("whipAnswerCloseness") * (chosen === "commit" ? 1 : -1);
-  const reason = { cause: "whip-answer", sourceId: billId };
+  const reason = { cause: "whip-answer", sourceId: billId, apart: true };
   if (api.state.people.has(ask.whipId)) {
     api.relationship(personId, ask.whipId, "contact", step, undefined, reason);
     api.relationship(ask.whipId, personId, "contact", step, undefined, reason);
