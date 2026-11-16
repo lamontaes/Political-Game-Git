@@ -58,6 +58,7 @@ import { openParties } from "./modules/parties";
 import { agreementWith, viewOn, viewsModule } from "./modules/views";
 import { personLean } from "./campaign-views";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 // Keeps every reached member's recorded cause, not only the player's circle's.
 setKeepEveryonesWhy(true);
@@ -287,16 +288,14 @@ function twoCandidates(
   platforms: [string[], string[]] = forAndAgainst(cause),
 ): { agrees: FilingRow; disagrees: FilingRow } | null {
   const founder = core.people.get(cause.holders[0]!.p.id)!;
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        age(p, core.date) >= 35 &&
-        !members.has(p.id) &&
-        !founder.knownIds.has(p.id) &&
-        !founder.familyIds.has(p.id),
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      age(p, core.date) >= 35 &&
+      !members.has(p.id) &&
+      !founder.knownIds.has(p.id) &&
+      !founder.familyIds.has(p.id),
+  );
   for (const contest of openContests(api)) {
     const filed: FilingRow[] = [];
     for (const adult of adults) {

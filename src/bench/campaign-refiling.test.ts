@@ -35,6 +35,7 @@ import { campaignDayChoices } from "../core2/campaign-day";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { campaignDay, campaignView } from "./campaign";
 import { filedHere } from "./filing";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -138,16 +139,12 @@ it("a later filing is the live campaign once the earlier race is over", () => {
     });
     const api = coreAPI(core);
     const startYear = Number(core.date.slice(0, 4));
-    const candidate = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === lawChain(api).townPlaceId &&
-          startYear - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      )[0];
+    const candidate = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === lawChain(api).townPlaceId &&
+        startYear - Number(p.birthDate.slice(0, 4)) >= 35,
+    )[0];
     if (!candidate) throw new Error(`no adult candidate: ${where}`);
     core.playerId = candidate.id;
     const skip = new Set<string>();

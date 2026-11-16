@@ -43,6 +43,7 @@ import {
 } from "./modules/elections";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 /**
  * The place the first test follows, pinned (it drew six places at run time and
@@ -118,16 +119,12 @@ describe("filing is a petition", () => {
         .moduleState(ELECTIONS_MODULE_ID)
         .table("town")
         .get("town") as unknown as { townPlaceId: string };
-      const adults = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            p.placeId === townPlaceId &&
-            ageOn(p.birthDate, core.date) >= 25,
-        )
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        );
+      const adults = townResidentsByCash(core, coreAPI(core)).filter(
+        (p) =>
+          p.alive &&
+          p.placeId === townPlaceId &&
+          ageOn(p.birthDate, core.date) >= 25,
+      );
       let filing: FilingRow | null = null;
       for (const adult of adults) {
         if (
@@ -331,16 +328,12 @@ describe("filing is a petition", () => {
       .moduleState(ELECTIONS_MODULE_ID)
       .table("town")
       .get("town") as unknown as { townPlaceId: string };
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === townPlaceId &&
-          ageOn(p.birthDate, core.date) >= 25,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === townPlaceId &&
+        ageOn(p.birthDate, core.date) >= 25,
+    );
     let filing: FilingRow | null = null;
     for (const adult of adults) {
       if (

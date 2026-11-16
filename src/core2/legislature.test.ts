@@ -75,6 +75,7 @@ import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { billCatalog, provisionFor } from "./bill-catalog";
 import { buildBenchWorld } from "../bench/world";
 import { seatAct, seatView } from "../bench/legislature";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -1329,9 +1330,8 @@ describe("a bribe on a bill", () => {
     expect(before.bribe).toBe(0);
     // The town's wealthiest weigh it, each by their own reasons, until one
     // offers and the member takes it (or none does, in which case nothing moves).
-    const offerers = [...core.people.values()]
+    const offerers = townResidentsByCash(core, coreAPI(core))
       .filter((p) => p.alive && p.tier !== "husk" && p.id !== member)
-      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
       .slice(0, 40);
     let took = false;
     for (const offerer of offerers) {
@@ -1379,11 +1379,8 @@ describe("a bribe on a bill", () => {
         continue;
       }
       const body = council[0]!.office.id;
-      const offerers = [...core.people.values()]
+      const offerers = townResidentsByCash(core, coreAPI(core))
         .filter((p) => p.alive && p.tier !== "husk")
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        )
         .slice(0, 40);
       const outcomes = { refused: 0, delivered: 0, reneged: 0 };
       for (const seat of council) {

@@ -36,6 +36,7 @@ import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "./place-lookup";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -130,14 +131,14 @@ describe("M2-08 parties", () => {
     const party = parties
       .filter((p) => p.side !== 0)
       .sort((a, b) => b.share - a.share)[0]!;
-    const members = ties
+    const memberIds = ties
       .filter((t) => t.partyId === party.id)
-      .map((t) => core.people.get(t.personId)!)
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor);
+      .map((t) => t.personId);
+    const members = townResidentsByCash(core, api).filter(
+      (p) =>
+        memberIds.includes(p.id) &&
+        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     let primaryContest: string | null = null;
     for (const contest of openContests(api).filter(
       (c) => c.primaryDate && c.primaryDate > START,

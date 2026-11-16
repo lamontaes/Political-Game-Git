@@ -27,6 +27,7 @@ import { councilElectionMethod } from "./gov-rules/council-election-method";
 import { allGovernmentUnits } from "./reference/government-units";
 import { localOfficesForPlace } from "./offices-local";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -143,14 +144,9 @@ describe("council election method", () => {
     openCampaigns(core);
     openParties(core);
     openVoting(core);
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
+    );
     // A resident outside the ward is refused for the seat for its recorded
     // reason; two residents inside it file and are on the ballot.
     const unmetBy = (personId: string) =>

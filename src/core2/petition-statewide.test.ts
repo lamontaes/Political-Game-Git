@@ -44,6 +44,7 @@ import {
 import { wideElectorate } from "./race-places";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const FAMILIES = [
   "statewideExecutive",
@@ -62,15 +63,13 @@ function filersOf(core: CoreState, age: number) {
     }
   ).townPlaceId;
   const year = Number(core.date.slice(0, 4));
-  return [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town &&
-        p.id !== core.playerId &&
-        year - Number(p.birthDate.slice(0, 4)) > age,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  return townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.placeId === town &&
+      p.id !== core.playerId &&
+      year - Number(p.birthDate.slice(0, 4)) > age,
+  );
 }
 
 /** File the first of the town's adults the clerk accepts. */
