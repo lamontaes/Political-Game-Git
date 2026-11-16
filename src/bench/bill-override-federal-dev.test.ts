@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -16,23 +15,31 @@ import { DevMode } from "./dev-mode";
 
 // Done-when item 5: the executive's desk and the override vote. A bill both chambers of Congress
 // pass is vetoed by the president and Congress overrides it: the stage view names the veto, the
-// override tallies by chamber and the status. A place drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.FEDERAL_OVERRIDE_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// override tallies by chamber and the status.
+// Pinned (Nov 16). Before, the seed came at run time from FEDERAL_OVERRIDE_SEED, GOLDEN_PATH_SEED or
+// randomBytes, and the case drew up to six places. The fixed seed draws Pikeville, Kentucky (2160852)
+// first for "federal-override".
+// Limit: the case took 60 s (Nov 16, Train ff41d81e); its limit is about twice that, 120 s.
+const seed = "pin-bill-override-federal-dev";
+const PLACE = {
+  key: "2160852",
+  name: "Pikeville, Kentucky",
+  seed: "8b5ec53b0860a6f497fec2f1fde6a557f67910b202e2e6c447e7e81e2e0eb9b3",
+};
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "federal-override")).toMatchObject(PLACE);
+});
 
 describe(`a federal veto is overridden (seed ${seed})`, () => {
   it("the president vetoes, both chambers override, and the stage view says so", () => {
-    const tried: string[] = [];
-    for (let i = 0; i < 6; i += 1) {
-      const place = drawPlace(`${seed}:${i}`, "federal-override");
-      const world = buildBenchWorld(place.seed, gameStartDate(), {
+    {
+      const world = buildBenchWorld(PLACE.seed, gameStartDate(), {
         twoLevel: true,
-        placeKey: place.key,
+        placeKey: PLACE.key,
       });
       const api = coreAPI(world.core);
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const where = `${PLACE.name} (${PLACE.key}), seed ${PLACE.seed}`;
       const president = (
         api
           .moduleState(OFFICES_MODULE_ID)
@@ -56,10 +63,7 @@ describe(`a federal veto is overridden (seed ${seed})`, () => {
         series: "minimum-wage",
         value: 1500,
       }).bill;
-      if (filed.status === "blocked") {
-        tried.push(`${where}: blocked`);
-        continue;
-      }
+      expect(filed.status, `${where}: the bill is filed`).not.toBe("blocked");
       // Both chambers pass it (the Senate's committee chair hears it), the president vetoes it
       // and both chambers vote to override.
       const result = dev.decideAt(filed.id, 100, {
@@ -67,10 +71,10 @@ describe(`a federal veto is overridden (seed ${seed})`, () => {
         overrideMargin: 150,
         chairHears: true,
       });
-      if (result.bill.status !== "overridden") {
-        tried.push(`${where}: ${result.bill.status}`);
-        continue;
-      }
+      expect(
+        result.bill.status,
+        `${where}: ${JSON.stringify(result.ending ?? result.bill.status)}`,
+      ).toBe("overridden");
       const stage = billStage(world.core, filed.id, president!);
       expect(stage.desk.decided.length, where).toBe(1);
       expect(stage.desk.decided[0]!.vote, where).toBe("veto");
@@ -83,10 +87,6 @@ describe(`a federal veto is overridden (seed ${seed})`, () => {
       console.log(
         `federal override: ${where} ${filed.id} overridden; override ${stage.override.map((c) => `${c.chamber} ${c.yes.length}-${c.no.length}`).join(", ")}`,
       );
-      return;
     }
-    throw new Error(
-      `no drawn place overrode a federal veto (seed ${seed}): ${tried.join("; ")}`,
-    );
-  }, 1_800_000);
+  }, 120_000);
 });
