@@ -94,8 +94,15 @@ import {
   payMedicareLinePart,
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
-import { householdIncome, residentsRuntime } from "./modules/residents";
+import {
+  householdIncome,
+  residentsRuntime,
+  townPlaceOf,
+} from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
+import type { EntityId } from "./kernel/brands";
+import { corePlaceByJurisdictionId } from "./place-lookup";
+import { placeCounty, placeRow } from "./place-map";
 import { lawApplied } from "./law-reach/applied";
 
 /** The engine named on the law-reach rows these bills write. */
@@ -193,7 +200,8 @@ export interface MedicalBillRow {
   /** What the members held and kept back for their home (full households). */
   readonly heldMinor?: number;
   readonly keptBackMinor?: number;
-  /** Who was paid, and the cash journal entries that paid them. */
+  /** Who was paid, why that seller (its own jurisdiction's, its county's, or the outside account when none serves the area), and the cash journal entries that paid them. */
+  readonly sellerWhy: SellerWhy;
   readonly sellerId: string | null;
   readonly journalIds: readonly string[];
   /** The share of what is unpaid past the wait sent to collections (the web's factor; the rest the provider writes off), and the web month row. */
@@ -306,28 +314,65 @@ function sourceFor(today: string): Source {
   };
 }
 
-/** The town's sellers of medical care, the largest staff first. */
-function medicalSellers(api: CoreAPI, placeId: string): string[] {
+/** Where a household's bill went: a seller in its own jurisdiction, one elsewhere in its county, or the outside account. */
+export type SellerWhy = "own-jurisdiction" | "same-county" | "outside";
+
+/**
+ * The county a jurisdiction sits in, from the one place map: a town's
+ * governing unit, the county itself, or a township under it. Undefined where
+ * the map holds none.
+ */
+function countyOfJurisdiction(jurisdictionId: string): string | undefined {
+  const key = corePlaceByJurisdictionId(jurisdictionId as EntityId)?.key;
+  if (!key || !placeRow(key)) return undefined;
+  return placeCounty(key)?.id;
+}
+
+/**
+ * The sellers of medical care a household's bill can go to, the largest staff
+ * first: those in its own jurisdiction, else those anywhere in its county. A
+ * town's households sit in several jurisdictions (its borough, its township,
+ * the county) while its clinic sits in one; a boundary never sends a bill to
+ * the outside account while a seller serves the same area.
+ */
+function medicalSellers(
+  api: CoreAPI,
+  placeId: string,
+): { readonly ids: string[]; readonly why: SellerWhy } {
   const core = api.state as CoreState;
   const kinds = new Set(data.medicalSellerClassifications);
   const staff = new Map<string, number>();
   for (const job of core.jobs.values())
     if (job.endsAt === undefined)
       staff.set(job.organizationId, (staff.get(job.organizationId) ?? 0) + 1);
-  return [...core.organizations.values()]
-    .filter(
-      (org) =>
-        org.placeId === placeId &&
-        kinds.has(org.classification ?? "") &&
-        !core.finance.businesses.get(org.id)?.closedAt &&
-        core.cashJournal.residualAccountByOwner.has(org.id),
-    )
-    .sort(
-      (a, b) =>
-        (staff.get(b.id) ?? 0) - (staff.get(a.id) ?? 0) ||
-        a.id.localeCompare(b.id),
-    )
-    .map((org) => org.id);
+  const open = [...core.organizations.values()].filter(
+    (org) =>
+      kinds.has(org.classification ?? "") &&
+      !core.finance.businesses.get(org.id)?.closedAt &&
+      core.cashJournal.residualAccountByOwner.has(org.id),
+  );
+  const ranked = (list: typeof open) =>
+    list
+      .sort(
+        (a, b) =>
+          (staff.get(b.id) ?? 0) - (staff.get(a.id) ?? 0) ||
+          a.id.localeCompare(b.id),
+      )
+      .map((org) => org.id);
+  const own = open.filter((org) => org.placeId === placeId);
+  if (own.length) return { ids: ranked(own), why: "own-jurisdiction" };
+  // A jurisdiction the place map does not know (a balance, a consolidated
+  // town) is the town's own people, as householdStateOf reads it.
+  const town = townPlaceOf(core);
+  const county =
+    countyOfJurisdiction(placeId) ?? (town && countyOfJurisdiction(town));
+  if (county) {
+    const near = open.filter(
+      (org) => countyOfJurisdiction(org.placeId) === county,
+    );
+    if (near.length) return { ids: ranked(near), why: "same-county" };
+  }
+  return { ids: [], why: "outside" };
 }
 
 /**
@@ -908,12 +953,16 @@ export function billMedicalCare(
   // world-fill-in-strands-group-living-arrears).
   const owedOf = (householdId: string) =>
     (prior.get(householdId)?.owed ?? []).reduce((n, row) => n + row.minor, 0);
-  const sellers = new Map<string, string[]>();
-  const sellersOf = (placeId: string) => {
-    let list = sellers.get(placeId);
-    if (!list) sellers.set(placeId, (list = medicalSellers(api, placeId)));
-    return list;
+  const sellers = new Map<
+    string,
+    { readonly ids: string[]; readonly why: SellerWhy }
+  >();
+  const sellerSet = (placeId: string) => {
+    let found = sellers.get(placeId);
+    if (!found) sellers.set(placeId, (found = medicalSellers(api, placeId)));
+    return found;
   };
+  const sellersOf = (placeId: string) => sellerSet(placeId).ids;
   const requirementOf = (householdId: string) =>
     (bills.get(householdId) ?? []).reduce(
       (n, m) => n + (m.requirementMinor ?? 0),
@@ -1028,6 +1077,10 @@ export function billMedicalCare(
       billMinor,
       askedMinor,
       ...paid,
+      sellerWhy:
+        paid.sellerId && sellerSet(h.placeId).ids.includes(paid.sellerId)
+          ? sellerSet(h.placeId).why
+          : ("outside" as SellerWhy),
       unpaidMinor: Math.max(0, askedMinor - paid.paidMinor),
       owed,
       pastWaitMinor: pastWait,
