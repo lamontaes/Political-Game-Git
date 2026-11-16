@@ -6,18 +6,27 @@
  * size, before any day is played.
  */
 import { describe, expect, it } from "vitest";
-import controls from "./data/controls.json" with { type: "json" };
+import { TOWN_BUSINESSES_LABELS as labels } from "./dev-views/town-businesses";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import { townBusinesses } from "./dev-town-businesses";
-import { businessReason } from "./ui/dev-businesses.mjs";
+import { devViewRoutes, loadDevViews } from "./dev-views";
+import { businessReason } from "./ui/town-businesses.mjs";
 import { buildBenchWorld } from "./world";
 
 setBookkeeping(false);
 
 describe("dev mode's Businesses section (Edgar, Wisconsin, 5522550, seed edgar-petition-1)", () => {
+  it("is registered from its own file and answers its route", async () => {
+    await loadDevViews();
+    expect(devViewRoutes()).toContainEqual({
+      key: "GET town-businesses",
+      view: "town-businesses",
+    });
+  });
+
   it("lists every business of the town by kind with the opening's reason for its count", () => {
     const world = buildBenchWorld("edgar-petition-1", gameStartDate(), {
       twoLevel: true,
@@ -38,14 +47,12 @@ describe("dev mode's Businesses section (Edgar, Wisconsin, 5522550, seed edgar-p
     });
     expect(listed).toBe(books.length);
     // The reason names the town's workers, the county's usual size and the count.
-    const reason = businessReason(retail, controls.devBusinesses);
+    const reason = businessReason(retail, labels);
     expect(reason).toContain("county");
     expect(reason).toContain(`so ${retail.opening!.count}.`);
     expect(reason).not.toMatch(/\{[a-z]+\}/);
     const police = view.kinds.find((row) => row.kind === "police");
     if (police)
-      expect(businessReason(police, controls.devBusinesses)).toBe(
-        controls.devBusinesses.publicEmployer,
-      );
+      expect(businessReason(police, labels)).toBe(labels.publicEmployer);
   }, 90_000);
 });

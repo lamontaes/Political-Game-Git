@@ -90,7 +90,7 @@ describe("a town's businesses are sized from its own workers", () => {
           row.kind,
         ).toBeLessThanOrEqual(1);
       }
-    }, 120_000);
+    }, 30_000);
 
   it("Danville, Virginia: a city opens with many stores and restaurants, each near the county's usual size", () => {
     const counts = countsOf(open(PLACES[2]));
@@ -103,11 +103,11 @@ describe("a town's businesses are sized from its own workers", () => {
       expect(perBusiness).toBeGreaterThan(row.size!.size / 2);
       expect(perBusiness).toBeLessThan(row.size!.size * 2);
     }
-  }, 120_000);
+  }, 30_000);
 
   it("Edgar, Wisconsin: a small town keeps a few of each, and a public employer is one", () => {
     const counts = countsOf(open(PLACES[0]));
     expect(counts.get("retail")!.count).toBeLessThan(10);
     expect(counts.get("police")?.count ?? 1).toBe(1);
-  }, 120_000);
+  }, 30_000);
 });

@@ -13,6 +13,7 @@
  * back from outside the town when it falls. Businesses pay a dearer energy
  * price on their own energy costs the same way.
  */
+import { RegularSellers } from "../regular-seller";
 import { townOutsideOf } from "../opening-outside-market";
 import goods from "../data/prices/goods.json" with { type: "json" };
 import { worldLevel, worldRate } from "../world-draw";
@@ -1525,6 +1526,15 @@ function month(api: CoreAPI): void {
   for (const rule of rules) {
     const sellers =
       rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
+    // A household buys from its one regular seller, dealt by the sellers'
+    // demand (regular-seller.ts); a counted group, many households, buys
+    // from them all.
+    const regular = new RegularSellers();
+    const sellerOf = () => {
+      if (!sellers.length) return sellers;
+      const id = regular.pick(rule.id, sellers, 1);
+      return sellers.filter((seller) => seller.id === id);
+    };
     for (const household of c.households.values()) {
       if (household.placeId !== rule.placeId) continue;
       const members = household.memberIds.filter(
@@ -1567,7 +1577,7 @@ function month(api: CoreAPI): void {
         change,
         undefined,
         undefined,
-        sellers,
+        sellerOf(),
         { targetId: household.id, target: "household" },
       );
       learnFromStory(api, rule, payer, household.id, change, pay);

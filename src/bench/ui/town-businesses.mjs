@@ -1,5 +1,4 @@
-/* global fetch */
-// Dev mode's Businesses, on the Calendar beside Watch: the town's businesses by kind (how many are
+// Dev mode's Businesses, under the Metrics board (slot "metrics", ui/dev-views.mjs): the town's businesses by kind (how many are
 // open, closed and opened since the opening, and how many people they employ now), each kind's
 // reason for its opening count, and, for the kind picked, every business with its id opening its
 // trace. It reads only; it spends no time. Record data and bare control names.
@@ -8,13 +7,6 @@ import { dateWords } from "../../english/plain-words.mjs";
 import { idLink, tableRows } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 import { stripSection } from "./strips.mjs";
-
-async function get(path) {
-  const response = await fetch(path);
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
 
 const fill = (text, values) =>
   Object.entries(values).reduce(
@@ -41,9 +33,9 @@ export function businessReason(row, labels) {
   return plan.heldToRecords ? `${reason} ${labels.heldToRecords}` : reason;
 }
 
-/** The section. `labels` is controls.devBusinesses. */
-export async function devBusinessesSection({ labels }) {
-  const view = await get("/api/dev/town-businesses");
+/** The section. `labels` is the view's (dev-views/town-businesses.ts). */
+export async function devBusinessesSection({ labels, send }) {
+  const view = await send("town-businesses");
   const { node: trace, open } = traceBox(labels.trace);
   const list = el("div", { className: "scroll dev-business-list" });
   const kindName = (row) =>
@@ -101,3 +93,6 @@ export async function devBusinessesSection({ labels }) {
     trace,
   );
 }
+
+/** Where the view draws (ui/dev-views.mjs). */
+export const slots = { metrics: devBusinessesSection };

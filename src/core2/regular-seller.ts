@@ -1,11 +1,12 @@
 /**
- * A buyer's regular seller at the opening. A household or a business buys a
- * kind of thing from one seller it goes to, not a slice from every seller in
- * town: the buyers of a place are dealt to its sellers so each seller's share
- * of the purchases follows its capacity. Each buyer goes to the seller
- * furthest below its share, then by id. Nothing is drawn, and a town with
- * more sellers holds no more contracts (owner, Nov 16: a town's stores sized
- * from its people; Oct 29: a year must not slow).
+ * A buyer's regular seller, at the opening and for a price law's sale. A
+ * household or a business buys a kind of thing from one seller it goes to,
+ * not a slice from every seller in town: the buyers of a place are dealt to
+ * its sellers so each seller's share of the purchases follows its capacity.
+ * Each buyer goes to the seller furthest below its share, then by id. Nothing
+ * is drawn, and a town with more sellers holds no more contracts (owner,
+ * Nov 16: a town's stores sized from its people; Oct 29: a year must not
+ * slow).
  */
 export class RegularSellers {
   private readonly dealt = new Map<string, Map<string, number>>();
