@@ -3,6 +3,7 @@
   "register": "headlines",
   "description": "News headlines for the new core's stories, by the kind of record they report. News sources give patterns only; every part here is a headline from U.S. federal agencies' own news releases (public domain), with record words as slots.",
   "slots": {
+    "parent": "A parent who holds an office, by name, from the birth record and the term.",
     "years": "A number of years, from the record's dates.",
     "ordinal": "An age as an ordinal (80th), from the birth record.",
     "firm": "A business a public contract went to, by name, from the award and the business records.",
@@ -2042,7 +2043,7 @@
       "key": "headlines.organization-opened.subject-reopens-to-the-public",
       "move": "organization-opened",
       "kind": "spoken",
-      "text": "{subject} reopens to the Public",
+      "text": "{subject} reopens to the public",
       "uses": [
         {
           "move": "organization-opened",
@@ -5367,6 +5368,48 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birth-elsewhere.office-parent-has-a-child",
+      "move": "birth-elsewhere",
+      "kind": "written",
+      "text": "{office} {parent} has a child",
+      "uses": [
+        {
+          "move": "birth-elsewhere",
+          "subject": "headline",
+          "role": "birth-elsewhere",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (birth-elsewhere-lines.md, #9726)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birth-elsewhere.a-child-for-office-parent",
+      "move": "birth-elsewhere",
+      "kind": "written",
+      "text": "A child for {office} {parent}",
+      "uses": [
+        {
+          "move": "birth-elsewhere",
+          "subject": "headline",
+          "role": "birth-elsewhere",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (birth-elsewhere-lines.md, #9726)",
+      "date": "2026-11-16",
       "tag": {
         "move": "headline",
         "key": "news-received"

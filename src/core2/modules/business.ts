@@ -82,7 +82,7 @@ import {
   EMPLOYER_TAXES_MODULE_ID,
   employerTaxShareOfWage,
   premisesTaxYearMinor,
-} from "./employer-taxes";
+} from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
 
 export { BUSINESS_MODULE_ID };
@@ -1494,6 +1494,8 @@ const AGE_VERIFICATION_QUESTION =
 
 interface BusinessDuty {
   readonly question: string;
+  /** The statute's own size test: a business with yearly sales below this parameter is not bound. */
+  readonly minSalesParameter?: keyof typeof businessParameters;
   /** The classifications it binds; every enterprise where empty. */
   readonly classifications: readonly string[];
   /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
@@ -1509,12 +1511,14 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+    minSalesParameter: "businessDataPrivacyMinSalesMinor",
   },
   {
     question: FEDERAL_DATA_PRIVACY_QUESTION,
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+    minSalesParameter: "businessDataPrivacyMinSalesMinor",
     unlessQuestion: DATA_PRIVACY_QUESTION,
   },
   {
@@ -1527,17 +1531,33 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
 
 const dutyCause = (question: string) => `law:${question}`;
 
+/** Whether a business of these yearly sales is large enough for the duty's statute to bind it. */
+function boundBySize(
+  api: CoreAPI,
+  duty: BusinessDuty,
+  annualSalesMinor: number,
+): boolean {
+  return (
+    duty.minSalesParameter === undefined ||
+    annualSalesMinor >= api.parameter(duty.minSalesParameter)
+  );
+}
+
 /**
  * What a consumer data privacy law costs an employing business in a year: the
  * share of its other operating costs the monthly cost review charges while
- * the law stands (null for any other law).
+ * the law stands, and nothing for a business under the statute's size test
+ * (null for any other law).
  */
 export function businessDataPrivacyCostYear(
   api: CoreAPI,
   question: string,
   annualOtherCostsMinor: number,
+  annualSalesMinor: number,
 ): number | null {
   if (question !== DATA_PRIVACY_QUESTION) return null;
+  const duty = BUSINESS_DUTIES.find((row) => row.question === question)!;
+  if (!boundBySize(api, duty, annualSalesMinor)) return 0;
   return Math.round(
     annualOtherCostsMinor * api.parameter("businessDataPrivacyShareOfCosts"),
   );
@@ -1570,6 +1590,7 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
       (duty.classifications.length > 0 &&
         !duty.classifications.includes(classification)) ||
       (duty.employingOnly && !employing) ||
+      !boundBySize(api, duty, book.annualDemandMinor) ||
       // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
       !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||

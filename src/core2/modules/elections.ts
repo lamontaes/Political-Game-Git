@@ -17,6 +17,7 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { countyPlaceOfWorld } from "../electorate-places";
 import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
 import {
@@ -336,6 +337,18 @@ function readRequirements(
   ).places[stateKey]?.[family];
 }
 
+/**
+ * Whether a place takes filings for a family of offices at all: false only
+ * where its record says the family does not apply (a territory with no county
+ * or municipal governments, or local leaders chosen by custom or appointment).
+ */
+export function filingFamilyApplies(
+  stateKey: string,
+  family: OfficeFamily,
+): boolean {
+  return readRequirements(stateKey, family)?.applicable !== false;
+}
+
 /** What one place requires to file for one family of offices. */
 export function filingRequirements(
   stateKey: string,
@@ -648,6 +661,7 @@ export function openElections(core: CoreState): void {
     stateKey,
     geoid,
     townPlaceId: place.context.jurisdiction.id,
+    countyPlaceId: countyPlaceOfWorld(api.state),
   });
   for (const entry of townSeats(api)) {
     const contest = contestFor(api, entry);
@@ -894,7 +908,26 @@ function town(api: CoreAPI) {
     stateKey: string;
     geoid: string;
     townPlaceId: string;
+    /** The town's county place, where the world records one. */
+    countyPlaceId?: string | null;
   };
+}
+
+/**
+ * The places whose residents live in the area a local seat serves: the town
+ * for a town seat, and the town's county as well for a county seat (the
+ * filing data's residency for a county seat is "resident of the county or
+ * district"). The one list the clerk's residency check and the pool of people
+ * who weigh the seat both read.
+ */
+export function localResidencePlaces(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "family">,
+): readonly string[] {
+  const { townPlaceId, countyPlaceId } = town(api);
+  return contest.family === "countyOffice" && countyPlaceId
+    ? [townPlaceId, countyPlaceId]
+    : [townPlaceId];
 }
 
 /**
@@ -1061,33 +1094,45 @@ function homeDistrict(
   return String((draw % districts) + 1);
 }
 
+/** Why the player is not offered a contest today; null where they are (`playerFilingBar`). */
+export type PlayerFilingBar =
+  | "not-your-office"
+  | "not-your-town"
+  | "window-not-open"
+  | "window-closed"
+  | "other-district"
+  | "filed-elsewhere"
+  | "at-large-elsewhere";
+
 /**
- * Whether the player may run in this contest today: an office the player runs
- * for (`playerMayFileForKind`), a seat that covers their home, its filing
- * window open (`filingWindowOpen`), and of a local body's seats only the one
- * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
- * for one council seat"; CTO's town council seats ruling): their own
- * district's seat where the body is elected by district, and where seats are
- * elected at large, the at-large race once, as one candidacy. A candidacy
- * already filed in one of a body's races on that day rules out its others.
+ * The one reader of whether the player is offered a contest and, when not,
+ * the one reason: the clerk's counter, Campaigns and the filing error read
+ * this and keep no copy of the rules (owner, Nov 16: a voter sees and runs
+ * for the seat that is theirs). The order of the checks is the order of the
+ * reasons: the office, the seat's town, the window, the body's other races,
+ * then the district.
  */
-function playerMayFileWith(
+export function playerFilingBar(
   api: CoreAPI,
   contestId: string,
-  localKinds: readonly string[],
-): boolean {
+  localKinds: readonly string[] = townLocalKinds(api),
+): PlayerFilingBar | null {
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  if (!contest) return false;
+  if (!contest) return "not-your-office";
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const office = offices.table("offices").get(contest.officeId) as
     PlayerSeatOffice | undefined;
-  if (!playerMayFileForKind(office?.kind ?? "", localKinds)) return false;
-  if (!filingWindowOpen(contest, api.state.date)) return false;
+  if (!playerMayFileForKind(office?.kind ?? "", localKinds))
+    return "not-your-office";
   const seat = offices.table("seats").get(contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
-  if (seat?.coversTown === false) return false;
-  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return true;
+  if (seat?.coversTown === false) return "not-your-town";
+  if (!filingWindowOpen(contest, api.state.date))
+    return api.state.date < filingWindowOpens(contest)
+      ? "window-not-open"
+      : "window-closed";
+  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return null;
   // The body's other races on the same day: its seats up together.
   const sameDay = (
     table(api, "contests").query("byOffice", [
@@ -1104,11 +1149,13 @@ function playerMayFileWith(
         playerId,
       ]) as unknown as FilingRow[]
     ).some((f) => f.status !== "withdrawn" && others.has(f.contestId));
-    if (filedElsewhere) return false;
+    if (filedElsewhere) return "filed-elsewhere";
   }
   // A district seat: only the home's own district.
   if (seat?.district)
-    return seat.district === homeDistrict(api, contest.officeId, office);
+    return seat.district === homeDistrict(api, contest.officeId, office)
+      ? null
+      : "other-district";
   // The at-large seats up that day are one race (the voting engine counts
   // them together and seats the top finishers, `atLargeGroup`): the player is
   // offered it once, as the first of those seats' contests whose filing is
@@ -1120,7 +1167,47 @@ function playerMayFileWith(
       return !s?.district && filingWindowOpen(other, api.state.date);
     })
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
-  return atLarge[0]?.id === contest.id;
+  return atLarge[0]?.id === contest.id ? null : "at-large-elsewhere";
+}
+
+/**
+ * Whether a district seat is not the viewer's own: a body elected by
+ * district shows its viewer their own district's seat only (Campaigns reads
+ * this, the clerk's counter reads `playerFilingBar`).
+ */
+export function seatIsAnotherDistrict(
+  api: CoreAPI,
+  contestId: string,
+): boolean {
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  if (!contest) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const office = offices.table("offices").get(contest.officeId) as
+    PlayerSeatOffice | undefined;
+  const seat = offices.table("seats").get(contest.seatId) as
+    { district?: string | null } | undefined;
+  if (!office || !seat?.district || !LOCAL_LEVELS.has(office.level ?? ""))
+    return false;
+  return seat.district !== homeDistrict(api, contest.officeId, office);
+}
+
+/**
+ * Whether the player may run in this contest today: an office the player runs
+ * for (`playerMayFileForKind`), a seat that covers their home, its filing
+ * window open (`filingWindowOpen`), and of a local body's seats only the one
+ * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
+ * for one council seat"; CTO's town council seats ruling): their own
+ * district's seat where the body is elected by district, and where seats are
+ * elected at large, the at-large race once, as one candidacy. A candidacy
+ * already filed in one of a body's races on that day rules out its others.
+ */
+function playerMayFileWith(
+  api: CoreAPI,
+  contestId: string,
+  localKinds: readonly string[],
+): boolean {
+  return playerFilingBar(api, contestId, localKinds) === null;
 }
 
 /**
@@ -1188,6 +1275,51 @@ function townName(api: CoreAPI): string | null {
   return place ? placeNameWithinState(place) : null;
 }
 
+/** The town's county, as its clerk says it, or null where the world records none. */
+function countyName(api: CoreAPI): string | null {
+  const id = town(api).countyPlaceId;
+  return id
+    ? (corePlaceByJurisdictionId(id as never)?.displayName ?? null)
+    : null;
+}
+
+/** Whether someone serves the contest's seat today (they met its residency rule when they took it). */
+function servesSeat(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "seatId">,
+  personId: string,
+): boolean {
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+  ).some((t) => t.personId === personId);
+}
+
+/**
+ * The residency rule, the one copy: where a person must live to file for the
+ * contest's seat. The state for a state or federal seat (any state for the
+ * president), the town for a town seat, the town or its county for a county
+ * seat; a serving holder met it when they took the seat. The clerk's check
+ * and the pool of people who weigh running both read it.
+ */
+export function livesWhereSeatServes(
+  api: CoreAPI,
+  contest: Pick<ContestRow, "seatId" | "officeId" | "level" | "family">,
+  person: Readonly<Pick<PersonState, "id" | "placeId">>,
+): boolean {
+  if (servesSeat(api, contest, person.id)) return true;
+  if (contest.level === "federal" || contest.level === "state")
+    return contest.officeId === "office:US:president"
+      ? placeStateKey(person.placeId) !== null
+      : placeStateKey(person.placeId) === town(api).stateKey;
+  return localResidencePlaces(api, contest).includes(person.placeId);
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -1218,23 +1350,8 @@ export function checkEligibility(
   // or federal one (a district's own residency rule is in the requirement
   // text the place's records give).
   // Whoever holds the seat met its residency rule when they took it.
-  const holdsSeat = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-  ).some((t) => t.personId === personId);
-  const national = contest.officeId === "office:US:president";
-  const resident =
-    holdsSeat ||
-    (contest.level === "federal" || contest.level === "state"
-      ? national
-        ? placeStateKey(person.placeId) !== null
-        : placeStateKey(person.placeId) === town(api).stateKey
-      : person.placeId === town(api).townPlaceId);
+  const holdsSeat = servesSeat(api, contest, personId);
+  const resident = livesWhereSeatServes(api, contest, person);
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
@@ -1275,7 +1392,8 @@ export function checkEligibility(
           ? (stateNameOf(api) ??
             rules.residency ??
             "lives in the area the office serves")
-          : (townName(api) ??
+          : ((contest.family === "countyOffice" ? countyName(api) : null) ??
+            townName(api) ??
             rules.residency ??
             "lives in the area the office serves"),
       actual: resident
@@ -1913,5 +2031,10 @@ export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
 // Re-exported so the opening county sample reads them through this entry (families guard).
-export { countyPlaceIdOf, statePlaces } from "../electorate-places";
+export {
+  countyOf,
+  countyPlaceIdOf,
+  countyPlaceOfWorld,
+  statePlaces,
+} from "../electorate-places";
 export { BALLOT_MEASURES_MODULE_ID, measureVoteOf } from "./ballot-measures";

@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 // The world first: the engine modules load in the order the game loads them.
 import { buildBenchWorld } from "./world";
@@ -13,13 +12,23 @@ import { BenchPlayer } from "./player";
 import { calendarItems } from "./calendar";
 
 // A place drawn from all 56 on a seed nobody chose (named in the output).
-const seed =
-  process.env.CALENDAR_BODIES_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env CALENDAR_BODIES_SEED, GOLDEN_PATH_SEED or randomBytes, so the
+// places it drew changed every run. The fixed seed below draws Panther Burn,
+// Mississippi (2855160) first for "calendar-bodies".
+// Limit: the slowest case took 34 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 70 s.
+const seed = "pin-bill-calendar-bodies";
 
 // The calendar names the day the player's own chamber next sits, at the state level too: the
 // first day the legislature holds the member for a floor vote.
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "calendar-bodies")).toMatchObject({
+    key: "2855160",
+    name: "Panther Burn, Mississippi",
+  });
+});
+
 describe(`a state legislator's calendar names their chamber's next sitting (seed ${seed})`, () => {
   it("lists the lower house meeting on the day the member is held for a floor vote", () => {
     const tried: string[] = [];
@@ -84,5 +93,5 @@ describe(`a state legislator's calendar names their chamber's next sitting (seed
     throw new Error(
       `no drawn place held a lower-house member on a floor day (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 1_800_000);
+  }, 70_000);
 });

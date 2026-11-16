@@ -142,6 +142,7 @@ import {
   ELECTIONS_MODULE_ID,
   petitionCirculating,
   petitionOf,
+  petitionSigners,
   signOutside,
   signPetition,
   standing,
@@ -3539,28 +3540,45 @@ export function signReason(
 }
 
 /**
- * How many signatures a campaign gathers for a petition that needs this many:
- * more than the clerk asks for, since the clerk strikes names that are not on
- * the roll, are duplicates or are missing what the law asks
- * (`petitionSignatureCushion`).
+ * Whether a person is on the count's roll today (the roll the clerk checks a
+ * petition against). The voting engine registers it when it opens (it reads
+ * this module, so this module cannot import it).
  */
-export function signaturesToGather(needed: number): number {
-  return Math.ceil(
-    needed * (1 + campaignParameter("petitionSignatureCushion")),
-  );
+type PetitionRoll = (api: CoreAPI, personId: string) => boolean;
+let onPetitionRoll: PetitionRoll | null = null;
+export function registerPetitionRoll(roll: PetitionRoll): void {
+  onPetitionRoll = roll;
+}
+
+/**
+ * How many signatures a campaign gathers for a filing's petition: the clerk's
+ * count plus the names already off the roll today, which the clerk would
+ * strike (the clerk strikes only a signer who is not on the roll that
+ * morning). Read from the roll and the signatures held, never a share picked
+ * in advance: each day a signer leaves the roll the target rises by one, so a
+ * campaign is never left short by a name it knew was gone. Zero where the
+ * petition asks for none.
+ */
+export function signaturesToGather(api: CoreAPI, filingId: string): number {
+  const needed = petitionOf(api, filingId)?.needed ?? 0;
+  if (!needed || !onPetitionRoll) return needed;
+  let off = 0;
+  for (const signer of petitionSigners(api, filingId))
+    if (!onPetitionRoll(api, signer.personId)) off += 1;
+  return needed + off;
 }
 
 /**
  * Whether a door asks for a signature: the petition circulates and holds less
- * than what a campaign gathers (`signaturesToGather`: the clerk's count plus a
- * cushion for struck names). Past that, a door asks for the vote (owner, Nov
+ * than what a campaign gathers (`signaturesToGather`: the clerk's count plus
+ * the names off the roll). Past that, a door asks for the vote (owner, Nov
  * 14). One rule for the player's doors, a world candidate's and a volunteer's.
  */
 export function petitionAsksAtDoors(api: CoreAPI, filingId: string): boolean {
   if (!petitionCirculating(api, filingId)) return false;
   const petition = petitionOf(api, filingId);
   return (
-    !petition?.needed || petition.signed < signaturesToGather(petition.needed)
+    !petition?.needed || petition.signed < signaturesToGather(api, filingId)
   );
 }
 
@@ -3738,10 +3756,16 @@ function circulatorSeller(api: CoreAPI): string | null {
  * who would sign: those on the candidate's side of the lean order, and of the
  * rest the share signing's low bar reaches (`petitionSignOpenness`), less
  * what the place has already given. Paid at the per-signature price, on the
- * journal, to the consulting seller. The money left when the petition is
- * handed in goes back to the campaign. Returns the signatures added.
+ * journal, to the consulting seller. The race's last turn inside the
+ * petition's days spends what is left; money still held when the petition
+ * is handed in goes back to the campaign. Returns the signatures added.
  */
-export function circulatorShift(api: CoreAPI, filingId: string): number {
+export function circulatorShift(
+  api: CoreAPI,
+  filingId: string,
+  /** Days until the race's next turn: a turn whose next one falls past the due day is the petition's last. */
+  nextTurnInDays = 0,
+): number {
   const campaign = campaignFor(api, filingId);
   const fund = campaign.circulatorFundMinor ?? 0;
   if (fund <= 0) return 0;
@@ -3755,7 +3779,12 @@ export function circulatorShift(api: CoreAPI, filingId: string): number {
   const elapsed = Math.max(0, daysBetween(since, api.state.date));
   const remaining = Math.max(0, daysBetween(api.state.date, petition.due));
   if (elapsed <= 0 && remaining > 0) return 0;
-  const share = remaining <= 0 ? 1 : elapsed / (elapsed + remaining);
+  // The last turn the petition's days hold spends what is left: money kept
+  // for a turn that falls after the due day would never reach a signature.
+  const share =
+    remaining < nextTurnInDays || remaining <= 0
+      ? 1
+      : elapsed / (elapsed + remaining);
   const price = unitPrice(api, "petition-signature");
   let want = Math.floor((fund * share) / price);
   const sellerId = circulatorSeller(api);
@@ -3819,7 +3848,7 @@ function hireCirculatorsForNeed(api: CoreAPI, filingId: string): number {
   if (!reach?.outside.length) return 0;
   const price = unitPrice(api, "petition-signature");
   const lacking =
-    signaturesToGather(petition.needed) -
+    signaturesToGather(api, filingId) -
     petition.signed -
     Math.floor((campaign.circulatorFundMinor ?? 0) / price);
   if (lacking <= 0) return 0;
@@ -7680,7 +7709,7 @@ export function rivalDay(
   const petition = petitionCirculating(api, filingId)
     ? petitionOf(api, filingId)
     : null;
-  const target = petition?.needed ? signaturesToGather(petition.needed) : 0;
+  const target = petition?.needed ? signaturesToGather(api, filingId) : 0;
   const shortfall = target
     ? Math.max(0, target - petition!.signed) / target
     : 0;
@@ -8269,7 +8298,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     for (const filing of ballot(api, race.id)) {
       if (filing.filedOn > date) continue;
       volunteerShifts(api, filing.id, walked);
-      circulatorShift(api, filing.id);
+      circulatorShift(api, filing.id, everyTurns * turnDays);
       if (filing.personId !== playerId)
         campaignTurn(api, filing.id, race.electionDate);
       else tellPetitionShort(api, filing.id, everyTurns * turnDays);
@@ -8417,7 +8446,7 @@ export function petitionShortReading(
   const petition = petitionOf(api, filingId);
   if (!petition?.needed) return null;
   const measure =
-    by === "clerk" ? petition.needed : signaturesToGather(petition.needed);
+    by === "clerk" ? petition.needed : signaturesToGather(api, filingId);
   const gap = measure - petition.signed;
   const daysLeft = daysBetween(api.state.date, petition.due);
   const shift = petitionShiftYield();
@@ -8495,7 +8524,7 @@ export function tellPetitionShort(
     placeId: townRow(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `Petition ${petition.id}: ${petition.signed} signed, ${petition.needed} needed (${signaturesToGather(petition.needed)} a campaign gathers), ${reading.daysLeft} days left`,
+      citation: `Petition ${petition.id}: ${petition.signed} signed, ${petition.needed} needed (${signaturesToGather(api, filingId)} a campaign gathers), ${reading.daysLeft} days left`,
       asOf: api.state.date,
     },
     facts: {
@@ -8508,7 +8537,7 @@ export function tellPetitionShort(
       started: petition.signed > 0 ? "yes" : "no",
       // What the engine read the day it told them, for the trace.
       signed: String(petition.signed),
-      gathers: String(signaturesToGather(petition.needed)),
+      gathers: String(signaturesToGather(api, filingId)),
       needed: String(petition.needed),
       daysLeft: String(reading.daysLeft),
       canAddAfterNextTurn: reading.canAddAfterNextTurn.toFixed(1),

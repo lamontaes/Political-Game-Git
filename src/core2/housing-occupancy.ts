@@ -137,9 +137,7 @@ export function tenants(api: CoreAPI): Tenant[] {
         leaseId: flow.id,
         landlordId: flow.payeeId,
         rentMinor: flow.amountMinor,
-        incomeMinor:
-          householdIncome(rt, house) / months +
-          (assistance.get(house.id) ?? 0) / months,
+        incomeMinor: householdIncome(rt, house) / months,
       });
     }
   return rows;

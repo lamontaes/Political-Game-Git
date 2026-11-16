@@ -32,12 +32,8 @@ import {
 } from "./modules/budgets";
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import {
-  countedParameter,
-  residentsRuntime,
-  type ResidentsRuntime,
-} from "./modules/residents";
-import { stableHash } from "./kernel/ids";
+import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
+import { balanceDrawZ, balanceSpreadLog } from "./household-balance-draw";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
@@ -98,14 +94,8 @@ export function savingWeight(
   h: { readonly id: string; saving?: number },
 ): number {
   if (h.saving === undefined) {
-    const sigma = countedParameter("countedSavingsSpreadLog");
-    const uniform = (key: string) =>
-      (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
-    const key = `${seed}:counted-saving:${h.id}`;
-    const z =
-      Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
-      Math.cos(2 * Math.PI * uniform(`${key}:b`));
-    h.saving = Math.exp(sigma * z - (sigma * sigma) / 2);
+    const sigma = balanceSpreadLog();
+    h.saving = Math.exp(sigma * balanceDrawZ(seed, h.id) - (sigma * sigma) / 2);
   }
   return h.saving;
 }

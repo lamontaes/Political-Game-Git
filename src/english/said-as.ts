@@ -52,6 +52,68 @@ export interface SaidPerson {
   readonly calledBySpeaker?: string;
   /** Whether the listener knows who they are (met, told of, or family). */
   readonly knownToListener?: boolean;
+  /** What they are to the listener, when the listener has not met them (src/director/who-they-are.ts): said once after the full name. */
+  readonly what?: WhatSaidInput;
+}
+
+/** A kind and stage of what someone is, with its slots already worded (src/director/who-they-are.ts). */
+export interface WhatSaidInput {
+  readonly kind: string;
+  readonly stage: string;
+  readonly facts: Readonly<Record<string, { readonly text: string }>>;
+}
+
+const WHAT = data.whatTheyAre as unknown as Readonly<
+  Record<string, Readonly<Record<string, string>>>
+>;
+
+/** Whether a scene type's own lines say what the person is, so its arrival adds nothing. */
+export function sceneSaysWhat(typeKey: string | undefined): boolean {
+  const says = (
+    WHAT as unknown as { sceneSaysIt?: { types?: readonly string[] } }
+  ).sceneSaysIt?.types;
+  return !!typeKey && !!says?.includes(typeKey);
+}
+
+/**
+ * What someone is, as the narration says it after their name the first time
+ * ("the town clerk", "who lives in your district"); null where no line is
+ * written for the kind and stage or a slot it names is not held.
+ */
+export function whatSaid(what: WhatSaidInput): string | null {
+  const line = WHAT[what.kind]?.[what.stage];
+  if (typeof line !== "string") return null;
+  let missing = false;
+  const text = line.replace(/\{([a-z_]+)\}/g, (_, key: string) => {
+    const slot = what.facts[key];
+    if (!slot) missing = true;
+    return slot?.text ?? "";
+  });
+  return missing ? null : text;
+}
+
+/**
+ * A full name with what they are, once: "Jose Salgado, the town clerk," set off
+ * by commas on both sides; the renderer drops the closing one before the
+ * sentence's own mark (grounded-english.ts).
+ */
+export function nameWithWhat(
+  full: string,
+  what: WhatSaidInput | undefined,
+): string {
+  const said = what ? whatSaid(what) : null;
+  return said ? `${full}, ${said},` : full;
+}
+
+/** A said person's text without what `nameWithWhat` added, or undefined when it added nothing. */
+export function bareName(
+  text: string,
+  person: Pick<SaidPerson, "givenName" | "familyName">,
+): string | undefined {
+  const full = `${person.givenName} ${person.familyName}`;
+  return text !== full && text.startsWith(`${full}, `) && text.endsWith(",")
+    ? full
+    : undefined;
 }
 
 /** Where the slot stands in the sentence. */
@@ -169,9 +231,13 @@ export function saidAs(
       ? finish(office.again, false)
       : finish(`${office.before} ${full}`, true);
   }
-  // Anyone else: the full name once, only for someone the listener knows.
+  // Anyone else: the full name once, only for someone the listener knows,
+  // with what they are when the listener has not met them (rule 136).
   if (person.knownToListener && !telling.text.fullNamed.has(person.id))
-    return finish(full, true);
+    return finish(
+      kase === "possessive" ? full : nameWithWhat(full, person.what),
+      true,
+    );
   return finish(person.givenName, false);
 }
 

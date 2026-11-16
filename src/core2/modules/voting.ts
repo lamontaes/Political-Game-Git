@@ -164,6 +164,7 @@ import {
   parsePlatform,
   pledgesOf,
   registerDoorChoice,
+  registerPetitionRoll,
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
@@ -548,6 +549,7 @@ export function openVoting(core: CoreState): void {
   const api = coreAPI(core);
   registerWardResidency(candidateInWard);
   registerDoorChoice(doorChoiceOf);
+  registerPetitionRoll(onRollToday);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // The world opens already in motion: who is registered, and who moved
@@ -838,6 +840,35 @@ export function recordedBase(
 }
 
 /**
+ * The part of its county a district seat's petition is sized to: one over the
+ * body's districts for a county board elected by district, the whole county
+ * (one) for any other race. No district map is read for local bodies, so the
+ * districts are taken as even shares of the county's voters.
+ */
+// stopgapId: SG-GOV-county-petition-even-districts
+function districtPartOfCounty(api: CoreAPI, contest: ContestRow): number {
+  if (contest.family !== "countyOffice") return 1;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as { districted?: boolean } | undefined;
+  if (!office?.districted) return 1;
+  const districts = new Set(
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("seats")
+        .query("byOffice", [contest.officeId]) as unknown as {
+        district?: string | null;
+      }[]
+    ).map((seat) => seat.district ?? ""),
+  ).size;
+  if (districts <= 1) return 1;
+  api.stopgap("SG-GOV-county-petition-even-districts");
+  return 1 / districts;
+}
+
+/**
  * The signatures a petition needs in this world: the number the race's own
  * law sets for the race's own electorate (owner, Nov 14). A town race reads
  * the town's voters, and its petition asks no more names than the town has.
@@ -856,6 +887,10 @@ export function petitionNeededHere(
   const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
   const population = Number(api.state.placeMetadata.referencePopulation) || 0;
   const wide = wideElectorate(api, contest, { voters, population });
+  // A county board seat chosen by district asks the law's count of its
+  // district's voters ("5% of registered voters in the county or district"),
+  // not the whole county's.
+  const part = wide ? districtPartOfCounty(api, contest) : 1;
   if (rule.basis === "scaled" && rule.scale) {
     if (!wide)
       return petitionSignatures(rule.scale, {
@@ -869,13 +904,16 @@ export function petitionNeededHere(
         ? lastVotesForOffice(api, contest.officeId)?.votes
         : undefined;
     return petitionSignatures(rule.scale, {
-      eligible: wide.eligible,
-      population: voters > 0 ? (wide.eligible * population) / voters : 0,
+      eligible: wide.eligible * part,
+      population: voters > 0 ? (wide.eligible * part * population) / voters : 0,
       votesCast:
-        recorded ??
-        (wide.votes > 0
-          ? wide.votes * namedElectionTurnout(api, contest, rule.scale.election)
-          : undefined),
+        recorded !== undefined
+          ? recorded * part
+          : wide.votes > 0
+            ? wide.votes *
+              part *
+              namedElectionTurnout(api, contest, rule.scale.election)
+            : undefined,
       aligned:
         side > 0
           ? wide.rightShare
@@ -888,7 +926,7 @@ export function petitionNeededHere(
   const count = rule.count;
   if (count <= 0) return 0;
   // No petition asks more names than its electorate has voters.
-  const most = Math.floor(wide ? wide.eligible : voters);
+  const most = Math.floor(wide ? wide.eligible * part : voters);
   return most > 0 ? Math.max(1, Math.min(count, most)) : count;
 }
 
@@ -931,6 +969,28 @@ function namedElectionTurnout(
 }
 
 /**
+ * Whether a person is on the count's roll today, the roll the clerk checks a
+ * petition against and a campaign reads to size its target. The roll's ids
+ * are held for the day.
+ */
+function onRollToday(api: CoreAPI, personId: string): boolean {
+  const held = rollIdsByDay.get(api.state);
+  if (held?.date === api.state.date && held.size === api.state.people.size)
+    return held.ids.has(personId);
+  const ids = new Set(electorateRoll(api).map((v) => v.id));
+  rollIdsByDay.set(api.state, {
+    date: api.state.date,
+    size: api.state.people.size,
+    ids,
+  });
+  return ids.has(personId);
+}
+const rollIdsByDay = new WeakMap<
+  object,
+  { date: string; size: number; ids: ReadonlySet<string> }
+>();
+
+/**
  * The clerk's check of a petition, the morning after its deadline: each
  * signature stands where its signer is on the count's roll that day (alive,
  * living in the town, of voting age, not barred), and is struck otherwise.
@@ -943,10 +1003,9 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   // One standing signature row is one signature, a counted resident's as a
   // full person's (pool item elections-petition-check-miscount): the clerk
   // counts names on paper, so every row ends up counted or struck.
-  const roll = new Set(electorateRoll(api).map((v) => v.id));
   const signers = petitionSigners(api, filingId);
   const struckIds = signers
-    .filter((s) => !roll.has(s.personId))
+    .filter((s) => !onRollToday(api, s.personId))
     .map((s) => s.personId);
   // The signatures circulators gathered outside the town are the counted
   // voters of the race's places beyond it, on that place's roll.
@@ -4161,6 +4220,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
+    // The world whose view of each question every voter's stance carries.
     seed: api.state.seed,
     ...kept,
   } as unknown as ModuleRow);

@@ -20,6 +20,7 @@ Owner, Nov 11, 2026: "updates all documents so that nothing is pointing at anyth
 | Who is running and what each owns | `docs/coordination/CREW.md` |
 | The leads' channel | `docs/coordination/LEADS-2026-10-24.md` |
 | The merge order | `docs/coordination/MERGE-FIRST.md` |
+| The two-branch plan (work branch and main without test files), the map and the way back | `docs/coordination/TWO-BRANCHES.md` |
 | The roadmap | `docs/ROADMAP.md` |
 | What The Political Process does, mapped to our specs | `docs/roadmap/political-process-baseline.md` |
 | The map of the docs | `docs/README.md` |

@@ -71,7 +71,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, word of a rival's paid message passed on by someone it reached, a rival filing against them, a petition to recall them) that are met the same day, at home or, for an officeholder, at the office or in the chamber (the evening before a roll call), by phone or in town at a petition's table (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, word of a rival's paid message passed on by someone it reached, a rival filing against them, a petition to recall them) that are met the same day, at home or, for an officeholder, at the office or in the chamber (the evening before a roll call), by phone, in town at a petition's table, or at the venue where the record happened (the count of their own race on election night, the clerk's counter where they filed) (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -79,8 +79,6 @@
       "adult": 4
     },
     "trailingDays": 365,
-    "repeatDays": 30,
-    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running.",
     "seasonCap": {
       "value": 6,
       "days": 91,
@@ -129,12 +127,20 @@
       "cause:event:rival-filed",
       "cause:event:party-asked",
       "cause:event:vote-ahead",
+      "cause:event:bill-held-in-committee",
       "cause:event:serve-asked",
       "cause:event:recall-petition",
       "cause:event:job-offered",
       "cause:event:sign-on-asked"
     ],
-    "ownRecordSettings": ["home", "office", "chamber", "phone", "public"],
+    "ownRecordSettings": [
+      "home",
+      "office",
+      "chamber",
+      "phone",
+      "public",
+      "venue"
+    ],
     "metWhereYouAre": ["circumstance:"]
   },
   "types": [
@@ -2373,7 +2379,6 @@
       ],
       "setting": ["venue", "phone"],
       "timing": "at-cause",
-      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -2945,7 +2950,7 @@
       "stakes": ["job", "years"]
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "vote-asked",
       "receive": {
         "age": "any",
@@ -3171,7 +3176,7 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "ask-vote",
       "playerAsks": true,
       "asker": "colleague",
@@ -4156,7 +4161,7 @@
       }
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "section-bargain",
       "receive": {
         "age": "any",
@@ -4266,6 +4271,68 @@
           "bind": {
             "sponsor": "bill-sponsor",
             "you": "subject"
+          },
+          "opener": "sponsor"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "hold-chair-sought",
+      "note": "The player is the sponsor of a bill the committee chair held without a hearing, and asks the chair to hear it. The chair answers from the committee record's own reasons (the chair's stand on the bill, their temperament and a close co-sponsor's pull), and the ask adds only a favor, worth more the closer the two are. An agree sets the hearing through the same reply the other direction uses; a refusal leaves the hold, and the chair says the reason the record holds.",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "repeatsBy": "bill",
+      "purpose": "hearing-ask",
+      "playerAsks": true,
+      "asker": "chair",
+      "asked": "sponsor",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "chair",
+          "fill": "cause-named",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "sponsor",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "plea", "press", "threaten", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        }
+      ],
+
+      "setting": ["office", "chamber", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-held-in-committee",
+            "causeFacts": [
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              },
+              { "key": "firstChamber", "equals": ["yes"] }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-held-in-committee",
+          "bind": {
+            "chair": "cause-named",
+            "sponsor": "subject"
           },
           "opener": "sponsor"
         }
@@ -5950,7 +6017,7 @@
         "seat": "serving"
       },
       "note": "The player drafts a bill and goes to a colleague they know to sign on as a co-sponsor (brief V, stage 2). The colleague answers from where they stand on the bill and what a favor to the player is worth to them, never by a roll; a yes puts their name on the bill, which the committee chair weighs in deciding to hear it (legislature.ts askToSignOn, answerSignOn, chairHears).",
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "cosponsor-ask",
       "playerAsks": true,
       "asker": "colleague",

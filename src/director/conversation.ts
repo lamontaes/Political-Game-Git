@@ -45,6 +45,7 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
+import { rememberedOf } from "./address-render";
 import {
   ADDRESS_FACT,
   addressPoints,
@@ -69,6 +70,12 @@ import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
+import {
+  acceptSubjects,
+  belongsToPair,
+  storyTie,
+  type SubjectTie,
+} from "./subject-tie";
 import {
   NEWS_MODULE_ID,
   newsKey,
@@ -212,7 +219,7 @@ import {
 } from "../english/said-as";
 import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
-import { bodySaid } from "./local-address";
+import { bodySaid } from "./body-said";
 import { saidPersonOf } from "./said-person";
 import {
   answerPromise,
@@ -360,6 +367,8 @@ export interface Subject {
   weight?: number;
   /** What the listener learns once it is said: the knowledge key and the records it cites, and the question they care most about. */
   learned?: { key: string; recordIds: readonly string[]; question?: string };
+  /** The record that ties it to the speaker or the hearer (subject-tie.ts); a subject with none is refused. */
+  tie?: SubjectTie;
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
@@ -2227,7 +2236,10 @@ function governmentNews(
     -GOVERNMENT_NEWS.withinDays.value,
   );
   const api = coreAPI(core as CoreState);
-  const lean = viewOf(api, speaker.id)?.lean;
+  // Where they lean is read only where the views engine is installed.
+  const lean = core.modules.has(VIEWS_MODULE_ID)
+    ? viewOf(api, speaker.id)?.lean
+    : undefined;
   const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
   for (let at = ids.length - one; at >= zero; at -= one) {
     const row = core.durableLog.get(ids[at] as never) as
@@ -2343,6 +2355,8 @@ function governmentNews(
       id,
       kind: "government-news",
       aboutId: row.id,
+      // A record the speaker has of it, in their own log.
+      tie: { kind: "record", recordIds: [row.id, speaker.id] },
       stage,
       ...(question ? { news: { question } } : {}),
       facts: out,
@@ -2427,12 +2441,23 @@ function printedHeard(
   core: Readonly<CoreState>,
   speakerId: PersonId,
   director: Director | undefined,
+  listenerId: PersonId,
+  refused?: (subject: Subject) => void,
 ): Subject | null {
   if (!director?.storyWords || !core.modules.has(NEWS_MODULE_ID)) return null;
   const since = addDays(makeIsoDate(core.date), -recentDays());
   for (const story of storiesHeard(coreAPI(core), speakerId, since)) {
-    const subject = printedSubject(core, story, director, speakerId);
-    if (subject) return subject;
+    const subject = printedSubject(
+      core,
+      story,
+      director,
+      speakerId,
+      listenerId,
+    );
+    if (!subject) continue;
+    // A story with no tie to the pair is passed over for the next one.
+    if (subject.tie) return subject;
+    refused?.(subject);
   }
   return null;
 }
@@ -2516,6 +2541,7 @@ function printedSubject(
   story: Story,
   director: Director | undefined,
   tellerId: PersonId,
+  listenerId: PersonId,
 ): Subject | null {
   if (story.kind !== PRINTED_STORY) return null;
   // A child tells no policy story with a side (stands, conversation-rules.json).
@@ -2566,10 +2592,13 @@ function printedSubject(
     // own view record. None, and they have nothing of their own to say.
     const stake = newsStake(core, tellerId, { news });
     if (stake.reason !== "stance") return null;
+    // Raised only where the story is tied to the speaker or the hearer.
+    const tie = storyTie(core, story, tellerId, listenerId);
     const sponsor = storySponsor(core, story);
     return {
       id: `news:${story.id}`,
       kind: "news",
+      ...(tie ? { tie } : {}),
       aboutId: story.id,
       news,
       facts: {
@@ -2617,6 +2646,10 @@ function printedSubject(
     };
   }
 }
+
+/** A subject only where it carries a tie to the pair (subject-tie.ts). */
+const untied = (subject: Subject | null): Subject | null =>
+  subject?.tie ? subject : null;
 
 /**
  * What a stranger says first: who they are. Their own name and, where the
@@ -2742,7 +2775,14 @@ function introduction(
       };
     }
   }
-  return { id: `here:${speaker.id}`, kind: "here", facts, stage };
+  // Strangers in one place: the meeting is the tie.
+  return {
+    id: `here:${speaker.id}`,
+    kind: "here",
+    tie: { kind: "frame", recordIds: [speaker.id, listener.id] },
+    facts,
+    stage,
+  };
 }
 
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
@@ -2758,6 +2798,8 @@ export function subjectsBetween(
     visitOrganizationId?: string;
     /** The talk is a phone call. */
     byPhone?: boolean;
+    /** Told each subject the tie rule refused (the dev trace and the counts read it). */
+    refused?: (subject: Subject) => void;
   } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
@@ -2914,12 +2956,21 @@ export function subjectsBetween(
   out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
-    out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
+    out.push({
+      id: `their-work:${listenerId}`,
+      kind: "their-work",
+      // Their job, if they hold one: no job, nothing to ask about.
+      ...(listener.jobId
+        ? { tie: { kind: "record" as const, recordIds: [listener.jobId] } }
+        : {}),
+      facts: {},
+    });
   // Asked only right after they name their work.
   if (theirs && tenureYears(startedOf(core, listener), core.date))
     out.push({
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
+      tie: { kind: "record" as const, recordIds: [theirs.job.id] },
       facts: {},
     });
   // What they do there, asked right after they name their work: answered
@@ -3037,10 +3088,26 @@ export function subjectsBetween(
     // saw her today."). The gap as a greeting hears it, from their own tie.
     const seen = lastContact(core, speakerId, id);
     if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
+    // A person both know is a tie to both: the two relationship rows that
+    // say they know them, and the fact by which the speaker learned of them
+    // (the third person is neither of the pair, so the rule cannot find it
+    // from the facts alone).
+    const mutualTie = [
+      ...new Set(
+        [
+          seen?.tieId,
+          lastContact(core, listenerId, id)?.tieId,
+          speaker.knownIdSources?.[id]?.sourceFactId,
+        ].filter((row): row is string => !!row),
+      ),
+    ];
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
       aboutId: id,
+      ...(mutualTie.length
+        ? { tie: { kind: "record" as const, recordIds: mutualTie } }
+        : {}),
       facts: {
         name: {
           text: spokenName(core, [speakerId, listenerId], id),
@@ -3218,11 +3285,21 @@ export function subjectsBetween(
     out.push({
       id: `their-school:${listenerId}`,
       kind: "their-school",
+      tie: {
+        kind: "record" as const,
+        recordIds: [schoolOf(core, listener)!.recordId],
+      },
       facts: {},
     });
   // The newest printed story the speaker read or heard of lately, said by
   // its headline and the outlet that printed it.
-  const printed = printedHeard(core, speakerId, director);
+  const printed = printedHeard(
+    core,
+    speakerId,
+    director,
+    listenerId,
+    room.refused,
+  );
   if (printed) out.push(printed);
   // The newest change the speaker learned of, as news to pass on: a place
   // that closed, said by its name. A story the speaker read is the printed
@@ -3244,6 +3321,7 @@ export function subjectsBetween(
       kind: "news",
       aboutId: news.eventId,
       news: { institutionId: institution.id },
+      ...changeTie(core, speaker, listener, institution, news.eventId),
       facts: {
         topic: {
           text: organizationName(institution),
@@ -3259,12 +3337,15 @@ export function subjectsBetween(
   // after it was given (its record's date), however late someone heard it.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
-  const quote = known?.get(ADDRESS_FACT.remembered);
+  // The line they quote is the address's own, as its record keeps it.
+  const quoted = address
+    ? rememberedOf(core.durableLog.get(address.value)?.facts)
+    : null;
   const givenOn =
     address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
   if (
     address &&
-    quote &&
+    quoted &&
     givenOn &&
     givenOn >
       addDays(
@@ -3276,10 +3357,12 @@ export function subjectsBetween(
       id: `address:${address.value}`,
       kind: "address",
       aboutId: address.value,
+      // The speaker heard it: the record of their hearing ties it (the desk's address scene declares its own).
+      tie: { kind: "frame", recordIds: [address.value, address.sourceId] },
       facts: {
         quote: {
-          text: quote.value,
-          sourceRecordIds: [address.value, quote.sourceId],
+          text: quoted,
+          sourceRecordIds: [address.value, address.sourceId],
         },
         // The day it was given, as people say it ("today", "yesterday").
         when: {
@@ -3488,13 +3571,45 @@ export function subjectsBetween(
   // A figure of their own (what they make an hour) told to this listener
   // lately and unchanged since is not said again (lead, Nov 12: Brett states
   // his hourly wage in three of four talks).
-  const told = out.map((row) => withoutToldFigures(row, speakerId, core.date));
+  // Only what is tied to the speaker or the hearer is raised (subject-tie.ts).
+  const told = acceptSubjects(
+    out.map((row) => withoutToldFigures(row, speakerId, core.date)),
+    belongsToPair(core, speakerId, listenerId),
+    room.refused,
+  );
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return told.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
     );
   return told;
+}
+
+/**
+ * The tie of a change the speaker learned of (a place that closed): they work
+ * or worked there, or it is in the place the speaker or the hearer lives in;
+ * nothing otherwise, and the subject is refused.
+ */
+function changeTie(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+  institution: OrganizationInput,
+  eventId: string,
+): { tie: SubjectTie } | Record<string, never> {
+  const stake = newsStake(core, speaker.id, {
+    news: { institutionId: institution.id },
+  });
+  if (stake.reason === "worked-there")
+    return {
+      tie: { kind: "record", recordIds: [eventId, ...stake.recordIds] },
+    };
+  if (
+    institution.placeId === speaker.placeId ||
+    institution.placeId === listener.placeId
+  )
+    return { tie: { kind: "place", recordIds: [eventId, institution.id] } };
+  return {};
 }
 
 /** The heard key of a figure of a speaker's own, by its fact and its words (a changed figure is a new key). */
@@ -3962,6 +4077,8 @@ function pointSubject(
     kind: POINT,
     aboutId: eventId,
     stage: pick.stand,
+    // Their own reason, from the records it stands on (the desk's address scene declares its own tie).
+    tie: { kind: "stand", recordIds: [eventId, ...pick.reasonIds] },
     facts,
     point: { question: pick.point.question, reason: pick.reason },
   };
@@ -5329,6 +5446,8 @@ function raiseSubject(
     ...(subject.stage ? { stage: subject.stage } : {}),
     ...(subject.point ? { point: subject.point } : {}),
     ...(subject.news ? { news: subject.news } : {}),
+    // The reply stays on the subject it answers, tie and all.
+    ...(subject.tie ? { tie: subject.tie } : {}),
   };
   conversation.last = {
     subject: raised,
@@ -5340,11 +5459,7 @@ function raiseSubject(
     if (!conversation.topics.length) conversation.topicFacts = subject.facts;
     conversation.topics.push(raised.id);
   }
-  offerChoices(core, conversation, data);
-  // A line the player has no reply to is the other person's last word: the
-  // talk ends there with their goodbye, never on a statement left hanging.
-  if (!conversation.choices.length && !conversation.look)
-    endConversation(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return true;
 }
 
@@ -5978,7 +6093,9 @@ function raiseBroughtNews(
       ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
       : undefined;
     const headline = story
-      ? printedSubject(core, story, conversation.director, otherId)
+      ? untied(
+          printedSubject(core, story, conversation.director, otherId, playerId),
+        )
       : null;
     const news =
       headline ??
@@ -6929,6 +7046,22 @@ function raisable(data: ConversationData, kind: string): boolean {
   );
 }
 
+/**
+ * The replies to the last line; where there are none, that line is the other person's last word
+ * and the talk ends there with their goodbye, never on a statement left hanging. Every line they
+ * say that ends a turn goes through here (the answer to a question the player turned back, a
+ * subject they raise), so no talk stops with nothing to press and no goodbye.
+ */
+function offerChoicesOrClose(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): void {
+  offerChoices(core, conversation, data);
+  if (!conversation.choices.length && !conversation.look)
+    endConversation(core, conversation, data);
+}
+
 function offerChoices(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -7106,6 +7239,10 @@ function offerChoices(
         replyFacts(core, otherId, raised)?.facts ?? {},
       )
     )
+      return;
+    // A question the other person has no answer to on record is not offered
+    // (a pressed question is always answered).
+    if (raised && raised !== last.subject && !replyFacts(core, otherId, raised))
       return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
@@ -8509,7 +8646,7 @@ function sayNow(
     facts: reply.facts,
     stage: reply.stage,
   };
-  offerChoices(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return conversation;
 }
 

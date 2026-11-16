@@ -156,6 +156,7 @@ import {
   regard,
   runDesk,
   slantOf,
+  usualSpace,
   type DeskContext,
   type DeskOutlet,
   type PrintedStory,
@@ -3895,7 +3896,6 @@ function policeLog(api: CoreAPI): void {
     0,
   );
   if (!(reported > 0)) return;
-  const usual = usualMonth(api, town, month);
   const item: WireItem = {
     id,
     kind: "crime.month",
@@ -3910,36 +3910,119 @@ function policeLog(api: CoreAPI): void {
       // How far the month stands from the town's own usual: the desk's
       // space for the log slides with it, down to nothing (Words lead,
       // Nov 14). A town with no earlier months has no usual to compare.
-      ...(usual
-        ? {
-            vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
-            // The words may compare the month with the town's usual only
-            // once the usual rests on enough closed months (two months are
-            // not a usual month), and only by how far the month stands off
-            // the usual against the town's own spread of months.
-            ...(usual.months >= pressParameter("briefUsualMinMonths")
-              ? {
-                  usual: String(Math.round(usual.total * 10) / 10),
-                  spread: String(Math.round(usual.spread * 10) / 10),
-                  ...(usual.rising ? { rising: usual.rising } : {}),
-                }
-              : {}),
-            // How many closed months the usual rests on, and how often a
-            // month this busy comes by chance at that usual: a town with a
-            // short record or a small usual is not called busy on chance.
-            monthsOfRecord: String(usual.months),
-            chance: String(
-              Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
-                10000,
-            ),
-            ...(monthIsWellOver(usual.months, reported, usual.total)
-              ? { busier: "yes" }
-              : {}),
-          }
-        : {}),
+      ...policeLogComparison(api, town, month, reported),
     },
   };
   table(api, "wire").put(item as unknown as ModuleRow);
+}
+
+/**
+ * How a town's police log for `month` stands against the town's usual: the
+ * facts the wire item carries (vsUsual, usual, spread, rising, the months of
+ * record, the chance and busier), read from the crime engine's month rows.
+ * The desk's space and the words read these from the wire; dev mode's trace
+ * reads the same function, so it shows what the paper read. A town with no
+ * earlier months has no usual to compare.
+ */
+export function policeLogComparison(
+  api: CoreAPI,
+  town: string,
+  month: string,
+  reported: number,
+): Record<string, string> {
+  const usual = usualMonth(api, town, month);
+  return usual
+    ? {
+        vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
+        // The words may compare the month with the town's usual only
+        // once the usual rests on enough closed months (two months are
+        // not a usual month), and only by how far the month stands off
+        // the usual against the town's own spread of months.
+        ...(usual.months >= pressParameter("briefUsualMinMonths")
+          ? {
+              usual: String(Math.round(usual.total * 10) / 10),
+              spread: String(Math.round(usual.spread * 10) / 10),
+              ...(usual.rising ? { rising: usual.rising } : {}),
+            }
+          : {}),
+        // How many closed months the usual rests on, and how often a
+        // month this busy comes by chance at that usual: a town with a
+        // short record or a small usual is not called busy on chance.
+        monthsOfRecord: String(usual.months),
+        chance: String(
+          Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
+            10000,
+        ),
+        ...(monthIsWellOver(usual.months, reported, usual.total)
+          ? { busier: "yes" }
+          : {}),
+      }
+    : {};
+}
+
+/** The town's closed crime months before `month` that its usual rests on, newest first. */
+function usualMonthRows(
+  api: CoreAPI,
+  town: string,
+  month: string,
+): readonly { readonly id: string; readonly month: string }[] {
+  return (
+    api
+      .moduleState(CRIME_MODULE_ID)
+      .table("months")
+      .query("byPlace", [town]) as unknown as {
+      readonly id: string;
+      readonly month: string;
+    }[]
+  )
+    .filter((row) => row.month < month)
+    .sort((a, b) => b.month.localeCompare(a.month))
+    .slice(0, pressParameter("usualMonths"));
+}
+
+/**
+ * Why a town's police log for a crime month stood where it did on the page,
+ * for dev mode's trace (owner, Nov 16: what a thread traces by script, dev
+ * mode traces in the game): the month's reported count, the comparison the
+ * wire carried (`policeLogComparison`), the closed months the usual rests
+ * on, and the share of a brief's space the desk gave it (`usualSpace`).
+ * Read from the crime engine's month rows; nothing is kept.
+ */
+export function policeLogWhy(
+  api: CoreAPI,
+  monthRowId: string,
+):
+  | {
+      readonly reported: number;
+      readonly comparison: Readonly<Record<string, string>>;
+      readonly usualMonthIds: readonly string[];
+      readonly space: number;
+    }
+  | undefined {
+  const row = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(monthRowId) as unknown as
+    | {
+        readonly placeId: string;
+        readonly month: string;
+        readonly types?: Record<string, { readonly reported?: number }>;
+      }
+    | undefined;
+  if (!row) return undefined;
+  const reported = Object.values(row.types ?? {}).reduce(
+    (sum, type) => sum + (type.reported ?? 0),
+    0,
+  );
+  const comparison = policeLogComparison(api, row.placeId, row.month, reported);
+  return {
+    reported,
+    comparison,
+    usualMonthIds: usualMonthRows(api, row.placeId, row.month).map(
+      (month) => month.id,
+    ),
+    space: usualSpace({ facts: comparison }, pressParameter),
+  };
 }
 
 /**
@@ -3959,15 +4042,7 @@ function usualMonth(
     readonly month: string;
     readonly types?: Record<string, { readonly reported?: number }>;
   };
-  const rows = (
-    api
-      .moduleState(CRIME_MODULE_ID)
-      .table("months")
-      .query("byPlace", [town]) as unknown as Month[]
-  )
-    .filter((row) => row.month < month)
-    .sort((a, b) => b.month.localeCompare(a.month))
-    .slice(0, pressParameter("usualMonths"));
+  const rows = usualMonthRows(api, town, month) as readonly Month[];
   if (rows.length < 2) return undefined;
   const mean = (read: (row: Month) => number) =>
     rows.reduce((sum, row) => sum + read(row), 0) / rows.length;

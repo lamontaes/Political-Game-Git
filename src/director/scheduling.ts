@@ -10,7 +10,7 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
-import { lastTogether } from "../core2/closeness";
+import { lastMetOnRow } from "../core2/closeness";
 import { SPEECH_OCCASION_KIND, familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -213,14 +213,6 @@ export interface SituationType {
    */
   openDecision?: boolean;
   /**
-   * What the repeat window tells scenes apart by besides the cast: "bill"
-   * for a scene about one bill (a vote asked for), so the same two people
-   * about another bill on a later day is a new scene; "cause" for a scene
-   * about one record (a reporter's call), so the same reporter calling about
-   * a bill's vote after its introduction is a new scene.
-   */
-  repeatsBy?: string;
-  /**
    * What keeps the scene worth staging: "contest-open" for a scene about a
    * race (a rival's word of it), which is not staged once the cause's
    * contest has had its election day. Absent: no such condition.
@@ -248,8 +240,6 @@ export interface SituationLibrary {
     paces: Readonly<Record<string, number>>;
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
-    /** Days within which the same scene with the same people is staged once. */
-    repeatDays: number;
     /** The most scenes of one type in a season's window of days. */
     seasonCap: { value: number; days: number };
     openDays: Readonly<Record<string, number>>;
@@ -314,8 +304,19 @@ export interface ScheduleEntry {
   /** "scene-now", "scene-waiting" or "journal-line". */
   outcome: string;
   mode: string;
-  /** Impact at or over the interrupt line. */
+  /** The scene stops the day (impact at or over the interrupt line, or a rule in stopsBecause). */
   interrupt: boolean;
+  /**
+   * The rules that stopped the day, for dev mode's trace: "impact" (at or
+   * over the interrupt line), "household" (the household's own record, met
+   * at home), "own-record" (the subject's own record, met where its scene is
+   * set: scheduling.ownRecordSettings), "met-here" (a circumstance where the
+   * player is), "tie" (a tie that turned with someone just seen),
+   * "stops-day" (a type that stops the day for its subject).
+   */
+  stopsBecause?: (
+    "impact" | "household" | "own-record" | "met-here" | "tie" | "stops-day"
+  )[];
   stopsSkip: boolean;
   /** The core player stop registered for this moment, when its person is controlled. */
   stop?: { recordId: string; at: { date: IsoDate; minuteOfDay: number } };
@@ -980,46 +981,22 @@ export function scheduleMoment(
   const allowed = options.allowedKinds;
   // One sitting covers a day: a scene of the same kind with the same people
   // already staged today takes this cause in (five bills signed in one
-  // afternoon are one press availability, not five). The same scene with the
-  // same people is not staged again within the repeat window either (a
-  // neighbor who shares the same cause seven days running asks once).
+  // afternoon are one press availability, not five). A later day is a new
+  // cause with its own record: what holds a repeat back is the record, below.
   const castOf = (row: SceneBinding) =>
     `${row.typeKey}|${row.roles
       .flatMap((role) => role.personIds)
       .sort()
       .join(",")}`;
-  // A type whose scene is about one bill (a vote asked for) repeats by the
-  // bill: on an earlier day in the window the same people about another bill
-  // is a new scene; the same day still folds into one sitting.
-  const repeatsBy = (row: SceneBinding) =>
-    library.types.find((type) => type.key === row.typeKey)?.repeatsBy;
-  const causeOf = (momentId: string) =>
-    book.momentsById.get(momentId)?.causeId ?? "";
-  const billOf = (momentId: string) =>
-    core.durableLog.get(causeOf(momentId))?.facts?.billId ?? "";
-  const windowKey = (row: SceneBinding, momentId: string) =>
-    repeatsBy(row) === "bill"
-      ? `${castOf(row)}|${billOf(momentId)}`
-      : repeatsBy(row) === "cause"
-        ? `${castOf(row)}|${causeOf(momentId)}`
-        : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(
         (entry) =>
-          entry.date <= moment.date &&
-          entry.date >
-            addDays(makeIsoDate(moment.date), -library.scheduling.repeatDays) &&
+          entry.date === moment.date &&
           entry.momentId !== moment.id &&
           entry.outcome !== "journal-line",
       )
-      .flatMap((entry) =>
-        entry.bindings.map((row) =>
-          entry.date === moment.date
-            ? castOf(row)
-            : windowKey(row, entry.momentId),
-        ),
-      ),
+      .flatMap((entry) => entry.bindings.map((row) => castOf(row))),
   );
   const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
@@ -1096,6 +1073,39 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  // The same scene with the same people about the same record again is not
+  // staged: an earlier day's scene of this cast was staged for a cause record of
+  // the same kind with the same facts, so nothing on record is new. A record
+  // with any fact of its own (another bill, another law, another speech) is a
+  // new cause and stages. A letter reads what has happened since instead
+  // (above), and a scene about each cause keeps every one.
+  const factsKey = (id: string) => {
+    const record = core.durableLog.get(id);
+    return record
+      ? `${record.kind}|${JSON.stringify(Object.entries(record.facts ?? {}).sort(([a], [b]) => a.localeCompare(b)))}`
+      : "";
+  };
+  const stagedCauses = new Map<string, Set<string>>();
+  for (const entry of book.schedule) {
+    if (
+      entry.date >= moment.date ||
+      entry.momentId === moment.id ||
+      entry.outcome === "journal-line"
+    )
+      continue;
+    const cause = book.momentsById.get(entry.momentId)?.causeId;
+    const key = cause ? factsKey(cause) : "";
+    if (!key) continue;
+    for (const row of entry.bindings) {
+      const seen = stagedCauses.get(castOf(row)) ?? new Set<string>();
+      seen.add(key);
+      stagedCauses.set(castOf(row), seen);
+    }
+  }
+  const sameRecordAgain = (row: SceneBinding) =>
+    !eachCause(row) &&
+    row.typeKey !== LETTER_TYPE &&
+    !!stagedCauses.get(castOf(row))?.has(factsKey(moment.causeId));
   // A scene the player pressed for themselves (their own ask to a colleague
   // to sign on, to vote, to serve) is not counted against a season: each one
   // is a record of the player's own act, already limited by what is on the
@@ -1126,7 +1136,7 @@ export function scheduleMoment(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
       seasonFull(row)
         ? [{ typeKey: row.typeKey, reason: "season-cap" }]
-        : sameLetter(row)
+        : sameLetter(row) || sameRecordAgain(row)
           ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
           : nothingToAsk(row)
             ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
@@ -1137,9 +1147,7 @@ export function scheduleMoment(
     (row) =>
       receivable(row) &&
       !held.has(row.typeKey) &&
-      (eachCause(row) ||
-        (!sittingToday.has(castOf(row)) &&
-          !sittingToday.has(windowKey(row, moment.id)))),
+      (eachCause(row) || !sittingToday.has(castOf(row))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:
@@ -1175,17 +1183,19 @@ export function scheduleMoment(
   // at home, or for an officeholder at the office or by phone.
   const household = person.householdId;
   const met = new Set(library.scheduling.ownRecordSettings ?? ["home"]);
-  const familyNews =
-    (((library.scheduling.householdScenes.includes(moment.label) &&
+  const householdNews =
+    ((library.scheduling.householdScenes.includes(moment.label) &&
       moment.counterpartIds.some(
         (id) => core.people.get(id)?.householdId === household,
       )) ||
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
         false)) &&
-      bindings.some((row) => row.setting.kind === "home")) ||
-    ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
-      moment.selfNamed === true &&
-      bindings.some((row) => met.has(row.setting.kind)));
+    bindings.some((row) => row.setting.kind === "home");
+  const ownNews =
+    (library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+    moment.selfNamed === true &&
+    bindings.some((row) => met.has(row.setting.kind) || row.setting.seat);
+  const familyNews = householdNews || ownNews;
   // A tie that turned with someone the person spent time with (a friendship
   // grown over many meetings, a falling-out) is met then, with them: its
   // cause is the relationship record, contacted on the day its change was
@@ -1193,7 +1203,7 @@ export function scheduleMoment(
   const contacted = moment.label.startsWith("tie:")
     ? (() => {
         const row = core.relationships.get(moment.causeId);
-        return row ? (lastTogether(row) ?? undefined) : undefined;
+        return row ? (lastMetOnRow(row) ?? undefined) : undefined;
       })()
     : undefined;
   const tieMet =
@@ -1251,6 +1261,21 @@ export function scheduleMoment(
       impact: moment.impact,
       reason: "no-type",
     };
+  // Which of the rules above stopped the day, kept for dev mode's trace.
+  const stopsBecause = interrupt
+    ? (
+        [
+          ["impact", moment.impact >= options.interruptImpact],
+          ["household", householdNews],
+          ["own-record", ownNews],
+          ["met-here", metHere],
+          ["tie", tieMet],
+          ["stops-day", stopsDay],
+        ] as const
+      )
+        .filter(([, holds]) => holds)
+        .map(([rule]) => rule)
+    : [];
   const live = options.mode === "live";
   const outcome =
     !bindings.length || away
@@ -1266,6 +1291,7 @@ export function scheduleMoment(
     outcome,
     mode: options.mode,
     interrupt,
+    ...(stopsBecause.length ? { stopsBecause } : {}),
     stopsSkip: !live && interrupt,
     rank,
     pace,

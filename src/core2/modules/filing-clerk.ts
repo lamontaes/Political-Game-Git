@@ -65,6 +65,36 @@ export interface FilingClerk {
   readonly recordId: string;
 }
 
+const filingOfficers = new WeakMap<
+  object,
+  { date: string; ids: ReadonlySet<string> }
+>();
+
+/**
+ * The people seated at a filing counter because no record names one (the
+ * election chief and the counter officers drawn from the world's seed). They
+ * take the filings of the races they staff, so they never stand in them: the
+ * pool of people who weigh running leaves them out.
+ */
+export function filingOfficerIds(api: CoreAPI): ReadonlySet<string> {
+  const held = filingOfficers.get(api.state);
+  if (held?.date === api.state.date) return held.ids;
+  const ids = new Set<string>();
+  if (api.state.modules.has(EXECUTIVE_MODULE_ID))
+    for (const row of api
+      .moduleState(EXECUTIVE_MODULE_ID)
+      .table("agencyHeads")
+      .rows() as unknown as { post: string; holderId: string }[])
+      if (
+        row.post === ELECTION_CHIEF_POST ||
+        row.post.startsWith(`${LOCAL_FILING_OFFICER_POST}:`) ||
+        row.post.startsWith(`${RULE_FILING_OFFICER_POST}:`)
+      )
+        ids.add(row.holderId);
+  filingOfficers.set(api.state, { date: api.state.date, ids });
+  return ids;
+}
+
 const living = (core: CoreState, personId: string | null | undefined) =>
   !!personId && core.people.get(personId)?.alive === true;
 

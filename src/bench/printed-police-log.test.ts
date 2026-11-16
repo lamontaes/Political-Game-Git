@@ -118,83 +118,97 @@ it("a town with no earlier reports compares no month and says nothing of the usu
       `${where}: ${story.id} says nothing of the usual`,
     ).not.toMatch(/usual|more than|fewer than/);
   }
-}, 900_000);
+  // Limit near twice the slowest run (train-gate): 61.0 s alone, 49.9 s
+  // beside the file's other cases (Nov 16).
+}, 120_000);
 
+// Limits near twice the slowest of three runs (train-gate). Wendell (pl1):
+// 100.1 s alone, 95.3 s beside the file's other cases, 94.8 s on CI (#9544).
+// Hesperia (pl8): 68.2 s alone, 69.2 s beside, 67.8 s on CI.
+const SLIDE_LIMIT_MS: Readonly<Record<string, number>> = {
+  pl1: 200_000,
+  pl8: 140_000,
+};
 for (const seed of ["pl1", "pl8"])
-  it(`the police log slides with the town's usual (seed ${seed})`, () => {
-    const { core, api, wire, where } = playedWire(seed);
-    expect(
-      wire.size,
-      `${where}: no police log reached the wire`,
-    ).toBeGreaterThan(0);
-    const compared = [...wire.values()].filter((facts) => facts.vsUsual);
-    expect(compared.length, `${where}: no month was compared`).toBeGreaterThan(
-      0,
-    );
-    const floor = pressParameter("briefUsualFloor");
-    const printed = (
-      api.moduleState("news").table("stories").rows() as unknown as {
-        id: string;
-        kind: string;
-        facts: Record<string, unknown>;
-      }[]
-    ).filter(
-      (story) =>
-        story.kind === "press.printed" &&
-        String(story.facts.sourceRecordId).startsWith("police-log:"),
-    );
-    for (const story of printed) {
-      const facts = wire.get(String(story.facts.sourceRecordId))!;
-      if (facts.vsUsual)
-        expect(
-          Number(facts.vsUsual),
-          `${where}: ${story.id} printed with no space`,
-        ).toBeGreaterThan(floor);
-      const worded = wordPrintedStory(core, story)!;
-      const text = (worded.paragraphs ?? [worded.lede ?? ""]).join(" ");
-      // Every printed log has its text, not a headline alone.
-      expect(worded.lede, `${where}: ${story.id} has no text`).toBeTruthy();
-      // The figures in one log add up: the extra over the usual is the
-      // month's count, and no kind is said to have "cases".
-      const more = new RegExp(`(${NUMBER}) more than`).exec(text);
-      const usual = new RegExp(`about (${NUMBER})`).exec(text);
-      const total = new RegExp(`(${NUMBER}) (?:police )?reports`).exec(text);
-      if (more && usual && total)
-        expect(
-          figure(more[1]!) + figure(usual[1]!),
-          `${where}: ${story.id}: ${text}`,
-        ).toBe(figure(total[1]!));
-      expect(text, where).not.toMatch(/vandalism cases|busier/);
-      // A month is compared with the town's usual only once the usual rests
-      // on enough closed months, and only where the month stands off it by
-      // more than the town's own months do from their mean.
-      if (/usual/.test(text)) {
-        expect(
-          Number(facts.monthsOfRecord),
-          `${where}: ${story.id}: said "usual" on a short record: ${text}`,
-        ).toBeGreaterThanOrEqual(pressParameter("briefUsualMinMonths"));
-        if (more)
+  it(
+    `the police log slides with the town's usual (seed ${seed})`,
+    () => {
+      const { core, api, wire, where } = playedWire(seed);
+      expect(
+        wire.size,
+        `${where}: no police log reached the wire`,
+      ).toBeGreaterThan(0);
+      const compared = [...wire.values()].filter((facts) => facts.vsUsual);
+      expect(
+        compared.length,
+        `${where}: no month was compared`,
+      ).toBeGreaterThan(0);
+      const floor = pressParameter("briefUsualFloor");
+      const printed = (
+        api.moduleState("news").table("stories").rows() as unknown as {
+          id: string;
+          kind: string;
+          facts: Record<string, unknown>;
+        }[]
+      ).filter(
+        (story) =>
+          story.kind === "press.printed" &&
+          String(story.facts.sourceRecordId).startsWith("police-log:"),
+      );
+      for (const story of printed) {
+        const facts = wire.get(String(story.facts.sourceRecordId))!;
+        if (facts.vsUsual)
           expect(
-            figure(more[1]!),
-            `${where}: ${story.id}: compared inside the town's own spread: ${text}`,
-          ).toBeGreaterThanOrEqual(Number(facts.spread));
+            Number(facts.vsUsual),
+            `${where}: ${story.id} printed with no space`,
+          ).toBeGreaterThan(floor);
+        const worded = wordPrintedStory(core, story)!;
+        const text = (worded.paragraphs ?? [worded.lede ?? ""]).join(" ");
+        // Every printed log has its text, not a headline alone.
+        expect(worded.lede, `${where}: ${story.id} has no text`).toBeTruthy();
+        // The figures in one log add up: the extra over the usual is the
+        // month's count, and no kind is said to have "cases".
+        const more = new RegExp(`(${NUMBER}) more than`).exec(text);
+        const usual = new RegExp(`about (${NUMBER})`).exec(text);
+        const total = new RegExp(`(${NUMBER}) (?:police )?reports`).exec(text);
+        if (more && usual && total)
+          expect(
+            figure(more[1]!) + figure(usual[1]!),
+            `${where}: ${story.id}: ${text}`,
+          ).toBe(figure(total[1]!));
+        expect(text, where).not.toMatch(/vandalism cases|busier/);
+        // A month is compared with the town's usual only once the usual rests
+        // on enough closed months, and only where the month stands off it by
+        // more than the town's own months do from their mean.
+        if (/usual/.test(text)) {
+          expect(
+            Number(facts.monthsOfRecord),
+            `${where}: ${story.id}: said "usual" on a short record: ${text}`,
+          ).toBeGreaterThanOrEqual(pressParameter("briefUsualMinMonths"));
+          if (more)
+            expect(
+              figure(more[1]!),
+              `${where}: ${story.id}: compared inside the town's own spread: ${text}`,
+            ).toBeGreaterThanOrEqual(Number(facts.spread));
+        }
+        appendFileSync(
+          path.join(tmpdir(), "printed-police-log-proof.txt"),
+          `${where}: ${story.facts.sourceRecordId} vsUsual ${facts.vsUsual ?? "none"}: ${worded.headline} | ${text}\n`,
+        );
       }
+      // Every month the wire carried, printed or not, against the town's usual.
+      const printedIds = new Set(
+        printed.map((story) => String(story.facts.sourceRecordId)),
+      );
+      for (const [id, facts] of [...wire.entries()].sort())
+        appendFileSync(
+          path.join(tmpdir(), "printed-police-log-proof.txt"),
+          `${where}: MONTH ${id} vsUsual ${facts.vsUsual ?? "none"} usual ${facts.usual ?? "none"} ${printedIds.has(id) ? "PRINTED" : "not printed"}\n`,
+        );
       appendFileSync(
         path.join(tmpdir(), "printed-police-log-proof.txt"),
-        `${where}: ${story.facts.sourceRecordId} vsUsual ${facts.vsUsual ?? "none"}: ${worded.headline} | ${text}\n`,
+        `${where}: ${wire.size} months on the wire, ${compared.length} compared, ${printed.length} printed; vsUsual ${compared.map((f) => f.vsUsual).join(" ")}\n`,
       );
-    }
-    // Every month the wire carried, printed or not, against the town's usual.
-    const printedIds = new Set(
-      printed.map((story) => String(story.facts.sourceRecordId)),
-    );
-    for (const [id, facts] of [...wire.entries()].sort())
-      appendFileSync(
-        path.join(tmpdir(), "printed-police-log-proof.txt"),
-        `${where}: MONTH ${id} vsUsual ${facts.vsUsual ?? "none"} usual ${facts.usual ?? "none"} ${printedIds.has(id) ? "PRINTED" : "not printed"}\n`,
-      );
-    appendFileSync(
-      path.join(tmpdir(), "printed-police-log-proof.txt"),
-      `${where}: ${wire.size} months on the wire, ${compared.length} compared, ${printed.length} printed; vsUsual ${compared.map((f) => f.vsUsual).join(" ")}\n`,
-    );
-  }, 900_000);
+    },
+    SLIDE_LIMIT_MS[seed],
+  );

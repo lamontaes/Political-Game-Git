@@ -50,9 +50,7 @@
  * adds over Medicaid's share is paid first, under ids that cite the
  * requirement. The expansion's and the requirement's coverage links are
  * carried by those records (links.json carriedBy), so the web does not run
- * them. Medicaid coverage is not an employer plan: the coverage engine reads
- * no Medicaid law into any worker's employer plan in any place
- * (EMPLOYER_PLAN_LEAVES_OUT). A household in another place the world keeps
+ * them. A household in another place the world keeps
  * (the places around the town), whose coverage the reach does not keep,
  * meets the expansion through the place-level row on the share sent to
  * collections, its one path there.
@@ -88,6 +86,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  townStatePlaces,
   MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
@@ -291,7 +290,7 @@ interface Household {
   readonly weight: number;
   readonly incomeFifth: number;
   readonly members: readonly Person[];
-  /** Whether the household's members' Medicaid coverage is read from their own records (the town's, whose coverage the law reach keeps). */
+  /** Whether the household's members' Medicaid coverage is read from their own records (the town's and its state's places around it, whose coverage the law reach keeps). */
   readonly ownMedicaid: boolean;
 }
 
@@ -334,8 +333,9 @@ function medicalSellers(api: CoreAPI, placeId: string): string[] {
  * Each person's plan today, full or counted, by the same rule: Medicare at
  * its age, Medicaid where the law reach keeps their coverage
  * (coverageSpellsNow, by person id), an employer plan, or none. Their own
- * Medicaid record is read in the town, the place whose residents' coverage
- * the reach keeps; null spells mean the world does not model it.
+ * Medicaid record is read in the places whose residents' coverage the reach
+ * keeps (the town and the places around it in its state, `townStatePlaces`);
+ * null spells mean the world does not model it.
  */
 function plans(
   api: CoreAPI,
@@ -348,11 +348,15 @@ function plans(
   const spells = coverageSpellsNow(api);
   const ended = medicaidCoverageSpells(api, ENDED_BY_REQUIREMENT);
   const medicare = api.parameter("healthMedicareAge");
-  const town = api.state.modules.has(LAWS_MODULE_ID)
-    ? lawChain(api).townPlaceId
+  // The places whose coverage the reach keeps: the town and the places
+  // around it in its state, the same list the expansion's handler covers.
+  const kept = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(
+        townStatePlaces(api, lawChain(api).townPlaceId, lawChain(api).stateKey),
+      )
     : null;
   return {
-    ownMedicaid: (placeId) => spells !== null && placeId === town,
+    ownMedicaid: (placeId) => spells !== null && !!kept?.has(placeId),
     endedByRequirement: (personId, plan) =>
       (plan === "employer" || plan === "none") &&
       !!spellOn(ended?.get(personId), today),
@@ -364,21 +368,10 @@ function plans(
   };
 }
 
-/**
- * What every worker's employer plan leaves out of the coverage engine's
- * health.uninsured-pct read, in every place: the expansion as a moderator
- * (its halving of unemployment's link), since Medicaid coverage is not an
- * employer plan. A worker who loses a job loses the plan whether or not
- * Medicaid then covers them; the reach's coverage record catches them in the
- * town, and the place-level medical-debt row carries the expansion elsewhere.
- */
 // stopgapId: SG-WEB-uninsured-share-misses-medicaid-coverage — the web no
 // longer runs the expansion's or the work requirement's uninsured links (the
 // coverage records carry them), so a place's health.uninsured-pct, and the
 // graduation link that reads it, miss the Medicaid coverage those records hold.
-export const EMPLOYER_PLAN_LEAVES_OUT: ReadonlySet<string> = new Set(
-  data.personLevel.employerPlanLeavesOut.moderators,
-);
 
 /**
  * Everyone the pass bills this month, full and counted, by household: the

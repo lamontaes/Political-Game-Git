@@ -16,7 +16,7 @@ import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import type { EventAppraisal } from "../core2/emotion";
-import { familyFactsOf, formerKin, lastTogether } from "../core2/closeness";
+import { familyFactsOf, formerKin, lastMetOnRow } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -53,7 +53,7 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
-import { ADDRESS_FACT } from "./opening-facts";
+import { saidOf } from "./address-render";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import {
@@ -413,7 +413,7 @@ export function createDirector(
       ties.set(id, {
         otherId: row.actorId === actor.id ? row.otherId : row.actorId,
         level: row.level,
-        lastContact: lastTogether(row) ?? undefined,
+        lastContact: lastMetOnRow(row) ?? undefined,
       });
     }
     return {
@@ -588,7 +588,7 @@ export function createDirector(
         home.has(otherId),
       );
       thread.closeness = row.level;
-      thread.lastContact = lastTogether(row) ?? thread.lastContact;
+      thread.lastContact = lastMetOnRow(row) ?? thread.lastContact;
     }
     // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
@@ -1102,7 +1102,7 @@ export function createDirector(
       const prior = before.ties.get(id);
       const delta = row.level - (prior?.level ?? zero);
       const contacted =
-        lastTogether(row) === date && prior?.lastContact !== date;
+        lastMetOnRow(row) === date && prior?.lastContact !== date;
       if (delta === zero && !contacted) continue;
       const thread = ensureThread(book, otherId);
       const knew = book.keptFacts.get(
@@ -1152,7 +1152,7 @@ export function createDirector(
       thread.tone =
         delta > zero ? "rising" : delta < zero ? "souring" : thread.tone;
       thread.closeness = row.level;
-      thread.lastContact = lastTogether(row) ?? thread.lastContact;
+      thread.lastContact = lastMetOnRow(row) ?? thread.lastContact;
       knewFact(book, otherId, date, "recorded", causeId);
     }
 
@@ -1671,14 +1671,13 @@ export function createDirector(
               param(row.everyParameter),
               date,
             ),
-          // The same person is not cast again inside the scheduler's window
-          // for the same scene with the same people: the next with a reason is.
-          castDue: (id, row) =>
+          // The same person does not tell the player the same record twice: a
+          // new record is a new cause, so a neighbor who shares another cause
+          // is cast again, and the next with a reason is too.
+          castDue: (id, row, record) =>
             !!row.recast ||
-            spacingAllows(
-              ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
-              SITUATION_LIBRARY.scheduling.repeatDays,
-              date,
+            !ledger.circumstanceLast.has(
+              `${book.personId}|cast|${id}|${record.id}`,
             ),
           byKind: circumstanceRows,
         },
@@ -1739,7 +1738,10 @@ export function createDirector(
       // met as a journal line does not come again the next day.
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
-      ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+      ledger.circumstanceLast.set(
+        `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
+        date,
+      );
       if (pick.row.keepsDays)
         ledger.circumstanceLast.set(
           `${book.personId}|${pick.row.id}|${pick.record.id}`,
@@ -1830,8 +1832,7 @@ export function createDirector(
       return (
         // A speech heard plays only when its record kept the words.
         row.said
-          ? typeof cause?.facts?.[ADDRESS_FACT.text] === "string" &&
-              !!cause.facts[ADDRESS_FACT.text]
+          ? saidOf(cause?.facts).length > P.zero
           : row.roles.some((role) =>
               role.personIds.some((id) => id !== personId),
             )

@@ -32,6 +32,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
 import type { LawRowInput } from "../core2/laws-starting";
@@ -102,8 +103,10 @@ import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
+  COVERAGE_MODULE_ID,
   HEALTH_MODULE,
   healthReport,
+  type MedicalBillRow,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
@@ -364,6 +367,34 @@ function levelRow(rows: readonly LawRowInput[], date: string) {
 }
 
 /** Money in a law is whole cents: a wage floor of 1001 is $10.01 an hour, and 10.01 is not an amount. */
+/**
+ * A chamber's seats the offices engine holds open, from its own vacancy rows: a seat of the body's own
+ * office, or a seat of Congress the officials engine seats (`unheld`), whose vacancy names its state's
+ * office and a seat id of the same kind as the roster's (`seat:<state>:us-house:<district>`).
+ */
+function seatsHeldOpen(
+  api: CoreAPI,
+  chamber: string,
+  roster: readonly { readonly seatId: string }[],
+): number {
+  const kinds = new Set(roster.map((term) => term.seatId.split(":")[2]));
+  const vacancies = api.moduleState(OFFICES_MODULE_ID).table("vacancies");
+  return (["open", "awaiting-election"] as const)
+    .flatMap(
+      (status) =>
+        vacancies.query("byStatus", [status]) as unknown as {
+          officeId: string;
+          seatId: string;
+          unheld?: unknown;
+        }[],
+    )
+    .filter(
+      (row) =>
+        row.officeId === chamber ||
+        (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
+    ).length;
+}
+
 function wholeMoney(unit: string | undefined, value: number): void {
   if (unit?.startsWith("minor") && !Number.isSafeInteger(value))
     throw new Error("An amount of money in a law is in whole cents.");
@@ -610,7 +641,55 @@ export class DevMode {
       unit: row.unit ?? "",
       effectiveDate,
     });
-    return { mark, law: row, reach: this.reach(row.id) };
+    return {
+      mark,
+      law: row,
+      reach: this.reach(row.id),
+      replaced: this.replacedBy(row).map((ended) => this.endedLaw(ended)),
+    };
+  }
+
+  /**
+   * The law rows a row took over from at its own level and jurisdiction: the
+   * rows on its series in force the day before it took effect (each tier of a
+   * tiered law). A row that sets a law to nothing, lowers it or raises it reads
+   * what the law it replaced reached through these. Reads only.
+   */
+  private replacedBy(row: LawRowInput): LawRowInput[] {
+    if (!has(this.core, LAWS_MODULE_ID)) return [];
+    const before = addDays(makeIsoDate(row.effectiveDate), -1);
+    return (
+      this.api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .query("bySeriesOnly", [row.series]) as unknown as LawRowInput[]
+    ).filter(
+      (other) =>
+        other.id !== row.id &&
+        other.jurisdiction === row.jurisdiction &&
+        other.level === row.level &&
+        inForceOn(other, before),
+    );
+  }
+
+  /**
+   * A law row a bill or a dev-mode law ended or replaced, with its reach: who
+   * it reached while in force and the part of that which has ended
+   * (`reach.ended`, read from the end days the engines record). Reads only.
+   */
+  private endedLaw(row: LawRowInput) {
+    return {
+      id: row.id,
+      series: row.series,
+      level: row.level,
+      jurisdiction: row.jurisdiction,
+      value: row.value,
+      unit: row.unit ?? "",
+      effectiveDate: row.effectiveDate,
+      endDate: row.endDate,
+      inForce: inForceOn(row, this.core.date),
+      reach: this.reach(row.id),
+    };
   }
 
   /**
@@ -653,20 +732,19 @@ export class DevMode {
       .table("bills")
       .get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
-    const laws = has(this.core, LAWS_MODULE_ID)
-      ? (
-          api
-            .moduleState(LAWS_MODULE_ID)
-            .table("laws")
-            .rows() as unknown as LawRowInput[]
-        ).filter((row) =>
-          // The bill's own id where the law row keeps it; else the body's designation.
-          row.terms?.enactedByBill !== undefined
-            ? row.terms.enactedByBill === bill.id
-            : row.terms?.enactedBy === bill.number &&
-              row.effectiveDate >= bill.introduced,
-        )
+    const rows = has(this.core, LAWS_MODULE_ID)
+      ? (api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .rows() as unknown as LawRowInput[])
       : [];
+    const laws = rows.filter((row) =>
+      // The bill's own id where the law row keeps it; else the body's designation.
+      row.terms?.enactedByBill !== undefined
+        ? row.terms.enactedByBill === bill.id
+        : row.terms?.enactedBy === bill.number &&
+          row.effectiveDate >= bill.introduced,
+    );
     const ending = billEnding(api, bill.id);
     const nameOf = (id: string) => {
       const person = this.core.people.get(id);
@@ -710,7 +788,17 @@ export class DevMode {
         effectiveDate: row.effectiveDate,
         inForce: row.effectiveDate <= this.core.date,
         reach: this.reach(row.id),
+        /** The rows it took over from at its level, with what they reached and what of that ended. */
+        replaced: this.replacedBy(row).map((ended) => this.endedLaw(ended)),
       })),
+      /**
+       * The law rows the bill's repeal sections ended (`repealLaw` keeps the
+       * row with its end day and the bill's id), with what each reached while
+       * in force and what of that has ended.
+       */
+      ended: rows
+        .filter((row) => row.terms?.repealedByBill === bill.id)
+        .map((row) => this.endedLaw(row)),
     };
   }
 
@@ -1103,7 +1191,18 @@ export class DevMode {
     const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     const bill = table.get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
-    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    const tallies: {
+      chamber: string;
+      yes: number;
+      no: number;
+      /** The member set to abstain so the roll shows the margin asked, and why: voting members and seats held open. */
+      abstained?: {
+        key: string;
+        name: string;
+        members: number;
+        vacant: number;
+      };
+    }[] = [];
     // The yes votes go first to the members who sit on the bill's committee in that chamber (where
     // it has one), then to the most senior: a bill the chamber backs is backed in its committee
     // too, and every stage votes through the members' own votes at the one margin.
@@ -1129,8 +1228,27 @@ export class DevMode {
         new Set(committeeMemberKeys(api, billId, chamber)),
       );
       // Members named in `votes` vote as named, a dev's decision; the others fill the margin
-      // (negative to defeat), or vote their own position where no margin was given.
-      const named = options.votes ?? {};
+      // (negative to defeat), or vote their own position where no margin was given. A vote the
+      // player already chose with their own press (bill-stage.ts chooseOwnVote, the meeting)
+      // stands as named: dev mode never overwrites the player's press (Account lead, Nov 16).
+      const player = this.player?.personId ?? (api.state as CoreState).playerId;
+      const pressed = player
+        ? (api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("choices")
+            .get(
+              `${billId}|${player}${override ? "|override" : ""}`,
+            ) as unknown as { vote?: string } | undefined)
+        : undefined;
+      const named: Readonly<Record<string, "yes" | "no" | "abstain">> = {
+        ...(options.votes ?? {}),
+        ...(player &&
+        (pressed?.vote === "yes" ||
+          pressed?.vote === "no" ||
+          pressed?.vote === "abstain")
+          ? { [player]: pressed.vote }
+          : {}),
+      };
       const free = roster.filter((term) => !named[memberKey(term)]);
       const namedYes = roster.filter(
         (term) => named[memberKey(term)] === "yes",
@@ -1142,6 +1260,16 @@ export class DevMode {
       if (wanted !== undefined) {
         const total = Math.round((roster.length + wanted) / 2);
         yes = Math.max(0, Math.min(free.length, total - namedYes));
+      }
+      // Yes and no on a roster cannot differ by the margin asked when the two have opposite parity (434
+      // voting members after a death, a Senate of 100, and an odd margin): one free member then abstains,
+      // the last yes when the count runs one over the margin or the first no when it runs one under, so
+      // the roll shows the margin asked and the result names who abstained and why (Account lead, Nov 16).
+      let abstainAt = -1;
+      if (wanted !== undefined) {
+        const over = namedYes + yes - (namedNo + free.length - yes) - wanted;
+        if (over === 1 && yes > 0) abstainAt = yes - 1;
+        else if (over === -1 && yes < free.length) abstainAt = yes;
       }
       let ownYes = 0;
       let ownNo = 0;
@@ -1155,7 +1283,7 @@ export class DevMode {
             api,
             billId,
             memberKey(term),
-            index < yes ? "yes" : "no",
+            index === abstainAt ? "abstain" : index < yes ? "yes" : "no",
             override,
           );
       });
@@ -1163,9 +1291,24 @@ export class DevMode {
         const cast = named[memberKey(term)];
         if (cast) castMemberVote(api, billId, memberKey(term), cast, override);
       }
-      return wanted === undefined
-        ? { chamber, yes: namedYes + ownYes, no: namedNo + ownNo }
-        : { chamber, yes: namedYes + yes, no: namedNo + free.length - yes };
+      if (wanted === undefined)
+        return { chamber, yes: namedYes + ownYes, no: namedNo + ownNo };
+      const abstainer = free[abstainAt];
+      return {
+        chamber,
+        yes: namedYes + yes - (abstainAt >= 0 && abstainAt < yes ? 1 : 0),
+        no: namedNo + free.length - yes - (abstainAt >= yes ? 1 : 0),
+        ...(abstainer
+          ? {
+              abstained: {
+                key: memberKey(abstainer),
+                name: `${abstainer.identity.givenName} ${abstainer.identity.familyName}`,
+                members: roster.length,
+                vacant: seatsHeldOpen(api, chamber, roster),
+              },
+            }
+          : {}),
+      };
     };
     const chambers = chambersOf(api, bill);
     // Whether this body has an executive with a veto: a county board, or a mayor where the state
@@ -1658,7 +1801,7 @@ export class DevMode {
         record?.facts?.signed ?? petitionOf(this.api, filingId)!.signed,
       ),
       gathers: Number(
-        record?.facts?.gathers ?? signaturesToGather(petition.needed),
+        record?.facts?.gathers ?? signaturesToGather(this.api, filingId),
       ),
       daysLeft: record ? Number(record.facts?.daysLeft) : null,
       canAddAfterNextTurn: record
@@ -2078,6 +2221,8 @@ export class DevMode {
       if (
         input.subject &&
         facts.lawId !== input.subject &&
+        // A repeal's end day names the row it ended apart from the row that governs now.
+        facts.endedLawId !== input.subject &&
         facts.billId !== input.subject &&
         facts.contestId !== input.subject
       )
@@ -2341,6 +2486,53 @@ export class DevMode {
         .map((id) => core.durableLog.get(id))
         .filter((row) => row !== undefined),
       pending: this.pending.get(personId) ?? null,
+      laws: this.lawsOn(personId, person.householdId),
+    };
+  }
+
+  /**
+   * The laws that reached one person, current and ended, from the law reach's
+   * own reader (`reachOn`, law-reach/host.ts), each with the law row it names
+   * (its series, level, jurisdiction and dates), and the person's line on
+   * their household's latest medical bill (the plan it priced them on). A
+   * person who lives outside the town opens here like one in it. Reads only.
+   */
+  private lawsOn(personId: string, householdId: string) {
+    const api = this.api;
+    const laws = has(this.core, LAWS_MODULE_ID)
+      ? api.moduleState(LAWS_MODULE_ID).table("laws")
+      : null;
+    const reached = reachOn(api, personId).map((row) => {
+      const law = laws?.get(row.lawId) as unknown as LawRowInput | undefined;
+      return {
+        ...row,
+        law: law
+          ? {
+              series: law.series,
+              level: law.level,
+              jurisdiction: law.jurisdiction,
+              value: law.value,
+              effectiveDate: law.effectiveDate,
+              endDate: law.endDate ?? null,
+            }
+          : null,
+      };
+    });
+    const bill = has(this.core, COVERAGE_MODULE_ID)
+      ? (
+          api
+            .moduleState(COVERAGE_MODULE_ID)
+            .table("medicalBills")
+            .rows() as unknown as MedicalBillRow[]
+        ).find((row) => row.householdId === householdId)
+      : undefined;
+    const line = bill?.members.find((m) => m.personId === personId);
+    return {
+      reached,
+      medicalBill:
+        bill && line
+          ? { billId: bill.id, date: bill.date, placeId: bill.placeId, ...line }
+          : null,
     };
   }
 

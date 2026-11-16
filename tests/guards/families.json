@@ -32,6 +32,7 @@
     "src/core2/bug-report.ts",
     "src/core2/gov-test-report.ts",
     "src/core2/law-test-start.ts",
+    "src/core2/resident-adults-test-kit.ts",
     "src/core2/free-block.ts",
     "src/core2/focus.ts",
     "src/core2/gov-rules/place-population.ts",
@@ -292,6 +293,7 @@
         "src/core2/modules/life.ts",
         "src/core2/modules/housing.ts",
         "src/core2/modules/health.ts",
+        "src/core2/modules/coverage.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/trait-decision-table.ts",
         "src/core2/modules/views.ts",
@@ -307,7 +309,8 @@
         "src/core2/modules/moves.ts",
         "src/core2/person-work.ts",
         "src/core2/home-distance.ts",
-        "src/core2/life-stake-rule.ts"
+        "src/core2/life-stake-rule.ts",
+        "src/core2/coverage-module-id.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -404,7 +407,8 @@
         "src/core2/household-cost.ts",
         "src/core2/life-plan-readers.ts",
         "src/core2/life-stake-rule.ts",
-        "src/core2/life-stakes.ts"
+        "src/core2/life-stakes.ts",
+        "src/core2/coverage-module-id.ts"
       ]
     },
     {
