@@ -9,8 +9,9 @@
  * (the facts the wire carried, read by the press's own function), the share
  * of a brief's space the desk gave it, and the closed months the usual rests
  * on; the crime month must show the fraction carried in with each kind's
- * expected count, and the counted groups it happened to. Place and seed are
- * named.
+ * expected count, and the counted groups it happened to. The log is reached
+ * the way a player in dev mode reaches it: Calendar, Printed stories, its id.
+ * Place and seed are named.
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -19,6 +20,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import { DevMode } from "./dev-mode";
+import printedStories from "./dev-views/printed-stories";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
@@ -69,6 +71,17 @@ it("Trace opens a printed police log to its usual, its space, its months and who
   expect(log?.facts.sourceRecordId, `${where}: the newest police log`).toBe(
     "police-log:2025-07",
   );
+
+  // Dev mode's Printed stories panel lists it, so its id opens Trace in play.
+  const listed = printedStories.routes!["GET printed-stories"]!({
+    mode: dev,
+    q: () => "",
+    input: {},
+  }) as { id: string; source: string }[];
+  expect(
+    listed.find((row) => row.id === log!.id)?.source,
+    `${where}: Printed stories lists the log`,
+  ).toBe("police-log:2025-07");
 
   const node = dev.trace(log!.id);
   const reason = (key: string) =>
