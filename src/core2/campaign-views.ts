@@ -373,6 +373,14 @@ export interface StanceProfile {
   readonly life?: LifeStake;
   /** The world whose country's view of each question (`popularity`) their stance carries, as every person's does. */
   readonly seed?: string;
+  /**
+   * A counted voter's share of what their group has heard or lived since the
+   * opening, on the scale of a view (`stanceViewWeight` times the group's
+   * signed stance, src/core2/counted-news-views.ts): the term a full person's
+   * `viewOn` adds from their own stance. Read at each call, so it follows the
+   * group's row as it moves.
+   */
+  readonly heard?: (question: string) => number;
 }
 
 /** The survey's faith and degree loadings by question, read here and by the views engine's opening record. */
@@ -422,7 +430,8 @@ export function groupStance(
       personStance(lean, question) +
         (profile?.seed === undefined ? 0 : popularity(question, profile.seed)) +
         loadingShift(profile, question) +
-        stakeShift(profile?.life, question),
+        stakeShift(profile?.life, question) +
+        (profile?.heard?.(question) ?? 0),
     ),
   );
 }

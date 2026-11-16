@@ -11,10 +11,15 @@
  * both read the sitting reader too (closeness.ts `knownThroughRecords` and
  * `lastTogether`).
  *
+ * Dev mode's Focus view (src/bench/dev-views/person-focus.ts) reads the same
+ * rule and says why each of them chooses daily.
+ *
  * Pinned place and seed (Texas, 4846968, 8647-mason), the senate's sixteenth
  * member by id as the player; the first played week of February 2025.
  */
 import { expect, it } from "vitest";
+import { DevMode } from "../bench/dev-mode";
+import personFocus from "../bench/dev-views/person-focus";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { knownThroughRecords, lastTogether } from "./closeness";
@@ -28,7 +33,7 @@ import type { PersonId } from "./types";
 
 it("colleagues the player sat with lately choose daily", () => {
   setBookkeeping(false);
-  const { core } = buildBenchWorld("8647-mason", gameStartDate(), {
+  const { core, placeId } = buildBenchWorld("8647-mason", gameStartDate(), {
     twoLevel: true,
     placeKey: "4846968",
   });
@@ -66,4 +71,25 @@ it("colleagues the player sat with lately choose daily", () => {
   );
   expect(seen.length).toBeGreaterThanOrEqual(20);
   expect(seen.filter((id) => !acted.has(id))).toEqual([]);
+  // Dev mode's Focus view says why, by the same rule: each colleague seen
+  // lately chooses daily as one the player sees (in focus or in the
+  // player's circle), with the last day
+  // the two were together by any record.
+  const dev = new DevMode(core, undefined, undefined, placeId);
+  const route = personFocus.routes!["GET person-focus"]!;
+  for (const id of seen) {
+    const shown = route({ mode: dev, q: () => id, input: {} }) as {
+      because: string | null;
+      inPlayerCircle: boolean;
+      lastTogether: string | null;
+      daysSinceTogether: number | null;
+      daysAllowed: number;
+    };
+    expect(shown.inPlayerCircle, id).toBe(true);
+    expect(shown.lastTogether, id).toBe(
+      lastTogether(core, player, id as PersonId),
+    );
+    if (shown.daysSinceTogether! <= shown.daysAllowed)
+      expect(["focus-person", "player-circle"], id).toContain(shown.because);
+  }
 }, 120_000);
