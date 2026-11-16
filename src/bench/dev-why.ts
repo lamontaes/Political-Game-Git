@@ -40,6 +40,7 @@ import type {
   DecisionResult,
   LogRecord,
 } from "../core2/types";
+import type { ScheduleEntry } from "../director/scheduling";
 
 export interface WhyRow {
   readonly label: string;
@@ -751,4 +752,62 @@ export function whyPanels(
   if (found.engine === `${MACRO_MODULE_ID}.repricings`)
     return repricingPanels(core, String(record.facilityId));
   return [];
+}
+
+const STOPS_BECAUSE: Record<string, string> = {
+  impact: "it weighed enough to stop the day",
+  household: "the household's own record, met at home",
+  "own-record": "the person's own record, met where its scene is set",
+  "met-here": "a circumstance where the person is",
+  tie: "a tie that turned with someone just seen",
+  "stops-day": "a scene of its kind always stops its subject's day",
+};
+const OUTCOME_SAID: Record<string, string> = {
+  "scene-now": "staged, and it stops the day",
+  "scene-waiting": "staged, waiting for its setting to open",
+  "journal-line": "a Journal line, no scene",
+};
+
+/**
+ * How the story director staged a moment (owner, Nov 16: what a script
+ * traces, dev mode traces): the schedule row the director wrote for it,
+ * read as kept, never worked out again here.
+ */
+export function momentStagedPanel(
+  entry: ScheduleEntry | undefined,
+  impact: number,
+): WhyPanel {
+  if (!entry)
+    return {
+      title: "How the story staged it",
+      rows: [],
+      gap: "This moment has no schedule row: the director scored it but staged nothing for it.",
+    };
+  const rows: WhyRow[] = [
+    { label: "outcome", value: OUTCOME_SAID[entry.outcome] ?? entry.outcome },
+    ...entry.bindings.map((row) => ({
+      label: `scene ${row.typeKey}`,
+      value: `set at ${row.setting.kind}`,
+      id: row.setting.recordId,
+    })),
+    {
+      label: "stopped the day because",
+      value: entry.stopsBecause?.length
+        ? entry.stopsBecause
+            .map((rule) => STOPS_BECAUSE[rule] ?? rule)
+            .join("; ")
+        : "no rule held",
+    },
+    { label: "weight", value: Math.round(impact * 100) / 100 },
+    {
+      label: "rank among recent moments",
+      value: `${entry.rank}, room for ${entry.pace}`,
+    },
+    ...(entry.closed ? [{ label: "closed", value: entry.closed }] : []),
+    ...(entry.heldBack ?? []).map((row) => ({
+      label: `held back ${row.typeKey}`,
+      value: row.reason,
+    })),
+  ];
+  return { title: "How the story staged it", rows };
 }
