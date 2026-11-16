@@ -4,7 +4,7 @@
  * accepts a job, a home, a filing or any choice for the controlled person; the
  * engine offers, the player decides"). Pinned at Sherrodsville, Ohio
  * (3972242, seed "scan-3"): the first council petition needs 10 signatures
- * and a campaign gathers 15 (`signaturesToGather`), and nobody else is walking
+ * and a campaign gathers 10 (`signaturesToGather`: the clerk's count plus the signers off the roll, none here; it was 15 under the deleted half-again cushion), and nobody else is walking
  * the player's petition. The record is written on the last turn on which a
  * canvass shift a day (`petitionShiftYield`) can still close the gap; a
  * petition the count has filled never gets one. A yes ("I'll go out and knock
@@ -418,7 +418,7 @@ it("dev mode brings on the offer and traces what the engine read", () => {
   );
   expect(result.tellerKind).toBe("clerk");
   expect(result.signed).toBe(0);
-  expect(result.gathers).toBe(15);
+  expect(result.gathers).toBe(10);
   expect(result.canAddAfterNextTurn).toBe(0);
   expect(core.durableLog.has(toldId(filing.id))).toBe(true);
   const labels = controls.devCampaign;
