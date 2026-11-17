@@ -15,7 +15,22 @@ import {
 } from "./electorate-century";
 import { partyKeyIssues } from "./electorate-century-laws";
 import { gameStartDate } from "./game-start";
-import { stateParties } from "./modules/parties";
+import {
+  PARTIES_MODULE_ID,
+  openParties,
+  stateParties,
+  type TieRow,
+} from "./modules/parties";
+import campaignParameters from "./data/campaigns/parameters.json" with { type: "json" };
+import { setBookkeeping } from "./bookkeeping";
+import { buildPopulation } from "./population";
+import { createLifeCore } from "./life";
+import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
+import { openOffices } from "./modules/offices";
+import { openElections } from "./modules/elections";
+import { openCampaigns } from "./modules/campaigns";
+import { stanceLean } from "./officials-roster";
 
 const RUN = `history-parties:${Date.now()}`;
 
@@ -98,4 +113,76 @@ describe("the century's parties stand where their members stand", () => {
       `state party shares across ${named.join("; ")}`,
     ).toBe(shares.length);
   }, 120_000);
+  it("ties each adult to the party their own lean reaches toward, so how many take a party follows the world's parties, at drawn worlds", () => {
+    setBookkeeping(false);
+    const reach = (
+      campaignParameters as unknown as {
+        parameters: Record<string, { value: number }>;
+      }
+    ).parameters["partyIdentityReach"]!.value;
+    const shares: string[] = [];
+    const named: string[] = [];
+    for (let i = 0; i < 3; i += 1) {
+      const place = drawPlace(`${RUN}:ties:${i}`, "history-parties");
+      const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+      named.push(where);
+      const core = createLifeCore(
+        buildPopulation({
+          seed: place.seed,
+          placeKey: place.key,
+          startedAt: gameStartDate(),
+          minimumPeople: 200,
+        }),
+      );
+      setHistoryMode(core.seed, "century", gameStartDate(), place.state);
+      openLaws(core);
+      openOffices(core, core.seed, core.date);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      const api = coreAPI(core);
+      const at: Record<number, number> = {};
+      for (const party of centuryOf(core.seed, gameStartDate()).parties)
+        at[party.side] = stanceLean(party.positions.at(-1)!.position);
+      // A side with a party in this place (a place with no party labels has none).
+      const sides = new Set(
+        (
+          api
+            .moduleState(PARTIES_MODULE_ID)
+            .table("parties")
+            .rows() as unknown as {
+            side: number;
+          }[]
+        ).map((row) => row.side),
+      );
+      const ties = api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .rows() as unknown as TieRow[];
+      const adults = ties.filter((t) => t.personId !== core.playerId);
+      expect(adults.length, where).toBeGreaterThan(50);
+      for (const t of adults) {
+        const side = Math.sign(t.lean);
+        const reaches =
+          side !== 0 &&
+          sides.has(side) &&
+          at[side] !== undefined &&
+          Math.abs(t.lean) >= reach * Math.abs(at[side]!);
+        // A party exactly when their own lean reaches toward its position.
+        expect(t.tie === "party", `${where}: ${t.personId} at ${t.lean}`).toBe(
+          reaches,
+        );
+      }
+      shares.push(
+        (
+          adults.filter((t) => t.tie === "party").length / adults.length
+        ).toFixed(4),
+      );
+    }
+    // No fixed share: the count follows each world's people and parties.
+    expect(
+      new Set(shares).size,
+      `party shares ${shares.join(", ")} across ${named.join("; ")}`,
+    ).toBeGreaterThan(1);
+  }, 180_000);
 });
