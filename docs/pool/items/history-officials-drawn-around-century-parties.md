@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/history-officials-parties
-pr:
+pr: "#9968"
 after: history-officials-leans-from-the-century
 blocked-on:
 lead: elections
