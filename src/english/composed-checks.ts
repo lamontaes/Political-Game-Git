@@ -1195,6 +1195,49 @@ export const noCapitalAfterComma: ComposedCheck = (text) => {
   return found;
 };
 
+/**
+ * Two points of a speech with no turn between them (owner, Nov 16: "she just
+ * completely pivoted"): a body paragraph, after the first and before the
+ * close, that shares no subject word with the paragraph before it (places and
+ * people set aside) and does not open on a turn (`turnFrames`).
+ */
+export const topicsTurned: ComposedCheck = (text, sample) => {
+  if (!SPEECH_KINDS.includes(text.kind) || text.screens.length < 3) return [];
+  const frames = (data as unknown as { turnFrames: string[] }).turnFrames;
+  const names = new Set(
+    [
+      ...sample.people.map((person) => person.full),
+      ...sample.stateNames,
+      sample.townName,
+    ].flatMap((name) => subjectWords(name)),
+  );
+  const said = (at: number) =>
+    new Set(
+      text.screens[at]!.lines.flatMap((line) =>
+        subjectWords(line.text).filter((word) => !names.has(word)),
+      ),
+    );
+  const found: ComposedBreak[] = [];
+  for (let at = 2; at < text.screens.length - one; at += one) {
+    const opening = (text.screens[at]!.lines[zero]?.text ?? "")
+      .toLocaleLowerCase("en-US")
+      .replace(/[’]/g, "'");
+    if (frames.some((frame) => opening.includes(frame))) continue;
+    const before = said(at - one);
+    if ([...said(at)].some((word) => before.has(word))) continue;
+    found.push(
+      breakOf(
+        "topics-turned",
+        text,
+        at,
+        "a new point with no turn from the one before",
+        text.screens[at]!.lines[zero]?.text ?? "",
+      ),
+    );
+  }
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -1222,6 +1265,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "name-check-does-work": nameCheckDoesWork,
   "close-names-the-body": closeNamesTheBody,
   "no-capital-after-comma": noCapitalAfterComma,
+  "topics-turned": topicsTurned,
 };
 
 /** A composed rule's checks, as a list. */

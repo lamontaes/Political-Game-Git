@@ -405,13 +405,9 @@ function worldFacts(
   if (vice) facts["vice-president"] = vice;
   const speaker = named("US:us-house", (row) => row.leadership === "presiding");
   if (speaker) facts.speaker = speaker;
-  const past = (kindKey: string) =>
-    (president.pastFacts ?? []).find((row) => row.kind === kindKey);
-  // No home state: a speech names a place only where its section is about
-  // that place (owner, Nov 12: "Why Georgia?").
-  const prior = past(PRESIDENT_FACT.priorOffice);
-  if (prior?.facts?.title)
-    facts["prior-office"] = fact(prior.facts.title, prior.id);
+  // No home state and no past office here: a speech names a place or a past
+  // office only where its section is about it (owner, Nov 12: "Why
+  // Georgia?"; the turn to the states, priorStateFacts).
   // The year's subjects, the furthest moved first; a tie goes by name.
   const ranked = (claims: (topic: string) => readonly string[]) =>
     themeTopics
@@ -1236,6 +1232,43 @@ function conditionFigure(country: Country, topic: string): Facts {
     : {};
 }
 
+/**
+ * The bill that made a law this past year while the speaker held office,
+ * where the legislature engine's rows keep it: signed, or passed over a
+ * veto. Null for a law the opening's past made or one no executive signed.
+ */
+function deskOfLaw(
+  core: CoreState,
+  series: string,
+  yearAgo: string,
+  serviceStart: string,
+): BillRow | null {
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return null;
+  return (
+    (
+      coreAPI(core)
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    )
+      .filter(
+        (bill) =>
+          ["signed", "overridden"].includes(bill.status) &&
+          !!bill.passedOn &&
+          bill.passedOn > yearAgo &&
+          bill.passedOn >= serviceStart &&
+          bill.provisions.some(
+            (row) => row.series === series || row.question === series,
+          ),
+      )
+      .sort(
+        (a, b) =>
+          (b.passedOn ?? "").localeCompare(a.passedOn ?? "") ||
+          a.id.localeCompare(b.id),
+      )[P.zero] ?? null
+  );
+}
+
 /** The bills a person sponsored, newest first, from the legislature engine's rows. */
 function billsSponsoredBy(core: CoreState, personId: string): BillRow[] {
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
@@ -1589,6 +1622,7 @@ function conditionFacts(
   theme: string | null,
   pointQuestions: readonly string[],
   speakerId: string,
+  serviceStart: string,
 ): Facts {
   const api = coreAPI(core);
   const out: Facts = {};
@@ -1679,6 +1713,17 @@ function conditionFacts(
       questionLaw(enacted.row.series)!,
       enacted.row.id,
     );
+    // Said in the speaker's own voice where the legislature's record holds
+    // the bill that made it on their watch (Story #9750 part 4, unit 4;
+    // owner, Nov 16: "I'm proud to announce that ... under our
+    // administration"): signed by them, or passed over their veto.
+    const desk = deskOfLaw(core, enacted.row.series, yearAgo, serviceStart);
+    if (desk)
+      out[
+        desk.status === "overridden"
+          ? "condition-law-over-veto"
+          : "condition-law-signed"
+      ] = fact("yes", enacted.row.id, desk.id);
     out["condition-law-reached"] = {
       text: "yes",
       sourceRecordIds: [
@@ -2393,13 +2438,45 @@ export function planSpeech(
       ...(asks.length
         ? {
             asked: fact("yes", cited),
+            // No ask for a new law: the close says where the speaker stands on
+            // the final point instead (the Story lead's ruling, Nov 17: a
+            // bare "Thank you, {realm-bare}." says nothing).
+            ...(!(first.stance > P.zero && !first.law.inForce) &&
+            questionAbout(pointStands.at(-P.one)!.question)
+              ? {
+                  "last-point": fact(
+                    questionAbout(pointStands.at(-P.one)!.question)!,
+                    `question:${pointStands.at(-P.one)!.question}`,
+                  ),
+                }
+              : {}),
+            // An ask for a law not yet in force: a close may say "send me"
+            // or "I'll sign it" only of that (unit 4).
+            ...(first.stance > P.zero && !first.law.inForce
+              ? { "asked-for": fact("yes", cited) }
+              : {}),
             // The ask's own question by its name, said in the close.
             ...(questionAbout(first.question)
               ? { "asked-about": fact(questionAbout(first.question)!, cited) }
               : {}),
           }
         : {}),
-      ...bodyHold,
+      // Whether the speaker's party holds the body, said with the ask where
+      // there is one (unit 4): a close that names what is in front of the
+      // body and whether the votes are there outranks one that says either
+      // alone, so the hold is keyed apart from the bare one.
+      ...(asks.length && questionAbout(first.question)
+        ? Object.fromEntries(
+            Object.entries(bodyHold).map(([key, row]) => [
+              key === "party-holds-body"
+                ? "asked-holds-body"
+                : key === "party-lacks-body"
+                  ? "asked-lacks-body"
+                  : key,
+              row,
+            ]),
+          )
+        : bodyHold),
       ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
         ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
         : {}),
@@ -2541,9 +2618,6 @@ export function planSpeech(
       },
     ],
     occasion: () => {
-      const prior = (person.pastFacts ?? []).find(
-        (past) => past.kind === PRESIDENT_FACT.priorOffice,
-      );
       return [
         {
           key: "occasion",
@@ -2551,9 +2625,6 @@ export function planSpeech(
           joins: true,
           facts: {
             ...themeFacts,
-            ...(prior?.facts?.title
-              ? { "prior-office": fact(prior.facts.title, prior.id) }
-              : {}),
             ...(federal
               ? {}
               : conditionFacts(
@@ -2564,6 +2635,7 @@ export function planSpeech(
                   theme,
                   pointStands.map((stand) => stand.question),
                   person.id,
+                  speaker.serviceStart,
                 )),
           },
           moves: [
@@ -2808,11 +2880,15 @@ export function planSpeech(
         moves: [move("people")],
       },
     ],
+    // A past office is said only where it does work (unit 3; owner, Nov 16:
+    // "before I served the country at large, I served Delaware ... what was
+    // the point in that?"): in the turn to the states, by the state the
+    // speaker governed or served in the Senate, from the career record.
     states: () => [
       {
         key: "to-states",
         level: "states",
-        facts: {},
+        facts: priorStateFacts(person),
         moves: [move("to-states")],
       },
     ],
@@ -2999,6 +3075,25 @@ const SAYS_ASK_AGAIN: ReadonlySet<string> = new Set([
   "floor-speech",
   "campaign-speech",
 ]);
+
+/** A speaker's past office in a state, where the career record names one: governor or senator, and the state. */
+function priorStateFacts(person: PersonState): Facts {
+  const prior = (person.pastFacts ?? []).find(
+    (row) => row.kind === PRESIDENT_FACT.priorOffice,
+  );
+  const office = prior?.facts?.office;
+  const key = prior?.facts?.stateKey;
+  const state = key ? coreStateName(key.replace(/^US-/, "")) : null;
+  if (!prior || !state || (office !== "governor" && office !== "us-senate"))
+    return {};
+  return {
+    [office === "governor" ? "prior-governor" : "prior-senator"]: fact(
+      "yes",
+      prior.id,
+    ),
+    "prior-state": fact(state, prior.id),
+  };
+}
 
 /** The macro measures that are trouble when they rise, and those that are trouble when they fall. */
 const RISE_IS_BAD: ReadonlySet<string> = new Set([

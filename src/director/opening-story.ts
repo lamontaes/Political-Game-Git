@@ -164,7 +164,7 @@ export const OPENING_ADDRESS_EVENT = "president.address";
 
 /** The world's names and subjects an address says no more often than `namesSaid` while another wording can do without them. */
 const WORLD_NAMES: readonly string[] = [
-  "prior-office",
+  "prior-state",
   "hardest",
   "best",
   // The governor's state or the local head's place (speech-has-one-theme:
@@ -173,8 +173,8 @@ const WORLD_NAMES: readonly string[] = [
   "realm-bare",
 ];
 
-/** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people and the President's own office. */
-const PERSON_NAMES: readonly string[] = ["prior-office"];
+/** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people. */
+const PERSON_NAMES: readonly string[] = [];
 
 /**
  * The people an address names, by the fact key of their slot (owner, Nov
@@ -671,7 +671,13 @@ export function composeBlocks(
           )
         )
           return [];
-        return timeTwice(said) ? [sayMove(bare, facts)] : [said];
+        // A lead-in and a core that both say a person's full name ("Speaker
+        // Robert Reeves, fellow citizens, ... Speaker Robert Reeves, members
+        // of Congress, ...") after every redraw: the core is said without
+        // its lead-in (Trenton, North Dakota (3879460), seed press-1117:2).
+        return timeTwice(said) || namesTwice(said)
+          ? [sayMove(bare, facts)]
+          : [said];
       });
       const result = tries.find((row) => row.kind === "rendered") ?? null;
       if (result?.kind === "rendered")
