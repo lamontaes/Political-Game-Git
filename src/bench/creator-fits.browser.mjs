@@ -26,7 +26,8 @@ try {
   await page.locator("#cr-screen:not([hidden])").waitFor();
   for (const gender of ["female", "male"]) {
     await page.locator(`[data-gender=${gender}]`).click();
-    await page.locator("#cr-random-name").click();
+    await page.locator("#cr-given").fill("Test");
+    await page.locator("#cr-family").fill("Person");
     await page.waitForTimeout(1200);
     const fit = await page.evaluate(() => {
       const box = (id) => document.getElementById(id).getBoundingClientRect();
