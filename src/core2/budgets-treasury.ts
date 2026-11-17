@@ -2249,5 +2249,5 @@ const SOCIAL_SECURITY_WHAT = "social-security-award-changed";
 // Re-exported so other engine families read the paycheck rule through this entry, not the file (families guard).
 export { withholdingFor } from "./tax-withholding";
 
-/** A state's stake in a federal budget line, for the readers outside the budgets family (the country tier). */
-export { stateStake } from "./budget-stakes";
+/** A state's stake in a federal budget line, and the revenue a change to a tax gives up, for the readers outside the budgets family (the country tier, the legislature). */
+export { carriesRevenue, revenueGivenUp, stateStake } from "./budget-stakes";
