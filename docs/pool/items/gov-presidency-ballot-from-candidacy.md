@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-presidency-nominees
-pr:
+pr: #9848
 after:
 blocked-on:
 root: none
