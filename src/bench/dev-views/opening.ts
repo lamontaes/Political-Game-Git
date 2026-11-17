@@ -43,6 +43,7 @@ import {
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
 import { allOfficials } from "../../core2/modules/officials";
+import { partySide } from "../../core2/appointments";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
   drawStage,
@@ -365,7 +366,17 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
               const won = century.presidencies
                 .filter((p) => p.winnerSide === party.side)
                 .map((p) => p.year);
-              return `${party.name} (${party.id}): ${party.founded ?? "before 1925"}; stands at ${now.toFixed(2)} (${first.toFixed(2)} in ${party.positions[0]?.year ?? ""}); ${issues}; won the presidency ${won.length} times${won.length ? ` (last ${won.at(-1)})` : ""}`;
+              // Its members of Congress as seated (officials-roster.ts drawOfficial).
+              const members = allOfficials(coreAPI(core)).filter(
+                (o) =>
+                  (o.bodyKind === "us-house" || o.bodyKind === "us-senate") &&
+                  !o.independent &&
+                  partySide(o.party) === party.side,
+              );
+              const seated = members.length
+                ? `; its ${members.length} members of Congress stand at ${(members.reduce((a, o) => a + o.ideal, 0) / members.length).toFixed(2)} on average`
+                : "";
+              return `${party.name} (${party.id}): ${party.founded ?? "before 1925"}; stands at ${now.toFixed(2)} (${first.toFixed(2)} in ${party.positions[0]?.year ?? ""})${seated}; ${issues}; won the presidency ${won.length} times${won.length ? ` (last ${won.at(-1)})` : ""}`;
             })
             .join("; ")
         : "today's real parties (the world chose it)",

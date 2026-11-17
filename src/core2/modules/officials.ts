@@ -42,6 +42,7 @@ import { publicOffset } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import {
   centuryOf,
+  centuryParties,
   centurySignedLean,
   historyMode,
   publishedSenateSeats,
@@ -341,6 +342,20 @@ function stateLeanOf(stateKey: string, seed: string): number {
   return share === null || share === undefined
     ? 0
     : 1 - 2 * (share - worldSwing(seed, stateKey.slice(3)));
+}
+
+/** Where each side's party stands on day one, by side, in a world whose day one is the century's. */
+function partyPositionsOf(
+  seed: string,
+): Readonly<Record<number, number>> | undefined {
+  const parties = centuryParties(seed);
+  if (!parties) return undefined;
+  const out: Record<number, number> = {};
+  for (const party of parties) {
+    const at = party.positions.at(-1)?.position;
+    if (at !== undefined) out[party.side] = at;
+  }
+  return out;
 }
 
 /** A seat's lean and where it's read from. */
@@ -742,6 +757,8 @@ function seatAll(
   drafted: readonly Spec[],
   opening: boolean,
 ): void {
+  // Each party's members are drawn around where its own history put it.
+  const positions = partyPositionsOf(seed);
   // Who each holder is, and no one first served younger than the minimum
   // age (the offices engine's careers already keep to it).
   const identities = new Map(
@@ -827,6 +844,7 @@ function seatAll(
       leader: roles.has(spec.key),
       ...(roster ? { caucus: roster } : {}),
       temperament: temperamentOf(api.state as CoreState, personId, identity),
+      ...(positions ? { partyPositions: positions } : {}),
     });
     const recorded: Omit<RecordedIdentity, "source"> = {
       id: personId,
@@ -1642,6 +1660,7 @@ function rankCandidates(
     readonly exclude: ReadonlySet<string>;
   },
 ) {
+  const positions = partyPositionsOf(api.state.seed);
   const side = partySide(party);
   const facts = seatFacts(api, contest.seatId);
   if (!facts || facts.office.kind === "president") return null;
@@ -1729,6 +1748,7 @@ function rankCandidates(
       districtLean: seatLeanNow,
       leader: false,
       temperament: temperamentOf(api.state as CoreState, id, identity),
+      ...(positions ? { partyPositions: positions } : {}),
     });
     return { id, identity, drawn };
   });
