@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/history-party-ties
-pr:
+pr: "#9982"
 after: history-territory-legislatures-from-the-century
 blocked-on:
 lead: elections
