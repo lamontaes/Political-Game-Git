@@ -29,14 +29,12 @@ import type {
 import type { Moment } from "./types";
 import { P } from "../core2/parameters";
 
-const [first, second] = [P.zero, P.one];
-
 /** One situation type's cause on the strings it names, with its place in the library. */
 export interface CauseCard {
   type: SituationType;
   cause: SituationCause;
   /** The type's index in the library, then the cause's within the type. */
-  order: readonly [number, number];
+  order: { readonly type: number; readonly cause: number };
 }
 
 export interface StringIndex {
@@ -84,7 +82,11 @@ export function cardsByString(
   library.types.forEach((type, typeAt) =>
     type.causes.forEach((cause, causeAt) => {
       for (const key of stringsOfCause(cause)) {
-        add(causes, key, { type, cause, order: [typeAt, causeAt] });
+        add(causes, key, {
+          type,
+          cause,
+          order: { type: typeAt, cause: causeAt },
+        });
         if (key.startsWith("prefix:")) prefixes.add(cause.match!.labelPrefix!);
       }
     }),
@@ -117,8 +119,7 @@ export function causesOnMoment(
   const cards = keys.flatMap((key) => index.causes.get(key) ?? []);
   return cards.length > P.one
     ? cards.sort(
-        (a, b) =>
-          a.order[first] - b.order[first] || a.order[second] - b.order[second],
+        (a, b) => a.order.type - b.order.type || a.order.cause - b.order.cause,
       )
     : cards;
 }
