@@ -876,6 +876,18 @@
       "now": ".claude/skills/done-proof/references/skill-lessons.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/play-walks",
+      "now": ".agents/skills/verify/references/play-walks.md",
+      "when": "2026-11-17",
+      "why": "Merged into the verify skill, which drives the running game from a script, when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body moved word for word."
+    },
+    {
+      "old": ".claude/skills/play-walks",
+      "now": ".claude/skills/verify/references/play-walks.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
     }
   ]
 }

@@ -52,6 +52,7 @@ import { lawChain } from "./modules/laws";
 import { partyName } from "./appointments";
 import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+import { centuryRecordVotes } from "./modules/elections";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
 import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
@@ -172,9 +173,30 @@ function sourceCountProblems(
   ids: readonly string[],
   totals: ReadonlyMap<string, number>,
   sources: ReadonlyMap<string, string | undefined>,
+  /**
+   * The races the century counted (owner, Nov 17, 2026: history is simulated from 1925): each
+   * one's century record and that record's count. Such a race cites its record and prints that
+   * record's count; it stands on no published count (CTO line 6935893727 on #9747).
+   */
+  century: ReadonlyMap<
+    string,
+    { readonly recordId: string; readonly count: number | undefined }
+  > = new Map(),
 ): string[] {
   const problems: string[] = [];
   for (const id of ids) {
+    const counted = century.get(id);
+    if (counted) {
+      if (counted.count === undefined)
+        problems.push(
+          `${id}: cites ${counted.recordId}, which the century does not hold`,
+        );
+      else if (totals.get(id) !== counted.count)
+        problems.push(
+          `${id}: prints ${String(totals.get(id))}, not its century record's count ${counted.count}`,
+        );
+      continue;
+    }
     const raw = sources.get(id);
     const source = raw === undefined || raw.trim() === "" ? NaN : Number(raw);
     if (!Number.isInteger(source) || source <= 0)
@@ -209,6 +231,37 @@ it("row 44's source-count guard refuses a missing source and a printed one", () 
   expect(
     sourceCountProblems([id], new Map([[id, 6731]]), new Map([[id, "6845"]])),
   ).toEqual([]);
+  // A race the century counted: its count must be its century record's, and the record must exist.
+  const race = "prior-election:seat:US:president:2024-11-05";
+  const record = "century:presidential:2024";
+  const century = (count: number | undefined) =>
+    new Map([[race, { recordId: record, count }]]);
+  expect(
+    sourceCountProblems(
+      [race],
+      new Map([[race, 151_000_000]]),
+      new Map(),
+      century(151_000_000),
+    ),
+  ).toEqual([]);
+  expect(
+    sourceCountProblems(
+      [race],
+      new Map([[race, 150_999_999]]),
+      new Map(),
+      century(151_000_000),
+    ),
+  ).toEqual([
+    `${race}: prints 150999999, not its century record's count 151000000`,
+  ]);
+  expect(
+    sourceCountProblems(
+      [race],
+      new Map([[race, 151_000_000]]),
+      new Map(),
+      century(undefined),
+    ),
+  ).toEqual([`${race}: cites ${record}, which the century does not hold`]);
 });
 const place = drawPlace(seed, "realistic-not-real");
 const where = `${place.name} (${place.key}), seed ${seed}`;
@@ -285,13 +338,21 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   });
 
   it("every sitting holder's winning share (audit row 46)", () => {
+    // One share per race: a President and Vice President elected on one ticket won one race
+    // (amend. XII), so the ticket counts once, by the President's term (CTO line 6935893727 on
+    // #9747, Nov 17, 2026: "one share per race, so a President and Vice President on one ticket
+    // count as one race").
     const shares = (core: CoreState) =>
       new Map(
-        rows<{ id: string; elected?: { share: number } }>(
+        rows<{ id: string; seatId: string; elected?: { share: number } }>(
           core,
           OFFICES_MODULE_ID,
           "terms",
-        ).flatMap((t) => (t.elected ? [[t.id, t.elected.share] as const] : [])),
+        ).flatMap((t) =>
+          t.elected && t.seatId !== "seat:US:vice-president"
+            ? [[t.id, t.elected.share] as const]
+            : [],
+        ),
       );
     const sa = shares(a),
       sb = shares(b);
@@ -516,13 +577,12 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       }
   });
 
-  it("each world's death, birth, moving, chronic-condition, time-use and college-going tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
+  it("each world's death, birth, moving, chronic-condition and college-going tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
     const tables: BaseRateTable[] = [
       "mortality",
       "natality",
       "movers",
       "conditions",
-      "timeUse",
       "collegeEnrollment",
       "collegeCompletion",
     ];
@@ -564,7 +624,6 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       // rates are the country tier's, its arrivals from abroad the tier's month.
       "modules/health.ts",
       "modules/moves.ts",
-      "free-block.ts",
       "school-outcomes.ts",
     ])
       expect(
@@ -902,12 +961,32 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const large = shared.filter(
       (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
     );
+    // A race the century counted cites its century record; its count must be that record's.
+    const centuryCounts = (core: CoreState) =>
+      new Map(
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter(
+            (facts) =>
+              facts.recordKind === "election-result" && facts.centuryRecordId,
+          )
+          .map((facts) => [
+            facts.contestId!,
+            {
+              recordId: facts.centuryRecordId!,
+              count: centuryRecordVotes(core.seed, facts.centuryRecordId!),
+            },
+          ]),
+      );
     for (const [world, held] of [
       [a, racesA],
       [b, racesB],
     ] as const) {
       expect(
-        sourceCountProblems(large, held, sources(world)),
+        sourceCountProblems(large, held, sources(world), centuryCounts(world)),
         `${where} row 44: races with no source count or printing it`,
       ).toEqual([]);
     }

@@ -13,7 +13,8 @@
     "donated": "cause.donated",
     "volunteered": "cause.volunteered",
     "soughtStanding": "standing.sought",
-    "strengthened": "drive.strengthened"
+    "strengthened": "drive.strengthened",
+    "wordRetold": "word.retold"
   },
   "civicActEvents": [
     {
@@ -47,7 +48,8 @@
     "countedSubject": "counted-subject",
     "countedPerceivers": "counted-perceivers",
     "countedSubjects": "counted-subjects",
-    "countedHousehold": "counted-household"
+    "countedHousehold": "counted-household",
+    "wordEvent": "wordEvent"
   },
   "driveKinds": [
     {

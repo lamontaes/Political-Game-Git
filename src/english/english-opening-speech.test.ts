@@ -74,17 +74,11 @@ const said = (
 describe("the opening address's pieces", () => {
   it("hold no figure, year, state or office, and no line the owner turned down", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
-      // No typed figure. A context sentence may say a figure the world's own
-      // records hold (owner, Nov 12: "for 30 years we've suffered from
-      // terrible inflation, averaging out to over 12% per year ... that just
-      // establishes context in a smooth way"; docs/design/words-composer.md,
-      // "3. The outline"), so "percent" is allowed only directly after the
-      // slot the context reader fills; any other "percent" still fails.
+      // No figure at all: an address says how far something moved in words
+      // (the Story lead's read of #9831, Nov 17: "no figure is spoken in an
+      // address"), so a context sentence says no percent either.
       expect(part.text, part.key).not.toMatch(/\d/);
-      expect(
-        part.text.replace(/\{context-amount\} percent\b/g, ""),
-        part.key,
-      ).not.toMatch(/percent/);
+      expect(part.text, part.key).not.toMatch(/percent/);
       expect(part.text, part.key).not.toMatch(FIGURE_SLOT);
       for (const line of TURNED_DOWN)
         expect(part.text, part.key).not.toMatch(line);
