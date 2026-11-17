@@ -1,20 +1,20 @@
 {
   "version": "director-circumstances-v1",
-  "note": "Scenes from circumstance (owner, Oct 27, 01:30 Eastern: 'if the circumstances are right in the simulation, they should be callable, and the English engine handles the words'). Each row is a kind of circumstance: a record of one of its kinds is written somewhere in the world, the player is at a kind of place that day, and someone there has a reason from the record to bring it to them. The producer (src/director/circumstance.ts) reads only the day's new records, casts the person with the highest score (a reason from the record, the player's tie to them, their sociability; the record id breaks a tie; nothing is drawn by chance), and writes a moment for the player labeled circumstance:<id>, which the situation type's cause of the same label stages through the ordinary scheduler. Rows hold no sentence. The four scene-web fields are recordKinds (trigger record kind), place (place kind), cast (cast rule) and outcome (the record the scene writes back). pool: where the cast comes from (named: the people the record names; witnessed: those who saw or read it; household-of-named: the household of the first person it names; civic:<fill>: a civic role the record's bill or body names; new-coworker: a job started today at the player's employer). where: what places the cast with the player (same-town, same-employer, same-household, same-body, known: the player knows them, pool: the pool's own record places them there). player: what must hold of the player (anyone, resident: neither serving nor filed, public-figure: serving or filed, serving: holds an office, voted-on-it: the record's source vote names them, same-body: serves in the body of the record's bill, heard-it: the player is among those who saw or heard the record). recordIdPrefix picks one producer's records among a kind several write (the interest groups' lobbying cases, case:lobby:, among the cases made). everyParameter: the fewest days between two scenes of this row (Wildermyth pacing: scenes cluster where records give cause, quiet otherwise).",
+  "note": "Scenes from circumstance (owner, Oct 27, 01:30 Eastern: 'if the circumstances are right in the simulation, they should be callable, and the English engine handles the words'). Each row is a kind of circumstance: a record of one of its kinds is written somewhere in the world, the player is at a kind of place that day, and someone there has a reason from the record to bring it to them. The producer (src/director/circumstance.ts) reads only the day's new records, casts the person with the highest score (a reason from the record, the player's tie to them, their sociability; the record id breaks a tie; nothing is drawn by chance), and writes a moment for the player labeled circumstance:<id>, which the situation type's cause of the same label stages through the ordinary scheduler. Rows hold no sentence. The four scene-web fields are recordKinds (trigger record kind), place (place kind), cast (cast rule) and outcome (the record the scene writes back). pool: where the cast comes from (named: the people the record names; witnessed: those who saw or read it; household-of-named: the household of the first person it names; civic:<fill>: a civic role the record's bill or body names; new-coworker: a job started today at the player's employer). where: what places the cast with the player (same-town, same-employer, same-household, same-body, known: the player knows them, pool: the pool's own record places them there). holds: who the player must be, read from their standing (src/director/standing.ts, the same words a situation type's holds uses; any one passing admits the row: none, neither serving nor filed; filed; working; office, optionally :lawmaking or :executive and :local, :state or :federal). inRecord: how the player must stand in the record, where the row asks (named-in-it, heard-it: among those who saw or heard it, voted-on-it: the record's source vote names them, official-in-it, same-body: serves in the body of the record's bill, on-study, listed:<fact>). recordIdPrefix picks one producer's records among a kind several write (the interest groups' lobbying cases, case:lobby:, among the cases made). everyParameter: the fewest days between two scenes of this row (Wildermyth pacing: scenes cluster where records give cause, quiet otherwise).",
   "rows": [
     {
       "id": "vote-read-street",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["news.read"],
       "recordFacts": ["billId", "number"],
       "place": "public",
       "pool": ["witnessed"],
       "where": "same-town",
-      "player": "voted-on-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "voted-on-it",
       "cast": "a resident who read the paper's story on a vote the player cast, scored on reason, tie and sociability",
       "typeKey": "constituent-stop",
       "impactParameter": "directorCircumstanceLawImpact",
@@ -24,14 +24,13 @@
       "id": "law-reached-street",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["law.effect-learned"],
       "place": "public",
       "pool": ["named"],
       "where": "same-town",
-      "player": "public-figure",
+      "holds": ["office", "filed"],
       "cast": "the resident a law in force reached (a price it moved, a rule they now live under), scored on tie and sociability",
       "typeKey": "constituent-stop",
       "impactParameter": "directorCircumstanceLawImpact",
@@ -41,14 +40,13 @@
       "id": "new-coworker",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["job"],
       "place": "workplace",
       "pool": ["new-coworker"],
       "where": "same-employer",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "the person hired today at the player's employer",
       "typeKey": "first-meeting",
       "impactParameter": "directorCircumstanceMeetingImpact",
@@ -58,14 +56,14 @@
       "id": "hallway-colleague",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["committee-hearing"],
       "place": "seat",
       "pool": ["named"],
       "where": "pool",
-      "player": "same-body",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "same-body",
       "cast": "a member of the player's body who sat on the committee that heard a bill, scored on tie and sociability",
       "typeKey": "vote-asked",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -75,14 +73,14 @@
       "id": "hallway-reporter",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["bill-held-in-committee"],
       "place": "seat",
       "pool": ["civic:press-corps"],
       "where": "pool",
-      "player": "same-body",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "same-body",
       "cast": "a reporter covering the player's body after a bill dies in committee, scored on tie and sociability",
       "typeKey": "press-interview",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -92,14 +90,13 @@
       "id": "job-lost-calls",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["work.job-lost"],
       "place": "phone",
       "pool": ["named"],
       "where": "known",
-      "player": "working-or-public",
+      "holds": ["working", "office", "filed"],
       "cast": "someone the player knows who lost their job that day and calls to ask for a word, scored on tie and sociability",
       "typeKey": "reach-out",
       "impactParameter": "directorCircumstanceNewsImpact",
@@ -109,14 +106,13 @@
       "id": "organizing-warning",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["initiative.organizing-started"],
       "place": "phone",
       "pool": ["civic:staff"],
       "where": "pool",
-      "player": "serving",
+      "holds": ["office"],
       "cast": "one of the officeholder's own aides, when a group starts organizing in town",
       "typeKey": "warning",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -126,14 +122,14 @@
       "id": "bill-introduced-carry",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["office.introduced"],
       "place": "seat",
       "pool": ["named"],
       "where": "pool",
-      "player": "same-body",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "same-body",
       "cast": "the member of the player's body who introduced a bill, asking the player to carry it with them",
       "typeKey": "bill-carry",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -143,14 +139,13 @@
       "id": "donor-ask-street",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["cause.donated"],
       "place": "public",
       "pool": ["named"],
       "where": "same-town",
-      "player": "public-figure",
+      "holds": ["office", "filed"],
       "cast": "a resident who gave money to a cause group that day, asking the officeholder or candidate for their support",
       "typeKey": "donor-ask",
       "impactParameter": "directorCircumstanceLawImpact",
@@ -160,14 +155,13 @@
       "id": "rival-message",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["campaign-message"],
       "place": "public",
       "pool": ["fact:candidateId"],
       "where": "rival",
-      "player": "public-figure",
+      "holds": ["office", "filed"],
       "cast": "a candidate filed in the player's own contest whose paid message ran that day",
       "typeKey": "rally-opponent",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -178,14 +172,13 @@
       "childMayTell": true,
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["household-member"],
       "place": "home",
       "pool": ["named"],
       "where": "same-household",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "someone who joined the player's household that day, other than a newborn",
       "typeKey": "arrival",
       "impactParameter": "directorCircumstanceMeetingImpact",
@@ -195,15 +188,14 @@
       "id": "law-news-street",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["news.read"],
       "recordFacts": ["lawId"],
       "place": "public",
       "pool": ["witnessed"],
       "where": "same-town",
-      "player": "public-figure",
+      "holds": ["office", "filed"],
       "cast": "a resident who read that a law took effect, stopping the officeholder or candidate in the street, scored on reason, tie and sociability",
       "typeKey": "constituent-stop",
       "impactParameter": "directorCircumstanceLawImpact",
@@ -213,8 +205,7 @@
       "id": "away-evening",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["public-meeting"],
       "recordFactEquals": {
@@ -225,7 +216,8 @@
       "place": "home",
       "pool": ["own-household"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "the morning after the player's body sat past the hour it meets at night, someone they live with, scored on tie and sociability",
       "typeKey": "family-absence",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -235,8 +227,7 @@
       "id": "lobby-remembers",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["office.voted"],
       "playerNamed": true,
@@ -244,7 +235,8 @@
       "place": "seat",
       "pool": ["lobbied-against"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "two days after the player voted against the way of a group that lobbied them on the bill, the group's lobbyist, who remembers",
       "typeKey": "lobby-remembers",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -254,15 +246,15 @@
       "id": "office-doubt",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["civic.protest", "civic.strike"],
       "afterDays": 1,
       "place": "home",
       "pool": ["own-household"],
       "where": "pool",
-      "player": "heard-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "heard-it",
       "cast": "the day after a crowd formed against the town's term, someone the player lives with, who saw it in the player's face, scored on tie and sociability",
       "typeKey": "office-doubt",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -272,8 +264,7 @@
       "id": "floor-debate-for",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["floor-debate"],
       "lived": true,
@@ -281,7 +272,8 @@
       "place": "seat",
       "pool": ["fact:forId"],
       "where": "pool",
-      "player": "same-body",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "same-body",
       "cast": "the member who rises in session for the bill before the roll, when the player sits in the body",
       "typeKey": "floor-debate",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -291,8 +283,7 @@
       "id": "floor-debate-against",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["floor-debate"],
       "lived": true,
@@ -300,7 +291,8 @@
       "place": "seat",
       "pool": ["fact:againstId"],
       "where": "pool",
-      "player": "same-body",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "same-body",
       "cast": "the member who rises in session against the bill before the roll, when the player sits in the body",
       "typeKey": "floor-debate",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -310,15 +302,15 @@
       "id": "hearing-witness",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["committee-hearing"],
       "recordFacts": ["witnessIds"],
       "place": "seat",
       "pool": ["fact:witnessIds"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "playerNamed": true,
       "cast": "a resident who testified at the committee's hearing on a bill, catching the player (its sponsor or a member of the committee) on the way out to say what the bill does to their own life",
       "typeKey": "hearing-witness",
@@ -329,14 +321,13 @@
       "id": "held-known-visit",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
       "pool": ["named"],
       "where": "known",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "someone the player knows who is held before trial; the player visits them",
       "typeKey": "prison-visit",
       "impactParameter": "directorCircumstanceDeathImpact",
@@ -346,14 +337,13 @@
       "id": "imprisoned-known-visit",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["justice.imprisoned"],
       "place": "venue",
       "pool": ["named"],
       "where": "known",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "someone the player knows who has been sent to prison; the player visits them",
       "typeKey": "prison-visit",
       "impactParameter": "directorCircumstanceDeathImpact",
@@ -364,14 +354,13 @@
       "childMayTell": true,
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["person.moved-away"],
       "place": "other-home",
       "pool": ["named"],
       "where": "known",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "someone the player knows who is moving away, saying goodbye",
       "typeKey": "moving-goodbye",
       "impactParameter": "directorCircumstanceMeetingImpact",
@@ -381,8 +370,7 @@
       "id": "mentor-weighs-in",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["party-asked"],
       "playerNamed": true,
@@ -390,7 +378,8 @@
       "place": "other-home",
       "pool": ["party-mentor"],
       "where": "same-town",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "the day after a party's chair asked the player to run, the seated officeholder of that party who took the player under their wing on the ask (the party mentorship record), who weighs in on whether to run",
       "typeKey": "advice",
       "impactParameter": "directorCircumstanceMeetingImpact",
@@ -400,15 +389,15 @@
       "id": "bribe-accused",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["news.read"],
       "recordFacts": ["crimeId", "officialId"],
       "place": "public",
       "pool": ["witnessed"],
       "where": "known",
-      "player": "official-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "official-in-it",
       "cast": "a resident who read the paper's story that the player took a bribe and who knows the player, asking to their face whether it is true, scored on tie and sociability",
       "typeKey": "accusation",
       "impactParameter": "directorCircumstanceNewsImpact",
@@ -419,8 +408,7 @@
       "childMayTell": true,
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["school.finished"],
       "playerNamed": true,
@@ -428,7 +416,8 @@
       "place": "school",
       "pool": ["classmates"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "on the last day of the player's school year as a senior, someone who attended the same school that year, scored on tie and sociability",
       "typeKey": "last-day",
       "impactParameter": "directorCircumstanceSchoolImpact",
@@ -439,8 +428,7 @@
       "childMayTell": true,
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["school.finished"],
       "recordFactEquals": {
@@ -451,7 +439,8 @@
       "place": "home",
       "pool": ["own-household"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "the day after the player graduated, someone they live with, scored on tie and sociability",
       "typeKey": "diploma-home",
       "impactParameter": "directorCircumstanceSchoolImpact",
@@ -462,8 +451,7 @@
       "childMayTell": true,
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["school.finished"],
       "recordFactEquals": {
@@ -474,7 +462,8 @@
       "place": "home",
       "pool": ["own-household"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "the day after the player's senior year ended without a diploma, someone they live with, scored on tie and sociability",
       "typeKey": "no-diploma-home",
       "impactParameter": "directorCircumstanceSchoolImpact",
@@ -484,8 +473,7 @@
       "id": "door-first",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
@@ -497,7 +485,7 @@
       "place": "other-home",
       "pool": ["named"],
       "where": "pool",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "a resident who opened their door to the player's own canvass for the first time, the one whose agreement with the player's platform, for or against, is the day's strongest",
       "typeKey": "door-ask",
       "impactParameter": "directorCircumstanceDoorImpact",
@@ -507,8 +495,7 @@
       "id": "door-again",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
@@ -520,7 +507,7 @@
       "place": "other-home",
       "pool": ["named"],
       "where": "pool",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "a resident the player's canvass has knocked on before, who opens the door again, the one whose agreement with the player's platform, for or against, is the day's strongest",
       "typeKey": "door-ask",
       "impactParameter": "directorCircumstanceDoorImpact",
@@ -530,8 +517,7 @@
       "id": "door-petition",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
+        "counterpart": "apart"
       },
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
@@ -542,7 +528,7 @@
       "place": "other-home",
       "pool": ["named"],
       "where": "pool",
-      "player": "anyone",
+      "holds": ["none", "filed", "office"],
       "cast": "a resident who opened their door to the player's own canvass while the player's petition circulates, the one whose agreement with the player's platform, for or against, is the day's strongest; the campaign engine asked them to sign, and the record says whether they did",
       "typeKey": "door-signature",
       "impactParameter": "directorCircumstanceDoorImpact",
@@ -552,8 +538,7 @@
       "id": "override-whip",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
+        "counterpart": "any"
       },
       "recordKinds": ["veto-override"],
       "recordFactEquals": {
@@ -562,7 +547,8 @@
       "place": "seat",
       "pool": ["fact:sponsorId"],
       "where": "pool",
-      "player": "listed:members",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "listed:members",
       "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
       "typeKey": "vote-confirmed",
       "impactParameter": "directorCircumstanceHallwayImpact",
@@ -572,15 +558,15 @@
       "id": "notice-home",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["housing.notice-served"],
       "playerNamed": true,
       "place": "home",
       "pool": ["own-household"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "the day the landlord serves the player's household notice to pay or leave, someone they live with, scored on tie and sociability",
       "typeKey": "notice-home",
       "impactParameter": "directorCircumstanceNewsImpact",
@@ -590,8 +576,7 @@
       "id": "home-damaged",
       "receive": {
         "age": "any",
-        "counterpart": "any",
-        "seat": "any"
+        "counterpart": "any"
       },
       "recordKinds": ["disaster.home-damaged"],
       "playerNamed": true,
@@ -600,7 +585,8 @@
       "place": "home",
       "pool": ["own-household"],
       "where": "pool",
-      "player": "named-in-it",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "named-in-it",
       "cast": "the day a disaster's aid is paid and the repair bill comes due on the player's damaged home, someone they live with, scored on tie and sociability",
       "typeKey": "home-damaged",
       "impactParameter": "directorCircumstanceNewsImpact",
@@ -615,7 +601,8 @@
       "place": "seat",
       "pool": ["study-members"],
       "where": "pool",
-      "player": "on-study",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "on-study",
       "cast": "the day after the body formed a study committee on a bill it could not settle (the vote day is the floor's own), its chair, or a fellow member when the player chairs it, telling a member what it is charged with",
       "typeKey": "study-formed",
       "outcome": "scene.reply",
@@ -631,7 +618,8 @@
       "place": "seat",
       "pool": ["study-members"],
       "where": "pool",
-      "player": "on-study",
+      "holds": ["none", "filed", "office"],
+      "inRecord": "on-study",
       "cast": "the committee's chair, or a fellow member when the player chairs it, on what the committee found and what the chair's speech to the body moved",
       "typeKey": "study-reported",
       "outcome": "scene.reply",

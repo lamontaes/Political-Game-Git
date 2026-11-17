@@ -15,6 +15,7 @@ import { recordYearlyAddress } from "./yearly-address";
 import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { dropStanding } from "./standing";
 import type { EventAppraisal } from "../core2/emotion";
 import { familyFactsOf, formerKin, lastMetOnRow } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
@@ -2075,6 +2076,8 @@ export function createDirector(
     );
     for (const book of ledger.people.values()) {
       const id = book.personId;
+      // A record about the person changed: their standing is read again.
+      if (named.has(id)) dropStanding(book);
       const actor = core.people.get(id);
       if (!actor) continue;
       let reach: string | undefined =

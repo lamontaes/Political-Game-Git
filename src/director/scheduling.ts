@@ -29,6 +29,12 @@ import type { Moment, PersonLedger } from "./types";
 import { LETTER_TYPE, letterFacts } from "./letter-facts";
 import { nextMeetingFacts } from "./meeting-facts";
 import { isPayrollOrganization } from "../english/journal-words";
+import {
+  holdsAny,
+  holdsWord,
+  playerStanding,
+  type PlayerStanding,
+} from "./standing";
 
 /** A tie that grew: the friend's ask (situation-types.json). */
 const FRIENDS_TYPE = "becoming-friends";
@@ -115,8 +121,6 @@ export interface ReceiveRule {
   age: "any";
   /** "apart": the one who comes, calls or asks does not live with the person. */
   counterpart: "any" | "apart";
-  /** "serving": a seat or chamber setting is staged only for someone who holds an office. */
-  seat: "any" | "serving";
 }
 
 /** Settings at an office's seat: the chamber and the members' own seats. */
@@ -125,11 +129,13 @@ const SEAT_SETTINGS: ReadonlySet<string> = new Set(["seat", "chamber"]);
 /**
  * Whether a cast may be staged for the person whose scene it is, by the
  * type's receive rule: the asker does not live with them where the rule says
- * apart, and a seat or chamber scene reaches only someone serving in office.
+ * apart, and a seat or chamber scene reaches only someone serving in office
+ * (their standing holds an office).
  */
 export function receives(
   core: Readonly<CoreState>,
   personId: PersonId,
+  standing: PlayerStanding,
   rule: ReceiveRule | undefined,
   askerIds: readonly PersonId[],
   settingKind: string,
@@ -142,20 +148,9 @@ export function receives(
     );
     if (askerIds.some((id) => id !== personId && home.has(id))) return false;
   }
-  if (SEAT_SETTINGS.has(settingKind) && !serving(core, personId)) return false;
+  if (SEAT_SETTINGS.has(settingKind) && !holdsWord("office", standing))
+    return false;
   return true;
-}
-
-/** Whether a person serves a term in any office now. */
-function serving(core: Readonly<CoreState>, personId: PersonId): boolean {
-  const api = coreAPI(core as CoreState);
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as { status: string }[]
-  ).some((term) => term.status === "serving");
 }
 
 export interface SituationType {
@@ -164,6 +159,13 @@ export interface SituationType {
   asker?: string;
   /** Who may receive the scene; a cast that breaks it goes to the journal. */
   receive?: ReceiveRule;
+  /**
+   * Who the person must be for the scene to bind at all, read from their
+   * standing (standing.ts): any one word passing admits it ("none", "filed",
+   * "working", "office", "office:lawmaking", "office:executive", an office
+   * word optionally ending ":local", ":state" or ":federal").
+   */
+  holds: readonly string[];
   roles: readonly SituationRole[];
   setting: readonly string[];
   timing: string;
@@ -933,7 +935,11 @@ export function scheduleMoment(
   const rank = paceRank(library, book, moment);
   const found: SceneBinding[] = [];
   let coverage: CoverageRow | undefined;
-  for (const type of library.types)
+  const standing = playerStanding(core, book.personId, book);
+  for (const type of library.types) {
+    // A scene for someone else's standing never binds (a state legislator's
+    // floor scenes reach no council member).
+    if (!holdsAny(type.holds, standing)) continue;
     for (const cause of type.causes) {
       if (!causeMatches(cause, book, moment, core)) continue;
       const bound = bindType(
@@ -958,6 +964,7 @@ export function scheduleMoment(
       else if (!found.some((row) => row.typeKey === bound.typeKey))
         found.push(bound);
     }
+  }
   // One cause stages one scene: a type that yields to another bound for this
   // moment is dropped (what the player allows is decided after, below).
   const staged = found.filter((row) => {
@@ -1031,6 +1038,7 @@ export function scheduleMoment(
     return receives(
       core,
       book.personId,
+      standing,
       type?.receive,
       askerIds,
       row.setting.kind,

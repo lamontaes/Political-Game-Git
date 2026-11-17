@@ -657,6 +657,7 @@ describe("story director on the new core", () => {
     // layoff scene will, once the work engine names the boss).
     const second: SituationLibrary["types"][number] = {
       key: "layoff-told-at-home",
+      holds: ["none", "filed", "office"],
       roles: [
         {
           key: "worker",
