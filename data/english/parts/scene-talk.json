@@ -178858,10 +178858,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.no-i-can-t-be-its-sponsor-whatever-i-think-of-about",
+      "key": "scene-talk.reply-refuse.no-i-can-t-put-my-name-on-it-whatever-i-think-of-about",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "No. I can't be its sponsor, whatever I think of {about}.",
+      "text": "No. I can't put my name on it, whatever I think of {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -179286,7 +179286,33 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["introduced"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-d-like-your-name-on-bill-i-m-asking-you-again",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'd like your name on {bill}. I'm asking you again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "introduced"]
         }
       ],
       "bearing": "hopeful",
@@ -179388,7 +179414,33 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "requiresFacts": ["said-no", "bill"]
+          "requiresFacts": ["said-no", "bill"],
+          "excludesFacts": ["introduced"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-bill-goes-ahead-without-your-name",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then {bill} goes ahead without your name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "bill", "introduced"]
         }
       ],
       "bearing": "calm",

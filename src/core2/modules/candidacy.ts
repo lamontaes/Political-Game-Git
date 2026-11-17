@@ -2151,6 +2151,8 @@ export const candidacyModule: CoreModule = {
 
 /** The filing clerk who takes a local race's papers, read by other families through this entry. */
 export { localClerkFor } from "./filing-clerk";
+/** The party a person files under, for the director's reads of who is on whose side (carry-and-confirm-facts.ts). */
+export { partyOf };
 
 export const PARTY_MENTORSHIP = "party.mentorship-formed";
 

@@ -33,7 +33,7 @@ Seen: in a drawn place an ask to carry a bill names what the bill is about and t
 
 **Waits on.** #9935 (ask-vote shares the greets, relents and the bill-question read).
 
-**Files.** data/english/parts/scene-talk.json, data/english/judged, data/english/pulled.json, src/director/carry-and-confirm-facts.ts, src/director/bill-question-facts.ts, src/director/purpose-scene.ts, src/director/data/promise-kinds.json, src/core2/modules/legislature.ts, src/director/carry-and-confirm-paths.test.ts, scripts/words/carry-confirm-walk.ts, tests/english-parts-banks.test.ts
+**Files.** data/english/parts/scene-talk.json, data/english/judged, data/english/pulled.json, src/director/carry-and-confirm-facts.ts, src/director/bill-question-facts.ts, src/director/purpose-scene.ts, src/director/data/promise-kinds.json, src/core2/modules/legislature.ts, src/core2/modules/candidacy.ts, src/director/carry-and-confirm-paths.test.ts, scripts/words/carry-confirm-walk.ts, tests/english-parts-banks.test.ts, tests/guards/english/line-inserts-baseline.json
 
 **Notes.**
 

@@ -36,7 +36,7 @@
  * scan of the world.
  */
 import { townLean } from "../core2/modules/campaigns";
-import { partyOf } from "../core2/candidate-pool";
+import { partyOf } from "../core2/modules/candidacy";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
