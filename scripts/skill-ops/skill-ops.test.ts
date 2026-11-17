@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { load } from "js-yaml";
 import { describe, expect, it } from "vitest";
 
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -69,25 +70,59 @@ function filesUnder(root: string, prefix = ""): string[] {
   return out.sort();
 }
 
-/** The frontmatter's name and description; a folded (`>`) or one-line description. */
-function frontmatter(text: string): { name: string; description: string } {
+/**
+ * Claude Code's skill frontmatter fields, as its skills page lists them
+ * (code.claude.com/docs/en/skills, "Frontmatter reference", read Nov 17,
+ * 2026). Claude Code ignores any other key without an error, so a misspelled
+ * key would silently do nothing (CTO, Nov 17 on #9747, item 2).
+ */
+const FRONTMATTER_KEYS = new Set([
+  "name",
+  "description",
+  "when_to_use",
+  "argument-hint",
+  "arguments",
+  "disable-model-invocation",
+  "user-invocable",
+  "allowed-tools",
+  "disallowed-tools",
+  "model",
+  "effort",
+  "context",
+  "agent",
+  "background",
+  "hooks",
+  "paths",
+  "shell",
+  "metadata",
+  "license",
+  "compatibility",
+]);
+
+/**
+ * The frontmatter, read with a YAML parser: the hand parser it replaced
+ * passed four invalid blocks (#9777). Throws on a block that is not YAML, is
+ * not a map, or whose name or description is not a string.
+ */
+function frontmatter(text: string): {
+  name: string;
+  description: string;
+  keys: string[];
+} {
   const block = /^---\n([\s\S]*?)\n---\n/.exec(text);
   if (!block) throw new Error("invalid skill frontmatter");
-  const lines = block[1].split("\n");
-  const name = /^name:\s*(.+)$/.exec(lines[0] ?? "")?.[1]?.trim() ?? "";
-  const at = lines.findIndex((line) => line.startsWith("description:"));
-  if (at < 0) throw new Error("skill frontmatter has no description");
-  const inline = lines[at].slice("description:".length).trim();
-  const folded: string[] = [];
-  if (inline === ">" || inline === "|") {
-    for (const line of lines.slice(at + 1)) {
-      if (!/^\s+/.test(line)) break;
-      folded.push(line.trim());
-    }
-  }
+  const data: unknown = load(block[1]!);
+  if (!data || typeof data !== "object" || Array.isArray(data))
+    throw new Error("skill frontmatter is not a map");
+  const fields = data as Record<string, unknown>;
+  if (typeof fields.description !== "string")
+    throw new Error("skill frontmatter has no description");
+  if (typeof fields.name !== "string")
+    throw new Error("skill frontmatter has no name");
   return {
-    name,
-    description: inline === ">" || inline === "|" ? folded.join(" ") : inline,
+    name: fields.name,
+    description: fields.description.trim(),
+    keys: Object.keys(fields),
   };
 }
 
@@ -99,6 +134,10 @@ describe("SKILL-OPS repository skills", () => {
     for (const name of names) {
       const text = skillText(name);
       const metadata = frontmatter(text);
+      expect(
+        metadata.keys.filter((key) => !FRONTMATTER_KEYS.has(key)),
+        `${name}: frontmatter keys Claude Code does not read`,
+      ).toEqual([]);
       expect(metadata.name, name).toBe(name);
       expect(metadata.name, name).toMatch(/^[a-z0-9-]{1,64}$/);
       expect(metadata.description.length, name).toBeGreaterThan(40);
@@ -302,5 +341,33 @@ describe("SKILL-OPS1 civic prose correction", () => {
         ).toBe(true);
       }
     }
+  });
+});
+
+describe("SKILL-OPS frontmatter parser", () => {
+  const skill = (block: string) => `---\n${block}\n---\n\n# Body\n`;
+
+  it("reads a folded description and refuses blocks that are not YAML", () => {
+    expect(
+      frontmatter(skill("name: a-skill\ndescription: >\n  One\n  two."))
+        .description,
+    ).toBe("One two.");
+    // A colon and space inside an unquoted value is not YAML; the hand
+    // parser read it as text.
+    expect(() =>
+      frontmatter(skill("name: a-skill\ndescription: Use it: when asked")),
+    ).toThrow();
+    expect(() =>
+      frontmatter(skill("name: a-skill\ndescription:\n- a list")),
+    ).toThrow(/no description/);
+    expect(() => frontmatter(skill("just text"))).toThrow(/not a map/);
+  });
+
+  it("lists every key so an unknown one can be refused", () => {
+    expect(
+      frontmatter(skill("name: a\ndescription: b\nallowed_tools: Read")).keys,
+    ).toEqual(["name", "description", "allowed_tools"]);
+    expect(FRONTMATTER_KEYS.has("allowed_tools")).toBe(false);
+    expect(FRONTMATTER_KEYS.has("allowed-tools")).toBe(true);
   });
 });
