@@ -1,14 +1,12 @@
 ---
 name: crew-coordinator
 description: >
-  How one session runs a builder crew for Our Civic Duty from a work list on a
-  crew issue: one session per lane and a watcher, the loop of light and full
-  checks, relaying lines between lanes, reading the checks on every pull request
-  posted ready, sending reds back, keeping lanes from stopping, and the hourly
-  status with one merge list for the CTO; also a lead session that owns one
-  family's matrix. Use when started as a coordinator or a lead, or told to run
-  lanes from a crew line. Not for merging (merger) or ruling (cto); a
-  coordinator never merges, rules or writes player lines.
+  How one session runs a builder crew from a crew line: one session per lane,
+  checks, relaying and reds, keeping lanes from stopping, the hourly status, how
+  sessions message each other, and a lead session. Use when running lanes or a
+  lead, and before sending any message to another session. Not for merging
+  (merger) or ruling (cto); a coordinator never merges, rules or writes player
+  lines.
 ---
 
 # Coordinating a builder crew
@@ -57,7 +55,7 @@ First used Nov 16, 2026, on crew line #9747: six lanes and a watcher, 20 pull re
 
 ## The hourly status
 
-One comment on the crew line, starting "Coordinator:". In order: what is ready with finished green checks, as one table in the order to merge, each with what the owner would see and anything that must merge with it; what waits on the CTO; what waits on Story; what each lane is doing now; what is not solved. Count nothing as done: merged is the CTO's word and done is a second session's (`seen-in-game`).
+One comment on the crew line, starting "Coordinator:". In order: what is ready with finished green checks, as one table in the order to merge, each with what the owner would see and anything that must merge with it; what waits on the CTO; what waits on Story; what each lane is doing now; what is not solved. Count nothing as done: merged is the CTO's word and done is a second session's (`done-proof` (seen-in-game part)).
 
 ## Before the account runs out
 

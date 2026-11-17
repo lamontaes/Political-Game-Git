@@ -7,7 +7,7 @@ description: >
   world for leaving a real band becomes a check that a relationship has the
   strength the research gives. Use when writing or fixing any played-world test,
   moving a pinned test to drawn places, converting a band check, or when a test
-  is red by seed. Not for a played-year proof (played-world-proof) or reading a
+  is red by seed. Not for a played-year proof (done-proof, played-world-proof part) or reading a
   red's log (red-main).
 ---
 

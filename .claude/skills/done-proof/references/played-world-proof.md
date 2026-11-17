@@ -8,7 +8,7 @@ Part of the `done-proof` skill. Until Nov 17, 2026 this was the `played-world-pr
 
 A play-first lane item's acceptance is a screenshot (`play-first`); this proof backs the engine side. A pool item at the standard (`.agents/rules/pool-item-standard.md`, owner Nov 10) asks for the proof in **two drawn places**, each named with its seed (`drawPlace` in `tests/golden-path/place.ts`, which a test calls and names in every failure).
 
-A feature counts as built only when the running game shows another part of the game using what it made. A small test world does not show that. This is the builder's proof. It makes the work ready to merge, not done: a second session's check in the running game does that (`seen-in-game`; `npm run pool -- seen`). Put the proof line on the item's pull request, where the next agent finds it.
+A feature counts as built only when the running game shows another part of the game using what it made. A small test world does not show that. This is the builder's proof. It makes the work ready to merge, not done: a second session's check in the running game does that (`done-proof` (seen-in-game part); `npm run pool -- seen`). Put the proof line on the item's pull request, where the next agent finds it.
 
 ## The run
 
