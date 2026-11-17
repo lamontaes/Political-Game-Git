@@ -6,7 +6,11 @@ import {
   supplierBillsOwedTo,
 } from "./modules/residents";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { countedJobsOf } from "./residents-economy";
+import {
+  countedJobHeads,
+  countedJobsOf,
+  wasLargestEmployer,
+} from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
@@ -1909,6 +1913,9 @@ function windDownEmployer(
         ),
       });
   }
+  const headsLost =
+    endedJobIds.length +
+    countedJobs.reduce((n, job) => n + countedJobHeads(core, job), 0);
   core.finance.closures.set(organizationId, closure);
   api.emit({
     id: eventId,
@@ -1919,6 +1926,11 @@ function windDownEmployer(
     publicRecord: true,
     source: closure.source,
     facts: {
+      // The jobs the closing ended, in heads: the size the desk weighs it by.
+      headsLost: String(headsLost),
+      ...(wasLargestEmployer(core, organizationId, headsLost)
+        ? { largestEmployer: "true" }
+        : {}),
       [`organization:${organizationId}:status`]: "closed",
       [`organization:${organizationId}:closure-source`]: sourceReceiptId,
     },

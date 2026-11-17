@@ -2711,6 +2711,14 @@ const officeAct: Builder = (read, f) => {
   );
 };
 
+/** The place and the one yes-or-no fact of a closing's or layoff's size: the business was the place's largest employer. */
+function sizeFacts(read: Reader, f: Record<string, string>): Facts {
+  const where = read.place();
+  const out: Facts = where ? { place: read.fact(where) } : {};
+  if (where && f.largestEmployer === "true") out.largest = read.yes();
+  return out;
+}
+
 /** A business's record: closed, cut staff, changed hands, opened. */
 const business =
   (kind: StoryKind): Builder =>
@@ -2723,13 +2731,16 @@ const business =
       read.story.topic ??
       "";
     const name = read.organization(id);
-    const jobs = num(f.jobsLost);
+    const jobs = num(f.headsLost) ?? num(f.jobsLost);
     return story(
       kind,
       {
         ...(name ? { subject: read.fact(name, id) } : {}),
         ...(jobs ? { number: read.fact(count(jobs)) } : {}),
         year: read.fact(read.story.date.slice(0, 4)),
+        ...(kind === "closing" || kind === "staff-cut"
+          ? sizeFacts(read, f)
+          : {}),
         ...businessExtras(read, kind, id, f),
       },
       ["subject"],
@@ -4275,7 +4286,6 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "justice.imprisoned": court,
   "office-act": officeAct,
   "organization.closed": business("closing"),
-  "business.closed": business("closing"),
   "employer-closed": business("closing"),
   "business.staff-reduced": business("staff-cut"),
   "organization.owner-changed": business("owner-changed"),

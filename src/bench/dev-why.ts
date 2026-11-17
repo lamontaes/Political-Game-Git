@@ -24,6 +24,7 @@ import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import { PRESS_MODULE_ID, SIZED_KINDS } from "../core2/modules/press";
 import type {
   BusinessMonthCharge,
   BusinessTradingMonth,
@@ -949,6 +950,69 @@ function openingDrawPanels(core: CoreState, personId: string): WhyPanel[] {
   ];
 }
 
+/**
+ * How the paper's desk weighed a closing, a layoff or a disaster: the size it
+ * read from the record, then at each outlet every term the score is made of,
+ * its place among what the reporter weighed that week and why it ran or did
+ * not. Kept only while bookkeeping is on (the press module's `weighings`).
+ */
+function deskPanels(
+  core: CoreState,
+  id: string,
+  facts: Record<string, string>,
+): WhyPanel[] {
+  const size: WhyRow[] = [];
+  if (facts.headsLost)
+    size.push({ label: "jobs it ended", value: String(facts.headsLost) });
+  if (facts.disasterNumber)
+    size.push({
+      label: "counties the declaration names",
+      value: String(facts.counties ?? ""),
+    });
+  const weighings = table(core, PRESS_MODULE_ID, "weighings")
+    .filter((row) => row.wireId === id)
+    .sort(
+      (a, b) =>
+        String(a.date).localeCompare(String(b.date)) ||
+        String(a.outletId).localeCompare(String(b.outletId)),
+    );
+  const panels: WhyPanel[] = [
+    { title: "What the desk reads from the record", rows: size },
+  ];
+  if (!weighings.length)
+    panels.push({
+      title: "How the paper weighed it",
+      rows: [],
+      gap: "No outlet weighed it while bookkeeping was on (turn dev mode on before it happens).",
+    });
+  for (const w of weighings.slice(0, MAX_ROWS)) {
+    const ran = w.ran === true;
+    panels.push({
+      title: `${nameOf(core, String(w.outletId))}, week of ${String(w.date)}: ${
+        ran
+          ? "ran it"
+          : w.why === "below-the-weeks-stories"
+            ? "dropped it (below the week's stories)"
+            : "dropped it (no room for its level)"
+      }`,
+      rows: [
+        { label: "followers it reaches", value: number(Number(w.reached)) },
+        { label: "proximity (×)", value: number(Number(w.proximity)) },
+        { label: "readers' care (+)", value: number(Number(w.readerCare)) },
+        { label: "people (log, +)", value: number(Number(w.people)) },
+        { label: "renown (log, +)", value: number(Number(w.renown)) },
+        { label: "reporter's drive (+)", value: number(Number(w.drive)) },
+        { label: "score", value: number(Number(w.score)) },
+        {
+          label: "place among the week's items",
+          value: `${String(w.place)} of ${String(w.weighed)}; the reporter files ${String(w.stories)}`,
+        },
+      ],
+    });
+  }
+  return panels;
+}
+
 export function whyPanels(
   core: CoreState,
   id: string,
@@ -966,6 +1030,7 @@ export function whyPanels(
     );
   if (found.engine === "core.organizations" && core.finance.businesses.has(id))
     return closingPanels(core, id);
+  if (SIZED_KINDS.has(found.kind)) return deskPanels(core, id, facts);
   if (found.kind === "budget-line-changed") return budgetPanels(core, facts);
   if (found.kind === "election-result") return racePanels(core, facts);
   if (found.engine === `${BUDGETS_MODULE_ID}.budgets`)
