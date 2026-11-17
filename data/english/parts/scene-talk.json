@@ -8546,15 +8546,6 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "after": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
           "after": "scene-talk.reply-blame.i-should-have-knocked-on-more-doors"
         }
       ],
@@ -95546,72 +95537,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "I put {given} in and lost. That's on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "blame",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -96183,16 +96108,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
           "after": "scene-talk.reply-blame.i-should-have-knocked-on-more-doors"
         },
         {
@@ -96222,32 +96137,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "You're counting what you spent, not what you tried.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "disagree",
         "key": "loss"
       }
     },
@@ -96425,16 +96314,6 @@
       "kind": "spoken",
       "text": "You spent it on something you believed in. Sit down with me for a minute.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
-        },
         {
           "subject": "scene",
           "step": "follow",
