@@ -30,8 +30,7 @@ import { purposeScene } from "./purpose-scene";
 // scenes are the only ones the director stages from circumstance. Each fact the
 // words lean on cites the record it was read from: the job and the hire for the
 // employer and the span, the jobs engine's `left-work` change for the end, the
-// school and its graduation result for the school year. `next-employer` is the
-// jobs engine's `quit` (hired elsewhere) alone, so a left-work end never has it.
+// school and its graduation result for the school year.
 // A place with no job to take or no student of that age is passed over and the
 // next draw is taken.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -140,8 +139,6 @@ it(`the last day names the job and the school from their records (seed ${seed})`
             const end = jobLeaveRecord(api, job);
             expect(end?.kind, where).toBe("left-work");
             expect(facts.get("left-work")?.recordIds, where).toContain(end!.id);
-            // Nothing says where next: no other job was taken.
-            expect(facts.has("next-employer"), where).toBe(false);
             expect(
               result.scene.talk.lines.every((row) => row.key === "departure"),
               where,

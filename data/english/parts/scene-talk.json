@@ -173,7 +173,6 @@
     "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
     "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
     "job": "The title of the job a person just left, as people say a job inside a sentence (\"stocker\"), from the ended job's record; a title that names a group is not said.",
-    "next-employer": "The employer the person left for, from the player's new job's organization, set only where the jobs engine wrote the end as a quit (hired elsewhere).",
     "years-there": "How long the person held the job they just left, as people say a span (\"two years\", \"about ten years\"), from the day the job was taken to the day it ended."
   },
   "maxWords": 70,
@@ -189918,31 +189917,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-heard-you-found-another-job-",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I heard you found another job.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "requiresFacts": ["next-employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "departure"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.so-you-re-really-done-",
       "move": "open-greet",
       "kind": "spoken",
@@ -189993,31 +189967,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.what-s-next-employer-paying-you-to-leave-us-",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "What's {next-employer} paying you to leave us?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "requiresFacts": ["next-employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
       "key": "scene-talk.state-ask.years-there-here-what-made-you-go-",
       "move": "state-ask",
       "kind": "spoken",
@@ -190064,56 +190013,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.the-new-place-pays-better-that-s-all-of-it-",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "The new place pays better. That's all of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "requiresFacts": ["why-pay"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.the-other-place-asked-and-i-said-yes-",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "The other place asked, and I said yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "requiresFacts": ["why-other"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell",
         "key": "departure"
       }
     },
@@ -190294,31 +190193,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-d-better-go-next-employer-is-waiting-on-me-",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'd better go. {next-employer} is waiting on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "requiresFacts": ["next-employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "departure"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-should-go-that-s-the-last-time-i-walk-out-of-here-",
       "move": "reply-leave",
       "kind": "spoken",
@@ -190365,56 +190239,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "leave",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-i-d-leave-for-that-too-",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair. I'd leave for that too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.the-new-place-pays-better-that-s-all-of-it-"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.they-picked-a-good-one-",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "They picked a good one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.the-other-place-asked-and-i-said-yes-"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
         "key": "departure"
       }
     },
@@ -190517,33 +190341,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "thank",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.good-luck-at-next-employer-",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Good luck at {next-employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "leave",
-          "outcome": "open",
-          "requiresFacts": ["next-employer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
         "key": "departure"
       }
     },
@@ -190732,10 +190529,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.it-is-the-last-day-of-school-name-finds-you-in-the-hall-",
+      "key": "scene-talk.narrate-narrate.it-is-the-last-day-at-school-name-finds-you-in-the-hall-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "It is the last day of school. {name} finds you in the hall.",
+      "text": "It is the last day at {school}. {name} finds you in the hall.",
       "uses": [
         {
           "subject": "scene",
@@ -190743,7 +190540,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "last-day-farewell",
-          "key": "school-goodbye"
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
         }
       ],
       "bearing": "calm",
@@ -190806,10 +190604,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.so-this-is-it-then-",
+      "key": "scene-talk.open-greet.so-that-s-school-done-then-",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "So this is it, then.",
+      "text": "So that's {school} done, then.",
       "uses": [
         {
           "subject": "scene",
@@ -190817,7 +190615,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "last-day-farewell",
-          "key": "school-goodbye"
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
         }
       ],
       "bearing": "solemn",

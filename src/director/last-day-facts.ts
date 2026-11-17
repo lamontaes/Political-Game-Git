@@ -12,12 +12,10 @@
  *   said as one person's job.
  * - `years-there`: the span from the day the job was taken (the jobs engine's
  *   `jobHeldSince`) to the day it ended, as `spanSaid` says it, never a count.
- * - `next-employer`: where the player works now, only where the jobs engine
- *   wrote the end as a `quit` (hired elsewhere).
  * - `left-work`: the end is written as the player leaving work (`left-work`).
- * - `why-pay`, `why-other`, `why-retire`: the reason key the jobs engine wrote
- *   on that change (`better-offer`, `other-offer`, `retired`); any other key
- *   says nothing, so no line gives a reason the record does not hold.
+ * - `why-retire`: the reason key the jobs engine wrote on that change is
+ *   `retired`; any other key says nothing, so no line gives a reason the
+ *   record does not hold.
  * - `coworker-still-there`: the one who speaks holds a job at that employer
  *   that has not ended.
  *
@@ -94,24 +92,8 @@ export function lastDayFacts(
     const left = jobLeaveRecord(api, job);
     if (left?.kind === "left-work")
       facts["left-work"] = fact("yes", [job.id, left.id]);
-    if (left?.kind === "quit") {
-      const now = core.people.get(askedId)?.jobId;
-      const next = now && now !== job.id ? core.jobs.get(now) : undefined;
-      const place = next && core.organizations.get(next.organizationId);
-      if (next && place)
-        facts["next-employer"] = fact(
-          employerSaid(businessNameSaid(place), place),
-          [left.id, next.id, place.id],
-        );
-    }
-    if (left) {
-      const why = {
-        [JOB_LEAVE_REASONS.betterOffer]: "why-pay",
-        [JOB_LEAVE_REASONS.otherOffer]: "why-other",
-        [JOB_LEAVE_REASONS.retired]: "why-retire",
-      }[left.reasonKey];
-      if (why) facts[why] = fact("yes", [left.id, job.id]);
-    }
+    if (left?.reasonKey === JOB_LEAVE_REASONS.retired)
+      facts["why-retire"] = fact("yes", [left.id, job.id]);
     const theirs = core.people.get(askerId)?.jobId;
     const there = theirs ? core.jobs.get(theirs) : undefined;
     if (there && !there.endsAt && there.organizationId === job.organizationId)
