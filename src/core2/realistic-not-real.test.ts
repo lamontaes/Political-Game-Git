@@ -7,6 +7,7 @@
  * is listed in NOT_YET with the pool item that fixes it, and the list only
  * shrinks: a fix moves its row into the checks below.
  */
+import { worldOffsetUnit } from "./world-draw";
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
@@ -653,7 +654,14 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const benefit = (core: CoreState) =>
       worldBenefitMonthlyMinor(190_000, core.seed);
     expect(benefit(a), `${where} row 16`).not.toBe(190_000);
-    expect(benefit(a), `${where} row 16`).not.toBe(benefit(b));
+    // Two worlds differ in their draw, not always in the rounded cent: at
+    // seed 03071ca4f722a322, Roebling, New Jersey, worlds a and b drew
+    // 0.632667 and 0.632696 of the spread, and both round to 180,383. The
+    // check reads the draw the benefit is made from.
+    expect(
+      worldOffsetUnit(a.seed, "world-benefit-level"),
+      `${where} row 16`,
+    ).not.toBe(worldOffsetUnit(b.seed, "world-benefit-level"));
     const bank = (core: CoreState) =>
       (
         coreAPI(core)
