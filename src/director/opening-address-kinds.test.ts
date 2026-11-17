@@ -1,3 +1,4 @@
+import { STORIES } from "./address-story";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -134,7 +135,7 @@ describe("the address picks its kind and subjects from the world", () => {
 
   it("holds pieces of its own, in both voices, for every kind but the policy push", () => {
     for (const kind of ADDRESS_KINDS.filter((name) => name !== "policy"))
-      for (const role of ["story-open", "story-turn", "pledge", "hope"])
+      for (const role of ["pledge", "hope"])
         for (const voice of ["polished", "plain"])
           expect(
             OPENING_SPEECH_BANK.parts.filter(
@@ -145,5 +146,31 @@ describe("the address picks its kind and subjects from the world", () => {
             ).length,
             `${kind} ${role} ${voice}`,
           ).toBeGreaterThan(0);
+  });
+
+  it("holds an opening and a turn, in both voices, for every story at every level it orders", () => {
+    // The world's story an address opens on (address-story.ts): each row
+    // with an order for a level has its own story-open and story-turn
+    // pieces there, so a warning and a brag never borrow each other's words.
+    const subjects: Readonly<Record<string, readonly string[]>> = {
+      federal: ["inaugural", "state-of-the-union"],
+      local: ["state-of-the-state", "town-address"],
+    };
+    for (const [story, row] of Object.entries(STORIES.rows))
+      for (const level of Object.keys(row.sections))
+        for (const subject of subjects[level] ?? [])
+          for (const role of ["story-open", "story-turn"])
+            for (const voice of ["polished", "plain"])
+              expect(
+                OPENING_SPEECH_BANK.parts.filter(
+                  (part) =>
+                    partHolds(part.topic, story) &&
+                    partHolds(part.voice, voice) &&
+                    part.uses.some(
+                      (use) => use.subject === subject && use.role === role,
+                    ),
+                ).length,
+                `${story} ${subject} ${role} ${voice}`,
+              ).toBeGreaterThanOrEqual(3);
   });
 });

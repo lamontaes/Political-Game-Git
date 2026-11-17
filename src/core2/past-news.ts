@@ -99,8 +99,11 @@ export function buildNewsArchive(
         winnerId: election.winnerId,
         winnerVotes: String(election.candidates[0]!.votes),
         totalVotes: String(election.totalVotes),
-        // The count this world's total was drawn around; never printed as it.
-        sourceVotes: String(election.sourceVotes),
+        // The count this world's total was drawn around; never printed as it. A race the
+        // century counted names its century record instead: its count is its own.
+        ...(election.centuryRecordId
+          ? { centuryRecordId: election.centuryRecordId }
+          : { sourceVotes: String(election.sourceVotes) }),
       },
       { personIds: [election.winnerId] },
     );

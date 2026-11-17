@@ -1,5 +1,5 @@
 import { spokenDate } from "../core2/kernel/dates";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   answerDonationAsk,
   askForEndorsement,
@@ -635,10 +635,16 @@ export function campaignAct(
   const campaign = campaignFor(api, input.filingId);
   if (campaign.candidateId !== personId)
     throw new Error("That is not your campaign.");
-  const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
+  // Asking someone is dealing with them: a person the candidate knows who is
+  // in the counts is filled in now (two-level rule), and an id no record
+  // holds any longer is not asked.
+  const asked = () =>
+    [...(core.people.get(personId)?.knownIds ?? [])]
+      .sort()
+      .filter((id) => personOrFillIn(core, id) !== undefined);
   switch (input.kind) {
     case "volunteer": {
-      const answers = known.map((id) => {
+      const answers = asked().map((id) => {
         const yes = askToVolunteer(api, input.filingId, id);
         const row = core.people.get(id);
         const name = row ? `${row.givenName} ${row.familyName}` : "";
@@ -683,7 +689,7 @@ export function campaignAct(
       };
     case "endorsement":
       return {
-        answers: known.map((id) => {
+        answers: asked().map((id) => {
           const yes = askForEndorsement(api, input.filingId, id);
           const row = core.people.get(id);
           const name = row ? `${row.givenName} ${row.familyName}` : "";
@@ -777,7 +783,6 @@ export function campaignAct(
             ? controls.campaignGatherers.hired
                 .replace("{cost}", dollarsOf(setAsideMinor))
                 .replace("{due}", dateSaid(petition.due, core.date))
-                .replace("{signed}", petition.signed.toLocaleString("en-US"))
             : after.raisedMinor > 0
               ? controls.campaignGatherers.noMoney.replace(
                   "{raised}",
