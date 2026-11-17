@@ -30,7 +30,7 @@ Ask for the line before you build on it: the pull request, the check, and why th
 
 A screen or feature counts as done only when the pull request shows a screenshot from the game itself, reached by playing (dev mode allowed), next to its mock or the owner's words. A passing test alone is not done.
 
-- Take the screenshot from a build of your own head, not from a mock page or a composed scene.
+- Take the screenshot from a build of your own head, not from a mock page or a composed scene. `verify --screen <tab>/<button>` reaches the screen by playing and saves it.
 - Put the mock or the owner's quote beside it, and say how you reached the screen: the clicks, or the dev mode control.
 - This is the builder's proof. After the merge, a second session still checks the item on main before it is `done` (`seen-in-game`).
 
@@ -70,7 +70,7 @@ The Long game lane splits the checks first, and builds the rule-1 guard in the s
 - A heavy set runs on a schedule and before the CTO merges: the full suite and the 20-year drawn-place run.
 - The full run must finish. Today it is canceled at 45 minutes.
 
-Until that lands, run the gate your role's skill names (`merger` (train-gate part), `merger` (checker part)).
+Skill `verify` runs the fast set in one command: `node .claude/skills/verify/scripts/verify.mjs`, plus `--screen` for the screenshot rule 2 asks for. Until that lands, run the gate your role's skill names (`merger` (train-gate part), `merger` (checker part)).
 
 ## 8. Stamp it
 
