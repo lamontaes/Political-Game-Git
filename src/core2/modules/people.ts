@@ -27,6 +27,7 @@ import {
   CLOSENESS,
   closenessBetween,
   homeTogether,
+  homeWorkIds,
   homeUpkeep,
   knownThroughRecords,
   metThrough,
@@ -318,7 +319,9 @@ function shareHomeTime(api: CoreAPI): void {
         // The time two housemates share follows both their weeks: the
         // shorter of their home days, by whether they are family.
         const together = homeTogether(core as CoreState, a.id, b.id, family);
-        pairs.push({ a: a.id, b: b.id, family, ...together });
+        // The work that kept each from home, by record, for the trace.
+        const work = [...homeWorkIds(core, a.id), ...homeWorkIds(core, b.id)];
+        pairs.push({ a: a.id, b: b.id, family, ...together, work });
         api.relationship(
           a.id,
           b.id,

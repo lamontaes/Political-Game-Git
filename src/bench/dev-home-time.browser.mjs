@@ -1,4 +1,4 @@
-/* global process, console, URL */
+/* global process, console, URL, document */
 // Pins family 31 (#9747): with dev mode on, a person's card in People shows the hours their day keeps back
 // (their own upkeep and their share of their home's) and their home's week at home, and the
 // home-time id opens in the Trace: each pair's home minutes and the time they shared, from their own
@@ -68,7 +68,7 @@ try {
       "\n",
     );
     assert.match(records, /reservedHours/, "no reserved hours on the card");
-    const id = (await link.first().innerText()).trim();
+    const id = ((await link.first().textContent()) ?? "").trim();
     // The row sits inside a folded section: open it, then the id.
     await link.first().evaluate((e) => {
       for (let p = e.parentElement; p; p = p.parentElement)

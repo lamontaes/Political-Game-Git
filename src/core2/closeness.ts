@@ -499,6 +499,26 @@ export function homeUpkeep(
 }
 
 /**
+ * The work commitments that keep a person from home today: their current
+ * job's, in force on this date. Their ids are what a home-time row cites.
+ */
+export function homeWorkIds(
+  core: Pick<CoreState, "date" | "people" | "work">,
+  personId: PersonId,
+): string[] {
+  const person = core.people.get(personId);
+  const ids: string[] = [];
+  for (const id of core.work.commitmentsByPerson.get(personId) ?? []) {
+    const row = core.work.commitments.get(id);
+    if (!row || row.jobId !== person?.jobId) continue;
+    if (row.startsAt > core.date || (row.endsAt && row.endsAt < core.date))
+      continue;
+    ids.push(id);
+  }
+  return ids;
+}
+
+/**
  * The minutes a day one person is home and awake: the waking day less the
  * work their current job schedules, averaged over its week
  * (`expectedWeeklyMinutes` on each running commitment of that job). Someone
@@ -512,15 +532,9 @@ export function homeMinutesPerDay(
   const sleep = core.data.work
     ? p(core.data.work.sleepReserveParameter)
     : p("zero");
-  const person = core.people.get(personId);
   let weekly = p("zero");
-  for (const id of core.work.commitmentsByPerson.get(personId) ?? []) {
-    const row = core.work.commitments.get(id);
-    if (!row || row.jobId !== person?.jobId) continue;
-    if (row.startsAt > core.date || (row.endsAt && row.endsAt < core.date))
-      continue;
-    weekly += row.expectedWeeklyMinutes;
-  }
+  for (const id of homeWorkIds(core, personId))
+    weekly += core.work.commitments.get(id)!.expectedWeeklyMinutes;
   return Math.max(
     p("zero"),
     (p("hoursPerDay") - sleep) * p("minutesPerHour") -

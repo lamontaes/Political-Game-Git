@@ -201,6 +201,7 @@ it(`counted giving and home time are each world's own over a played year, seed $
         homeA: number;
         homeB: number;
         minutesPerDay: number;
+        work: string[];
       }[];
     }[];
     const pairs = homes.flatMap((row) => row.pairs);
@@ -210,6 +211,13 @@ it(`counted giving and home time are each world's own over a played year, seed $
       "core2-people-p15-v1.home-time",
     );
     expect(pairs.length, `${place.name}: home-time pairs`).toBeGreaterThan(0);
+    // A pair where someone works cites the work that kept them from home, as
+    // records the Trace box opens.
+    const worked = pairs.find((p) => p.work.length);
+    expect(worked, `${place.name}: a pair with work on record`).toBeDefined();
+    expect(findRecord(core, worked!.work[0]!)?.engine).toBe(
+      "core.work.commitments",
+    );
     // Pairs' shared minutes differ with their weeks, not one fixed figure.
     expect(
       new Set(
