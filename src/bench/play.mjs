@@ -366,13 +366,15 @@ $("news-reader-close").addEventListener("click", () =>
  * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
  * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
  * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
- * clock closes the cards first.
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
  */
 function closeCards() {
   if (!$("person").hidden) closePerson();
   show("news-reader", false);
   show("tip", false);
-  if (openTab) closeSheet();
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
 }
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -2674,6 +2676,24 @@ function storyStop(value) {
     : undefined;
 }
 
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
+}
+
 // ---- The person card: only what you could know about them ----
 let personRequest = 0;
 let personOpener;
@@ -4371,6 +4391,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5482,7 +5518,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),
