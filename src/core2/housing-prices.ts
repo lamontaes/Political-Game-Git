@@ -18,9 +18,10 @@
  *   owned (zero before day one).
  *
  * Published data calibrates the three responses (the fit in
- * scripts/research/home-price-fit.ts against FHFA's state indexes) and the
- * level's scale once (the ACS median at its value date); it never sets the
- * level. Every home's value is the one rule `homeValueAt`.
+ * scripts/research/home-price-fit.ts against FHFA's state indexes) and one
+ * multiple of pay for day one (`housingValuePayMultiple`); it never sets a
+ * place's level, which starts from the place's own pay. Every home's value is
+ * the one rule `homeValueAt`.
  */
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import { worldOffsetUnit } from "./world-draw";

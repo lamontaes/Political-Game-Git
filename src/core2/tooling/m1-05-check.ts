@@ -5,9 +5,7 @@
  * game year. Passes when:
  * (1) and (2) UNCHECKED (owner, Nov 8: real ranges are not targets): the
  *     town's median rent and median home value at the start and end of the
- *     year, beside the range of the county medians in its state (ACS
- *     2020-2024 B25064 and B25077, src/core2/data/housing/housing.json
- *     countyRentValue), and the year's move in the value beside the range of
+ *     year, and the year's move in the value beside the range of
  *     four-quarter ratios its state's FHFA all-transactions index recorded
  *     from 1985 on (housePriceIndex; the annual CPI-U ratios in
  *     src/core2/data/macro/history.json where FHFA has no state rows), are
@@ -35,12 +33,8 @@
 import { placeStateKey } from "../place-map";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import history from "../data/macro/history.json" with { type: "json" };
-import regionsData from "../data/regional/regions.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
-import {
-  publishedRentValueOf as rentValueOf,
-  townFigures,
-} from "../modules/housing";
+import { townFigures } from "../modules/housing";
 import { advanceCore } from "../life";
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
 
@@ -59,32 +53,8 @@ const opening = townFigures(api, townId);
 playYear(world);
 const closing = townFigures(api, townId);
 
-// (1) Rents and home values against the state's county medians.
-const rentValue = housingData.countyRentValue as unknown as Record<
-  string,
-  [number | null, number | null]
->;
-// The state's FIPS code, from the regional table (an island area has no county code of its own).
-const statePrefix =
-  (regionsData.regions as { stateFips: string; stateUsps: string }[]).find(
-    (row) => row.stateUsps === usps,
-  )?.stateFips ?? "";
-const inState = Object.entries(rentValue).filter(
-  ([fips, row]) => fips.startsWith(statePrefix) && row[0] && row[1],
-);
-const rents = inState.map(([, row]) => row[0]! * 100);
-const values = inState.map(([, row]) => row[1]! * 100);
 const range = (list: number[]) =>
   list.length ? ([Math.min(...list), Math.max(...list)] as const) : undefined;
-const rentRange = range(rents),
-  valueRange = range(values);
-const countyMedian = rentValueOf(county);
-if (!rentRange || !valueRange)
-  console.error(
-    `rents and home values: unchecked, ${usps} has no county medians to make a regional range`,
-  );
-// Printed beside the town's figures in the report below, never tested
-// against (owner, Nov 8: real ranges are not targets).
 // (2) The year's move in home values against the recorded annual moves.
 const hpi = (
   housingData.housePriceIndex.states as unknown as Record<
@@ -273,19 +243,11 @@ console.log(
     start: world.start,
     state: usps,
     county,
-    countyMedianRentDollars: countyMedian[0],
-    countyMedianValueDollars: countyMedian[1],
     townMedianRentDollars: [opening.rentMinor / 100, closing.rentMinor / 100],
-    stateCountyRentRangeDollars: rentRange
-      ? [rentRange[0] / 100, rentRange[1] / 100]
-      : null,
     townMedianValueDollars: [
       opening.homeValueMinor / 100,
       closing.homeValueMinor / 100,
     ],
-    stateCountyValueRangeDollars: valueRange
-      ? [valueRange[0] / 100, valueRange[1] / 100]
-      : null,
     homeValueRatioOverYear: Number(valueRatio.toFixed(4)),
     annualRatioRange: ratioRange.map((n) => Number(n.toFixed(4))),
     annualRatioSource: ratioSource,
