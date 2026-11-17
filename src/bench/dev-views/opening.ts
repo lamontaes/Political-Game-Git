@@ -40,8 +40,10 @@ import {
   centuryRace,
   centurySeatRace,
   historyMode,
+  PARTIES_MODULE_ID,
   statePlaces,
   stateRightShare,
+  type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
 import { allOfficials, partySide } from "../../core2/modules/officials";
@@ -361,6 +363,47 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         return lines.length
           ? lines.join("; ")
           : "no district seat covers the town";
+      })(),
+    ),
+    row(
+      "town.partyTies",
+      "The town's party ties on day one",
+      (() => {
+        // Every adult's tie, as the parties engine keeps it (parties.ts openParties).
+        const api = coreAPI(core);
+        if (!core.modules.has(PARTIES_MODULE_ID)) return "no parties here";
+        const names = new Map(
+          (
+            api
+              .moduleState(PARTIES_MODULE_ID)
+              .table("parties")
+              .rows() as unknown as {
+              id: string;
+              name: string;
+            }[]
+          ).map((row) => [row.id, row.name]),
+        );
+        const ties = (
+          api
+            .moduleState(PARTIES_MODULE_ID)
+            .table("ties")
+            .rows() as unknown as TieRow[]
+        ).filter((t) => t.personId !== core.playerId);
+        if (!ties.length) return "no adult ties yet";
+        const counts = new Map<string, number>();
+        for (const t of ties) {
+          const label =
+            t.tie === "party"
+              ? (names.get(t.partyId ?? "") ?? "a party")
+              : t.tie === "independent"
+                ? "independent"
+                : "no party";
+          counts.set(label, (counts.get(label) ?? 0) + 1);
+        }
+        return [...counts]
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+          .map(([label, n]) => `${label} ${pct(n / ties.length)}`)
+          .join(", ");
       })(),
     ),
     row(
