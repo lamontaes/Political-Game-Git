@@ -116,6 +116,7 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 - `PATCH_NOTES.md`
 - `docs/current.json`
 - `docs/CURRENT.md`
+- `docs/words-lead-handoff-2026-11-16/`
 
 ## Replaced or removed, kept forever
 
