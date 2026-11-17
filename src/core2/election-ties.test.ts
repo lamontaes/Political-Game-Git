@@ -6,89 +6,83 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { collapseToTwoLevels } from "./residents";
-import { openLaws } from "./modules/laws";
-import {
-  OFFICES_MODULE_ID,
-  openOffices,
-  type TermRow,
-} from "./modules/offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
-  openElections,
   type ContestRow,
 } from "./modules/elections";
-import { openCampaigns } from "./modules/campaigns";
-import { openParties } from "./modules/parties";
-import { openVoting } from "./modules/voting";
+import { filingWindowOpens } from "./modules/candidacy";
 import type { ModuleRow } from "./module-data";
-import { officialOf, openOfficials } from "./modules/officials";
+import { officialOf } from "./modules/officials";
 import { breakElectionTie, type TieRow } from "./election-ties";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
-import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
-const START = "2026-10-20";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`election-ties:${Date.now()}`).digest("hex");
-function pick<T>(list: readonly T[], salt: string): T {
-  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
-  return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
-}
 const rules = (
   tieRules as unknown as {
     states: Record<string, Record<string, { method: string }>>;
   }
 ).states;
-// The 56 places, drawn until the state's law has its legislature decide.
-const states = [...corePlaceStateIdentities()]
-  .map((s) => s.jurisdictionKey)
-  .filter(
-    (k) =>
-      rules[k]?.["statewideExecutiveTie"]?.method === "legislature-decides",
-  )
-  .sort();
+const DRAWS = 12;
 
 describe("a tie decided by the legislature", () => {
   it("is voted by members who are persons with recorded views", () => {
-    // Draw a state whose law has the legislature decide and which has a
-    // statewide race on the ballot at the start; the draw walks on until one does.
-    for (let n = 0; n < 30; n += 1) {
-      const state = pick(states, `state:${n}`);
-      const places = [
-        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-          stateJurisdictionKey: state,
-          scope: "locality",
-        }),
-      ].sort((a, b) => a.key.localeCompare(b.key));
-      const key = pick(places, `place:${n}`).key;
-      const full = buildPopulation({
-        seed,
-        placeKey: key,
-        startedAt: START,
-        minimumPeople: 200,
+    // A drawn place in a state whose law has the legislature decide, opened as
+    // the game opens a world (`buildBenchWorld`), with its next statewide
+    // race's ballot made by the candidacy engine's own play: the world is
+    // opened the day before that race's filing window and played two days,
+    // so the filers are the people who chose to run. The draw walks on,
+    // naming each place passed over, until a race has two on its ballot.
+    setBookkeeping(false);
+    const passed: string[] = [];
+    for (let n = 0; n < DRAWS; n += 1) {
+      const place = drawPlace(n === 0 ? seed : `${seed}:${n}`, "election-ties");
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      if (
+        rules[place.state]?.["statewideExecutiveTie"]?.method !==
+        "legislature-decides"
+      ) {
+        passed.push(`${where}: its legislature does not decide a tie`);
+        continue;
+      }
+      const opening = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
       });
-      const player = [...full.people]
-        .filter(
-          (p) =>
-            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18,
-        )
-        .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-      const core = createLifeCore(
-        collapseToTwoLevels({ ...full, playerId: player.id }),
+      const first = coreAPI(opening.core);
+      const statewide = (
+        first
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]
+      )
+        .filter((c) => c.family === "statewideExecutive")
+        .map((c) => ({ id: c.id, opens: filingWindowOpens(first, c) }))
+        .filter((c) => c.opens > opening.core.date)
+        .sort((a, b) => a.opens.localeCompare(b.opens))[0];
+      if (!statewide) {
+        passed.push(`${where}: no statewide race ahead`);
+        continue;
+      }
+      const { core } = buildBenchWorld(
+        place.seed,
+        addDays(makeIsoDate(statewide.opens), -1),
+        { twoLevel: true, placeKey: place.key },
       );
-      openLaws(core);
-      openOffices(core, seed, core.date);
-      openOfficials(core);
-      openElections(core);
-      openCampaigns(core);
-      openParties(core);
-      openVoting(core);
+      advanceCore(core, addDays(makeIsoDate(statewide.opens), 1));
       const api = coreAPI(core);
+      const key = place.key;
+      const state = place.state;
       const contest = (
         api
           .moduleState(ELECTIONS_MODULE_ID)
@@ -100,7 +94,12 @@ describe("a tie decided by the legislature", () => {
           c.electionDate > api.state.date &&
           ballot(api, c.id).length >= 2,
       );
-      if (!contest) continue;
+      if (!contest) {
+        passed.push(
+          `${where}: no statewide race with two on its ballot by ${core.date}`,
+        );
+        continue;
+      }
       const tied = ballot(api, contest.id)
         .slice(0, 2)
         .map((f) => f.personId);
@@ -159,11 +158,13 @@ describe("a tie decided by the legislature", () => {
       expect(api.state.stopgapHits.has("SG-GOV-tie-named-member-lean")).toBe(
         false,
       );
-      console.info(
-        `election-ties ${state} ${key} seed ${seed.slice(0, 12)} ${contest.id}: ${members.length} members voted`,
+      process.stdout.write(
+        `election-ties ${state} ${key} seed ${seed.slice(0, 12)} ${contest.id}: ${members.length} members voted; passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }
-    throw new Error("no drawn state had a statewide race on the ballot");
-  }, 600_000);
+    throw new Error(
+      `no drawn place had a statewide race on the ballot (seed ${seed}): ${passed.join("; ")}`,
+    );
+  }, 1_200_000);
 });
