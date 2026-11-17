@@ -124,7 +124,8 @@
         "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts",
         "src/core2/government-proper-name.ts",
-        "src/core2/offices-executives.ts"
+        "src/core2/offices-executives.ts",
+        "src/core2/law-consensus.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -137,6 +138,7 @@
         "src/core2/modules/constituent-cases.ts",
         "src/core2/office-*.ts",
         "src/core2/offices-*.ts",
+        "src/core2/law-consensus.ts",
         "src/core2/officials-*.ts",
         "src/core2/official-living.ts",
         "src/core2/executive-term-limits.ts",

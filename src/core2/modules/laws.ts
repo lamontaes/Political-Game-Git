@@ -72,7 +72,9 @@ export { townFacts, townStatePlaces } from "../law-reach/group-b-people";
 export { reachedBy, reachOn } from "../law-reach/host";
 export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
-export { POLICY_QUESTIONS } from "../policy-answers";
+export { POLICY_QUESTIONS, POLICY_SERIES_BY_LEVEL } from "../policy-answers";
+/** A law row, for the readers in other families that take one. */
+export type { LawRowInput } from "../laws-starting";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
 export { WEB_LINKS } from "../outcome-web-model";
 /**

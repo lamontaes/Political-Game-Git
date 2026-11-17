@@ -21,15 +21,15 @@ import {
   lawRows,
   LAWS_MODULE_ID,
   POLICY_QUESTIONS,
+  POLICY_SERIES_BY_LEVEL,
+  type LawRowInput,
 } from "./modules/laws";
-import { POLICY_SERIES_BY_LEVEL } from "./policy-answers";
 import { placeStateKeys } from "./places";
 import { axisOf } from "./campaign-data";
-import { personStance, questionAxis } from "./campaign-views";
+import { personStance, questionAxis } from "./modules/campaigns";
 import { opinionRest } from "./modules/views";
 import { officialsIn, OFFICIALS_MODULE_ID } from "./modules/officials";
 import { OFFICIALS_DATA, type SignatureIssue } from "./officials-roster";
-import type { LawRowInput } from "./laws-starting";
 import { PAST_MODULE_ID } from "./past-module";
 
 /** The world's consensus on a question: its "yes" share and what it was read from. */

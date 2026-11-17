@@ -52,8 +52,7 @@ import {
   STANCE_LOADINGS,
   type StanceProfile,
 } from "../campaign-views";
-import { townLean } from "./campaigns";
-import { countedResidents } from "../electorate";
+import { countedResidents, townLean } from "./campaigns";
 import { currentCloseness } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };

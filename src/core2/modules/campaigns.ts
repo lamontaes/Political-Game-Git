@@ -156,6 +156,10 @@ export { candidatePlatform } from "../campaign-stances";
 export { contestPositions } from "../contest-positions";
 /** A side's stance on a question, for the speeches that say where a speaker stands. */
 export { stanceReader } from "../campaign-stances";
+/** A voter's stance at a lean and a question's measured direction, for the members' stance rules (law-consensus.ts). */
+export { personStance, questionAxis } from "../campaign-views";
+/** The counted residents, for the views engine's monthly opinion. */
+export { countedResidents } from "../electorate";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
