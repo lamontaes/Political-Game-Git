@@ -1318,7 +1318,7 @@ function electionNight(night) {
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
-    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // call, rows in columns across the board, so all of them fit the panel at 1024x768
     // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
     // could not be reached).
     const steps = night.nation.races.length
@@ -1326,6 +1326,8 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
+      // The page of the races elsewhere lays its rows across the board (play.css, #returns.nation).
+      $("returns").classList.toggle("nation", Boolean(steps[at].nation));
       $("returns").replaceChildren(
         electionNightScreen({
           title: night.title,
