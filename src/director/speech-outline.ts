@@ -1932,27 +1932,28 @@ function contextFacts(
   if (years < least) return {};
   const span = months.slice(-years * api.parameter("macroMonthsPerYear"));
   const ids = [span[P.zero]!.id, span.at(-P.one)!.id];
-  const mean = (pick: (row: MacroMonth) => number) =>
-    span.reduce((sum, row) => sum + pick(row), P.zero) / span.length;
-  const yearly = (pick: (row: MacroMonth) => number) =>
-    (Math.pow(pick(span.at(-P.one)!) / pick(span[P.zero]!), P.one / years) -
-      P.one) *
-    N.percentPerRatio;
-  const amount: Record<string, () => number> = {
-    inflation: () => mean((row) => row.inflationPct),
-    unemployment: () => mean((row) => row.unemploymentPct),
-    mortgage: () => mean((row) => row.mortgage30Pct),
-    wages: () => yearly((row) => row.hourlyEarnings),
-    growth: () => yearly((row) => row.realOutput),
+  // Which way the measure went over the span, first month to last: said in
+  // words, never as a figure (the Story lead's read of #9831, Nov 17).
+  const measure: Record<string, (row: MacroMonth) => number> = {
+    inflation: (row) => row.priceIndex,
+    unemployment: (row) => row.unemploymentPct,
+    mortgage: (row) => row.mortgage30Pct,
+    wages: (row) => row.hourlyEarnings,
+    growth: (row) => row.realOutput,
   };
-  const of = amount[topic];
-  return of
-    ? {
-        "context-years": fact(countSaid(years), ...ids),
-        "context-name": fact(OUTLINES.topicWords[topic] ?? topic, ...ids),
-        [`context-${topic}`]: fact("yes", ...ids),
-      }
-    : {};
+  const of = measure[topic];
+  if (!of) return {};
+  const moved = of(span.at(-P.one)!) - of(span[P.zero]!);
+  return {
+    "context-years": fact(countSaid(years), ...ids),
+    "context-name": fact(OUTLINES.topicWords[topic] ?? topic, ...ids),
+    [`context-${topic}`]: fact("yes", ...ids),
+    ...(moved > P.zero
+      ? { "context-up": fact("yes", ...ids) }
+      : moved < P.zero
+        ? { "context-down": fact("yes", ...ids) }
+        : {}),
+  };
 }
 
 /** Every month the macro engine has recorded or will open from, oldest first, up to today. */

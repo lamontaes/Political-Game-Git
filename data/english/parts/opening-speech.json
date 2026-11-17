@@ -113685,10 +113685,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "opening-speech.pledge.polished-policy-redraft-i-will-show-you-what-the-plan-on-hardest-costs",
+      "key": "opening-speech.pledge.polished-policy-redraft-i-ll-tell-you-what-my-plan-on-hardest-will-cost",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I will show you what the plan on {hardest} costs.",
+      "text": "I'll tell you what my plan on {hardest} will cost.",
       "uses": [
         {
           "move": "pledge",
@@ -116649,6 +116649,398 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.polished-inflation-up-worded-for-context-years-years-prices-have-kept-climbing",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years, prices have kept climbing, and families have paid for every bit of it.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-inflation", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-inflation", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.plain-inflation-up-worded-for-context-years-years-now-prices-just-keep",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years now, prices just keep going up, and folks feel it every time they shop.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-inflation", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-inflation", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.polished-unemployment-up-worded-over-the-last-context-years-years-more-people",
+      "move": "context",
+      "kind": "spoken",
+      "text": "Over the last {context-years} years, more people were out of work at the end than at the start.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-up"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-up"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.polished-unemployment-down-worded-over-the-last-context-years-years-more-people",
+      "move": "context",
+      "kind": "spoken",
+      "text": "Over the last {context-years} years, more people have found work than lost it.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-down"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-down"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.plain-unemployment-up-worded-for-context-years-years-more-folks-have-been",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years, more folks have been looking for work, not fewer.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-up"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-up"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.plain-unemployment-down-worded-these-last-context-years-years-a-lot-of",
+      "move": "context",
+      "kind": "spoken",
+      "text": "These last {context-years} years, a lot of folks got back to work.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-down"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": [
+            "context-unemployment",
+            "context-years",
+            "context-down"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.polished-mortgage-up-worded-for-context-years-years-a-home-loan-has",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years, a home loan has cost more each year, and a first home has slipped out of reach for too many.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-mortgage", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-mortgage", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.plain-mortgage-up-worded-for-context-years-years-mortgages-kept-getting-pricier",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years, mortgages kept getting pricier, and a lot of young families gave up on buying.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-mortgage", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-mortgage", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.polished-wages-up-worded-over-the-last-context-years-years-pay-has",
+      "move": "context",
+      "kind": "spoken",
+      "text": "Over the last {context-years} years, pay has gone up, and families have measured every raise against what things cost.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-wages", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-wages", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.plain-wages-up-worded-for-context-years-years-paychecks-went-up-and",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years, paychecks went up, and folks checked every raise against the grocery bill.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-wages", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-wages", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.polished-growth-up-worded-for-context-years-years-the-economy-has-grown",
+      "move": "context",
+      "kind": "spoken",
+      "text": "For {context-years} years, the economy has grown, and not every family has felt it.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-growth", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-growth", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "growth",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.context.plain-growth-up-worded-the-economy-has-grown-these-last-context-years",
+      "move": "context",
+      "kind": "spoken",
+      "text": "The economy has grown these last {context-years} years, but plenty of folks haven't seen it.",
+      "uses": [
+        {
+          "move": "context",
+          "subject": "inaugural",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-growth", "context-years", "context-up"],
+          "tie": "record"
+        },
+        {
+          "move": "context",
+          "subject": "state-of-the-union",
+          "role": "context",
+          "choice": "context",
+          "requiresFacts": ["context-growth", "context-years", "context-up"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "growth",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; signed by the Story lead Nov 17)",
       "date": "2026-11-17"
     }
   ]
