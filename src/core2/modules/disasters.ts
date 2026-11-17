@@ -244,14 +244,15 @@ function madeDisaster(
  * Dev mode's "cause a disaster" (and the tests'): build the county's exposure to a hazard up to
  * one more whole disaster and let it happen tomorrow, through the same begin and declare as one
  * the weather made. A recorded disaster of the hazard gives its figures: the hazard's next one
- * in turn, or with `damagingTown` the next whose recorded figures name homes damaged in the town
- * (the ones before it count as having happened). None where the county has no such disaster to
+ * in turn, or with `which` the next whose recorded figures name homes damaged in the town, or one named
+ * recorded disaster (the ones before it count as having happened). None where the county has no such disaster to
  * take figures from.
  */
 export function causeDisaster(
   api: CoreAPI,
   hazard: Hazard,
-  damagingTown = false,
+  /** "damaging": the next recorded disaster that names damaged homes in the town; a number: that recorded disaster. */
+  which?: "damaging" | number,
 ): Disaster | undefined {
   const rt = runtime(api);
   const list = rt.templates.get(hazard) ?? [];
@@ -268,10 +269,11 @@ export function causeDisaster(
     fired: 0,
   };
   let k = row.fired;
-  if (damagingTown) {
+  if (which !== undefined) {
     const at = [...list.keys()]
       .map((i) => (row.fired + i) % list.length)
       .find((i) => {
+        if (typeof which === "number") return list[i]!.number === which;
         const damage = townRow(rt, list[i]!);
         return (damage?.[2] ?? 0) > 0 && (damage?.[0] ?? 0) > 0;
       });
@@ -300,7 +302,7 @@ export function causeDisaster(
  */
 export function causeDamagingDisaster(api: CoreAPI): Disaster | undefined {
   for (const hazard of GENERATED_HAZARDS) {
-    const made = causeDisaster(api, hazard, true);
+    const made = causeDisaster(api, hazard, "damaging");
     if (made) return made;
   }
   return undefined;
