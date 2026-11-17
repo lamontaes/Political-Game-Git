@@ -9,6 +9,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { openingsView } from "../bench/openings";
 import { gameStartDate } from "./game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "./life";
@@ -18,7 +19,6 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   acceptJobOffer,
   applyForOpening,
-  fillableOpenings,
   quitJob,
   jobOffersFor,
   JOBS_MODULE_ID,
@@ -49,12 +49,17 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       // by their own press (the jobs sheet's Leave this job, `quitJob`).
       if (core.people.get(playerId)!.jobId) quitJob(api, playerId);
       const before = core.people.get(playerId)!.jobId;
+      const listed = new Map<string, number>();
       // Eight weeks at a time for up to a year, until an employer picks them
       // (a town's openings and the player's fit decide when, if at all).
       for (let weeks = 0; weeks < 52; weeks += 8) {
         // The player applies to the openings in their town: an offer needs a cause (owner, Nov 16).
-        for (const position of fillableOpenings(api))
-          applyForOpening(api, position.id);
+        // The player applies from the Jobs list: the openings in their own
+        // town, each at the pay the list shows them, which the call must match.
+        for (const row of openingsView(core, playerId).openings) {
+          listed.set(row.recordId, row.hourlyMinor);
+          applyForOpening(api, row.recordId);
+        }
         advanceCore(core, addDays(makeIsoDate(core.date), 8 * 7));
         if (jobOffersFor(api, playerId).length) break;
       }
@@ -99,6 +104,11 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
           ).offeredTo,
         ).toBe(playerId);
       const offer = open[0]!;
+      // The call offers the pay the listing showed the player.
+      expect(
+        offer.hourlyMinor,
+        `${offer.id} offered a different pay than its listing`,
+      ).toBe(listed.get(offer.positionId));
       expect(acceptJobOffer(api, offer.id)).toBe(true);
       const job = core.jobs.get(core.people.get(playerId)!.jobId!)!;
       expect(job.organizationId).toBe(offer.organizationId);
