@@ -442,9 +442,13 @@ function passOver(options: BuildOptions, error: unknown): BuildOptions {
     .map((_, step) => state[(from + step) % state.length]!)
     .find((row) => !passedOver.some((passed) => passed.key === row.key));
   if (!next) throw error;
-  process.stdout.write(
-    `Passed over ${here.displayName} (${here.key}): ${error.message} Building at ${next.displayName} (${next.key}), the same state's next place.\n`,
+  // A developer's message, written as an Error's so the line register
+  // (scripts/words/line-register.ts) reads it as one and not as a game line,
+  // as NoPlayerHereError's own is.
+  const said = new Error(
+    `Passed over ${here.displayName} (${here.key}): ${error.message} Building at ${next.displayName} (${next.key}), the same state's next place.`,
   );
+  process.stdout.write(said.message + "\n");
   return { ...options, placeKey: next.key, passedOver };
 }
 
