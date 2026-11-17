@@ -312,22 +312,29 @@ export function opinionQuestions(): readonly string[] {
 
 /**
  * How strongly a person's lean predicts their stance on a question (the
- * strength of the relationship, never a level): the poll's Republican yes
- * share minus its Democratic one (`policy-support-2026.json`), the same
- * measure the budget lines (GSS and Pew by party) and the federal questions
- * (roll calls by party) take, weak for a question both parties back and
- * strong for one that splits them. A person at lean -1 to 1 spans the
- * parties' range, so their stance moves by the parties' gap. A question the
- * poll did not split by party reads its measured direction across states
- * (`questionAxis`).
+ * strength of the relationship, never a level). Its size is the poll's gap
+ * between the parties, the Republican yes share minus the Democratic one
+ * (`policy-support-2026.json`), the same measure the budget lines (GSS and
+ * Pew by party) and the federal questions (roll calls by party) take: weak
+ * for a question both parties back, strong for one that splits them. A
+ * person at lean -1 to 1 spans the parties' range, so their stance moves by
+ * the parties' gap. Its direction is the question's measured direction among
+ * governments (`questionAxis`, the one members of a legislature read), so a
+ * voter and a member at the same lean lean the same way; a question with no
+ * measured direction keeps the poll's. A question the poll did not split by
+ * party reads its measured direction alone.
  */
 export function leanStrength(question: string): number {
   const split = partySplit[question];
-  return split &&
-    typeof split.democrats === "number" &&
-    typeof split.republicans === "number"
-    ? split.republicans - split.democrats
-    : questionAxis(question);
+  const axis = questionAxis(question);
+  if (
+    !split ||
+    typeof split.democrats !== "number" ||
+    typeof split.republicans !== "number"
+  )
+    return axis;
+  const gap = split.republicans - split.democrats;
+  return axis ? Math.sign(axis) * Math.abs(gap) : gap;
 }
 
 /** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
