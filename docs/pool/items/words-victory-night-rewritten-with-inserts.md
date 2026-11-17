@@ -32,6 +32,8 @@ Seen: a candidate wins a local race in a drawn place, and the talk after the cou
 
 **Done when.** In a drawn place (Town, State, seed nobody chose), a second session plays a local race to its count through the elections force recipe, presses every reply at the venue and at home, and finds each fact a line leans on is the record's by id: the margin facts agree with the result's totals, `manager` is set only where the campaign's staff holds someone, and no `victory-night` line plays on a lost race. The line-inserts count for scene-talk is lower than before.
 
+**Waits on.** Nothing.
+
 **Files.** data/english/parts/scene-talk.json, data/english/count-words.json, src/english/count-words.ts, src/director/victory-night-facts.ts, src/director/victory-night-facts.test.ts, scripts/words/victory-night-play.ts, src/director/purpose-scene.ts, scripts/words/victory-night-walk.ts, tests/guards/english/line-inserts-baseline.json, data/english/pulled.json
 
 **Notes.**
