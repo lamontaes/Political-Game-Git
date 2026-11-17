@@ -3928,7 +3928,15 @@ export function composeJournal(
       // none (Story lead, Nov 17).
       for (let at = paragraphs.length - one; at > zero; at -= one) {
         const here = paragraphs[at]!;
-        if (here.sentences.length === one && !here.timed) {
+        const lawish = (units: readonly Unit[]) =>
+          units.every(
+            (unit) => unit.moment.causeKind === "event:law.effect-learned",
+          );
+        if (
+          here.sentences.length === one &&
+          !here.timed &&
+          lawish(here.told) === lawish(paragraphs[at - one]!.told)
+        ) {
           paragraphs[at - one]!.told.push(...here.told);
           paragraphs[at - one]!.sentences.push(...here.sentences);
           paragraphs.splice(at, one);
@@ -4080,10 +4088,12 @@ export function composeJournal(
       ) {
         const isLaw = (unit: Unit) =>
           unit.moment.causeKind === "event:law.effect-learned";
-        if (part.every(isLaw) && !kept.told.every(isLaw)) {
-          // A law's effect after a family beat is a paragraph of its own,
-          // opened on the person's age (the memoir's `whenAge`), never
-          // joined to a separation or a death.
+        if (part.every(isLaw) !== kept.told.every(isLaw)) {
+          // A fact with no time of its own joins a paragraph only of its own
+          // kind (a law joins laws, a family fact family). Otherwise it is a
+          // paragraph of its own, opened on the person's age (the memoir's
+          // `whenAge`): a law after a separation or a death, a relative's
+          // move after a law.
           const frame = render(
             { part: "memoir", field: "whenAge" },
             {
