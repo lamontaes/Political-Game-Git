@@ -1,12 +1,6 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
-    "conversation.home-new-answer-deflect.not-much-to-tell-my-place-is-home": [
-      "no-x-is-home"
-    ],
-    "conversation.tenure-reply-answer-turn.years-years-their-first-you-must-know-everyone-there": [
-      "no-must-for-have-to"
-    ],
     "opening-speech.ask.folded-polished-keep-law-short": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -110,6 +104,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 425
+    "reply-second-move-follows-the-first (pairs)": 0
   }
 }
