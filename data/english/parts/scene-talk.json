@@ -173,7 +173,8 @@
     "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
     "held-for": "How long a relative has been held, as a span (\"three months\"), from the custody record.",
     "relation": "How the person in the scene is related to someone in their case (\"brother\", \"daughter\"), from the family records.",
-    "out-in": "How long until a held relative is due out, as a bare span (\"two years\"), from the custody record."
+    "out-in": "How long until a held relative is due out, as a bare span (\"two years\"), from the custody record.",
+    "illness": "The illness a person in the case has on the health record (\"cancer\", \"diabetes\"), as the relative-news words say it."
   },
   "maxWords": 70,
   "parts": [
@@ -190657,7 +190658,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["problem-sick"]
+          "requiresFacts": ["problem-sick", "illness"]
         }
       ],
       "origin": "authored",
@@ -190678,7 +190679,7 @@
       "key": "scene-talk.follow-answer.case-help-sick-1",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I am.",
+      "text": "I am. It's {illness}.",
       "uses": [
         {
           "subject": "scene",
@@ -190686,7 +190687,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["problem-sick", "sick-self"],
+          "requiresFacts": ["problem-sick", "sick-self", "illness"],
           "after": "scene-talk.reply-ask.case-help-sick-1"
         }
       ],
@@ -190708,7 +190709,7 @@
       "key": "scene-talk.follow-answer.case-help-sick-2",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "My {relation}.",
+      "text": "My {relation}. It's {illness}.",
       "uses": [
         {
           "subject": "scene",
@@ -190716,7 +190717,12 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["problem-sick", "sick-relation", "relation"],
+          "requiresFacts": [
+            "problem-sick",
+            "sick-relation",
+            "relation",
+            "illness"
+          ],
           "after": "scene-talk.reply-ask.case-help-sick-1"
         }
       ],

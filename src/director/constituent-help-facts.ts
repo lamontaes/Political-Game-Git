@@ -11,7 +11,8 @@
  */
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
-import { careNeedOf } from "../core2/modules/health";
+import { careNeedOf, seriousIllnessOf } from "../core2/modules/health";
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -161,6 +162,15 @@ export function caseFacts(
     // the household holds a plan, from the health and coverage records.
     const illId = String(row.facts.illId ?? "") as PersonId;
     const ill = core.people.get(illId);
+    // What they have, from the health record's condition, said as the
+    // relative-news words say it; a condition the words do not name leaves the
+    // fact out and the lines that ask about it unoffered (rule 108).
+    const condition = seriousIllnessOf(core as CoreState, illId);
+    const illness = condition
+      ? RELATIVE_NEWS_WORDS.illnesses[condition]
+      : undefined;
+    if (illness)
+      facts.illness = { text: illness, sourceRecordIds: [illId] };
     if (illId === askerId) facts["sick-self"] = said("yes");
     else if (ill) {
       facts["sick-relation"] = { text: "yes", sourceRecordIds: [ill.id] };
