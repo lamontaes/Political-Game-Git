@@ -924,6 +924,31 @@ function campaignMeansOf(seed: string, personKey: string): number {
 }
 
 /**
+ * Where a place stood in 1925: a state's place on the lean order; a place with no presidential
+ * vote (a territory, Puerto Rico) where its delegate's district opened (`openingSeats`), so its
+ * legislative districts stand around its own seat in Congress.
+ */
+function placeOpeningLean(
+  seed: string,
+  leans: Readonly<Record<string, number>>,
+  stateKey: string,
+): number {
+  const own = leans[stateKey];
+  if (own !== undefined) return own;
+  // stopgapId: SG-HIST-century-territory-opening-lean
+  const delegate = `${stateKey}:house:${districtsOf(stateKey)[0] ?? "0"}`;
+  return Math.max(
+    0,
+    Math.min(
+      1,
+      0.5 +
+        centuryShift(seed, `century:lean:${delegate}`) *
+          centuryParameter("centuryDistrictLeanSpread"),
+    ),
+  );
+}
+
+/**
  * Every state legislative seat in 1925, as the offices engine lists them (which seats exist,
  * their terms and their cycles, never who holds them): who holds it is the side its own district
  * leans to. The played town's state is counted seat by seat, every other state's chambers as
@@ -954,7 +979,7 @@ function openingLegislatures(
           0,
           Math.min(
             1,
-            (leans[stateKey] ?? 0.5) +
+            placeOpeningLean(seed, leans, stateKey) +
               centuryShift(seed, `century:lean:${key}`) *
                 centuryParameter("centuryDistrictLeanSpread"),
           ),

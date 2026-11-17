@@ -268,7 +268,7 @@
     "id": "SG-HIST-century-parties",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed. A legislature most of whose published members belong to no national side (Nebraska's, elected without party labels; Puerto Rico's, with its own parties; a territory's with no party record) is not counted by the century and keeps what play reads.",
+    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed. A legislature most of whose published members belong to no national side (Nebraska's and American Samoa's, elected without party labels; the Northern Marianas' House, most of whose members are independents) is not counted by the century and keeps what play reads. Puerto Rico's chambers are counted under its own parties' labels for each side.",
     "why": "Party evolution is the History lane's PR 7, after Congress and the states, because a party's stances come from its coalition's people.",
     "addedBy": "History lane (claude/history-congress)",
     "addedAt": "2026-11-17",
@@ -306,6 +306,17 @@
     "addedBy": "History lane (claude/history-states)",
     "addedAt": "2026-11-17",
     "replacement": "The ticket rule read in the century: a joint ticket's offices take the governor's race.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-territory-opening-lean",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A place with no presidential vote (a territory, Puerto Rico) opens 1925 at the neutral point moved by its delegate seat's own shift; its legislative districts stand around that.",
+    "why": "The lean order is set from the states' presidential votes; a territory casts none, and its people are not counted yet.",
+    "addedBy": "History lane (claude/history-territory-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "The territory's people counted from its own population (the people engine's counts, family 5), so it opens where its people stand.",
     "status": "open"
   }
 ]
