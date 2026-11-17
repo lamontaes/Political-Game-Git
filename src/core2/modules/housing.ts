@@ -601,6 +601,30 @@ export function expectedRenterHouseholds(
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
 }
 
+/**
+ * What the town bank's capital lets it hold in mortgages on day one: the
+ * rule credit lends by (its equity times the limits it may carry), less the
+ * business lines it has already extended. Mortgages take the room that is
+ * left; a bank with less capital, or more lines out, holds fewer of them.
+ */
+export function openingMortgageRoom(
+  bank: { id: string; liquidMinor: number },
+  facilities: readonly {
+    lenderId: string;
+    active: boolean;
+    limitMinor: number;
+  }[],
+): number {
+  const lines = facilities
+    .filter((row) => row.lenderId === bank.id && row.active)
+    .reduce((n, row) => n + row.limitMinor, 0);
+  return Math.max(
+    0,
+    bank.liquidMinor * housingMacroParameter("creditMaxLimitsPerEquity") -
+      lines,
+  );
+}
+
 export function withHousing(input: CoreInput): CoreInput {
   const town = housingTownOf(input);
   if (!town) return input;
@@ -769,11 +793,10 @@ function withHousingAt(
           // The county's own ACS shares (a whole-state or island row reads its state's, else the nation's).
           ...(/^\d{5}$/.test(town.county) ? { county: town.county } : {}),
           seed: input.seed,
-          // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
-          bankRoomMinor:
-            bank.liquidMinor *
-            housingMacroParameter("creditMaxLimitsPerEquity") *
-            pv("housingBankMortgageShareOfLoans"),
+          bankRoomMinor: openingMortgageRoom(
+            bank,
+            input.finance?.facilities ?? [],
+          ),
           ...(outside ? { outsideId: outside.id } : {}),
           ...(account ? { account } : {}),
           placeId: town.placeId,
