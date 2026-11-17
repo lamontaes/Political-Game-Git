@@ -116956,6 +116956,246 @@
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
       "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-the-next-term-left-are-for-making-sure-this",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The next {term-left} are for making sure this good stretch reaches every kitchen table.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-i-intend-nothing-less-than-to-keep-it-going",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I mean to keep it going for {term-left}, and to widen it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-a-good-start-is-not-a-finished-job-and",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "A good start is not a finished job, and I have {term-left} to finish it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-a-good-start-isn-t-a-finished-job-i",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "A good start isn't a finished job. I've got {term-left} to finish it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-for-the-next-term-left-every-choice-i-make",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "For the next {term-left}, every choice I make starts with your paycheck.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-the-country-deserves-better-and-in-term-left-i",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The country deserves better, and in {term-left} I mean to have it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-for-the-next-term-left-your-paycheck-comes-first",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "For the next {term-left}, your paycheck comes first.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-i-ve-got-term-left-watch-what-we-do",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I've got {term-left}. Watch what we do with them.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "run-inherited", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
     }
   ]
 }
