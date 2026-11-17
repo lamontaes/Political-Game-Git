@@ -747,7 +747,7 @@ function seatResident(
  * next term, from the office's own start day, ending at `termEnd`.
  */
 /** Seats opened between two reports to the loading screen in a large body. Engineering value. */
-const OPENING_SEATS_PER_STEP = 40;
+const OPENING_SEATS_PER_STEP = 10;
 
 export function openOffices(
   core: CoreState,
