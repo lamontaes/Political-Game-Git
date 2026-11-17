@@ -1,4 +1,4 @@
-/* global process, URLSearchParams, console, document, fetch */
+/* global process, URLSearchParams, console, document, fetch, innerHeight */
 // Election day and night in the bench (npm run bench): a grown player in a
 // place drawn from all 56 files for the soonest race they may enter, jumps
 // the calendar to the week before, and plays Day by Day. Election morning
@@ -213,6 +213,27 @@ try {
     await page.getByRole("button", { name: "Go vote", exact: true }).click();
     await page.locator("#ballot:not([hidden])").waitFor();
     await shot("eday-3-ballot");
+    // The ballot fits the window (pl-ballot): a long one scrolls inside its
+    // paper, and "What I know about them" stays on screen beside it.
+    const fit = await page.evaluate(() => {
+      const box = (s) => document.querySelector(s)?.getBoundingClientRect();
+      const panel = box("#ballot");
+      const know = box(".ballot-know .sechead");
+      return {
+        bottom: Math.round(panel.bottom),
+        height: innerHeight,
+        know: know ? Math.round(know.top) : null,
+      };
+    });
+    console.log("BALLOT FIT:", JSON.stringify(fit));
+    assert.ok(
+      fit.bottom <= fit.height,
+      `the ballot runs ${fit.bottom - fit.height}px past the window`,
+    );
+    assert.ok(
+      fit.know !== null && fit.know >= 0 && fit.know < fit.height,
+      "What I know about them is not on screen beside the ballot",
+    );
   }
   // Mark each race for its first candidate, as a voter might; a race below
   // the panel's fold is marked the same way (the ballot scrolls).

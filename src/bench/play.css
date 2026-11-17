@@ -68,6 +68,8 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* The ballot's panel at most this tall, so a long ballot scrolls inside it. */
+  --ballot-max-h: calc(var(--vh) * 0.86);
   color-scheme: dark;
   --glass-top: rgba(42, 42, 44, 0.72);
   --glass-bottom: rgba(22, 22, 24, 0.82);
@@ -5493,10 +5495,19 @@ select.release-pick {
   transform: translateX(-50%);
   width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
+/* A long ballot (a county's offices, several commissioners) stays inside the
+   window: the paper scrolls in its own column and "What I know about them"
+   stays beside it, as the mock sets them. */
+#ballot {
+  max-height: var(--ballot-max-h);
+}
 .ballot-paper {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 28px;
+  flex: 1 1 auto;
+  min-height: 0;
   font-family: var(--ui);
 }
 .ballot-sheet {
@@ -5504,6 +5515,10 @@ select.release-pick {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass-lo) transparent;
   font-family: var(--ui);
 }
 .ballot-race {
