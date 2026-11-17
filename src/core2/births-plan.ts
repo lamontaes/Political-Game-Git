@@ -74,7 +74,7 @@ export function partnershipStart(
   const estimate = births.length
     ? addDays(
         makeIsoDate(births[0]!),
-        -Math.round(p("renewalTimingPeakYears") * p("daysPerMeanYear")),
+        -Math.round(p("renewalGestationDays") + p("renewalRecoveryDays")),
       )
     : addDays(
         makeIsoDate(mother.birthDate),
@@ -99,6 +99,16 @@ function tenureOf(
 }
 
 /**
+ * How fertile a woman of this age is relative to her peak, from one to zero:
+ * the body's own curve, falling with age and one half at `half`. It is the
+ * only age term in any plan or exposure; the young side has no pull of its
+ * own (money, work and room already decide it).
+ */
+export function fertilityAt(age: number, half: number, width: number): number {
+  return 1 / (1 + Math.exp((age - half) / width));
+}
+
+/**
  * What each partner weighs, from the couple's records. Natality data is
  * deliberately absent here: real rates only check the town's totals. Every
  * term is a sliding scale with a floor and a ceiling: no cliff at $0 or at
@@ -120,15 +130,6 @@ export function birthCircumstances(
       return person && person.birthDate <= asOf ? [person.birthDate] : [];
     })
     .sort();
-  const since = Math.max(
-    p("zero"),
-    daysBetweenText(
-      births.at(-p("one")) ?? partnershipStart(api, couple, births),
-      asOf,
-    ) /
-      p("daysPerMeanYear") /
-      p("renewalTimingPeakYears"),
-  );
   const household = api.state.households.get(mother.householdId)!;
   const members = household.memberIds
     .map((id) => api.state.people.get(id)!)
@@ -177,18 +178,20 @@ export function birthCircumstances(
         row?.otherId === (actor.id === mother.id ? partner.id : mother.id),
     );
   const conditions = conditionsOf(api, mother.id);
-  const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
   return {
     age:
       p("renewalAgeWeight") *
-      (p("two") * Math.exp(-distance * distance) - p("one")),
+      (p("two") *
+        fertilityAt(
+          age,
+          p("renewalFertilityHalfAge"),
+          p("renewalFertilityWidth"),
+        ) -
+        p("one")),
     children:
       p("renewalChildWeight") *
       (p("renewalNoChildPull") - p("renewalPerChildPull") * births.length),
-    timing:
-      p("renewalTimingWeight") *
-      (p("two") * since * Math.exp(p("one") - since) - p("one")),
     // A recent birth: the mother's recovery pulls against another pregnancy,
     // fading smoothly over about two years.
     recovery: births.length

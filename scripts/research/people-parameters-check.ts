@@ -14,8 +14,6 @@
  *   partisanship by place type) are whole and cover all 56 places.
  * Run: node --import tsx scripts/research/people-parameters-check.ts
  */
-import natality from "../../data/research/renewal/natality-2024.json" with { type: "json" };
-import interpregnancy from "../../data/research/people/nchs-db240-interpregnancy-2014.json" with { type: "json" };
 import gestation from "../../data/research/people/jukic-gestation-2013.json" with { type: "json" };
 import atus from "../../data/research/people/atus-2025-volunteering.json" with { type: "json" };
 import facets from "../../data/research/people/neo-pi-r-facet-correlations-1992.json" with { type: "json" };
@@ -65,76 +63,6 @@ function expectRow(
   );
   if (!ok) failures.push(key);
 }
-
-// Births: the national fertility schedule's mean age and its spread.
-const GROUPS = ["15-19", "20-24", "25-29", "30-34", "35-39", "40-44"] as const;
-const GROUP_YEARS = 5;
-const WITHIN_GROUP_VARIANCE = (GROUP_YEARS * GROUP_YEARS) / 12;
-function schedule(rates: Readonly<Record<string, number | null>>) {
-  const rows = GROUPS.map((group) => ({
-    mid: Number(group.slice(0, 2)) + GROUP_YEARS / 2,
-    rate: rates[group]!,
-  }));
-  const total = rows.reduce((sum, row) => sum + row.rate, 0);
-  const mean = rows.reduce((sum, row) => sum + row.mid * row.rate, 0) / total;
-  const variance =
-    rows.reduce((sum, row) => sum + row.rate * (row.mid - mean) ** 2, 0) /
-      total +
-    WITHIN_GROUP_VARIANCE;
-  // The term 2exp(-d^2) - 1 is zero at d = sqrt(ln 2); a normal curve is at
-  // half its peak at sqrt(2 ln 2) standard deviations: spread = sd * sqrt(2).
-  return { mean, spread: Math.sqrt(variance) * Math.SQRT2 };
-}
-const areas = (
-  natality as unknown as {
-    areas: Record<string, { ageRates: Record<string, number | null> }>;
-  }
-).areas;
-const national = schedule(areas["United States"]!.ageRates);
-const places = Object.entries(areas)
-  .filter(([name]) => name !== "United States")
-  .map(([, area]) => schedule(area.ageRates));
-if (places.length !== 56)
-  failures.push(`natality covers ${places.length} places, not 56`);
-const round1 = (x: number) => Math.round(x * 10) / 10;
-expectRow(
-  renewal,
-  "renewalAgeCenter",
-  {
-    tag: "ESTIMATED",
-    value: round1(national.mean),
-    low: round1(Math.min(...places.map((row) => row.mean))),
-    high: round1(Math.max(...places.map((row) => row.mean))),
-  },
-  0.05,
-);
-expectRow(
-  renewal,
-  "renewalAgeSpread",
-  {
-    tag: "ESTIMATED",
-    value: round1(national.spread),
-    low: round1(Math.min(...places.map((row) => row.spread))),
-    high: round1(Math.max(...places.map((row) => row.spread))),
-  },
-  0.05,
-);
-
-// Timing: the middle of the median interpregnancy band (whole months, so
-// "24-29 months" runs up to 30).
-const MONTHS = 12;
-const band = interpregnancy.medianInterval;
-expectRow(
-  renewal,
-  "renewalTimingPeakYears",
-  {
-    tag: "ESTIMATED",
-    value: (band.lowMonths + band.highMonths + 1) / 2 / MONTHS,
-    low: band.lowMonths / MONTHS,
-    high: (band.highMonths + 1) / MONTHS,
-  },
-  1e-9,
-);
 
 // Gestation: the median from ovulation and its interquartile range.
 expectRow(

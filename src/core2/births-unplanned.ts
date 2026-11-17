@@ -2,7 +2,11 @@ import { placeStateKey } from "./place-map";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { renewalParameter } from "./births-parameters";
-import { birthCircumstances, type BirthCouple } from "./births-plan";
+import {
+  birthCircumstances,
+  fertilityAt,
+  type BirthCouple,
+} from "./births-plan";
 import { lawInForce } from "./modules/laws";
 import type { CoreAPI } from "./types";
 
@@ -81,7 +85,11 @@ export function unplannedExposure(
   const p = (key: string) => renewalParameter(api, key);
   const mother = api.state.people.get(couple.motherId)!;
   const age = ageOnDate(makeIsoDate(mother.birthDate), makeIsoDate(asOf));
-  const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
+  const fertility = fertilityAt(
+    age,
+    p("renewalFertilityHalfAge"),
+    p("renewalFertilityWidth"),
+  );
   const members = api.state.households
     .get(mother.householdId)!
     .memberIds.map((id) => api.state.people.get(id)!)
@@ -94,11 +102,7 @@ export function unplannedExposure(
   const cushion = cash / (cash + costs * p("moneyBufferDays") + p("one"));
   // stopgapId: SG-PEOPLE-unplanned-calibration
   api.stopgap("SG-PEOPLE-unplanned-calibration");
-  return (
-    p("renewalUnplannedExposure") *
-    Math.exp(-distance * distance) *
-    (p("one") - cushion)
-  );
+  return p("renewalUnplannedExposure") * fertility * (p("one") - cushion);
 }
 
 export interface UnplannedDecision {

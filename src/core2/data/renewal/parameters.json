@@ -21,29 +21,29 @@
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
-  "renewalAgeCenter": {
-    "value": 30,
+  "renewalFertilityHalfAge": {
+    "value": 40,
     "tag": "ESTIMATED",
-    "citation": "Where the age term of a couple's plan is highest: the mean age of the national fertility schedule. NCHS, Births: Final Data for 2024, National Vital Statistics Reports 75(2), Table 6, https://www.cdc.gov/nchs/data/nvsr/nvsr75/nvsr75-02.pdf (United States: 12.6, 55.8, 89.5, 93.7, 54.3 and 12.7 births per 1,000 women at 15-19 through 40-44), stored for all 56 places in data/research/renewal/natality-2024.json. Derived by scripts/research/people-parameters-check.ts.",
-    "estimatedFrom": "Rate-weighted mean of the five-year age groups' midpoints, ages 15 to 44: 30.0 years nationally. The places differ (28.1 to 32.1), but the plan reads one national center until the builder item people-births-age-shape-by-place reads each place's own.",
+    "citation": "The age at which a woman's fecundity is one half of its peak: the body's own decline, where about a third of women are unable to conceive (Menken, Trussell and Larsen, Science 233, 1986: 14 percent sterile at 35, 35 percent at 40, 87 percent at 45, from historical natural-fertility populations).",
+    "estimatedFrom": "The age between the 35 and 40 shares and the 45 share at which the sterile share crosses a half of the way to its ceiling, read from the published curve: about 40 years.",
     "spread": {
-      "low": 28.1,
-      "high": 32.1,
+      "low": 38,
+      "high": 42,
       "unit": "years of the mother's age",
-      "citation": "The same mean for each of the 56 places in data/research/renewal/natality-2024.json (NCHS 2024 Table 6), lowest to highest."
+      "citation": "Menken, Trussell and Larsen 1986, the same curve read at a third and at two thirds of the way to its ceiling."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
-  "renewalAgeSpread": {
-    "value": 8.7,
+  "renewalFertilityWidth": {
+    "value": 3.5,
     "tag": "ESTIMATED",
-    "citation": "How fast the age term falls away from its center: set so the term changes sign at the ages where a normal curve fitted to the national age-specific birth rates falls to half its peak. NCHS, Births: Final Data for 2024, NVSR 75(2), Table 6, https://www.cdc.gov/nchs/data/nvsr/nvsr75/nvsr75-02.pdf, via data/research/renewal/natality-2024.json. Derived by scripts/research/people-parameters-check.ts.",
-    "estimatedFrom": "Standard deviation of the 2024 national fertility schedule, ages 15 to 44, with the within-group variance of five-year groups (25/12) added: 6.13 years. The term 2exp(-d^2) - 1 with d = (age - center)/spread is zero at d = 0.83, and a normal curve is at half its peak at 1.18 standard deviations, so spread = 6.13 x 1.18 / 0.83 = 6.13 x sqrt(2) = 8.66, rounded to 8.7.",
+    "citation": "How fast fecundity falls around its half age: set so the curve passes from 14 percent below the peak at 35 to 87 percent below at 45 (Menken, Trussell and Larsen, Science 233, 1986).",
+    "estimatedFrom": "A logistic through the published sterile shares at 35, 40 and 45 has a width near 3.5 years.",
     "spread": {
-      "low": 7.7,
-      "high": 9.9,
+      "low": 3,
+      "high": 4.5,
       "unit": "years of the mother's age",
-      "citation": "The same conversion for each of the 56 places in data/research/renewal/natality-2024.json (NCHS 2024 Table 6), lowest to highest."
+      "citation": "The same logistic fitted to the 35-to-40 and the 40-to-45 pairs of published shares."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
@@ -96,29 +96,6 @@
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
-    },
-    "stopgapId": "SG-M1-births-circumstances"
-  },
-  "renewalTimingWeight": {
-    "value": 4,
-    "tag": "TUNABLE",
-    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
-    },
-    "stopgapId": "SG-M1-births-circumstances"
-  },
-  "renewalTimingPeakYears": {
-    "value": 2.25,
-    "tag": "ESTIMATED",
-    "citation": "Years after the last birth (or the start of the partnership) at which the timing pull toward another child is strongest: the national median interpregnancy interval. NCHS Data Brief No. 240 (Thoma, Copen and Kirmeyer, 2016), https://www.cdc.gov/nchs/products/databriefs/db240.htm: \"The median interpregnancy interval was 24–29 months, or 2–2.5 years.\" Research file data/research/people/nchs-db240-interpregnancy-2014.json, checked by scripts/research/people-parameters-check.ts.",
-    "estimatedFrom": "The middle of the published median band, 24 up to 30 months: 27 months, 2.25 years. The interval runs from a birth to the next conception, the same clock the plan's timing term reads.",
-    "spread": {
-      "low": 2,
-      "high": 2.5,
-      "unit": "years from a birth to the next conception",
-      "citation": "The brief's own band for the median, 2 to 2.5 years (2014 second and higher-order singleton births, 47 states and DC)."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },

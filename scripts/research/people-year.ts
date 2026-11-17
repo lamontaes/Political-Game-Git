@@ -334,7 +334,7 @@ const placeSchedule = (() => {
   );
 })();
 console.log(
-  `Mother's mean age at a full birth (renewalAgeCenter ${renewal.renewalAgeCenter!.value}, spread ${renewal.renewalAgeSpread!.value}): band ${band(renewal.renewalAgeCenter!)} across the 56 places; this place's schedule ${placeSchedule.toFixed(1)}. Town ${ages.length ? (ages.reduce((s, a) => s + a, 0) / ages.length).toFixed(1) : "n/a"} over ${ages.length} full births (ages ${ages.length ? `${Math.min(...ages)} to ${Math.max(...ages)}` : "n/a"}).`,
+  `Mother's mean age at a full birth (published, for checking only): this place's schedule ${placeSchedule.toFixed(1)}. Town ${ages.length ? (ages.reduce((s, a) => s + a, 0) / ages.length).toFixed(1) : "n/a"} over ${ages.length} full births (ages ${ages.length ? `${Math.min(...ages)} to ${Math.max(...ages)}` : "n/a"}).`,
 );
 const pregnancies = store.table("pregnancies").rows();
 const gestation = renewal.renewalGestationDays!.value;
@@ -359,7 +359,7 @@ for (const row of full) {
   });
 }
 console.log(
-  `Interpregnancy interval (renewalTimingPeakYears ${renewal.renewalTimingPeakYears!.value}): median band ${interpregnancy.medianInterval.lowMonths} to ${interpregnancy.medianInterval.highMonths} months, ${interpregnancy.shortIntervals[0]!.percent}% under 18 months (NCHS 2014). Town: ${intervals.length} full births with an earlier child, median ${intervals.length ? median(intervals.map((x) => x.months)).toFixed(0) : "n/a"} months, ${pct(intervals.filter((x) => x.months < 18).length, intervals.length)} under 18. Records: ${sample(intervals.map((x) => x.id))}.`,
+  `Interpregnancy interval (published, for checking only): median band ${interpregnancy.medianInterval.lowMonths} to ${interpregnancy.medianInterval.highMonths} months, ${interpregnancy.shortIntervals[0]!.percent}% under 18 months (NCHS 2014). Town: ${intervals.length} full births with an earlier child, median ${intervals.length ? median(intervals.map((x) => x.months)).toFixed(0) : "n/a"} months, ${pct(intervals.filter((x) => x.months < 18).length, intervals.length)} under 18. Records: ${sample(intervals.map((x) => x.id))}.`,
 );
 // Every recorded pregnancy of a town mother, including those reconstructed
 // at the opening.
