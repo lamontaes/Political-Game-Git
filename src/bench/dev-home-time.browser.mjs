@@ -53,11 +53,13 @@ try {
   for (let i = 0; i < count && !found; i += 1) {
     await rows.nth(i).click();
     const card = page.locator(".roster-screen.people .roster-page");
-    await card.locator(".dev-records").waitFor();
+    await card.locator(".dev-records").first().waitFor();
     await page.waitForTimeout(800);
     const link = card.locator(".dev-records .id", { hasText: "home-time:" });
     if (!(await link.count())) continue;
-    const records = await card.locator(".dev-records").innerText();
+    const records = (await card.locator(".dev-records").allInnerTexts()).join(
+      "\n",
+    );
     assert.match(records, /reservedHours/, "no reserved hours on the card");
     const id = (await link.first().innerText()).trim();
     // The row sits inside a folded section: open it, then the id.
