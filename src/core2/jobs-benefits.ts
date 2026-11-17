@@ -254,9 +254,11 @@ export function filingDecision(
   filer: Pick<PersonInput, "traits"> & { id?: string },
   feeling: { affect?: Affect },
   replaced: number,
+  /** The base the case starts from: unemployment's own unless a program names its own. */
+  baseParameter = "benefitsFileBase",
 ) {
   const c = api.state as CoreState;
-  const baseline = api.parameter("benefitsFileBase");
+  const baseline = api.parameter(baseParameter);
   const replacement =
     api.parameter("benefitsFileReplacementWeight") * Math.log(replaced);
   const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");

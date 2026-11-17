@@ -1360,8 +1360,13 @@ export function takesUp(
     benefitMonthlyMinor / (benefitMonthlyMinor + incomeMonthlyMinor);
   const head = headId ? api.state.people.get(headId) : undefined;
   return {
-    yes: filingDecision(api, head ?? { traits: {} }, head ?? {}, replaced)
-      .files,
+    yes: filingDecision(
+      api,
+      head ?? { traits: {} },
+      head ?? {},
+      replaced,
+      "benefitTakeUpBase",
+    ).files,
     replaced,
   };
 }
