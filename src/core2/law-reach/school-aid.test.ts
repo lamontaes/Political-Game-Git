@@ -96,7 +96,8 @@ describe("state school aid", () => {
         schoolAidNeed(api, stateKey, sorted[0]!.regionId),
         where,
       ).toBeGreaterThan(schoolAidNeed(api, stateKey, sorted.at(-1)!.regionId));
-  });
+    // It builds a played world (every module), as the case below does.
+  }, 300_000);
 
   it("pays the aid from the state treasury into the town's schools lines, and a repeal takes it back", () => {
     let tried = "";
