@@ -155893,7 +155893,7 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "requiresFacts": ["knocked-before", "due"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -155918,7 +155918,7 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "requiresFacts": ["knocked-before", "due"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "calm",
@@ -155943,7 +155943,7 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "requiresFacts": ["knocked-before", "due"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "guarded",
@@ -155968,7 +155968,7 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "requiresFacts": ["knocked-before", "due"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -155993,7 +155993,7 @@
           "role": "asker",
           "purpose": "ask-signature",
           "key": "door",
-          "requiresFacts": ["knocked-before", "due"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "calm",
@@ -156018,7 +156018,7 @@
           "role": "asker",
           "purpose": "ask-support",
           "key": "door",
-          "requiresFacts": ["knocked-before", "vote-day"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -156043,7 +156043,7 @@
           "role": "asker",
           "purpose": "ask-support",
           "key": "door",
-          "requiresFacts": ["knocked-before", "vote-day"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "calm",
@@ -156068,7 +156068,7 @@
           "role": "asker",
           "purpose": "ask-support",
           "key": "door",
-          "requiresFacts": ["knocked-before", "vote-day"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "guarded",
@@ -156093,7 +156093,7 @@
           "role": "asker",
           "purpose": "ask-support",
           "key": "door",
-          "requiresFacts": ["knocked-before", "vote-day"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -156118,7 +156118,7 @@
           "role": "asker",
           "purpose": "ask-support",
           "key": "door",
-          "requiresFacts": ["knocked-before", "vote-day"]
+          "requiresFacts": ["knocked-before"]
         }
       ],
       "bearing": "calm",
@@ -176994,31 +176994,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.me-again-the-petition-for-office-is-due-due-would-you-sign",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Me again. The petition for {office} is due {due}. Would you sign?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["knocked-before", "due"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
       "move": "state-request",
       "kind": "spoken",
@@ -177111,31 +177086,6 @@
           "role": "asker",
           "requiresFacts": ["rival"],
           "excludesFacts": ["knocked-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.me-again-vote-day-is-coming-can-i-count-on-your-vote-for-office",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Me again. {vote-day} is coming. Can I count on your vote for {office}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["knocked-before", "vote-day"]
         }
       ],
       "bearing": "hopeful",
@@ -177330,10 +177280,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-against-about-you-can-still-be-on-the-ballot",
+      "key": "scene-talk.reply-agree.i-m-against-about-but-you-should-still-get-on-the-ballot",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'm against {about}. You can still be on the ballot.",
+      "text": "I'm against {about}, but you should still get on the ballot.",
       "uses": [
         {
           "subject": "scene",
@@ -177456,10 +177406,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-sign-just-come-back-before-deadline-if-you-hear-of-help",
+      "key": "scene-talk.reply-agree.i-ll-sign-if-you-ll-ask-around-about-help-before-deadline",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign. Just come back before {deadline} if you hear of help.",
+      "text": "I'll sign if you'll ask around about help before {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -177856,10 +177806,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ve-been-out-of-work-since-you-looked-me-in-the-eye-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.i-ve-been-out-of-work-since-and-you-re-the-first-to-look-me-in-the-eye-you-ve-got-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I've been out of work {since}. You looked me in the eye. You've got my vote.",
+      "text": "I've been out of work {since}, and you're the first to look me in the eye. You've got my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -178127,7 +178077,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "employer"],
+          "requiresFacts": ["would-not-sign", "employer", "since"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -178283,7 +178233,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["vote-day"],
+          "requiresFacts": ["office", "vote-day"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -178297,10 +178247,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-against-about-i-don-t-know-where-you-stand-on-it",
+      "key": "scene-talk.reply-decline.i-m-against-about-and-i-don-t-know-where-you-stand-on-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm against {about}. I don't know where you stand on it.",
+      "text": "I'm against {about}, and I don't know where you stand on it.",
       "uses": [
         {
           "subject": "scene",
@@ -180093,10 +180043,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-s-been-hardest-since-employer",
+      "key": "scene-talk.follow-ask.what-s-been-hardest-since-employer-let-you-go",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What's been hardest since {employer}?",
+      "text": "What's been hardest since {employer} let you go?",
       "uses": [
         {
           "subject": "scene",
