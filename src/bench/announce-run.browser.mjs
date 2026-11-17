@@ -31,14 +31,40 @@ if (process.env.BENCH_SEED || process.env.PLACE_KEY)
       url.searchParams.set("placeKey", process.env.PLACE_KEY);
     return route.continue({ url: url.toString() });
   });
+// The page's requests in flight, so a press is read only once its answer and
+// whatever the page asked for after it (a scene, the room) have landed.
+const open = new Set();
+page.on("request", (request) => open.add(request));
+for (const done of ["requestfinished", "requestfailed"])
+  page.on(done, (request) => open.delete(request));
+async function settled() {
+  for (let quiet = 0; quiet < 4;) {
+    await page.waitForTimeout(250);
+    quiet = open.size ? 0 : quiet + 1;
+  }
+}
 const shot = (name) =>
   shots ? page.screenshot({ path: `${shots}/${name}.png` }) : undefined;
+
+/** The scenes played on the way, counted for the log. */
+let scenes = 0;
 
 /** Politics, Elections, and the race's own page. */
 async function openRace(contestId) {
   const close = page.locator("#sheet-close");
   if (await close.isVisible()) await close.click();
-  await page.locator('.ring[data-tab="politics"]').click();
+  const ring = page.locator('.ring[data-tab="politics"]');
+  // A scene still on screen (a talk that goes on after its last line) is
+  // played out before the menu, as a player does.
+  // A jump goes on after each scene it stopped on, so one press can meet
+  // several scenes before the menu is back.
+  for (let tries = 0; !(await ring.isVisible()) && tries < 80; tries += 1) {
+    if (tries < 3) await shot(`scene-on-the-way-${scenes + 1}`);
+    scenes += 1;
+    await finishTalk(page);
+    await settled();
+  }
+  await ring.click();
   await page
     .locator("#sheet:not([hidden])")
     .waitFor({ timeout: 30000 })
@@ -108,12 +134,18 @@ try {
     );
     await sim.click();
     await advanced;
-    await page.waitForTimeout(500);
-    if (await page.locator("#talk:not([hidden])").isVisible())
+    await settled();
+    // What stopped the run on the way is lived first, as a player does.
+    if (await page.locator("#talk:not([hidden])").isVisible()) {
+      await shot(`sim-stop-${presses + 1}`);
       await finishTalk(page);
+      await settled();
+    }
     await openRace(race.contestId);
   }
-  console.log(`${where}: reached filing in ${presses} press(es) of Sim to`);
+  console.log(
+    `${where}: reached filing in ${presses} press(es) of Sim to, ${scenes} scene(s) played on the way`,
+  );
   await openRace(race.contestId);
   await shot("4-race-page-filing-open");
   assert.ok(

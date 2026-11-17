@@ -79,7 +79,7 @@ describe("announcing before filing opens", () => {
   it("campaigns from day one and files in the window with what it gathered", () => {
     const { core, race, where, passed } = opening();
     process.stdout.write(
-      `announce-before-filing: ${where}, ${race.title}, filing opens ${race.filingOpens}; passed over: ${passed.join(" | ") || "none"}\n`,
+      `announce-before-filing (GOLDEN_PATH_SEED=${seed}): ${where}, ${race.title}, filing opens ${race.filingOpens}; passed over: ${passed.join(" | ") || "none"}\n`,
     );
     const api = coreAPI(core);
     const playerId = core.playerId!;
@@ -141,6 +141,9 @@ describe("announcing before filing opens", () => {
         `${where}: needed ${petition!.needed}, ${JSON.stringify(canvass).slice(0, 300)}`,
       ).toBeGreaterThan(0);
 
+    process.stdout.write(
+      `announce-before-filing: petition asks ${petition!.needed}, ${signedBefore} signed before the window\n`,
+    );
     // The window opens: the same candidacy is filed at the counter.
     advanceToRaceFiling(core, contest);
     expect(page().playerMayFile, `${where} on ${core.date}`).toBe(true);
