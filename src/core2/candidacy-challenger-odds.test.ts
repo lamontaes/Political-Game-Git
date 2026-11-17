@@ -96,7 +96,10 @@ describe(`a challenger's odds follow the seat's last race (seed ${seed})`, () =>
         }
         checked += 1;
         for (const row of rows) {
-          expect(row.odds, `${where}: odds are a chance`).toBeGreaterThanOrEqual(0);
+          expect(
+            row.odds,
+            `${where}: odds are a chance`,
+          ).toBeGreaterThanOrEqual(0);
           expect(row.odds).toBeLessThan(1);
         }
         const values = new Set(rows.map((row) => row.odds.toFixed(6)));

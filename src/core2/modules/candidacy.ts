@@ -86,7 +86,7 @@ import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { countedVoters, seatLastMargin } from "./voting";
-import { normalCdf } from "../opening-personality";
+import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
