@@ -190184,7 +190184,7 @@
       "key": "scene-talk.reply-tell.here-is-all-of-wanted-start-to-finish",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Here is all of {wanted}, start to finish.",
+      "text": "Here is all of what happened on {wanted}, start to finish.",
       "uses": [
         {
           "subject": "scene",
@@ -190257,7 +190257,7 @@
       "key": "scene-talk.follow-answer.source-they-d-know-wanted-better-than-i-do",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{source}. They'd know {wanted} better than I do.",
+      "text": "{source}. They'd know the money on {wanted} better than I do.",
       "uses": [
         {
           "subject": "scene",
@@ -190534,7 +190534,7 @@
       "key": "scene-talk.close-warn.if-wanted-is-clean-tell-the-prosecutor-so",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "If {wanted} is clean, tell the prosecutor so.",
+      "text": "If the money on {wanted} is nothing, tell the prosecutor so.",
       "uses": [
         {
           "subject": "scene",
@@ -190559,7 +190559,7 @@
       "key": "scene-talk.close-warn.then-i-ll-raise-bill-from-the-floor",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Then I'll raise {bill} from the floor.",
+      "text": "Then I'll say so on the floor when {bill} comes up.",
       "uses": [
         {
           "subject": "scene",
@@ -190629,7 +190629,7 @@
       "key": "scene-talk.close-accept.alright-that-s-all-i-wanted-from-you-about-wanted",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. That's all I wanted from you about {wanted}.",
+      "text": "Alright. That's all I wanted from you about the money on {wanted}.",
       "uses": [
         {
           "subject": "scene",
@@ -190876,7 +190876,7 @@
       "key": "scene-talk.reply-apologize.i-m-sorry-i-should-have-walked-away-from-wanted",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. I should have walked away from {wanted}.",
+      "text": "I'm sorry. I should have walked away from the money on {wanted}.",
       "uses": [
         {
           "subject": "scene",
@@ -190983,7 +190983,7 @@
       "key": "scene-talk.follow-press.sorry-doesn-t-tell-me-who-else-was-in-wanted",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Sorry doesn't tell me who else was in {wanted}.",
+      "text": "Sorry doesn't tell me who else was in on {complaint-of}.",
       "uses": [
         {
           "subject": "scene",
@@ -191133,7 +191133,7 @@
       "key": "scene-talk.follow-ask.who-else-knew-about-wanted",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Who else knew about {wanted}?",
+      "text": "Who else knew about the money on {wanted}?",
       "uses": [
         {
           "subject": "scene",
@@ -191258,7 +191258,7 @@
       "key": "scene-talk.close-press.that-isn-t-all-of-wanted",
       "move": "close-press",
       "kind": "spoken",
-      "text": "That isn't all of {wanted}.",
+      "text": "That isn't all of what happened on {wanted}.",
       "uses": [
         {
           "subject": "scene",
@@ -191283,7 +191283,7 @@
       "key": "scene-talk.close-accept.alright-i-know-where-you-stand-on-wanted",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I know where you stand on {wanted}.",
+      "text": "Alright. I know what you'll say about {complaint-of}.",
       "uses": [
         {
           "subject": "scene",
@@ -191308,7 +191308,7 @@
       "key": "scene-talk.close-react.name-lets-out-a-long-breath-over-wanted-and-steps-away",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} lets out a long breath over {wanted}, and steps away.",
+      "text": "{name} lets out a long breath over the money on {wanted}, and steps away.",
       "uses": [
         {
           "subject": "scene",
@@ -191548,7 +191548,7 @@
       "key": "scene-talk.state-request.tell-me-about-wanted-i-can-listen-even-now",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Tell me about {wanted}. I can listen, even now.",
+      "text": "Tell me about the money on {wanted}. I can listen, even now.",
       "uses": [
         {
           "subject": "scene",
@@ -191572,7 +191572,7 @@
       "key": "scene-talk.reply-ask.why-didn-t-you-come-to-me-before-wanted",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Why didn't you come to me before {wanted}?",
+      "text": "Why didn't you come to me before you filed about {complaint-of}?",
       "uses": [
         {
           "subject": "scene",
@@ -191697,7 +191697,7 @@
       "key": "scene-talk.reply-tell.i-took-it-i-ll-tell-you-all-of-wanted",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I took it. I'll tell you all of {wanted}.",
+      "text": "I took it. I'll tell you all of what happened on {wanted}.",
       "uses": [
         {
           "subject": "scene",
@@ -191722,7 +191722,7 @@
       "key": "scene-talk.reply-tell.i-ll-tell-you-all-of-wanted-and-i-won-t-dress-it-up",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'll tell you all of {wanted}, and I won't dress it up.",
+      "text": "I'll tell you all of what happened on {wanted}, and I won't dress it up.",
       "uses": [
         {
           "subject": "scene",
@@ -191772,7 +191772,7 @@
       "key": "scene-talk.reply-apologize.i-m-sorry-you-had-to-carry-wanted",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry you had to carry {wanted}.",
+      "text": "I'm sorry you had to carry what you knew about {complaint-of}.",
       "uses": [
         {
           "subject": "scene",
@@ -191796,7 +191796,7 @@
       "key": "scene-talk.follow-answer.because-i-was-afraid-you-d-say-wanted-was-true",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Because I was afraid you'd say {wanted} was true.",
+      "text": "Because I was afraid you'd say {complaint-of} was true.",
       "uses": [
         {
           "subject": "scene",
@@ -191846,7 +191846,7 @@
       "key": "scene-talk.follow-press.i-want-to-believe-you-give-me-something-on-wanted",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I want to believe you. Give me something on {wanted}.",
+      "text": "I want to believe you. Give me something on the money on {wanted}.",
       "uses": [
         {
           "subject": "scene",
@@ -191896,7 +191896,7 @@
       "key": "scene-talk.follow-accept.alright-i-needed-to-hear-that-about-wanted-from-you",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I needed to hear that about {wanted} from you.",
+      "text": "Alright. I needed to hear that about the money on {wanted} from you.",
       "uses": [
         {
           "subject": "scene",
@@ -191921,7 +191921,7 @@
       "key": "scene-talk.follow-accept.thank-you-for-telling-me-about-wanted",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you for telling me about {wanted}.",
+      "text": "Thank you for telling me the truth about {complaint-of}.",
       "uses": [
         {
           "subject": "scene",
@@ -191946,7 +191946,7 @@
       "key": "scene-talk.follow-ask.is-that-all-there-is-to-complaint-of",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Is that all there is to {complaint-of}?",
+      "text": "Is that all there is to it? All of {complaint-of}?",
       "uses": [
         {
           "subject": "scene",
@@ -192021,7 +192021,7 @@
       "key": "scene-talk.close-thank.thank-you-for-not-shutting-me-out-of-wanted",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for not shutting me out of {wanted}.",
+      "text": "Thank you for not shutting me out of what happened on {wanted}.",
       "uses": [
         {
           "subject": "scene",
@@ -192096,7 +192096,7 @@
       "key": "scene-talk.close-accept.alright-i-ll-hold-on-to-wanted-for-now",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I'll hold on to {wanted} for now.",
+      "text": "Alright. I'll hold on to what you said about {wanted} for now.",
       "uses": [
         {
           "subject": "scene",
@@ -192121,7 +192121,7 @@
       "key": "scene-talk.close-react.name-nods-eyes-wet-and-lets-wanted-drop",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} nods, eyes wet, and lets {wanted} drop.",
+      "text": "{name} nods, eyes wet, and lets the money on {wanted} drop.",
       "uses": [
         {
           "subject": "scene",
@@ -192193,7 +192193,7 @@
       "key": "scene-talk.reply-leave.i-won-t-answer-for-wanted-today-not-here",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I won't answer for {wanted} today. Not here.",
+      "text": "I won't answer about the money on {wanted} today. Not here.",
       "uses": [
         {
           "subject": "scene",
@@ -192217,7 +192217,7 @@
       "key": "scene-talk.reply-leave.i-can-t-do-this-now-we-ll-talk-about-wanted-later",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't do this now. We'll talk about {wanted} later.",
+      "text": "I can't do this now. We'll talk about the money on {wanted} later.",
       "uses": [
         {
           "subject": "scene",
@@ -192401,7 +192401,7 @@
       "key": "scene-talk.reply-deflect.not-here-wanted-isn-t-for-the-hallway",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Not here. {wanted} isn't for the hallway.",
+      "text": "Not here. The money on {wanted} isn't for the hallway.",
       "uses": [
         {
           "subject": "scene",
@@ -192478,7 +192478,7 @@
       "key": "scene-talk.follow-ask.who-else-was-in-on-wanted",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Who else was in on {wanted}?",
+      "text": "Who else was in on {complaint-of}?",
       "uses": [
         {
           "subject": "scene",
@@ -192503,7 +192503,7 @@
       "key": "scene-talk.follow-accept.thank-you-for-saying-it-wanted-comes-out-either-way",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you for saying it. {wanted} comes out either way.",
+      "text": "Thank you for saying it. {complaint-of} comes out either way.",
       "uses": [
         {
           "subject": "scene",
@@ -192553,7 +192553,7 @@
       "key": "scene-talk.follow-deflect.not-here-then-but-wanted-won-t-wait",
       "move": "follow-deflect",
       "kind": "spoken",
-      "text": "Not here, then. But {wanted} won't wait.",
+      "text": "Not here, then. But {complaint-of} won't wait.",
       "uses": [
         {
           "subject": "scene",
