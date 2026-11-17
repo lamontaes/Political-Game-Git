@@ -2674,6 +2674,24 @@ function storyStop(value) {
     : undefined;
 }
 
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
+}
+
 // ---- The person card: only what you could know about them ----
 let personRequest = 0;
 let personOpener;
@@ -5482,7 +5500,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),
