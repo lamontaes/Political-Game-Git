@@ -241,7 +241,6 @@ function restatedFacts(
   return change ? { mortgageRestatedFromYear: change.from } : {};
 }
 
-/** The pre-start pass. Runs in housing's government-phase run, after `openHousing`. */
 /**
  * Day one's vacant rentals come from the town's own past, not the national vacancy (History; the
  * CTO's 16:27Z line on Justice's B item 10): the leases its renters signed in the year before day
@@ -253,7 +252,6 @@ function openingVacancy(
   leases: readonly Lease[],
   through: string,
 ): void {
-  // stopgapId: SG-HIST-opening-tenure-one-curve
   const yearBefore = addDays(makeIsoDate(through), -365);
   const months = api.parameter("rentalVacantMonths");
   const signed = new Map<string, number>();
@@ -271,7 +269,10 @@ function openingVacancy(
     vacantRental: number;
   }[]) {
     const renters = row.rentalUnits - row.vacantRental;
-    const vacant = Math.round(((signed.get(row.placeId) ?? 0) * months) / 12);
+    const vacant = Math.round(
+      ((signed.get(row.placeId) ?? 0) * months) /
+        api.parameter("monthsPerYear"),
+    );
     stock.put({
       ...row,
       rentalUnits: renters + vacant,
@@ -280,6 +281,46 @@ function openingVacancy(
   }
 }
 
+/**
+ * A place's rentals on day one as `openingVacancy` left them, with the leases
+ * its renters signed in the year before (each a counted household's weight,
+ * a full one's 1), read from the stock and the pass's records; undefined
+ * where the place has no rental stock.
+ */
+export function openingRentals(
+  api: CoreAPI,
+  placeId: string,
+):
+  | { units: number; vacant: number; signed: number; renters: number }
+  | undefined {
+  const core = api.state as CoreState;
+  const window = preStartWindowOf(core);
+  const stock = (
+    table(api, "stock").rows() as unknown as {
+      placeId: string;
+      rentalUnits: number;
+      vacantRental: number;
+    }[]
+  ).find((row) => row.placeId === placeId);
+  if (!stock || !window) return undefined;
+  const yearBefore = addDays(makeIsoDate(window.through), -365);
+  let signed = 0;
+  let renters = 0;
+  for (const row of preStartHistory(core, { kind: LEASE_SIGNED })) {
+    if (row.placeId !== placeId) continue;
+    const weight = Number(row.facts.weight ?? 1);
+    renters += weight;
+    if (String(row.facts.signedOn) > yearBefore) signed += weight;
+  }
+  return {
+    units: stock.rentalUnits,
+    vacant: stock.vacantRental,
+    signed,
+    renters,
+  };
+}
+
+/** The pre-start pass. Runs in housing's government-phase run, after `openHousing`. */
 export function housingPast(
   api: CoreAPI,
   window: PreStartWindow,
@@ -435,6 +476,8 @@ export function housingPast(
         householdId: lease.householdId,
         leaseId: lease.leaseId,
         signedOn: lease.since,
+        // The renting households it stands for (a counted household's weight).
+        weight: lease.weight,
         rentMinor: signedRent,
         renewedAt,
         rentNowMinor: rent,

@@ -508,14 +508,16 @@
     }
   },
   "rentalVacantMonths": {
-    "value": 3.0,
-    "tag": "TUNABLE",
-    "citation": "How many months a rental unit sits empty between one tenant's lease and the next; day one's vacant rentals are the leases a town's renters signed in its last year times this (housing-past.ts openingVacancy). Checked against the national rental vacancy, 6.75% (Census HVS 2024, construction.json vacancy.rental), at drawn towns; it sets only the strength, and each town's vacancy follows its own renters' moves.",
+    "value": 2.8,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "How many months a rental unit sits empty between one tenant's lease and the next: the median vacancy duration of units vacant for rent was 2.8 months in 2024 (Census, Housing Vacancy Survey, annual medians, https://www.census.gov/housing/hvs/files/annual24/medians_24.csv, row 'Median vacancy duration (in months, vacant for rent units)', column median2024, retrieved Nov 17, 2026). Day one's vacant rentals are the leases a town's renters signed in its last year times this over 12 (housing-past.ts openingVacancy); it sets only how long a turnover keeps a unit empty, and each town's vacancy follows its own renters' moves.",
+    "estimatedFrom": "A median over units vacant on the survey date stands in for the mean empty spell between leases; the two differ by how spells are spread.",
     "spread": {
-      "low": 1.5,
-      "high": 4.5,
+      "low": 2.3,
+      "high": 3.3,
       "unit": "months",
-      "citation": "Checked against Census HVS 2024's 6.75% rental vacancy at drawn towns."
+      "citation": "The same series, 2004 to 2024: lowest 2.3 (2017), highest 3.3 (2010 and 2011)."
     }
   }
 }

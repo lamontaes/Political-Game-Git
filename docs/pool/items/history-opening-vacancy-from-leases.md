@@ -1,11 +1,11 @@
 ---
 id: history-opening-vacancy-from-leases
 title: "Day one's vacant rentals come from the town's own leases, once renters move as renters do"
-area: housing
+area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/history-opening-vacancy
 pr:
@@ -31,9 +31,9 @@ Seen: `src/core2/housing-construction.ts` `openStock` sets units = renters / (1 
 
 **Fix.**
 
-1. In both of the past's passes (`withinRecords` and `moveRecords`), apply the live engine's owner hold to the household's tenure on day one (`ownsHome`'s rule, one rule), split so the age's average rate is unchanged: renters' rate = rate / (ownerShare x exp(-movesOwnerHold) + 1 - ownerShare), owners' = that x exp(-movesOwnerHold). The owner share by householder age is the world's own, counted from its dwellings on day one (everything from the simulation, owner, Nov 16), never the published share. `data/research/housing/acs-2024-tenure-by-householder-age.json` (ACS 2024 B25007, the nation, the 50 states, D.C. and Puerto Rico, fetched Nov 17 from data.census.gov; api.census.gov refused the key) is only for the test that checks the world's shares sit near it. Apply it to the spell that reaches day one at least; whether a current owner's earlier years were rented is a stopgap to register. `past-moves.ts` is the Lives lead's file (#8933): ask Lives before building. The same split goes into the opening's years in place (`yearsInPlaceOf`), which also adds the within-county rate to the leaving rate (cause 3), so the counted tier and the full tier run one rule.
+1. In both of the past's passes (`withinRecords` and `moveRecords`), apply the live engine's owner hold to the household's tenure on day one (`ownsHome`'s rule, one rule), split so the age's average rate is unchanged: renters' rate = rate / (ownerShare x exp(-movesOwnerHold) + 1 - ownerShare), owners' = that x exp(-movesOwnerHold). The owner share by householder age is the world's own, counted from its dwellings on day one (everything from the simulation, owner, Nov 16), never the published share. Apply it to the spell that reaches day one at least; whether a current owner's earlier years were rented is a stopgap to register. `past-moves.ts` is the Lives lead's file (#8933): ask Lives before building. The same split goes into the opening's years in place (`yearsInPlaceOf`), which also adds the within-county rate to the leaving rate (cause 3), so the counted tier and the full tier run one rule.
 2. Then `openingVacancy` (built on `claude/history-opening-vacancy`, commit below) sets each place's vacant rentals = the leases signed in the last year (weighted) × `rentalVacantMonths` ÷ 12. That replaces the national rate for every world that runs its housing past.
-3. Calibrate `rentalVacantMonths` (TUNABLE, now 3.0) against HVS's 6.75% at drawn towns, only after step 1.
+3. Source `rentalVacantMonths` from HVS's median months vacant for units for rent, never tuned to a published vacancy rate (everything from the simulation, owner, Nov 16).
 
 **Time box.** 3 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -41,6 +41,14 @@ Seen: `src/core2/housing-construction.ts` `openStock` sets units = renters / (1 
 
 **Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, and reads the town's rental vacancy on day one with the leases it came from. At drawn worlds the vacancy equals the last year's leases × months ÷ 12, about a quarter of renters signed in the last year, and towns differ.
 
-**Files.** src/core2/housing-past.ts, src/core2/housing-construction.ts, src/core2/past-moves.ts, data/research/housing/acs-2024-tenure-by-householder-age.json, src/core2/data/housing/parameters.json
+**Files.** src/core2/housing-past.ts, src/core2/housing-construction.ts, src/core2/past-moves.ts, src/core2/opening-tenure.ts, src/bench/world.ts, src/core2/data/housing/parameters.json
 
 **Notes.** Filed by the History lane, Nov 17, 2026. Nov 17, 21:10Z: the Lives lead's session that owned `past-moves.ts` (#8933) is archived, and the CTO gave this item to History (16:27Z), so the next History session builds both passes. Work in progress on `claude/history-opening-vacancy`: `openingVacancy` is written but not proven. It needs step 1 first, or the months parameter would have to be about 12 to reach 6.75%, which would encode the defect. Stopgaps `SG-HIST-opening-vacancy-without-past` and `SG-HIST-opening-tenure-one-curve` are on that branch.
+
+Nov 17, 21:40Z (History): built on `claude/history-opening-vacancy`.
+
+- The opening's years in place now runs after the housing opening, on the rate of any move (leaving the county plus moving within it).
+- Both it and the past's moves pass split that rate by the town home's tenure with `movesOwnerHold`, over the world's own owner share by age (`tenureScaleOf`, one rule).
+- `rentalVacantMonths` is 2.8, from HVS 2024's median months vacant.
+- Homes in the county's other places get their tenure after the past runs, so they move unsplit (`SG-HIST-opening-tenure-town-only`).
+- Measured at four drawn towns: the town's renters who moved in during the last year went from 7 to 11% before to 13 to 21% after; vacancy at 3 months went from 1.8 to 2.8% before to 3.1 to 4.8% after.
