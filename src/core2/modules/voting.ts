@@ -217,8 +217,10 @@ import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
 import {
   candidacyModule,
   CANDIDACY_MODULE_ID,
+  partyFieldsNominee,
   registerClosedContestWeighed,
 } from "./candidacy";
+import { historyMode } from "../electorate-century";
 import {
   agreementWith,
   countedStanceProfile,
@@ -7159,7 +7161,14 @@ function decide(
             incumbent: false,
           },
         ];
-  const candidates = parties.map((c) =>
+  // In a century world each party stands a nominee where its chance in the
+  // seat covers what standing one costs; a seat one side cannot realistically
+  // win is the other's uncontested. A race always keeps at least one side.
+  const fielded =
+    historyMode(api.state.seed) === "century"
+      ? parties.filter((c) => partyFieldsNominee(api, c.side, lean))
+      : parties;
+  const candidates = (fielded.length ? fielded : parties).map((c) =>
     candidateInputs(api, {
       id: `party:${c.side > 0 ? "R" : "D"}`,
       party: c.party,
