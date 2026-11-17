@@ -3,7 +3,12 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
 import { advanceCore } from "../core2/life";
@@ -19,9 +24,13 @@ const place = drawPlace(seed, "creator-identity");
 
 it(`gives the player the chosen identity through the core call in ${place.name}, seed ${place.seed}`, () => {
   setBookkeeping(false);
+  // As New game builds it (handler.ts, /api/newlife): the world is drawn with a resident of the
+  // chosen age, and the identity call moves the birthday only within that age (`applyChosenPerson`).
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
+    playerBirthDate: "1990-03-14",
+    playerGender: "female",
   });
   const { core } = world;
   const id = world.playerId!;
@@ -75,6 +84,8 @@ it("gives the chosen identity to a player whose world was warmed up, at Lewiston
     twoLevel: true,
     placeKey: lewiston.key,
     warmUpDays: OPENING_WARMUP_DAYS,
+    playerBirthDate: "1990-03-14",
+    playerGender: "female",
     chooseIdentity: (core, id) =>
       applyChosenPerson(core, id, {
         givenName: "Avery",
@@ -115,35 +126,81 @@ it(`moves a brother or sister born within nine months of the chosen birthday, in
         ? [fact.facts.otherPersonId]
         : [],
     );
-  // The first of a few draws whose player has a brother or sister.
-  let drawn = drawPlace(seed, "creator-siblings:0");
-  let world = buildBenchWorld(drawn.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: drawn.key,
+  // The creator moves a birthday only within the player's own age (`applyChosenPerson`; New game
+  // draws the world with a resident of the chosen age), so the case is a brother or sister born
+  // within nine months of a day that keeps the player's age on the opening day: the day a week
+  // from theirs, or the nearest day of the player's age year to it. Draw places until one holds
+  // it, and name each place passed over.
+  const ageAtOpening = (born: string) =>
+    ageOnDate(makeIsoDate(born), makeIsoDate(gameStartDate()));
+  const [openYear, openMonthDay] = [
+    Number(gameStartDate().slice(0, 4)),
+    gameStartDate().slice(4),
+  ];
+  // The first and last birthdays that are a given age on the opening day.
+  const ageYear = (age: number) => ({
+    first: addDays(makeIsoDate(`${openYear - age - 1}${openMonthDay}`), 1),
+    last: makeIsoDate(`${openYear - age}${openMonthDay}`),
   });
-  for (
-    let n = 1;
-    n < 4 && !siblingsOf(world.core, world.playerId!).length;
-    n += 1
-  ) {
-    drawn = drawPlace(seed, `creator-siblings:${n}`);
-    world = buildBenchWorld(drawn.seed, gameStartDate(), {
+  const passedOver: string[] = [];
+  let found:
+    | {
+        drawn: ReturnType<typeof drawPlace>;
+        world: ReturnType<typeof buildBenchWorld>;
+        chosen: ReturnType<typeof makeIsoDate>;
+      }
+    | undefined;
+  for (let n = 0; n < 8 && !found; n += 1) {
+    const drawn = drawPlace(seed, `creator-siblings:${n}`);
+    const world = buildBenchWorld(drawn.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: drawn.key,
     });
+    const id = world.playerId!;
+    const own = ageAtOpening(world.core.people.get(id)!.birthDate);
+    const siblings = siblingsOf(world.core, id);
+    const { first, last } = ageYear(own);
+    const chosen = siblings
+      .flatMap((other) => {
+        const born = makeIsoDate(world.core.people.get(other)!.birthDate);
+        return [addDays(born, 7), addDays(born, -7)].map((day) => {
+          const inYear = day < first ? first : day > last ? last : day;
+          return { born, day: inYear };
+        });
+      })
+      .find(
+        ({ born, day }) =>
+          ageAtOpening(day) === own &&
+          Math.abs(daysBetween(day, born)) < P.siblingBirthGapDays,
+      )?.day;
+    if (chosen) found = { drawn, world, chosen };
+    else
+      passedOver.push(
+        `${drawn.name} (seed ${drawn.seed}): ${
+          siblings.length
+            ? `no brother or sister born within nine months of a day the player, ${own}, keeps their age on`
+            : "the player has no brother or sister"
+        }`,
+      );
   }
+  process.stdout.write(
+    `creator-siblings: ${found ? `${found.drawn.name}, seed ${found.drawn.seed}` : "no place held the case"}; passed over: ${passedOver.join("; ") || "none"}\n`,
+  );
+  if (!found)
+    throw new Error(
+      `No drawn place held a brother or sister born within nine months of a birthday that keeps the player's age (seed ${seed}): ${passedOver.join("; ")}`,
+    );
+  const { drawn, world, chosen } = found;
   const where = `${drawn.name}, seed ${drawn.seed}`;
   const { core } = world;
   const id = world.playerId!;
   const siblings = siblingsOf(core, id);
   expect(siblings.length, where).toBeGreaterThan(0);
-  const sister = core.people.get(siblings[0]!)!;
   // Brothers and sisters carrying the player's drawn family name.
   const drawnFamily = core.people.get(id)!.familyName;
   const sharing = siblings.filter(
     (other) => core.people.get(other)!.familyName === drawnFamily,
   );
-  const chosen = addDays(makeIsoDate(sister.birthDate), 7);
   const [year, month, day] = chosen.split("-").map(Number) as [
     number,
     number,
