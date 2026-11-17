@@ -5,11 +5,9 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
-import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { officialsIn } from "../core2/modules/officials";
 import { ownStance } from "../core2/law-consensus";
-import { historyMonths, type MacroMonth } from "../core2/macro-model";
 import { NAMED_QUESTIONS } from "../english/question-names";
 
 // The opening address from this world's records (play-first-09). Two worlds
@@ -176,39 +174,15 @@ describe("the opening address from a world's records", () => {
     }
   });
 
-  it("says a figure only as a point's context, averaged from the macro engine's months it cites", () => {
-    // Changed with the speech outline (Nov 12). Before, no sentence held a
-    // digit (owner, Nov 1: "I don't like where this part of the speech where
-    // it just laces statistics"). The owner's Nov 12 note allows one figure as
-    // a point's context ("for 30 years we've suffered from terrible
-    // inflation, averaging out to over 12% per year"), so a figure is said
-    // only in the context sentence, and that sentence cites the months it
-    // averages. "Work is always told" is gone: an address tells its theme.
-    for (const { where, world, story } of worlds) {
-      const api = coreAPI(world.core);
-      const recorded = (world.core.modules.has(MACRO_MODULE_ID)
-        ? api.moduleState(MACRO_MODULE_ID).table("months").rows()
-        : []) as unknown as MacroMonth[];
-      const months = new Set(
-        [
-          ...recorded,
-          ...historyMonths(world.core.startedAt, world.core.seed, (key) =>
-            api.parameter(key),
-          ),
-        ].map((row) => row.id),
-      );
-      for (const sentence of story!.address.sentences) {
-        if (!/\d/.test(sentence.text)) continue;
-        expect(
-          sentence.facts.some((key) => /^context-/.test(key)),
-          `${where}: "${sentence.text}"`,
-        ).toBe(true);
-        if (sentence.facts.includes("context-amount"))
-          expect(
-            sentence.sourceRecordIds.some((id) => months.has(id)),
-            `${where}: "${sentence.text}"`,
-          ).toBe(true);
-      }
-    }
+  it("says no figure at all", () => {
+    // An address says how far something moved in words, never a figure (owner,
+    // Nov 1: "I don't like where this part of the speech where it just laces
+    // statistics"; the Story lead's read of #9831, Nov 17: "no figure is
+    // spoken in an address"). The context pieces that said a percent are gone.
+    for (const { where, story } of worlds)
+      for (const sentence of story!.address.sentences)
+        expect(sentence.text, `${where}: "${sentence.text}"`).not.toMatch(
+          /\d|percent/,
+        );
   });
 }, 600_000);

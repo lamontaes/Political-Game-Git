@@ -15,7 +15,7 @@
  */
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
-import { townOutsideOf } from "../opening-outside-market";
+import { outsideMarketAccount, townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
   countedResidents,
@@ -619,6 +619,12 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
       /** Each reading of the race that made a world candidate campaign harder, one row each. */
       steppedUp: { indexes: { byFiling: { fields: ["filingId"] } } },
+      /**
+       * Each time a campaign asked the player to give it evenings, one row per campaign: `asked` until the
+       * player answers in the scene it stages, then `yes` or `no`. A race's rows go when it is counted
+       * (`foldClosedRaceCauses`).
+       */
+      volunteerAsks: { indexes: { byFiling: { fields: ["filingId"] } } },
       /** Each endorsement answer: a person asked, or a group's backing. */
       endorsements: {
         indexes: {
@@ -650,6 +656,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
         : (answerOffer(api, event),
           answerAskForVote(api, event),
           answerEndorsementAsk(api, event),
+          answerVolunteerAsk(api, event),
           answerPetitionShort(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -1958,17 +1965,21 @@ export function seller(api: CoreAPI, purchase: Purchase): string {
   return found ?? outsideSeller(api);
 }
 
-/** The town's outside account, where a campaign buys what no business in town sells (the postage always: the Postal Service is not in town). */
+/**
+ * The town's outside account, where a campaign buys what no business in town
+ * sells (the postage always: the Postal Service is not in town). A town whose
+ * households and firms have bought nothing beyond its edge yet has none; the
+ * campaign's purchase opens the place's one outside account
+ * (`outsideMarketAccount`), the same account every other purchase from
+ * outside the town is paid to.
+ */
 function outsideSeller(api: CoreAPI): string {
-  const outside = townOutsideOf(
-    api.state.organizations.values(),
-    townRow(api).townPlaceId,
-  );
-  if (!outside)
-    throw new Error(
-      "No outside market account: a campaign has nowhere to buy what the town does not sell.",
-    );
-  return outside.id;
+  const town = townRow(api).townPlaceId;
+  const outside = townOutsideOf(api.state.organizations.values(), town);
+  if (outside) return outside.id;
+  const account = outsideMarketAccount(town, api.state.date);
+  api.addOrganization(account);
+  return account.id;
 }
 
 function priceRow(kind: string) {
@@ -2076,7 +2087,8 @@ function minutesAtWork(
 
 /**
  * A rival's own filing in a campaign's race: the person's filing standing in
- * the same contest (on its ballot, or with its petition out) when they are
+ * the same contest, or another seat of the same at-large race (on its
+ * ballot, or with its petition out) when they are
  * not the campaign's candidate, else null. Someone running for a seat
  * campaigns for themselves, so a rival never volunteers for or runs another
  * candidate's campaign, hosts or comes to their donor meeting, or endorses
@@ -2089,9 +2101,18 @@ export function rivalFiling(
   personId: string,
 ): FilingRow | null {
   if (personId === campaign.candidateId) return null;
-  return (
-    ballot(api, campaign.contestId).find((f) => f.personId === personId) ?? null
-  );
+  // The at-large seats up that day are one race (`atLargeGroup`): a filing
+  // for any of its seats runs against every candidate in it.
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  const contestIds = contest
+    ? atLargeGroup(api, contest).map((row) => row.id)
+    : [campaign.contestId];
+  for (const contestId of contestIds) {
+    const own = ballot(api, contestId).find((f) => f.personId === personId);
+    if (own) return own;
+  }
+  return null;
 }
 
 /**
@@ -4168,6 +4189,10 @@ export function donationAnswer(
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return { givenMinor: 0, why: "no-spare" };
+  // Someone standing in the same race campaigns for themselves and funds no
+  // rival (`rivalFiling`): no reason to give, as for every other help.
+  if (rivalFiling(api, campaign, donorId))
+    return { givenMinor: 0, why: "not-warm" };
   const budget = giftBudget(api, donor);
   const reason = donorReason(api, filingId, donorId, budget);
   if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
@@ -4310,7 +4335,11 @@ export function askPlayerForMoney(
   return true;
 }
 
-/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+/**
+ * An ask is open while it waits on an answer, its candidate is still standing
+ * for a race not yet held, and the person asked has not filed against them in
+ * it (`rivalFiling`: a rival funds no rival).
+ */
 function askOpen(api: CoreAPI, row: AskRow): boolean {
   if (row.status !== "pending") return false;
   const filing = filingOf(api, row.campaignId);
@@ -4322,7 +4351,8 @@ function askOpen(api: CoreAPI, row: AskRow): boolean {
     !!filing &&
     standing(filing) &&
     !!contest &&
-    contest.electionDate >= api.state.date
+    contest.electionDate >= api.state.date &&
+    !rivalFiling(api, campaignFor(api, row.campaignId), row.donorId)
   );
 }
 
@@ -6226,6 +6256,126 @@ export function askForEndorsement(
 /** The kind of the event that asks the player to endorse a candidate: the scene's cause. */
 export const ENDORSEMENT_ASKED_EVENT = "endorsement-asked";
 
+/** A campaign asking the player to give it evenings (the record a `volunteer-ask` scene stages from). */
+export const VOLUNTEER_ASKED_EVENT = "volunteer-asked";
+
+/** The player's kept answer to one campaign's ask to volunteer. */
+interface VolunteerAskRow {
+  readonly id: string;
+  readonly filingId: string;
+  readonly candidateId: string;
+  readonly personId: string;
+  /** The day it was asked, or last asked again. */
+  readonly date: string;
+  readonly answer: "asked" | "yes" | "no";
+}
+
+/**
+ * A campaign whose lists reach the player (their circle, their party, people who heard of the
+ * candidate: `reachablePeople`) asks them to give it evenings, as it asks everyone it reaches
+ * (`askToVolunteer`). No engine answers for the controlled person: the ask is kept as `asked` and a
+ * scene puts it to them; their reply writes the yes or the no (`answerVolunteerAsk`). An ask put off
+ * comes back after the offer spacing days until the race is decided; a no stands for the race. A player
+ * under the volunteering age, or standing in the same race, is not asked.
+ */
+function askPlayerToVolunteer(api: CoreAPI, filingId: string): void {
+  const playerId = (api.state as CoreState).playerId;
+  const player = playerId ? api.state.people.get(playerId) : undefined;
+  if (!player?.alive) return;
+  const campaign = campaignFor(api, filingId);
+  if (campaign.volunteerIds.includes(player.id)) return;
+  const date = api.state.date;
+  if (
+    ageOn(player, date) < campaignParameter("minimumVolunteerAge") ||
+    rivalFiling(api, campaign, player.id)
+  )
+    return;
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  if (!contest || contest.electionDate <= date) return;
+  const id = `volunteer-ask:${filingId}:${player.id}`;
+  const held = table(api, "volunteerAsks").get(id) as unknown as
+    VolunteerAskRow | undefined;
+  if (held && held.answer !== "asked") return;
+  if (
+    held &&
+    held.date >
+      addDays(makeIsoDate(date), -campaignParameter("offerSpacingDays"))
+  )
+    return;
+  const row: VolunteerAskRow = {
+    id,
+    filingId,
+    candidateId: campaign.candidateId,
+    personId: player.id,
+    date,
+    answer: "asked",
+  };
+  table(api, "volunteerAsks").put(row as unknown as ModuleRow);
+  const candidate = api.state.people.get(campaign.candidateId);
+  api.emit({
+    id: `${VOLUNTEER_ASKED_EVENT}:${id}:${date}`,
+    date,
+    kind: VOLUNTEER_ASKED_EVENT,
+    personIds: candidate
+      ? [candidate.id as PersonId, player.id as PersonId]
+      : [player.id as PersonId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `The campaign of ${campaign.candidateId} asks the player to volunteer`,
+      asOf: date,
+    },
+    facts: {
+      askId: id,
+      filingId,
+      campaignId: campaign.id,
+      contestId: campaign.contestId,
+      candidateId: campaign.candidateId,
+      askedId: player.id,
+      office: contest.title ?? "",
+      closeness:
+        closenessBetween(api.state, player.id, campaign.candidateId) > 0
+          ? "close"
+          : "distant",
+      ...(held ? { again: "yes" } : {}),
+    },
+  });
+}
+
+/**
+ * The player's reply in the `volunteer-ask` scene: a yes is cast for them and the campaign takes them on
+ * through its own ask (`askToVolunteer`, which keeps them on its volunteers and writes the
+ * `campaign-volunteer-joined` record); a no stands for the race; a put-off keeps the ask open to come
+ * back after the offer spacing days.
+ */
+function answerVolunteerAsk(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "volunteer-ask") return;
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (cause?.kind !== VOLUNTEER_ASKED_EVENT) return;
+  const held = table(api, "volunteerAsks").get(
+    String(cause.facts?.askId ?? ""),
+  ) as unknown as VolunteerAskRow | undefined;
+  if (!held || held.answer === "yes") return;
+  const move = String(facts.move);
+  const yes = ACCEPTING_MOVES.has(move);
+  if (!yes && !REFUSING_MOVES.has(move) && move !== "refuse") return;
+  // A no said in this same scene may be given up on the press that follows it; any other no stands.
+  if (held.answer === "no" && !(yes && held.date === api.state.date)) return;
+  table(api, "volunteerAsks").put({
+    ...held,
+    date: api.state.date,
+    answer: yes ? "yes" : "no",
+  } as unknown as ModuleRow);
+  if (!yes) return;
+  castVolunteer(api, held.filingId, held.personId, true);
+  askToVolunteer(api, held.filingId, held.personId);
+}
+
 /**
  * A candidate's campaign asks the player to endorse them (the player is one
  * of the closest people it asks, or owes the candidate a favor from a deal).
@@ -6956,8 +7106,15 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
   if (!contestId || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
   const filings = elections(api, "filings").query("byContest", [
     contestId,
-  ]) as unknown as { personId: string }[];
+  ]) as unknown as { id: string; personId: string }[];
   foldCauses(api, new Set(filings.map((f) => f.personId)));
+  // The player's answers to this race's asks to volunteer stand only for the race: they go with it.
+  const asks = table(api, "volunteerAsks");
+  for (const filing of filings)
+    for (const ask of asks.query("byFiling", [filing.id]) as unknown as {
+      id: string;
+    }[])
+      asks.remove(ask.id);
 }
 
 /**
@@ -7288,9 +7445,15 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
 export function askForSupport(api: CoreAPI, filingId: string): void {
   const campaign = campaignFor(api, filingId);
   const playerId = (api.state as CoreState).playerId;
-  const pool = reachablePeople(api, campaign).filter(
+  const reachable = reachablePeople(api, campaign);
+  const pool = reachable.filter(
     (id) => id !== playerId && !campaign.volunteerIds.includes(id),
   );
+  // The player is asked too, when the campaign's lists reach them; nothing answers for them, so the ask
+  // is kept and a scene puts it to them (owner, Nov 16: "Work for someone else's campaign... until a
+  // race opens").
+  if (playerId && reachable.includes(playerId))
+    askPlayerToVolunteer(api, filingId);
   const asks = Math.min(pool.length, campaignParameter("volunteerAsksPerTurn"));
   const from = pool.length ? (campaign.volunteerCursor ?? 0) % pool.length : 0;
   for (let i = 0; i < asks; i += 1)

@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/long-game-mark-federal-wage-labels
+pr: #9828
 after:
 blocked-on:
 lead: laws
@@ -39,3 +39,5 @@ source: Fable B, Nov 15, 2026, from a red in the gate of #9452 that is also red 
 **Files.** src/core2/modules/world-legislating.ts (`questionForLevel`, `levelMayDecide`); src/core2/bill-catalog.ts (`billCatalog`); src/core2/campaign-data.ts (`axisOf`, read only); src/core2/canonical-policy-topics.test.ts
 
 **Notes.** Not measured: whether a session of Congress has filed two bills on the one rule in a played year. The filers loop over the platform questions, so it can.
+
+- Nov 17, Long game: built on `claude/long-game-mark-federal-wage-labels`. Both tests are drawn again rather than pinned (CTO, Nov 17: tests back on drawn places). At GOLDEN_PATH_SEED=c143acb37560ba91 both pass on the branch and both fail on main's code ("Two labels must not count as two policy decisions: expected 18 to be 19"; Congress's draft under the states' label not refused).

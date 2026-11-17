@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import { headsLocalExecutive } from "../offices-executives";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
@@ -41,6 +42,7 @@ import {
   governmentOfJurisdiction,
   lineChangedInYear,
 } from "./budgets";
+import { revenueGivenUp } from "../budgets-treasury";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { answerIn, stateActEffectiveDate } from "./laws";
@@ -74,6 +76,7 @@ import {
   lawNeedsChange,
   lawChain,
   LAWS_MODULE_ID,
+  labelOfAnotherAtLevel,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
@@ -174,9 +177,13 @@ function questionForLevel(
   const kind =
     JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
   const levels = QUESTION_SCOPES[question]?.levels ?? [];
-  return kind === "federal-district" && level !== "federal"
-    ? levels.some((own) => ["state", "county", "city"].includes(own))
-    : levels.includes(level);
+  const scoped =
+    kind === "federal-district" && level !== "federal"
+      ? levels.some((own) => ["state", "county", "city"].includes(own))
+      : levels.includes(level);
+  // One label per rule at a level: a question this level reads as another
+  // platform question's rule is that question's label here, not a decision.
+  return scoped && !labelOfAnotherAtLevel(question, level);
 }
 
 /**
@@ -251,6 +258,11 @@ export function openSittingSessions(core: CoreState): void {
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
   const api = coreAPI(core);
   for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+    // Another state's session keeps only its results and is generated on
+    // demand (owner, Nov 5): nothing about it is read at the opening, so its
+    // legislators stay named officials on their term rows, seated by no one
+    // (the CTO's ruling of Nov 17). Its calendar entry opens it later.
+    if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) continue;
     const w = nextWindow(jurisdiction, core.date, true);
     if (!w || w.conveneAt > core.date) continue;
     openSession(api, {
@@ -418,12 +430,12 @@ export function filerOf(api: CoreAPI, term: TermRow): Filer {
  * fresher it is and the wider it passed (owner, Oct 14: no body's rules are
  * in data, so a sliding reluctance from recency and margin; no fixed cooldown).
  */
-function lawStanding(
+export function lawStanding(
   api: CoreAPI,
   question: string,
   direction: number,
   jurisdiction: string,
-): { settled: number; reluctance: number; neighbors: number } {
+): { settled: number; reluctance: number; neighbors: number; hole: number } {
   const settled = settledness(api, question, jurisdiction);
   const last = lastEnactment(api, question, lawKeysOf(api, jurisdiction));
   const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
@@ -435,6 +447,8 @@ function lawStanding(
         ((1 - settled) / 2)
       : 0,
     neighbors: neighborPull(api, question, direction, jurisdiction),
+    // The share of the body's own planned revenue the change would give up.
+    hole: revenueGivenUp(api, jurisdiction, { question, direction }),
   };
 }
 
@@ -479,13 +493,21 @@ export function filingReason(
   f: Filer,
   question: string,
   direction: number,
-  law: { settled: number; reluctance: number; neighbors?: number },
+  law: {
+    settled: number;
+    reluctance: number;
+    neighbors?: number;
+    hole?: number;
+  },
 ): number {
   const bare =
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction -
-    law.reluctance +
+    law.reluctance -
+    // The hole the change would leave in the budget the member's own body
+    // must still pass: the share of planned revenue the law carries.
+    campaignParameter("budgetHoleWeight") * (law.hole ?? 0) +
     // The states next door: the more of them have the change, the likelier it
     // is carried (policy diffusion between neighboring states).
     campaignParameter("neighborLawWeight") * (law.neighbors ?? 0);
@@ -1219,7 +1241,7 @@ const SITTING_CALENDAR = {
         .table("offices")
         .get(term.officeId) as unknown as
         { kind: string; jurisdiction: string } | undefined;
-      if (!office || !/^(mayor|county-executive)$/.test(office.kind)) continue;
+      if (!office || !headsLocalExecutive(office.kind)) continue;
       for (const other of api
         .moduleState(OFFICES_MODULE_ID)
         .table("offices")
@@ -1248,6 +1270,13 @@ const SITTING_CALENDAR = {
  */
 function townMeetingHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
   const out = new Map<string, OfficeTime>();
+  // The office-time readers are one list for every world in the process
+  // (work.ts): a small world with no laws or offices has no body to meet.
+  if (
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return out;
   const today = api.state.date;
   const county = lawChain(api).countyGeoids[0];
   const bodies = new Set(townSeats(api).map((row) => row.office.id));

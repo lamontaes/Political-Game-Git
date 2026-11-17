@@ -35,6 +35,7 @@ import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
 import { worldOffsetUnit, worldRate } from "./world-draw";
+import { centuryCongressRoster, historyMode } from "./electorate-century";
 
 /** A place counted coarsely: how many may vote there and where it leans. */
 export interface ElectoratePlace {
@@ -648,7 +649,7 @@ function heldInWorld(
  * the roster's own name for the party; the national party where the roster
  * has none.
  */
-function rosterLabel(side: number): string {
+export function rosterLabel(side: number): string {
   if (!rosterLabels) {
     const counts = new Map<string, number>();
     const add = (label: string, n: number) =>
@@ -733,14 +734,41 @@ export function publishedSenateSeats(stateKey: string): readonly string[] {
   return ROSTER.congress[stateKey]?.senate ?? [];
 }
 
+/** The places that send members to Congress (the states, the District and the territories), in key order. */
+export function congressStateKeys(): readonly string[] {
+  return Object.keys(ROSTER.congress).sort();
+}
+
+/**
+ * A place's House seats as the roster keys them (the district number, "0" for an at-large seat or
+ * a delegate): the roster's seats and any district the 2024 results hold that the roster leaves
+ * vacant. Which seats exist, never who holds them.
+ */
+export function congressSeatKeys(stateKey: string): readonly string[] {
+  const usps = stateKey.slice(3);
+  const keys = new Set(
+    Object.keys(ROSTER.congress[stateKey] ?? {}).filter((k) => k !== "senate"),
+  );
+  for (const row of CAL.house)
+    if (row.stateUsps === usps && /^\d+$/.test(row.districtCode)) {
+      const district = String(Number(row.districtCode));
+      if (Number(district) > 0 && Number(district) < 98) keys.add(district);
+    }
+  return [...keys].sort((a, b) => Number(a) - Number(b) || a.localeCompare(b));
+}
+
 /**
  * This world's roster of the legislatures and Congress: each seat's holder by
  * `worldSeatParty`'s rule, and each chamber's party counts moved by its seats
- * that changed hands. Built once per world.
+ * that changed hands. Built once per world. Congress is the century's (electorate-century.ts)
+ * unless the world chose today's real record.
  */
 export function worldRoster(seed: string): typeof ROSTER {
-  const known = rosters.get(seed);
+  // One roster per world and per where its day one comes from (the century or today's record).
+  const cacheKey = `${seed}|${historyMode(seed)}`;
+  const known = rosters.get(cacheKey);
   if (known) return known;
+  const fromCentury = centuryCongressRoster(seed);
   const places: Record<string, Record<string, RosterChamber>> = {};
   for (const [stateKey, chambers] of Object.entries(ROSTER.places)) {
     const usps = stateKey.slice(3);
@@ -814,8 +842,8 @@ export function worldRoster(seed: string): typeof ROSTER {
         }
       }
   }
-  const world = { places, congress };
-  rosters.set(seed, world);
+  const world = { places, congress: fromCentury ?? congress };
+  rosters.set(cacheKey, world);
   return world;
 }
 

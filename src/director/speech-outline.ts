@@ -113,6 +113,7 @@ import {
   HURT_KINDS,
   type AddressKind,
 } from "./address-kind";
+import { storyOf } from "./address-story";
 
 const N = (
   openingData as unknown as {
@@ -128,6 +129,7 @@ const N = (
 /** The sections an outline row may hold, in the words of speech-outlines.json. */
 export type Section =
   | "salutation"
+  | "story"
   | "occasion"
   | "creed"
   | "history"
@@ -925,6 +927,8 @@ export interface OutlineSpeaker {
 export interface SpeechPlan {
   readonly blocks: Block[];
   readonly addressKind: AddressKind;
+  /** The world's story the address opens on (address-story.ts), "steady" when none. */
+  readonly story: string;
   /** The bill catalog's subject the speech is about; null when the record gives it none. */
   readonly theme: string | null;
   readonly asks: readonly string[];
@@ -1889,11 +1893,6 @@ function bodyHoldFacts(
   };
 }
 
-/** A figure said in a context sentence: one decimal, no trailing zero. */
-function figure(value: number): string {
-  return String(Number(value.toFixed(N.decimals)));
-}
-
 /** Whole years between two dates. */
 function yearsBetween(api: CoreAPI, from: string, to: string): number {
   return Math.floor(
@@ -1936,32 +1935,32 @@ function contextFacts(
   if (years < least) return {};
   const span = months.slice(-years * api.parameter("macroMonthsPerYear"));
   const ids = [span[P.zero]!.id, span.at(-P.one)!.id];
-  const mean = (pick: (row: MacroMonth) => number) =>
-    span.reduce((sum, row) => sum + pick(row), P.zero) / span.length;
-  const yearly = (pick: (row: MacroMonth) => number) =>
-    (Math.pow(pick(span.at(-P.one)!) / pick(span[P.zero]!), P.one / years) -
-      P.one) *
-    N.percentPerRatio;
-  const amount: Record<string, () => number> = {
-    inflation: () => mean((row) => row.inflationPct),
-    unemployment: () => mean((row) => row.unemploymentPct),
-    mortgage: () => mean((row) => row.mortgage30Pct),
-    wages: () => yearly((row) => row.hourlyEarnings),
-    growth: () => yearly((row) => row.realOutput),
+  // Which way the measure went over the span, first month to last: said in
+  // words, never as a figure (the Story lead's read of #9831, Nov 17).
+  const measure: Record<string, (row: MacroMonth) => number> = {
+    inflation: (row) => row.priceIndex,
+    unemployment: (row) => row.unemploymentPct,
+    mortgage: (row) => row.mortgage30Pct,
+    wages: (row) => row.hourlyEarnings,
+    growth: (row) => row.realOutput,
   };
-  const of = amount[topic];
-  return of
-    ? {
-        "context-years": fact(countSaid(years), ...ids),
-        "context-name": fact(OUTLINES.topicWords[topic] ?? topic, ...ids),
-        "context-amount": fact(figure(of()), ...ids),
-        [`context-${topic}`]: fact("yes", ...ids),
-      }
-    : {};
+  const of = measure[topic];
+  if (!of) return {};
+  const moved = of(span.at(-P.one)!) - of(span[P.zero]!);
+  return {
+    "context-years": fact(countSaid(years), ...ids),
+    "context-name": fact(OUTLINES.topicWords[topic] ?? topic, ...ids),
+    [`context-${topic}`]: fact("yes", ...ids),
+    ...(moved > P.zero
+      ? { "context-up": fact("yes", ...ids) }
+      : moved < P.zero
+        ? { "context-down": fact("yes", ...ids) }
+        : {}),
+  };
 }
 
 /** Every month the macro engine has recorded or will open from, oldest first, up to today. */
-function macroHistory(core: CoreState): MacroMonth[] {
+export function macroHistory(core: CoreState): MacroMonth[] {
   const api = coreAPI(core);
   const recorded = core.modules.has(MACRO_MODULE_ID)
     ? (api
@@ -2101,6 +2100,21 @@ export function planSpeech(
       ? crisisTopic
       : null;
   const response = crisis ? answered!.response : null;
+  // The world's story the address opens on, before the speaker's own issues
+  // (address-story.ts; owner, Nov 16: "maybe it's warning because ... the
+  // economy's been terrible ... or maybe corruption"): its row orders the
+  // sections, so a warning and a brag do not share a skeleton.
+  const story = storyOf(
+    core,
+    {
+      serviceStart: speaker.serviceStart,
+      federal,
+      stateKey: level === "state" ? speaker.jurisdiction : null,
+      ...(local?.bodyOfficeId ? { bodyOfficeId: local.bodyOfficeId } : {}),
+      ...termOf(core, official?.termId ?? null),
+    },
+    macroHistory(core),
+  );
   // The answer is the first point, said with the condition in one paragraph;
   // the theme's points follow it. The answer's question is said once.
   const pointStands = response
@@ -2288,18 +2302,16 @@ export function planSpeech(
     // The first shape in the speaker's order that the point can open on and no
     // earlier point of the speech opened on: a shape says something about the
     // point, so one the point cannot bear stays unpicked (the second reader,
-    // Nov 14). A figure first needs a measure to show; the question first
-    // needs a wording its question can be asked of; and one who defends what
+    // Nov 14). The question first needs a wording its question can be
+    // asked of; and one who defends what
     // is in force (a supporter of a law in force, an opponent of one not) asks
     // "Why would we change course, when ..." only of a wording that is not a
     // complaint.
     const defends = stand.stance > P.zero === stand.law.inForce;
     const fits = (name: string) =>
-      name === "figure-first"
-        ? topicOf.has(stand.question)
-        : name === "question-first"
-          ? todays.some((text) => !defends || !questionTodayComplains(text))
-          : todays.length > P.zero;
+      name === "question-first"
+        ? todays.some((text) => !defends || !questionTodayComplains(text))
+        : todays.length > P.zero;
     const shape =
       order.find((name) => fits(name) && !shapesUsed.has(name)) ??
       order.find(fits) ??
@@ -2432,7 +2444,10 @@ export function planSpeech(
         ...(told ? {} : conditionFigure(country, topic)),
       },
       moves: told
-        ? [told, move("meaning", { topic })]
+        ? [
+            told,
+            ...(spanAgrees(topic, context) ? [move("meaning", { topic })] : []),
+          ]
         : [move("story-says", { topic })],
     };
   };
@@ -2500,6 +2515,25 @@ export function planSpeech(
     });
   };
   const sections: Record<Section, () => Draft[]> = {
+    // The world's story, said before anything the speaker asks for: what the
+    // records say the country, state or place has been through, then what
+    // the speaker makes of it for the term ahead (story-open, story-turn).
+    story: () =>
+      story.id === "steady"
+        ? []
+        : [
+            {
+              key: "story",
+              // Said where the occasion is: what brings the speaker here.
+              level: "occasion",
+              joins: true,
+              facts: story.facts,
+              moves: [
+                move("story-open", { topic: story.id }),
+                move("story-turn", { topic: story.id }),
+              ],
+            },
+          ],
     salutation: () => [
       {
         key: "salutation",
@@ -2647,12 +2681,15 @@ export function planSpeech(
               ? contextFacts(core, topic, country, speaker.serviceStart)
               : {};
           if (figuredFacts["context-years"]) yearsSaid = true;
+          // Trouble only where the year went the wrong way and the span's
+          // context says the same way: "a lot of folks got back to work" is
+          // never followed by "that's workers waking up with no job to go to".
+          const trouble =
+            !!topic &&
+            wrongBy(country, topic) > P.zero &&
+            spanAgrees(topic, figuredFacts);
           // A meaning line leads with the address's one tag (round 4).
-          if (
-            topic &&
-            (figuredFacts["context-years"] || !yearsSaid) &&
-            wrongBy(country, topic) > P.zero
-          )
+          if (topic && (figuredFacts["context-years"] || !yearsSaid) && trouble)
             tagSaid = true;
           const figureMoves =
             topic && (figuredFacts["context-years"] || !yearsSaid)
@@ -2660,7 +2697,7 @@ export function planSpeech(
                   move("context", { topic }),
                   // A figure is called trouble only where the records say it
                   // went the wrong way (rule 45); else it is stated plainly.
-                  ...(wrongBy(country, topic) > P.zero
+                  ...(trouble
                     ? [
                         move("meaning", { topic }),
                         // The year's claim, only by one who governed it.
@@ -2838,7 +2875,10 @@ export function planSpeech(
         facts: { ...draft.facts, ...closeFacts() } as Facts,
       })),
   };
-  const drafts = row.sections
+  // The story's order where it has one for this level, else the kind's own.
+  const sectionOrder =
+    (story.sections as readonly Section[] | null) ?? row.sections;
+  const drafts = sectionOrder
     .filter((section) => !row.asides.includes(section) || asides.has(section))
     .flatMap((section) =>
       sections[section]().map((draft) => ({
@@ -2943,6 +2983,7 @@ export function planSpeech(
   return {
     blocks,
     addressKind,
+    story: story.id,
     theme,
     asks: asks.map((stand) => stand.question),
     crisis,
@@ -2961,6 +3002,34 @@ const SAYS_ASK_AGAIN: ReadonlySet<string> = new Set([
   "floor-speech",
   "campaign-speech",
 ]);
+
+/** The macro measures that are trouble when they rise, and those that are trouble when they fall. */
+const RISE_IS_BAD: ReadonlySet<string> = new Set([
+  "inflation",
+  "unemployment",
+  "mortgage",
+]);
+const FALL_IS_BAD: ReadonlySet<string> = new Set(["wages", "growth"]);
+
+/** Whether a context's span went the bad way for its measure, or says no way at all (an area of the term). */
+function spanAgrees(topic: string, facts: Facts): boolean {
+  if (RISE_IS_BAD.has(topic)) return !!facts["context-up"];
+  if (FALL_IS_BAD.has(topic)) return !!facts["context-down"];
+  return true;
+}
+
+/** The speaker's serving term by its id, with its end, from the offices engine. */
+function termOf(
+  core: CoreState,
+  termId: string | null,
+): { term?: { id: string; endDate: string } } {
+  if (!termId || !core.modules.has(OFFICES_MODULE_ID)) return {};
+  const row = coreAPI(core)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(termId) as { endDate?: string } | undefined;
+  return row?.endDate ? { term: { id: termId, endDate: row.endDate } } : {};
+}
 
 /** An office row's kind, from the offices engine. */
 function officeKindOf(core: CoreState, officeId: string): string | undefined {
