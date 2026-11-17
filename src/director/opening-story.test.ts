@@ -10,8 +10,6 @@ import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { subjectsBetween } from "./conversation";
-import { BenchPlayer } from "../bench/player";
-import { storyScene } from "../bench/story";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 
 // The opening told as a story (owner, Oct 14, 2026), in the world the player
