@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Fixer one (session_01S4WSHrsirzMADEiASwJ6rk)
-pr:
+pr: 9911
 after:
 blocked-on:
 root: none
