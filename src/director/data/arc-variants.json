@@ -2972,7 +2972,7 @@
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
-                  "reply": ["decline"]
+                  "anyReply": ["decline"]
                 }
               },
               {

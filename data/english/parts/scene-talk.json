@@ -191016,6 +191016,62 @@
       }
     },
     {
+      "key": "scene-talk.reply-answer.case-help-sick-5",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I don't have a program to send you to. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["problem-sick"],
+          "after": "press",
+          "excludesFacts": ["expansion"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead rules 108 and 126 (fixer of PR 9623, Nov 17)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-sick-1",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for telling me. I'll look elsewhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead rule 126 (fixer of PR 9623, Nov 17)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "guarded"
+    },
+    {
       "key": "scene-talk.state-tell.your-petition-for-office-is-thin-and-time-is-short",
       "move": "state-tell",
       "kind": "spoken",
