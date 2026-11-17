@@ -7,9 +7,9 @@
  * types bound, the types held back with the reason the director gave, the reason a waiting scene
  * closed as a journal line, and, for a scene that stages, the bank piece its first line opened on and
  * the facts that filled it (read from the scene as the director composes it). Counts by outcome and
- * by reason come from the same rows. The row is one object per moment so the board's columns
- * (candidates, first failed gate, reads, scores, picks) are added as fields on it, not as a second
- * route. The player and the date of the world are the defaults. Reads only; spends no game time.
+ * by reason come from the same rows. The board's columns (director-board-picks-a-few: candidates,
+ * first failed gate, reads, scores, picks) are fields on the same row object, read from the entry's
+ * `board`, not a second route; counts by cut come from them. The player and the date of the world are the defaults. Reads only; spends no game time.
  */
 import { composeScene } from "../../director/scene";
 import type { PersonId } from "../../core2/types";
@@ -43,6 +43,28 @@ const view: DevView = {
       "nothing-to-ask": "There was nothing to ask that the game can settle",
     },
     timings: { now: "Now", waiting: "Waiting for you" },
+    board: "On the day's board",
+    candidates: "Candidates",
+    cut: "Cut",
+    score: "Felt",
+    picked: "The day's pick",
+    offered: "Offered and not stored",
+    cuts: {
+      yields: "It gives way to another scene of the same cause",
+      "contest-passed": "Its race has had its election day",
+      "not-allowed": "The player's filter leaves it out",
+      "season-cap": "The scene's season was full",
+      "nothing-changed": "Nothing had changed since it last played",
+      "nothing-to-ask": "There was nothing to ask that the game can settle",
+      "not-received": "Its receive rule refuses this cast",
+      joined: "Taken into a sitting already staged today",
+      "switched-off": "The player switched off this office stop",
+      silent: "No one in it speaks and nothing is chosen",
+      "nothing-said": "Its talk says nothing past its opener",
+      skipping: "Time is skipped, and only a scene met where you are stops it",
+      "no-room": "The life has no room left in its year",
+      outscored: "Another candidate was felt more",
+    },
   },
   routes: {
     "GET director/day": ({ mode, q }) => {
@@ -54,6 +76,7 @@ const view: DevView = {
         : undefined;
       const byOutcome: Record<string, number> = {};
       const byReason: Record<string, number> = {};
+      const byCut: Record<string, number> = {};
       const bump = (table: Record<string, number>, key: string) => {
         table[key] = (table[key] ?? 0) + 1;
       };
@@ -64,6 +87,10 @@ const view: DevView = {
           bump(byOutcome, entry.outcome);
           for (const held of entry.heldBack ?? []) bump(byReason, held.reason);
           if (entry.closed) bump(byReason, entry.closed);
+          if (entry.board?.cut) bump(byCut, entry.board.cut);
+          for (const card of entry.board?.cards ?? [])
+            if (card.cut) bump(byCut, card.cut);
+          for (const offer of entry.board?.offers ?? []) bump(byCut, offer.cut);
           // The first line as the director composes it from the same entry: the bank piece it
           // opened on and the facts that filled it. A scene set to the day alone has no piece.
           const arrival =
@@ -90,6 +117,19 @@ const view: DevView = {
               setting: bound.setting,
             })),
             held: entry.heldBack ?? [],
+            // The board's columns (board.ts): each card and its first failed
+            // gate, what the score read, the score, the pick, and the scenes
+            // from circumstance weighed beside it and never stored.
+            board: entry.board
+              ? {
+                  candidates: entry.board.cards,
+                  reads: entry.board.reads,
+                  score: entry.board.score,
+                  picked: entry.board.picked === true,
+                  cut: entry.board.cut ?? null,
+                  offers: entry.board.offers ?? [],
+                }
+              : null,
             firstLine: arrival
               ? {
                   piece: arrival.parts?.[0] ?? null,
@@ -98,7 +138,14 @@ const view: DevView = {
               : null,
           };
         });
-      return { personId: personId ?? null, date, moments, byOutcome, byReason };
+      return {
+        personId: personId ?? null,
+        date,
+        moments,
+        byOutcome,
+        byReason,
+        byCut,
+      };
     },
   },
 };

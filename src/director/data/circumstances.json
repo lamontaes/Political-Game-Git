@@ -267,7 +267,6 @@
         "counterpart": "any"
       },
       "recordKinds": ["floor-debate"],
-      "lived": true,
       "before": true,
       "place": "seat",
       "pool": ["fact:forId"],
@@ -286,7 +285,6 @@
         "counterpart": "any"
       },
       "recordKinds": ["floor-debate"],
-      "lived": true,
       "before": true,
       "place": "seat",
       "pool": ["fact:againstId"],
@@ -412,7 +410,6 @@
       },
       "recordKinds": ["school.finished"],
       "playerNamed": true,
-      "lived": true,
       "place": "school",
       "pool": ["classmates"],
       "where": "pool",
@@ -481,7 +478,6 @@
         "stake": ["true"],
         "petition": ["false"]
       },
-      "lived": true,
       "place": "other-home",
       "pool": ["named"],
       "where": "pool",
@@ -503,7 +499,6 @@
         "stake": ["true"],
         "petition": ["false"]
       },
-      "lived": true,
       "place": "other-home",
       "pool": ["named"],
       "where": "pool",
@@ -524,7 +519,6 @@
         "stake": ["true"],
         "petition": ["true"]
       },
-      "lived": true,
       "place": "other-home",
       "pool": ["named"],
       "where": "pool",
@@ -580,7 +574,6 @@
       },
       "recordKinds": ["disaster.home-damaged"],
       "playerNamed": true,
-      "lived": true,
       "recast": true,
       "place": "home",
       "pool": ["own-household"],
@@ -601,7 +594,6 @@
       "recordKinds": ["study-formed"],
       "playerNamed": true,
       "afterDays": 1,
-      "lived": true,
       "place": "seat",
       "pool": ["study-members"],
       "where": "pool",
@@ -622,7 +614,6 @@
       },
       "recordKinds": ["study-reported"],
       "playerNamed": true,
-      "lived": true,
       "place": "seat",
       "pool": ["study-members"],
       "where": "pool",

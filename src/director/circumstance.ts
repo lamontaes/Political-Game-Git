@@ -76,9 +76,7 @@ export interface CircumstanceRow {
   playerNamed?: boolean;
   /**
    * Days after the record that the circumstance comes (the morning after a
-   * count): the record waits on the director's ledger until then, and the
-   * week's spacing between scenes from circumstance does not hold it back,
-   * as it follows one thing the player lived through.
+   * count): the record waits on the director's ledger until then.
    */
   afterDays?: number;
   /**
@@ -89,12 +87,6 @@ export interface CircumstanceRow {
    * week or two). A row without it comes on its one day or not at all.
    */
   keepsDays?: number;
-  /**
-   * The row follows a record of the player's own life (their school year
-   * ending): the week's spacing between scenes from circumstance does not
-   * hold it back.
-   */
-  lived?: boolean;
   /**
    * The cast may be someone the director cast in another scene from
    * circumstance lately: the record is the player's own and the household has
@@ -110,9 +102,9 @@ export interface CircumstanceRow {
    */
   childMayTell?: boolean;
   /**
-   * The scene comes ahead of the day's other scenes from circumstance (the
+   * The scene comes ahead of the day's other candidates on the board (the
    * floor before the roll comes before the word in the hallway after the
-   * sitting); only one scene a day reaches the player.
+   * sitting): the board reads it first (board.ts pickFromBoard).
    */
   before?: boolean;
   /** The kind of place it happens at: the situation type's setting. */

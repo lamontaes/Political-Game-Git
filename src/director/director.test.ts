@@ -19,12 +19,8 @@ import type {
 } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import {
-  paceOf,
-  scheduleMoment,
-  SITUATION_LIBRARY,
-  type SituationLibrary,
-} from "./scheduling";
+import { paceOf, SITUATION_LIBRARY, type SituationLibrary } from "./scheduling";
+import { scheduleMoment } from "./board";
 import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";

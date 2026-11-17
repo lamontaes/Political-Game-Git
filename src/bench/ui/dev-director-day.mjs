@@ -48,6 +48,39 @@ function momentNode(row, labels, open) {
         textContent: `${labels.closed}: ${row.closed}`,
       }),
     );
+  if (row.board) {
+    const board = row.board;
+    li.append(
+      el("div", {
+        className: "dev-director-board",
+        textContent: `${labels.board}: ${labels.score} ${board.score.toFixed(3)}${board.picked ? ` · ${labels.picked}` : ""}${board.cut ? ` · ${labels.cut}: ${labels.cuts[board.cut] ?? board.cut}` : ""}`,
+      }),
+    );
+    for (const card of board.candidates)
+      li.append(
+        el("div", {
+          className: "dev-director-candidate",
+          textContent: `${labels.candidates}: ${card.typeKey}${card.cut ? ` · ${labels.cut}: ${labels.cuts[card.cut] ?? card.cut}` : ""}`,
+        }),
+      );
+    for (const offer of board.offers) {
+      const open = makeButton({
+        className: "link small",
+        textContent: offer.causeId,
+      });
+      open.addEventListener("click", () => void open(offer.causeId));
+      li.append(
+        el(
+          "div",
+          { className: "dev-director-offer" },
+          el("span", {
+            textContent: `${labels.offered}: ${offer.typeKey} · ${labels.score} ${offer.score.toFixed(3)} · ${labels.cut}: ${labels.cuts[offer.cut] ?? offer.cut} · `,
+          }),
+          open,
+        ),
+      );
+    }
+  }
   if (row.firstLine?.piece)
     li.append(
       el("div", {
@@ -107,6 +140,11 @@ export const slots = {
                   day.byReason,
                   labels.byReason,
                   (key) => labels.reasons[key] ?? key,
+                ),
+                countsNode(
+                  day.byCut ?? {},
+                  labels.board,
+                  (key) => labels.cuts[key] ?? key,
                 ),
               ]
             : [el("p", { textContent: labels.nothing })]),
