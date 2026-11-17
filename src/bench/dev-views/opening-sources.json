@@ -74,6 +74,10 @@
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressElections: every House seat each even year and the Senate by class from 1926, counted on the one path (electorate.ts countParties); the day-one seats are seated by src/core2/modules/offices.ts worldParties and read by every engine through electorate-places.ts worldRoster. Under the world setting history \"today\", the real roster (data/research/offices/legislature-party-counts-2026.json)."
     },
+    "town.governors": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressElections: every governor and partisan statewide officer elected in its own cycle from 1925 on the one path (electorate.ts countParties), term limits from data/research/offices/state-offices.json; seated by src/core2/modules/offices.ts worldParties. Under the world setting history \"today\", the real record (the calibration corpus's governors and statewide-executive-parties-2026.json)."
+    },
     "town.congresses": {
       "made": "decision",
       "by": "src/core2/electorate-century.ts congressCount: each chamber's seats by party after every November of the century"
@@ -851,6 +855,11 @@
       "made": "generation",
       "what": "How many terms a member of Congress serves before leaving the seat open, drawn once when they first win, its mean the completed career the CRS mean service implies",
       "replace": "A member's own decision to run again from their record (age, health, standing) once past members are filled in on open"
+    },
+    "src/core2/electorate-century.ts#campaignMeansOf": {
+      "made": "generation",
+      "what": "A century candidate's campaign means against the typical race's, drawn once per person (their donors, own money and party backing), read by the race rule's spending reason",
+      "replace": "Each nominee's own record (donors, wealth, party) once past candidates are filled in on open"
     }
   }
 }
