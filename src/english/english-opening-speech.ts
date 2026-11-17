@@ -200,6 +200,8 @@ function variantsFor(
   line: "opener" | "core" | "closer",
   topic?: string,
   addressKind?: string,
+  /** A required move: the role's general cores stand beside the kind's own, so the move can always be said. */
+  withGeneral = false,
 ): LinePartVariant[] {
   const fits = (part: OpeningPart) =>
     partHolds(part.voice, voice) &&
@@ -224,7 +226,11 @@ function variantsFor(
       (part) => fits(part) && !part.addressKind,
     );
   return (
-    line !== "core" ? [...general(), ...own] : own.length ? own : general()
+    line !== "core" || withGeneral
+      ? [...general(), ...own]
+      : own.length
+        ? own
+        : general()
   ).map((part) => {
     // A fact that keeps the line true without being named in it
     // (`onlyWhen`: a close that says good night, only in the evening) is
@@ -259,7 +265,15 @@ export function openingMove(
   const act = ACTS[role];
   if (!act) throw new Error(`No opening role ${role}`);
   const of = (line: "opener" | "core" | "closer") =>
-    variantsFor(kind, voice, role, line, options.topic, options.addressKind);
+    variantsFor(
+      kind,
+      voice,
+      role,
+      line,
+      options.topic,
+      options.addressKind,
+      !!options.required,
+    );
   const variants = of("core");
   if (!variants.length) return null;
   const opener = of("opener");

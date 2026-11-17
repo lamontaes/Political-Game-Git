@@ -116428,6 +116428,324 @@
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
       "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.polished-general-i-thank-speaker-object-and-the-congress-for-the",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I thank {speaker-object} and the Congress for the welcome, and I come ready to work.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.polished-general-i-am-grateful-to-speaker-object-and-to-every",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I am grateful to {speaker-object} and to every member here.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.polished-general-i-come-before-speaker-object-and-the-congress-with",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I come before {speaker-object} and the Congress with the work in front of us.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-general-thanks-to-speaker-object-and-everybody-here-for-having",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thanks to {speaker-object} and everybody here for having me.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-general-i-m-glad-to-be-here-with-speaker-object",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "I'm glad to be here with {speaker-object} and all of you.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-general-it-s-good-to-be-here-with-speaker-object",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "It's good to be here with {speaker-object} and the Congress.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        },
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": ["speaker-object"],
+          "tie": "frame"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-things-are-better-than-they-were-run-span-ago",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Things are better than they were {run-span} ago, and the credit goes to the folks who did the work.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-we-come-into-this-term-on-firmer-ground-than",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "We come into this term on firmer ground than {run-span} ago. Working people built that.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-i-ve-got-term-left-to-keep-this-going",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I've got {term-left} to keep this going, and I mean to.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-with-term-left-ahead-the-job-is-to-make",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "With {term-left} ahead, the job is to make sure everybody feels it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
     }
   ]
 }
