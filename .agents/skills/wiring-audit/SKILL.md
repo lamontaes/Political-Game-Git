@@ -3,9 +3,11 @@ name: wiring-audit
 description: >
   Audits and wires a whole family of Our Civic Duty mechanics end to end (laws,
   outcome-web links, personality decisions and similar) with a twin-world
-  checker, a matrix with one row per item, and per-family fix PRs. Use when a
-  lead session must prove what really reaches people, money and records, or
-  when anyone is about to call a system "wired".
+  checker, a matrix with one row per item, and per-family fix PRs; also the
+  56-place trace audit, which views each place for a year and checks every why
+  against the code. Use when a lead session must prove what really reaches
+  people, money and records, when anyone is about to call a system "wired", or
+  when the owner or CTO asks what the places actually did.
 ---
 
 # Wiring audit
@@ -14,7 +16,7 @@ description: >
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Each per-family fix PR and each row's `Needs` line is SMART with a time box. Laws and effects share one checker and one matrix; traits rows live in the effects matrix.
 
-The lead role itself is `lead-session` (an Opus lead with at most two helpers, status on the channel every two hours; owner, Oct 20 and Oct 24).
+The lead role itself is `crew-coordinator` (lead-session part) (an Opus lead with at most two helpers, status on the channel every two hours; owner, Oct 20 and Oct 24).
 
 "Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed, and that it counts as done only when a second session has seen it (`seen-in-game`; dev mode's bill card and "Follow the money" are the check; `dev-tester` proves laws through the real body) (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
@@ -50,7 +52,7 @@ One family per helper (a Sonnet-level helper, at most two per lead), each with i
 - unexplained timeouts;
 - dice;
 - hand-written player text, or lines written under `data/english/parts/` by anyone but the Story session (owner, Nov 10);
-- imports from `src/simulation` (deleted Oct 28; the `old-imports` guard refuses it);
+- imports from `src/simulation` (removed) (deleted Oct 28; the `old-imports` guard refuses it);
 - owner or date notes in data;
 - claims the diff doesn't make.
 
@@ -65,12 +67,24 @@ Write one test per item that fails when nothing moved. When several PRs share a 
 - **Every run file, never the family files alone.** `matrix.ts` grades from the places in the files it is given. A run over `families/*.json` alone read two places and dropped 83 laws to partly: main's table read "3 of 89" for two hours on Oct 29, from a merge-main commit. Pass every file in `docs/reports/law-wiring/*.json` and `families/*.json` that holds a `results` array, and check that the table's first line did not fall before committing.
 - **A law that moves money gets one skeptic on its payment path before the PR.** The medical-debt branch's tests passed through three review rounds that each found a real money defect: a cash stand-in left beside the new bill, a federal payment recorded against a line the federal budget lacks, and the coverage engine reading the same law a second time. The skeptic reads the path line by line against the budget lines and the two tiers.
 - **A matrix cell cites a read where the read happens** (laws lead, Nov 1). Never grade a link from a place that cannot show it: a lender link from a state that begins with the cap and has no lender, or a town web row the engine leaves out for households whose coverage it keeps by person id. Grade it from the records that read it (bill or loan records by id) or mark it carried by the engine that does. A link whose lag is longer than the checker's one-year window cannot be shown by the checker when a legislature in play repeals the law first. Its evidence comes from a played test that holds the law, and the cell is declared partial with an open stopgap. `matrix.ts` takes a partial declaration that can only lower a grade, never raise one.
-- **A merge conflict in the generated reports** is resolved by taking main's copy and regenerating; the source files (`src/core2/data/outcome-web/outcome-web.json`, the stopgap register) keep both sides' rows. Since Oct 29 a checker does this on an open pull request (`checker`); the builder asks it before pushing, on the item's pull request.
+- **A merge conflict in the generated reports** is resolved by taking main's copy and regenerating; the source files (`src/core2/data/outcome-web/outcome-web.json`, the stopgap register) keep both sides' rows. Since Oct 29 a checker does this on an open pull request (`merger` (checker part)); the builder asks it before pushing, on the item's pull request.
 - **Never hand-edit a generated report** (CTO, Nov 8, on #7404). `docs/reports/law-wiring-table.md` and `law-wiring-matrix.json` are written by `scripts/law-wiring/matrix.ts` from the checker's place runs. A proof that should move a law (a played test, a dev-mode run) changes its declaration in `scripts/law-wiring/declared/` and its stopgap, and the Dev Tester reruns the checker on main to regenerate the table; the PR body states what the regenerated row should read. Regenerating from only the few run files in the repo breaks the whole table.
+- **A budget line is raised where the catalog lets it pass (laws lane, Nov 17, #9773).** Before #9773, `changeBudget` with no level put every line in the town's own budget, so the 11 federal lines were graded on a town treasury paying a line it never keeps. A budget line's reach of "full 0, counted groups 0, orgs 1" means the money reached no engine that pays people: read it as reaching nobody, never as wired.
+- **A new read across families goes through the other family's entry file (laws lane, Nov 17, #9764).** `legislature.ts` importing `budget-stakes.ts` directly turned `guards` red on the families check. Import from the family's entry (`budgets-treasury.ts` re-exports what readers outside the budgets family need), and run `tests/guards/families.test.ts` before pushing.
 - **Speed and space:** helpers work in `helper-checkout` copies and, under the Oct 29 "builders build" ruling, run only the tests they wrote. A played twin test builds two worlds, so at most one runs at a time on a crowded container; three runs were killed for memory on Oct 29.
+- **Grade a federal line on the federal budget** (laws lead, Nov 17). Until #9773, `changeBudget` in `scripts/law-wiring/check.ts` raised the town's own line for a federal budget line: $0 to $100,000 for Medicare, reaching no member. Read a federal row's `change` field before trusting its reach and repeal cells; it must name the `US` government.
+- **A link the bills carry needs a `BILL_CARRIED` rule** in `scripts/law-wiring/bill-records.ts`, naming which billed member the link priced, or no run can show it. A carried link grades wired without a size (`medicare-line-to-medical-debt`, #9844).
+- **`matrix.ts` overwrites the table.** To read one law's grade from a local run, run it on a throwaway branch and `git checkout -- docs/reports/` after.
+- **The `no-steering` guard reads `* (level - 1)` as a pull toward a target.** Write a line change's share as the bills' added dollars (`inForce - base`), which is what it is (#9789, Nov 17).
 
 ## 5. Finish
 
 Rerun the checker on main after the families merge. Put a before and after played year in two drawn places (seed named) at the top of the report: items that reached people, moved money and moved measures, plus the year's run time. Then the final matrix summary: total, wired, partial, stopgapped. Never say "wired" without the row.
 
 - **A trait reader that exports the wrong shape is silently never loaded** (Small fixes, Nov 8: `facet-affectionate.ts` exported a `TraitPack`, so `generate:trait-effects` skipped it and the trait changed nobody's answer). A reader must export `<name>Effects` as `readonly TraitEffectDeclaration[]`; after adding one, run `npm run generate:trait-effects` and look for the new line in `trait-effects/index.ts`.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/trace-audit.md`: when the owner or CTO asks what the places actually did.

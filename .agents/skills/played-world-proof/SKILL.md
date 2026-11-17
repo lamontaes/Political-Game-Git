@@ -2,8 +2,11 @@
 name: played-world-proof
 description: >
   Proves an Our Civic Duty feature in a one-year run of the played world, with
-  another engine reading what it wrote, named by record id. Use before calling
-  any feature, law or module finished.
+  another engine reading what it wrote, named by record id; a jobs, wage or
+  firm-demand change is proven over 24 months with both the inflow into
+  unemployment and the outflow out of it. Use before calling any feature, law or
+  module finished, and for any jobs, business-demand, layoff or regional-work
+  change.
 ---
 
 # Played-world proof
@@ -19,7 +22,7 @@ A feature counts as built only when the running game shows another part of the g
 ## The run
 
 1. Pick a seed you did not choose: `SEED=$(node -e "console.log(require('crypto').randomBytes(6).toString('hex'))")`. Name the seed and place in the PR body.
-2. Build the world: `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })` from `src/bench/world`, with every module installed. Advance one year with `DevMode` (see `scripts/trace/viewer.ts` for the exact calls). The world outside the town is the country tier: states kept as counts with a treasury and stepped monthly (`docs/design/country-tier.md`). A feature that reaches other states shows its record in that tier, not in a separate national table; time can also skip with results first, so prove a skipped stretch and a played day when the feature spans both.
+2. Build the world: `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })` from `src/bench/world.ts`, with every module installed. Advance one year with `DevMode` (see `scripts/trace/viewer.ts` for the exact calls). The world outside the town is the country tier: states kept as counts with a treasury and stepped monthly (`docs/design/country-tier.md`). A feature that reaches other states shows its record in that tier, not in a separate national table; time can also skip with results first, so prove a skipped stretch and a played day when the feature spans both.
 3. Run the golden-path proof:
    `PLAYED_WORLD_SEED=<seed> node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts`
    Module coverage lives in `tests/golden-path/played-world-modules.node-test.ts`.
@@ -61,3 +64,9 @@ Name the few people it reached by record id. Most people are untouched; say so.
 Keep the route and bench server in the same ESM module context: a temporary `.ts` script outside this module-type repository can load a second CommonJS handler, leaving the browser with an empty world even though the script has a life. Use an in-repository script or an external `.mts` script, and verify `/api/title` before clicking Continue. To read a sponsored bill through Your office, select its sponsor from the played town's actual seats; the page lists that member's own bills. A single office page may already be open with its tab hidden. Record when historical papers are reopened: their estimate can read today's law while the roll call and decision remain historical.
 
 `npm run pool` commands that publish a claim or status temporarily check out `origin/main` in the working directory (they may do so differently since the Nov 10 `next` command; if unsure, treat it as true). Finish that command before running a test, browser proof or benchmark in the same worktree; a concurrent runner can otherwise see main's files instead of the candidate.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/labor-market-proof.md`: for any jobs, wages, firm-demand, layoff or regional-work change.
