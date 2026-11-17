@@ -44,6 +44,8 @@ export interface TownBorrower {
   readonly passedOver: readonly string[];
   /** The `family.quarrel` over a missed payment, and who owes whom. */
   readonly quarrel: CoreEventInput;
+  /** The credit engine's missed payment the quarrel is over (the log keeps a record only for people it follows, so it is held here). */
+  readonly missed: CoreEventInput;
   readonly borrowerId: PersonId;
   readonly owedId: PersonId;
 }
@@ -88,6 +90,14 @@ export function findTownBorrower(): TownBorrower {
       if (cash < costs) built.director.watch(core, head.id as PersonId);
     }
     const found: CoreEventInput[] = [];
+    const missedBy = new Map<string, CoreEventInput>();
+    coreAPI(core).subscribeEvents(
+      "town-borrower-missed",
+      ["credit.payment-missed"],
+      (_, event) => {
+        missedBy.set(event.id, event);
+      },
+    );
     coreAPI(core).subscribeEvents(
       "town-borrower",
       ["family.quarrel"],
@@ -102,6 +112,13 @@ export function findTownBorrower(): TownBorrower {
       passedOver.push(`${label}: no money quarrel by ${core.date}`);
       continue;
     }
+    const missed = missedBy.get(String(quarrel.facts!.missedId));
+    if (!missed) {
+      passedOver.push(
+        `${label}: the quarrel ${quarrel.id} named a missed payment the credit engine did not emit`,
+      );
+      continue;
+    }
     const borrowerId = String(quarrel.facts!.owes) as PersonId;
     const owedId = quarrel.personIds.find((id) => id !== borrowerId) as PersonId;
     return {
@@ -111,6 +128,7 @@ export function findTownBorrower(): TownBorrower {
       where: label,
       passedOver,
       quarrel,
+      missed,
       borrowerId,
       owedId,
     };

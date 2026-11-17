@@ -240,23 +240,6 @@ export function pathTo(tree: TreeNode, ending: string): number[] | undefined {
   });
 }
 
-/** The loan a missed payment was on (its record's facts), for the played file. */
-function missedLoan(
-  core: CoreState,
-  endedBy: string | undefined,
-  replyId: string,
-): string {
-  const log = core.durableLog;
-  const broke = log.get(endedBy ?? "");
-  const cause = log.get(log.get(replyId)?.facts?.causeId ?? "");
-  const missed =
-    broke?.kind === "credit.payment-missed"
-      ? broke
-      : log.get(cause?.facts?.missedId ?? "");
-  return missed
-    ? `${missed.facts?.loanKind} ${missed.facts?.loanId} (${missed.id})`
-    : "(none)";
-}
 
 
 /**
@@ -271,12 +254,12 @@ function missedLoan(
  * the tie's move and the talk are the engines' own. Returns the played record.
  */
 export function playPayOnTime(found: TownBorrower, check: Check): string {
-  const { core, director, playerId, where, quarrel, borrowerId, owedId } =
+  const { core, director, playerId, where, quarrel, missed, borrowerId, owedId } =
     found;
-  const missed = core.durableLog.get(String(quarrel.facts?.missedId));
   check(
-    missed?.kind === "credit.payment-missed",
-    `${where}: quarrel over ${missed?.kind}`,
+    missed.kind === "credit.payment-missed" &&
+      missed.personIds[0] === borrowerId,
+    `${where}: quarrel over ${missed.kind}`,
   );
   // HAND-STAGED: the borrower's choice to promise, as the scene's reply
   // records it (director/purpose-scene.ts, replyInScene). Nothing it settles
@@ -375,5 +358,5 @@ export function playPayOnTime(found: TownBorrower, check: Check): string {
     said.includes(name),
   );
   check(Boolean(payment), `${where}: payment not named: ${said}`);
-  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel.id} over the earlier missed payment ${String(quarrel.facts?.missedId)}\n    ${factId} owed to ${owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt} at a cost of ${ended.tieCost?.toFixed(4)} hours, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, borrowerId, owedId).toFixed(5)}`;
+  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missed.facts?.loanKind} ${missed.facts?.loanId} (${missed.id})\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel.id} over the earlier missed payment ${String(quarrel.facts?.missedId)}\n    ${factId} owed to ${owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt} at a cost of ${ended.tieCost?.toFixed(4)} hours, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, borrowerId, owedId).toFixed(5)}`;
 }
