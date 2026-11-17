@@ -1,5 +1,5 @@
 ---
-id: play-loading-bar-still-through-warm-up
+id: play-warm-up-longer-with-daily-progress
 impact: patch
 section: Improved
 title: The loading bar keeps moving, and the world runs longer before you arrive.

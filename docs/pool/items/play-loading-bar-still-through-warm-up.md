@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 standard: 2
-claimed-by: claude/blockers-warm-up
+claimed-by: claude/blockers-bar-every-second
 pr:
 after:
 blocked-on:
@@ -41,4 +41,4 @@ Seen: Dallas, Wisconsin (seed 591cd64a-547e-49db-8633-5f18432f6486), still for 9
 
 **Files.** src/core2/player-warm-up.ts, src/core2/pre-start.ts, src/core2/past-school.ts, src/core2/modules/people.ts, src/core2/places-elsewhere.ts, src/bench/world.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/loading-bar-moves.browser.mjs (new)
 
-**Notes.** Filed and built by the Blockers lane, Nov 17, on branch claude/blockers-warm-up.
+**Notes.** Filed by the Blockers lane, Nov 17. Split by the CTO (crew line, Nov 17, 00:55Z): the first part, a longer warm-up that reports each day, is play-warm-up-longer-with-daily-progress (#9795); this item is the rest, the first-of-the-month days, the slow history phase and the cold first game, on branch claude/blockers-bar-every-second, and it carries the browser check.
