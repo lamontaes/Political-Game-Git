@@ -375,12 +375,17 @@ const run = (drawSeed: string): string | null => {
 // Limit: 87.1 s alone and 85.9 s beside group-quarters at Litchfield (47.5 s
 // and 47.6 s at Galatia; 94.8 s when the two ran beside each other), Nov 16,
 // Train 800ae520; twice the slower is about 190 s.
-for (const { seed, key, name, fails } of CASES)
-  (fails ? it.fails : it)(
-    `a filing and a count fire the household's scenes in the lines that play, over a full year (${name}, seed ${seed})${fails ? ` (expected failure, item ${fails})` : ""}`,
-    () => {
-      expect(drawPlace(seed, "purpose-scenes").key).toBe(key);
-      expect(run(seed)).toBeNull();
-    },
+const title = (name: string, seed: string) =>
+  `a filing and a count fire the household's scenes in the lines that play, over a full year (${name}, seed ${seed})`;
+const play = (seed: string, key: string) => () => {
+  expect(drawPlace(seed, "purpose-scenes").key).toBe(key);
+  expect(run(seed)).toBeNull();
+};
+for (const { seed, key, name } of CASES.filter((c) => !c.fails))
+  it(title(name, seed), play(seed, key), 190_000);
+for (const { seed, key, name, fails } of CASES.filter((c) => c.fails))
+  it.fails(
+    `${title(name, seed)} (expected failure, item ${fails})`,
+    play(seed, key),
     190_000,
   );

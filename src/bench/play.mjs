@@ -1340,7 +1340,7 @@ function electionNight(night) {
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
-    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // call, rows in columns across the board, so all of them fit the panel at 1024x768
     // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
     // could not be reached).
     const steps = night.nation.races.length
@@ -1348,6 +1348,8 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
+      // The page of the races elsewhere lays its rows across the board (play.css, #returns.nation).
+      $("returns").classList.toggle("nation", Boolean(steps[at].nation));
       $("returns").replaceChildren(
         electionNightScreen({
           title: night.title,
@@ -4391,6 +4393,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5192,7 +5210,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5202,8 +5220,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
@@ -5604,8 +5620,11 @@ const sheets = {
         race.officeLevel === "county"
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
-      aside:
-        own && race.cannotFile?.metOn
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : own && race.cannotFile?.metOn
           ? `${labels.filingOpens} ${dateWords(
               race.filingOpens && race.filingOpens > race.cannotFile.metOn
                 ? race.filingOpens
@@ -5616,7 +5635,7 @@ const sheets = {
             ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
             : own && race.playerMayFile && race.filingOpen
               ? labels.fileForIt
-              : race.filers.length || filed.has(race.contestId)
+              : race.filers.length
                 ? status(race)
                 : "",
       data: { contest: race.contestId },
