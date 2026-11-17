@@ -35,3 +35,7 @@ merged-at: 2026-11-16T19:58:43.915Z
 **Waits on.** Nothing.
 
 **Files.** src/director/scheduling.ts; src/director/bill-sign-on.test.ts
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/bill-sign-on.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

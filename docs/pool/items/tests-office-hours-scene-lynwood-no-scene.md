@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -33,4 +33,8 @@ Seen: red with `GOLDEN_PATH_SEED=58330c8cdcbd2845bf4da40299f20a7eed887a2d` on cl
 
 **Waits on.** Nothing.
 
-**Files.** src/director/office-hours-scene.test.ts, src/director/scheduling.ts
+**Files.** src/director/scheduling.ts
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/office-hours-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

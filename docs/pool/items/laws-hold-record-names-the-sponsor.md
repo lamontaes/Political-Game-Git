@@ -35,10 +35,12 @@ branch: claude/pool-laws-hold-record-names-the-sponsor
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/press.ts, src/core2/legislature.test.ts, src/director/hold-scenes.test.ts
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/press.ts, src/core2/legislature.test.ts
 
 **Notes.** lead: laws-effects. Time box 3 h, Sonnet. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md. Producers already on PR scenes-c-bill-held.
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/held-bill-names-sponsor` is kept; claiming this item takes it over.
 
 Released by next (2026-11-11): no push to claude/pool-laws-hold-record-names-the-sponsor since 2026-11-11 01:52 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-laws-hold-record-names-the-sponsor.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/hold-scenes.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

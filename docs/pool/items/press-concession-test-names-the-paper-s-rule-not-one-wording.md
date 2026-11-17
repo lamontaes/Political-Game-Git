@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,6 +34,8 @@ Seen: the race story printed in the town paper after the concession call.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/concession-reported.test.ts
+**Files.** src/director/data/kept-scene-kinds.json
 
 **Notes.** Old premise: the concession sentence starts with the runner-up's full name. New premise: the sentence names the runner-up by family name and the paper's naming rule holds across the story. Account lead said yes to this change (Nov 15).
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/concession-reported.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

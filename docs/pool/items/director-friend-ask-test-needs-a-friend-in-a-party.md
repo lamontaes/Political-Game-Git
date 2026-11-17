@@ -33,6 +33,8 @@ checked: meetings and floor builder 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/director/meeting-scene.test.ts
+**Files.** src/director/data/kept-scene-kinds.json
 
 **Notes.** Seen: Arab, Alabama, seed s32151, skipped before and composed after. For a player who is playing, the stop is already refused: the ledger's registerInterrupts asks `speaks`, which asks the bench's `wordsPurpose`, and a scene the bank cannot word goes to the Journal as a line with no stop (src/director/ledger.ts, src/bench/world.ts). That is the staging condition the Account lead asked for, and it reads whether the scene can be worded now, so it widens by itself when friend requests that need no party return. This is read from the code and not yet seen played: whoever builds words-friend-ask-leads-to-a-held-day plays the no-party Journal line then.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/meeting-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

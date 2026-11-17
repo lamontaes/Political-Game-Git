@@ -32,6 +32,8 @@ source: found by M5 building the words rule request-needs-its-ground, Nov 14, 20
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/candidacy.ts, src/director/request-needs-its-ground.test.ts, src/director/party-recruit.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/director/request-needs-its-ground.test.ts
 
 **Notes.** The rule's other two cases have no line to check yet: no bank line says "I'll take the meeting", and a donor's lean is staged only from a gift on record.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/party-recruit.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

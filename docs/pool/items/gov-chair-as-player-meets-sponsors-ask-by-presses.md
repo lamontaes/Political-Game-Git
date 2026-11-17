@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,7 @@ root: rc3-thin-life-record
 **Waits on.** Nothing.
 
 **Files.** src/director/hold-chair-sought.test.ts; src/bench/office.ts
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/hold-chair-sought.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

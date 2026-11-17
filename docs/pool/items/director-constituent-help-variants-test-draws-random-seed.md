@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -34,4 +34,8 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/director/constituent-help-variants.test.ts
+**Files.** src/director/data/kept-scene-kinds.json
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/constituent-help-variants.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

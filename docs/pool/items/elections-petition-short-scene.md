@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by: claude/project-thread-p37c46
 pr:
@@ -32,6 +32,8 @@ source: Account lead, Nov 15 12:18Z: the home-talk-own-race-only red at Sherrods
 
 **Waits on.** The Words lead's lines (placed as written) and a second reader's stamp at the exact head.
 
-**Files.** src/core2/modules/campaigns.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/bench/dev-mode.ts, src/director/petition-short.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/bench/dev-mode.ts
 
 **Notes.** The helper's scene is reached by play: at Sherrodsville (scan-7) a household member (the player's son) offer to run the campaign comes on June 8 (the game's manager-offer scene), the player's yes puts them on the staff, and on Aug 3 they tell the player the petition is behind with nothing signed. Evidence that the case happens in ordinary play, from the gov-party thread's twelve fixed draws (seeds jpr-pin:0 to 11; the Account lead's count, not re-run here): five new players who filed and did no campaigning came up short on signatures (Newry SC, Washington DC, Ashaway RI, Kappa IL, Kingston RI). Own PR on the Train head, thread "Build scenes after the race". Limits listed: where the records name neither a helper nor a clerk (a state or federal filing with no one on the campaign) no scene stages and the Campaign tab shows the count. A player on own-choice has the scene acknowledged, not answered: the character decides nothing. Related: tests-filing-fixed-date-thirteen-files (the drawn loop in campaign-door-balance.test.ts failed on one tree and passed on the base). Re-pinned Nov 15 after Train 29ef4685: at scan-25 a volunteer now fills the player's petition on their own (15 of 10 by Aug 7; bisected to the Train's fold of #9539, d1f9f3bf, the colleagues-company closeness change, between 83ed301f and 058294ec), so the clerk cases moved to scan-3 and its siblings, found by a probe script outside the test (seeds scan-1 to scan-32, clerk and helper play each, about 50 minutes on two processes; passed over seeds where the petition filled unprompted or nobody was short). A helper told the player only if the player knows them by name (scan-4's household helper had no name the scene could say). Scan-25 is now the pinned on-pace world: the petition fills by play with nothing written by the test. After the Train's ef708196 a volunteer also fills the petition at scan-12, so it left the clerk seeds. Scan-60 joined the clerk worlds because only there (a probe over scan-26 to scan-61, one entrant each) do the clerk's "There aren't enough names here for {office}" and both "Alright." answers play; which sibling plays follows the speaker's own traits.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/petition-short.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

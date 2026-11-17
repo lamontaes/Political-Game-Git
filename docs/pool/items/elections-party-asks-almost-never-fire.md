@@ -32,6 +32,10 @@ source: Fable B helper, Nov 11, reds on main (party-recruit.test.ts, political-a
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/modules/parties.ts, src/core2/candidate-pool.ts, src/director/party-recruit.test.ts, src/director/political-asks.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/modules/parties.ts, src/core2/candidate-pool.ts, src/director/political-asks.test.ts
 
 **Notes (Fable B helper, Nov 11).** Reported on issue 7365 with the failing lines: party-recruit seed fc05df1f01ced1a977b46ce3b808d796ab909bf5, line 234, "no party asked anyone in 24 months" in the first three places above; the advice test, seed a0232a9f25002e44, line 395, in Herriman, Utah, Yigo, Guam, Tabiona, Utah, Boulevard Gardens, Florida, San Roque, Northern Mariana Islands and Mountain View, New Mexico. Drawing more places in the tests is not a sure fix: each place costs 2 to 10 minutes and the tests' limit is 30 to 60.
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/party-recruit.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

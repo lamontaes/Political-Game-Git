@@ -32,8 +32,10 @@ effort: medium
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/constituent-cases.ts, src/director/office-hours-reply-case.test.ts
+**Files.** src/core2/modules/constituent-cases.ts
 
 **Notes.** Filed by hand by the civic roles builder, Nov 15. Not caused by the office hours words PR: red at the same three places on the clean Train.
 
 Long game, Nov 17: at main's own pinned test, Taylors fails on main ("expected undefined to be 'scene-reply:…'") and passes with the fix; Kandiyohi and Donnelly now fail on both codes because no resident visits an official there in 45 days, which the drawn test passes over by name.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/office-hours-reply-case.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

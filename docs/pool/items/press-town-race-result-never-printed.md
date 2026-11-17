@@ -35,3 +35,7 @@ The stories it puts in front of players for the first time follow the Words lead
 **Waits on.** Nothing.
 
 **Files.** src/core2/press-desk.ts, src/core2/modules/voting.ts, src/core2/modules/elections.ts, src/core2/offices-local.ts (body names: the class word goes where the body's own name follows, Words lead Nov 14), src/core2/offices-local-names.test.ts, src/core2/press-desk-race.test.ts (new), src/core2/campaign-race-test-kit.ts (new), src/bench/printed-words.ts, src/bench/race-result-stories.test.ts (new), data/english/parts/news.json, data/english/parts/headlines.json, src/director/concession-reported.test.ts (read only).
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/concession-reported.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

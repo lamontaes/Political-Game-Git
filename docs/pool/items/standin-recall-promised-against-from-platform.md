@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -32,4 +32,8 @@ root: design-story-director
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scene.ts, src/core2/modules/campaigns.ts, src/core2/modules/recalls.ts, src/director/recall-answer.test.ts, src/director/data/stopgaps.json
+**Files.** src/director/purpose-scene.ts, src/core2/modules/campaigns.ts, src/core2/modules/recalls.ts, src/director/data/stopgaps.json
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/recall-answer.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

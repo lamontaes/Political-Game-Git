@@ -578,16 +578,9 @@ describe("story director on the new core", () => {
           expect(roles.has(role)).toBe(true);
       }
     }
-    // The player's own win is the race-won scene, not a second celebration.
-    expect(
-      types
-        .find((row) => row.key === "celebration")!
-        .causes.some((row) => row.causeRecord === "election-result"),
-    ).toBe(false);
     // A door the player's own canvass knocked, the first time or again: the
     // player asks the resident for their vote (golden-door-ask), or, while
-    // the player's petition circulates, for their signature; and no general
-    // first meeting or visit plays it too.
+    // the player's petition circulates, for their signature.
     const knocked = (key: string) =>
       types
         .find((row) => row.key === key)!
@@ -597,7 +590,6 @@ describe("story director on the new core", () => {
         ).length;
     expect(knocked("door-ask")).toBe(2);
     expect(knocked("door-signature")).toBe(1);
-    expect(knocked("first-meeting")).toBe(0);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
@@ -676,9 +668,12 @@ describe("story director on the new core", () => {
       ],
     };
     const options = { mode: "live", interruptImpact: 0.5 };
+    // Edge case by hand: the second type is put on the written list too.
+    const kept = [...SITUATION_LIBRARY.kept, second.key];
     const both = scheduleMoment(core, book, moment, options, {
       ...SITUATION_LIBRARY,
       types: [...SITUATION_LIBRARY.types, second],
+      kept,
     });
     // Without the rule one cause stages two scenes.
     expect(both.bindings.map((row) => row.typeKey).sort()).toEqual([
@@ -691,14 +686,20 @@ describe("story director on the new core", () => {
         ...SITUATION_LIBRARY.types,
         { ...second, yieldsTo: ["news-arrives"] },
       ],
+      kept,
     });
     expect(one.bindings.map((row) => row.typeKey)).toEqual(["news-arrives"]);
     expect(one.outcome).toBe("scene-now");
-    // The shipped layoff type gives way to the household's news.
-    for (const key of ["layoff"])
-      expect(
-        SITUATION_LIBRARY.types.find((row) => row.key === key)!.yieldsTo,
-      ).toEqual(["news-arrives"]);
+    // Off the written list, the same type is held back as not kept.
+    const off = scheduleMoment(core, book, moment, options, {
+      ...SITUATION_LIBRARY,
+      types: [...SITUATION_LIBRARY.types, second],
+    });
+    expect(off.bindings.map((row) => row.typeKey)).toEqual(["news-arrives"]);
+    expect(off.heldBack).toContainEqual({
+      typeKey: "layoff-told-at-home",
+      reason: "not-kept",
+    });
   });
 
   it("casts each person present once, with the role's reason on record", () => {
@@ -903,13 +904,13 @@ describe("story director on the new core", () => {
       modules: [fixtureWorld("place:director-fixture"), filtered.module],
     });
     filtered.start(core);
-    // The player allows only funerals to stop their day.
+    // The player allows only election nights to stop their day.
     const record = filtered.setSceneFilter(
       "person:worker",
-      ["funeral", "not-a-kind"],
+      ["race-won", "not-a-kind"],
       core.date,
     );
-    expect(record?.allowedKinds).toEqual(["funeral"]);
+    expect(record?.allowedKinds).toEqual(["race-won"]);
     advanceCore(core, "2021-01-15");
     const entry = filtered.ledger.people
       .get("person:worker")!
@@ -965,10 +966,7 @@ describe("story director on the new core", () => {
       coverage: { reason: "no-type", label: "feeling:event:fixture.news" },
     });
     expect(death).toMatchObject({ outcome: "scene-now", stopsSkip: true });
-    expect(death!.bindings.map((row) => row.typeKey)).toEqual([
-      "news-arrives",
-      "funeral",
-    ]);
+    expect(death!.bindings.map((row) => row.typeKey)).toEqual(["news-arrives"]);
   });
 
   it("brings an old classmate back with stakes when the same closure hit both", () => {

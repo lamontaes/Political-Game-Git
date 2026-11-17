@@ -41,7 +41,6 @@ import { P } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
-  coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -135,9 +134,6 @@ function titleInSentence(title: string): string {
     ? `${title.charAt(P.zero).toLowerCase()}${title.slice(P.one)}`
     : title;
 }
-
-/** The moves engine's basis for a move to somewhere else in the same state. */
-const STATE_BASIS = "state";
 
 import {
   ELECTIONS_MODULE_ID,
@@ -364,28 +360,6 @@ export function lawRow(
       .table("laws")
       .get(id) as LawReachRow | undefined) ?? null
   );
-}
-
-/**
- * Where a move went, as people name the place: a town or county by its
- * jurisdiction; for a move to "somewhere in the state" (basis `state`, the
- * state the person already lives in), another part of the state, by its name
- * ("another part of Kentucky", "another part of the U.S. Virgin Islands").
- * Null for an id that names no place.
- */
-export function destinationSaid(
-  destinationId: string,
-  basis: string,
-): string | null {
-  const stateKey = coreStateKeyOfJurisdictionId(destinationId);
-  const name = stateKey
-    ? coreStateName(stateKey.slice(STATE_KEY_PREFIX.length))
-    : null;
-  if (name && basis === STATE_BASIS)
-    return `another part of ${stateInSentence(name)}`;
-  const place = corePlaceByJurisdictionId(destinationId as never);
-  if (place) return spoken(place);
-  return name ? stateInSentence(name) : null;
 }
 
 /**
@@ -2341,15 +2315,6 @@ export function replyInScene(
   // becomes a write to the engine that owns it").
   const ending = reached?.end?.ending;
   const aboutQuestion = scene.facts.find((row) => row.key === "about");
-  // The concession call: conceding, or refusing to that night, is marked on
-  // the reply for the press to put on the public record.
-  const conceded = ending
-    ? rulesFile.concession.conceded.includes(ending.id)
-      ? "yes"
-      : rulesFile.concession.notConceded.includes(ending.id)
-        ? "no"
-        : undefined
-    : undefined;
   const promised = ending
     ? promiseReplyFacts({ ...scene, endingId: ending.id })
     : {};
@@ -2386,7 +2351,6 @@ export function replyInScene(
       ...(ending?.keeps === "promise" && aboutQuestion
         ? { about: aboutQuestion.text }
         : {}),
-      ...(conceded ? { conceded } : {}),
     },
     source: {
       tag: "SOURCED",

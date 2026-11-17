@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,4 +34,8 @@ checked: words builder A 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/director/celebration-gathering-scene.test.ts
+**Files.** data/english/parts/scene-talk.json
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/celebration-gathering-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

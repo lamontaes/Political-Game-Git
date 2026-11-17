@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -32,4 +32,8 @@ source: Fable B, Nov 11, 2026, from helper C's bench run (issue #7365, 09:49 UTC
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/core2/modules/constituent-cases.ts, src/bench/player.ts, src/director/office-hours-scene.test.ts
+**Files.** src/director/data/situation-types.json, src/director/scheduling.ts, src/core2/modules/constituent-cases.ts, src/bench/player.ts
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/office-hours-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

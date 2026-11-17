@@ -33,4 +33,8 @@ merged-at: 2026-11-13T04:23:03.984Z
 
 **Waits on.** Nothing.
 
-**Files.** src/director/hold-scenes.test.ts
+**Files.** src/director/data/kept-scene-kinds.json
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/hold-scenes.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

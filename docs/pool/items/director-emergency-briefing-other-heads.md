@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -33,6 +33,8 @@ claimed-at:
 
 **Waits on.** director-scene-several-speakers-at-one-table.
 
-**Files.** src/director/civic-roles.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/emergency-briefing.test.ts, data/english/parts/scene-talk.json (Words lead writes any lines)
+**Files.** src/director/civic-roles.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json (Words lead writes any lines)
 
 **Notes.** Nov 15. Words lead writes the lines for the added speakers; the builder lists the pieces it needs.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/emergency-briefing.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

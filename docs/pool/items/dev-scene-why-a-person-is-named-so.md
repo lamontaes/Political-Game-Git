@@ -34,3 +34,7 @@ Seen: Hardinsburg, Kentucky (2134552), seed 4276344481a2b078e70633cfee47d0caccb6
 **Waits on.** #9581.
 
 **Files.** src/director/relation-facts.ts (`metBy`, `metSource`), src/director/who-they-are.ts (`whyNamed`), src/bench/dev-views/who-named.ts (route GET who-named and its labels, registered through dev-views.ts, #9619), src/bench/ui/dev-who-named.mjs (the Calendar sheet's dev slot), src/bench/dev-who-named.test.ts.
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/bench/dev-who-named.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").
