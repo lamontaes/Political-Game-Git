@@ -7,7 +7,8 @@ name: Checks guard
 # job after that line is posted. docs/design/guards.md, "check-changes".
 on:
   pull_request_target:
-    types: [opened, synchronize, reopened]
+    # edited: the stamp and the report check read the body, so an edited body is judged again.
+    types: [opened, synchronize, reopened, edited]
 permissions:
   contents: read
   issues: read
@@ -32,6 +33,7 @@ jobs:
           sparse-checkout: |
             scripts/guards
             scripts/prose-eval
+            scripts/report-check
             tests/guards
           persist-credentials: true
       - name: Use Node 22
@@ -52,3 +54,24 @@ jobs:
           git fetch --quiet --filter=blob:none origin "pull/${PR_NUMBER}/head"
           base="$(git merge-base "$PR_BASE_SHA" "$PR_HEAD_SHA")"
           node --experimental-strip-types scripts/guards/check-changes.mjs --base "$base" --head "$PR_HEAD_SHA"
+      # The civic-reports standard on the pull request's body (CTO, Nov 17 on
+      # #9747, item 4): the same check as `npm run report:check`, which until
+      # now ran only as a hook in some sessions. Observe mode first: its
+      # errors are warnings on the run and the job passes, until the CTO sets
+      # REPORT_CHECK_OBSERVE to "false" here on main.
+      - name: Read the pull request's body against the report standard
+        if: ${{ !cancelled() }}
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          REPORT_CHECK_OBSERVE: "true"
+        shell: bash
+        run: |
+          set -uo pipefail
+          body="$RUNNER_TEMP/pull-request-body.md"
+          printf '%s\n' "$PR_BODY" > "$body"
+          if node scripts/report-check/cli.mjs "$body"; then exit 0; fi
+          if [[ "$REPORT_CHECK_OBSERVE" == "true" ]]; then
+            echo "::warning::The pull request body fails the report check (observe mode: reported, not refused)."
+            exit 0
+          fi
+          exit 1
