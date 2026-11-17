@@ -68,13 +68,31 @@ export const TEACHER_FLOOR =
 const TEACHERS = "profession:teacher";
 const DISTRICTS: readonly string[] = ["service:school"];
 
-/** The teacher minimum salary in force for the town, with the law row that sets it (null while it is not law). */
+/** The law series that sets the teacher minimum's yearly amount, in dollars, beside its yes or no question. */
+export const TEACHER_FLOOR_AMOUNT = "teacher-minimum-salary";
+
+/**
+ * The teacher minimum salary in force for the town, with the law row that
+ * sets it (null while it is not law): the amount the same level enacted with
+ * it (`TEACHER_FLOOR_AMOUNT`), or, where no act has set an amount yet, the
+ * opening figure. stopgapId: SG-LAWS-teacher-floor-opening-amount
+ */
 function teacherFloor(api: CoreAPI): { dollars: number; lawId: string } | null {
   if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return null;
   const row = yesLevels(api, TEACHER_FLOOR)[0]?.row;
-  return row
-    ? { dollars: reachParameter("teacherMinimumSalaryDollars"), lawId: row.id }
-    : null;
+  if (!row) return null;
+  const amount = lawInForce(api, TEACHER_FLOOR_AMOUNT).levels.find(
+    (l) =>
+      l.level === row.level &&
+      typeof l.row?.value === "number" &&
+      l.row.value > 0,
+  )?.row;
+  if (amount) return { dollars: amount.value!, lawId: amount.id };
+  api.stopgap("SG-LAWS-teacher-floor-opening-amount");
+  return {
+    dollars: reachParameter("teacherMinimumSalaryDollars"),
+    lawId: row.id,
+  };
 }
 
 /** The hourly pay at which a job's daily wage meets a yearly floor, at its own hours. */
