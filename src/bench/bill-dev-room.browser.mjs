@@ -62,6 +62,17 @@ try {
     assert.ok(col.bottom <= m.cardTop + 1, "the dev card sits over the bill");
   }
   assert.ok(m.cardHeight > 0, "dev mode's card is not on the page");
+  // Each body to introduce at is named once (a territory's delegate row once
+  // made a second House button, and its Senate read as the House).
+  const bodies = await page
+    .locator(".dev-bill-card [data-body]")
+    .evaluateAll((buttons) => buttons.map((b) => b.textContent));
+  console.log("Introduce at:", bodies.join(" · "));
+  assert.equal(
+    new Set(bodies).size,
+    bodies.length,
+    `two bodies share a name: ${bodies.join(", ")}`,
+  );
   assert.deepEqual(errors, []);
   console.log("bill dev room: pass");
 } finally {

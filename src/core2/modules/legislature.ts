@@ -3141,6 +3141,8 @@ interface BodyRow {
   readonly chamberId?: string;
   /** The nation's jurisdiction key, for a federal chamber. */
   readonly jurisdiction?: string;
+  /** A federal chamber's own name, for a world whose state seats no member of it (a territory's Senate). */
+  readonly bodyName?: string;
   /** The chamber a bill or budget starts in. */
   readonly introducedFirst?: boolean;
   /** A member's term where the chamber fixes it (Congress). */
@@ -3235,9 +3237,13 @@ export function bodyOf(
       offices.find(
         (office) => bodyRow(office.kind)?.legislature === chamber.legislature,
       );
+    // A borrowed row keeps its source but never its name: the chamber's own
+    // name is its data row's (a territory's Senate is not its House).
+    const name = row ? undefined : chamber.bodyName;
     return named
       ? {
           ...named,
+          ...(name ? { governmentName: name, bodyName: name } : {}),
           id: officeId,
           kind: chamber.kindPrefix,
           jurisdiction: chamber.jurisdiction!,

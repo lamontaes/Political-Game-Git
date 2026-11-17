@@ -41,6 +41,7 @@ import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
 import { organizationName } from "../core2/past";
+import { governments } from "../core2/modules/budgets";
 import { lawReach } from "../core2/law-reach/applied";
 import {
   PUBLIC_EMPLOYER_CLASSES,
@@ -692,6 +693,14 @@ export class DevMode {
     };
   }
 
+  /** The name of the government recorded under a jurisdiction id, where one is. */
+  private governmentNameOf(jurisdictionId: string): string | undefined {
+    if (!has(this.core, "core2-budgets-v1")) return undefined;
+    return governments(this.api).find(
+      (row) => row.jurisdictionId === jurisdictionId,
+    )?.name;
+  }
+
   /**
    * Who a law reached: the core's one reader over every store that records a
    * law applied to someone (`lawReach`, law-reach/applied.ts), with the names of
@@ -710,7 +719,12 @@ export class DevMode {
         .slice(0, REACH_NAMED)
         .map((row) => ({
           ...row,
-          name: organizationName(this.core, row.organizationId) ?? "",
+          // A government's account is named by the government (the outside
+          // account a federal grant reaches is a jurisdiction, not a business).
+          name:
+            organizationName(this.core, row.organizationId) ??
+            this.governmentNameOf(row.organizationId) ??
+            "",
         })),
       /** The first of the full people it named; a screen lists these. */
       named: people.slice(0, REACH_NAMED).map((row) => {
