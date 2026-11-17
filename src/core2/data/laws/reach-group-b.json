@@ -360,8 +360,7 @@
           "service:public-health",
           "service:hospital",
           "service:clinic"
-        ],
-        "compensationShare": "healthCompensationShare"
+        ]
       }
     },
     "schools": {
@@ -371,8 +370,7 @@
         "ageBelow": "schoolAgeBelow"
       },
       "payroll": {
-        "classifications": ["service:school"],
-        "compensationShare": "schoolCompensationShare"
+        "classifications": ["service:school"]
       }
     },
     "higherEducation": {

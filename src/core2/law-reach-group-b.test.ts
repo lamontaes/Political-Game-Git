@@ -1173,10 +1173,11 @@ describe("law reach, group B: universal preschool", () => {
           r.key === `preschool|${key}` &&
           !accounts.obligation(r.obligationId)?.endedAt,
       );
+    // A household that takes preschool up is paid the whole spending for
+    // each child; one that leaves it is paid nothing (Pins family 27: no
+    // published enrolled share).
     const monthly = Math.round(
-      (reachParameter("preschoolStateSpendingPerChildDollars") *
-        reachParameter("preschoolEnrolledShare") *
-        100) /
+      (reachParameter("preschoolStateSpendingPerChildDollars") * 100) /
         reachParameter("monthsPerYear"),
     );
     enact(key, 1, "state");
@@ -1188,7 +1189,8 @@ describe("law reach, group B: universal preschool", () => {
     ).filter((r) => r.named);
     const rows = open();
     // A town with no child of the ages the law covers pays nothing; otherwise
-    // every such child's household is paid, named or through the counts.
+    // every such child's household that takes it up is paid, named or
+    // through the counts.
     const everyChild = selectResidents(
       facts,
       groupBPolicy(key)!.people!,
@@ -1314,7 +1316,8 @@ describe("law reach, group B: the schools budget line", () => {
     const raised = staff().filter(
       (j) => (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0),
     );
-    // Where the town's share of the change moves some staff rate by a cent.
+    // Where the town's share of the change moves some staff rate by a cent,
+    // at the share of the line that is pay on the government's own books.
     const delta = group(key)?.terms.townDeltaMinor ?? 0;
     const payroll =
       staff().reduce(
@@ -1324,7 +1327,7 @@ describe("law reach, group B: the schools budget line", () => {
     const fraction =
       payroll > 0
         ? (delta *
-            reachParameter("schoolCompensationShare") *
+            (group(key)?.terms.compensationShare ?? 0) *
             modeledShare(api, townFacts(api, town))) /
           payroll
         : 0;

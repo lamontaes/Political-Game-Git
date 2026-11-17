@@ -2076,5 +2076,29 @@
     "addedAt": "2026-11-11",
     "replacement": "Resolved Nov 14, 2026 (elections-read-counted-cases): the counted electorate reads a counted resident's decided cases as warmth toward the official (caseWarmthsOf in constituent-cases.ts, read by countedAppeal at the election count, the primary, the door answer and the turnout reason), by the same step touchImpression applies, at the share of the record who brought the case. Was: The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-REACH-B-owner-hours-no-staff",
+    "kind": "assumed-data",
+    "file": "src/core2/law-reach/group-b-people.ts",
+    "line": 275,
+    "whatItFakes": "An owner whose business has no staff on record and who has no work commitment of their own is counted at the self-employed average week (ownerWeeklyHours, CPS 2023) for Medicaid and SNAP work rules.",
+    "why": "A business keeps no opening hours, and a sole owner's own week is recorded only when they hold a work commitment; with staff, the owner's week is the staff's scheduled week (Pins family 27).",
+    "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",
+    "addedAt": "2026-11-17",
+    "replacement": "The owner's own work commitment at their business, written when the business opens or the owner is filled in.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-fares-pension-no-books",
+    "kind": "missing-record",
+    "file": "src/core2/law-reach/group-b.ts",
+    "line": 454,
+    "whatItFakes": "Free transit replaces fares at transitFareboxPerResidentDollars ($28, NTD 2023 national) a resident, and funding pensions to schedule adds pensionShortfallPerResidentDollars ($70, Pew 2023 / Equable 2024 national) a resident, the same in every world, instead of the government's own fare receipts and pension shortfall.",
+    "why": "No government in the world keeps its riders' fares or its pension obligations on its books, so there is nothing of its own to read (Pins family 27, CTO LIFT THE PINS).",
+    "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each government's own transit fare receipts and its pension plan's obligations against its assets, kept in its budget books (Budgets lane, family 17), read when the law is enacted.",
+    "status": "open"
   }
 ]

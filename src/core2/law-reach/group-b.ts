@@ -448,6 +448,10 @@ function runPolicy(
     case "housing-construction":
       return;
     case "transit-fares":
+      // No government keeps its riders' fares on its books yet: the money
+      // that replaces them is a national figure a resident (stopgap
+      // SG-GOV-REACH-B-fares-pension-no-books).
+      api.stopgap("SG-GOV-REACH-B-fares-pension-no-books");
       moveBudget(api, {
         key,
         level,
@@ -480,6 +484,9 @@ function runPolicy(
       break;
     }
     case "pension-funding":
+      // No government keeps its pension obligations on its books yet
+      // (stopgap SG-GOV-REACH-B-fares-pension-no-books).
+      api.stopgap("SG-GOV-REACH-B-fares-pension-no-books");
       moveBudget(api, {
         key,
         level,
@@ -680,6 +687,7 @@ function runPolicy(
         inForce,
         children,
         residents: facts.residents,
+        households: facts.households,
       });
       finish(
         api,
@@ -830,6 +838,7 @@ function runPolicy(
         inForce,
         children,
         residents: facts.residents,
+        households: facts.households,
       });
       finish(
         api,
@@ -993,8 +1002,11 @@ function runBudgetLine(
       key,
       jobs,
       townDeltaMinor: service.deltaTownMinor,
-      compensationShare: reachParameter(def.payroll.compensationShare),
+      townBaseMinor: service.baseTownMinor,
       modeledShare: share,
+      onCompensationShare: (value) => {
+        terms.compensationShare = value;
+      },
     });
     for (const job of jobs) orgs.add(job.organizationId);
     terms.staffRerated = rates.size;

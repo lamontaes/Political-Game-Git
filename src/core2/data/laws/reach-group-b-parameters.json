@@ -171,11 +171,6 @@
       "tag": "SOURCED",
       "source": "NIEER, The State of Preschool 2024 (2023-24 school year): state spending per enrolled child, $7,888 (all sources, $8,857)."
     },
-    "preschoolEnrolledShare": {
-      "value": 0.7,
-      "tag": "ESTIMATED",
-      "source": "Boston's universal preschool enrolled about 70% of four-year-olds (Gray-Lobe, Pathak and Walters 2023); the national rate without a universal program is 37% of four-year-olds and 8% of three-year-olds (NIEER 2024). Spread 0.4 to 0.9."
-    },
     "preschoolAgeFrom": {
       "value": 3,
       "tag": "SOURCED",
@@ -228,17 +223,6 @@
       "value": 50000,
       "tag": "SOURCED",
       "source": "Arkansas LEARNS Act (Act 237 of 2023): minimum teacher salary $50,000; New Mexico HB 13 (2022): level-one license floor $50,000."
-    },
-    "schoolCompensationShare": {
-      "value": 0.8,
-      "tag": "SOURCED",
-      "source": "NCES, Digest of Education Statistics 2023, table 236.10: salaries and benefits are about 80% of public school current expenditures."
-    },
-    "healthCompensationShare": {
-      "value": 0.55,
-      "tag": "ESTIMATED",
-      "source": "Census Bureau, 2022 Annual Survey of Public Employment and Payroll (health and hospital payroll) against the 2022 Annual Survey of State and Local Government Finances (health and hospital spending).",
-      "spread": [0.4, 0.7]
     },
     "voucherAmountDollars": {
       "value": 7000,
@@ -349,13 +333,6 @@
       "source": "Federal Register, Improving Child Care Access, Affordability, and Stability in the CCDF (Mar 1, 2024), https://www.govinfo.gov/content/pkg/FR-2024-03-01/pdf/2024-04139.pdf: 'the average subsidy amount of approximately $8,400 per year (which has been adjusted for inflation to 2023 dollars)', from unpublished preliminary FY 2021 CCDF administrative data: $700 a month for each child, the government's share excluding the parent's copay.",
       "spread": [650, 750]
     },
-    "childCareTakeUpShare": {
-      "value": 0.2,
-      "role": "coefficient",
-      "tag": "SOURCED",
-      "source": "ASPE, Child Care Subsidy Eligibility and Receipt, FY 2022, https://aspe.hhs.gov/sites/default/files/documents/423242373901e0901d36fc56c3d55a21/CCDF%20Eligibility%20and%20Receipt_FY22.pdf: 9.1 million children eligible under state rules, 1.8 million received subsidies, '20 percent under state rules'.",
-      "spread": [0.16, 0.25]
-    },
     "childCareAgeBelow": {
       "value": 13,
       "role": "law",
@@ -382,26 +359,12 @@
       "tag": "SOURCED",
       "source": "CRS RS20294 (https://www.everycrsreport.com/reports/RS20294.html): \"a general income exclusion of $20 per month\"; the earned-income exclusions ($65 and half the rest) are not applied."
     },
-    "ssiTakeUpShare": {
-      "role": "level",
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "Every aged resident whose income leaves a benefit is paid; the share of eligible who apply is not read. Spread: SSA participation among eligible aged is below 100 percent.",
-      "spread": [0.6, 1]
-    },
     "energyAssistanceAnnualBenefitDollars": {
       "value": 301,
       "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"in FY2014, the most recent year in which data are available, the average heating benefit nationwide was $301, with a range from $78 (Oklahoma) to $1,024 (North Dakota).\" Old (FY2014) and not inflated; the spread is the states' range.",
       "spread": [78, 1024]
-    },
-    "energyAssistanceTakeUpShare": {
-      "value": 0.16,
-      "role": "coefficient",
-      "tag": "SOURCED",
-      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"the percentage of eligible households served settled again at 16% in FY2013 and FY2014\" (21% and 22% at the FY2009-FY2010 funding peak).",
-      "spread": [0.14, 0.22]
     },
     "graduatedRepealFlatShareOfTopRate": {
       "value": 0.786,
@@ -436,13 +399,6 @@
       "tag": "ESTIMATED",
       "source": "VA Veterans Benefits Administration Annual Benefits Report, fiscal year 2023: disability compensation paid to about 5.6 million veterans, about $1,900 a month on average once pensions are folded in. Read from memory of the report; the container cannot reach va.gov. Spread: the average between a 10 percent and a 100 percent rating's share of recipients.",
       "spread": [1500, 2400]
-    },
-    "veteransDrawShare": {
-      "role": "level",
-      "value": 0.3,
-      "tag": "ESTIMATED",
-      "source": "About 5.6 million veterans drawing compensation or pension (VA Annual Benefits Report, fiscal year 2023) out of about 18 million veterans (ACS 2024, B21001): about three in ten. Each veteran in town is paid this share of the average benefit; nobody is picked. Spread: the states' range of the recipient share.",
-      "spread": [0.22, 0.42]
     }
   },
   "povertyGuidelineByState": {
