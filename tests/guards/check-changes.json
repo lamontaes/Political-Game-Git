@@ -42,5 +42,7 @@
     "scripts/guards/check-changes.mjs",
     "tests/guards/check-changes.json",
     ".github/workflows/checks-guard.yml"
-  ]
+  ],
+  "pinOnlyCase": "pinned place|fixed seed|pinned seed",
+  "pinOnlyRuling": "The CTO's standing ruling on issue 9747: when a test moves from a pinned place or seed to a drawn one, it may delete the case that only checked the pin (a case whose title names its pinned place or fixed seed)."
 }

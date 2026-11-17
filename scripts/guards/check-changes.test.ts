@@ -140,6 +140,26 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     expect(ids("src/a.ts", "expect(1)", null)).toEqual([]);
   });
 
+  it("lets a test moving to a drawn place drop only its pin-checking case (the CTO's standing ruling)", () => {
+    const pinCheck = `it("draws its pinned place from the fixed seed", () => {\n  expect(drawPlace("pin-a:0", "a")).toMatchObject({ key: "1" });\n});\n`;
+    const real = 'it("a real case", () => { expect(1).toBe(1); });\n';
+    const pinnedFile = `const seed = "pin-a";\n${pinCheck}${real}`;
+    const drawnFile = `const seed = process.env.GOLDEN_PATH_${"SEED"} ?? ${"randomBytes"}(8).toString("hex");\n${real}`;
+    expect(ids("src/a.test.ts", pinnedFile, drawnFile)).toEqual([]);
+    // Staying pinned, the same deletion is still a finding.
+    expect(
+      ids("src/a.test.ts", pinnedFile, `const seed = "pin-a";\n${real}`),
+    ).toEqual(["cases-dropped", "assertions-dropped"]);
+    // Moving to a drawn place does not excuse dropping a real case.
+    expect(
+      ids(
+        "src/a.test.ts",
+        pinnedFile + real.replace("a real", "another"),
+        drawnFile,
+      ),
+    ).toEqual(["cases-dropped", "assertions-dropped"]);
+  });
+
   it("refuses a baseline that grows, and lets one shrink", () => {
     const list = (rows: number) =>
       JSON.stringify({ files: Array(rows).fill("a") }, null, 2);

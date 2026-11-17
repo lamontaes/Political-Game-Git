@@ -7,7 +7,8 @@
  * may not delete a test file, drop test
  * cases or drop assertions from a test file it keeps. Each of those needs a
  * line from the CTO on the crew issue that approves that pull request by
- * number.
+ * number. One pattern is allowed by name (the CTO's standing ruling): a test
+ * moving to a drawn place may drop the case that only checked its pin.
  *
  * The rules are tests/guards/check-changes.json. The `checks-guard` workflow
  * runs this script and that file from main (pull_request_target), so a pull
@@ -70,13 +71,17 @@ export function checkChanges(changes, rules) {
         continue;
       }
       if (change.before === null) continue;
-      for (const [id, pattern, what] of [
-        ["cases-dropped", CASES, "test cases"],
-        ["assertions-dropped", ASSERTIONS, "assertions"],
+      // The CTO's standing ruling: a test moving to a drawn place may drop
+      // the case that only checked its pin. Those cases and their assertions
+      // are allowed by name; every other drop is still a finding.
+      const pinOnly = pinOnlyRemoved(change.before, change.after, rules);
+      for (const [id, pattern, what, allowed] of [
+        ["cases-dropped", CASES, "test cases", pinOnly.cases],
+        ["assertions-dropped", ASSERTIONS, "assertions", pinOnly.assertions],
       ]) {
         const before = count(change.before, pattern),
           after = count(change.after, pattern);
-        if (after < before)
+        if (after + allowed < before)
           add(id, `drops ${what} (${before} before, ${after} after)`);
       }
     }
@@ -95,6 +100,39 @@ export function checkChanges(changes, rules) {
     }
   }
   return findings;
+}
+
+const CASE_TITLE =
+  "\\b(?:it|test)(?:\\.\\w+)*\\s*\\(\\s*([\"'`])((?:(?!\\1).)*)\\1";
+
+/**
+ * The pin-only cases a change removes while its file moves to a drawn place
+ * (a drawn seed comes in, or a pinned place or seed goes out), and how many
+ * assertions they held. Zero for any other change.
+ */
+export function pinOnlyRemoved(before, after, rules) {
+  const none = { cases: 0, assertions: 0 };
+  const rule = (id) => rules.counts.find((row) => row.id === id);
+  const drawn = rule("drawn-seed-dropped"),
+    pinned = rule("pinned-place-or-seed");
+  const toDrawn =
+    (drawn && count(after, drawn.pattern) > count(before, drawn.pattern)) ||
+    (pinned && count(after, pinned.pattern) < count(before, pinned.pattern));
+  if (!toDrawn || !rules.pinOnlyCase) return none;
+  const isPinOnly = new RegExp(rules.pinOnlyCase, "i");
+  const starts = [...before.matchAll(new RegExp(CASE_TITLE, "g"))];
+  const kept = new Set(
+    [...after.matchAll(new RegExp(CASE_TITLE, "g"))].map((m) => m[2]),
+  );
+  let cases = 0,
+    assertions = 0;
+  starts.forEach((match, i) => {
+    if (kept.has(match[2]) || !isPinOnly.test(match[2])) return;
+    const end = starts[i + 1]?.index ?? before.length;
+    cases += 1;
+    assertions += count(before.slice(match.index, end), ASSERTIONS);
+  });
+  return { cases, assertions };
 }
 
 /** Whether a crew-issue comment approves this pull request's check changes. */
