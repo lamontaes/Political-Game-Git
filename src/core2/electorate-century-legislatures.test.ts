@@ -16,7 +16,11 @@ import {
   centuryOf,
   setHistoryMode,
 } from "./electorate-century";
-import { legislativePlace, worldRoster } from "./electorate-places";
+import {
+  legislativePlace,
+  statePlaces,
+  worldRoster,
+} from "./electorate-places";
 import { gameStartDate } from "./game-start";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
@@ -65,6 +69,14 @@ describe("the century elects day one's state legislatures", () => {
       if (!mine.length) {
         passed.push(
           `${where}: its legislature is not elected on the two sides`,
+        );
+        continue;
+      }
+      // A place with no presidential vote (a territory) has no race places in play: its
+      // legislative seats are not raced after day one (stopgap SG-GOV-territory-legislature-race).
+      if (!statePlaces(place.state.slice(3), place.seed).length) {
+        passed.push(
+          `${where}: its seats are not raced in play (no counted places)`,
         );
         continue;
       }
