@@ -243,6 +243,28 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-century-law-sessions",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century-laws.ts",
+    "whatItFakes": "Each Congress and each state legislature the century elects sits one session after its November, and every policy question comes up in it: no bill is drafted, no committee or leader holds one back, and members stand at their party's typical position moved by their seat, not as people with their own records.",
+    "why": "The century runs a hundred years of every body before day one; the bill engine runs one played body's bills, and the century's members are results until someone opens them.",
+    "addedBy": "History lane (claude/history-laws)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century runs the bill engine for the played town's state (drafting, committee, floor, the governor's desk), with members filled in on open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-federal-mandates",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/laws.ts",
+    "whatItFakes": "In a century world no federal law reaches a state policy question: the century's Congress votes only the federal questions, so a state's own law stands alone on day one.",
+    "why": "Which federal statutes preempt a state's law on a question is the research's real record; the century's Congress has not yet been given those questions to vote.",
+    "addedBy": "History lane (claude/history-laws)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's Congress votes the state questions federal law can reach, by the question's preemption rule, and its enactments load beside each state's law.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-parties",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",

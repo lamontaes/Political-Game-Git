@@ -303,6 +303,36 @@ export function memberSupportAt(lean: number, question: string): number {
   );
 }
 
+/**
+ * Where a member of a party stands, at the party's typical draw (`drawOfficial` without the
+ * member's own normal draw): their party's mean in the body, moved by how far their seat stands
+ * from their party's other seats (`districtZ`, scaled by `districtPull`). The century's members,
+ * who are results until someone opens them, stand here.
+ */
+export function expectedIdeal(
+  party: PartyKey,
+  body: BodyKind,
+  districtZ: number,
+): number {
+  const spread = partySpread(party, body);
+  const pull = OFFICIALS_DATA.ideology.districtPull.value;
+  return Math.max(
+    -1,
+    Math.min(
+      1,
+      spread.mean + spread.sd * pull * Math.max(-3, Math.min(3, districtZ)),
+    ),
+  );
+}
+
+/** The lean on the voters' scale an ideal stands at, as `ownStance` reads it with no cause of their own. */
+export function stanceLean(ideal: number): number {
+  return Math.max(
+    -1,
+    Math.min(1, ideal * OFFICIALS_DATA.ideology.leanScale.value),
+  );
+}
+
 /** A member's own stance on a question: their position, and their own tilt if it's one of their causes. */
 export function ownStance(
   ideal: number,

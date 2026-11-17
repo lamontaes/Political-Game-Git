@@ -36,6 +36,12 @@ import {
 } from "./electorate-inputs";
 import { countParties, type RacePlace, type SampleVoter } from "./electorate";
 import {
+  lawSession,
+  sessionQuestions,
+  type CenturyLaw,
+  type SessionChamber,
+} from "./electorate-century-laws";
+import {
   congressSeatKeys,
   congressStateKeys,
   rosterLabel,
@@ -236,6 +242,13 @@ export interface Century {
   readonly congresses: readonly CenturyCongress[];
   /** Where each district (House and legislative, by seat key) stands after the century's last count. */
   readonly districtLeans: Readonly<Record<string, number>>;
+  /** The nation's law in force on each federal policy question: its last change, by `US|<question>`. */
+  readonly laws: ReadonlyMap<string, CenturyLaw>;
+  /** Each state's governor's side after each change of party, oldest first, by state key. */
+  readonly governorSides: ReadonlyMap<
+    string,
+    readonly { year: number; side: number }[]
+  >;
 }
 
 const centuries = new Map<string, Century>();
@@ -1317,6 +1330,8 @@ export function* runCentury(
   const voters = centuryVoters();
   const presidencies: CenturyPresidency[] = [];
   const congresses: CenturyCongress[] = [];
+  const laws = new Map<string, CenturyLaw>();
+  const governorSides = new Map<string, { year: number; side: number }[]>();
   let sittingSide = opening.presidentSide;
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
@@ -1347,6 +1362,24 @@ export function* runCentury(
       sittingSide = row.winnerSide;
     }
     if (year % 2 === 0) congresses.push(congressCount(year, seats));
+    // Each governor's side as it changes (the legislatures' sessions read who signs).
+    for (const seat of seats.values())
+      if (seat.chamber === "executive" && seat.rosterKey === "governor") {
+        const list = governorSides.get(seat.stateKey) ?? [];
+        if (list.at(-1)?.side !== seat.side)
+          list.push({ year, side: seat.side });
+        governorSides.set(seat.stateKey, list);
+      }
+    // Congress and the President sit after each November of a Congress.
+    if (year % 2 === 0)
+      lawSession(
+        "US",
+        year,
+        congressChambers(seats, leans, districtLeans),
+        sittingSide,
+        sessionQuestions(true),
+        laws,
+      );
     // Each place carries its year's results once (a state its presidential and Senate results).
     results.carry(leans, districtLeans);
     yield { year, done: at + 1, total: years.length };
@@ -1359,6 +1392,8 @@ export function* runCentury(
     seats,
     congresses,
     districtLeans,
+    laws,
+    governorSides,
   };
   centuries.set(key, century);
   return century;
@@ -1397,6 +1432,7 @@ export function* runLegislatures(
     startDate,
   );
   const voters = centuryVoters();
+  const stateLaws = new Map<string, CenturyLaw>();
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
     // The President sitting that November: the last one elected before it.
@@ -1415,10 +1451,110 @@ export function* runLegislatures(
       results,
     );
     results.carry(districtLeans);
+    // Each state's legislature and governor sit after each even November.
+    if (year % 2 === 0)
+      for (const [stateKey, chambers] of stateChambers(seats, districtLeans)) {
+        let governor = (century.leans[stateKey] ?? 0.5) >= 0.5 ? 1 : -1;
+        for (const change of century.governorSides.get(stateKey) ?? [])
+          if (change.year <= year) governor = change.side;
+        lawSession(
+          stateKey,
+          year,
+          chambers,
+          governor,
+          sessionQuestions(false),
+          stateLaws,
+        );
+      }
     yield { year, done: at + 1, total: years.length };
   }
   legislatureRuns.set(key, seats);
+  legislatureLaws.set(key, stateLaws);
   return seats;
+}
+
+const legislatureLaws = new Map<string, ReadonlyMap<string, CenturyLaw>>();
+
+/** Congress at a session: the senators and the voting House members (of places with senators). */
+function congressChambers(
+  seats: ReadonlyMap<string, CenturySeat>,
+  leans: Readonly<Record<string, number>>,
+  districtLeans: Readonly<Record<string, number>>,
+): SessionChamber[] {
+  const senate: { side: number; lean: number }[] = [];
+  const house: { side: number; lean: number }[] = [];
+  const states = new Set<string>();
+  for (const seat of seats.values())
+    if (seat.chamber === "senate") {
+      states.add(seat.stateKey);
+      senate.push({
+        side: seat.side,
+        lean: 2 * (leans[seat.stateKey] ?? 0.5) - 1,
+      });
+    }
+  for (const seat of seats.values())
+    if (seat.chamber === "house" && states.has(seat.stateKey))
+      house.push({
+        side: seat.side,
+        lean: 2 * (districtLeans[seat.key] ?? 0.5) - 1,
+      });
+  return [
+    { chamber: "senate", body: "us-senate", members: senate },
+    { chamber: "house", body: "us-house", members: house },
+  ];
+}
+
+/** Each state's legislative chambers at a session, by state key. */
+function stateChambers(
+  seats: ReadonlyMap<string, CenturySeat>,
+  districtLeans: Readonly<Record<string, number>>,
+): Map<string, SessionChamber[]> {
+  const byOffice = new Map<
+    string,
+    { stateKey: string; members: { side: number; lean: number }[] }
+  >();
+  for (const seat of seats.values()) {
+    const office = seat.officeId ?? `${seat.stateKey}:${seat.rosterChamber}`;
+    const row = byOffice.get(office) ?? {
+      stateKey: seat.stateKey,
+      members: [],
+    };
+    row.members.push({
+      side: seat.side,
+      lean: 2 * (districtLeans[seat.key] ?? 0.5) - 1,
+    });
+    byOffice.set(office, row);
+  }
+  const out = new Map<string, SessionChamber[]>();
+  for (const [office, row] of [...byOffice].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  ))
+    out.set(row.stateKey, [
+      ...(out.get(row.stateKey) ?? []),
+      { chamber: office, body: "legislature", members: row.members },
+    ]);
+  return out;
+}
+
+/**
+ * The law in force on a policy question at a place on day one, as the century's bodies left it:
+ * its last enactment or repeal, or none (no session ever passed it, so it is not law). Undefined
+ * under "today" and at a place whose legislature the century does not elect.
+ */
+export function centuryLaw(
+  seed: string,
+  place: string,
+  question: string,
+): CenturyLaw | null | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  const start = openingOf(seed);
+  if (place === "US")
+    return centuryOf(seed, start).laws.get(`US|${question}`) ?? null;
+  const seats = centuryLegislatures(seed, start);
+  if (![...seats.values()].some((seat) => seat.stateKey === place))
+    return undefined;
+  const key = `${seed}|${centuryYears(start).at(-1) ?? ""}`;
+  return legislatureLaws.get(key)?.get(`${place}|${question}`) ?? null;
 }
 
 /** The century's state legislative seats by the offices engine's seat id, run on first read. */

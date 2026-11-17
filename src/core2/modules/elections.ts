@@ -88,6 +88,7 @@ export {
 /** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
 export {
   centuryCongressSeat,
+  centuryLaw,
   centuryLegislatures,
   centuryOf,
   centuryPresidency,
