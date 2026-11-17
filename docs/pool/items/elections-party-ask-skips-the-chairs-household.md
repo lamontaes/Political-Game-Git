@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: long-game
-pr:
+pr: 9903
 after:
 blocked-on:
 source: party-recruit on drawn places, Camp Pendleton South, California (0610561), seed be5b37fd914048f070834876da83eb94161a7a08307cd686995d0b77e2933513, replay GOLDEN_PATH_SEED=ecc6029de7cc7f04
