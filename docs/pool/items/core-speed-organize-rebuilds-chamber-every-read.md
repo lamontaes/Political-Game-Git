@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/speed-leader-of
-pr:
+pr: 9824
 after: speed-leadership-organizing-rates-each-pair-once
 blocked-on:
 lead: speed
