@@ -41,7 +41,6 @@
     "say-roads": "roads in the bank's subject words, when the year holds a claim on it",
     "say-environment": "environment in the bank's subject words, when the year holds a claim on it",
     "context-years": "how many whole years a context sentence covers: the macro engine's months, or the years since the speaker took office for an area of the term read",
-    "context-amount": "a measure's average over the context's years, to one decimal, from the macro engine's months",
     "vice-president-addressed": "the Vice President spoken to, said with title and name every time",
     "vice-president-object": "the Vice President where the sentence needs the object case (with her)",
     "vice-president-possessive": "the Vice President where the sentence needs the possessive (her counsel)",
@@ -71354,370 +71353,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.context.polished-inflation-for-years-prices-have-climbed-by-about-percent",
-      "move": "context",
-      "kind": "spoken",
-      "text": "For {context-years} years, prices have climbed by about {context-amount} percent a year, and families have paid for every bit of it.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-inflation",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-inflation",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "inflation",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.plain-inflation-for-years-now-prices-have-gone-up-about",
-      "move": "context",
-      "kind": "spoken",
-      "text": "For {context-years} years now, prices have gone up about {context-amount} percent a year, and folks feel it every time they shop.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-inflation",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-inflation",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "inflation",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.polished-unemployment-over-the-last-years-about-percent-of-those",
-      "move": "context",
-      "kind": "spoken",
-      "text": "On average over the last {context-years} years, about {context-amount} percent of our workers have been out of a job.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-unemployment",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-unemployment",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "unemployment",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.plain-unemployment-for-years-about-out-of-every-hundred-people",
-      "move": "context",
-      "kind": "spoken",
-      "text": "About {context-amount} percent of workers have been out of a job, on average, these last {context-years} years.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-unemployment",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-unemployment",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "unemployment",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.polished-mortgage-for-years-a-home-loan-has-cost-about",
-      "move": "context",
-      "kind": "spoken",
-      "text": "On average over the last {context-years} years, a home loan has cost about {context-amount} percent, and a first home has slipped out of reach for too many.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-mortgage",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-mortgage",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "mortgage",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.plain-mortgage-for-years-a-mortgage-has-run-about-percent",
-      "move": "context",
-      "kind": "spoken",
-      "text": "A mortgage has run about {context-amount} percent on average these last {context-years} years, and a lot of young families have given up on buying.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-mortgage",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-mortgage",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "mortgage",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.polished-wages-over-the-last-years-pay-has-grown-by",
-      "move": "context",
-      "kind": "spoken",
-      "text": "Over the last {context-years} years, pay has grown by about {context-amount} percent a year, and families have measured every raise against the price of living.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": ["context-wages", "context-years", "context-amount"],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": ["context-wages", "context-years", "context-amount"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "wages",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.plain-wages-for-years-paychecks-have-grown-about-percent-a",
-      "move": "context",
-      "kind": "spoken",
-      "text": "For {context-years} years, paychecks have grown about {context-amount} percent a year, and folks check every raise against what things cost.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": ["context-wages", "context-years", "context-amount"],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": ["context-wages", "context-years", "context-amount"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "wages",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.polished-growth-over-the-last-years-our-economy-has-grown",
-      "move": "context",
-      "kind": "spoken",
-      "text": "Over the last {context-years} years, our economy has grown by about {context-amount} percent a year.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-growth",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-growth",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "topic": "growth",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.context.plain-growth-for-years-the-economy-has-grown-about-percent",
-      "move": "context",
-      "kind": "spoken",
-      "text": "For {context-years} years, the economy has grown about {context-amount} percent a year.",
-      "uses": [
-        {
-          "move": "context",
-          "subject": "inaugural",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-growth",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        },
-        {
-          "move": "context",
-          "subject": "state-of-the-union",
-          "role": "context",
-          "choice": "context",
-          "requiresFacts": [
-            "context-growth",
-            "context-years",
-            "context-amount"
-          ],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "topic": "growth",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.context.polished-rent-in-the-years-since-i-took-this-office",
       "move": "context",
       "kind": "spoken",
@@ -113688,10 +113323,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "opening-speech.ask.plain-redraft-i-m-protecting-law-name-and-my-veto-pen-is",
+      "key": "opening-speech.ask.plain-redraft-i-m-protecting-law-name-my-veto-pen-is-ready",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm protecting {law-name}, and my veto pen is ready if anybody comes after it.",
+      "text": "I'm protecting {law-name}. My veto pen is ready.",
       "uses": [
         {
           "move": "ask",
@@ -113715,6 +113350,58 @@
             "stance-for",
             "law-in-force",
             "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
             "law-name"
           ],
           "tie": "law"
@@ -113998,6 +113685,41 @@
       "date": "2026-11-17"
     },
     {
+      "key": "opening-speech.pledge.polished-policy-redraft-i-will-show-you-what-the-plan-on-hardest-costs",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I will show you what the plan on {hardest} costs.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-policy", "hardest"],
+          "tie": "record"
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-policy", "hardest"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-pledge",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
       "key": "opening-speech.story-open.polished-hard-run-fed-for-run-span-prices-have-climbed-faster-than-paychecks",
       "move": "story-open",
       "kind": "spoken",
@@ -114008,7 +113730,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114016,7 +113743,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114038,7 +113770,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114046,7 +113783,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114068,7 +113810,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114076,7 +113823,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114098,7 +113850,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114106,7 +113863,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114128,7 +113890,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114136,7 +113903,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114158,7 +113930,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114166,7 +113943,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114188,7 +113970,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114196,7 +113983,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114218,7 +114010,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114226,7 +114023,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114248,7 +114050,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114256,7 +114063,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114278,7 +114090,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114286,7 +114103,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114308,7 +114130,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114316,7 +114143,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114338,7 +114170,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114346,7 +114183,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-inherited", "run-jobs-lost"],
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114368,7 +114210,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-own",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114376,7 +114223,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-own",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114398,7 +114250,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         },
         {
@@ -114406,7 +114258,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         }
       ],
@@ -114428,7 +114280,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         },
         {
@@ -114436,7 +114288,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         }
       ],
@@ -114458,7 +114310,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-own",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114466,7 +114323,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own", "run-prices-ahead"],
+          "requiresFacts": [
+            "run-hard",
+            "run-own",
+            "run-prices-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114488,7 +114350,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         },
         {
@@ -114496,7 +114358,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         }
       ],
@@ -114518,7 +114380,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         },
         {
@@ -114526,7 +114388,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-hard", "run-own"],
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
           "tie": "record"
         }
       ],
@@ -114578,7 +114440,12 @@
           "subject": "inaugural",
           "role": "story-turn",
           "choice": "story-turn",
-          "requiresFacts": ["run-hard", "term-left", "run-inherited"],
+          "requiresFacts": [
+            "run-hard",
+            "term-left",
+            "run-inherited",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114586,7 +114453,12 @@
           "subject": "state-of-the-union",
           "role": "story-turn",
           "choice": "story-turn",
-          "requiresFacts": ["run-hard", "term-left", "run-inherited"],
+          "requiresFacts": [
+            "run-hard",
+            "term-left",
+            "run-inherited",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114908,7 +114780,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-pay-ahead"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114916,7 +114793,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-pay-ahead"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114942,7 +114824,8 @@
             "run-good",
             "run-inherited",
             "run-pay-ahead",
-            "run-jobs-gained"
+            "run-jobs-gained",
+            "run-span"
           ],
           "tie": "record"
         },
@@ -114955,7 +114838,8 @@
             "run-good",
             "run-inherited",
             "run-pay-ahead",
-            "run-jobs-gained"
+            "run-jobs-gained",
+            "run-span"
           ],
           "tie": "record"
         }
@@ -114978,7 +114862,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-pay-ahead"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -114986,7 +114875,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-pay-ahead"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -114998,17 +114892,22 @@
       "date": "2026-11-17"
     },
     {
-      "key": "opening-speech.story-open.plain-good-run-fed-for-run-span-pay-s-been-beating-prices-that",
+      "key": "opening-speech.story-open.plain-good-run-fed-for-run-span-pay-has-been-beating-prices-that",
       "move": "story-open",
       "kind": "spoken",
-      "text": "For {run-span}, pay's been beating prices. That's good news, and I'm not going to mess it up.",
+      "text": "For {run-span}, pay has been beating prices. That's good news, and I'm not going to mess it up.",
       "uses": [
         {
           "move": "story-open",
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-pay-ahead"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -115016,7 +114915,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-pay-ahead"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -115038,7 +114942,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -115046,7 +114955,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -115068,7 +114982,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         },
         {
@@ -115076,7 +114990,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         }
       ],
@@ -115098,7 +115012,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -115106,7 +115025,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -115128,7 +115052,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         },
         {
@@ -115136,7 +115060,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         }
       ],
@@ -115158,7 +115082,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         },
         {
@@ -115166,7 +115090,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         }
       ],
@@ -115188,7 +115112,12 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
           "tie": "record"
         },
         {
@@ -115196,7 +115125,12 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
           "tie": "record"
         }
       ],
@@ -115218,7 +115152,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         },
         {
@@ -115226,7 +115160,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-inherited"],
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
           "tie": "record"
         }
       ],
@@ -115252,7 +115186,8 @@
             "run-good",
             "run-own",
             "run-pay-ahead",
-            "run-jobs-gained"
+            "run-jobs-gained",
+            "run-span"
           ],
           "tie": "record"
         },
@@ -115265,7 +115200,8 @@
             "run-good",
             "run-own",
             "run-pay-ahead",
-            "run-jobs-gained"
+            "run-jobs-gained",
+            "run-span"
           ],
           "tie": "record"
         }
@@ -115288,7 +115224,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own"],
+          "requiresFacts": ["run-good", "run-own", "run-span"],
           "tie": "record"
         },
         {
@@ -115296,7 +115232,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own"],
+          "requiresFacts": ["run-good", "run-own", "run-span"],
           "tie": "record"
         }
       ],
@@ -115318,7 +115254,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own", "run-pay-ahead"],
+          "requiresFacts": ["run-good", "run-own", "run-pay-ahead", "run-span"],
           "tie": "record"
         },
         {
@@ -115326,7 +115262,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own", "run-pay-ahead"],
+          "requiresFacts": ["run-good", "run-own", "run-pay-ahead", "run-span"],
           "tie": "record"
         }
       ],
@@ -115352,7 +115288,8 @@
             "run-good",
             "run-own",
             "run-pay-ahead",
-            "run-jobs-gained"
+            "run-jobs-gained",
+            "run-span"
           ],
           "tie": "record"
         },
@@ -115365,7 +115302,8 @@
             "run-good",
             "run-own",
             "run-pay-ahead",
-            "run-jobs-gained"
+            "run-jobs-gained",
+            "run-span"
           ],
           "tie": "record"
         }
@@ -115388,7 +115326,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own", "run-pay-ahead"],
+          "requiresFacts": ["run-good", "run-own", "run-pay-ahead", "run-span"],
           "tie": "record"
         },
         {
@@ -115396,7 +115334,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own", "run-pay-ahead"],
+          "requiresFacts": ["run-good", "run-own", "run-pay-ahead", "run-span"],
           "tie": "record"
         }
       ],
@@ -115418,7 +115356,7 @@
           "subject": "inaugural",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own"],
+          "requiresFacts": ["run-good", "run-own", "run-span"],
           "tie": "record"
         },
         {
@@ -115426,7 +115364,7 @@
           "subject": "state-of-the-union",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["run-good", "run-own"],
+          "requiresFacts": ["run-good", "run-own", "run-span"],
           "tie": "record"
         }
       ],
@@ -115967,7 +115905,7 @@
       "key": "opening-speech.story-turn.plain-disaster-fed-nobody-in-disaster-where-is-rebuilding-alone-the-whole",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "Nobody in {disaster-where} is rebuilding alone. The whole country's got your back.",
+      "text": "Nobody in {disaster-where} is rebuilding alone. The whole country has your back.",
       "uses": [
         {
           "move": "story-turn",
@@ -116034,7 +115972,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["story-disaster"],
+          "requiresFacts": ["story-disaster", "realm-name"],
           "tie": "record"
         },
         {
@@ -116042,7 +115980,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["story-disaster"],
+          "requiresFacts": ["story-disaster", "realm-name"],
           "tie": "record"
         }
       ],
@@ -116124,7 +116062,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["story-disaster"],
+          "requiresFacts": ["story-disaster", "realm-name"],
           "tie": "record"
         },
         {
@@ -116132,7 +116070,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["story-disaster"],
+          "requiresFacts": ["story-disaster", "realm-name"],
           "tie": "record"
         }
       ],

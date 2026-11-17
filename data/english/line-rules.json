@@ -5923,6 +5923,30 @@
         "check": ["close-names-the-body"],
         "applies": ["speech:president", "speech:governor", "speech:mayor"]
       }
+    },
+    {
+      "id": "address-no-capital-after-comma",
+      "says": "Two sentences are never glued at a comma: a word that takes a capital only at a sentence's start is said lower case after a comma (\"..., don't look for my name\").",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-17",
+          "words": "...a permission slip to protect their family, Don't look for my name on any bill... (a capital after a comma: two sentences glued as one)",
+          "via": "Story lead's read of #9831"
+        }
+      ],
+      "note": "Story thread #9750, part 4: composed over whole texts played in drawn worlds (`npm run words:composed`). Sample: it reports, it pulls no bank line; the composer lowers the word (english-composition.ts SENTENCE_WORDS).",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-capital-after-comma"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
     }
   ]
 }

@@ -20,6 +20,7 @@ import questionNames from "../../data/english/question-names.json" with { type: 
 
 /** The composed checks' word lists, for readers outside the English engine. */
 export const COMPOSED_CHECKS_DATA = data;
+import { SENTENCE_WORDS } from "./english-composition";
 import {
   linesOf,
   plainSentence,
@@ -1167,6 +1168,33 @@ export const closeNamesTheBody: ComposedCheck = (text, sample) => {
       ];
 };
 
+/**
+ * Two sentences glued at a comma: a word that only takes a capital at a
+ * sentence's start said with one after a comma ("Because I believe ... their
+ * family, Don't look for my name ..."; the Story lead's read of #9831, the
+ * Alaska governor). The words are the composer's own list of them.
+ */
+export const noCapitalAfterComma: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const [, word] of plainQuotes(line.text).matchAll(
+        /, ([A-Z][A-Za-z']*)\b/g,
+      ))
+        if (SENTENCE_WORDS.has(word!))
+          found.push(
+            breakOf(
+              "no-capital-after-comma",
+              text,
+              at,
+              `"${word}" takes a capital after a comma`,
+              line.text,
+            ),
+          );
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -1193,6 +1221,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "pronoun-fits-the-person": pronounFitsThePerson,
   "name-check-does-work": nameCheckDoesWork,
   "close-names-the-body": closeNamesTheBody,
+  "no-capital-after-comma": noCapitalAfterComma,
 };
 
 /** A composed rule's checks, as a list. */

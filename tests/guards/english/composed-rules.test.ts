@@ -101,6 +101,22 @@ const FIXTURES: Record<
   string,
   { catches: ComposedSample; spares: ComposedSample; breaksAt?: number[] }
 > = {
+  "no-capital-after-comma": {
+    catches: sampleOf(
+      text("speech:governor", [
+        [
+          "Because I believe an adult can keep a gun safe at home, Don't look for my name on any bill for it.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:governor", [
+        [
+          "Because I believe an adult can keep a gun safe at home, don't look for my name on any bill for it. In Ohio, Congress decides the rest.",
+        ],
+      ]),
+    ),
+  },
   "name-check-does-work": {
     catches: sampleOf(
       text("speech:president", [

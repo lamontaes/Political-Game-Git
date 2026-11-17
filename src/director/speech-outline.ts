@@ -1890,11 +1890,6 @@ function bodyHoldFacts(
   };
 }
 
-/** A figure said in a context sentence: one decimal, no trailing zero. */
-function figure(value: number): string {
-  return String(Number(value.toFixed(N.decimals)));
-}
-
 /** Whole years between two dates. */
 function yearsBetween(api: CoreAPI, from: string, to: string): number {
   return Math.floor(
@@ -1955,7 +1950,6 @@ function contextFacts(
     ? {
         "context-years": fact(countSaid(years), ...ids),
         "context-name": fact(OUTLINES.topicWords[topic] ?? topic, ...ids),
-        "context-amount": fact(figure(of()), ...ids),
         [`context-${topic}`]: fact("yes", ...ids),
       }
     : {};
