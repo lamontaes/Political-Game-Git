@@ -304,8 +304,13 @@ function flip(core: CoreState, series: string, value: number, tag: string) {
   }
 }
 
-/** How often the test puts a cap back where the world was set if a legislature or Congress changed it in play. */
-const HOLD_DAYS = 14;
+/**
+ * How often the test puts a cap back where the world was set if a legislature or Congress changed
+ * it in play: every day, so a twin never runs a day without its law. Every 14 days left a gap a
+ * lender quoted in: Duncan, Mississippi's legislature repealed the cap in play (HB 2, April 18),
+ * and loans quoted before the next hold carried the uncapped rate.
+ */
+const HOLD_DAYS = 1;
 
 /**
  * Runs the world forward, holding each cap where the twin sets it: a state's
