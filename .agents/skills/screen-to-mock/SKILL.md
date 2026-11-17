@@ -63,6 +63,10 @@ The list-beside-page part (`rosterScreen`) hands a page a `show` to redraw itsel
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
 - Nov 16, 23:52Z (#9753): eslint failed with `'URL' is not defined` in a browser check. Cause: `src/bench/*.browser.mjs` runs under `no-undef`. Declare every global the file uses on its `/* global */` line, and no unused one (#9762 failed on an unused `document`).
+- Nov 17, 07:30Z (#9904): the election-day check stopped testing a candidate. Cause: every race at the pinned place now asks signatures (595 to 10,000), and a filing starts "petitioning"; the check never gathered any. A check that must put the player on the ballot files for the race asking the fewest, gathers at the doors through `/api/campaign/day` until `petition.asksAtDoors` is false, and asserts `on-ballot`.
+- Nov 17, 09:00Z (#9904): `repository` went red with "adds or changes no declaration in docs/release/changes". Cause: any change under `src/bench` needs a release declaration file (`impact: none` is allowed). Add it in the same pull request.
+- Nov 17, 08:15Z (#9913): `git checkout <branch> -- <file>` stages the file, and the next `git add` of other files commits it too. Cause: I swapped two files in for a screenshot run and committed them. Use `git show <branch>:<file> > <file>` for a temporary swap, and run `git status` before each commit.
+- Nov 17, 07:50Z: a background run died between turns. Cause: a plain `&` job is reaped when the turn ends. Start the bench and the browser check inside one command with `run_in_background`, which survives the turn.
 
 ## More in this folder
 
