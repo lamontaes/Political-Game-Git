@@ -1286,6 +1286,7 @@ export function payPreschool(
           heads.get(child.householdId)?.id,
           monthly,
           input.households.get(child.householdId),
+          input.key,
         ).yes;
       takers.set(child.householdId, decided);
       if (!decided) continue;
@@ -1350,6 +1351,8 @@ export function takesUp(
   headId: string | undefined,
   benefitMonthlyMinor: number,
   household: HouseholdFacts | undefined,
+  /** The law's key, so the household's case for each program is kept apart. */
+  key = "benefit",
 ): { readonly yes: boolean; readonly replaced: number } {
   if (benefitMonthlyMinor <= 0) return { yes: false, replaced: 0 };
   const incomeMonthlyMinor =
@@ -1359,16 +1362,33 @@ export function takesUp(
   const replaced =
     benefitMonthlyMinor / (benefitMonthlyMinor + incomeMonthlyMinor);
   const head = headId ? api.state.people.get(headId) : undefined;
-  return {
-    yes: filingDecision(
-      api,
-      head ?? { traits: {} },
-      head ?? {},
-      replaced,
-      "benefitTakeUpBase",
-    ).files,
+  const decided = filingDecision(
+    api,
+    head ?? { traits: {} },
+    head ?? {},
     replaced,
-  };
+    "benefitTakeUpBase",
+  );
+  // The household's case, kept for dev mode's Trace box: why it took the
+  // benefit up or left it.
+  if (household)
+    putRow(api, "takeUps", {
+      id: `take-up:${key}:${household.id}`,
+      key,
+      householdId: household.id,
+      scale: household.scale ?? 1,
+      headId: headId ?? null,
+      date: api.state.date,
+      benefitMonthlyMinor,
+      incomeMonthlyMinor: Math.round(incomeMonthlyMinor),
+      replaced,
+      base: decided.baseline,
+      replacement: decided.replacement,
+      lean: decided.lean,
+      hardship: decided.hardship.term,
+      takesUp: decided.files,
+    });
+  return { yes: decided.files, replaced };
 }
 
 /**
@@ -1434,6 +1454,7 @@ export function payChildCare(
           heads.get(child.householdId)?.id,
           monthly,
           input.households.get(child.householdId),
+          input.key,
         ).yes;
       takers.set(child.householdId, decided);
       if (!decided) continue;
@@ -1537,7 +1558,15 @@ export function payEnergyAssistance(
     let countedHouseholds = 0;
     for (const household of input.households) {
       // Each household takes the benefit up or leaves it, by its own case.
-      if (!takesUp(api, heads.get(household.id)?.id, monthly, household).yes)
+      if (
+        !takesUp(
+          api,
+          heads.get(household.id)?.id,
+          monthly,
+          household,
+          input.key,
+        ).yes
+      )
         continue;
       if (!household.named) {
         countedHouseholds += household.scale ?? 1;
@@ -1659,10 +1688,13 @@ export function paySsi(
       if (monthly <= 0) continue;
       // The household takes it up or leaves it, by its own case.
       if (
-        !takesUp(api, heads.get(household.id)?.id, monthly, {
-          ...household,
-          ages: [],
-        }).yes
+        !takesUp(
+          api,
+          heads.get(household.id)?.id,
+          monthly,
+          { ...household, ages: [] },
+          input.key,
+        ).yes
       )
         continue;
       if (!household.named) {

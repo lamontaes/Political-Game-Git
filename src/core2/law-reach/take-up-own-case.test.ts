@@ -7,6 +7,7 @@ import { gameStartDate } from "../game-start";
 import { coreAPI } from "../state";
 import type { CoreAPI } from "../types";
 import { takesUp } from "./group-b-money";
+import { getRow } from "./group-b-store";
 import type { HouseholdFacts } from "./group-b-people";
 
 // Pins family 27 (CTO, "LIFT THE PINS", #9747): who takes up a benefit is
@@ -48,6 +49,14 @@ describe(`a benefit is taken up by each household's own case, in ${place.name}, 
     expect(poor.replaced).toBeGreaterThan(rich.replaced);
     expect(poor.yes).toBe(true);
     expect(rich.yes).toBe(false);
+    // Dev mode's Trace box opens each household's case.
+    const kept = getRow<{ takesUp: boolean; replaced: number }>(
+      api,
+      "takeUps",
+      "take-up:benefit:household:12000",
+    );
+    expect(kept?.takesUp).toBe(true);
+    expect(kept?.replaced).toBeCloseTo(poor.replaced, 9);
   });
 
   it("a household with no benefit to take up takes nothing", () => {

@@ -15,13 +15,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { coreAPI } from "../../src/core2/state";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
-import { lawChain, lawInForce } from "../../src/core2/modules/laws";
-import { takesUp } from "../../src/core2/law-reach/group-b-money";
 import { rowsOf } from "../../src/core2/law-reach/group-b-store";
-import {
-  povertyLineDollars,
-  townFacts,
-} from "../../src/core2/law-reach/group-b-people";
 import { drawPlace } from "./place";
 
 setBookkeeping(false);
@@ -57,54 +51,47 @@ for (let draw = 0; draw < 3; draw += 1) {
     out(`child care aid not set: ${(error as Error).message}`);
   }
   dev.advance(addDays(makeIsoDate(core.date), 365));
-  const chain = lawChain(api);
-  const facts = townFacts(api, chain.townPlaceId);
-  const limit = lawInForce(api, "energy-assistance-income-limit").value;
-  const benefit = 2508; // the program's average yearly benefit a month, in cents ($301 a year)
-  const fifths = new Map<number, { eligible: number; took: number }>();
-  const incomes = [...facts.households.values()]
-    .map((h) => h.incomeDollars)
-    .sort((a, b) => a - b);
-  const fifthOf = (income: number) =>
-    Math.min(
-      4,
-      Math.floor(
-        (5 * incomes.findIndex((x) => x >= income)) /
-          Math.max(1, incomes.length),
-      ),
+  // Who took each program up, from the game's own case rows (`takesUp`
+  // keeps one per household and program, weighted by the households a
+  // counted row stands for), by the town's income fifth.
+  const cases = rowsOf<{
+    key: string;
+    incomeMonthlyMinor: number;
+    scale: number;
+    takesUp: boolean;
+    replaced: number;
+  }>(api, "takeUps");
+  for (const key of [...new Set(cases.map((c) => c.key))].sort()) {
+    const rows = cases.filter((c) => c.key === key);
+    const incomes = rows.map((c) => c.incomeMonthlyMinor).sort((a, b) => a - b);
+    const fifth = (income: number) =>
+      Math.min(
+        4,
+        Math.floor((5 * incomes.indexOf(income)) / Math.max(1, incomes.length)),
+      );
+    const by = new Map<number, { all: number; took: number }>();
+    let all = 0,
+      took = 0;
+    for (const c of rows) {
+      all += c.scale;
+      if (c.takesUp) took += c.scale;
+      const f = by.get(fifth(c.incomeMonthlyMinor)) ?? { all: 0, took: 0 };
+      f.all += c.scale;
+      if (c.takesUp) f.took += c.scale;
+      by.set(fifth(c.incomeMonthlyMinor), f);
+    }
+    out(
+      `${key}: ${Math.round(took)} of ${Math.round(all)} eligible households take it up (${((100 * took) / Math.max(1, all)).toFixed(0)}%); by income fifth among the eligible: ${[
+        ...by,
+      ]
+        .sort((x, y) => x[0] - y[0])
+        .map(
+          ([f, r]) =>
+            `${f + 1}: ${((100 * r.took) / Math.max(1, r.all)).toFixed(0)}% of ${Math.round(r.all)}`,
+        )
+        .join(", ")}`,
     );
-  let eligible = 0,
-    took = 0;
-  for (const h of facts.households.values()) {
-    if (
-      !limit ||
-      h.incomeDollars >
-        (povertyLineDollars(chain.stateKey, h.size) * limit) / 100
-    )
-      continue;
-    const weight = h.scale ?? 1;
-    const yes = takesUp(api, undefined, benefit, h).yes;
-    eligible += weight;
-    if (yes) took += weight;
-    const row = fifths.get(fifthOf(h.incomeDollars)) ?? {
-      eligible: 0,
-      took: 0,
-    };
-    row.eligible += weight;
-    if (yes) row.took += weight;
-    fifths.set(fifthOf(h.incomeDollars), row);
   }
-  out(
-    `energy aid (limit ${limit}% of poverty): ${Math.round(took)} of ${Math.round(eligible)} eligible households take it up (${((100 * took) / Math.max(1, eligible)).toFixed(0)}%); by the town's income fifth: ${[
-      ...fifths,
-    ]
-      .sort((a, b) => a[0] - b[0])
-      .map(
-        ([f, r]) =>
-          `${f + 1}: ${((100 * r.took) / Math.max(1, r.eligible)).toFixed(0)}% of ${Math.round(r.eligible)}`,
-      )
-      .join(", ")}`,
-  );
   const applied = (
     api
       .moduleState("core2-law-effects-v1")

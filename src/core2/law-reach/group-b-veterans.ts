@@ -75,7 +75,15 @@ export function payVeterans(api: CoreAPI): {
       row.people += 1;
       full.set(band(r.age), row);
       if (!served(core, r.id)) continue;
-      if (!takesUp(api, r.id, monthly, facts.households.get(r.householdId)).yes)
+      if (
+        !takesUp(
+          api,
+          r.id,
+          monthly,
+          facts.households.get(r.householdId),
+          VETERANS_KEY,
+        ).yes
+      )
         continue;
       row.drawing += 1;
       named += 1;

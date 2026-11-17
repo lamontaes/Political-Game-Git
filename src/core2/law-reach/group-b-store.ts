@@ -98,6 +98,8 @@ const MODULE: CoreModule = {
       services: {},
       /** Each stretch of a resident's coverage a policy holds, named or counted, by person id. */
       coverage: { indexes: { byKey: { fields: ["key", "to"] } } },
+      /** Each household's latest case for taking a benefit up (`takesUp`), replaced in place: for dev mode's Trace box. */
+      takeUps: {},
     },
   },
   onCalendarWork: (api, work) => runReview(api, work),
