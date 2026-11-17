@@ -6121,6 +6121,19 @@
       "citation": "The move weight (0.6) and the claim weight (1.0) it averages."
     }
   },
+  "hardshipWeightPeoplePart": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How much the stress a layoff, an eviction or a missed payment left on a couple speeds their pull to part, per unit of stress, on the log scale of the parting pace (partnerships.ts, the couple's mean of both partners' hardship). The direction is sourced: the divorce hazard rises after a spouse's job displacement (Charles and Stephens 2004, Job Displacement, Disability, and Divorce, Journal of Labor Economics 22(2):489-522, PSID; NBER w8578, https://www.nber.org/papers/w8578), for layoffs and not for plant closings. The size here is a starting value: the paper's effect size was not read in this change.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "log hazard of parting per unit of stress",
+      "citation": "Checked range around the starting value, below the move weight's (0.6, Huttunen, Moen and Salvanes 2018) because a layoff moves a household's parting less than its leaving in the studies named; to be replaced by the effect size in Charles and Stephens 2004's tables."
+    },
+    "stopgapId": "SG-LIVES-part-hardship-weight"
+  },
   "traitWeightVotingTurnout": {
     "value": 0.79,
     "tag": "ESTIMATED",

@@ -620,7 +620,8 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   it("every play reader of those tables reads the world's factor", () => {
     for (const file of [
       "births-counted.ts",
-      "modules/counted-moves.ts",
+      // counted-moves.ts reads no ACS mover table since Pins family 29: its
+      // rates are the country tier's, its arrivals from abroad the tier's month.
       "modules/health.ts",
       "modules/moves.ts",
       "school-outcomes.ts",
