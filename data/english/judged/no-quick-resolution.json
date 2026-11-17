@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "no-quick-resolution",
   "rubric": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
-  "judged": 574,
+  "judged": 649,
   "no": {
     "0f0tx72zwym": {
       "keys": [
@@ -21,6 +21,14 @@
         "scene-talk.reply-ask.do-i-say-it-after-you"
       ],
       "why": "Every reply accepts the oath at once, and the one question only asks how to say it rather than pushing back or deflecting."
+    },
+    "0lk7hqknn09": {
+      "keys": [
+        "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
     },
     "0n520hms0rt": {
       "keys": [
@@ -46,6 +54,14 @@
       ],
       "why": "Both replies are ready commitments to help, with no reply that pushes back or deflects."
     },
+    "1rrb35pu0v0": {
+      "keys": [
+        "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
+    },
     "24jwe96hi1c": {
       "keys": [
         "scene-talk.follow-plea.then-where-do-people-go-i-m-not-the-only-one-on-my-floor-with-one-of-these",
@@ -61,7 +77,15 @@
         "scene-talk.reply-thank.i-know-i-wasn-t-easy-thank-you"
       ],
       "why": "Both replies give in agreeably to the teasing, and neither pushes back, deflects or raises the stakes."
+    },
+    "2g3nxcpb3wf": {
+      "keys": [
+        "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
+        "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
+        "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of"
+      ],
+      "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
     }
   },
-  "yesHash": "1dyruw06sr9"
+  "yesHash": "1rmqy1a8cr1"
 }
