@@ -24,6 +24,7 @@ import { LATEST_MONTH_LAG, regionOfPlace } from "./modules/regional";
 import {
   keptOutputHistory,
   keptOutputNumber,
+  OUTPUT_NUMBERS,
   outputNumber,
   type OutputHistoryPoint,
   type OutputReading,
@@ -235,15 +236,24 @@ const READERS: Readonly<
   },
 };
 
-/** What a state's month figure is out of, as the month row keeps it (the rate's people at work and looking). */
+/**
+ * What a state's month figure is out of: the fields the registry names as its
+ * trace inputs (`traceInputs`), as the state's month row keeps them. The
+ * owning engine adds a field to the row and its name to the registry.
+ */
 function stateInputs(
   row: CountryStateMonth,
   key: "unemploymentPct" | "hourlyPay" | "jobs",
 ): Record<string, number> {
-  if (key !== "unemploymentPct") return {};
-  return typeof row.workers === "number" && typeof row.seekers === "number"
-    ? { workers: row.workers, seekers: row.seekers }
-    : {};
+  const number = OUTPUT_NUMBERS.find(
+    (n) => n.reader === `country-state:${key}`,
+  );
+  const out: Record<string, number> = {};
+  for (const name of number?.traceInputs ?? []) {
+    const value = (row as unknown as Record<string, unknown>)[name];
+    if (typeof value === "number") out[name] = value;
+  }
+  return out;
 }
 
 /**
