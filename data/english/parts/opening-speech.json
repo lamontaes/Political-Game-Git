@@ -112571,51 +112571,6 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-from-let-me-turn-to",
-      "move": "turn",
-      "kind": "spoken",
-      "text": "From {turn-from}, let me turn to {turn-to}.",
-      "uses": [
-        {
-          "move": "turn",
-          "subject": "inaugural",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-union",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-state",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "town-address",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        }
-      ],
-      "voice": ["plain", "polished"],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
-    },
-    {
       "key": "opening-speech.turn.ld-after-i-also-owe-you-a-word-on",
       "move": "turn",
       "kind": "spoken",
@@ -117379,6 +117334,22 @@
           "choice": "turn",
           "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -117390,7 +117361,7 @@
       "key": "opening-speech.turn.plain-polished-unit4-loc-i-ve-said-my-piece-on-turn-from-let",
       "move": "turn",
       "kind": "spoken",
-      "text": "I've said my piece on {turn-from}. Let's talk about {turn-to}.",
+      "text": "I've had my say on {turn-from}. Let's talk about {turn-to}.",
       "uses": [
         {
           "move": "turn",
@@ -117403,6 +117374,22 @@
         {
           "move": "turn",
           "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
           "requiresFacts": ["turn-from", "turn-to"],
@@ -117435,6 +117422,22 @@
           "choice": "turn",
           "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -117459,6 +117462,22 @@
         {
           "move": "turn",
           "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
           "requiresFacts": ["turn-from", "turn-to"],
