@@ -1018,11 +1018,12 @@ export function debateAccept(
   personId: string,
   debateId: string,
 ): { readonly accepted: boolean } {
-  const waiting = campaignView(core, personId).campaigns.some((c) =>
+  // The campaign the invitation waits on; its filing is the choice's record.
+  const waiting = campaignView(core, personId).campaigns.find((c) =>
     c.debates.some((d) => d.id === debateId && !d.accepted),
   );
   if (!waiting) throw new Error("No debate is waiting for your answer.");
-  acceptDebate(coreAPI(core), debateId, personId, `campaign tab, ${core.date}`);
+  acceptDebate(coreAPI(core), debateId, personId, waiting.filing.id);
   return {
     accepted: core.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${debateId}`),
   };
