@@ -362,6 +362,18 @@
   ],
   "replaced": [
     {
+      "old": "src/core2/data/moves/destinations.json",
+      "now": "src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor)",
+      "when": "2026-11-17",
+      "why": "Pins family 29: a leaver's destination comes from the simulation's own weighing, not the IRS county most movers went to."
+    },
+    {
+      "old": "data/research/renewal/derive-destinations.py",
+      "now": "nothing stands in its place: it wrote src/core2/data/moves/destinations.json, deleted with it",
+      "when": "2026-11-17",
+      "why": "Pins family 29: the file it derived is gone."
+    },
+    {
       "old": "src/core2/fast-forward.ts",
       "now": "src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6",
       "when": "2026-11-12",

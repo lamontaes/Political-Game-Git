@@ -1825,13 +1825,6 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
-      "table": "part.core2-counted-moves.holdNorm",
-      "level": "town (people and places)",
-      "call": "flow-only",
-      "filledBy": "day 31",
-      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
-    },
-    {
       "table": "part.core2-counted-moves.leave",
       "level": "town (people and places)",
       "call": "flow-only",

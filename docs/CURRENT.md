@@ -121,6 +121,8 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 
 | Old path | Now | When | Why |
 | --- | --- | --- | --- |
+| `src/core2/data/moves/destinations.json` | src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor) | 2026-11-17 | Pins family 29: a leaver's destination comes from the simulation's own weighing, not the IRS county most movers went to. |
+| `data/research/renewal/derive-destinations.py` | nothing stands in its place: it wrote src/core2/data/moves/destinations.json, deleted with it | 2026-11-17 | Pins family 29: the file it derived is gone. |
 | `src/core2/fast-forward.ts` | src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The fast clock, part 4: skipped time is counted from the voters in results mode and the campaign-stride switch is deleted. |
 | `scripts/speed-years/fast-forward.ts` | nothing stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The campaign-stride switch it ran with was deleted with the fast clock, part 4. |
 | `src/simulation` | `src/core2` | 2026-10-28 | The old core was deleted (pull request 6659); the new core is the engine. |

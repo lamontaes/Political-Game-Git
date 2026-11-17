@@ -1,13 +1,14 @@
 {
   "movesLifeStageScale": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Scales the American Community Survey 2024 rate of leaving the county for a person's age band and state (data/research/migration/mover-rates-acs-2024.json) into their monthly pull to leave, so that a town's departures over a year, after each person's own ties hold some back, land on that rate. Calibrated in src/core2/moves.test.ts.",
+    "value": 2.45,
+    "tag": "ESTIMATED",
+    "citation": "The rate of leaving the county for a household nothing holds (a renter with no children at home) over its state's average at its age, the one strength both tiers' leaving rule reads (counted-moves.ts countedLeavingRate and the counted month; moves.ts accumulate): the country tier's rate for the person's state and age is that average, and each household's own holds and pushes then set how far it sits from the unheld rate. Fitted once nationally so the holds averaged over the nation's people give back the average: owners 226.1 million and renters 101.0 million people (CPS ASEC 2023, Table 1, rows 66-67), so with the owner hold (1.21) the tenure part averages 0.515; family householders 15 to 54 with own children under 18 are 31.1 of 49.3 million (Table 6, rows 9-10), so with the children hold (0.4) that part averages 0.792; 1 / (0.515 x 0.792) = 2.45 (data/research/core/cps-asec-2023-mobility.json).",
+    "estimatedFrom": "1 / (E[exp(-owner hold)] x E[exp(-children hold)]) over the nation's people, the two taken as independent; the children share is of family householders 15 to 54 (Table 6's universe), above its share of all people, so the scale leans high. Nothing renormalizes a place to the average: a place with more owners or children leaves less, one with fewer leaves more.",
     "spread": {
-      "low": 0.5,
-      "high": 3,
-      "unit": "multiple of the ACS departure rate",
-      "citation": "Checked range, not a measure: the year run (scripts/research/core-parameters-year.ts) reports a town's departures against the ACS 2024 rate for its adults' ages and state (data/research/migration/mover-rates-acs-2024.json)."
+      "low": 1.94,
+      "high": 2.45,
+      "unit": "multiple of the state's average rate of leaving",
+      "citation": "Tenure alone, 6.23% / 3.20% different-county movers among renters over everyone (CPS ASEC 2023 Table 1) = 1.94, to tenure and children together, 2.45."
     },
     "stopgapId": "SG-P15-moves-weights"
   },

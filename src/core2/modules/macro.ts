@@ -408,6 +408,34 @@ export function countryStates(api: CoreAPI): readonly CountryState[] {
 }
 
 /**
+ * The people who came to a state from abroad in the tier's latest month, by
+ * the tier's own step (its `whatMoved` row) and split by age as the tier
+ * settles them (children first, then its adult bands): the one count of
+ * arrivals from abroad, which counted-moves settles in the counted places.
+ * `id` is the state's tier row, where the month is kept. None before the
+ * tier has stepped a month.
+ */
+export function countryAbroadArrivals(
+  api: CoreAPI,
+  usps: string,
+): { id: string; month: number; byBand: number[] } | undefined {
+  const state = store(api)
+    .table("countryStates")
+    .get(`country-state:US-${usps}`) as unknown as CountryState | undefined;
+  const moved = state?.whatMoved.at(-1);
+  if (!state || !moved) return undefined;
+  const rules = rulesOf(api);
+  return {
+    id: state.id,
+    month: moved.month,
+    byBand: [
+      moved.fromAbroad * rules.abroadChildShare,
+      ...rules.abroadShare.map((share) => moved.fromAbroad * share),
+    ],
+  };
+}
+
+/**
  * Every state's people and this month's movers by the tier's own rule, read
  * without moving anyone (counted-moves reads them: the tier is the one holder
  * of every state's people). Empty before the tier opens.
