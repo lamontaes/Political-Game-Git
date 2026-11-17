@@ -12,7 +12,8 @@
  *  - `lines`: every scene-talk line of a type's purpose, from the line register, with its tie class,
  *    the facts it needs, whether an engine reaches it and whether the grades or a rule hold it.
  *  - `force`: causes a type through the game's own code (`DevMode.forceScene`, or the elections
- *    engine's own writers for its scenes, dev-force-elections.ts) and writes a dev-mode mark
+ *    engine's own writers for its scenes, dev-force-elections.ts, and the campaigns engine's for its,
+ *    dev-force-campaigns.ts) and writes a dev-mode mark
  *    `scene-forced` on the record; a forced scene is never a played one for a Words stamp.
  * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
@@ -24,6 +25,7 @@ import type { PersonId } from "../../core2/types";
 import type { PurposeType } from "../../director/scene-talk";
 import type { DevView } from "../dev-views";
 import { forceElectionsScene } from "../dev-force-elections";
+import { forceCampaignsScene } from "../dev-force-campaigns";
 import forceMap from "./scene-force-map.json";
 
 /** How each situation type can be forced, measured by scripts/words/force-all-probe.mts: a record of its cause kind that the director stages from, or the reason that takes its module's own writer. */
@@ -32,7 +34,7 @@ const FORCE = (
     types: Record<
       string,
       {
-        how: "event" | "writer" | "elections";
+        how: "event" | "writer" | "elections" | "campaigns";
         kind?: string;
         facts?: Record<string, string>;
         reason?: string;
@@ -78,7 +80,18 @@ const view: DevView = {
       "no-stake":
         "No one at home has anything of theirs at stake in the race, so there is no talk at home about it",
       "no-player": "There is no player to bring it about for",
+      "no-runner":
+        "No one close to you could file for a race within two years of running the world",
+      "no-offer":
+        "No one you know offered to help in that role within two months: each weighs it by their own reasons",
+      "no-rival-word":
+        "No one brought you word of a rival within two months of the campaign",
+      "no-gift": "No donor you called gave in two weeks of calls",
+      "no-endorse-ask":
+        "The campaign of the one close to you did not ask you to endorse them within two months",
     },
+    campaigns:
+      "Brought about through the campaigns' own writers: a campaign runs on a filing (yours, or for an ask to endorse, the one closest to you who may run), and the people in it act by their own reasons",
     elections:
       "Brought about through the elections' own writers: the world runs to a race that takes your filing, you file at the counter, and for a loss you canvass for your petition and the world runs to the count",
     stagedNow: "Staged on the next day",
@@ -146,7 +159,9 @@ const view: DevView = {
           !OWN_RECIPES.includes(scene.recipe ?? "") &&
           scene.state !== "none";
         // A type the elections' own writers bring about is forced at once too.
-        const byWriter = way?.how === "elections" && scene.state !== "none";
+        const byWriter =
+          (way?.how === "elections" || way?.how === "campaigns") &&
+          scene.state !== "none";
         return {
           key: scene.key,
           why:
@@ -158,7 +173,7 @@ const view: DevView = {
             SITUATION_LIBRARY.types.find((row) => row.key === scene.key)
               ?.setting ?? [],
           causeRecords: scene.causeRecords,
-          recipe: byEvent ? "event" : byWriter ? "elections" : scene.recipe,
+          recipe: byEvent ? "event" : byWriter ? way!.how : scene.recipe,
           state: byEvent || byWriter ? "plays" : scene.state,
           forceable: scene.state !== "none",
           staged: staged.get(scene.key)?.count ?? 0,
@@ -274,6 +289,22 @@ const view: DevView = {
             recipe: "event",
             staged: String(staged),
           }),
+        };
+      }
+      if (way?.how === "campaigns") {
+        const forced = forceCampaignsScene(mode, typeKey);
+        return {
+          ...forced,
+          why: forced.refused ?? null,
+          mark: mode.mark(
+            "scene-forced",
+            [...forced.written, ...forced.causeRecords],
+            {
+              typeKey,
+              recipe: `campaigns:${forced.way}`,
+              staged: String(forced.staged),
+            },
+          ),
         };
       }
       if (way?.how === "elections") {
