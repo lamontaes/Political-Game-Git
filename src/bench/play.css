@@ -68,12 +68,8 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
-  /* Issues: the subject column and the space between it and the laws. */
-  --issues-subjects: 250px;
+  /* Issues: the space between the Level and In force bars. */
   --issues-gap: 18px;
-  /* A subject row is dense, as in the mock, so every subject fits the panel. */
-  --issues-subject-h: 21px;
-  --issues-subject-pad: 1px 12px;
   /* A week's row in the calendar's month: room for two things named on a day. */
   --month-row: 96px;
   /* A thing named on its day in the calendar's month. */
@@ -5560,27 +5556,10 @@ select.release-pick {
 .issue-filter-row .tab-rail {
   margin: 0;
 }
-/* The subjects beside their laws (pl-issues): a subject column, each with its count. */
-.issues-body {
-  display: grid;
-  grid-template-columns: var(--issues-subjects) minmax(0, 1fr);
-  gap: var(--issues-gap);
-  align-items: start;
-}
-.issues-subjects .pick span {
+/* The subjects beside their laws (pl-issues): the roster's list, each subject with its count. */
+.issues-subjects > .roster .roster-row span {
   min-width: 1.5em;
   text-align: right;
-}
-/* Every subject shows at once: no gap between rows and no box that scrolls. */
-#sheet-body .issues-subjects {
-  gap: 0;
-  max-height: none;
-  overflow: visible;
-}
-#sheet-body .issues-subjects .pick {
-  min-height: var(--issues-subject-h);
-  padding: var(--issues-subject-pad);
-  font-size: var(--t-label);
 }
 /* The Level and In force bars side by side, over the subjects and laws. */
 .issues-bars {

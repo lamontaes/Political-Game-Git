@@ -3,7 +3,7 @@
 // computes no fact of its own, so the list and a test count the same laws.
 import { el } from "./dom.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
-import { pickHead, pickRow } from "./list-row.mjs";
+import { rosterScreen } from "./roster-screen.mjs";
 
 /** Every filter's "no filter" key. */
 export const ALL = "all";
@@ -52,35 +52,43 @@ export function levelChoices(laws) {
  * now and on every change; `words` names the filters ({ level, force, subject, all }).
  */
 export function issueFilterScreen({ words, choices, state, draw, countOf }) {
-  const list = el("div", { className: "issues-list" });
-  const subjects = el("nav", { className: "pick-list issues-subjects" });
-  subjects.setAttribute("aria-label", words.subject);
-  // The subjects with a law under the bars; the chosen one, else the first of them.
-  const drawSubjects = () => {
+  const body = el("div", { className: "issues-body" });
+  // The subjects with a law under the bars beside the chosen one's laws: the one list-beside-
+  // detail part (rosterScreen), the subject's page the laws `draw` fills.
+  const onChange = () => {
     const shown = choices.subject.filter(([key]) => countOf(key) > 0);
     if (!shown.some(([key]) => key === state.subject))
       state.subject = shown[0]?.[0] ?? ALL;
-    subjects.replaceChildren(
-      pickHead(words.subject),
-      ...shown.map(([key, label]) => {
-        const row = pickRow({
-          label,
-          aside: String(countOf(key)),
-          className: "issues-subject",
-        });
-        row.dataset.subject = key;
-        row.setAttribute("aria-pressed", String(key === state.subject));
-        row.addEventListener("click", () => {
-          state.subject = key;
-          onChange();
-        });
-        return row;
+    const laws = () => {
+      const list = el("div", { className: "issues-list" });
+      draw(list);
+      return list;
+    };
+    if (!shown.length) {
+      body.replaceChildren(laws());
+      return;
+    }
+    body.replaceChildren(
+      ...rosterScreen({
+        title: words.subject,
+        className: "issues-subjects",
+        chosenKey: state.subject,
+        groups: [
+          {
+            entries: shown.map(([key, label]) => ({
+              key,
+              label,
+              aside: String(countOf(key)),
+              data: { subject: key },
+            })),
+          },
+        ],
+        render: (entry) => {
+          state.subject = entry.key;
+          return [laws()];
+        },
       }),
     );
-  };
-  const onChange = () => {
-    drawSubjects();
-    draw(list);
   };
   const row = (name, control) =>
     el(
@@ -111,6 +119,6 @@ export function issueFilterScreen({ words, choices, state, draw, countOf }) {
     "div",
     { className: "issues-screen" },
     el("div", { className: "issues-bars" }, ...bars),
-    el("div", { className: "issues-body" }, subjects, list),
+    body,
   );
 }

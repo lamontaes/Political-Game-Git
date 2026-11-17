@@ -85,14 +85,18 @@ try {
 
 // The subject column's rows (pl-issues); visit each subject.
 async function eachSubject(page, visit) {
-  const rows = page.locator("#sheet-body .issues-subjects .issues-subject");
+  const rows = page.locator(
+    "#sheet-body .issues-subjects > .roster .roster-row",
+  );
   await rows.first().waitFor();
   const subjects = await rows.evaluateAll((all) =>
     all.map((row) => row.dataset.subject),
   );
   for (const subject of subjects) {
     await page
-      .locator(`#sheet-body .issues-subject[data-subject="${subject}"]`)
+      .locator(
+        `#sheet-body .issues-subjects > .roster .roster-row[data-subject="${subject}"]`,
+      )
       .click();
     await page
       .locator("#sheet-body .issues-laws .roster-row")
