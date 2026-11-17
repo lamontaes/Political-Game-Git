@@ -3233,40 +3233,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.ask-me-after-the-vote",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Ask me after the vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["bill"],
-          "excludesFacts": [
-            "vote-held",
-            "acted",
-            "introduced",
-            "signed-it",
-            "stopped-it",
-            "vetoed",
-            "veto-held"
-          ]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "deflect",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.i-ll-put-my-reasons-on-bill-in-writing",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -3724,62 +3690,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.people-here-wanted-it-i-think-it-s-wrong-and-i-ll-say-why",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "People here wanted it. I think it's wrong, and I'll say why.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-no", "against-people"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-answer.i-ve-voted-this-way-on-it-before-place-knows-where-i-stand",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've voted this way on it before. {place} knows where I stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "reason-last-vote"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-voted-the-same-way-last-time-i-don-t-change-on-a-headline",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I voted the same way last time. I don't change on a headline.",
       "uses": [
         {
           "subject": "scene",
@@ -4149,32 +4063,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.it-s-not-what-i-believe-in-i-voted-no",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "It's not what I believe in. I voted no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-no", "reason-own-view"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-answer.i-don-t-believe-in-bill-purpose-i-voted-the-way-i-think",
       "move": "reply-answer",
       "kind": "spoken",
@@ -4241,32 +4129,6 @@
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I think it's right for {place}. I voted yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-yes", "reason-own-view"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-believe-in-what-it-does-that-s-why-i-voted-yes",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I believe in what it does. That's why I voted yes.",
       "uses": [
         {
           "subject": "scene",
@@ -9859,40 +9721,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-m-still-reading-it",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'm still reading it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["bill"],
-          "excludesFacts": [
-            "vote-held",
-            "acted",
-            "introduced",
-            "signed-it",
-            "stopped-it",
-            "vetoed",
-            "veto-held"
-          ]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "deflect",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.that-goes-in-outlet-as-you-said-it",
       "move": "follow-accept",
       "kind": "spoken",
@@ -10453,31 +10281,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.good-it-goes-in-the-way-you-said-it",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Good. It goes in the way you said it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["answered", "bill", "outlet"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.close-thank.thanks-outlet-will-print-your-answer",
       "move": "close-thank",
       "kind": "spoken",
@@ -10499,31 +10302,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-ll-print-the-vote-and-what-you-told-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'll print the vote, and what you told me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["knows-truth"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
         "key": "routine"
       }
     },
@@ -10748,56 +10526,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.that-s-not-an-answer-why-did-you-vote-yes",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That's not an answer. Why did you vote yes?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["voted-yes"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.that-s-not-an-answer-why-did-you-vote-no",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That's not an answer. Why did you vote no?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["voted-no"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.that-s-a-straight-answer-on-bill-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -10869,31 +10597,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-to-go-my-office-can-help-with-the-rest",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to go. My office can help with the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "outlet"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
         "key": "routine"
       }
     },
@@ -10975,141 +10678,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.it-lost-today-it-comes-back",
-      "move": "reply-boast",
-      "kind": "spoken",
-      "text": "It lost today. It comes back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "boast",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.bill-failed-is-that-the-end-of-it",
-          "requiresFacts": ["voted-yes", "bill-failed"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "boast",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.it-passed-over-my-no-i-ll-watch-what-it-costs",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "It passed over my no. I'll watch what it costs.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.what-happens-to-bill-now-that-it-s-passed",
-          "requiresFacts": ["voted-no", "bill-passed"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-boast.it-passed-ask-me-again-when-it-s-working",
-      "move": "reply-boast",
-      "kind": "spoken",
-      "text": "It passed. Ask me again when it's working.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "boast",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.what-happens-to-bill-now-that-it-s-passed",
-          "requiresFacts": ["voted-yes", "bill-passed"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "boast",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-think-they-do-i-ll-keep-making-the-case",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I think they do. I'll keep making the case.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.do-the-people-in-place-want-to-stand-too",
-          "requiresFacts": ["stand", "place"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.read-it-first-then-tell-me-which-part-goes-too-far",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Read it first. Then tell me which part goes too far.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-say-to-people-who-think-it-goes-too-far",
-          "requiresFacts": ["top-reason-own-bill"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-answer.i-read-it-sponsor-didn-t-have-to-sell-me",
       "move": "reply-answer",
       "kind": "spoken",
@@ -11124,33 +10692,6 @@
           "key": "routine",
           "after": "scene-talk.follow-ask.sponsor-s-bill-did-you-read-all-of-it",
           "requiresFacts": ["top-reason-sponsor", "sponsor"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-won-t-name-names-they-asked-me-to-listen-and-i-did",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I won't name names. They asked me to listen, and I did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.who-asked-you-name-one",
-          "requiresFacts": ["top-reason-people"],
           "setsFacts": ["answered"]
         }
       ],
@@ -11214,31 +10755,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-do-you-say-to-people-who-think-it-goes-too-far",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "What do you say to people who think it goes too far?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["top-reason-own-bill"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-ask.sponsor-s-bill-did-you-read-all-of-it",
       "move": "follow-ask",
       "kind": "spoken",
@@ -11255,31 +10771,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.who-asked-you-name-one",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Who asked you? Name one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["top-reason-people"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable) with a Sonnet writer",
       "date": "2026-11-17",
@@ -11366,58 +10857,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-confess.fine-i-voted-that-way-and-i-d-rather-not-explain",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "Fine. I voted that way, and I'd rather not explain.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "knows-truth"],
-          "setsFacts": ["answered"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confess",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.we-ve-been-here-before-this-time-print-what-i-say",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "We've been here before. This time print what I say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "press",
-          "requiresFacts": ["outlet", "read-sparred-before"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.you-asked-twice-my-answer-on-bill-hasn-t-changed",
       "move": "reply-confront",
       "kind": "spoken",
@@ -11440,56 +10879,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "confront",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-voted-for-it",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I voted for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-no", "knows-truth"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "lie",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-voted-no-on-it",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I voted no on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-yes", "knows-truth"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "lie",
         "key": "routine"
       }
     },
@@ -50045,41 +49434,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-signed-it-the-signature-is-my-answer",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I signed it. The signature is my answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost",
-          "requiresFacts": ["signed-it"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["signed-it"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "refuse",
         "key": "routine"
       }
     },

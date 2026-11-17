@@ -1,6 +1,6 @@
 {
   "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records) and are not excused by the owner's ruling of Nov 11, 2026 (call 12: \"Replies of one to three words and action names stay; everything else is rewritten.\"; a piece the engine joins counts as composed when the sentence it makes carries an insert). tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none. Nov 16, 2026: the Nov 14 excuse for a line the world places is withdrawn (owner, on the Story thread #9750: \"No. Count them again and rewrite them with inserts\", \"either that or remove them and start fresh\"); the 5,339 lines it covered are counted again here, and each rewrite with an insert or deletion lowers its bank's count.",
-  "total": 5078,
+  "total": 5054,
   "excusedOnNov11": {
     "short": 660,
     "action-name": 43
@@ -24,7 +24,7 @@
     "notice": 0,
     "opening-speech": 15,
     "person-history": 0,
-    "scene-talk": 4416,
+    "scene-talk": 4392,
     "scene-words": 0,
     "speech-stages": 0
   },
