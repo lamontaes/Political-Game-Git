@@ -31,6 +31,7 @@ import { bookkeeping } from "../bookkeeping";
 import { tableTraceOn } from "../module-state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween, ENCOUNTERS, householdIncome } from "./people";
+import { feelingBetween } from "../closeness";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -3965,6 +3966,20 @@ export function giftOf(
 }
 
 /**
+ * Every donor's running total to one campaign, read off the gifts table's
+ * `byCampaign` rows: a donor's ask weighs their gift against the rest of what
+ * the campaign was given (donor-ask-facts.ts).
+ */
+export function giftsToCampaign(
+  api: CoreAPI,
+  filingId: string,
+): readonly GiftRow[] {
+  return table(api, "gifts").query("byCampaign", [
+    filingId,
+  ]) as unknown as GiftRow[];
+}
+
+/**
  * A donor's own reasons to give to a candidate: warmth, agreement with the
  * platform, party, how they stand with the candidate, what they have to
  * spare against a typical gift (`spareAgainstGift`, from `giftBudget`) and
@@ -5664,6 +5679,35 @@ export function runAd(
     );
     if (cause) causes.push(cause);
   }
+  // The one an attack ad ran against holds it against whoever bought it: the
+  // drives engine reads this record and answers by their own temperament
+  // (a grudge, proving themselves, a cause or carrying on), never by a roll.
+  if (
+    input.attackFilingId &&
+    causes.length > 0 &&
+    target.candidateId !== campaign.candidateId &&
+    api.state.people.get(target.candidateId as PersonId)?.alive &&
+    api.state.people.get(campaign.candidateId as PersonId)?.alive
+  )
+    api.emit({
+      id: `campaign.attacked:${campaign.id}:${api.state.date}:${campaign.spentMinor}`,
+      date: api.state.date,
+      kind: "campaign.attacked",
+      personIds: [target.candidateId as PersonId],
+      placeId: api.state.people.get(target.candidateId as PersonId)!.placeId,
+      publicRecord: false,
+      topic: campaign.candidateId,
+      desiredChange: "campaign.attacked",
+      facts: {
+        attackerId: campaign.candidateId,
+        contestId: campaign.contestId,
+      },
+      source: {
+        tag: "SOURCED",
+        citation: `Attack ad against ${target.candidateId} bought by ${campaign.candidateId}`,
+        asOf: api.state.date,
+      },
+    });
   // The ad's message is a public record its viewers saw: the views engine
   // moves each one's stance on its question.
   if (!input.attackFilingId && !input.quiet)
@@ -5986,7 +6030,7 @@ function weighEndorsement(
     const tie =
       row.candidateId === endorser.id
         ? 0
-        : closenessBetween(api.state, endorser.id, row.candidateId);
+        : feelingBetween(api.state, endorser.id, row.candidateId);
     // A favor the endorser owes this candidate from a deal they took
     // (campaign-favor-called-in): worth what a favor is worth in the
     // legislature, more the closer they are; a person speaks for themselves.

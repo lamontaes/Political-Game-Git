@@ -105,7 +105,7 @@ import {
 } from "../candidate-pool";
 import { workFromHome } from "../coarse-place";
 import { drawStateHome } from "../places";
-import { closenessBetween } from "../closeness";
+import { feelingBetween } from "../closeness";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -1362,7 +1362,7 @@ function relationshipWith(
   candidateId: string,
 ): number {
   if (!voter.knownIds.has(candidateId)) return 0;
-  return closenessBetween(api.state, voter.id, candidateId);
+  return feelingBetween(api.state, voter.id, candidateId);
 }
 
 /** One candidate's appeal to a named voter: the parts every voter weighs, and what only they know. */
@@ -4425,6 +4425,29 @@ function settleCount(
         : {}),
     },
   });
+  // Each person the count left out holds the loss against the one who won:
+  // the drives engine reads this record and answers by the loser's own
+  // temperament (a grudge, a cause or carrying on), never by a roll.
+  const winnerPerson =
+    winnerCandidateId && !undecided ? person(winnerCandidateId) : undefined;
+  if (winnerPerson && api.state.people.has(winnerPerson))
+    for (const loserId of out.filter((id) => id !== winnerPerson))
+      api.emit({
+        id: `race.lost:${contestId}:${loserId}`,
+        date,
+        kind: "race.lost",
+        personIds: [loserId],
+        placeId: townPlaceId,
+        publicRecord: false,
+        topic: winnerPerson,
+        desiredChange: "race.lost",
+        facts: { contestId, winnerId: winnerPerson },
+        source: {
+          tag: "SOURCED",
+          citation: `Lost ${contestId}`,
+          asOf: date,
+        },
+      });
   // The presidency is won in the electoral college (`electoralCollege`);
   // this count is the town's state's popular vote.
   if (contest.officeId === "office:US:president") return result;

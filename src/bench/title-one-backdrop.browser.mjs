@@ -54,7 +54,8 @@ try {
   assert.equal(onCreator.fades, 0, "a scene faded in under the creator");
   // On through the creator with the drawn place.
   await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-given").fill("Test");
+  await page.locator("#cr-family").fill("Person");
   await page.locator("#cr-screen:not([hidden])").waitFor();
   const states = page.locator("#cr-states button");
   await states.first().waitFor();

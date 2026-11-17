@@ -146,20 +146,6 @@
     "status": "open"
   },
   {
-    "id": "SG-LIVES-abroad-arrivals-no-pull",
-    "kind": "partial-model",
-    "file": "src/core2/modules/counted-moves.ts",
-    "line": 1172,
-    "whatItFakes": "People arriving from abroad come at each state's sourced yearly rate (ACS B07001 line 081) times its people, in the nation's age mix, and settle among the counted places in proportion to who lives there. The size of the flow does not respond to a place's own pull (jobs, rents, wages), so a booming state draws no more than a slack one.",
-    "why": "The sourced rate sizes the outside flow (owner, Nov 8: real rates are not targets, so it is a size, never a refit target); a pull-weighted destination needs the same pull model as the between-state moves applied to arrivals from abroad, which this change did not build.",
-    "addedBy": "Dev Tester (night crew, Nov 8)",
-    "addedAt": "2026-11-08",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Weigh the abroad flow's destination by the same pull the between-state moves use (wages, jobs, prices), scaled from the sourced national size so a place's own conditions draw more or fewer newcomers; the within-US gravity fit is not applied to it.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
-  },
-  {
     "id": "SG-LIVES-origin-state-shares",
     "kind": "partial-model",
     "file": "src/core2/opening-origin.ts",
@@ -192,6 +178,42 @@
     "addedBy": "opus-5251 (life-relatives-who-live-elsewhere-have-a-past)",
     "addedAt": "2026-11-10",
     "replacement": "residenceOn reads a relative's moves in play as well, so their past is read against the place they lived on the opening day whenever they are opened.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-moves-no-tier-rate",
+    "kind": "partial-model",
+    "file": "src/core2/modules/moves.ts",
+    "line": 610,
+    "whatItFakes": "In a world whose economy does not run (no country tier: unit-test worlds built without the economy, never the played world), a full person's rate of leaving at their stage of life is the ACS 2024 rate for their age and state times the world's movers factor, where the played world reads the tier's own rate (counted-moves.ts countedLeavingRate).",
+    "why": "The leaving rule reads the country tier's rate for the person's state and age; a world built without the economy has no tier, and the moves tests built that way would otherwise send nobody away.",
+    "addedBy": "Pins family 29 (Nov 17)",
+    "addedAt": "2026-11-17",
+    "replacement": "Build the moves tests on worlds with the economy (the tier) and delete the ACS fallback, or give the tier a light form that runs without the economy.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-partnering-age-curve",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 363,
+    "whatItFakes": "The pace at which a single adult partners by age and sex is the played place's ACS first-marriage pace (partnershipGeo of the played town), read for everyone, people living elsewhere too; no meeting market of people elsewhere sets it.",
+    "why": "No engine meets people living elsewhere with one another; the age curve is the chain the opening used. Whether a national age curve counts as a strength (a real relationship's shape) or a pinned rate is a question for the owner through the CTO (Pins family 29).",
+    "addedBy": "Pins family 29 (Nov 17)",
+    "addedAt": "2026-11-17",
+    "replacement": "The CTO's ruling: either a national age curve kept as the strength by age, with the place's own conditions (its singles, its sex ratio, its work) moving the level, or a meeting market for people elsewhere.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-part-hardship-weight",
+    "kind": "partial-model",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 334,
+    "whatItFakes": "How much a couple's hardship stress speeds their parting (hardshipWeightPeoplePart, 0.35) is a starting value; only its direction is sourced (Charles and Stephens 2004: divorce rises after a layoff).",
+    "why": "The paper's effect size was not read in this change.",
+    "addedBy": "Pins family 29 (Nov 17)",
+    "addedAt": "2026-11-17",
+    "replacement": "hardshipWeightPeoplePart set from Charles and Stephens 2004's hazard estimate, divided by the average layoff's stress (0.47) as the move weight is.",
     "status": "open"
   }
 ]

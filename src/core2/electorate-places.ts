@@ -35,7 +35,12 @@ import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
 import { worldOffsetUnit, worldRate } from "./world-draw";
-import { centuryCongressRoster, historyMode } from "./electorate-century";
+import {
+  centuryCongressRoster,
+  centuryDistrictLean,
+  centuryLegislatureRoster,
+  historyMode,
+} from "./electorate-century";
 
 /** A place counted coarsely: how many may vote there and where it leans. */
 export interface ElectoratePlace {
@@ -421,16 +426,23 @@ export function stateRightShare(usps: string, seed: string): number | null {
  * winner carried, so that the same holder standing again with the opening's
  * inputs lands on 2024. A seat no one contested in 2024 leans like its
  * state's typical district toward the winner by the typical margin, sized as
- * the state's average district.
+ * the state's average district. In a world whose day one is the century's, it
+ * stands where the century left it (`fromCentury`).
  */
 export function housePlace(
   usps: string,
   code: string,
   seed: string,
 ): ElectoratePlace | null {
-  const key = `${seed}|${usps}-${code}`;
+  const key = `${seed}|${historyMode(seed)}|${usps}-${code}`;
   if (!houseCache.has(key))
-    houseCache.set(key, readHousePlace(usps, code, seed));
+    houseCache.set(
+      key,
+      fromCentury(
+        readHousePlace(usps, code, seed),
+        centuryDistrictLean(seed, { usps, houseCode: code }),
+      ),
+    );
   return houseCache.get(key)!;
 }
 const houseCache = new Map<string, ElectoratePlace | null>();
@@ -497,7 +509,8 @@ export function housePlaceByGeoid(
  * with both parties contesting it, else the state's two-party vote over its
  * districts leaning like the town's own county where the town votes in it,
  * else toward its holder's party at the typical margin; net of the holder's
- * incumbency.
+ * incumbency. In a world whose day one is the century's, it stands where the
+ * century left it (`fromCentury`).
  */
 export function legislativePlace(
   usps: string,
@@ -531,7 +544,25 @@ export function legislativePlace(
         : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
     holderSide,
   );
-  return place;
+  return fromCentury(place, centuryDistrictLean(seed, { seatId: seatKey }));
+}
+
+/**
+ * A district where the century counted it stands where the century left it (CTO line 6935086070
+ * on #9747: day one is whatever that history produced), not at its 2024 result; its people and
+ * their turnout stay the place's.
+ */
+function fromCentury(
+  place: ElectoratePlace | null,
+  lean: number | undefined,
+): ElectoratePlace | null {
+  return place && lean !== undefined
+    ? {
+        ...place,
+        rightShare: lean,
+        source: `${place.source}; where it stands: the century's count (src/core2/electorate-century.ts)`,
+      }
+    : place;
 }
 
 /** The county place a town's counties fall in, from its recorded county names. */
@@ -842,7 +873,31 @@ export function worldRoster(seed: string): typeof ROSTER {
         }
       }
   }
-  const world = { places, congress: fromCentury ?? congress };
+  // The century's chambers where it ran them; the roster's seats by district are the
+  // published holders, so they go with the published counts.
+  const legislatures = centuryLegislatureRoster(seed);
+  const chamberOf = (stateKey: string, key: string, chamber: RosterChamber) => {
+    const counted = legislatures?.[stateKey]?.[key];
+    return counted
+      ? { members: counted.members, parties: counted.parties }
+      : chamber;
+  };
+  const world = {
+    places: legislatures
+      ? Object.fromEntries(
+          Object.entries(places).map(([stateKey, chambers]) => [
+            stateKey,
+            Object.fromEntries(
+              Object.entries(chambers).map(([key, chamber]) => [
+                key,
+                chamberOf(stateKey, key, chamber),
+              ]),
+            ),
+          ]),
+        )
+      : places,
+    congress: fromCentury ?? congress,
+  };
   rosters.set(cacheKey, world);
   return world;
 }

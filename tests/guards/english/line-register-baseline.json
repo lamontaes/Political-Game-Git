@@ -120,7 +120,7 @@
     "src/english/speech-registers.ts": 1
   },
   "dataHeldLines": {
-    "src/bench/data/controls.json": 630,
+    "src/bench/data/controls.json": 628,
     "src/bench/data/whole-figures.json": 3,
     "src/director/data/local-address.json": 1
   }
