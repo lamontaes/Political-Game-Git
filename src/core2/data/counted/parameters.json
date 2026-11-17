@@ -74,6 +74,7 @@
   "countedMovesNearHomePull": {
     "value": 3.77,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "How strongly the rest of a mover's own state draws against another state of the same size, draw and pay, on the log scale of the destination weighing (counted-moves.ts weighDestinations): the one strength by which moves within a state come out of the weighing, for the counted households and full people alike. Fitted once nationally so that, with every state weighed by its people and no difference in pay or work, the share of county leavers who stay in their state, averaged over the nation by people, is the CPS share: about 6.0 million of 10.5 million people who moved to a different county in the year to March 2023 stayed in their state, 0.571 (U.S. Census Bureau, CPS ASEC 2023, Table 1; data/research/core/cps-asec-2023-mobility.json). A big state keeps more of its leavers than a small one by its own size, and how many stay moves with each state's pull.",
     "estimatedFrom": "Solved once for k: the people-weighted mean over the 56 states and territories of p e^k / (p e^k + P - p), with p each state's population and P the nation's (src/core2/data/regional/regions.json), equals 0.571 at k = 3.77. Each state's draw is taken as one in the fit (the tier's draws average one); a fit on the tier's fitted draws is the refinement.",
     "spread": {
@@ -86,6 +87,7 @@
   "countedMovesUnheldScale": {
     "value": 2.45,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "The rate of leaving the county for a counted household nothing holds (a renter with no children at home) over its state's average at its age (the country tier's rate): the one strength the counted leaving rule reads (counted-moves.ts month), so each household's own holds set how far it sits from the unheld rate and nothing renormalizes a place to the average. Fitted once nationally so the holds the counted rule carries, averaged over the nation's people, give back the average: owners 226.1 million and renters 101.0 million people (CPS ASEC 2023, Table 1, rows 66-67), so with the owner hold (movesOwnerHold, 1.21) the tenure part averages 0.515; family householders 15 to 54 with own children under 18 are 31.1 of 49.3 million (Table 6, rows 9-10), so with the children hold (movesChildrenHold, 0.4) that part averages 0.792; 1 / (0.515 x 0.792) = 2.45 (data/research/core/cps-asec-2023-mobility.json).",
     "estimatedFrom": "1 / (E[exp(-owner hold)] x E[exp(-children hold)]) over the nation's people, the two taken as independent; the children share is of family householders 15 to 54 (Table 6's universe), above its share of all people, so the scale leans high. Nothing renormalizes a place to the average: a place with more owners or children leaves less, one with fewer leaves more.",
     "spread": {

@@ -1,9 +1,11 @@
 /**
  * Pins family 29 proof: moving comes from the simulation. Twin worlds at
- * three drawn places (a seed nobody chose): world B lays off every worker of
- * the town's largest employer in month 1 through the jobs engine's own call
- * that dev mode's layoff control uses (`layOffWorker`), world A is left
- * alone; each plays one year. Per place and world: people leaving the town
+ * three drawn places (a seed nobody chose): in world B, up to 40 employed
+ * full adults of the town lose their jobs in month 1 through dev mode's own
+ * control (forceLayoff, the jobs engine's layoff path); world A is left
+ * alone; each plays one year. (The counted households read no lost job, so
+ * B reaches leaving through the full people's pulls: a lost job's push and
+ * its hardship stress.) Per place and world: people leaving the town
  * per 1,000, the share of leavers staying in their state, people arriving
  * from abroad, and the region's unemployment against its state's at the end.
  * Also prints the national in-state share the fitted near-home strength
@@ -23,7 +25,8 @@ import {
   runtimeOf,
   stateOfCountedPlace,
 } from "../../src/core2/modules/counted-moves";
-import { currentJobs, layOffWorker } from "../../src/core2/modules/jobs";
+import { DevMode } from "../../src/bench/dev-mode";
+import { BenchPlayer } from "../../src/bench/player";
 import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
 import {
   countedParameter,
@@ -49,39 +52,13 @@ function peopleOf(core: CoreState, places: ReadonlySet<string>): number {
   return n;
 }
 
-/** The largest business in the played places by staff (full and counted), and its jobs. */
-function largestEmployer(core: CoreState, places: ReadonlySet<string>) {
-  const api = coreAPI(core);
-  let best: { id: string; name: string; jobs: string[] } | undefined;
-  const kinds = new Map<string, number>();
-  // A business in the played places, else (named in the output) the largest
-  // employer whose staff live in them.
-  for (const pass of ["business", "any"] as const) {
-    for (const org of core.organizations.values()) {
-      kinds.set(org.kind, (kinds.get(org.kind) ?? 0) + 1);
-      if (pass === "business" && org.kind !== "business") continue;
-      if (pass === "business" && !places.has(org.placeId ?? "")) continue;
-      if (org.kind.includes("treasury") || org.id.includes("treasury"))
-        continue;
-      const jobs = currentJobs(api, org.id).map((job) => job.id);
-      if (jobs.length && (!best || jobs.length > best.jobs.length))
-        best = { id: org.id, name: `${org.name} [${org.kind}]`, jobs };
-    }
-    if (best) break;
-  }
-  if (!best)
-    out(
-      `  no employer found; organization kinds ${JSON.stringify([...kinds])}`,
-    );
-  return best;
-}
-
 function year(placeSeed: string, key: string, layoff: boolean) {
   setBookkeeping(false);
-  const { core } = buildBenchWorld(placeSeed, gameStartDate(), {
+  const world = buildBenchWorld(placeSeed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
   });
+  const core = world.core;
   const api = coreAPI(core);
   watchDepartures(core);
   const town = townPlaceOf(core)!;
@@ -100,24 +77,44 @@ function year(placeSeed: string, key: string, layoff: boolean) {
   const people = peopleOf(core, places);
   let laidOff = "";
   if (layoff) {
-    // Month 1: every worker of the largest employer, through the jobs
-    // engine's own layoff (dev mode's control); one who worked today goes
-    // the next day.
+    // Month 1: up to 40 employed full adults of the town lose their jobs
+    // through dev mode's own control (forceLayoff, the jobs engine's
+    // layoff path); one who worked today goes the next day.
     advanceCore(core, addDays(makeIsoDate(start), 1));
-    const employer = largestEmployer(core, places);
-    let done = 0,
-      jobs = employer?.jobs ?? [];
-    for (let day = 0; day < 3 && jobs.length; day++) {
-      const later: string[] = [];
-      for (const jobId of jobs) {
-        const result = layOffWorker(api, jobId);
-        if (result === "worked-today") later.push(jobId);
-        else if (result && typeof result === "object") done += result.heads;
+    const dev = new DevMode(
+      core,
+      world.director,
+      new BenchPlayer(core, world.director),
+      world.placeId,
+    );
+    let done = 0;
+    const later: string[] = [];
+    const tryLayoff = (id: string) => {
+      try {
+        dev.forceLayoff(id);
+        done += 1;
+      } catch (error) {
+        if (String(error).includes("worked today")) later.push(id);
       }
-      jobs = later;
-      if (jobs.length) advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    };
+    for (const person of [...core.people.values()].sort((x, y) =>
+      x.id.localeCompare(y.id),
+    )) {
+      if (done + later.length >= 40) break;
+      if (
+        !person.alive ||
+        !person.jobId ||
+        person.id === core.playerId ||
+        person.placeId !== world.placeId
+      )
+        continue;
+      tryLayoff(person.id);
     }
-    laidOff = `${employer?.name ?? "none"} (${employer?.id}), ${done} jobs ended`;
+    if (later.length) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      for (const id of later.splice(0)) tryLayoff(id);
+    }
+    laidOff = `${done} full adults through dev mode's forceLayoff`;
   }
   advanceCore(core, addDays(makeIsoDate(start), 365));
   const home = stateOfCountedPlace(town);
@@ -129,6 +126,14 @@ function year(placeSeed: string, key: string, layoff: boolean) {
     .reduce((n, row) => n + row.people, 0);
   const full = departuresSeen(core).filter((row) => townIds.has(row.personId));
   const fullOut = full.reduce((n, row) => n + row.withIds.length, 0);
+  // Departures whose reasons carry a lost job or a hardship's stress.
+  const jobReason = full.filter(
+    (row) =>
+      row.reasons["push:jobLost"] !== undefined ||
+      row.reasons.hardshipStress !== undefined ||
+      row.reasons["push:hardshipStress"] !== undefined ||
+      Object.keys(row.reasons).some((k) => k.includes("work.job-lost")),
+  ).length;
   const fullInState = full
     .filter((row) => placeStateKey(row.destinationId) === `US-${home}`)
     .reduce((n, row) => n + row.withIds.length, 0);
@@ -150,6 +155,16 @@ function year(placeSeed: string, key: string, layoff: boolean) {
     dueIn += row.inStatePerMonth ?? 0;
   }
   const sample = countedOut.find((row) => row.reads);
+  // Dev mode's Trace box on that move row: it must answer "caused", naming
+  // the stored records the move read.
+  const traced = sample
+    ? new DevMode(
+        core,
+        world.director,
+        new BenchPlayer(core, world.director),
+        world.placeId,
+      ).trace(sample.id)
+    : undefined;
   return {
     core,
     people,
@@ -158,11 +173,12 @@ function year(placeSeed: string, key: string, layoff: boolean) {
     dueInState: dueAll > 0 ? dueIn / dueAll : 0,
     abroad,
     fullOut,
+    jobReason,
     countedOut: outPeople,
     gap: conditions.gap,
     laidOff,
     sample: sample
-      ? `${sample.id} reasons ${JSON.stringify(sample.reasons)} reads ${JSON.stringify(sample.reads)}`
+      ? `${sample.id} reasons ${JSON.stringify(sample.reasons)} reads ${JSON.stringify(sample.reads)}; dev mode's Trace answers ${traced?.answer} (${(traced?.causes ?? []).map((c) => c.id).join(", ")})`
       : "none",
   };
 }
@@ -193,13 +209,13 @@ for (let i = 0; i < 3; i++) {
     out(
       `national in-state share on the tier's draws: ${nationalInState(a.core).toFixed(3)} (CPS 2023: 0.571)`,
     );
-  const aLine = `A ${a.leavingPer1000.toFixed(1)} leaving per 1,000 (${Math.round(a.countedOut)} counted, ${a.fullOut} full of ${Math.round(a.people)}), in-state ${a.inStateShare.toFixed(3)} by move records, ${a.dueInState.toFixed(3)} by the weighing's dues, from abroad ${Math.round(a.abroad)}, region less state unemployment ${a.gap.toFixed(2)} pts`;
+  const aLine = `A ${a.leavingPer1000.toFixed(1)} leaving per 1,000 (${Math.round(a.countedOut)} counted, ${a.fullOut} full, ${a.jobReason} of them with a lost job or hardship among the reasons, of ${Math.round(a.people)}), in-state ${a.inStateShare.toFixed(3)} by move records, ${a.dueInState.toFixed(3)} by the weighing's dues, from abroad ${Math.round(a.abroad)}, region less state unemployment ${a.gap.toFixed(2)} pts`;
   a.core = undefined as never;
   const b = year(place.seed, place.key, true);
   out(`${where}`);
   out(`  ${aLine}`);
   out(
-    `  B ${b.leavingPer1000.toFixed(1)} leaving per 1,000 (${Math.round(b.countedOut)} counted, ${b.fullOut} full of ${Math.round(b.people)}), in-state ${b.inStateShare.toFixed(3)} by move records, ${b.dueInState.toFixed(3)} by the weighing's dues, from abroad ${Math.round(b.abroad)}, region less state unemployment ${b.gap.toFixed(2)} pts; laid off ${b.laidOff}`,
+    `  B ${b.leavingPer1000.toFixed(1)} leaving per 1,000 (${Math.round(b.countedOut)} counted, ${b.fullOut} full, ${b.jobReason} of them with a lost job or hardship among the reasons, of ${Math.round(b.people)}), in-state ${b.inStateShare.toFixed(3)} by move records, ${b.dueInState.toFixed(3)} by the weighing's dues, from abroad ${Math.round(b.abroad)}, region less state unemployment ${b.gap.toFixed(2)} pts; laid off ${b.laidOff}`,
   );
   out(`  trace: ${b.sample}`);
 }

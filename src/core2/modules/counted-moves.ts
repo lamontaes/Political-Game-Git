@@ -1107,30 +1107,29 @@ function month(api: CoreAPI): void {
       if (placeDue < size / 2) break;
       orderOf(g).shift();
       const group = store.groups[g]!;
-      const dests = dues.get(g)!.rows;
       const home = homeOf(next.placeId);
+      // Where it goes: the destination with the largest remaining due among
+      // the place's movers (every group's balance toward it summed, the rest
+      // of the home state among them), and the household's people come off
+      // its group's due there and nowhere else (below zero, owed from then
+      // on). Each household draws the due down, so the next weighs what is
+      // left and the households sent each way follow the dues. (Taking a
+      // household's people from other destinations when its own fell short
+      // labeled nearly every move as within the state: Pins family 29.)
+      const remaining = new Map<string, number>();
+      for (const d of dues.values())
+        for (const [usps, v] of d.rows)
+          remaining.set(usps, (remaining.get(usps) ?? 0) + v);
       const to =
-        [...dests]
+        [...remaining]
           .filter(([, v]) => v > 0)
           .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0]?.[0] ??
         home;
-      // Take its people from the group's due movers, toward that place
-      // first; what it lacks is owed by the group from then on.
-      let take = size;
-      for (const [usps] of [...dests].sort((a, b) =>
-        a[0] === to ? -1 : b[0] === to ? 1 : b[1] - a[1],
-      )) {
-        const k = leaveKey(g, usps);
-        const have = rt.leave.get(k) ?? 0;
-        const used = Math.max(0, Math.min(have, take));
-        rt.leave.set(k, have - used);
-        take -= used;
-        if (take <= 0) break;
-      }
-      if (take > 0) {
-        const k = leaveKey(g, to);
-        rt.leave.set(k, (rt.leave.get(k) ?? 0) - take);
-      }
+      // stopgapId: SG-WORLD-counted-record-moves-whole (a record moves as every household it stands for, to one place)
+      if (store.weightOf(next) > 1)
+        api.stopgap("SG-WORLD-counted-record-moves-whole");
+      const k = leaveKey(g, to);
+      rt.leave.set(k, (rt.leave.get(k) ?? 0) - size);
       dues.set(g, dueOf(g));
       const ages = agesOf(residents, next, date);
       // What weighed toward its going, read before it leaves the counts: its

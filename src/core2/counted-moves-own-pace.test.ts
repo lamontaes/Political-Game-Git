@@ -23,7 +23,11 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { countryFlowsIn } from "./modules/macro";
-import { stateOfCountedPlace } from "./modules/counted-moves";
+import {
+  countedMoves,
+  runtimeOf,
+  stateOfCountedPlace,
+} from "./modules/counted-moves";
 import { residentsRuntime, townPlaceOf } from "./modules/residents";
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { coreAPI } from "./state";
@@ -96,6 +100,7 @@ function placesOf(core: CoreState, date: string): Map<string, PlaceRead> {
 
 interface PullRow {
   id: string;
+  date?: string;
   people: number;
   moversPerMonth: number;
   inStatePerMonth?: number;
@@ -216,6 +221,108 @@ it("two counted places in one state leave at their own pace, and the share stayi
       shares,
     ).toBe(true);
     expect(Math.abs(s1!.share - s2!.share), shares).toBeGreaterThan(0.02);
+  } finally {
+    setBookkeeping(previous);
+  }
+}, 3_600_000);
+
+// Where each leaving household goes follows the dues: each goes to the
+// destination with the largest remaining due among its place's movers (the
+// rest of its state among them), and its people come off its group's due
+// there and nowhere else. So the books add up exactly: every person the
+// weighing put due within the state is either sent within it by a move
+// record or still on that due (owed below zero). When a household short of
+// its own due took people from other destinations, a move within the state
+// spent dues of other states, and the move records sent 0.98 to 1.00 of
+// leaving people within the state against 0.18 to 0.48 due (Pins family 29
+// proof, Nov 17). (A counted record moves as all the households it stands
+// for, so over a few months its people need not match the dues share: one
+// record stood for 3,752 of 3,888 movers in a drawn Oklahoma town. That
+// granularity is registered, SG-WORLD-counted-record-moves-whole. How the
+// share differs by state is the first test's dues, NJ 0.448 against AR 0.323
+// in one draw.)
+const RECORD_DRAWS = 6;
+const RECORD_MONTHS = 3;
+it("every person the weighing puts due within the state is sent there by a move record or still owed on that due", () => {
+  const previous = setBookkeeping(false);
+  try {
+    const passed: string[] = [];
+    for (let draw = 0; draw < RECORD_DRAWS; draw += 1) {
+      const place = drawPlace(
+        `${seed}:records:${draw}`,
+        "counted-moves-own-pace",
+      );
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(core);
+      const store = residentsRuntime(core)!.store;
+      const town = stateOfCountedPlace(townPlaceOf(core)!)!;
+      const start = core.date;
+      // The weighing's in-state dues, read after each month's run (the
+      // start day's too, when the world opens on a month's first).
+      let due = 0;
+      const readDues = (on: string) => {
+        for (const row of api
+          .moduleState("core2-counted-moves-v1")
+          .table("pulls")
+          .rows() as unknown as PullRow[])
+          // Only this month's rows: a group gone since keeps its last one.
+          if (row.date === on && row.inStatePerMonth !== undefined)
+            due += row.inStatePerMonth;
+      };
+      readDues(start);
+      let date = core.date;
+      for (let m = 0; m < RECORD_MONTHS; m++) {
+        date = addDays(makeIsoDate(dayBeforeNextFirst(date)), 1);
+        advanceCore(core, date);
+        readDues(date);
+      }
+      const out = countedMoves(api).filter(
+        (row) =>
+          row.direction === "out" &&
+          row.date >= start &&
+          // Sent by the dues: a move another engine caused (an eviction's
+          // doubling up) never touched them.
+          (row.reasons.lifeStage !== undefined ||
+            row.reasons.groupRate !== undefined),
+      );
+      const sent = out
+        .filter((row) => row.toPlace.endsWith(":rest-of-state"))
+        .reduce((n, row) => n + row.people, 0);
+      // Each group's own state, read after the run: groups made for newcomers
+      // since count too, and a group whose households all left is the town's.
+      const rt = runtimeOf(api)!;
+      let owed = 0;
+      for (const group of store.groups) {
+        const homes = new Set<string>();
+        for (const ix of group.households)
+          homes.add(stateOfCountedPlace(store.households[ix]!.placeId) ?? town);
+        if (!homes.size) homes.add(town);
+        for (const home of homes)
+          owed += rt.leave.get(`${group.id}|${home}`) ?? 0;
+      }
+      const line = `${where}: ${due.toFixed(2)} people due within the state in ${RECORD_MONTHS} months; ${sent} sent within it by ${out.filter((row) => row.toPlace.endsWith(":rest-of-state")).length} move records and ${owed.toFixed(2)} still on the due (${out.length} records sent by the dues in all)`;
+      if (
+        due <= 0 ||
+        !out.some((row) => row.toPlace.endsWith(":rest-of-state"))
+      ) {
+        passed.push(line);
+        continue;
+      }
+      process.stdout.write(
+        `in-state books: ${line}; passed over ${passed.join("; ") || "none"}\n`,
+      );
+      expect(Math.abs(sent + owed - due), line).toBeLessThanOrEqual(
+        1e-6 * Math.max(1, due),
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place in ${RECORD_DRAWS} sent a household within its state in ${RECORD_MONTHS} months: ${passed.join("; ")}`,
+    );
   } finally {
     setBookkeeping(previous);
   }
