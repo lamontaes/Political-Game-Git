@@ -115253,7 +115253,7 @@
       "key": "opening-speech.close.polished-unit4-fed-the-first-thing-i-will-ask-of-this-congress",
       "move": "close",
       "kind": "spoken",
-      "text": "The first thing I will ask of this Congress is {asked-about}, and I will be watching every vote. God bless America.",
+      "text": "The first thing I will ask of this Congress is {asked-about}, and I will be watching every vote. God bless the United States of America.",
       "uses": [
         {
           "move": "close",
@@ -115337,7 +115337,7 @@
       "key": "opening-speech.close.plain-unit4-fed-first-up-is-asked-about-send-it-to-me",
       "move": "close",
       "kind": "spoken",
-      "text": "First up is {asked-about}. Send it to me and I'll sign it. God bless America.",
+      "text": "First up is {asked-about}. Send it to me and I'll sign it, and God bless this country.",
       "uses": [
         {
           "move": "close",
@@ -115393,7 +115393,7 @@
       "key": "opening-speech.close.plain-unit4-fed-we-start-with-asked-about-i-ll-be-watching",
       "move": "close",
       "kind": "spoken",
-      "text": "We start with {asked-about}. I'll be watching every vote. God bless America.",
+      "text": "We start with {asked-about}, and I'll be watching every vote. God bless you all.",
       "uses": [
         {
           "move": "close",
@@ -117201,7 +117201,7 @@
       "key": "opening-speech.story-open.polished-good-run-fed-the-last-run-span-left-this-country-stronger-than",
       "move": "story-open",
       "kind": "spoken",
-      "text": "The last {run-span} left this country stronger than they found it, and that is the ground we stand on tonight.",
+      "text": "The last {run-span} left this country stronger than they found it, and that is the ground we stand on today.",
       "uses": [
         {
           "move": "story-open",
@@ -118430,6 +118430,756 @@
       ],
       "voice": "polished",
       "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-this-term-opens-on-run-span-of-steady-gains",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "This term opens on {run-span} of steady gains for working families, and I mean to build on them.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-i-ve-got-term-left-to-make-this-reach",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I've got {term-left} to make this reach every kitchen table, and that's the plan.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-term-left-is-enough-time-to-keep-this-going",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "{term-left} is enough time to keep this going, if we don't get in our own way.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-the-next-term-left-are-about-one-thing-making",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The next {term-left} are about one thing: making sure this good stretch holds.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-give-me-term-left-and-we-ll-make-this",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "Give me {term-left} and we'll make this the normal, not the exception.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-we-ve-got-term-left-to-lock-this-in",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "We've got {term-left} to lock this in. Let's not waste a day of it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-good-run-fed-for-term-left-my-job-is-simple-don-t",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "For {term-left}, my job is simple: don't break what's working, and spread it.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-the-next-term-left-will-decide-whether-this-good",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The next {term-left} will decide whether this good stretch becomes the way things are.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-i-have-term-left-to-make-these-gains-ordinary",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I have {term-left} to make these gains ordinary, and I will use every one of them.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-over-the-next-term-left-the-measure-of-this",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "Over the next {term-left}, the measure of this administration will be how far these gains reach.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-term-left-from-now-i-want-every-family-to",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "{term-left} from now, I want every family to say that this stretch reached them.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-the-work-of-the-next-term-left-is-to",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The work of the next {term-left} is to carry this to the people it has not reached yet.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-good-run-fed-we-have-term-left-to-make-sure-this-lasts",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "We have {term-left} to make sure this lasts, and that is where I will spend them.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-good", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-i-ve-got-term-left-to-turn-this-around",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I've got {term-left} to turn this around, and I'm not going to waste the first one.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-term-left-from-now-your-paycheck-should-go-further",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "{term-left} from now, your paycheck should go further than it does today. That's the test.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-the-next-term-left-start-with-the-grocery-bill",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The next {term-left} start with the grocery bill and the rent, not with Washington.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-give-me-term-left-if-your-life-isn-t",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "Give me {term-left}. If your life isn't better, you'll know who to blame.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-for-term-left-every-morning-in-this-office-starts",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "For {term-left}, every morning in this office starts with one question: is it getting better for you?",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.plain-hard-run-fed-we-ve-got-term-left-to-fix-this-and",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "We've got {term-left} to fix this, and we're starting tomorrow morning.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-over-the-next-term-left-this-administration-will-be",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "Over the next {term-left}, this administration will be judged by one thing: whether working families can feel the difference.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-i-ask-for-your-patience-over-the-next-term",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I ask for your patience over the next {term-left}, and I will repay it with work.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-the-next-term-left-will-not-undo-the-last",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "The next {term-left} will not undo the last ones in a day, but they will begin to.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-term-left-from-now-i-want-the-hardest-part",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "{term-left} from now, I want the hardest part of this to be behind us, and I will say so when it is.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-for-the-next-term-left-the-measure-of-every",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "For the next {term-left}, the measure of every decision made here will be the family budget.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-turn.polished-hard-run-fed-i-did-not-take-this-office-to-manage-the",
+      "move": "story-turn",
+      "kind": "spoken",
+      "text": "I did not take this office to manage the decline. I took it for the next {term-left} of repair.",
+      "uses": [
+        {
+          "move": "story-turn",
+          "subject": "inaugural",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        },
+        {
+          "move": "story-turn",
+          "subject": "state-of-the-union",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["run-hard", "term-left"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-17"
