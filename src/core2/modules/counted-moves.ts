@@ -1414,9 +1414,17 @@ function arrivals(
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
   // Newcomers from abroad settle where work is open: each place's people at
-  // their age, drawn by its region's work against its state's.
+  // their age, drawn by its region's work against its state's and by its own
+  // working-age people without a job against the counted places' (a layoff
+  // in a place sends them to its neighbors), in points.
+  const withoutWork = withoutWorkPoints(residents, date);
   const drawOf = (origin: string, place: PlaceId) =>
-    origin === ABROAD ? Math.exp(workPullOf(conditionsAt(place).gap)) : 1;
+    origin === ABROAD
+      ? Math.exp(
+          workPullOf(conditionsAt(place).gap) +
+            workPullOf(withoutWork.get(place) ?? 0),
+        )
+      : 1;
   // Each place's households a newcomer could copy, and by age band the ones
   // with someone that age.
   const templates = new Map<
@@ -1571,10 +1579,55 @@ function arrivals(
             headOf(residents, h, date, adultAge).wages,
             jobless,
             conditionsAt(placeId),
+            Math.log(drawOf(origin!, placeId)),
           ),
         } as unknown as ModuleRow);
     }
   }
+}
+
+/**
+ * Each counted place's working-age people without an open job, as a share in
+ * points, against the counted places' together (working-age people
+ * weighted): above zero where work is scarcer than in the places around it.
+ */
+function withoutWorkPoints(
+  residents: ResidentsRuntime,
+  date: string,
+): Map<PlaceId, number> {
+  const store = residents.store;
+  const from = countedParameter("countedWorkingAgeFrom"),
+    below = countedParameter("countedWorkingAgeBelow");
+  const working = new Map<PlaceId, number>(),
+    without = new Map<PlaceId, number>();
+  for (const h of store.liveHouseholds()) {
+    if (h.quarters) continue;
+    const weight = store.weightOf(h);
+    let n = 0;
+    for (const m of store.countedMembers(h)) {
+      const a = ageOn(store.born[m]!, date);
+      if (a >= from && a < below) n++;
+    }
+    if (!n) continue;
+    working.set(h.placeId, (working.get(h.placeId) ?? 0) + n * weight);
+    without.set(
+      h.placeId,
+      (without.get(h.placeId) ?? 0) + openWorkers(residents, h, date) * weight,
+    );
+  }
+  let all = 0,
+    allWithout = 0;
+  for (const [place, n] of working) {
+    all += n;
+    allWithout += without.get(place) ?? 0;
+  }
+  const mean = all > 0 ? allWithout / all : 0;
+  return new Map(
+    [...working].map(([place, n]) => [
+      place,
+      100 * ((without.get(place) ?? 0) / n - mean),
+    ]),
+  );
 }
 
 /** Why a household arrived from where it came, and the records each reason read. */
@@ -1587,6 +1640,8 @@ function arrivalWhy(
   wages: number,
   jobless: ReadonlyMap<string, number>,
   place: ReturnType<typeof placeLeavingConditions>,
+  /** From abroad: how the work open here drew them, in log units. */
+  workDraw: number,
 ): Pick<MoveRecord, "reasons" | "reads"> {
   const placeReads: Record<string, readonly string[]> = place.reads.length
     ? { place: place.reads }
@@ -1596,7 +1651,7 @@ function arrivalWhy(
     return {
       reasons: {
         fromAbroad: tier ? tier.byBand.reduce((n, v) => n + v, 0) : 0,
-        ...(place.gap !== 0 ? { place: workPullOf(place.gap) } : {}),
+        ...(workDraw !== 0 ? { work: workDraw } : {}),
       },
       reads: {
         fromAbroad: tier ? [tier.id] : [],

@@ -49,13 +49,13 @@ function peopleOf(core: CoreState, places: ReadonlySet<string>): number {
   return n;
 }
 
-/** The town's largest employer by staff (full and counted), and its jobs. */
+/** The town's largest business by staff (full and counted), and its jobs. */
 function largestEmployer(core: CoreState) {
   const api = coreAPI(core);
   const town = townPlaceOf(core);
   let best: { id: string; name: string; jobs: string[] } | undefined;
   for (const org of core.organizations.values()) {
-    if (org.placeId !== town) continue;
+    if (org.placeId !== town || org.kind !== "business") continue;
     const jobs = currentJobs(api, org.id).map((job) => job.id);
     if (!best || jobs.length > best.jobs.length)
       best = { id: org.id, name: org.name, jobs };
@@ -123,12 +123,26 @@ function year(placeSeed: string, key: string, layoff: boolean) {
     .filter((row) => row.direction === "in" && row.fromPlace === "abroad")
     .reduce((n, row) => n + row.people, 0);
   const conditions = placeLeavingConditions(api, town);
+  // The weighing's own split, last month: movers within the state over all.
+  let dueAll = 0,
+    dueIn = 0;
+  for (const row of api
+    .moduleState("core2-counted-moves-v1")
+    .table("pulls")
+    .rows() as unknown as {
+    moversPerMonth: number;
+    inStatePerMonth?: number;
+  }[]) {
+    dueAll += row.moversPerMonth;
+    dueIn += row.inStatePerMonth ?? 0;
+  }
   const sample = countedOut.find((row) => row.reads);
   return {
     core,
     people,
     leavingPer1000: (1000 * (outPeople + fullOut)) / people,
     inStateShare: (inStatePeople + fullInState) / (outPeople + fullOut || 1),
+    dueInState: dueAll > 0 ? dueIn / dueAll : 0,
     abroad,
     fullOut,
     countedOut: outPeople,
@@ -166,13 +180,13 @@ for (let i = 0; i < 3; i++) {
     out(
       `national in-state share on the tier's draws: ${nationalInState(a.core).toFixed(3)} (CPS 2023: 0.571)`,
     );
-  const aLine = `A ${a.leavingPer1000.toFixed(1)} leaving per 1,000 (${a.countedOut} counted, ${a.fullOut} full of ${Math.round(a.people)}), in-state ${a.inStateShare.toFixed(3)}, from abroad ${a.abroad}, region less state unemployment ${a.gap.toFixed(2)} pts`;
+  const aLine = `A ${a.leavingPer1000.toFixed(1)} leaving per 1,000 (${Math.round(a.countedOut)} counted, ${a.fullOut} full of ${Math.round(a.people)}), in-state ${a.inStateShare.toFixed(3)} by move records, ${a.dueInState.toFixed(3)} by the weighing's dues, from abroad ${Math.round(a.abroad)}, region less state unemployment ${a.gap.toFixed(2)} pts`;
   a.core = undefined as never;
   const b = year(place.seed, place.key, true);
   out(`${where}`);
   out(`  ${aLine}`);
   out(
-    `  B ${b.leavingPer1000.toFixed(1)} leaving per 1,000 (${b.countedOut} counted, ${b.fullOut} full of ${Math.round(b.people)}), in-state ${b.inStateShare.toFixed(3)}, from abroad ${b.abroad}, region less state unemployment ${b.gap.toFixed(2)} pts; laid off ${b.laidOff}`,
+    `  B ${b.leavingPer1000.toFixed(1)} leaving per 1,000 (${Math.round(b.countedOut)} counted, ${b.fullOut} full of ${Math.round(b.people)}), in-state ${b.inStateShare.toFixed(3)} by move records, ${b.dueInState.toFixed(3)} by the weighing's dues, from abroad ${Math.round(b.abroad)}, region less state unemployment ${b.gap.toFixed(2)} pts; laid off ${b.laidOff}`,
   );
   out(`  trace: ${b.sample}`);
 }

@@ -184,7 +184,7 @@
     "id": "SG-LIVES-moves-no-tier-rate",
     "kind": "partial-model",
     "file": "src/core2/modules/moves.ts",
-    "line": 604,
+    "line": 610,
     "whatItFakes": "In a world whose economy does not run (no country tier: unit-test worlds built without the economy, never the played world), a full person's rate of leaving at their stage of life is the ACS 2024 rate for their age and state times the world's movers factor, where the played world reads the tier's own rate (counted-moves.ts countedLeavingRate).",
     "why": "The leaving rule reads the country tier's rate for the person's state and age; a world built without the economy has no tier, and the moves tests built that way would otherwise send nobody away.",
     "addedBy": "Pins family 29 (Nov 17)",
