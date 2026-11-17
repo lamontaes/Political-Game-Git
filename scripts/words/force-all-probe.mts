@@ -3,9 +3,13 @@
  * force-all dev control. Each type is tried in turn on one built world: its first cause's record
  * kind is written naming the player (facts from the cause's own `causeFacts`), a day passes, and
  * the player's new moments are read for a cause the type matches and a scene bound to the type.
+ * The legislature's types are forced last, through its own writers (src/bench/dev-force-legislature.ts),
+ * since a recipe may seat the player; the ones no recipe can force keep their reason.
  * Run: SEED=<seed> node --import tsx scripts/words/force-all-probe.mts
+ * `--write-map` writes the map; with `--legislature-only` only the legislature's rows are measured and
+ * rewritten, and every other row stays as the last full run wrote it.
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { applyCoreEvent } from "../../src/core2/state";
@@ -13,6 +17,11 @@ import type { PersonId } from "../../src/core2/types";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { buildBenchWorld } from "../../src/bench/world";
 import { DevMode } from "../../src/bench/dev-mode";
+import {
+  forceLegislatureScene,
+  LEGISLATURE_REASONS,
+  LEGISLATURE_SCENES,
+} from "../../src/bench/dev-force-legislature";
 import { SITUATION_LIBRARY, causeMatches } from "../../src/director/scheduling";
 
 setBookkeeping(false);
@@ -32,17 +41,29 @@ const rows: string[] = [];
 const map: Record<
   string,
   {
-    how: "event" | "writer";
+    how: "event" | "writer" | "legislature";
     kind?: string;
     facts?: Record<string, string>;
     reason?: string;
+    recipe?: string;
   }
 > = {};
 let staged = 0;
 let matched = 0;
 let n = 0;
-for (const type of SITUATION_LIBRARY.types) {
+const MAP_URL = new URL(
+  "../../src/bench/dev-views/scene-force-map.json",
+  import.meta.url,
+);
+const legislatureOnly = process.argv.includes("--legislature-only");
+if (legislatureOnly)
+  Object.assign(
+    map,
+    (JSON.parse(readFileSync(MAP_URL, "utf8")) as { types: typeof map }).types,
+  );
+for (const type of legislatureOnly ? [] : SITUATION_LIBRARY.types) {
   n++;
+  if (LEGISLATURE_SCENES[type.key] || LEGISLATURE_REASONS[type.key]) continue;
   const cause = type.causes.find((c) => c.causeRecord) ?? type.causes[0];
   if (!cause) {
     rows.push(`${type.key}\tno-cause`);
@@ -131,15 +152,33 @@ for (const type of SITUATION_LIBRARY.types) {
     `${type.key}\tkind=${kind}\tmoments=${fresh.length}\tcause-matched=${hit}\tstaged=${bound}\t${[...new Set(why)].join(",")}`,
   );
 }
+for (const [key, reason] of Object.entries(LEGISLATURE_REASONS)) {
+  rows.push(`${key}\tlegislature\treason=${reason}`);
+  map[key] = { how: "writer", reason };
+}
+for (const [key, way] of Object.entries(LEGISLATURE_SCENES)) {
+  const forced = forceLegislatureScene(mode, key);
+  if (forced.staged) staged++;
+  rows.push(
+    `${key}\tlegislature:${way}\tstaged=${forced.staged}\t${forced.outcome ?? ""}\t${forced.causeRecords.join(",")}${forced.refused ? `\trefused=${forced.refused}` : ""}`,
+  );
+  // The recipe stands whatever this one world allowed: a refusal (no sitting this late in the
+  // year, no seat in a territory's chamber) is said by the force itself, in the world it runs in.
+  map[key] = { how: "legislature", recipe: way };
+}
 console.log(rows.join("\n"));
 if (process.argv.includes("--write-map"))
   writeFileSync(
-    new URL("../../src/bench/dev-views/scene-force-map.json", import.meta.url),
+    MAP_URL,
     `${JSON.stringify(
       {
         about:
           "Written by scripts/words/force-all-probe.mts --write-map, never by hand: how each situation type can be forced from dev mode's scene view, measured at one built world.",
-        types: map,
+        types: Object.fromEntries(
+          SITUATION_LIBRARY.types.flatMap((type) =>
+            map[type.key] ? [[type.key, map[type.key]]] : [],
+          ),
+        ),
       },
       null,
       2,

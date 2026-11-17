@@ -52,9 +52,29 @@ try {
           clickable: e.tagName === "BUTTON",
         })),
         text: body.innerText,
+        subjects: [
+          ...document.querySelectorAll(
+            "#sheet-body .issues-subjects > .roster .roster-row span",
+          ),
+        ].map((n) => Number(n.textContent)),
+        pressedCount: Number(
+          document.querySelector(
+            '#sheet-body .issues-subjects > .roster .roster-row[aria-pressed="true"] span',
+          )?.textContent ?? 0,
+        ),
       };
     });
     assert.ok(!seen.scrolls, "the Issues panel scrolls");
+    // The subjects stand in their own column, each with how many laws it
+    // holds, and the one visited is the one pressed (pl-issues).
+    assert.ok(
+      seen.subjects.length >= 2 && seen.subjects.every((n) => n > 0),
+      `the subject column is missing or a subject has no count: ${JSON.stringify(seen.subjects)}`,
+    );
+    assert.ok(
+      seen.pressedCount >= seen.laws.length,
+      `the subject says ${seen.pressedCount} laws and lists ${seen.laws.length}`,
+    );
     assert.ok(seen.laws.length, "a subject with no laws");
     laws.push(...seen.laws);
     text += seen.text;
@@ -84,7 +104,13 @@ try {
       return true;
     }
   });
-  await page.locator("#sheet-body .issues-laws .roster-title").waitFor();
+  // The page names the entry it shows once it is drawn (roster-screen.mjs);
+  // until then the subject's first law is still on screen.
+  await page
+    .locator(
+      `#sheet-body .issues-laws .roster-page[data-key="${pick.series}"] .roster-title`,
+    )
+    .waitFor();
   const law = await page.evaluate(() => ({
     name: document
       .querySelector("#sheet-body .issues-laws .roster-title")
@@ -114,20 +140,25 @@ try {
   await browser.close();
 }
 
-// The Subject filter's choices; visit each subject.
+// The subject column's rows (pl-issues); visit each subject.
 async function eachSubject(page, visit) {
-  {
-    const select = page.locator("#sheet-body select.issue-filter");
-    const subjects = await select
-      .locator("option")
-      .evaluateAll((all) => all.map((o) => o.value).filter((v) => v !== "all"));
-    for (const subject of subjects) {
-      await select.selectOption(subject);
-      await page
-        .locator("#sheet-body .issues-laws .roster-row")
-        .first()
-        .waitFor();
-      if ((await visit()) === true) return;
-    }
+  const rows = page.locator(
+    "#sheet-body .issues-subjects > .roster .roster-row",
+  );
+  await rows.first().waitFor();
+  const subjects = await rows.evaluateAll((all) =>
+    all.map((row) => row.dataset.subject),
+  );
+  for (const subject of subjects) {
+    await page
+      .locator(
+        `#sheet-body .issues-subjects > .roster .roster-row[data-subject="${subject}"]`,
+      )
+      .click();
+    await page
+      .locator("#sheet-body .issues-laws .roster-row")
+      .first()
+      .waitFor();
+    if ((await visit()) === true) return;
   }
 }

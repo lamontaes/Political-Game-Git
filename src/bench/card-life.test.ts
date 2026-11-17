@@ -215,52 +215,49 @@ it("the player's own life is told in the first person, never repeats who they ar
     ).toEqual([]);
 });
 
-it.fails(
-  "three or more jobs are one sentence naming every employer, on every job's record (expected failure, item tests-card-life-employer-missing-and-player-alone)",
-  () => {
-    const { core, playerId, where } = played();
-    const spells = (id: string) =>
-      lifeOf(core, id as never).filter(
-        (event) => event.life === "work" && event.what === "job-started",
-      );
-    const worker = [...core.people.values()].find(
-      (row) =>
-        row.id !== playerId &&
-        new Set(spells(row.id).map((event) => event.facts?.organizationId))
-          .size >= 3,
+it("three or more jobs are one sentence naming every employer, on every job's record", () => {
+  const { core, playerId, where } = played();
+  const spells = (id: string) =>
+    lifeOf(core, id as never).filter(
+      (event) => event.life === "work" && event.what === "job-started",
     );
-    if (!worker) {
-      console.log(`card-life jobs: ${where}; no one with three employers`);
-      return;
-    }
-    const card = knownCard(core, playerId!, worker.id);
-    // The one sentence of several jobs, by the piece that worded it (its
-    // wordings vary: "held jobs at A and B before C", "bounced from A to C").
-    const jobs = card.history.filter((line) =>
-      line.piece.startsWith("person-history.story.work.history."),
-    );
-    expect(jobs, `${where}: ${worker.id}`).toHaveLength(1);
-    const employers = [
-      ...new Set(
-        spells(worker.id).map(
-          (event) =>
-            core.organizations.get(String(event.facts?.organizationId))!.name,
-        ),
+  const worker = [...core.people.values()].find(
+    (row) =>
+      row.id !== playerId &&
+      new Set(spells(row.id).map((event) => event.facts?.organizationId))
+        .size >= 3,
+  );
+  if (!worker) {
+    console.log(`card-life jobs: ${where}; no one with three employers`);
+    return;
+  }
+  const card = knownCard(core, playerId!, worker.id);
+  // The one sentence of several jobs, by the piece that worded it (its
+  // wordings vary: "held jobs at A and B before C", "bounced from A to C").
+  const jobs = card.history.filter((line) =>
+    line.piece.startsWith("person-history.story.work.history."),
+  );
+  expect(jobs, `${where}: ${worker.id}`).toHaveLength(1);
+  const employers = [
+    ...new Set(
+      spells(worker.id).map(
+        (event) =>
+          core.organizations.get(String(event.facts?.organizationId))!.name,
       ),
-    ];
-    for (const name of employers)
-      expect(jobs[0]!.text, `${where}: ${name}`).toContain(name);
-    for (const event of spells(worker.id))
-      expect(jobs[0]!.records, `${where}: ${event.id}`).toContain(event.id);
-    expect(
-      card.history.filter((line) =>
-        line.piece.startsWith("person-history.story.work.spell."),
-      ),
-      where,
-    ).toEqual([]);
-    console.log(`card-life jobs: ${where}; ${worker.id}: ${jobs[0]!.text}`);
-  },
-);
+    ),
+  ];
+  for (const name of employers)
+    expect(jobs[0]!.text, `${where}: ${name}`).toContain(name);
+  for (const event of spells(worker.id))
+    expect(jobs[0]!.records, `${where}: ${event.id}`).toContain(event.id);
+  expect(
+    card.history.filter((line) =>
+      line.piece.startsWith("person-history.story.work.spell."),
+    ),
+    where,
+  ).toEqual([]);
+  console.log(`card-life jobs: ${where}; ${worker.id}: ${jobs[0]!.text}`);
+});
 
 it("a partner the person was made with is told before their children", () => {
   const { core, playerId, where } = played();
