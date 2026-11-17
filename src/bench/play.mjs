@@ -2337,12 +2337,21 @@ async function campaignParts() {
               words: controls.debate,
               // The day in words ("October 20, 2026"), never the record's digits.
               debate: { ...debate, date: dateWords(debate.date) },
-              questionLabel: policyLabel,
-              onAnswer: async (answers) => {
+              // Yes: the sitting goes on the record, and the director stages it.
+              onAccept: async () => {
+                await post(
+                  `/api/campaign/debate/accept?${new URLSearchParams({
+                    debateId: debate.id,
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              // No: the debate is held without the player's answers.
+              onDecline: async () => {
                 await post(
                   `/api/campaign/debate?${new URLSearchParams({
                     debateId: debate.id,
-                    answers: JSON.stringify(answers),
+                    answers: "[]",
                   })}`,
                 );
                 reopenTrail(filing.id);
