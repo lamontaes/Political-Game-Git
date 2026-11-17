@@ -2,8 +2,11 @@
 name: played-world-proof
 description: >
   Proves an Our Civic Duty feature in a one-year run of the played world, with
-  another engine reading what it wrote, named by record id. Use before calling
-  any feature, law or module finished.
+  another engine reading what it wrote, named by record id; a jobs, wage or
+  firm-demand change is proven over 24 months with both the inflow into
+  unemployment and the outflow out of it. Use before calling any feature, law or
+  module finished, and for any jobs, business-demand, layoff or regional-work
+  change.
 ---
 
 # Played-world proof
@@ -64,3 +67,9 @@ Name the few people it reached by record id. Most people are untouched; say so.
 Keep the route and bench server in the same ESM module context: a temporary `.ts` script outside this module-type repository can load a second CommonJS handler, leaving the browser with an empty world even though the script has a life. Use an in-repository script or an external `.mts` script, and verify `/api/title` before clicking Continue. To read a sponsored bill through Your office, select its sponsor from the played town's actual seats; the page lists that member's own bills. A single office page may already be open with its tab hidden. Record when historical papers are reopened: their estimate can read today's law while the roll call and decision remain historical.
 
 `npm run pool` commands that publish a claim or status temporarily check out `origin/main` in the working directory (they may do so differently since the Nov 10 `next` command; if unsure, treat it as true). Finish that command before running a test, browser proof or benchmark in the same worktree; a concurrent runner can otherwise see main's files instead of the candidate.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/labor-market-proof.md`: for any jobs, wages, firm-demand, layoff or regional-work change.
