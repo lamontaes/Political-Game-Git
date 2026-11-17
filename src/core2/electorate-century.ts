@@ -322,6 +322,18 @@ interface SeatCount {
  * stands: how it moved against the nation, never the tide itself (CTO line 6936486748, Nov 17,
  * 2026: "The national tide belongs to that year's race and no other").
  */
+/** The right's share of a place's counted people, before the printed counts are rounded. */
+function exactShare(
+  exact: Readonly<Record<string, number>>,
+  otherwise: number,
+): number {
+  const republican = exact["party:R"] ?? 0;
+  const democratic = exact["party:D"] ?? 0;
+  return republican + democratic
+    ? republican / (republican + democratic)
+    : otherwise;
+}
+
 function countSeat(
   voters: readonly SampleVoter[],
   place: RacePlace,
@@ -331,10 +343,7 @@ function countSeat(
   const { reasons, counted } = countParties(voters, [place], field, conditions);
   const republican = counted.votes["party:R"] ?? 0;
   const democratic = counted.votes["party:D"] ?? 0;
-  const republicanShare =
-    republican + democratic
-      ? republican / (republican + democratic)
-      : place.rightShare;
+  const republicanShare = exactShare(counted.exact[0]!, place.rightShare);
   // What acted on this race alone: the candidates' own standing, and the year's national tide.
   const notCarried = (side: number) => {
     const r = reasons.find((x) => x.side === side);
