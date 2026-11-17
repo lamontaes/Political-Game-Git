@@ -5,6 +5,7 @@
  * treasury money, budget lines, tax law rows, records), and a repeal (or a
  * budget line back at its base) ends it.
  */
+import { townPopulation } from "./live-population";
 import { appliedOn } from "./law-reach/applied";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -383,7 +384,7 @@ const stepFor = (gov: GovernmentRow, name: string) =>
     Math.round(line(gov, name) * 0.1),
     Math.max(
       residentsOf(api, gov),
-      Number(core.placeMetadata.referencePopulation) || 1000,
+      townPopulation(api) || 1000,
     ) * 1000,
   );
 

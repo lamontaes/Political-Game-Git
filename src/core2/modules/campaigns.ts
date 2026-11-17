@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { townPopulation } from "../live-population";
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
 import { townOutsideOf } from "../opening-outside-market";
@@ -3655,7 +3656,7 @@ function petitionReach(
   const reach = contest
     ? wideElectorate(api, contest, {
         voters: townElectorate(api),
-        population: Number(api.state.placeMetadata.referencePopulation) || 0,
+        population: townPopulation(api),
       })
     : null;
   held.set(contestId, { asOf: api.state.date, reach });

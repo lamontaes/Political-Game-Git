@@ -20,6 +20,7 @@
  * electors for the presidency. Every count, here or there, is kept by one
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
+import { townPopulation } from "../live-population";
 import { bookkeeping } from "../bookkeeping";
 import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 import {
@@ -887,7 +888,7 @@ export function petitionNeededHere(
   party: string | null,
 ): number {
   const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
-  const population = Number(api.state.placeMetadata.referencePopulation) || 0;
+  const population = townPopulation(api);
   const wide = wideElectorate(api, contest, { voters, population });
   // A county board seat chosen by district asks the law's count of its
   // district's voters ("5% of registered voters in the county or district"),
@@ -4656,39 +4657,6 @@ export function countedVoters(api: CoreAPI): readonly CountedVoter[] {
 }
 const votersOfList = new WeakMap<readonly CountedVoter[], CountedVoter[]>();
 
-/**
- * The town's eligible voters past its named and counted adults: its
- * population at the adult and citizen shares its counted residents and
- * named people show. None where the counted residents are the whole town.
- */
-function restOfTown(
-  api: CoreAPI,
-  known: { readonly named: number; readonly counted: number },
-): number {
-  const population = Number(api.state.placeMetadata.referencePopulation);
-  if (!Number.isFinite(population) || population <= 0) return 0;
-  const { townPlaceId } = town(api);
-  const adultAge = api.parameter("votingAge");
-  const date = api.state.date;
-  let people = 0,
-    adults = 0;
-  for (const p of api.state.people.values())
-    if (p.alive && p.placeId === townPlaceId) {
-      people += 1;
-      if (ageOn(p, date) >= adultAge) adults += 1;
-    }
-  for (const v of countedResidents(api.state as CoreState))
-    if (v.placeId === townPlaceId) {
-      people += v.weight;
-      if (ageOn(v, date) >= adultAge) adults += v.weight;
-    }
-  if (!people || population <= people) return 0;
-  const eligible =
-    (population - people) * (adults / people) * countedScale(api);
-  void known;
-  return Math.round(eligible);
-}
-
 /** The families whose races weigh each candidate's public standing. */
 const STANDING_FAMILIES = new Set([
   "statewideExecutive",
@@ -4699,8 +4667,7 @@ const STANDING_FAMILIES = new Set([
 /**
  * The rest of a race's electorate, place by place: the town's own named and
  * counted voters set apart from the place they live in (from every place in
- * proportion where none is recorded), and the rest of the town where its
- * population runs past them. Each place feels the town's jobs and crime
+ * proportion where none is recorded). Each place feels the town's jobs and crime
  * where the town lies in it.
  */
 function racePlaces(
@@ -4710,32 +4677,14 @@ function racePlaces(
   known: { readonly named: number; readonly counted: number },
 ): readonly RacePlace[] {
   if (!filings.length) return [];
-  const { stateKey, townPlaceId } = town(api);
+  const { stateKey } = town(api);
   const usps = stateKey.slice(3);
   const change = electorateChange(api);
   // The 2024 vote the places are sized from already reflects the opening's
   // barred share and election laws.
   const scale = (1 - change.barred) / Math.max(1e-9, 1 - change.openingBarred);
   const { places, home } = basePlaces(api, contest);
-  // A ward holds an equal share of the town's other people.
-  const rest = Math.round(
-    restOfTown(api, known) / Math.max(1, wardsOf(api, contest)),
-  );
-  if (!places.length)
-    return rest > 0
-      ? [
-          {
-            id: `town:${townPlaceId}:rest`,
-            name: "the rest of the town",
-            eligible: rest,
-            rightShare: (1 + townLean(api)) / 2,
-            votes2024: 0,
-            source: `The town's population (${String(api.state.placeMetadata.referencePopulation)}) past its named and counted residents, at their adult and citizen shares`,
-            inTown: true,
-            local: true,
-          },
-        ]
-      : [];
+  if (!places.length) return [];
   const own = known.named + known.counted;
   const total = places.reduce((n, p) => n + p.eligible, 0);
   const spread = home || !total ? 1 : Math.max(0, 1 - own / total);

@@ -14,6 +14,7 @@
  * grievance, and a majority to remove ends the member's term, the seat then
  * filling by its vacancy rule.
  */
+import { townPopulation } from "../live-population";
 import { townLean } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
@@ -435,7 +436,7 @@ export function signatureBase(
   }
   // stopgapId: SG-GOV-recall-signature-groups (registered voters, and votes with no record yet, are sized from the real averages)
   api.stopgap("SG-GOV-recall-signature-groups");
-  const population = Number(api.state.placeMetadata.referencePopulation);
+  const population = townPopulation(api);
   const count =
     kind === "registered-voters"
       ? Math.round(

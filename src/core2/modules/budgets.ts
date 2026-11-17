@@ -19,6 +19,12 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import {
+  countyPopulation,
+  nationPopulation,
+  statePopulation,
+  townPopulation,
+} from "../live-population";
 import { taxIndexOf } from "../tax-index";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
@@ -192,7 +198,6 @@ export interface GovernmentRow {
    */
   readonly jurisdictionId: string;
   readonly fiscalYearStart: string;
-  readonly residents: number;
   /**
    * The government's base row (data/research/money/public-budget-bases.json
    * `governments`, or the nation's statement): `county-whole` is a county-level
@@ -604,6 +609,32 @@ function residentsOfPlace(place: PlaceBases | undefined): number {
   );
 }
 
+/**
+ * A government's residents today: the world's own count, read where the world keeps it
+ * (the town's and county's records, a state's row in the country tier, the nation as the sum
+ * of those rows). Before the tier opens a state, and the nation, is read at the counts the
+ * tier opens from (the published Census estimate): the one opening figure.
+ */
+export function governmentResidents(api: CoreAPI, gov: GovernmentRow): number {
+  if (gov.level === "federal")
+    return (
+      nationPopulation(api) ??
+      Object.values(bases.places).reduce(
+        (n, place) => n + residentsOfPlace(place),
+        0,
+      )
+    );
+  if (gov.level === "state")
+    return (
+      statePopulation(api, gov.id) ?? residentsOfPlace(bases.places[gov.id])
+    );
+  if (gov.level === "county") {
+    const live = countyPopulation(api, gov.id);
+    return live || townPopulation(api);
+  }
+  return townPopulation(api);
+}
+
 function government(
   api: CoreAPI,
   row: Omit<GovernmentRow, "organizationId" | "jurisdictionId">,
@@ -805,6 +836,7 @@ function budgetFor(
     fiscalYear,
     date,
     adoptedBy,
+    governmentResidents(api, gov),
   );
   const moved = (lines: Record<string, number>) =>
     Object.fromEntries(
@@ -843,6 +875,8 @@ export function publishedBudgetFor(
   fiscalYear: number,
   date: string,
   adoptedBy: BudgetAdoption,
+  /** The government's residents on that date. */
+  residents: number,
 ): BudgetRow {
   const row = baseRowsOf(stateKey)[gov.base];
   // A municipio's government (id `county:<code>`) is scaled to its own approved
@@ -859,7 +893,7 @@ export function publishedBudgetFor(
   const amount = (v: number) =>
     row?.totalDollars
       ? Math.round(v * 100)
-      : minor(v * own, gov.residents, bases.calibration.factor);
+      : minor(v * own, residents, bases.calibration.factor);
   const lines = (side: Readonly<Record<string, number>> = {}) =>
     Object.fromEntries(Object.entries(side).map(([k, v]) => [k, amount(v)]));
   const revenue = lines(row?.revenue);
@@ -921,8 +955,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   const chain = lawChain(api);
   const place = bases.places[chain.stateKey];
   const stateStart = place?.fiscalYearStart ?? "07-01";
-  const townResidents =
-    Number(api.state.placeMetadata.referencePopulation) || core.people.size;
+  const townResidents = townPopulation(api) || core.people.size;
   const govs: GovernmentRow[] = [
     government(api, {
       id: "US",
@@ -930,7 +963,6 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       base: "federal",
       name: "United States",
       fiscalYearStart: "10-01",
-      residents: 0,
     }),
     government(api, {
       id: chain.stateKey,
@@ -938,7 +970,6 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       base: "state",
       name: place?.name ?? chain.stateKey,
       fiscalYearStart: stateStart,
-      residents: residentsOfPlace(place),
     }),
   ];
   const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
@@ -962,9 +993,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           fiscalYearStart: localFiscalYearStart(
             chain.stateKey,
             "county",
-            bases.countyPopulation2024[county!] ?? townResidents,
+            countyPopulation(api, `county:${county}`) || townResidents,
           ),
-          residents: bases.countyPopulation2024[county!] ?? townResidents,
           base: city ? "county" : "county-whole",
         },
         countyUnit.id,
@@ -990,7 +1020,6 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             "county",
             townResidents,
           ),
-          residents: townResidents,
           base: city ? "county" : "county-whole",
         },
         municipio.id,
@@ -1012,7 +1041,6 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             "municipal",
             townResidents,
           ),
-          residents: townResidents,
         },
         city.id,
         city.unitType,
@@ -1357,14 +1385,15 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
     : 0;
   if (!id || collected <= 0) return;
   const levies = governments(api)
-    .filter((g) => g.level !== "federal" && g.residents > 0)
-    .map((g) => {
+    .map((g) => ({ gov: g, residents: governmentResidents(api, g) }))
+    .filter((g) => g.gov.level !== "federal" && g.residents > 0)
+    .map(({ gov: g, residents }) => {
       const budget = budgetsOf(api, g.id)
         .filter((b) => b.startsOn <= api.state.date)
         .at(-1);
       return {
         gov: g,
-        perResident: (budget?.revenueMinor.propertyTax ?? 0) / g.residents,
+        perResident: (budget?.revenueMinor.propertyTax ?? 0) / residents,
       };
     })
     .filter((l) => l.perResident > 0);

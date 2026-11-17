@@ -3,6 +3,7 @@
  * the world opens from (play-first-04): in a drawn place, the world built
  * there opens on the very count the list shows for its seed.
  */
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -38,7 +39,10 @@ it(
       twoLevel: true,
       placeKey: place.key,
     });
-    const opened = world.core.placeMetadata?.referencePopulation;
+    const geoid = corePlaceByKey(place.key)?.sourceGeoid;
+    const opened = geoid
+      ? placeReferencePopulation(geoid, world.core.seed)?.value
+      : undefined;
     console.log(`listed ${listed!.population}, world opens with ${opened}`);
     // The list reads the world's own count for the seed the creator drew, so
     // the number it shows is the number the world opens on.

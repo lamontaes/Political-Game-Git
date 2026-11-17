@@ -36,6 +36,7 @@
  * at 6e9df72b it is red again. Both red rows are expected failures (it.fails)
  * that name their items.
  */
+import { placeReferencePopulation } from "./gov-rules/place-population";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
@@ -205,7 +206,10 @@ describe("group quarters in the played world", { timeout: 750_000 }, () => {
     // Each type against this world's share of the Census count.
     const census = placeGroupQuarters(key);
     const published = publishedOf(key);
-    const world = Number(core.placeMetadata?.referencePopulation);
+    const world = placeReferencePopulation(
+      corePlaceByKey(key)!.sourceGeoid!,
+      core.seed,
+    )!.value;
     // The sample the opening drew (the target, or the whole town where it
     // is smaller) against the one the weight implies: whole households
     // overshoot the target a little, and each counted person stands for

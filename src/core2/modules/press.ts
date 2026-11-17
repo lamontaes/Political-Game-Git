@@ -14,6 +14,7 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
+import { townPopulation } from "../live-population";
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
@@ -824,8 +825,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   const chain = lawChain(api);
   const counts = NEWS.places[chain.stateKey];
   const town = chain.townPlaceId;
-  const townPeople =
-    Number(api.state.placeMetadata.referencePopulation) || core.people.size;
+  const townPeople = townPopulation(api) || core.people.size;
   const statePeople =
     BASES.places[chain.stateKey]?.population2024 ?? townPeople;
   const county = chain.countyGeoids[0];
@@ -1627,9 +1627,7 @@ export function acceptCase(reasons: {
  * state, or the nation (more than any outlet serves).
  */
 function peopleAt(api: CoreAPI, level: WireLevel): number {
-  const town =
-    Number(api.state.placeMetadata.referencePopulation) ||
-    api.state.people.size;
+  const town = townPopulation(api) || api.state.people.size;
   if (level === "town") return town;
   if (level === "nation") return Number.POSITIVE_INFINITY;
   const chain = lawChain(api);

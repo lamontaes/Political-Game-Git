@@ -1,4 +1,5 @@
 import { coreAPI } from "../core2/state";
+import { townPopulation } from "../core2/live-population";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
@@ -792,8 +793,7 @@ export function bodyPicture(
     row.underSeats !== undefined
       ? ((offices.get(officeId) as { seats?: number } | undefined)?.seats ??
           body.members.length) < row.underSeats
-      : Number(core.placeMetadata?.referencePopulation ?? 0) <
-        (row.underPopulation ?? 0),
+      : townPopulation(coreAPI(core)) < (row.underPopulation ?? 0),
   )?.places;
   const place =
     [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(

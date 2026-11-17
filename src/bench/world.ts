@@ -11,6 +11,7 @@ import {
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation, inHousehold } from "../core2/population";
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -496,9 +497,7 @@ export async function buildBenchWorldInStages(
 }
 
 /** Real people per sampled person: the world's count of the town (drawn around the Census count when the population was built) over the people generated, one where the sample is the whole town. */
-function censusScale(population: CoreInput): number {
-  const held = Number(population.placeMetadata?.referencePopulation);
-  const real = Number.isFinite(held) ? held : undefined;
+function censusScale(population: CoreInput, real: number | undefined): number {
   const sample = population.people.filter(
     (person) => person.tier !== OPENING_KIN.kinTier,
   ).length;
@@ -602,7 +601,15 @@ function* benchWorldStages(
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
-      options.countScale ?? (minimumPeople ? 1 : censusScale(population));
+      options.countScale ??
+      (minimumPeople
+        ? 1
+        : censusScale(
+            population,
+            place.sourceGeoid
+              ? placeReferencePopulation(place.sourceGeoid, seed)?.value
+              : undefined,
+          ));
     // How the player's age was set, for dev mode's "How this world opened".
     let withPlayer: CoreInput = {
       ...input,

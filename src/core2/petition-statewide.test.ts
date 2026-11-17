@@ -13,6 +13,7 @@
  * an independent for governor reads Alabama's formula (3% of the votes cast
  * for governor, at a midterm's turnout).
  */
+import { townPopulation } from "./live-population";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import filingResearch from "../../data/research/elections/filing-requirements.json" with { type: "json" };
@@ -195,7 +196,7 @@ describe("a petition asks its own electorate's count", () => {
     const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
     const wide = wideElectorate(api, contest!, {
       voters,
-      population: Number(core.placeMetadata.referencePopulation) || 0,
+      population: townPopulation(api),
     })!;
     expect(wide.outside.length).toBeGreaterThan(10);
     // The 2024 votes of the state's places at a midterm's turnout (the

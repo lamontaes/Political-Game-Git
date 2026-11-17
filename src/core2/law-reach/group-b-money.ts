@@ -6,6 +6,7 @@
  * law rows an income-tax act writes for payroll withholding to collect.
  * Money moves only through the accounts journal; pay only through rerateJob.
  */
+import { townPopulation as livePopulation } from "../live-population";
 import {
   appliedOn,
   appliedTo,
@@ -18,6 +19,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { coreAPI } from "../state";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
+  governmentResidents,
   lineBeforeBill,
   amendBudget,
   BUDGETS_MODULE_ID,
@@ -207,14 +209,14 @@ export function townShare(api: CoreAPI, gov: GovernmentRow): number {
  * whose count isn't held, as in some island areas) everyone modeled there.
  */
 export function townPopulation(api: CoreAPI): number {
-  const recorded = Number(api.state.placeMetadata.referencePopulation);
-  if (Number.isFinite(recorded) && recorded > 0) return recorded;
-  return townFacts(api, lawChain(api).townPlaceId).modeled;
+  return (
+    livePopulation(api) || townFacts(api, lawChain(api).townPlaceId).modeled
+  );
 }
 
 /** A government's residents, from the budgets module (island areas included, from the Census). */
-export function residentsOf(_api: CoreAPI, gov: GovernmentRow): number {
-  return gov.residents;
+export function residentsOf(api: CoreAPI, gov: GovernmentRow): number {
+  return governmentResidents(api, gov);
 }
 
 /** Modeled residents (named and counted) as a share of the town's real population. */

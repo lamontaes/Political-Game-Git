@@ -13,7 +13,6 @@ import type {
   CountryWithheldLine,
 } from "./country-model";
 import federalLines from "./data/country/federal-lines.json" with { type: "json" };
-import spending from "../../data/research/federal/federal-spending-by-state-fy2024.json" with { type: "json" };
 import { unemploymentTermsOf } from "./jobs-benefits";
 import { withholdingFor } from "./budgets-treasury";
 import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
@@ -44,8 +43,6 @@ function atLevel(
 const DESTINATIONS = federalLines.lines as Readonly<
   Record<string, CountryFederalDestination>
 >;
-/** Each place's population in the federal spending research, by jurisdiction key. */
-const POPULATION = spending.population as Readonly<Record<string, number>>;
 
 /** A federal budget row as the tier reads it: its id and its spending lines, minor units a year. */
 export interface CountryFederalBudget {
@@ -55,7 +52,7 @@ export interface CountryFederalBudget {
 
 /**
  * The federal budget in force as it reaches each state, line by line: each line's dollars shared
- * among the 56 places by population times the place's stake in the line (`stake`, the world's
+ * among the 56 places by their people today (`people`, the world's own count, by jurisdiction key) times the place's stake in the line (`stake`, the world's
  * stake around data/research/federal/federal-spending-by-state-fy2024.json), sent where the
  * line pays (src/core2/data/country/federal-lines.json). Shares are worked out once per reader.
  */
@@ -63,15 +60,17 @@ export function federalSpendingReader(
   budget: CountryFederalBudget | undefined,
   stake: (stateKey: string, line: string) => number,
   minorPerDollar: number,
+  /** Each place's people today, by jurisdiction key. */
+  people: Readonly<Record<string, number>>,
 ): (state: CountryState) => readonly CountryFederalLine[] {
   if (!budget) return () => [];
-  const keys = Object.keys(POPULATION);
+  const keys = Object.keys(people);
   const byState = new Map<string, CountryFederalLine[]>();
   for (const [line, minor] of Object.entries(budget.spendingMinor)) {
     let total = 0;
     const own = new Map<string, number>();
     for (const key of keys) {
-      const weight = POPULATION[key]! * stake(key, line);
+      const weight = people[key]! * stake(key, line);
       own.set(key, weight);
       total += weight;
     }
