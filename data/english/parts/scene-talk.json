@@ -171,7 +171,13 @@
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
     "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
-    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
+    "years-with-you": "How long the asker has worked for the player, as a span people say (\"two years\"), from the volunteer's join record or the staff row.",
+    "carries-cause": "The question the asker's candidacy is about, as people say it, from the candidacy decision's cause.",
+    "lost-job": "How long ago the asker lost their job, as a span, from the layoff row; set only with no job now.",
+    "ran-before": "How long ago the asker last stood for office, as a span, from their earlier filing.",
+    "same-party": "The party the asker and the player share, by its name, from both filings.",
+    "against-your-ally": "The person in the asker's race whom the player endorsed or works for, as people say them."
   },
   "maxWords": 70,
   "parts": [
@@ -192682,7 +192688,7 @@
       "key": "scene-talk.narrate-narrate.name-filed-for-office-this-week-and-wants-a-minute",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} filed for {office} this week and wants a minute.",
+      "text": "{name} filed for {office} and wants a minute.",
       "uses": [
         {
           "subject": "scene",
@@ -192706,7 +192712,7 @@
       "key": "scene-talk.narrate-narrate.name-is-on-the-ballot-for-office-now-and-has-a-question-for-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is on the ballot for {office} now, and has a question for you.",
+      "text": "{name} filed for {office}, and has a question for you.",
       "uses": [
         {
           "subject": "scene",
@@ -193659,6 +193665,31 @@
       "date": "2026-11-17",
       "tag": {
         "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-my-name-stays-out-of-the-office-race-this-time",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. My name stays out of the {office} race this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
         "key": "favor-asked"
       }
     }
