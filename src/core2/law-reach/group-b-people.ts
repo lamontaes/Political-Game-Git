@@ -338,9 +338,9 @@ export function placesFacts(
     for (const h of store.liveHouseholds()) {
       if (!places.has(h.placeId)) continue;
       const minutes = activeMinutes(h.workCommitments, date);
-      for (const id of owners)
+      for (const [id, owned] of owners)
         if (minutes.has(id))
-          minutes.set(id, Math.max(minutes.get(id)!, owners.get(id)!));
+          minutes.set(id, Math.max(minutes.get(id)!, owned));
       const jobs = h.jobs.filter(
         (job) => countedJob(core, job.id) !== undefined,
       );
