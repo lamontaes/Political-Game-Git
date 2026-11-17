@@ -38,7 +38,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   seatCoveringTown,
   seatPlayerInStateOffice,
-} from "../core2/office-day-state";
+} from "../core2/modules/office-day";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, PersonId } from "../core2/types";
 import type { DevMode } from "./dev-mode";
