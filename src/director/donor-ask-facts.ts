@@ -28,6 +28,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { questionAbout } from "../english/question-names";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { employerSaid } from "../english/journal-words";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { businessNameSaid } from "./words";
 
 /** The situation type that reads these facts. */
@@ -171,7 +172,10 @@ export function donorReads(
         facts["gift-weight"] = fact(text, ids);
       };
       if (!others.length) say("gift-first", "the first check you've had");
-      else if (others.some((_, at) => at > P.zero)) {
+      else if (
+        others.length >=
+        DEFAULT_DIRECTOR_DATA.parameters.directorGiftRankDonors!.value
+      ) {
         if (others.every((row) => row.totalMinor < mine.totalMinor))
           say("gift-biggest", "the biggest check you've had");
         else if (others.every((row) => row.totalMinor > mine.totalMinor))
