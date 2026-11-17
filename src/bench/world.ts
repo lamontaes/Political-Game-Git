@@ -29,7 +29,11 @@ import {
 import { openLaws } from "../core2/modules/laws";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
-import { openElections } from "../core2/modules/elections";
+import {
+  openElections,
+  runCentury,
+  setHistoryMode,
+} from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
@@ -214,6 +218,26 @@ export function entrantOf(
   return entrantChoice(input, placeId, birthDate, gender).id;
 }
 
+/**
+ * A place whose every adult lives in group quarters (a colony, a dormitory, a
+ * barracks) has no household to open in (pool item
+ * world-opening-no-player-where-everyone-lives-in-group-quarters): the error
+ * counts the adults who are there, in quarters.
+ */
+function noPlayerHere(
+  input: CoreInput,
+  placeId: string,
+  at: ReturnType<typeof makeIsoDate>,
+): NoPlayerHereError {
+  const inQuarters = input.people.filter(
+    (person) =>
+      person.placeId === placeId &&
+      person.tier !== "husk" &&
+      ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
+  ).length;
+  return new NoPlayerHereError(placeId, inQuarters);
+}
+
 /** The player and what the pick rests on (`entrantOf`). Fails only where no adult lives. */
 export function entrantChoice(
   input: CoreInput,
@@ -231,18 +255,7 @@ export function entrantChoice(
     }))
     .filter((row) => row.age >= PLAYER_MIN_AGE)
     .sort((a, b) => a.id.localeCompare(b.id));
-  if (!adults.length) {
-    // Who is in the place at all: a place whose every adult lives in group
-    // quarters (a colony, a dormitory, a barracks) has no household to open in
-    // (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
-    const inQuarters = input.people.filter(
-      (person) =>
-        person.placeId === placeId &&
-        person.tier !== "husk" &&
-        ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
-    ).length;
-    throw new NoPlayerHereError(placeId, inQuarters);
-  }
+  if (!adults.length) throw noPlayerHere(input, placeId, at);
   const unit = seededUnit(input.seed, `opening-player:${placeId}`);
   const pick = adults[Math.floor(unit * adults.length)]!;
   return {
@@ -290,12 +303,16 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
-  const residents = townResidents(input, placeId).map((person) => ({
-    person,
-    age: ageOnDate(makeIsoDate(person.birthDate), at),
-    apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
-  }));
-  if (!residents.length) throw new Error("No resident here.");
+  // A player is an adult (18 and up) in a household, whatever age was chosen:
+  // the nearest age is looked for among the town's adults only.
+  const residents = townResidents(input, placeId)
+    .map((person) => ({
+      person,
+      age: ageOnDate(makeIsoDate(person.birthDate), at),
+      apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
+    }))
+    .filter((row) => row.age >= PLAYER_MIN_AGE);
+  if (!residents.length) throw noPlayerHere(input, placeId, at);
   // The chosen age where anyone in town is that age, else the nearest age anyone is.
   const ageGap = (age: number) => Math.abs(age - chosenAge);
   const nearestGap = Math.min(...residents.map((row) => ageGap(row.age)));
@@ -524,6 +541,8 @@ function* benchWorldStages(
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
+  // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
+  setHistoryMode(seed, settings.history ?? "century", startDate);
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
   const playerBirthDate =
@@ -732,6 +751,11 @@ function* benchWorldStages(
     ],
   });
   yield "government";
+  // The century before day one (owner, Nov 17, 2026: history simulated from 1925, a year at a
+  // step, during the loading screen): run here a year at a time, each year its own step so the
+  // loading screen keeps answering, before the offices seat whoever it elected.
+  const century = runCentury(seed, startDate);
+  while (!century.next().done) yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);

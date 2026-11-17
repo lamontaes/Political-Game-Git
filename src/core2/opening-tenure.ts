@@ -17,12 +17,27 @@ import type { CoreInput, HouseholdInput, IsoDate } from "./types";
 
 type Rates = Readonly<Record<string, number>>;
 
+/** A band table's bands read once: its low and high ages (none above "75+"), in the table's order. */
+const parsedBands = new WeakMap<
+  Rates,
+  readonly { low: number; high: number | undefined; rate: number }[]
+>();
+function bandsOf(rates: Rates) {
+  let bands = parsedBands.get(rates);
+  if (!bands) {
+    bands = Object.entries(rates).map(([band, rate]) => {
+      const [low, high] = band.split(/[-+]/);
+      return { low: Number(low), high: high ? Number(high) : undefined, rate };
+    });
+    parsedBands.set(rates, bands);
+  }
+  return bands;
+}
+
 /** The yearly rate of leaving at an age, from the band table ("18-19" ... "75+"). */
 function rateAt(rates: Rates, age: number): number {
-  for (const [band, rate] of Object.entries(rates)) {
-    const [low, high] = band.split(/[-+]/);
-    if (age >= Number(low) && (!high || age <= Number(high))) return rate;
-  }
+  for (const { low, high, rate } of bandsOf(rates))
+    if (age >= low && (high === undefined || age <= high)) return rate;
   return p("zero");
 }
 
