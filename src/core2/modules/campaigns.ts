@@ -15,7 +15,7 @@
  */
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
-import { townOutsideOf } from "../opening-outside-market";
+import { outsideMarketAccount, townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
   countedResidents,
@@ -1987,17 +1987,21 @@ export function seller(api: CoreAPI, purchase: Purchase): string {
   return found ?? outsideSeller(api);
 }
 
-/** The town's outside account, where a campaign buys what no business in town sells (the postage always: the Postal Service is not in town). */
+/**
+ * The town's outside account, where a campaign buys what no business in town
+ * sells (the postage always: the Postal Service is not in town). A town whose
+ * households and firms have bought nothing beyond its edge yet has none; the
+ * campaign's purchase opens the place's one outside account
+ * (`outsideMarketAccount`), the same account every other purchase from
+ * outside the town is paid to.
+ */
 function outsideSeller(api: CoreAPI): string {
-  const outside = townOutsideOf(
-    api.state.organizations.values(),
-    townRow(api).townPlaceId,
-  );
-  if (!outside)
-    throw new Error(
-      "No outside market account: a campaign has nowhere to buy what the town does not sell.",
-    );
-  return outside.id;
+  const town = townRow(api).townPlaceId;
+  const outside = townOutsideOf(api.state.organizations.values(), town);
+  if (outside) return outside.id;
+  const account = outsideMarketAccount(town, api.state.date);
+  api.addOrganization(account);
+  return account.id;
 }
 
 function priceRow(kind: string) {

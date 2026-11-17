@@ -135,6 +135,7 @@ import {
   contestsOnDate,
   checkEligibility,
   filingRulesFor,
+  filingSideFor,
   openNextContest,
   specialContestFor,
   ELECTIONS_MODULE_ID,
@@ -684,7 +685,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   const rule = filingRulesFor(
     api,
     contest,
-    filing.party ? "party" : "independent",
+    filingSideFor(api, contest, filing.party),
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
