@@ -7,11 +7,18 @@ name: Heavy checks
 # The fast set is validate.yml: build, typecheck, the guards and a change's
 # own test files, on every pull request.
 #
+# The calibration lane (`npm run test:calibration`, OCD_CALIBRATION) runs here
+# too, since a test that never runs proves nothing (CTO, Nov 17: tests moved to
+# the calibration lane must run somewhere). The heavy set also runs on a pull
+# request from a train branch into main, so the train is proven before it merges.
+#
 # Each shard writes how long every test file took; the `slowest` job adds them
 # up and prints the slowest files and the whole run's time on the run summary.
 on:
   schedule:
     - cron: "41 4 * * *"
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       long_game:
@@ -26,6 +33,7 @@ concurrency:
 jobs:
   full-suite:
     name: full suite ${{ matrix.shard }} of 12
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')
     runs-on: ubuntu-latest
     timeout-minutes: 240
     strategy:
@@ -54,10 +62,27 @@ jobs:
           path: ${{ runner.temp }}/suite-${{ matrix.shard }}.json
           if-no-files-found: warn
 
+  calibration:
+    name: calibration lane
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - run: npm ci
+      - name: Run the calibration tests
+        env:
+          OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+        run: npm run test:calibration
+
   slowest:
     name: slowest test files
     needs: full-suite
-    if: always()
+    if: always() && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

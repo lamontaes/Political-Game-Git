@@ -30,7 +30,7 @@ Ask for the line before you build on it: the pull request, the check, and why th
 
 A screen or feature counts as done only when the pull request shows a screenshot from the game itself, reached by playing (dev mode allowed), next to its mock or the owner's words. A passing test alone is not done.
 
-- Take the screenshot from a build of your own head, not from a mock page or a composed scene.
+- Take the screenshot from a build of your own head, not from a mock page or a composed scene. `verify --screen <tab>/<button>` reaches the screen by playing and saves it.
 - Put the mock or the owner's quote beside it, and say how you reached the screen: the clicks, or the dev mode control.
 - This is the builder's proof. After the merge, a second session still checks the item on main before it is `done` (`seen-in-game`).
 
@@ -70,7 +70,9 @@ The Long game lane splits the checks first, and builds the rule-1 guard in the s
 - A heavy set runs on a schedule and before the CTO merges: the full suite and the 20-year drawn-place run.
 - The full run must finish. Today it is canceled at 45 minutes.
 
-The fast set is `.github/workflows/validate.yml`; a large change's test files are dealt over up to six unit jobs. The heavy set is `.github/workflows/heavy.yml`: nightly on main, and by hand on a branch before a merge (Actions, "Heavy checks", "Run workflow", pick the branch). Its summary lists the slowest test files. The rule-1 guard is `check-changes` (`docs/design/guards.md`); run `npm run guards -- check-changes` before a push. Your role's skill still names the gate you run (`merger` (train-gate part), `merger` (checker part)).
+The fast set is `.github/workflows/validate.yml`; a large change's test files are dealt over up to six unit jobs. The heavy set is `.github/workflows/heavy.yml`: nightly on main, and by hand on a branch before a merge (Actions, "Heavy checks", "Run workflow", pick the branch). It also runs the calibration lane (`npm run test:calibration`), and it runs on a pull request from a train branch into main. Its summary lists the slowest test files. The rule-1 guard is `check-changes` (`docs/design/guards.md`); run `npm run guards -- check-changes` before a push. Your role's skill still names the gate you run (`merger` (train-gate part), `merger` (checker part)).
+
+Skill `verify` runs the fast set in one command: `node .claude/skills/verify/scripts/verify.mjs`, plus `--screen` for the screenshot rule 2 asks for.
 
 ## 8. Stamp it
 

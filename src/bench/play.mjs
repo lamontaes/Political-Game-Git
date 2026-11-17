@@ -366,13 +366,15 @@ $("news-reader-close").addEventListener("click", () =>
  * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
  * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
  * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
- * clock closes the cards first.
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
  */
 function closeCards() {
   if (!$("person").hidden) closePerson();
   show("news-reader", false);
   show("tip", false);
-  if (openTab) closeSheet();
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
 }
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -1338,7 +1340,7 @@ function electionNight(night) {
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
-    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // call, rows in columns across the board, so all of them fit the panel at 1024x768
     // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
     // could not be reached).
     const steps = night.nation.races.length
@@ -1346,6 +1348,8 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
+      // The page of the races elsewhere lays its rows across the board (play.css, #returns.nation).
+      $("returns").classList.toggle("nation", Boolean(steps[at].nation));
       $("returns").replaceChildren(
         electionNightScreen({
           title: night.title,
@@ -2672,6 +2676,24 @@ function storyStop(value) {
           row.kind === "interrupt" && row.moduleId === "p13-story-director",
       )
     : undefined;
+}
+
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
 }
 
 // ---- The person card: only what you could know about them ----
@@ -4371,6 +4393,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5172,7 +5210,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5182,8 +5220,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
@@ -5482,7 +5518,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),
@@ -5552,8 +5588,11 @@ const sheets = {
         race.officeLevel === "county"
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
-      aside:
-        own && race.cannotFile?.metOn
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : own && race.cannotFile?.metOn
           ? `${labels.filingOpens} ${dateWords(
               race.filingOpens && race.filingOpens > race.cannotFile.metOn
                 ? race.filingOpens
@@ -5564,7 +5603,7 @@ const sheets = {
             ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
             : own && race.playerMayFile && race.filingOpen
               ? labels.fileForIt
-              : race.filers.length || filed.has(race.contestId)
+              : race.filers.length
                 ? status(race)
                 : "",
       data: { contest: race.contestId },

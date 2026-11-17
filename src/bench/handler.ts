@@ -74,7 +74,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { leaveJobAs, openingsView } from "./openings";
+import { applyForOpeningAs, leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
@@ -421,7 +421,19 @@ export function benchWorld() {
     director: state.director,
     player: state.player,
     placeId: state.placeId,
+    nightsWatched: state.nightsWatched,
+    canvassedOn: state.canvassedOn,
   };
+}
+
+/**
+ * A new world is a new life: the election nights the last life watched and the mornings it
+ * canvassed are that life's, keyed by person and race, and a world built again from the same
+ * seed has the same people and races. Kept, they hid the new life's own election night.
+ */
+function forgetLastLife(): void {
+  state.nightsWatched = new Set<string>();
+  state.canvassedOn = new Set<string>();
 }
 
 /** What the handler sends back: a status, headers and a body. */
@@ -512,6 +524,7 @@ const ROUTES: readonly Route[] = [
         state.player = new BenchPlayer(world.core, world.director);
         state.conversation = undefined;
         state.visit = undefined;
+        forgetLastLife();
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
@@ -2568,6 +2581,21 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/apply",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        applyForOpeningAs(
+          requireCore(),
+          url.searchParams.get("position") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/job/leave",
     run: async ({ send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -2862,6 +2890,7 @@ const ROUTES: readonly Route[] = [
         state.player = new BenchPlayer(next, nextDirector);
         state.conversation = undefined;
         state.visit = undefined;
+        forgetLastLife();
         state.placeId = place.context.jurisdiction.id;
         state.placeName = place.displayName;
         send(200, {
