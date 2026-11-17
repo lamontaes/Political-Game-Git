@@ -123,7 +123,13 @@ it("pays the state's share of town private tuition while the law stands, and sto
         expect(row.line, where).toBe("schools");
         const obligation = api.accounts().obligation(row.obligationId)!;
         expect(obligation.endedAt, where).toBeUndefined();
-        expect(obligation.paidMinor, where).toBeGreaterThan(0);
+        // The law's monthly review opens each group's voucher on the first of
+        // the month and its first payment falls on the group's own due day, so
+        // a voucher is unpaid only while that day has not come.
+        expect(
+          obligation.paidMinor > 0 || obligation.nextDueAt > core.date,
+          `${where} ${row.obligationId} unpaid, next due ${obligation.nextDueAt}, today ${core.date}`,
+        ).toBe(true);
         paid += obligation.paidMinor;
       }
       expect(paid, where).toBeGreaterThan(0);
