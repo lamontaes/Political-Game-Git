@@ -11,7 +11,7 @@ import { closenessBetween } from "../../src/core2/closeness";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { restoreWorld, snapshotWorld } from "../../src/core2/snapshot";
 import { applyCoreEvent, coreAPI } from "../../src/core2/state";
-import type { CoreState, PersonId } from "../../src/core2/types";
+import type { CoreEventInput, CoreState, PersonId } from "../../src/core2/types";
 import { openConversation, say } from "../../src/director/conversation";
 import type { Director } from "../../src/director/ledger";
 import {
@@ -242,121 +242,185 @@ export function pathTo(tree: TreeNode, ending: string): number[] | undefined {
 
 
 
+/** A promise the engines took, and the one who made it. */
+interface Staged {
+  readonly quarrel: CoreEventInput;
+  readonly borrowerId: PersonId;
+  readonly owedId: PersonId;
+  readonly replyId: string;
+}
+
 /**
- * A promise to pay on time, played on a town borrower the credit engine's own
- * missed payment and the partnerships engine's own quarrel named
- * (`findTownBorrower`): the promise engine is one rule for every person
- * (CTO, Nov 17), so the case is whoever the engines name, in a drawn place.
- * Only the borrower's choice is staged, and labeled where it stands: the
- * apology answered with the promise to make it right, written as the reply
- * record the apology scene writes for it (`scene.reply` with the promise's
- * kind on it). The promise's window, the next missed payment that breaks it,
- * the tie's move and the talk are the engines' own. Returns the played record.
+ * A promise to pay on time, played in a drawn place on whoever the credit
+ * engine's own missed payment and the partnerships engine's own quarrel name
+ * (`findTownBorrower`): the promise engine is one rule for every person (CTO,
+ * Nov 17). Only each borrower's choice is staged, and labeled where it
+ * stands: the apology answered with the promise to make it right, written as
+ * the reply record the apology scene writes for it (`scene.reply` with the
+ * promise's kind on it). Every money quarrel in the window gets one, so the
+ * town's next missed payments are what break them. The window, the break or
+ * keep, the tie's move and the talk are the engines' own, and each promise
+ * must end as the rule says (broken by the holder's next missed payment in
+ * its window, kept when none). Returns the played record, or what the place
+ * lacked when no promise in it was broken (the place is passed over).
  */
-export function playPayOnTime(found: TownBorrower, check: Check): string {
-  const { core, director, playerId, where, quarrel, missed, borrowerId, owedId } =
-    found;
-  check(
-    missed.kind === "credit.payment-missed" &&
-      missed.personIds[0] === borrowerId,
-    `${where}: quarrel over ${missed.kind}`,
+export function playPayOnTime(
+  found: TownBorrower,
+  check: Check,
+): { played?: string; passed: string } {
+  const { core, director, playerId, where } = found;
+  const staged: Staged[] = [];
+  const quarrels: CoreEventInput[] = [found.quarrel];
+  coreAPI(core).subscribeEvents(
+    "promises-quarrel",
+    ["family.quarrel"],
+    (_, event) => {
+      if (event.facts?.missedId && event.facts.owes && event !== found.quarrel)
+        quarrels.push(event);
+    },
   );
-  // HAND-STAGED: the borrower's choice to promise, as the scene's reply
-  // records it (director/purpose-scene.ts, replyInScene). Nothing it settles
-  // is written here.
-  const variant = chooseVariant(core, {
-    family: "owed-apology",
-    askerId: owedId,
-    askedId: borrowerId,
-    cause: {
-      id: quarrel.id,
-      date: quarrel.date,
-      facts: Object.fromEntries(
-        Object.entries(quarrel.facts ?? {}).map(([k, v]) => [k, String(v)]),
-      ),
-    },
-  });
-  check(
-    /^owed-apology\.(money|close|pressed|repeat)$/.test(variant?.purpose ?? ""),
-    `${where}: variant ${variant?.purpose}`,
+  const missedBy = new Map<string, CoreEventInput[]>();
+  const hold = (event: CoreEventInput) => {
+    const holder = event.personIds[0]!;
+    missedBy.set(holder, [...(missedBy.get(holder) ?? []), event]);
+  };
+  hold(found.missed);
+  coreAPI(core).subscribeEvents(
+    "promises-test",
+    ["credit.payment-missed"],
+    (_, event) => hold(event),
   );
-  const replyId = `scene-reply:staged:${quarrel.id}:promised-to-make-it-right`;
-  applyCoreEvent(core, {
-    id: replyId,
-    date: core.date,
-    kind: "scene.reply",
-    personIds: [borrowerId, owedId],
-    placeId: core.people.get(borrowerId)!.placeId,
-    facts: {
-      typeKey: "apology",
-      causeId: quarrel.id,
-      variant: variant!.variant,
-      move: "promise",
-      promise: "pay-on-time",
-    },
-    source: {
-      tag: "SOURCED",
-      citation: "Staged reply: the borrower's choice to promise to pay on time.",
-      asOf: core.date,
-    },
-  });
-  const factId = `promise:${replyId}`;
-  const find = () =>
-    promisesBetween(coreAPI(core), borrowerId, owedId).find(
-      (row) => row.id === factId,
-    )!;
-  check(Boolean(find()), `${where}: the promise was not kept as a record`);
-  check(find().outcome === "open", `${where}: promise ${find().outcome}`);
-  const before = closenessBetween(core, borrowerId, owedId);
-  // The promise's own move on the tie, the day it settles, apart from two
-  // months at home.
-  const moves: string[] = [];
+  const moves = new Map<string, string[]>();
   coreAPI(core).subscribeRelationshipChanges(
     "promises-tie",
     ["*"],
     (_, notice) => {
-      if (notice.reason?.sourceId !== factId) return;
+      const source = notice.reason?.sourceId;
+      if (!source?.startsWith("promise:")) return;
       for (const change of notice.changes)
         if (change.measure === "level")
-          moves.push(
+          moves.set(source, [
+            ...(moves.get(source) ?? []),
             `${notice.date} ${notice.reason.cause}: tie level ${change.before.toFixed(8)} to ${change.after.toFixed(8)}`,
-          );
+          ]);
     },
   );
-  const later: string[] = [];
-  coreAPI(core).subscribeEvents(
-    "promises-test",
-    ["credit.payment-missed"],
-    (_, event) => {
-      if (event.personIds[0] === borrowerId) later.push(event.id);
-    },
-  );
-  // The engine's own payments decide: the next missed payment in the window
-  // breaks it. The drawn place is passed over when the borrower pays every
-  // bill in it (a kept promise), named, never counted as a pass.
-  const windowEnd = addDays(makeIsoDate(find().since), 63);
-  play(
-    core,
-    playerId,
-    Math.round((Date.parse(windowEnd) - Date.parse(core.date)) / 86_400_000),
-  );
-  check(
-    find().outcome === "broken",
-    `${where}: ${find().outcome}, missed ${later.join(",")}`,
-  );
-  check(find().endedBy === later[0], `${where}: ended by ${find().endedBy}`);
-  const ended = find();
-  // The break took trust's share of the tie, kept on the row
-  // (people-broken-promise-costs-share-of-tie).
-  check(
-    (ended.tieCost ?? 0) > 0,
-    `${where}: the break cost the tie ${ended.tieCost}`,
-  );
-  const said = talkOf(core, director, owedId, borrowerId, where, check);
+  // HAND-STAGED: a borrower's choice to promise, as the scene's reply records
+  // it (director/purpose-scene.ts, replyInScene). Nothing it settles is
+  // written here.
+  const stage = (quarrel: CoreEventInput) => {
+    const borrowerId = String(quarrel.facts!.owes) as PersonId;
+    const owedId = quarrel.personIds.find((id) => id !== borrowerId) as PersonId;
+    const variant = chooseVariant(core, {
+      family: "owed-apology",
+      askerId: owedId,
+      askedId: borrowerId,
+      cause: {
+        id: quarrel.id,
+        date: quarrel.date,
+        facts: Object.fromEntries(
+          Object.entries(quarrel.facts ?? {}).map(([k, v]) => [k, String(v)]),
+        ),
+      },
+    });
+    check(
+      /^owed-apology\.(money|close|pressed|repeat)$/.test(
+        variant?.purpose ?? "",
+      ),
+      `${where}: variant ${variant?.purpose}`,
+    );
+    const replyId = `scene-reply:staged:${quarrel.id}:promised-to-make-it-right`;
+    applyCoreEvent(core, {
+      id: replyId,
+      date: core.date,
+      kind: "scene.reply",
+      personIds: [borrowerId, owedId],
+      placeId: core.people.get(borrowerId)!.placeId,
+      facts: {
+        typeKey: "apology",
+        causeId: quarrel.id,
+        variant: variant!.variant,
+        move: "promise",
+        promise: "pay-on-time",
+      },
+      source: {
+        tag: "SOURCED",
+        citation:
+          "Staged reply: the borrower's choice to promise to pay on time.",
+        asOf: core.date,
+      },
+    });
+    staged.push({ quarrel, borrowerId, owedId, replyId });
+  };
+  const rowOf = (one: Staged) =>
+    promisesBetween(coreAPI(core), one.borrowerId, one.owedId).find(
+      (row) => row.id === `promise:${one.replyId}`,
+    );
+  // The engines' own days: stage a promise for each new money quarrel (a week
+  // at a time) until every promise made has had its whole window.
+  const first = core.date;
+  let staged_ = 0;
+  for (;;) {
+    while (staged_ < quarrels.length) stage(quarrels[staged_++]!);
+    const last = staged.reduce(
+      (day, one) => (rowOf(one)!.dueOn > day ? rowOf(one)!.dueOn : day),
+      first,
+    );
+    if (core.date > last) break;
+    play(core, playerId, 7);
+  }
+  // Each promise ends as the rule says: broken by the holder's first missed
+  // payment inside its window, kept when none fell in it.
+  const broken: Staged[] = [];
+  const lines: string[] = [];
+  for (const one of staged) {
+    const row = rowOf(one);
+    check(Boolean(row), `${where}: ${one.replyId} was not kept as a record`);
+    const misses = (missedBy.get(one.borrowerId) ?? []).filter(
+      (event) => event.date > row!.since && event.date <= row!.dueOn,
+    );
+    if (misses.length) {
+      check(
+        row!.outcome === "broken",
+        `${where}: ${row!.id} ${row!.outcome} with the holder's missed payment ${misses[0]!.id} in its window`,
+      );
+      check(
+        row!.endedBy === misses[0]!.id,
+        `${where}: ${row!.id} ended by ${row!.endedBy}, the first missed payment was ${misses[0]!.id}`,
+      );
+      // The break took trust's share of the tie, kept on the row
+      // (people-broken-promise-costs-share-of-tie).
+      check(
+        (row!.tieCost ?? 0) > 0,
+        `${where}: ${row!.id} cost the tie ${row!.tieCost}`,
+      );
+      check(
+        (moves.get(row!.id) ?? []).length > 0,
+        `${where}: ${row!.id} broke and moved no tie`,
+      );
+      broken.push(one);
+    } else
+      check(
+        row!.outcome === "kept",
+        `${where}: ${row!.id} ${row!.outcome} with no missed payment in its window`,
+      );
+    lines.push(`${row!.id} ${row!.outcome}`);
+  }
+  const passed = `${where}: ${staged.length} promise(s) to pay on time, ${broken.length} broken (${lines.join("; ")})`;
+  if (!broken.length) return { passed };
+  const one = broken[0]!;
+  const row = rowOf(one)!;
+  const said = talkOf(core, director, one.owedId, one.borrowerId, where, check);
   // The talk names the payment it was about, from the missed payment's loan.
   const payment = Object.values(paymentWords.payments).find((name) =>
     said.includes(name),
   );
   check(Boolean(payment), `${where}: payment not named: ${said}`);
-  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missed.facts?.loanKind} ${missed.facts?.loanId} (${missed.id})\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel.id} over the earlier missed payment ${String(quarrel.facts?.missedId)}\n    ${factId} owed to ${owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt} at a cost of ${ended.tieCost?.toFixed(4)} hours, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, borrowerId, owedId).toFixed(5)}`;
+  const ender = (missedBy.get(one.borrowerId) ?? []).find(
+    (event) => event.id === row.endedBy,
+  );
+  return {
+    passed,
+    played: `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${ender?.facts?.loanKind} ${ender?.facts?.loanId} (${ender?.id})\n    the promise's own move: ${(moves.get(row.id) ?? []).join("; ") || "(none)"}\n    quarrel ${one.quarrel.id} over the earlier missed payment ${String(one.quarrel.facts?.missedId)}\n    ${row.id} owed to ${one.owedId}, ${row.outcome} by ${row.endedBy} on ${row.endedAt} at a cost of ${row.tieCost?.toFixed(4)} hours`,
+  };
 }

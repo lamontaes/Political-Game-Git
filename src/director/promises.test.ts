@@ -120,11 +120,25 @@ it(
   () => {
     setBookkeeping(false);
     try {
-      const found = findTownBorrower();
-      const done = [playPayOnTime(found, ok)];
-      process.stdout.write(
-        `PAY ON TIME (places passed over: ${found.passedOver.join("; ") || "none"})\n  ${done.join("\n  ")}\n`,
-      );
+      // Advance drawn places until a promise to pay on time is broken by the
+      // town's own missed payments; a place where every borrower paid on time
+      // is named and passed over.
+      const passedOver: string[] = [];
+      let from = 0;
+      let played: string | undefined;
+      while (!played) {
+        const found = findTownBorrower(from, passedOver);
+        const result = playPayOnTime(found, ok);
+        if (result.played) {
+          played = result.played;
+          process.stdout.write(
+            `PAY ON TIME (places passed over: ${passedOver.join("; ") || "none"})\n  ${result.passed}\n  ${played}\n`,
+          );
+        } else {
+          passedOver.push(result.passed);
+          from = found.nextDraw;
+        }
+      }
     } finally {
       setBookkeeping(true);
     }

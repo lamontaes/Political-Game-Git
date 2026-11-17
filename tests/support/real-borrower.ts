@@ -41,7 +41,9 @@ export interface TownBorrower {
   readonly playerId: PersonId;
   /** The place, the seed, and every place passed over before it. */
   readonly where: string;
-  readonly passedOver: readonly string[];
+  readonly passedOver: string[];
+  /** The draw to resume from when this place is passed over. */
+  readonly nextDraw: number;
   /** The `family.quarrel` over a missed payment, and who owes whom. */
   readonly quarrel: CoreEventInput;
   /** The credit engine's missed payment the quarrel is over (the log keeps a record only for people it follows, so it is held here). */
@@ -56,9 +58,11 @@ export interface TownBorrower {
  * playing the player's own days. Fails by name, listing every place passed
  * over, when none of the drawn places has one.
  */
-export function findTownBorrower(): TownBorrower {
-  const passedOver: string[] = [];
-  for (let n = 0; n < MAX_PLACES; n += 1) {
+export function findTownBorrower(
+  from = 0,
+  passedOver: string[] = [],
+): TownBorrower {
+  for (let n = from; n < MAX_PLACES; n += 1) {
     const place = drawPlace(LOAN_SEED, `loan:${n}`);
     const label = `${place.name} (${place.key}), seed ${LOAN_SEED} draw loan:${n}, world seed ${place.seed}`;
     const built = buildBenchWorld(place.seed, gameStartDate(), {
@@ -126,6 +130,7 @@ export function findTownBorrower(): TownBorrower {
       director: built.director,
       playerId,
       where: label,
+      nextDraw: n + 1,
       passedOver,
       quarrel,
       missed,
