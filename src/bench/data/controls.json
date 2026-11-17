@@ -1123,6 +1123,9 @@
     "label": "Here",
     "more": "and {count} more"
   },
+  "tv": {
+    "live": "Live"
+  },
   "talkBox": {
     "continue": "Continue",
     "skipScene": "Skip scene",

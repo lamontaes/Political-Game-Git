@@ -4,7 +4,7 @@ import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
 import { backdropFor, homeOf, peopleHere } from "./scene";
 
-/** A place painted in any light (the Oval Office address is painted at night only, the colonnade in the morning only). */
+/** A place painted in any light (the colonnade is painted in the morning only). */
 const hasBackdrop = (place: string) =>
   (manifest.backdrops as readonly { place: string }[]).some(
     (record) => record.place === place,
@@ -20,7 +20,7 @@ const DATA = montage as unknown as {
 };
 
 export type BeatKind =
-  "oval-desk" | "colonnade" | "officials" | "state" | "america" | "home";
+  "chamber" | "colonnade" | "officials" | "state" | "america" | "home";
 
 /** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
 export interface MontageBeat {
@@ -190,7 +190,7 @@ export function addressMontage(
       role?: string;
     }[] = [];
     const records: string[] = [];
-    if ((kind === "oval-desk" || kind === "colonnade") && speaker) {
+    if ((kind === "chamber" || kind === "colonnade") && speaker) {
       cast.push({ id: speakerId, name: speaker, reason: "moment" });
       records.push(speakerId);
     } else if (kind === "officials") {
@@ -257,7 +257,7 @@ export function addressMontage(
         core,
         backdrop.file,
         cast,
-        kind === "oval-desk" ? speakerId : undefined,
+        kind === "chamber" ? speakerId : undefined,
       ).people,
       sourceRecordIds: records,
     };

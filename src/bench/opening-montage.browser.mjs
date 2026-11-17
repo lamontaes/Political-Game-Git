@@ -68,12 +68,12 @@ try {
     assert.ok(beats.length >= 7, `the address has only ${beats.length} parts`);
     assert.match(
       beats[0].backdrop,
-      /^oval-/,
-      "the address does not start at the desk",
+      /^us-(house|senate)-floor/,
+      "the address does not start in the chamber",
     );
     assert.ok(
       beats[0].people >= 1,
-      "the President is not on the strip at the desk",
+      "the President is not on the strip in the chamber",
     );
     assert.ok(
       pictures.size >= 3,

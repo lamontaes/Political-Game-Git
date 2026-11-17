@@ -66,6 +66,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
+import { tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -280,6 +281,34 @@ function drawTalkStrip() {
       ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
       : []),
   );
+}
+
+/**
+ * A speech heard on television (the speech's own record says its station and
+ * medium): the speaker's bust on a set over the room, with the station under
+ * their name and Live over it. Anything else clears it.
+ */
+let tvRequest = 0;
+async function drawTv(speech, name) {
+  const request = ++tvRequest;
+  const set = $("tv");
+  const on = speech?.heardOn;
+  set.hidden = true;
+  set.replaceChildren();
+  if (!on || on.medium !== "television") return;
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
+  ).catch(() => undefined);
+  if (!c?.face || request !== tvRequest) return;
+  set.replaceChildren(
+    ...tvSet({
+      live: controls.tv.live,
+      speaker: { personId: speech.speakerId, name, face: c.face },
+      station: on.station,
+      onClick: (person) => showPerson({ personId: person.personId }),
+    }),
+  );
+  set.hidden = false;
 }
 
 /**
@@ -2554,6 +2583,7 @@ async function showStory(momentId) {
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
+      drawTv(story.speech, story.names[story.speech.speakerId]);
       fillTalk({
         lines: [
           talkLine({
