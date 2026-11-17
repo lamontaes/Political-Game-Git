@@ -19,6 +19,7 @@ import {
   acceptJobOffer,
   applyForOpening,
   fillableOpenings,
+  quitJob,
   jobOffersFor,
   JOBS_MODULE_ID,
   type JobOfferRow,
@@ -44,6 +45,9 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       });
       const api = coreAPI(core);
       const playerId = core.playerId!;
+      // Only a player out of work is open to offers: a player with a job leaves it
+      // by their own press (the jobs sheet's Leave this job, `quitJob`).
+      if (core.people.get(playerId)!.jobId) quitJob(api, playerId);
       const before = core.people.get(playerId)!.jobId;
       // Eight weeks at a time for up to a year, until an employer picks them
       // (a town's openings and the player's fit decide when, if at all).
