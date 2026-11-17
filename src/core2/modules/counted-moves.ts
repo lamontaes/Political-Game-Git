@@ -1528,21 +1528,22 @@ function arrivals(
       const template = shapes[unit % shapes.length]!;
       const size = store.weightedCount(template);
       if (size <= 0 || total < size / 2) break;
-      // Each person is charged to their own age's balance, from the origin
-      // first; what that age lacks comes from the rest of the place's due,
-      // and what the place lacks it owes from then on.
+      // Each person is charged to their own age's balance from the origin,
+      // then to the origin's other ages; what the origin lacks it owes from
+      // then on. Never another origin's due: a household labeled from abroad
+      // that drew on the state's own movers made the place take more from
+      // abroad than the tier brought (Pins family 29).
       const weight = store.weightOf(template);
       for (const m of store.countedMembers(template)) {
         const b = coarseIndex(ageOn(store.born[m]!, date), adultAge);
         let take = weight;
         const first = `${origin}|${b}`;
-        const order = [...own.keys()].sort((x, y) => {
-          if (x === first || y === first) return x === first ? -1 : 1;
-          const sameX = x.endsWith(`|${b}`);
-          const sameY = y.endsWith(`|${b}`);
-          if (sameX !== sameY) return sameX ? -1 : 1;
-          return own.get(y)! - own.get(x)! || (x < y ? -1 : 1);
-        });
+        const order = [...own.keys()]
+          .filter((key) => key.startsWith(`${origin}|`))
+          .sort((x, y) => {
+            if (x === first || y === first) return x === first ? -1 : 1;
+            return own.get(y)! - own.get(x)! || (x < y ? -1 : 1);
+          });
         for (const key of order) {
           const have = own.get(key)!;
           const used = Math.max(0, Math.min(have, take));

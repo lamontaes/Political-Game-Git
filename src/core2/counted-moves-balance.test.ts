@@ -125,10 +125,15 @@ it("a place takes in people from abroad as the country tier's month brings them,
   const line = `arrived ${arrived} of ${Math.round(start)}; the tier brought the state ${Math.round(stateArrived)} over ${seen.size} months`;
   process.stdout.write(`from abroad: ${line}\n`);
   expect(abroad.length, "moves in from abroad").toBeGreaterThan(0);
-  // Whole households arrive, so the place's count rounds up by at most a
-  // household; never more than the state was brought.
+  // Whole households arrive, so the place's count can run past what it was
+  // due by at most one arrival (a record stands for every household it
+  // copies: SG-WORLD-counted-record-moves-whole); never more than that past
+  // what the state was brought.
+  const largest = Math.max(...abroad.map((row) => row.people));
   expect(seen.size, line).toBeGreaterThan(0);
-  expect(arrived, line).toBeLessThanOrEqual(stateArrived + 10);
+  expect(arrived, `${line}; largest arrival ${largest}`).toBeLessThanOrEqual(
+    stateArrived + largest,
+  );
   for (const row of abroad) {
     expect(row.reasons.fromAbroad).toBeGreaterThan(0);
     expect(row.reads?.fromAbroad).toEqual(["country-state:US-DC"]);
