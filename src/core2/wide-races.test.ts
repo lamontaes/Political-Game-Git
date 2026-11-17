@@ -1,5 +1,6 @@
 import { buildBenchWorld } from "../bench/world";
 import { describe, expect, it } from "vitest";
+import { restoreWorld, snapshotWorld } from "./snapshot";
 import { coreAPI } from "./state";
 import { holdoverRule } from "./office-holdover";
 import { standingPool, raceScope } from "./candidate-pool";
@@ -50,6 +51,18 @@ const elections = api.moduleState(ELECTIONS_MODULE_ID);
 const contests = elections.table("contests").rows() as unknown as ContestRow[];
 const president = contests.find((c) => c.officeId === "office:US:president")!;
 describe("wide candidates and unfilled terms", () => {
+  // A case that changes the shared world (ends a seat's term, moves the date
+  // to a term boundary) puts it back after, so a later case never reads the
+  // world it left: the empty-race case read the House seat the vacant-term
+  // case had emptied, and called it a vacancy.
+  const fromOpening = (body: () => void) => () => {
+    const opened = snapshotWorld(world.core);
+    try {
+      body();
+    } finally {
+      restoreWorld(world.core, opened);
+    }
+  };
   it("national standing includes real people beyond the played state", () => {
     const pool = standingPool(api, raceScope(api, president));
     const states = new Set(
@@ -169,54 +182,60 @@ describe("wide candidates and unfilled terms", () => {
       ).toEqual(before);
     },
   );
-  it("edge fixture: a vacant new congressional term uses its new end date and is idempotent", () => {
-    const contest = contests.find((c) => c.family === "usHouse")!;
-    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-    const previous = terms.query("bySeatStatus", [
-      contest.seatId,
-      "serving",
-    ])[0] as unknown as TermRow;
-    terms.put({ ...previous, status: "ended", endDate: world.core.date });
-    const vacancy = unfilledTerm(
-      api,
-      contest.seatId,
-      "fixture:empty-result",
-      "2029-01-03",
-    )!;
-    expect(vacancy.cause).toBe("fixture:empty-result");
-    expect(vacancy.status).toBe("awaiting-election");
-    const special = (
-      elections.table("contests").rows() as unknown as ContestRow[]
-    ).find((c) => c.special?.vacancyId === vacancy.id);
-    expect(special?.special?.termEnd).toBe("2029-01-03");
-    expect(
-      unfilledTerm(api, contest.seatId, "fixture:empty-result", "2029-01-03"),
-    ).toEqual(vacancy);
-  });
-  it("edge fixture: no winner does not remove a senator before the term boundary", () => {
-    const contest = contests.find((c) => c.officeId.includes("us-senate"))!;
-    const empty = { ...contest, id: `fixture:empty:${contest.id}` };
-    elections.table("contests").put(empty);
-    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-    const previous = terms.query("bySeatStatus", [
-      contest.seatId,
-      "serving",
-    ])[0] as unknown as TermRow;
-    expect(holdElection(api, empty.id).winnerId).toBeNull();
-    resolveEmptyRace(api, empty.id);
-    expect(terms.get(previous.id)?.status).toBe("serving");
-    const row = api
-      .moduleState(VOTING_MODULE_ID)
-      .table("emptyRaces")
-      .get(`empty:${empty.id}`)!;
-    world.core.date = String(row.due);
-    resolveEmptyRace(api, empty.id);
-    expect(terms.get(previous.id)?.status).toBe("ended");
-    expect(
-      api.moduleState(VOTING_MODULE_ID).table("emptyRaces").get(row.id)
-        ?.vacancyId,
-    ).toBeTruthy();
-  });
+  it(
+    "edge fixture: a vacant new congressional term uses its new end date and is idempotent",
+    fromOpening(() => {
+      const contest = contests.find((c) => c.family === "usHouse")!;
+      const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+      const previous = terms.query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ])[0] as unknown as TermRow;
+      terms.put({ ...previous, status: "ended", endDate: world.core.date });
+      const vacancy = unfilledTerm(
+        api,
+        contest.seatId,
+        "fixture:empty-result",
+        "2029-01-03",
+      )!;
+      expect(vacancy.cause).toBe("fixture:empty-result");
+      expect(vacancy.status).toBe("awaiting-election");
+      const special = (
+        elections.table("contests").rows() as unknown as ContestRow[]
+      ).find((c) => c.special?.vacancyId === vacancy.id);
+      expect(special?.special?.termEnd).toBe("2029-01-03");
+      expect(
+        unfilledTerm(api, contest.seatId, "fixture:empty-result", "2029-01-03"),
+      ).toEqual(vacancy);
+    }),
+  );
+  it(
+    "edge fixture: no winner does not remove a senator before the term boundary",
+    fromOpening(() => {
+      const contest = contests.find((c) => c.officeId.includes("us-senate"))!;
+      const empty = { ...contest, id: `fixture:empty:${contest.id}` };
+      elections.table("contests").put(empty);
+      const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+      const previous = terms.query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ])[0] as unknown as TermRow;
+      expect(holdElection(api, empty.id).winnerId).toBeNull();
+      resolveEmptyRace(api, empty.id);
+      expect(terms.get(previous.id)?.status).toBe("serving");
+      const row = api
+        .moduleState(VOTING_MODULE_ID)
+        .table("emptyRaces")
+        .get(`empty:${empty.id}`)!;
+      world.core.date = String(row.due);
+      resolveEmptyRace(api, empty.id);
+      expect(terms.get(previous.id)?.status).toBe("ended");
+      expect(
+        api.moduleState(VOTING_MODULE_ID).table("emptyRaces").get(row.id)
+          ?.vacancyId,
+      ).toBeTruthy();
+    }),
+  );
   it("edge fixture: one name on the ballot wins unopposed with whole vote totals", () => {
     // A race whose serving incumbent has a filing (candidacy files them in
     // play), then all but one withdraw. The state and county races go first; a
@@ -264,28 +283,25 @@ describe("wide candidates and unfilled terms", () => {
     for (const n of Object.values(result.totals))
       expect(Number.isInteger(n)).toBe(true);
   });
-  it.fails(
-    "edge fixture: an empty state or local race schedules its estimated holdover with a source the calendar accepts (expected failure, item tests-wide-races-three-cases-red-on-train)",
-    () => {
-      const contest = contests.find((c) => c.family === "usHouse")!;
-      // The same contest as a local race: the rule it reads is the place's own or the family default.
-      const empty = {
-        ...contest,
-        id: `fixture:empty-state:${contest.id}`,
-        level: "state",
-        family: "municipalOffice" as const,
-      };
-      elections.table("contests").put(empty);
-      expect(() => holdElection(api, empty.id)).not.toThrow();
-      const row = api
-        .moduleState(VOTING_MODULE_ID)
-        .table("emptyRaces")
-        .get(`empty:${empty.id}`)!;
-      expect(row.method).toBe(
-        holdoverRule(place.state, "municipalOffice").rule === "holds-over"
-          ? "holdover"
-          : "vacancy",
-      );
-    },
-  );
+  it("edge fixture: an empty state or local race schedules its estimated holdover with a source the calendar accepts", () => {
+    const contest = contests.find((c) => c.family === "usHouse")!;
+    // The same contest as a local race: the rule it reads is the place's own or the family default.
+    const empty = {
+      ...contest,
+      id: `fixture:empty-state:${contest.id}`,
+      level: "state",
+      family: "municipalOffice" as const,
+    };
+    elections.table("contests").put(empty);
+    expect(() => holdElection(api, empty.id)).not.toThrow();
+    const row = api
+      .moduleState(VOTING_MODULE_ID)
+      .table("emptyRaces")
+      .get(`empty:${empty.id}`)!;
+    expect(row.method).toBe(
+      holdoverRule(place.state, "municipalOffice").rule === "holds-over"
+        ? "holdover"
+        : "vacancy",
+    );
+  });
 });
