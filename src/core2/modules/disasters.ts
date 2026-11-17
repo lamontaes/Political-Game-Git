@@ -214,8 +214,102 @@ interface Exposure {
 
 const GENERATED_HAZARDS: readonly Hazard[] = ["flood", "storm", "wildfire"];
 
+/** A disaster the county's exposure makes: the `k`th of its hazard, with a recorded disaster's figures and its own number. */
+function madeDisaster(
+  rt: Runtime,
+  template: Disaster,
+  k: number,
+  begins: string,
+): Disaster {
+  const lag = Math.round(
+    (Date.parse(template.declared) - Date.parse(template.begins)) / 86_400_000,
+  );
+  const made: Disaster = {
+    ...template,
+    number: template.number + 1_000_000 * (k + 1),
+    recorded: template.number,
+    begins,
+    declared: addDays(makeIsoDate(begins), Math.max(0, lag)),
+  };
+  rt.made.set(made.number, made);
+  rt.byBegin.set(begins, [...(rt.byBegin.get(begins) ?? []), made]);
+  rt.byDeclared.set(made.declared, [
+    ...(rt.byDeclared.get(made.declared) ?? []),
+    made,
+  ]);
+  return made;
+}
+
 /**
- * After the record, the town's weather: on the first of each month the
+ * Dev mode's "cause a disaster" (and the tests'): build the county's exposure to a hazard up to
+ * one more whole disaster and let it happen tomorrow, through the same begin and declare as one
+ * the weather made. The hazard's next recorded disaster gives its figures. None where the county
+ * has no recorded disaster of that hazard to take figures from.
+ */
+export function causeDisaster(
+  api: CoreAPI,
+  hazard: Hazard,
+): Disaster | undefined {
+  const rt = runtime(api);
+  const list = rt.templates.get(hazard) ?? [];
+  if (!rt.county || !list.length) return undefined;
+  const exposures = api.moduleState(DISASTERS_MODULE_ID).table("exposure");
+  const id = `exposure:${rt.county}:${hazard}`;
+  const row = (exposures.get(id) as unknown as Exposure | undefined) ?? {
+    id,
+    hazard,
+    expected: seededUnit(
+      api.state.seed,
+      `exposure-start:${rt.county}:${hazard}`,
+    ),
+    fired: 0,
+  };
+  const made = madeDisaster(
+    rt,
+    list[row.fired % list.length]!,
+    row.fired,
+    addDays(makeIsoDate(api.state.date), 1),
+  );
+  exposures.put({
+    ...row,
+    expected: Math.max(row.expected, row.fired + 1),
+    fired: row.fired + 1,
+  } as unknown as ModuleRow);
+  return made;
+}
+
+/**
+ * Cause the next disaster whose recorded figures name homes damaged in the town (dev mode's
+ * "cause a disaster that damages the town"): the first hazard that has one, or none.
+ */
+export function causeDamagingDisaster(api: CoreAPI): Disaster | undefined {
+  for (const hazard of GENERATED_HAZARDS)
+    if (nextDisasterDamagesTown(api, hazard)) return causeDisaster(api, hazard);
+  return undefined;
+}
+
+/** The hazards a county's disasters come from, in the order the exposure is read. */
+export const DISASTER_HAZARDS = GENERATED_HAZARDS;
+
+/** Whether the next disaster of a hazard would damage homes in the town: its recorded figures name some. */
+export function nextDisasterDamagesTown(api: CoreAPI, hazard: Hazard): boolean {
+  const rt = runtime(api);
+  const list = rt.templates.get(hazard) ?? [];
+  if (!list.length) return false;
+  const fired =
+    (
+      api
+        .moduleState(DISASTERS_MODULE_ID)
+        .table("exposure")
+        .get(`exposure:${rt.county}:${hazard}`) as unknown as
+        Exposure | undefined
+    )?.fired ?? 0;
+  const row = townRow(rt, list[fired % list.length]!);
+  return (row?.[2] ?? 0) > 0 && (row?.[0] ?? 0) > 0;
+}
+
+/**
+ * The town's weather: on the first of each month the
  * county's exposure to each hazard grows by the climate's rate for the month
  * (`hazardRate`, the county's recorded declarations by season moved by the
  * warming); a disaster happens the month the exposure holds one more whole
@@ -267,23 +361,7 @@ function makeWeather(api: CoreAPI, rt: Runtime): void {
         lastDay,
       );
       const begins = `${month}-${String(day).padStart(2, "0")}`;
-      const lag = Math.round(
-        (Date.parse(template.declared) - Date.parse(template.begins)) /
-          86_400_000,
-      );
-      const made: Disaster = {
-        ...template,
-        number: template.number + 1_000_000 * (k + 1),
-        recorded: template.number,
-        begins,
-        declared: addDays(makeIsoDate(begins), Math.max(0, lag)),
-      };
-      rt.made.set(made.number, made);
-      rt.byBegin.set(begins, [...(rt.byBegin.get(begins) ?? []), made]);
-      rt.byDeclared.set(made.declared, [
-        ...(rt.byDeclared.get(made.declared) ?? []),
-        made,
-      ]);
+      madeDisaster(rt, template, k, begins);
     }
     exposures.put({
       ...row,

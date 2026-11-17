@@ -9,6 +9,7 @@ import { advanceCore, createLifeCore } from "./life";
 import {
   disasterRepairsPaid,
   normalizedGovernmentName,
+  causeDamagingDisaster,
   townDisastersWithDamage,
 } from "./modules/disasters";
 import {
@@ -79,6 +80,7 @@ const dueIn = (core: CoreState, end: string) =>
  * homes with the payees noted.
  */
 function playYear(core: CoreState) {
+  causeDamagingDisaster(coreAPI(core));
   const end = addDays(makeIsoDate(core.date), 365);
   const payees = new Map<number, Payees>();
   for (const disaster of dueIn(core, end)) {
