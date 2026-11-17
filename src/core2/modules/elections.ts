@@ -86,6 +86,9 @@ export {
   worldSwing,
 } from "../electorate-places";
 
+/** The officials engine, read by id: it imports this module. */
+const OFFICIALS_ID = "core2-officials-v1";
+
 export interface ContestRow extends ElectionDates {
   readonly id: string;
   readonly officeId: string;
@@ -1439,8 +1442,19 @@ export function checkEligibility(
         .table("terms")
         .query("byPerson", [personId]) as unknown as TermRow[]
     ).some((t) => partyName(t.party) === partyName(party));
+    // So is another place's officeholder, whose label is on their official
+    // record (the officials engine's row, the one the candidate pool files
+    // them under) and who has no term under their own id or tie here.
+    const recorded = api.state.modules.has(OFFICIALS_ID)
+      ? (
+          api.moduleState(OFFICIALS_ID).table("officials").get(personId) as
+            { readonly party?: string | null } | undefined
+        )?.party
+      : undefined;
     const member =
-      held || (tie?.tie === "party" && partyIdFor(api, party) === tie.partyId);
+      held ||
+      (!!recorded && partyName(recorded) === partyName(party)) ||
+      (tie?.tie === "party" && partyIdFor(api, party) === tie.partyId);
     checks.push({
       rule: "party-member",
       met: member,

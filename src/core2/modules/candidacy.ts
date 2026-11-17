@@ -1062,6 +1062,23 @@ export function weighContest(
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     livesWhereSeatServes(api, contest, p);
+  // A crowded race is the crowd a person would run against first: in a
+  // partisan race, the runners on their own side (the primary they would
+  // enter); for anyone without a party, or a seat without labels, everyone
+  // running. Counted the same whichever side was weighed first.
+  const partisan = Boolean(seatParty(api, contest));
+  const sides = new Map<number, number>();
+  const sideOfRunner = (id: PersonId) =>
+    partisan ? partySide(partyOf(api, id)) : 0;
+  const ran = (id: PersonId) => {
+    running.push(id);
+    const side = sideOfRunner(id);
+    sides.set(side, (sides.get(side) ?? 0) + 1);
+  };
+  const fieldFor = (id: PersonId) => {
+    const side = sideOfRunner(id);
+    return (side ? (sides.get(side) ?? 0) : running.length) + raceRunners;
+  };
   // The incumbent weighs standing again first: one who stands down leaves
   // the seat open, and everyone else weighs it as an open seat, citing the
   // decision that opened it.
@@ -1076,7 +1093,7 @@ export function weighContest(
     );
     if (decision) {
       asked.push(holder.id);
-      if (decision.run) running.push(holder.id);
+      if (decision.run) ran(holder.id);
       else field = openSeatOf(open, decision.id);
     }
   }
@@ -1107,10 +1124,10 @@ export function weighContest(
         CandidacyDecision | undefined;
       if (held) {
         asked.push(voter.id);
-        if (held.run) running.push(voter.id);
+        if (held.run) ran(voter.id);
         continue;
       }
-      const seat = { ...field, runners: running.length + raceRunners };
+      const seat = { ...field, runners: fieldFor(voter.id) };
       const reasons = countedCandidacyReasons(api, voter, seat);
       let pull = api.parameter("zero");
       for (const value of Object.values(reasons)) pull += value;
@@ -1126,7 +1143,7 @@ export function weighContest(
         sourceIds: [...field.sourceIds, voter.id, voter.householdId],
       } as unknown as { id: string });
       asked.push(voter.id);
-      running.push(voter.id);
+      ran(voter.id);
     }
     // Filing opens: a counted adult who decided to run but whose pull no
     // longer clears the bar today (the field grew) is not drawn, so they
@@ -1155,7 +1172,7 @@ export function weighContest(
       for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
         const id = `${field.contestId}:${voter.id}`;
         const held = decisions.get(id) as unknown as CandidacyDecision;
-        const seat = { ...field, runners: running.length + raceRunners };
+        const seat = { ...field, runners: fieldFor(voter.id) };
         const reasons = countedCandidacyReasons(api, voter, seat);
         let pull = api.parameter("zero");
         for (const value of Object.values(reasons)) pull += value;
@@ -1164,7 +1181,7 @@ export function weighContest(
           id: string;
         });
         asked.push(voter.id);
-        if (run) running.push(voter.id);
+        if (run) ran(voter.id);
       }
     }
   }
@@ -1180,12 +1197,12 @@ export function weighContest(
     const decision = decideToRun(
       api,
       person.id,
-      { ...field, runners: running.length + raceRunners },
+      { ...field, runners: fieldFor(person.id) },
       reconsider,
     );
     if (!decision) continue;
     asked.push(person.id);
-    if (decision.run) running.push(person.id);
+    if (decision.run) ran(person.id);
   }
   const row: WeighedContest = {
     id: contest.id,

@@ -30,7 +30,8 @@ import {
 // (Parksley, Virginia and Fort Meade, Maryland among them): the national pool,
 // the stand-in and the empty-race edge fixture, item
 // tests-wide-races-three-cases-red-on-train (Needs cause); each is an
-// expected failure (it.fails) until that item is fixed.
+// expected failure (it.fails) until that item is fixed. The stand-in case
+// passes since the presidency's ballot is candidacy's alone (Nov 17).
 // Limit: the whole file runs in 31 s alone and 33 s beside group-quarters
 // (Nov 16, Train 800ae520), nearly all of it building the world at load;
 // each case takes under 3 s, well inside the default 30 s.
@@ -153,22 +154,19 @@ describe("wide candidates and unfilled terms", () => {
       ).toEqual([]);
     },
   );
-  it.fails(
-    "the stand-in cannot add candidates to a wide race owned by candidacy (expected failure, item tests-wide-races-three-cases-red-on-train)",
-    () => {
-      const before = elections
+  it("the stand-in cannot add candidates to a wide race owned by candidacy", () => {
+    const before = elections
+      .table("filings")
+      .rows()
+      .map((r) => r.id);
+    fileStandingCandidates(api, president.id);
+    expect(
+      elections
         .table("filings")
         .rows()
-        .map((r) => r.id);
-      fileStandingCandidates(api, president.id);
-      expect(
-        elections
-          .table("filings")
-          .rows()
-          .map((r) => r.id),
-      ).toEqual(before);
-    },
-  );
+        .map((r) => r.id),
+    ).toEqual(before);
+  });
   it("edge fixture: a vacant new congressional term uses its new end date and is idempotent", () => {
     const contest = contests.find((c) => c.family === "usHouse")!;
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");

@@ -2418,10 +2418,12 @@ function decideTurnout(
 
 /**
  * When filing closes: who runs is candidacy's, from people's own records
- * (installed in every world by `openVoting`). A statewide partisan race (no
- * district) still draws each major party's nominee where no one of that side
- * filed, since parties field statewide tickets: a named official, or a person
- * filled in to run for the party (SG-GOV-who-runs-stand-in).
+ * (installed in every world by `openVoting`). The presidency's ballot is
+ * candidacy's alone (CTO, Nov 17): every place's officeholders weigh it from
+ * the national pool and file under their own label. A statewide partisan race
+ * (no district) still draws each major party's nominee where no one of that
+ * side filed, since parties field statewide tickets: a named official, or a
+ * person filled in to run for the party (SG-GOV-who-runs-stand-in).
  */
 export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   const contest = api
@@ -2430,7 +2432,11 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .get(contestId) as unknown as ContestRow;
   // A running mate's office is filled by the governor candidates' tickets.
   if (filledByTickets(api, contest)) return;
-  fileNominees(api, contest);
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as { kind?: string } | undefined;
+  if (office?.kind !== "president") fileNominees(api, contest);
   formTickets(api, contest, "filing");
 }
 
