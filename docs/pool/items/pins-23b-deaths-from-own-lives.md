@@ -19,6 +19,7 @@ source: The CTO's LIFT THE PINS line on the crew's thread (#9747, comment 693689
 ---
 
 **What.** A full person's strain was the SSA 2023 hazard times a per-world mortality factor, and a counted person's chance of dying was the SSA cohort table times the state's NCHS ratio times the same factor. Two towns with the same people died at rates fixed by the published tables, not by their own illness, care, coverage and housing.
+Seen: dev mode, a person's health row, shows the strain's age, housing and web factors and no world or state factor.
 
 **Cause.** Found in code: `src/core2/modules/health.ts`, `segments` (the world's mortality factor on every strain); `src/core2/births-counted.ts`, the counted death chance (`cohortDeathChance` by birth year, `stateMortality.ratioByState`, the world factor); `src/core2/world-base-rates.ts` (the mortality row).
 
