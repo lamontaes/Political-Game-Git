@@ -179519,7 +179519,7 @@
       "key": "scene-talk.reply-tell.go-home-we-say-nothing-about-the-office-race-until-the-count-is-done",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Go home. We say nothing about the {office} race until the count is done.",
+      "text": "Go home, and say nothing about the {office} race until the count is done.",
       "uses": [
         {
           "subject": "scene",
