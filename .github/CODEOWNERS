@@ -192,6 +192,8 @@
 /src/core2/opening-finance.ts @lamontaes
 /src/core2/opening-public-owner.ts @lamontaes
 /src/core2/town-workplaces.ts @lamontaes
+/src/core2/town-establishments.ts @lamontaes
+/src/core2/regular-seller.ts @lamontaes
 /src/core2/town-employment-mix.ts @lamontaes
 /src/core2/town-pay.ts @lamontaes
 /src/core2/public-payroll.ts @lamontaes

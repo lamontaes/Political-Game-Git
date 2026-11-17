@@ -9,12 +9,14 @@
  * only; it writes nothing and spends no time.
  */
 import type { CoreState } from "../core2/types";
-import { countedHeadcountOf } from "../core2/residents-economy";
-import type { TownBusinessCount } from "../core2/town-establishments";
-import { TOWN_WORKPLACES } from "../core2/town-workplaces";
+import { countedHeadcountOf } from "../core2/modules/people";
+import {
+  DEFAULT_BUSINESS_BOOKS_DATA,
+  TOWN_WORKPLACES,
+  type TownBusinessCount,
+} from "../core2/modules/business";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
 import { coreAPI } from "../core2/state";
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
 
 export interface TownBusinessRow {
   readonly id: string;

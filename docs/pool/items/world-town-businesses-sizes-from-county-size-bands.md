@@ -2,7 +2,7 @@
 id: world-town-businesses-sizes-from-county-size-bands
 title: "A town's businesses of one kind all open the same size; the county's counts by size band would give one big grocery and several corner stores"
 area: world
-kind: gap
+kind: bug
 priority: 3
 size: M
 status: open

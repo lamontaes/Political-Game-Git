@@ -2900,3 +2900,7 @@ export const BUSINESS_MODULE: PreStartModule = {
     if (!store(api).table("state").get("business:state")) open(api);
   },
 };
+
+// The family's entry for what the screens read of the town's sizing (dev mode's Businesses view).
+export { TOWN_WORKPLACES } from "../town-workplaces";
+export type { TownBusinessCount } from "../town-establishments";
