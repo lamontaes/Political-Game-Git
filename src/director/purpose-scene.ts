@@ -56,7 +56,7 @@ import {
 } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { dayAhead, inNextMonth } from "../english/day-words";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
@@ -84,7 +84,7 @@ import { FAMILY_QUARREL } from "../core2/modules/partnerships";
 import { APOLOGY_PURPOSE, apologyReads } from "./apology-facts";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
-import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -113,6 +113,7 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { doorReads } from "./door-facts";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence, workHeld } from "../core2/person-work";
@@ -1669,6 +1670,22 @@ function composeBinding(
           : undefined,
         personLean,
       ),
+      // Where the gift ranks, where the bill is, whether the player votes on
+      // it and which side the player's own view puts them on, each from the
+      // record that holds it (donor-ask-facts.ts, `donorReads`).
+      donorReads(core, {
+        causeId: moment.causeId,
+        donorId: askerId,
+        playerId: askedId,
+        ...(said.filingId ? { filingId: said.filingId } : {}),
+        ...(record?.kind === "campaign-gift" &&
+        facts["donor-bill"] &&
+        said.billId
+          ? { billId: said.billId }
+          : {}),
+        sayPerson,
+        leanOf: personLean,
+      }),
     );
   // The apology over a missed payment: what the payment was for, who was not
   // paid, how far behind, the household's money, the next bill and an earlier
@@ -2368,17 +2385,46 @@ function composeBinding(
     Object.assign(facts, contestVoteDay(core, door.contestId));
     if (door.filingId && core.modules.has(ELECTIONS_MODULE_ID)) {
       const petition = petitionOf(coreAPI(core as CoreState), door.filingId);
-      if (petition && door.knock.petition === "true")
+      if (petition && door.knock.petition === "true") {
         facts.due = {
           text: spokenDate(petition.due, core.date),
           sourceRecordIds: [petition.id],
         };
+        // The candidate filed at the clerk's counter, in that scene.
+        if (core.durableLog.has(counterFilingReplyId(petition.filingId)))
+          facts["filed-at-counter"] = {
+            text: "yes",
+            sourceRecordIds: [counterFilingReplyId(petition.filingId)],
+          };
+      }
     }
     // What matters to the resident, asked (ruling 72): their strongest
     // question from their own views, with their side and the reason from
     // their life on record. One who has taken up no question of their own
     // has no view strong enough to name.
-    Object.assign(facts, doorViewFacts(core, askerId, door.contestId));
+    const viewFacts = doorViewFacts(core, askerId, door.contestId);
+    Object.assign(facts, viewFacts);
+    // What the records add to the door (door-facts.ts): the petition's answer,
+    // the other candidate, the player's own stand on the resident's question
+    // and the resident's ballot in the last election of this office.
+    Object.assign(
+      facts,
+      doorReads(core, {
+        causeId: moment.causeId,
+        residentId: askerId,
+        playerId: askedId,
+        contestId: door.contestId,
+        ...(door.filingId ? { filingId: door.filingId } : {}),
+        signature: type.purpose === "ask-signature",
+        knock: door.knock,
+        ...(viewFacts["view-question"]
+          ? {
+              viewQuestion: viewFacts["view-question"].text,
+              viewSide: viewFacts["side-for"] ? "for" : "against",
+            }
+          : {}),
+      }),
+    );
     // A second knock: the two have met at this door, so the player does not
     // introduce themself as a stranger again.
     if (door.knock.first === "false")
@@ -3435,9 +3481,11 @@ const DOOR_ASK_AFTER = "ask";
  * tie stands on today.
  */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number; unit?: string } | undefined>
+  Record<
+    string,
+    { value?: number; unit?: string; parameter?: string } | undefined
+  >
 >;
-const SHARE_OF_TIE = "share of the tie";
 
 /** The hours an ending's strain takes off the tie between two people today. */
 export function endingStrainHours(
@@ -3448,8 +3496,11 @@ export function endingStrainHours(
 ): number | undefined {
   const row = ENDING_STRAIN[keeps];
   if (!row) return undefined;
-  return row.unit === SHARE_OF_TIE
-    ? row.value * tieHoursBetween(core, a, b)
+  // A share of the tie is a core parameter (trust lost: closeness.ts
+  // trustLostHours, the row the promises engine reads too).
+  return row.parameter
+    ? parameter(row.parameter, core.data.parameters) *
+        tieHoursBetween(core, a, b)
     : row.value;
 }
 
@@ -3569,7 +3620,7 @@ export function replyInScene(
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       // A promise a record can settle: its kind and its tie, from the
-      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // ending's row in src/director/data/promise-endings.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),

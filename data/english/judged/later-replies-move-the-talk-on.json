@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 825,
+  "judged": 933,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -68,6 +68,19 @@
       ],
       "why": "\"Put the ring on me\" and \"Marriage isn't what I want\" repeat the first yes and the first no."
     },
+    "01x3o39tks1": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "022ojqd9wov": {
       "keys": [
         "scene-talk.follow-plea.can-you-at-least-think-about-why-if-it-s-the-money-or-the-paperwork-we",
@@ -91,6 +104,19 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "Both replies restate first options: the answer is still no, and the talk is finished."
+    },
+    "02eop9byjsa": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "02qnu38f23j": {
       "keys": [
@@ -158,6 +184,59 @@
         "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning"
       ],
       "why": "\"I'll call tonight\" and the tea offer restate the first yes and \"Have you eaten today?\""
+    },
+    "03lsz6e2nmg": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
+    "03vz7p7jalx": {
+      "keys": [
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
+        "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother"
+      ],
+      "why": "The after-last-time apology, the word to hold you to and walking away reword three first options."
+    },
+    "04d2dkxd9wa": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
+    "04fmuhctuti": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "04i55e62m14": {
       "keys": [
@@ -517,6 +596,19 @@
       ],
       "why": "Holding the answer, 'put it down and go' and 'take it with you' are the first refuse, accept and go options again."
     },
+    "0973slx4eps": {
+      "keys": [
+        "scene-talk.follow-confront.money.i-m-not-going-to-apologize-for-something-you-won-t-let-me-explain-first",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
+        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
+        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
+        "scene-talk.reply-leave.money.let-s-stop-before-we-say-something-we-can-t-take-back",
+        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for"
+      ],
+      "why": "'You're right... I'm sorry' and 'You want a fight... not the only one' repeat the first apology and keep-score options, leaving only 'let's stop' new."
+    },
     "098g1z9jc7a": {
       "keys": [
         "scene-talk.follow-answer.bad-enough-that-i-m-asking-you-instead-of-doing-it-myself",
@@ -556,6 +648,19 @@
       ],
       "why": "\"I'll call tonight\" and the tea offer repeat the first yes and the eating stall they just called out."
     },
+    "09q4s6izlmr": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "09r129d98v0": {
       "keys": [
         "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
@@ -571,6 +676,19 @@
       ],
       "why": "Holding the answer, 'put it down and go', reporting it and ending the talk replay the first refuse, accept, report and leave options."
     },
+    "09uwjp902l3": {
+      "keys": [
+        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
+        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+        "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
+        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
+        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
+    },
     "0aeo84h8j1z": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -583,6 +701,19 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
+    },
+    "0ag9gkom3c0": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "0bljejzqwm2": {
       "keys": [
@@ -717,6 +848,19 @@
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the denial."
     },
+    "0ef75oogu61": {
+      "keys": [
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse",
+        "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
     "0ejc9ljg8ia": {
       "keys": [
         "scene-talk.follow-ask.friend.is-that-all-of-it-first",
@@ -742,6 +886,33 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
+    "0ey9702p771": {
+      "keys": [
+        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
+        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
+        "scene-talk.reply-ask.close.what-do-you-need-from-me-to-put-the-missed-payment-right",
+        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me",
+        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
+        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
+        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
+      ],
+      "why": "Most of the replies offered now say the first apology, promise or excuse again in new words instead of moving the talk on."
+    },
+    "0fu0shxkigt": {
+      "keys": [
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
+        "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
     "0fxmhrptdhl": {
       "keys": [
         "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
@@ -754,6 +925,19 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Two of three replies restate first options: the offer of the truth and the denial."
+    },
+    "0g65cyejx3z": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "0gps3441b81": {
       "keys": [
@@ -808,6 +992,20 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
+    "0hfqg335rc1": {
+      "keys": [
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
+        "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
+      ],
+      "why": "Besides 'Thursday, on the record', the replies repeat the sorry, the walk-away line nearly word for word and the 'bringing up the past' complaint."
+    },
     "0i69h6qm6db": {
       "keys": [
         "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
@@ -820,6 +1018,59 @@
         "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, question about the source or push-back in new words."
+    },
+    "0ic38m5kvpo": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
+    "0idsr9k56xy": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
+    "0iom2j6wdo4": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
+    "0iqohywhcob": {
+      "keys": [
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
+        "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother"
+      ],
+      "why": "Apart from 'Thursday, on the record', the replies redo the sorry, walking away (nearly verbatim) and the resentful fight complaint."
     },
     "0iv22v8s015": {
       "keys": [
@@ -931,6 +1182,19 @@
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
     },
+    "0l66d59dnox": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "0lassq2kg5g": {
       "keys": [
         "scene-talk.follow-press.is-it-me-or-the-idea-tell-me-which-and-i-can-work-with-either",
@@ -955,6 +1219,19 @@
         "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, question about the source or push-back in new words."
+    },
+    "0lmdsi3pfmx": {
+      "keys": [
+        "scene-talk.follow-press.pressed.a-plan-matters-more-than-sorry-right-now-first-what-are-you-going-to-do",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-promise.pressed.you-have-my-word-i-ll-tell-you-if-i-m-short-before-the-payment-is-due-not-after",
+        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse",
+        "scene-talk.reply-confront.pressed.you-re-not-the-only-one-counting-every-dollar"
+      ],
+      "why": "'It's late' and 'not the only one counting every dollar' repeat the first exit and stretched-thin line, leaving only the warn-before-due promise new."
     },
     "0lxo0r2fp9e": {
       "keys": [
@@ -1021,6 +1298,19 @@
         "scene-talk.reply-leave.i-can-t-keep-going-right-now-we-ll-pick-it-back-up-tomorrow"
       ],
       "why": "'I'll make the time', 'Give me until tomorrow' and 'pick it back up tomorrow' repeat the first promise and find-me-tomorrow deferral."
+    },
+    "0mi7huge4st": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "0mok7u2gn1t": {
       "keys": [
@@ -1138,6 +1428,19 @@
       ],
       "why": "Both replies restate first options: the answer is still no, and the talk is finished."
     },
+    "0nq9gzsj2ld": {
+      "keys": [
+        "scene-talk.follow-answer.close.just-tell-me-the-truth-about-it-first-and-tell-me-it-won-t-happen-again",
+        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
+        "scene-talk.reply-ask.close.what-do-you-need-from-me-to-put-the-missed-payment-right",
+        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me",
+        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
+        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
+        "scene-talk.reply-deflect.close.i-didn-t-think-it-would-matter-this-much-to-you"
+      ],
+      "why": "Most of the replies offered now say the first apology, promise or excuse again in new words instead of moving the talk on."
+    },
     "0nv7q5oaomh": {
       "keys": [
         "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
@@ -1150,6 +1453,19 @@
         "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
       ],
       "why": "Two of three replies restate first options: the partial admission repeats the offer to explain, and the reproach for trusting someone else repeats the complaint about rumors."
+    },
+    "0o96070yi74": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "0o9zlii2zwg": {
       "keys": [
@@ -1216,6 +1532,19 @@
       ],
       "why": "'Nothing has changed', reporting, 'just this once' and 'not doing this twice' restate all four first options."
     },
+    "0pc8sqtqhe4": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
     "0pk0j2a9msk": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -1269,6 +1598,32 @@
       ],
       "why": "\"I'll do it\" and \"I'll do it this week\" restate the first agreement; only the time-up exit is new."
     },
+    "0qe4qevxsnh": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
+    "0qvj55kurvq": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "0qxjynuhjk8": {
       "keys": [
         "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
@@ -1307,6 +1662,20 @@
         "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
+    },
+    "0ra46lnnbaj": {
+      "keys": [
+        "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
+        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+        "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
+        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want",
+        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
+        "scene-talk.reply-confront.money.you-act-like-you-ve-never-been-late-with-anything"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
     "0rajl7f6flp": {
       "keys": [
@@ -1374,6 +1743,45 @@
         "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry"
       ],
       "why": "All three replies restate first options: offering to explain, denying involvement and leaving without discussing it."
+    },
+    "0sc189o0kbs": {
+      "keys": [
+        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
+        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+        "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
+        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
+        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
+    },
+    "0sed61a01e8": {
+      "keys": [
+        "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-tell.i-was-going-after-your-argument-if-it-landed-on-you-that-wasn-t-the-po",
+        "scene-talk.reply-deflect.we-both-said-things-in-there",
+        "scene-talk.reply-confront.then-say-it-in-public-and-see-who-claps",
+        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
+        "scene-talk.reply-tell.i-went-after-the-idea-not-you-i-can-see-it-didn-t-come-across-that-way",
+        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
+      ],
+      "why": "'I went after the idea, not you' restates the going-after-your-argument option and 'say it in public' repeats the public dare, leaving only 'Thursday' new."
+    },
+    "0t4qklnkxvt": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "0tg3irhgfa5": {
       "keys": [
@@ -1492,6 +1900,19 @@
       ],
       "why": "\"I'll do it\" and \"I'll do it this week\" restate the first \"Done\"; only the guard exit is new."
     },
+    "0wmvkhz0w9d": {
+      "keys": [
+        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
+        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
+        "scene-talk.reply-ask.close.what-do-you-need-from-me-to-put-the-missed-payment-right",
+        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me",
+        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
+        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
+        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
+      ],
+      "why": "Most of the replies offered now say the first apology, promise or excuse again in new words instead of moving the talk on."
+    },
     "0xdlqgd0h0a": {
       "keys": [
         "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -1570,6 +1991,20 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "Two of three replies restate first options: the refusal repeats that the answer hasn't changed, and not discussing it here repeats not doing this here."
+    },
+    "0y2peu4lonu": {
+      "keys": [
+        "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-promise.pressed.i-ll-pay-the-next-one-before-anything-else-and-i-ll-tell-you-the-day-it-s-done",
+        "scene-talk.reply-leave.pressed.i-can-t-talk-about-money-anymore-today-i-ll-find-you-when-i-know-what-i-can-do",
+        "scene-talk.reply-confront.pressed.i-don-t-see-you-offering-to-cover-for-me"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "0ya0bpuac7w": {
       "keys": [
@@ -1768,6 +2203,19 @@
       ],
       "why": "Two of three replies restate first options: the apology repeats the first apology, and saying enough for today repeats declining to discuss it."
     },
+    "14po073e0br": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
     "1517ghr5fkc": {
       "keys": [
         "scene-talk.follow-press.you-cant-ignore-me-forever-first",
@@ -1859,6 +2307,18 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the denial."
+    },
+    "15qot65ok50": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "168ef32uudj": {
       "keys": [
@@ -2049,6 +2509,19 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
+    "1ai7nq3e287": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "1b18tyz8w5p": {
       "keys": [
         "scene-talk.follow-press.you-cant-ignore-me-forever-first",
@@ -2139,6 +2612,19 @@
       ],
       "why": "Put that away, I can't do this and I trust you replay the first not-even-for-you, sorry and for-you-fine options."
     },
+    "1c4av7kq5xh": {
+      "keys": [
+        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
+        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
+        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
+        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
+    },
     "1cj62moh2i6": {
       "keys": [
         "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
@@ -2167,6 +2653,18 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
+    "1dck7gk0cqk": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "1dw1t98lewn": {
       "keys": [
         "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
@@ -2193,6 +2691,20 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
+    },
+    "1e1f1gxr8pj": {
+      "keys": [
+        "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
+        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
+        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+        "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
+        "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
     "1e7apq23s2w": {
       "keys": [
@@ -2232,6 +2744,18 @@
         "scene-talk.reply-decline.i-see-why-you-asked-but-my-answer-is-still-no-i-m-sorry"
       ],
       "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
+    },
+    "1exmql7srxu": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "1f1xhv2u3sk": {
       "keys": [
@@ -2285,6 +2809,20 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
+    },
+    "1gds1yoe08h": {
+      "keys": [
+        "scene-talk.follow-press.pressed.a-plan-matters-more-than-sorry-right-now-first-what-are-you-going-to-do",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-promise.pressed.i-ll-pay-the-next-one-before-anything-else-and-i-ll-tell-you-the-day-it-s-done",
+        "scene-talk.reply-leave.pressed.i-can-t-talk-about-money-anymore-today-i-ll-find-you-when-i-know-what-i-can-do",
+        "scene-talk.reply-confront.pressed.i-don-t-see-you-offering-to-cover-for-me"
+      ],
+      "why": "Only the pay-the-next-one plan is new; the due-date sorry, 'can't talk about money today' and 'I don't see you offering to cover' redo the first apology, exit and lecture replies."
     },
     "1gkdf1u8np3": {
       "keys": [
@@ -2367,6 +2905,20 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
+    },
+    "1h8rrz2s33j": {
+      "keys": [
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
+        "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "1i0nc41zdgj": {
       "keys": [
@@ -2474,6 +3026,19 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
+    "1mc7aa4jbg6": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "1mj8gxki68v": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -2497,6 +3062,19 @@
         "scene-talk.reply-decline.i-can-t-say-yes-i-m-happy-with-what-we-have-i-just-can-t-picture-the-w"
       ],
       "why": "\"I've been wondering when you'd ask\" and \"can't picture the wedding\" are the first yes and no reworded."
+    },
+    "1mmihv6a4p2": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "1n09491ctnx": {
       "keys": [
@@ -2591,6 +3169,20 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
+    },
+    "1p0jwprszkl": {
+      "keys": [
+        "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
+        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
+        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+        "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
+        "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
     "1p42l7olixe": {
       "keys": [
@@ -2708,6 +3300,19 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
+    },
+    "1rkb8xzgr41": {
+      "keys": [
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
+        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse",
+        "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother"
+      ],
+      "why": "Only 'Thursday, on the record' is new; 'It's late' echoes walking away and 'why should I bother' echoes the resentful 'stop reminding me' reply."
     },
     "1ro6rcqxfgb": {
       "keys": [
@@ -2828,19 +3433,18 @@
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the denial."
     },
-    "1vg7fgttf6e": {
+    "1vgglsc4st0": {
       "keys": [
-        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
       ],
-      "why": "Going over it together, hearing him as a friend but not voting as one and 'I can't' replay the first read, can't-promise and sorry options."
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "1vj7rv0ya1n": {
       "keys": [
@@ -2960,6 +3564,19 @@
       ],
       "why": "Same answer, report, nothing to say and leave restate the first no, clerk and finished options."
     },
+    "1wr5tc4m3j0": {
+      "keys": [
+        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
+        "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
+        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
+        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
+    },
     "1wrvcafkokb": {
       "keys": [
         "scene-talk.follow-answer.mostly-i-d-like-to-know-who-to-ask-when-something-goes-wrong-and-you-seemed-like-the-right-person",
@@ -2998,6 +3615,32 @@
         "scene-talk.reply-decline.that-s-more-than-i-can-do-i-m-sorry"
       ],
       "why": "\"I'll do it,\" \"I'll write you what I find\" and \"more than I can do\" restate the first yes, report-back and refusal."
+    },
+    "1ys4iv8vzev": {
+      "keys": [
+        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse",
+        "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother"
+      ],
+      "why": "The missed-payment apology restates the first sorry, and 'It's late, let's not make it worse' restates walking away before it gets worse, so most replies rehash."
+    },
+    "1yy62bhejsc": {
+      "keys": [
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
     "1z54gcrqz09": {
       "keys": [
@@ -3040,6 +3683,19 @@
         "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
+    },
+    "1zjdpyar537": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "1zp1yjcqecw": {
       "keys": [
@@ -3106,19 +3762,30 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "23zf7yfafi1": {
+    "231tmlyeyzj": {
       "keys": [
-        "scene-talk.follow-press.until-you-tell-me-otherwise-i-ll-assume-i-have-your-support",
-        "scene-talk.reply-agree.i-ll-look-again-i-won-t-tell-you-the-answer-before-i-ve-looked",
-        "scene-talk.reply-bargain.tell-me-what-the-change-is-and-who-it-costs-and-i-ll-tell-you-what-i",
-        "scene-talk.reply-decline.i-took-your-money-and-i-ll-take-your-call-i-won-t-take-instructions",
-        "scene-talk.reply-stall.give-me-until-the-committee-meets-i-ll-know-more-then",
-        "scene-talk.reply-agree.i-ll-go-back-through-it-tonight-and-you-ll-hear-from-me-before-the-vo",
-        "scene-talk.reply-decline.i-can-t-tie-a-vote-to-a-check-not-yours-not-anyone-s",
-        "scene-talk.reply-bargain.i-ll-listen-i-d-like-your-people-at-the-budget-hearing-in-return",
-        "scene-talk.reply-leave.i-ll-let-you-know"
+        "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+        "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+        "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+        "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
+        "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
       ],
-      "why": "Going back through it tonight, refusing to tie a vote to a check and 'I'll let you know' restate the first look-again, no-instructions and wait-for-committee options."
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
+    "23ji9yj70tk": {
+      "keys": [
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse",
+        "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "240t43z5u6s": {
       "keys": [
@@ -3133,6 +3800,19 @@
         "scene-talk.reply-leave.im-walking-away-now-dont-follow-me"
       ],
       "why": "No, reporting, nothing to say and walking away reword the first no, clerk and finished options."
+    },
+    "24ovhe0cpgy": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
+        "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "25bjs9osdk5": {
       "keys": [
@@ -3252,20 +3932,6 @@
       ],
       "why": "\"I'll call {relative}\" repeats the first yes and \"staying here a while longer first\" repeats \"get you better first,\" so two of three rehash."
     },
-    "27co3eh1boo": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
-    },
     "27v6j0srigs": {
       "keys": [
         "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
@@ -3277,6 +3943,20 @@
         "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened"
       ],
       "why": "Both replies restate first options: the offer of the truth and the denial."
+    },
+    "28292nk6io2": {
+      "keys": [
+        "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
+        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+        "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+        "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
+        "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want",
+        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
+        "scene-talk.reply-confront.money.you-act-like-you-ve-never-been-late-with-anything"
+      ],
+      "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
     "28aivmew2eq": {
       "keys": [
@@ -3424,6 +4104,20 @@
       ],
       "why": "All four replies restate first options: the refusal, telling the clerk, not discussing it here and ending the talk."
     },
+    "2buxbtex709": {
+      "keys": [
+        "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+        "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+        "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+        "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+        "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+        "scene-talk.reply-promise.pressed.you-have-my-word-i-ll-tell-you-if-i-m-short-before-the-payment-is-due-not-after",
+        "scene-talk.reply-leave.pressed.i-can-t-talk-about-money-anymore-today-i-ll-find-you-when-i-know-what-i-can-do",
+        "scene-talk.reply-confront.pressed.you-re-not-the-only-one-counting-every-dollar"
+      ],
+      "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
+    },
     "2bxln7teld1": {
       "keys": [
         "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
@@ -3463,6 +4157,19 @@
         "scene-talk.reply-leave.were-finished-here-take-your-envelope-and-go"
       ],
       "why": "Won't be bought, leaving it for him to handle, reporting and 'take your envelope' replay the first four options."
+    },
+    "2d75c6xpjqm": {
+      "keys": [
+        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
+        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse",
+        "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
     "2dngbkbdhsz": {
       "keys": [
@@ -3571,6 +4278,18 @@
       ],
       "why": "Holding the answer, 'put it down and go' and ending the talk repeat the first refuse, accept and go options."
     },
+    "2fbjklh4e83": {
+      "keys": [
+        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+        "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
+        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes"
+      ],
+      "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
+    },
     "2g2xdxk2zp9": {
       "keys": [
         "scene-talk.follow-press.it-can-t-that-s-the-problem-please",
@@ -3609,7 +4328,49 @@
         "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
       ],
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
+    },
+    "1vg7fgttf6e": {
+      "keys": [
+        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small",
+        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
+        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
+        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
+        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
+        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
+        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
+        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
+        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
+      ],
+      "why": "Going over it together, hearing him as a friend but not voting as one and 'I can't' replay the first read, can't-promise and sorry options."
+    },
+    "23zf7yfafi1": {
+      "keys": [
+        "scene-talk.follow-press.until-you-tell-me-otherwise-i-ll-assume-i-have-your-support",
+        "scene-talk.reply-agree.i-ll-look-again-i-won-t-tell-you-the-answer-before-i-ve-looked",
+        "scene-talk.reply-bargain.tell-me-what-the-change-is-and-who-it-costs-and-i-ll-tell-you-what-i",
+        "scene-talk.reply-decline.i-took-your-money-and-i-ll-take-your-call-i-won-t-take-instructions",
+        "scene-talk.reply-stall.give-me-until-the-committee-meets-i-ll-know-more-then",
+        "scene-talk.reply-agree.i-ll-go-back-through-it-tonight-and-you-ll-hear-from-me-before-the-vo",
+        "scene-talk.reply-decline.i-can-t-tie-a-vote-to-a-check-not-yours-not-anyone-s",
+        "scene-talk.reply-bargain.i-ll-listen-i-d-like-your-people-at-the-budget-hearing-in-return",
+        "scene-talk.reply-leave.i-ll-let-you-know"
+      ],
+      "why": "Going back through it tonight, refusing to tie a vote to a check and 'I'll let you know' restate the first look-again, no-instructions and wait-for-committee options."
+    },
+    "27co3eh1boo": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first",
+        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
+        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
+        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
+        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
+        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
+        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
+        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
+        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
+      ],
+      "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
     }
   },
-  "yesHash": "1n04czf4q3h"
+  "yesHash": "2f1gai18mwg"
 }

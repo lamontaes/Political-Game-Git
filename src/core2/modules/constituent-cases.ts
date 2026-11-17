@@ -116,7 +116,15 @@ export const CASES_MODULE: CoreModule = {
         : null;
     const causeId = facts.causeId ?? "";
     if (!decision || !causeId.startsWith(SCENE_ENDINGS.causePrefix)) return;
-    handleCase(api, causeId.slice(SCENE_ENDINGS.causePrefix.length), decision);
+    // The reply is the case's record of who settled it: the case cites it,
+    // and the resident's view of the official cites it as its source.
+    handleCase(
+      api,
+      causeId.slice(SCENE_ENDINGS.causePrefix.length),
+      decision,
+      null,
+      event.id,
+    );
   },
 };
 

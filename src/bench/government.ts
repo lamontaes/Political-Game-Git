@@ -25,6 +25,7 @@ import { lawChain } from "../core2/modules/laws";
 import { repealFor } from "./legislature";
 import { LAW_SERIES } from "../core2/laws-in-force";
 import {
+  announceCandidacy,
   atLargeGroup,
   checkEligibility,
   ELECTIONS_MODULE_ID,
@@ -32,6 +33,7 @@ import {
   filingOfficeFor,
   filingWindowOpen,
   playerContests,
+  notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
   standing,
@@ -492,6 +494,20 @@ export function localRaces(core: CoreState) {
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
       const office = filingOfficeFor(api, contest.id);
       const bar = playerFilingBar(api, contest.id);
+      // The player's announcement for this race, while it waits for its
+      // window (owner, Nov 17: "Run now, file on the date").
+      const announced = core.playerId
+        ? group.some(
+            (seat) =>
+              (
+                elections
+                  .table("filings")
+                  .get(`filing:${seat.id}:${core.playerId}`) as unknown as
+                  FilingRow | undefined
+              )?.status === "announced",
+          )
+        : false;
+      const cannotFile = cannotFileFor(api, core.playerId, contest.id);
       return {
         contestId: contest.id,
         title: raceTitle(contest.title, contest.district),
@@ -512,16 +528,27 @@ export function localRaces(core: CoreState) {
         // Whether the player may run for it (the offices the player runs
         // for, player-offices.json): the screen offers to file only then.
         playerMayFile: bar === null,
+        // Whether the player may announce for it now and file when its
+        // window opens: the window is still ahead and nothing else bars them.
+        mayAnnounce:
+          !announced &&
+          bar === "window-not-open" &&
+          !cannotFile &&
+          playerFilingBar(api, contest.id, undefined, true) === null,
+        announced,
         // Why it is not offered, from the clerk's own check (null when it is);
         // a race of an office the player does not run for says so.
         bar,
+        // Which of the office rule's two causes closes it, and the home's own offices the player runs
+        // for instead, by title, so the page says why and where to run (crew list #9747, item 3a).
+        barWhy: whyNotYours(api, contest.id),
         // What kind of office it is, so the page names a county's offices as
         // the county's, and groups the player's own offices first.
         officeLevel: officeLevelOf(api, contest.officeId),
         // The first rule that stops the player filing, other than the dates
         // (the window shows those): the page says it plainly and offers no
         // filing, from the same eligibility check the clerk reads.
-        cannotFile: cannotFileFor(api, core.playerId, contest.id),
+        cannotFile,
         // The last election for the seat, from its holder's term record.
         lastTime: lastTimeOf(api, contest.id),
         filers,
@@ -673,6 +700,22 @@ function nextOwnContests(
   );
 }
 
+/** The office rule's cause for a closed office, with the titles of the home's offices the player runs for instead. */
+function whyNotYours(
+  api: CoreAPI,
+  contestId: string,
+): { why: string; instead: string[] } | null {
+  const why = notYourOfficeWhy(api, contestId);
+  if (!why) return null;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const titles = why.insteadIds.flatMap((id) => {
+    const title = (offices.get(id) as unknown as { title?: string } | undefined)
+      ?.title;
+    return title ? [title] : [];
+  });
+  return { why: why.why, instead: [...new Set(titles)] };
+}
+
 /** The level of the office a contest is for (city, county, township, state, federal). */
 function officeLevelOf(api: CoreAPI, officeId: string): string {
   const office = api
@@ -680,6 +723,40 @@ function officeLevelOf(api: CoreAPI, officeId: string): string {
     .table("offices")
     .get(officeId) as unknown as { level?: string } | undefined;
   return office?.level ?? "";
+}
+
+/**
+ * Announce for a race whose filing has not opened (owner, Nov 17: "Run now,
+ * file on the date"): the same bar and the same platform and party as a
+ * filing at the counter, through the elections engine's announcement.
+ */
+export function announceForOffice(
+  core: CoreState,
+  personId: string,
+  contestId: string,
+) {
+  const api = coreAPI(core);
+  const bar = playerFilingBar(api, contestId, undefined, true);
+  if (bar)
+    throw new Error(
+      (controls.localRaces.refusal as Record<string, string>)[bar] ??
+        controls.localRaces.refusal["not-your-office"],
+    );
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  if (!contest) throw new Error(controls.localRaces.refusal["not-your-office"]);
+  // The party the player is tied to, as the counter's filing reads it.
+  const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
+  const tie = parties.length ? partyTie(api, personId) : null;
+  const party = parties.find((row) => row.id === tie?.partyId)?.name ?? null;
+  return announceCandidacy(api, {
+    personId,
+    contestId,
+    platform: platformForContest(api, personId, party, contest),
+    party,
+  });
 }
 
 export function fileForOffice(

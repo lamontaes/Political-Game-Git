@@ -30,7 +30,7 @@ const assets = new Map([
 // The approved Kit 12/13 fonts and controls, served from public/.
 const PUBLIC = new URL("../../public/", import.meta.url);
 const publicFile =
-  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg|ui\/kit13\/calendar-[a-z]+\.png)$/;
+  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg|ui\/kit13\/calendar-[a-z]+\.png|ui\/kit13\/panel\.png)$/;
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", "http://bench");

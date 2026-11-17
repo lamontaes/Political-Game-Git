@@ -69,10 +69,14 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
-import { incomeBandOf } from "../counted-income-fifth";
+import {
+  incomeBandOf,
+  incomeBandOn,
+  wageIndexToday,
+} from "../counted-income-fifth";
 import { parameter } from "../parameters";
 
-export { incomeBandOf };
+export { incomeBandOf, incomeBandOn };
 /** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
 export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
@@ -485,7 +489,10 @@ export function groupKeyOf(
     placeId: h.placeId,
     district: h.district ?? "town",
     kind,
-    incomeBand: incomeBandOf(householdIncome(rt, h)),
+    incomeBand: incomeBandOf(
+      householdIncome(rt, h),
+      rt.api ? wageIndexToday(rt.api) : 1,
+    ),
     tenure: h.tenure,
     ageBand: ageBandOf(Math.max(0, headAge)),
     work,
@@ -4300,6 +4307,9 @@ export function rerateCountedRetirement(
   const rt = runtimes.get(core);
   if (!rt || !(level > 0)) return [];
   const changed: { flowId: string; fromMinor: number; toMinor: number }[] = [];
+  // Each award a pooled flow pays is a counted household's own income row:
+  // the same ratio moves it, so the household's income follows the line.
+  const byContract = new Map<string, number>();
   for (const flow of rt.flows.values()) {
     if (flow.kind !== "retirement" || flow.endedAt) continue;
     const ratio = level / (rt.retirementLevel.get(flow.id) ?? 1);
@@ -4312,12 +4322,27 @@ export function rerateCountedRetirement(
       for (const [id, amount] of Object.entries(flow.amountByContract)) {
         amounts[id] = Math.round(amount * ratio);
         total += amounts[id];
+        byContract.set(id, ratio);
       }
       flow.amountByContract = amounts;
       flow.amountMinor = total;
     } else flow.amountMinor = Math.round(flow.amountMinor * ratio);
     changed.push({ flowId: flow.id, fromMinor, toMinor: flow.amountMinor });
   }
+  if (byContract.size)
+    for (const h of rt.store.liveHouseholds()) {
+      if (!h.incomeContracts.some((row) => byContract.has(row.id))) continue;
+      h.incomeContracts = h.incomeContracts.map((row) => {
+        const ratio = byContract.get(row.id);
+        return ratio === undefined
+          ? row
+          : { ...row, amountMinor: Math.round(row.amountMinor * ratio) };
+      });
+      h.retirementMinorYear = h.incomeContracts.reduce(
+        (n, row) => n + (row.amountMinor * 12) / Math.max(1, row.periodMonths),
+        0,
+      );
+    }
   return changed;
 }
 

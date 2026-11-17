@@ -16,7 +16,7 @@ import { coreAPI } from "./state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-it(`continuous service is not a departure; a real gap uses the law's period (${replay})`, () => {
+it(`continuous service is not a departure; a real gap uses the law's period (${replay}) (just like today: needs the state's real lobbying cooling-off law)`, () => {
   setBookkeeping(false);
   const passed: string[] = [];
   for (let draw = 0; draw < 30; draw++) {
@@ -31,6 +31,7 @@ it(`continuous service is not a departure; a real gap uses the law's period (${r
     }
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
+      settings: { history: "today" },
       placeKey: place.key,
     });
     const core = world.core;

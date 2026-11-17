@@ -54,6 +54,12 @@ export interface KinHouseholdInput {
   members: readonly KinHouseholdMember[];
 }
 
+/** A person's full name as one comparable key. */
+const fullNameKey = (given: string, family: string) =>
+  `${given.toLowerCase()}|${family.toLowerCase()}`;
+// Engineering bound on drawing a name again; each draw removes one given name from the pool.
+const MAX_NAME_REDRAWS = 50;
+
 export type KinNamer = (input: {
   stableKey: string;
   gender: string;
@@ -389,6 +395,9 @@ export function buildOpeningKin(
     deaths: [],
     birthplaces: new Map(),
   };
+  // Each kin household by id, as it is made: a person's home is found by id,
+  // not by searching every household made so far.
+  const homesById = new Map<string, OpeningKin["households"][number]>();
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("votingAge");
   const archiveDays = pastParameters.pastArchiveDays.value;
@@ -443,6 +452,30 @@ export function buildOpeningKin(
     const adults = household.members.filter((row) => row.role === "adult");
     const children = household.members.filter((row) => row.role === "child");
 
+    // No two relatives share a full name (owner, Nov 16: partner and sister
+    // were both "Ashley Lucas"): a name already carried by someone in this
+    // household or its kin is drawn again with that given name taken.
+    const usedNames = new Set(
+      household.members.flatMap((row) =>
+        row.givenName ? [fullNameKey(row.givenName, row.familyName)] : [],
+      ),
+    );
+    const nameKin: KinNamer = (input) => {
+      const taken = [...(input.takenGivenNames ?? [])];
+      let named = options.name({ ...input, takenGivenNames: taken });
+      for (
+        let tries = 0;
+        usedNames.has(fullNameKey(named.givenName, named.familyName)) &&
+        tries < MAX_NAME_REDRAWS;
+        tries += 1
+      ) {
+        taken.push(named.givenName);
+        named = options.name({ ...input, takenGivenNames: taken });
+      }
+      usedNames.add(fullNameKey(named.givenName, named.familyName));
+      return named;
+    };
+
     const countyId = household.countyId ?? options.countyId;
     // Whether an adult has stayed where they grew up since turning adult (who
     // lives near whom at the opening). When someone who left came to the
@@ -476,10 +509,11 @@ export function buildOpeningKin(
         memberIds: [] as PersonId[],
       };
       out.households.push(row);
+      homesById.set(row.id, row);
       return { row, ...(local && countyId ? { countyId } : {}) };
     };
     const homeOf = (person: KinPerson): Home => ({
-      row: out.households.find((row) => row.id === person.householdId)!,
+      row: homesById.get(person.householdId)!,
       ...(person.countyId ? { countyId: person.countyId } : {}),
     });
     const makePerson = (
@@ -491,7 +525,7 @@ export function buildOpeningKin(
       takenGivenNames: readonly string[] = [],
     ): KinPerson => {
       const stableKey = `${household.stableKey}:kin:${key}`;
-      const named = options.name({
+      const named = nameKin({
         stableKey,
         gender,
         birthDate,
@@ -593,7 +627,7 @@ export function buildOpeningKin(
           if (through !== null) {
             const stableKey = `${household.stableKey}:kin:origin:${index}:${role}`;
             const birthDate = parentBirth;
-            const named = options.name({
+            const named = nameKin({
               stableKey,
               gender,
               birthDate,
@@ -839,7 +873,7 @@ export function buildOpeningKin(
         const gfamily =
           gender === MALE || grandchildren === p("zero")
             ? child.familyName
-            : options.name({
+            : nameKin({
                 stableKey: `${child.stableKey}:children-father`,
                 gender: MALE,
                 birthDate: child.birthDate,
