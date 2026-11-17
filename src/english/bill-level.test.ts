@@ -94,4 +94,15 @@ describe("a bill's title says the level of its body", () => {
     expect(billLevelWord("county", "Lake County", BOOK)).toBe("county");
     expect(billLevelWord("township", "Town of Edgar", BOOK)).toBe("township");
   });
+
+  it("says no level word for a town's body whose government record is not found", () => {
+    expect(billLevelWord("city", null, BOOK)).toBe("");
+    expect(billLevelWord("city", undefined, BOOK)).toBe("");
+    const bill = {
+      form: { kind: "ordinance" },
+      level: billLevelWord("city", null, BOOK),
+      provisions: [provision("income-tax")],
+    };
+    expect(billTitleOf(bill, BOOK)!.purpose).toBe("a higher income tax rate");
+  });
 });

@@ -36,8 +36,9 @@ export function billLevelWord(
   book: BillNameBook = billNames as BillNameBook,
 ): string {
   const word = (level ? book.levels?.[level] : undefined) ?? "";
-  if (level !== "city" || !governmentName) return word;
-  return governmentClassWord(governmentName) ?? word;
+  if (level !== "city") return word;
+  // A town's body with no government record to read says no level word, never a guessed one.
+  return governmentName ? (governmentClassWord(governmentName) ?? word) : "";
 }
 
 /**
