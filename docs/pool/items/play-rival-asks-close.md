@@ -14,7 +14,7 @@ blocked-on:
 lead: world
 model: sonnet
 effort: medium
-root:
+root: none
 source: Blockers' golden-path walk, Nov 17, 2026, for the CTO's 03:25Z priority (the owner's 11 a.m. build, "up to and through his first election")
 checked:
 ---
