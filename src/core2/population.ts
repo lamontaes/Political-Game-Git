@@ -5,6 +5,7 @@ import {
   openingEmploymentFromRecordedRoles,
   openingJobStart,
   openingTownJobs,
+  spreadTownBusinesses,
 } from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
 import {
@@ -161,6 +162,15 @@ export interface PopulationOptions {
    */
   cohortsOn?: string;
   minimumPeople?: number;
+  /**
+   * Open the town at its real Census size: each generated resident stands for
+   * the Census count over the generated people, and the town's businesses are
+   * as many as its real workers fill (`openingCountScale` in the place's
+   * metadata). Ignored when `countScale` is given.
+   */
+  openAtCensusScale?: boolean;
+  /** How many real residents each generated one stands for, as asked. */
+  countScale?: number;
   /** Opening generation only; false preserves the original canonical employment projection. */
   openingEmployment?: boolean;
   /** Independent schedule import switch; runtime can also disable scheduled work. */
@@ -942,6 +952,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     plans,
   );
   stopgap("SG-P8-authored-job-mix");
+  // The generated people so far (kin outside the town come after).
+  const generated = Object.keys(world.people).length;
+  const countScale =
+    options.countScale ??
+    (options.openAtCensusScale && real !== undefined && real > generated
+      ? real / generated
+      : p("one"));
   openingTownJobs(
     world,
     {
@@ -1070,6 +1087,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobs.push(job);
     jobByPerson.set(job.personId, job);
   }
+  // Every opening job is made: the town opens with as many businesses of
+  // each kind as its workers fill.
+  const businessCounts = spreadTownBusinesses(world, town, jobs, countScale);
   // When each opening job was taken, by one rule (openingJobStart): the
   // opening's own hires carry it from the allocation; a relationship the
   // world wrote is estimated the same way (its own start is the old median
@@ -1618,6 +1638,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         ? "recorded-geography-or-declared-county-equivalent"
         : "not-established",
       householdMixBasis: mix.basis,
+      openingCountScale: String(countScale),
+      openingBusinessCounts: JSON.stringify(businessCounts),
       referencePopulation: String(
         place.sourceGeoid
           ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??

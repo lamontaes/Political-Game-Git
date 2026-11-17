@@ -1,4 +1,5 @@
 import { addDays, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { regularSeller } from "./regular-seller";
 import { stableHash } from "./kernel/ids";
 import {
   OPENING_CUSTOMER_QUALIFICATION_PREFIX,
@@ -1311,26 +1312,22 @@ export function buildOpeningCustomers(
         continue;
       }
       const agreementId = `${ownedPrefix}household:${household.id}:${service.key}`;
-      // Seller shares weigh each seller's recorded capacity (its payroll); a
-      // seller with no recorded jobs takes the average of those that have
-      // them. The core folds a household's purchases into its everyday living
-      // (cost-of-living.ts), where the amount follows prices and pay.
-      const recorded = sellerRows
-        .map((row) => payrollByOrganization.get(row.id) ?? zero)
-        .filter((payroll) => payroll > zero);
-      const average = recorded.length
-        ? sum(recorded, "seller capacity") / recorded.length
-        : one;
-      for (const share of apportion(
-        allocation.amount,
-        sellerRows.map((row) => ({
-          id: row.id,
-          weight:
-            (payrollByOrganization.get(row.id) ?? zero) > zero
-              ? payrollByOrganization.get(row.id)!
-              : average,
-        })),
-      )) {
+      // A household buys each service from one regular seller, by the
+      // sellers' recorded capacity (their payroll), not a slice from every
+      // seller (regular-seller.ts). The core folds a household's purchases
+      // into its everyday living (cost-of-living.ts), where the amount
+      // follows prices and pay.
+      const seller = {
+        id: regularSeller(
+          input.seed,
+          household.id,
+          sellerRows.map((row) => ({
+            id: row.id,
+            weight: payrollByOrganization.get(row.id) ?? zero,
+          })),
+        )!,
+      };
+      for (const share of [{ id: seller.id, amount: allocation.amount }]) {
         if (share.amount <= zero) continue;
         householdContractIds.add(`${agreementId}:contract:${share.id}`);
         appendContract({

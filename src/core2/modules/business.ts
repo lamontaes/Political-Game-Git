@@ -10,6 +10,8 @@
 import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
+import { moveEverydaySellers } from "../cost-of-living";
+import { regularSeller } from "../regular-seller";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
@@ -1288,6 +1290,32 @@ function payCompliance(api: CoreAPI): void {
 }
 
 /** The town's businesses that sell each kind of good, by place and classification. */
+/**
+ * Moves full households' everyday spending between sellers the same day and
+ * records each move (who, from, to, how much a month, why); returns the
+ * monthly amount moved.
+ */
+function moveCustomers(
+  api: CoreAPI,
+  fromIds: ReadonlySet<string>,
+  to: (householdId: string, fromId: string) => string | null,
+  cause: "closed" | "opened",
+): number {
+  const c = core(api);
+  const table = store(api).table("customerMoves");
+  let moved = 0;
+  for (const move of moveEverydaySellers(c, fromIds, to)) {
+    moved += move.monthlyMinor;
+    table.put({
+      id: `${c.date}:${move.householdId}:${move.fromId}`,
+      ...move,
+      date: c.date,
+      cause,
+    });
+  }
+  return moved;
+}
+
 function townSellers(c: CoreState): Map<string, string[]> {
   const index = new Map<string, string[]>();
   for (const [id, book] of c.finance.businesses) {
@@ -2383,8 +2411,27 @@ function found(
           capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
+  // Full households switch to it where it now stands first among their
+  // regular sellers of this kind (regular-seller.ts); nobody else moves.
+  const field = [
+    ...market.incumbents
+      .filter((rid) => !c.finance.businesses.get(rid)?.closedAt)
+      .map((rid) => ({
+        id: rid,
+        weight: c.finance.businesses.get(rid)?.capacityMinor ?? 0,
+      })),
+    { id, weight: capacityMinor },
+  ];
+  const won = moveCustomers(
+    api,
+    new Set(market.incumbents),
+    (householdId) =>
+      regularSeller(c.seed, householdId, field) === id ? id : null,
+    "opened",
+  );
   const annualDemandMinor =
     households +
+    won * p("macroMonthsPerYear") +
     shiftPurchaseShare(
       c,
       new Set(market.incumbents),
@@ -2761,6 +2808,13 @@ export const BUSINESS_MODULE: PreStartModule = {
       },
       choices: {},
       [FIRM_CHARGES_TABLE]: {},
+      // Households that changed stores when one closed or opened.
+      customerMoves: {
+        indexes: {
+          byFrom: { fields: ["fromId"] },
+          byTo: { fields: ["toId"] },
+        },
+      },
     },
   },
   reasonProviders: {
@@ -2774,6 +2828,25 @@ export const BUSINESS_MODULE: PreStartModule = {
     const c = core(api);
     // The closure event's id ends with the closed business.
     const organizationId = event.id.split(":").slice(2).join(":");
+    // Its customers go to their next regular seller of its kind the same day:
+    // households here, and businesses' supplies by the outside-costs routing.
+    const placeId = c.organizations.get(organizationId)?.placeId;
+    const others = (
+      townSellers(c).get(`${placeId}|${classificationOf(c, organizationId)}`) ??
+      []
+    ).map((id) => ({
+      id,
+      weight: c.finance.businesses.get(id)?.capacityMinor ?? 0,
+    }));
+    if (others.length) {
+      moveCustomers(
+        api,
+        new Set([organizationId]),
+        (householdId) => regularSeller(c.seed, householdId, others),
+        "closed",
+      );
+      routeOutsideCosts(api);
+    }
     const row = store(api).table("owners").get(organizationId) as
       OwnerRow | undefined;
     if (!row) return;
