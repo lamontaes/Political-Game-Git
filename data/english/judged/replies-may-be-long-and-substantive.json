@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 975,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -38,15 +38,6 @@
         "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "00liyd1ccw3": {
-      "keys": [
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
-        "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic"
-      ],
-      "why": "An apology, a stall and a challenge to a fight at the mic carry no reason."
     },
     "00qfs4l9ey8": {
       "keys": [
@@ -665,24 +656,6 @@
       ],
       "why": "Agreeing, asking for the best argument and moving to dinner give no reason for any position."
     },
-    "0ds0o16lzdr": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "The replies are an apology, a promise and an exit, none of which gives a reason."
-    },
-    "0dubciy3g9p": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
-        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "The replies are apologies, a promise and an exit with no reason or argument in them."
-    },
     "0dwj2pkcxwz": {
       "keys": [
         "scene-talk.follow-plea.please-give-it-a-few-weeks-before-you-decide-i-ll-earn-my-place",
@@ -891,14 +864,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "0icdu27e3z8": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
-        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-      ],
-      "why": "One reply is an apology of feeling and the other a short exit, with no reason in either."
     },
     "0ieprpwe2ep": {
       "keys": [
@@ -1193,15 +1158,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "0n6lw40vuzq": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "The replies are an apology, a promise and an exit, none of which gives a reason."
-    },
     "0n6xyrmj1hx": {
       "keys": [
         "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
@@ -1354,14 +1310,6 @@
         "scene-talk.reply-deflect.let-me-think-about-whether-i-m-the-right-person-to-help-and-i-ll-tell-you-tomorrow"
       ],
       "why": "The replies agree, promise, or defer the decision without a reason."
-    },
-    "0qhvnoof8zg": {
-      "keys": [
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
-        "scene-talk.reply-confront.then-say-it-in-public-and-see-who-claps"
-      ],
-      "why": "\"We're not getting anywhere\" and \"see who claps\" carry no reason."
     },
     "0qi61rmyp9f": {
       "keys": [
@@ -3668,14 +3616,6 @@
       ],
       "why": "\"I don't know yet\" and \"I didn't ask twice\" admit uncertainty without offering any argument."
     },
-    "26otq4wootx": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
-        "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-      ],
-      "why": "Both replies are short closers with no reason or argument."
-    },
     "270atbdw3ql": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -3903,14 +3843,6 @@
       ],
       "why": "'Nothing has changed', reporting, accepting and 'Take that with you' give no reason."
     },
-    "2c1eh1xk9k3": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "One reply is an apology of feeling and the other is an exit, and neither carries a reason."
-    },
     "2c2ugdknvwc": {
       "keys": [
         "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that",
@@ -4128,15 +4060,6 @@
       ],
       "why": "A flat no and an exit with no reason."
     },
-    "2fjf0kvwt1h": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
-        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "The replies are apologies, a promise and an exit with no reason or argument in them."
-    },
     "2fthspp8j49": {
       "keys": [
         "scene-talk.follow-ask.even-if-it-costs-you-votes",
@@ -4155,5 +4078,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "0n0p04ttju7"
 }

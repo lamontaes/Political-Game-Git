@@ -192110,7 +192110,7 @@
       "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-we-ll-deal-with-loan-later",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We'll deal with {loan} later.",
+      "text": "Let's stop here and deal with {loan} later.",
       "uses": [
         {
           "subject": "scene",
@@ -192136,7 +192136,7 @@
       "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-due-next-isn-t-here-yet",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. {due-next} isn't here yet.",
+      "text": "Let's stop here until {due-next} is closer.",
       "uses": [
         {
           "subject": "scene",
@@ -192162,7 +192162,7 @@
       "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-we-re-behind-not-finished",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We're {behind}, not finished.",
+      "text": "Let's stop here before being {behind} turns into a fight.",
       "uses": [
         {
           "subject": "scene",
@@ -193672,7 +193672,7 @@
       "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-ll-deal-with-loan-soon",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We'll deal with {loan} soon.",
+      "text": "Let's stop here and come back to {loan} soon.",
       "uses": [
         {
           "subject": "scene",
@@ -193698,7 +193698,7 @@
       "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-have-until-due-next",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We have until {due-next}.",
+      "text": "Let's stop here, since we have until {due-next}.",
       "uses": [
         {
           "subject": "scene",
@@ -193724,7 +193724,7 @@
       "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-re-behind-not-done",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We're {behind}, not done.",
+      "text": "Let's stop here while we're only {behind}, not done.",
       "uses": [
         {
           "subject": "scene",

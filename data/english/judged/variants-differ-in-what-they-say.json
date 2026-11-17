@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1172,
+  "judged": 1158,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -363,13 +363,6 @@
       ],
       "why": "All three say the race is close and to decide soon, with no record fact about the race's margin behind any of them."
     },
-    "06sb1do7lj7": {
-      "keys": [
-        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills"
-      ],
-      "why": "Both lines are a sorry and a promise to do better."
-    },
     "06vjifi65pn": {
       "keys": [
         "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-if-you-want",
@@ -674,14 +667,6 @@
         "scene-talk.close-warn.the-questions-don-t-go-away-because-you-walked-past-them"
       ],
       "why": "Both say the questions will not go away."
-    },
-    "0arzbemgqbu": {
-      "keys": [
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry"
-      ],
-      "why": "All three lines are the same apology for the missed payment."
     },
     "0awnsxwgtm4": {
       "keys": [
@@ -1316,13 +1301,6 @@
       ],
       "why": "Both lines are a plain yes to getting in touch."
     },
-    "0m32kcmb59f": {
-      "keys": [
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-leave.money.let-s-stop-before-we-say-something-we-can-t-take-back"
-      ],
-      "why": "Both lines say to stop and talk when calmer."
-    },
     "0m7onuhd1dc": {
       "keys": [
         "scene-talk.close-warn.don-t-expect-the-next-one-to-come-easy",
@@ -1400,13 +1378,6 @@
         "scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal"
       ],
       "why": "Both lines offer a vague give-and-take, the same bargain reworded."
-    },
-    "0nd5avx6cbc": {
-      "keys": [
-        "scene-talk.narrate-narrate.close.name-isn-t-angry-so-much-as-hurt-about-the-missed-payment-and-has-come-to-say-so",
-        "scene-talk.narrate-narrate.close.you-and-name-are-close-and-the-missed-payment-has-come-between-you"
-      ],
-      "why": "Both lines say the missed payment hurt a close relationship, with nothing to choose between them."
     },
     "0ndqp8tqlyq": {
       "keys": [
@@ -1990,14 +1961,6 @@
       ],
       "why": "Both say only the family has been told."
     },
-    "0wmw4bnhke5": {
-      "keys": [
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
-        "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
-        "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses"
-      ],
-      "why": "All three lines are an apology for hurting someone close."
-    },
     "0woue1048aq": {
       "keys": [
         "scene-talk.reply-tell.because-the-numbers-changed-and-staying-put-would-ve-cost-more-people-",
@@ -2562,13 +2525,6 @@
         "scene-talk.reply-promise.this-won-t-change-who-we-are-at-home"
       ],
       "why": "All three lines promise that home life will not change, with nothing in the world to choose between them."
-    },
-    "158d6jez7pp": {
-      "keys": [
-        "scene-talk.state-request.close.i-don-t-care-about-the-late-fee-first-i-care-that-the-missed-payment-came-between-us-can-you-tell-me-you-re-sorry",
-        "scene-talk.state-request.close.you-and-i-don-t-do-this-to-each-other-first-could-you-tell-me-you-re-sorry-about-the-missed-payment"
-      ],
-      "why": "Both lines ask for an apology because the payment came between them."
     },
     "15cagak9i6f": {
       "keys": [
@@ -3606,13 +3562,6 @@
       ],
       "why": "Both say three minutes before they cut you off, in reordered words."
     },
-    "1mlgrjfw2xp": {
-      "keys": [
-        "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here",
-        "scene-talk.reply-confront.money.you-act-like-you-ve-never-been-late-with-anything"
-      ],
-      "why": "Both lines say the asker is late with things too."
-    },
     "1mvnx2broea": {
       "keys": [
         "scene-talk.close-thank.thank-you-that-means-a-lot-to-this-campaign",
@@ -4316,13 +4265,6 @@
       ],
       "why": "All three lines are a brief agreement to do it with nothing to tell them apart."
     },
-    "20efzwn6gi7": {
-      "keys": [
-        "scene-talk.reply-ask.close.what-do-you-need-from-me-to-put-the-missed-payment-right",
-        "scene-talk.reply-ask.close.what-would-help-you-most-right-now-first"
-      ],
-      "why": "Both lines ask what the asker needs from the player."
-    },
     "20xqgcnwo6h": {
       "keys": [
         "scene-talk.reply-leave.i-have-to-go-call-me-later",
@@ -4955,13 +4897,6 @@
       ],
       "why": "Both lines say I'm done for tonight and we'll finish tomorrow, the same exit with no fact to choose between them."
     },
-    "2air3j5bonb": {
-      "keys": [
-        "scene-talk.state-confront.money.that-payment-was-your-responsibility-first-i-d-like-an-apology-and-i-d-like-to-know-it-won-t-happen-again",
-        "scene-talk.state-confront.money.you-missed-that-payment-first-and-it-landed-on-both-of-us-i-want-to-hear-you-say-you-re-sorry"
-      ],
-      "why": "Both lines demand an apology for the missed payment in other words."
-    },
     "2aiyc491gmz": {
       "keys": [
         "scene-talk.follow-thank.ill-take-that-help-and-im-sorry-about-before",
@@ -5298,5 +5233,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0spyj8ykgf3"
+  "yesHash": "2ecgodjdxri"
 }
