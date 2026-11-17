@@ -142,6 +142,7 @@ function run(specId: string) {
   const where = `seed ${SEED}, place ${drawn.name} (${drawn.key})`;
   const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: drawn.key,
   });
   const core = world.core as CoreState;
@@ -702,7 +703,7 @@ describe(
   // so the time allowed is a minute and a half per try.
   { timeout: TRIES * 90_000 },
   () => {
-    it("each law is applied by its engine and recorded by record id", () => {
+    it("each law is applied by its engine and recorded by record id (just like today: needs the state's real labor laws)", () => {
       const was = setBookkeeping(false);
       const tried: string[] = [];
       try {
@@ -730,7 +731,7 @@ describe(
     // minimum wage: repeal the question and its own wage ends, so the next
     // level up governs; the workers keep the pay they have, and the ones
     // whose floor fell are no longer under it.
-    it("repealing the raise-the-minimum-wage question ends the state's own wage and the next level's floor governs", () => {
+    it("repealing the raise-the-minimum-wage question ends the state's own wage and the next level's floor governs (just like today: needs the state's real labor laws)", () => {
       const was = setBookkeeping(false);
       const tried: string[] = [];
       try {
@@ -739,6 +740,7 @@ describe(
           const where = `seed ${SEED}, place ${drawn.name} (${drawn.key})`;
           const world = buildBenchWorld(drawn.seed, gameStartDate(), {
             twoLevel: true,
+            settings: { history: "today" },
             placeKey: drawn.key,
           });
           const core = world.core as CoreState;
