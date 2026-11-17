@@ -112616,96 +112616,6 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-i-ve-had-my-say-on-and-the-other-thing-i-came-to-talk-about",
-      "move": "turn",
-      "kind": "spoken",
-      "text": "I've had my say on {turn-from}, and the other thing I came to talk about is {turn-to}.",
-      "uses": [
-        {
-          "move": "turn",
-          "subject": "inaugural",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-union",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-state",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "town-address",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        }
-      ],
-      "voice": ["plain", "polished"],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
-    },
-    {
-      "key": "opening-speech.turn.ld-talking-about-brings-me-to",
-      "move": "turn",
-      "kind": "spoken",
-      "text": "Talking about {turn-from} brings me to {turn-to}.",
-      "uses": [
-        {
-          "move": "turn",
-          "subject": "inaugural",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-union",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-state",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "town-address",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-from", "turn-to"],
-          "tie": "law"
-        }
-      ],
-      "voice": ["plain", "polished"],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
-    },
-    {
       "key": "opening-speech.turn.ld-after-i-also-owe-you-a-word-on",
       "move": "turn",
       "kind": "spoken",
@@ -112828,35 +112738,6 @@
           "role": "year-condition",
           "choice": "year-condition",
           "requiresFacts": ["condition-law", "condition-law-reached"],
-          "tie": "law"
-        }
-      ],
-      "voice": ["plain", "polished"],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
-    },
-    {
-      "key": "opening-speech.year-condition.ld-this-was-the-year-became-law-here",
-      "move": "year-condition",
-      "kind": "spoken",
-      "text": "This was the year {condition-law} became law here.",
-      "uses": [
-        {
-          "move": "year-condition",
-          "subject": "state-of-the-state",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": ["condition-law"],
-          "tie": "law"
-        },
-        {
-          "move": "year-condition",
-          "subject": "town-address",
-          "role": "year-condition",
-          "choice": "year-condition",
-          "requiresFacts": ["condition-law"],
           "tie": "law"
         }
       ],
@@ -116649,6 +116530,900 @@
       "topic": "scandal",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-i-m-proud-to-say-that-this-year-i",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "I'm proud to say that this year I signed {condition-law} into law.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-one-of-the-proudest-things-i-did-this-year",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "One of the proudest things I did this year was sign {condition-law}.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-this-year-condition-law-became-the-law-of-realm",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This year {condition-law} became the law of {realm-name}, and I was glad to sign it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-signed",
+            "realm-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-law",
+            "condition-law-signed",
+            "realm-name"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-this-year-i-signed-condition-law-and-i-m",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This year I signed {condition-law}, and I'm proud of it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-i-signed-condition-law-this-year-and-i-d",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "I signed {condition-law} this year, and I'd sign it again tomorrow.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-this-year-we-got-condition-law-done-and-i",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This year we got {condition-law} done, and I signed it the day it hit my desk.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-signed"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-this-year-the-legislature-passed-condition-law-over-my",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This year the legislature passed {condition-law} over my veto, and I still believe it was the wrong call.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-the-legislature-overrode-my-veto-to-pass-condition-law",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "The legislature overrode my veto to pass {condition-law}, and I have not changed my mind.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-i-vetoed-condition-law-the-legislature-passed-it-anyway",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "I vetoed {condition-law}, the legislature passed it anyway, and I will hold it to account for what follows.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-the-legislature-beat-my-veto-on-condition-law-this",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "The legislature beat my veto on {condition-law} this year. I haven't changed my mind.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-the-legislature-passed-condition-law-over-my-veto-i",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "The legislature passed {condition-law} over my veto. I still think they got it wrong.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-i-vetoed-condition-law-and-they-passed-it-anyway",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "I vetoed {condition-law}, and they passed it anyway. We'll see who was right.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-this-year-body-passed-condition-law-over-my-veto",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This year {body} passed {condition-law} over my veto, and I still believe it was the wrong call.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto", "body"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-i-vetoed-condition-law-body-passed-it-anyway-and",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "I vetoed {condition-law}, {body} passed it anyway, and I will hold us to account for what follows.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto", "body"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.polished-unit4-loc-body-overrode-my-veto-to-pass-condition-law-and",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "{body} overrode my veto to pass {condition-law}, and I have not changed my mind.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto", "body"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-this-year-body-beat-my-veto-on-condition-law",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This year {body} beat my veto on {condition-law}. I still think they got it wrong.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto", "body"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-i-vetoed-condition-law-and-body-passed-it-anyway",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "I vetoed {condition-law}, and {body} passed it anyway. We'll see who was right.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto", "body"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.year-condition.plain-unit4-loc-body-passed-condition-law-over-my-veto-i-haven",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "{body} passed {condition-law} over my veto. I haven't changed my mind.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-over-veto", "body"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.turn.plain-polished-unit4-loc-that-s-where-i-stand-on-turn-from-now",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "That's where I stand on {turn-from}. Now, {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.turn.plain-polished-unit4-loc-so-much-for-turn-from-let-s-talk-about",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "So much for {turn-from}. Let's talk about {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.turn.plain-polished-unit4-loc-that-s-turn-from-next-is-turn-to",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "That's {turn-from}. Next is {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.turn.plain-polished-unit4-loc-that-covers-turn-from-now-i-want-to-talk",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "That covers {turn-from}. Now I want to talk about {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-from", "turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-loc-so-the-work-in-front-of-us-is-asked",
+      "move": "close",
+      "kind": "spoken",
+      "text": "So the work in front of us is {asked-about}, and I ask you to finish it this year. Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-loc-if-this-measure-reaches-my-desk-asked-about-will",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If this {measure} reaches my desk, {asked-about} will be settled this year. Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-about",
+            "realm-bare",
+            "asked-for",
+            "measure"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-about",
+            "realm-bare",
+            "asked-for",
+            "measure"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-loc-start-with-asked-about-and-send-it-to-me",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Start with {asked-about}, and send it to me before the year is out. Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-loc-first-up-is-asked-about-let-s-get-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "First up is {asked-about}. Let's get it done this year. Thanks, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-loc-get-me-asked-about-this-year-and-i-ll",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Get me {asked-about} this year, and I'll sign it. Thanks, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-loc-so-that-s-the-job-for-this-year-asked",
+      "move": "close",
+      "kind": "spoken",
+      "text": "So that's the job for this year, {asked-about}. Thanks, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-fed-the-first-thing-i-will-ask-of-this-congress",
+      "move": "close",
+      "kind": "spoken",
+      "text": "The first thing I will ask of this Congress is {asked-about}, and I will be watching every vote. God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-fed-send-me-asked-about-and-i-will-sign-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Send me {asked-about}, and I will sign it the day it arrives. Thank you, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-fed-start-with-asked-about-and-the-rest-of-this",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Start with {asked-about}, and the rest of this work will follow. Thank you, and God bless you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-fed-first-up-is-asked-about-send-it-to-me",
+      "move": "close",
+      "kind": "spoken",
+      "text": "First up is {asked-about}. Send it to me and I'll sign it. God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-fed-get-me-asked-about-and-i-ll-sign-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Get me {asked-about}, and I'll sign it the same day. Thanks, everybody, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-fed-we-start-with-asked-about-i-ll-be-watching",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We start with {asked-about}. I'll be watching every vote. God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
       "date": "2026-11-17"
     }
   ]

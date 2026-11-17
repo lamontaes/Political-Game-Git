@@ -1236,6 +1236,43 @@ function conditionFigure(country: Country, topic: string): Facts {
     : {};
 }
 
+/**
+ * The bill that made a law this past year while the speaker held office,
+ * where the legislature engine's rows keep it: signed, or passed over a
+ * veto. Null for a law the opening's past made or one no executive signed.
+ */
+function deskOfLaw(
+  core: CoreState,
+  series: string,
+  yearAgo: string,
+  serviceStart: string,
+): BillRow | null {
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return null;
+  return (
+    (
+      coreAPI(core)
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    )
+      .filter(
+        (bill) =>
+          ["signed", "overridden"].includes(bill.status) &&
+          !!bill.passedOn &&
+          bill.passedOn > yearAgo &&
+          bill.passedOn >= serviceStart &&
+          bill.provisions.some(
+            (row) => row.series === series || row.question === series,
+          ),
+      )
+      .sort(
+        (a, b) =>
+          (b.passedOn ?? "").localeCompare(a.passedOn ?? "") ||
+          a.id.localeCompare(b.id),
+      )[P.zero] ?? null
+  );
+}
+
 /** The bills a person sponsored, newest first, from the legislature engine's rows. */
 function billsSponsoredBy(core: CoreState, personId: string): BillRow[] {
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
@@ -1589,6 +1626,7 @@ function conditionFacts(
   theme: string | null,
   pointQuestions: readonly string[],
   speakerId: string,
+  serviceStart: string,
 ): Facts {
   const api = coreAPI(core);
   const out: Facts = {};
@@ -1679,6 +1717,17 @@ function conditionFacts(
       questionLaw(enacted.row.series)!,
       enacted.row.id,
     );
+    // Said in the speaker's own voice where the legislature's record holds
+    // the bill that made it on their watch (Story #9750 part 4, unit 4;
+    // owner, Nov 16: "I'm proud to announce that ... under our
+    // administration"): signed by them, or passed over their veto.
+    const desk = deskOfLaw(core, enacted.row.series, yearAgo, serviceStart);
+    if (desk)
+      out[
+        desk.status === "overridden"
+          ? "condition-law-over-veto"
+          : "condition-law-signed"
+      ] = fact("yes", enacted.row.id, desk.id);
     out["condition-law-reached"] = {
       text: "yes",
       sourceRecordIds: [
@@ -2392,6 +2441,11 @@ export function planSpeech(
       ...(asks.length
         ? {
             asked: fact("yes", cited),
+            // An ask for a law not yet in force: a close may say "send me"
+            // or "I'll sign it" only of that (unit 4).
+            ...(first.stance > P.zero && !first.law.inForce
+              ? { "asked-for": fact("yes", cited) }
+              : {}),
             // The ask's own question by its name, said in the close.
             ...(questionAbout(first.question)
               ? { "asked-about": fact(questionAbout(first.question)!, cited) }
@@ -2560,6 +2614,7 @@ export function planSpeech(
                   theme,
                   pointStands.map((stand) => stand.question),
                   person.id,
+                  speaker.serviceStart,
                 )),
           },
           moves: [
