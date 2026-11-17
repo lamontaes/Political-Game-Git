@@ -41,7 +41,6 @@ import { subjectWeight } from "./outcome-web-reach";
 import { SCHOOL_MODULE_ID } from "./school-measures";
 import { SCHOOL_MEASURE, type CollegeRow } from "./school-outcomes";
 import { coreAPI } from "./state";
-import { worldRateFactor } from "./world-base-rates";
 import type { CoreState } from "./types";
 
 const seed = process.env.COLLEGE_STEP_SEED ?? randomBytes(20).toString("hex");
@@ -77,7 +76,6 @@ interface Played {
     readonly budgetId: string;
     readonly townShare: number;
   };
-  readonly worldFactors: { enrollment: number; completion: number };
 }
 
 /**
@@ -153,10 +151,6 @@ function play(
     named,
     placeId,
     ...(raise ? { raise } : {}),
-    worldFactors: {
-      enrollment: worldRateFactor(core.seed, "collegeEnrollment"),
-      completion: worldRateFactor(core.seed, "collegeCompletion"),
-    },
   };
 }
 
@@ -292,13 +286,8 @@ describe("the higher education line reaches a named graduate's completion", () =
           const after = row.completes ? "college" : "some-college";
           expect(who.afterGraduation, row.id).toBe("no-college");
           expect(who.atEnd, row.id).toBe(after);
-          // The world's own factors move the NCES shares and are the same in
-          // both worlds of one seed.
-          expect(raised.worldFactors).toEqual(control.worldFactors);
-          expect(raised.worldFactors.enrollment).not.toBe(1);
-          expect(raised.worldFactors.completion).not.toBe(1);
           process.stdout.write(
-            `COLLEGE-STEP (COLLEGE_STEP_SEED=${seed}) ${where}, world seed ${drawn.seed}: act ${raised.raise!.act} raised ${raised.raise!.governmentId}'s ${LINE} line ${RAISE * 100}% (${raised.raise!.budgetId}), the town's share ${raised.raise!.townShare.toFixed(2)}% above its base; ${pairs.length} graduates enrolled in both worlds (${named.length} named, ${counted.length} counted); named graduate ${row.personId} (${who.name}), fifth ${row.incomeFifth}, record ${row.id} against ${twin.id}: completion rate ${row.completionRate!.toFixed(8)} (web factor ${row.factor!.toFixed(8)} on ${row.webRecordId}) against ${twin.completionRate!.toFixed(8)} (${twin.factor!.toFixed(8)} on ${twin.webRecordId}), base ${row.completionBaseRate!.toFixed(6)}, enrollment rate ${row.enrollmentRate.toFixed(6)}, completes ${row.completes}, schooling ${who.afterGraduation} then ${who.atEnd} on ${row.endsOn}; world factors enrollment ${raised.worldFactors.enrollment.toFixed(4)}, completion ${raised.worldFactors.completion.toFixed(4)}. Passed over: ${passed.join("; ") || "none"}\n`,
+            `COLLEGE-STEP (COLLEGE_STEP_SEED=${seed}) ${where}, world seed ${drawn.seed}: act ${raised.raise!.act} raised ${raised.raise!.governmentId}'s ${LINE} line ${RAISE * 100}% (${raised.raise!.budgetId}), the town's share ${raised.raise!.townShare.toFixed(2)}% above its base; ${pairs.length} graduates enrolled in both worlds (${named.length} named, ${counted.length} counted); named graduate ${row.personId} (${who.name}), fifth ${row.incomeFifth}, record ${row.id} against ${twin.id}: completion rate ${row.completionRate!.toFixed(8)} (web factor ${row.factor!.toFixed(8)} on ${row.webRecordId}) against ${twin.completionRate!.toFixed(8)} (${twin.factor!.toFixed(8)} on ${twin.webRecordId}), base ${row.completionBaseRate!.toFixed(6)}, enrollment rate ${row.enrollmentRate.toFixed(6)}, completes ${row.completes}, schooling ${who.afterGraduation} then ${who.atEnd} on ${row.endsOn}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }

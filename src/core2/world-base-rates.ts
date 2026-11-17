@@ -15,8 +15,6 @@ const SPREAD = {
   movers: "worldBaseRateMoversSpreadShare",
   conditions: "worldBaseRateConditionsSpreadShare",
   timeUse: "worldBaseRateTimeUseSpreadShare",
-  collegeEnrollment: "worldBaseRateCollegeEnrollmentSpreadShare",
-  collegeCompletion: "worldBaseRateCollegeCompletionSpreadShare",
 } as const;
 
 export type BaseRateTable = keyof typeof SPREAD;
