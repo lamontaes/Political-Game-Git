@@ -5229,40 +5229,26 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--muted);
 }
-.news-headline {
+.news-headline.lead {
   margin: 0 0 6px;
   font:
     700 var(--t-h2)/1.15 "Old Standard TT",
     Georgia,
     serif;
   color: #f6efe0;
-  cursor: pointer;
 }
-.news-headline.side {
-  font-size: var(--t-h3);
-}
-/* A brief with a body: its headline opens it, set smaller than a front story's. */
 .news-dateline {
   display: block;
   font-size: var(--t-ui);
   opacity: 0.7;
   margin-bottom: 2px;
 }
-.news-headline.brief {
-  font-size: var(--t-ui);
-  margin-bottom: 2px;
-}
 .news-text .intro {
   margin: 0 0 10px;
 }
-.news-story .news-text {
-  column-gap: 26px;
-}
-.strip-board .board-cols:has(.news-story) {
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(220px, 0.7fr);
-}
 .news-story.lead .news-text {
   column-count: 2;
+  column-gap: 26px;
 }
 /* The lead's front-page photo sits between its headline and its text, cut to a fixed band. */
 .news-story.lead .story-image {
@@ -5276,6 +5262,50 @@ select.release-pick {
 /* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
 .news-story.lead .news-text > * {
   break-inside: avoid;
+}
+/* The list of headlines beside the opened story; each scrolls inside its own column, never the
+   menu as a page. */
+#sheet-body:has(.news-board) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.news-board {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.news-screen {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.6fr);
+  gap: 26px;
+}
+.news-list,
+.news-page {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pick-list .news-row,
+#sheet-body .pick-list .news-row {
+  flex: none;
+  height: auto;
+  align-items: flex-start;
+}
+.news-list .news-row b {
+  font:
+    600 var(--t-read)/1.25 "Old Standard TT",
+    Georgia,
+    serif;
 }
 
 /* The roster screens (Elections, to pl-elections): a titled list grouped under small
