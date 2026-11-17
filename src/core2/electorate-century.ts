@@ -405,9 +405,12 @@ function presidentialElection(
     party: nationalParty(side),
     side,
     incumbent: incumbentRuns && side === sittingSide,
-    // A major party's nominee has held office (stopgap SG-HIST-century-nominees).
+    // In an open race each major party's nominee has held office (stopgap
+    // SG-HIST-century-nominees); a sitting President faces a typical challenger, as every race
+    // the world counts from afar does in play (voting.ts decide). Experience counts only for a
+    // non-incumbent, so a challenger with it would outweigh a President's incumbency every time.
     // stopgapId: SG-HIST-century-nominees
-    experienced: true,
+    experienced: !incumbentRuns,
     spentMinor: null,
     record: 0,
     presidentsParty: side === sittingSide,
