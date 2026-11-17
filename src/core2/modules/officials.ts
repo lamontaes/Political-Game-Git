@@ -42,6 +42,7 @@ import { publicOffset } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import {
   centuryOf,
+  centurySignedLean,
   historyMode,
   publishedSenateSeats,
   worldRoster,
@@ -329,8 +330,13 @@ const source = (date: string): Source => ({
   estimatedFrom: "data/officials/officials.json",
 });
 
-/** A state's lean, right positive: its 2024 presidential two-party vote, as this world's swing moved it. */
+/**
+ * A state's lean, right positive: where the century's last count left it, in a world whose day one
+ * is the century's; otherwise its 2024 presidential two-party vote, as this world's swing moved it.
+ */
 function stateLeanOf(stateKey: string, seed: string): number {
+  const century = centurySignedLean(seed, stateKey);
+  if (century !== undefined) return century;
   const share = stateShare.get(stateKey.slice(3));
   return share === null || share === undefined
     ? 0
@@ -345,7 +351,23 @@ function seatLean(
   district: string | null,
   party: string | null,
   officeKind = "",
+  seatId = "",
 ): { lean: number; source: string } {
+  // A district the century counted stands where its last count left it.
+  const century =
+    bodyKind === "legislature" && seatId
+      ? centurySignedLean(seed, stateKey, { seatId })
+      : bodyKind === "us-house" && district !== null
+        ? centurySignedLean(seed, stateKey, {
+            usps: stateKey.slice(3),
+            houseCode: /^\d+$/.test(district) ? district : "0",
+          })
+        : undefined;
+  if (century !== undefined)
+    return {
+      lean: century,
+      source: "the century's last count in the district",
+    };
   const state = stateLeanOf(stateKey, seed);
   const swing = worldSwing(seed, stateKey.slice(3));
   const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
@@ -385,9 +407,18 @@ function seatLean(
             2 * partySide(party) * campaignParameter("legislativeSeatMargin"),
         ),
       ),
-      source: "state's 2024 presidential vote and the typical seat margin",
+      source:
+        centurySignedLean(seed, stateKey) !== undefined
+          ? "the century's last count in the state and the typical seat margin"
+          : "state's 2024 presidential vote and the typical seat margin",
     };
-  return { lean: state, source: "state's 2024 presidential vote" };
+  return {
+    lean: state,
+    source:
+      centurySignedLean(seed, stateKey) !== undefined
+        ? "the century's last count in the state"
+        : "state's 2024 presidential vote",
+  };
 }
 
 interface Spec {
@@ -748,6 +779,7 @@ function seatAll(
         s.district,
         s.party,
         s.officeKind,
+        s.seatId,
       ),
     ]),
   );
@@ -1628,6 +1660,7 @@ function rankCandidates(
     facts.seat.district,
     party,
     facts.office.kind,
+    contest.seatId,
   ).lean;
   // Anyone already running somewhere this year runs only there.
   const running = new Set(
@@ -1934,6 +1967,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     facts.seat.district,
     party,
     facts.office.kind,
+    seatId,
   );
   const row: OfficialRow = {
     id: personId,

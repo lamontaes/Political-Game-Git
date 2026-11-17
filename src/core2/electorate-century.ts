@@ -340,6 +340,25 @@ export function centuryStateVote(
     : undefined;
 }
 
+/**
+ * Where the century's last count left a state (`US-<USPS>`), its House district or its legislative
+ * seat (an offices seat id), on the signed lean scale (right positive): 2 x the right's share - 1.
+ * Undefined under "today" and where the century has no count for it.
+ */
+export function centurySignedLean(
+  seed: string,
+  stateKey: string,
+  district?:
+    | { readonly usps: string; readonly houseCode: string }
+    | { readonly seatId: string },
+): number | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  const share = district
+    ? centuryDistrictLean(seed, district)
+    : centuryOf(seed, openingOf(seed)).leans[stateKey];
+  return share === undefined ? undefined : 2 * share - 1;
+}
+
 /** The century's parties, under "century"; undefined under "today". */
 export function centuryParties(
   seed: string,

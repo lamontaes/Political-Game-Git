@@ -42,6 +42,7 @@ import {
   historyMode,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
+import { allOfficials } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
   drawStage,
@@ -318,6 +319,30 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             return `${mine || "not counted by the century (its members are not elected on the two national sides)"}; across the country the Republicans hold ${control.r} chambers and the Democrats ${control.d}, elected seat by seat through the century`;
           })()
         : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.districtLeans",
+      "Where the town's districts lean on day one",
+      (() => {
+        // Each district seat covering the town, at the lean its official reads (officials.ts seatLean).
+        const api = coreAPI(core);
+        const bySeat = new Map(allOfficials(api).map((o) => [o.seatId, o]));
+        const lines = townSeats(api)
+          .filter(
+            (s) =>
+              s.office.kind === "us-house" ||
+              s.office.kind.startsWith("legislature-"),
+          )
+          .map((s) => bySeat.get(s.seat.id))
+          .filter((o): o is NonNullable<typeof o> => o !== undefined)
+          .map(
+            (o) =>
+              `${o.body}${o.district === null ? "" : ` district ${o.district}`}: ${pct((o.districtLean + 1) / 2)} Republican (${o.leanSource})`,
+          );
+        return lines.length
+          ? lines.join("; ")
+          : "no district seat covers the town";
+      })(),
     ),
     row(
       "town.parties",

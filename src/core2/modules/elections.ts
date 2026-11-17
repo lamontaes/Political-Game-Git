@@ -92,6 +92,7 @@ export {
   centuryLegislatures,
   centuryParties,
   centuryOf,
+  centurySignedLean,
   centuryPresidency,
   centuryRace,
   centuryRecordVotes,
