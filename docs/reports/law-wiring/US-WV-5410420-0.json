@@ -1,0 +1,4477 @@
+{
+ "seed": "--only",
+ "place": {
+  "seed": "12a3c3866c1f9bd429c9c9aa32a40be80b6fa1ca4416651d173c20f68e4fce52",
+  "key": "5410420",
+  "name": "Brookhaven, West Virginia",
+  "state": "US-WV"
+ },
+ "window": 35,
+ "after": 31,
+ "results": [
+  {
+   "key": "budget-line:medicare",
+   "kind": "budget-line",
+   "family": "healthcare",
+   "inForceAtOpening": false,
+   "change": "US medicare 102537088178666 -> 123044505814399 by law-wiring-ef0c4cf9",
+   "lawIds": [
+    "law-wiring-ef0c4cf9"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 32,
+    "countedGroups": 4838,
+    "countedPeople": 19601,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 4871,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:medicare|person_4a7e2ded968ca036",
+     "applied|budget-line:medicare|person_99887c69f5621e39",
+     "applied|budget-line:medicare|person_b85e347328a66673"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 32,
+    "countedGroups": 4838,
+    "countedPeople": 19601,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 4871,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:medicare|person_4a7e2ded968ca036",
+     "applied|budget-line:medicare|person_99887c69f5621e39",
+     "applied|budget-line:medicare|person_b85e347328a66673"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 4871,
+    "withAmount": 4871,
+    "sample": [
+     "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:medicare|person_4a7e2ded968ca036",
+     "applied|budget-line:medicare|person_99887c69f5621e39"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+      "treatment": 61099244982706,
+      "control": 59389949784714,
+      "ids": [
+       "journal:2025-02-01:1144",
+       "journal:2025-02-01:1145",
+       "journal:2025-02-01:1146"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+      "treatment": 66631014806770,
+      "control": 68339967297835,
+      "ids": [
+       "journal:2025-02-01:1265",
+       "journal:2025-02-01:1266",
+       "journal:2025-02-01:1267"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+      "treatment": 514920601,
+      "control": 401091116,
+      "ids": [
+       "journal:2025-02-01:1275",
+       "journal:2025-02-01:1276",
+       "journal:2025-02-01:1277"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1150 <- src/core2/medical-bills.ts:1061",
+      "treatment": 682911766,
+      "control": 569082281,
+      "ids": [
+       "journal:2025-02-01:17023",
+       "journal:2025-02-01:17024"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+      "treatment": 3545527672,
+      "control": 3650138215,
+      "ids": [
+       "journal:2025-02-01:4275",
+       "journal:2025-02-01:4276",
+       "journal:2025-02-01:4277"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1599",
+      "treatment": 2787381546412,
+      "control": 2787382583978,
+      "ids": [
+       "journal:2025-02-01:1135",
+       "journal:2025-02-01:1136",
+       "journal:2025-02-01:1137"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+      "treatment": 605308,
+      "control": 701417,
+      "ids": [
+       "journal:2025-02-01:16958",
+       "journal:2025-02-01:16959",
+       "journal:2025-02-01:16960"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:812",
+      "treatment": 17961911908,
+      "control": 17961967810,
+      "ids": [
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854",
+       "journal:2025-01-21:856"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1009",
+       "journal:2025-01-26:1012",
+       "journal:2025-01-26:1015"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:555",
+      "treatment": 185716604,
+      "control": 185699683,
+      "ids": [
+       "journal:2025-01-22:990",
+       "journal:2025-01-23:995",
+       "journal:2025-01-23:996"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1010",
+       "journal:2025-01-26:1013",
+       "journal:2025-01-26:1016"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 8518140,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20229",
+       "journal:2025-02-19:20230",
+       "journal:2025-02-19:20233"
+      ]
+     }
+    ],
+    "diffKinds": 20,
+    "cited": [
+     {
+      "token": "law-wiring-ef0c4cf9",
+      "gross": 3417902939286,
+      "ids": [
+       "journal:2025-02-01:1147",
+       "journal:2025-02-01:1147",
+       "journal:2025-02-01:1149"
+      ]
+     },
+     {
+      "token": "budget-line:medicare",
+      "gross": 10253708817867,
+      "ids": [
+       "journal:2025-02-01:1147",
+       "journal:2025-02-01:1148",
+       "journal:2025-02-01:1149"
+      ],
+      "control": 8544757348222
+     }
+    ],
+    "controlCited": [],
+    "lines": [
+     {
+      "government": "US",
+      "line": "medicare",
+      "moved": 20507417635733,
+      "treatment": 10253708817867,
+      "control": 8544757348222,
+      "ids": [
+       "journal:2025-02-01:1147",
+       "journal:2025-02-01:1148",
+       "journal:2025-02-01:1149"
+      ]
+     }
+    ],
+    "own": {
+     "targets": 4871,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+       "way": "in",
+       "targets": 17,
+       "moved": 79698,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -137051,
+         "control": -139942,
+         "journal": "journal:2025-02-01:17005"
+        },
+        {
+         "target": "person_00762150d56dcb8d",
+         "row": "applied|budget-line:medicare|person_00762150d56dcb8d",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -20049,
+         "control": -21172,
+         "journal": "journal:2025-02-01:16975"
+        },
+        {
+         "target": "person_05f39058c3ddc6d3",
+         "row": "applied|budget-line:medicare|person_05f39058c3ddc6d3",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -1297,
+         "control": -2990,
+         "journal": "journal:2025-02-01:16982"
+        },
+        {
+         "target": "person_10c538ad9ecbb9be",
+         "row": "applied|budget-line:medicare|person_10c538ad9ecbb9be",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -19018,
+         "control": -24337,
+         "journal": "journal:2025-02-01:16976"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+       "way": "in",
+       "targets": 2,
+       "moved": 21786,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+         "way": "in",
+         "treatment": -5728141,
+         "control": -5728194,
+         "journal": "journal:2025-02-01:1555"
+        },
+        {
+         "target": "person_1b38228ebb249a8e",
+         "row": "applied|budget-line:medicare|person_1b38228ebb249a8e",
+         "date": "2025-02-06",
+         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+         "way": "in",
+         "treatment": 0,
+         "control": -21733,
+         "journal": ""
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+       "way": "out",
+       "targets": 2,
+       "moved": 21741,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_00762150d56dcb8d",
+         "row": "applied|budget-line:medicare|person_00762150d56dcb8d",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+         "way": "out",
+         "treatment": 1513667,
+         "control": 1513675,
+         "journal": "journal:2025-02-01:1535"
+        },
+        {
+         "target": "person_1b38238ebb249c41",
+         "row": "applied|budget-line:medicare|person_1b38238ebb249c41",
+         "date": "2025-02-06",
+         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+         "way": "out",
+         "treatment": -21733,
+         "control": 0,
+         "journal": "journal:2025-02-06:17687"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+       "way": "in",
+       "targets": 1,
+       "moved": 1709295197992,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+         "way": "in",
+         "treatment": 61018391731926,
+         "control": 59309096533934,
+         "journal": "journal:2025-02-01:1146"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+       "way": "out",
+       "targets": 1,
+       "moved": 1708952491065,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+         "way": "out",
+         "treatment": 66631014806770,
+         "control": 68339967297835,
+         "journal": "journal:2025-02-01:1265"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+       "way": "out",
+       "targets": 1,
+       "moved": 113829485,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+         "way": "out",
+         "treatment": -514920601,
+         "control": -401091116,
+         "journal": "journal:2025-02-01:1275"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1150 <- src/core2/medical-bills.ts:1061",
+       "way": "in",
+       "targets": 1,
+       "moved": 112391316,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1150 <- src/core2/medical-bills.ts:1061",
+         "way": "in",
+         "treatment": 674284636,
+         "control": 561893320,
+         "journal": "journal:2025-02-01:17024"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+       "way": "out",
+       "targets": 1,
+       "moved": 102184947,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+         "way": "out",
+         "treatment": -30965058,
+         "control": 71219889,
+         "journal": "journal:2025-02-01:4275"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1599",
+       "way": "in",
+       "targets": 1,
+       "moved": 1037566,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1599",
+         "way": "in",
+         "treatment": -2787381546412,
+         "control": -2787382583978,
+         "journal": "journal:2025-02-01:1135"
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+       "way": "out",
+       "targets": 1,
+       "moved": 22108,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:medicare|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-13",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+         "way": "out",
+         "treatment": -2039332,
+         "control": -2017224,
+         "journal": "journal:2025-02-13:20007"
+        }
+       ]
+      }
+     ],
+     "paid": 0,
+     "pick": null,
+     "sample": [],
+     "near": []
+    }
+   },
+   "web": {
+    "links": [
+     {
+      "key": "medicare-line-to-medical-debt",
+      "status": "size-not-set",
+      "to": "finance.medical-debt-in-collections"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null,
+    "records": {
+     "treatment": {
+      "recordedLinks": [],
+      "carriedLinks": [
+       "medicare-line-to-medical-debt"
+      ],
+      "reads": {},
+      "carried": {
+       "medicare-line-to-medical-debt": {
+        "count": 4870,
+        "sample": [
+         {
+          "id": "medical-bill:household_00158d08fd3c8ee0",
+          "date": "2025-02-01",
+          "placeId": "jurisdiction_7c1114e174ed0e16",
+          "personId": "person_4a7e2ded968ca036",
+          "recordIds": []
+         },
+         {
+          "id": "medical-bill:household_003084c7b3394476",
+          "date": "2025-02-01",
+          "placeId": "jurisdiction_7c1114e174ed0e16",
+          "personId": "person_b85e337328a664c0",
+          "recordIds": []
+         },
+         {
+          "id": "medical-bill:household_004d03c618705c95",
+          "date": "2025-02-01",
+          "placeId": "jurisdiction_d32ed0247ef215da",
+          "personId": "person_b46aac49abc985c3",
+          "recordIds": []
+         },
+         {
+          "id": "medical-bill:household_0289224aa7d5baf8",
+          "date": "2025-02-01",
+          "placeId": "jurisdiction_7e5743c50e41041b",
+          "personId": "person_80d2e13d25bfb4cf",
+          "recordIds": []
+         }
+        ]
+       }
+      },
+      "own": {}
+     }
+    }
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:medicare:law-wiring-ef0c4cf9",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:medicare:law-wiring-ef0c4cf9",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:medicare:law-wiring-ef0c4cf9"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 54
+  },
+  {
+   "key": "budget-line:incomeSecurity",
+   "kind": "budget-line",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "US incomeSecurity 74288923370180 -> 89146708044216 by law-wiring-0f392aa2",
+   "lawIds": [
+    "law-wiring-0f392aa2"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 333,
+    "households": 14,
+    "organizations": 1,
+    "governments": 2,
+    "other": 0,
+    "open": 19,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:incomeSecurity|US-WV",
+     "applied|budget-line:incomeSecurity|county:54061",
+     "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:incomeSecurity|household:person:filing-officer:jurisdiction_7e5743c50e41041b:municipalOffice"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 333,
+    "households": 14,
+    "organizations": 1,
+    "governments": 2,
+    "other": 0,
+    "open": 19,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:incomeSecurity|US-WV",
+     "applied|budget-line:incomeSecurity|county:54061",
+     "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:incomeSecurity|household:person:filing-officer:jurisdiction_7e5743c50e41041b:municipalOffice"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 19,
+    "withAmount": 19,
+    "sample": [
+     "applied|budget-line:incomeSecurity|US-WV",
+     "applied|budget-line:incomeSecurity|county:54061",
+     "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+      "treatment": 60628347541429,
+      "control": 59389949784714,
+      "ids": [
+       "journal:2025-02-01:1144",
+       "journal:2025-02-01:1145",
+       "journal:2025-02-01:1146"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+      "treatment": 67101818574999,
+      "control": 68339967297835,
+      "ids": [
+       "journal:2025-02-01:1268",
+       "journal:2025-02-01:1269",
+       "journal:2025-02-01:1270"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2105",
+      "treatment": 9678607024,
+      "control": 9660604260,
+      "ids": [
+       "journal:2025-02-01:1267"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 69152411,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+      "treatment": 402592015,
+      "control": 401091116,
+      "ids": [
+       "journal:2025-02-01:1278",
+       "journal:2025-02-01:1279",
+       "journal:2025-02-01:1280"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1009",
+       "journal:2025-01-26:1012",
+       "journal:2025-01-26:1015"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/official-living.ts:122",
+      "treatment": 550676797,
+      "control": 550670957,
+      "ids": [
+       "journal:2025-01-27:1034",
+       "journal:2025-01-27:1035",
+       "journal:2025-01-27:1036"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1010",
+       "journal:2025-01-26:1013",
+       "journal:2025-01-26:1016"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 26823081,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:853",
+       "journal:2025-01-21:855",
+       "journal:2025-01-21:857"
+      ]
+     }
+    ],
+    "diffKinds": 9,
+    "cited": [
+     {
+      "token": "law-wiring-0f392aa2",
+      "gross": 2475159413282,
+      "ids": [
+       "journal:2025-02-01:1146",
+       "journal:2025-02-01:1146",
+       "journal:2025-02-01:1147"
+      ]
+     },
+     {
+      "token": "budget-line:incomeSecurity",
+      "gross": 7391403000146,
+      "ids": [
+       "journal:2025-02-01:1154",
+       "journal:2025-02-01:1155",
+       "journal:2025-02-01:1156"
+      ],
+      "control": 6162340516192
+     }
+    ],
+    "controlCited": [],
+    "lines": [
+     {
+      "government": "US",
+      "line": "incomeSecurity",
+      "moved": 14857784674036,
+      "treatment": 7391403000146,
+      "control": 6162340516192,
+      "ids": [
+       "journal:2025-02-01:1154",
+       "journal:2025-02-01:1155",
+       "journal:2025-02-01:1156"
+      ]
+     }
+    ],
+    "own": {
+     "targets": 19,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 15,
+       "moved": 225620,
+       "earliest": "2025-02-02",
+       "sample": [
+        {
+         "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 35441,
+         "control": 29601,
+         "journal": "journal:2025-02-02:17052"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 154721,
+         "control": 129001,
+         "journal": "journal:2025-02-02:17053"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 35441,
+         "control": 29601,
+         "journal": "journal:2025-02-02:17054"
+        },
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 16403588,
+         "control": 16366188,
+         "journal": "journal:2025-02-02:17051"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+       "way": "in",
+       "targets": 2,
+       "moved": 1238130720072,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+         "way": "in",
+         "treatment": 60541815084031,
+         "control": 59309096533934,
+         "journal": "journal:2025-02-01:1148"
+        },
+        {
+         "target": "US-WV",
+         "row": "applied|budget-line:incomeSecurity|US-WV",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+         "way": "in",
+         "treatment": -81846144269,
+         "control": -87258314244,
+         "journal": "journal:2025-02-01:1144"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+       "way": "out",
+       "targets": 1,
+       "moved": 1238148722836,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+         "way": "out",
+         "treatment": 67101818574999,
+         "control": 68339967297835,
+         "journal": "journal:2025-02-01:1268"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2105",
+       "way": "in",
+       "targets": 1,
+       "moved": 18002764,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2105",
+         "way": "in",
+         "treatment": 9678607024,
+         "control": 9660604260,
+         "journal": "journal:2025-02-01:1267"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+       "way": "out",
+       "targets": 1,
+       "moved": 1500899,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+         "way": "out",
+         "treatment": -402592015,
+         "control": -401091116,
+         "journal": "journal:2025-02-01:1278"
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+       "way": "out",
+       "targets": 1,
+       "moved": 22108,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-13",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+         "way": "out",
+         "treatment": -2039332,
+         "control": -2017224,
+         "journal": "journal:2025-02-13:20010"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/official-living.ts:122",
+       "way": "out",
+       "targets": 1,
+       "moved": 5840,
+       "earliest": "2025-02-10",
+       "sample": [
+        {
+         "target": "household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-10",
+         "kind": "accounts.transfer @ src/core2/official-living.ts:122",
+         "way": "out",
+         "treatment": -167791,
+         "control": -161951,
+         "journal": "journal:2025-02-10:19847"
+        }
+       ]
+      },
+      {
+       "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+       "way": "out",
+       "targets": 1,
+       "moved": 2422,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-13",
+         "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+         "way": "out",
+         "treatment": -223305,
+         "control": -220883,
+         "journal": "journal:2025-02-13:20012"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+       "way": "in",
+       "targets": 1,
+       "moved": 654,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "US-WV",
+         "row": "applied|budget-line:incomeSecurity|US-WV",
+         "date": "2025-02-13",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+         "way": "in",
+         "treatment": -509055,
+         "control": -509709,
+         "journal": "journal:2025-02-13:19935"
+        }
+       ]
+      },
+      {
+       "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+       "way": "in",
+       "targets": 1,
+       "moved": 597,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "US-WV",
+         "row": "applied|budget-line:incomeSecurity|US-WV",
+         "date": "2025-02-13",
+         "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+         "way": "in",
+         "treatment": -215941,
+         "control": -216538,
+         "journal": "journal:2025-02-13:19994"
+        }
+       ]
+      }
+     ],
+     "paid": 15,
+     "pick": "accounts.transfer @ src/core2/life.ts:562|in",
+     "sample": [
+      {
+       "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+       "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 35441,
+       "control": 29601,
+       "journal": "journal:2025-02-02:17052"
+      },
+      {
+       "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+       "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 154721,
+       "control": 129001,
+       "journal": "journal:2025-02-02:17053"
+      },
+      {
+       "target": "household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+       "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 35441,
+       "control": 29601,
+       "journal": "journal:2025-02-02:17054"
+      },
+      {
+       "target": "jurisdiction_7e5743c50e41041b",
+       "row": "applied|budget-line:incomeSecurity|jurisdiction_7e5743c50e41041b",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 16403588,
+       "control": 16366188,
+       "journal": "journal:2025-02-02:17051"
+      }
+     ],
+     "near": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 15,
+       "first": {
+        "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+        "row": "applied|budget-line:incomeSecurity|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+        "date": "2025-02-02",
+        "kind": "accounts.transfer @ src/core2/life.ts:562",
+        "way": "in",
+        "treatment": 35441,
+        "control": 29601,
+        "journal": "journal:2025-02-02:17052"
+       }
+      }
+     ]
+    }
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:incomeSecurity:law-wiring-0f392aa2",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:incomeSecurity:law-wiring-0f392aa2",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:incomeSecurity:law-wiring-0f392aa2"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 57
+  },
+  {
+   "key": "child-care-income-limit",
+   "kind": "amount",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "child-care-income-limit 5394 -> 5933 at state (law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2) effective 2025-01-21",
+   "lawIds": [
+    "law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2",
+    "law:US-WV:state:child-care-income-limit:general:2025-01-01",
+    "law:US-WV:state:child-care-income-limit:general:2025-02-26:law-wiring-c0ba66f2-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 4,
+    "countedGroups": 2,
+    "countedPeople": 386,
+    "households": 3,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 9,
+    "ended": 0,
+    "sample": [
+     "child-care-income-limit|person_80ed91bd16d6648b|2025-01-20",
+     "child-care-income-limit|person_c7cc9f278353505a|2025-01-20",
+     "child-care-income-limit|person_c92612ab3c36416e|2025-01-20",
+     "child-care-income-limit|person_c92615ab3c364687|2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 11,
+    "countedGroups": 2,
+    "countedPeople": 410,
+    "households": 6,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 19,
+    "ended": 0,
+    "sample": [
+     "child-care-income-limit|person_80ed91bd16d6648b|2025-01-20",
+     "child-care-income-limit|person_c7cc9f278353505a|2025-01-20",
+     "child-care-income-limit|person_c92612ab3c36416e|2025-01-20",
+     "child-care-income-limit|person_c92615ab3c364687|2025-01-20"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 11,
+    "countedGroups": 2,
+    "countedPeople": 410,
+    "households": 6,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 19,
+    "ended": 0,
+    "sample": [
+     "child-care-income-limit|person_80ed91bd16d6648b|2025-01-20",
+     "child-care-income-limit|person_c7cc9f278353505a|2025-01-20",
+     "child-care-income-limit|person_c92612ab3c36416e|2025-01-20",
+     "child-care-income-limit|person_c92615ab3c364687|2025-01-20"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 7,
+    "withAmount": 7,
+    "sample": [
+     "applied|child-care-income-limit|household_e7652d4a9822cc9a",
+     "applied|child-care-income-limit|household_18f806074f222684",
+     "applied|child-care-income-limit|household_7eba5b93249fe902"
+    ]
+   },
+   "readers": {
+    "src/core2/life.ts:557": 5,
+    "src/core2/law-reach/group-b.ts:806 <- src/core2/modules/budgets.ts:1131": 2,
+    "src/core2/law-reach/group-b.ts:806 <- src/core2/life.ts:557": 1
+   },
+   "openingRow": "law:US-WV:state:child-care-income-limit:general:2025-01-01",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 68435512,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1133",
+      "treatment": 20684244,
+      "control": 20348244,
+      "ids": [
+       "journal:2025-02-01:4262",
+       "journal:2025-02-01:4263"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1012",
+       "journal:2025-01-26:1015",
+       "journal:2025-01-26:1018"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+      "treatment": 3650145945,
+      "control": 3650138215,
+      "ids": [
+       "journal:2025-02-01:4276",
+       "journal:2025-02-01:4277",
+       "journal:2025-02-01:4278"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 615837477,
+      "control": 615833137,
+      "ids": [
+       "journal:2025-02-01:1671",
+       "journal:2025-02-01:1672",
+       "journal:2025-02-01:1673"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1013",
+       "journal:2025-01-26:1016",
+       "journal:2025-01-26:1019"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 8517522,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20228",
+       "journal:2025-02-19:20229",
+       "journal:2025-02-19:20232"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 26823081,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854",
+       "journal:2025-01-21:856"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1083",
+      "treatment": 869389213,
+      "control": 869387689,
+      "ids": [
+       "journal:2025-02-01:1363",
+       "journal:2025-02-01:1364",
+       "journal:2025-02-01:1365"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+      "treatment": 9251933,
+      "control": 9251830,
+      "ids": [
+       "journal:2025-02-01:1948",
+       "journal:2025-02-01:1949",
+       "journal:2025-02-01:1951"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:3477",
+      "treatment": 1799521,
+      "control": 1799463,
+      "ids": [
+       "journal:2025-02-01:4786",
+       "journal:2025-02-01:4787",
+       "journal:2025-02-01:4788"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:450",
+      "treatment": 643502,
+      "control": 643473,
+      "ids": [
+       "journal:2025-02-06:19762",
+       "journal:2025-02-06:19763",
+       "journal:2025-02-06:19764"
+      ]
+     }
+    ],
+    "diffKinds": 13,
+    "cited": [
+     {
+      "token": "child-care-income-limit",
+      "gross": 11788000,
+      "ids": [
+       "journal:2025-01-21:776",
+       "journal:2025-01-21:777",
+       "journal:2025-01-21:778"
+      ],
+      "control": 11004000
+     }
+    ],
+    "controlCited": [],
+    "own": {
+     "targets": 7,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 3,
+       "moved": 98000,
+       "earliest": "2025-01-22",
+       "sample": [
+        {
+         "target": "household_18f806074f222684",
+         "row": "applied|child-care-income-limit|household_18f806074f222684",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 14000,
+         "control": 0,
+         "journal": "journal:2025-01-22:990"
+        },
+        {
+         "target": "household_7eba5b93249fe902",
+         "row": "applied|child-care-income-limit|household_7eba5b93249fe902",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 42000,
+         "control": 0,
+         "journal": "journal:2025-01-22:991"
+        },
+        {
+         "target": "household_e7652d4a9822cc9a",
+         "row": "applied|child-care-income-limit|household_e7652d4a9822cc9a",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 42000,
+         "control": 0,
+         "journal": "journal:2025-01-22:989"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 2,
+       "moved": 84000,
+       "earliest": "2025-02-02",
+       "sample": [
+        {
+         "target": "household_7eba5b93249fe902",
+         "row": "applied|child-care-income-limit|household_7eba5b93249fe902",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 0,
+         "control": 42000,
+         "journal": ""
+        },
+        {
+         "target": "household_e7652d4a9822cc9a",
+         "row": "applied|child-care-income-limit|household_e7652d4a9822cc9a",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 0,
+         "control": 42000,
+         "journal": ""
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+       "way": "in",
+       "targets": 1,
+       "moved": 22108,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "household_18f806074f222684",
+         "row": "applied|child-care-income-limit|household_18f806074f222684",
+         "date": "2025-02-13",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+         "way": "in",
+         "treatment": 66325,
+         "control": 44217,
+         "journal": "journal:2025-02-13:19997"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+       "way": "out",
+       "targets": 1,
+       "moved": 3225,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "household_18f806074f222684",
+         "row": "applied|child-care-income-limit|household_18f806074f222684",
+         "date": "2025-02-13",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+         "way": "out",
+         "treatment": -7632,
+         "control": -4407,
+         "journal": "journal:2025-02-13:19998"
+        }
+       ]
+      }
+     ],
+     "paid": 3,
+     "pick": "accounts.transfer @ src/core2/life.ts:562|in",
+     "sample": [
+      {
+       "target": "household_18f806074f222684",
+       "row": "applied|child-care-income-limit|household_18f806074f222684",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 14000,
+       "control": 0,
+       "journal": "journal:2025-01-22:990"
+      },
+      {
+       "target": "household_7eba5b93249fe902",
+       "row": "applied|child-care-income-limit|household_7eba5b93249fe902",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 42000,
+       "control": 0,
+       "journal": "journal:2025-01-22:991"
+      },
+      {
+       "target": "household_e7652d4a9822cc9a",
+       "row": "applied|child-care-income-limit|household_e7652d4a9822cc9a",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 42000,
+       "control": 0,
+       "journal": "journal:2025-01-22:989"
+      }
+     ],
+     "near": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 3,
+       "first": {
+        "target": "household_18f806074f222684",
+        "row": "applied|child-care-income-limit|household_18f806074f222684",
+        "date": "2025-01-22",
+        "kind": "accounts.transfer @ src/core2/life.ts:562",
+        "way": "in",
+        "treatment": 14000,
+        "control": 0,
+        "journal": "journal:2025-01-22:990"
+       }
+      }
+     ]
+    }
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 17,
+    "countedGroups": 2,
+    "countedPeople": 391,
+    "households": 9,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 28,
+    "ended": 1,
+    "sample": [
+     "child-care-income-limit|person_80ed91bd16d6648b|2025-01-20",
+     "child-care-income-limit|person_c7cc9f278353505a|2025-01-20",
+     "child-care-income-limit|person_c92612ab3c36416e|2025-01-20",
+     "child-care-income-limit|person_c92615ab3c364687|2025-01-20"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 52
+  },
+  {
+   "key": "ssi-federal-benefit-rate",
+   "kind": "amount",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "ssi-federal-benefit-rate 994 -> 1093 at federal (law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a) effective 2025-01-21",
+   "lawIds": [
+    "law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a",
+    "law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+    "law:US:federal:ssi-federal-benefit-rate:general:2025-02-26:law-wiring-8e85c10a-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 1,
+    "households": 2,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 0,
+    "sample": [
+     "ssi-federal-benefit-rate|jurisdiction_7e5743c50e41041b",
+     "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988",
+     "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42",
+     "applied|ssi-federal-benefit-rate|jurisdiction_7e5743c50e41041b:ssi-households"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 1,
+    "households": 3,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 5,
+    "ended": 0,
+    "sample": [
+     "ssi-federal-benefit-rate|jurisdiction_7e5743c50e41041b",
+     "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988",
+     "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42",
+     "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 1,
+    "households": 3,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 5,
+    "ended": 0,
+    "sample": [
+     "ssi-federal-benefit-rate|jurisdiction_7e5743c50e41041b",
+     "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988",
+     "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42",
+     "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0"
+    ]
+   },
+   "inPlay": [
+    {
+     "id": "law:US:federal:ssi-federal-benefit-rate:general:2026-01-01",
+     "level": "federal",
+     "effectiveDate": "2026-01-01",
+     "value": 994
+    }
+   ],
+   "applied": {
+    "rows": 4,
+    "withAmount": 4,
+    "sample": [
+     "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988",
+     "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42",
+     "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0"
+    ]
+   },
+   "readers": {
+    "src/core2/life.ts:557": 5,
+    "src/core2/law-reach/group-b.ts:752 <- src/core2/modules/budgets.ts:1131": 2,
+    "src/core2/law-reach/group-b.ts:752 <- src/core2/life.ts:557": 1
+   },
+   "openingRow": "law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+      "treatment": 68339967000035,
+      "control": 68339967297835,
+      "ids": [
+       "journal:2025-02-01:1264",
+       "journal:2025-02-01:1265",
+       "journal:2025-02-01:1266"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 67849912,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+      "treatment": 591531771,
+      "control": 591641071,
+      "ids": [
+       "journal:2025-01-21:855",
+       "journal:2025-01-21:856",
+       "journal:2025-01-21:857"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+      "treatment": 400991716,
+      "control": 401091116,
+      "ids": [
+       "journal:2025-02-01:1274",
+       "journal:2025-02-01:1275",
+       "journal:2025-02-01:1276"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1010",
+       "journal:2025-01-26:1013",
+       "journal:2025-01-26:1016"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1133",
+      "treatment": 20358144,
+      "control": 20348244,
+      "ids": [
+       "journal:2025-02-01:4250",
+       "journal:2025-02-01:4251"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1011",
+       "journal:2025-01-26:1014",
+       "journal:2025-01-26:1017"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 26823081,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:850",
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+      "treatment": 3650138443,
+      "control": 3650138215,
+      "ids": [
+       "journal:2025-02-01:4264",
+       "journal:2025-02-01:4265",
+       "journal:2025-02-01:4266"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 615833264,
+      "control": 615833137,
+      "ids": [
+       "journal:2025-02-01:1659",
+       "journal:2025-02-01:1660",
+       "journal:2025-02-01:1661"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 8515167,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20217",
+       "journal:2025-02-19:20218",
+       "journal:2025-02-19:20221"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1083",
+      "treatment": 869387734,
+      "control": 869387689,
+      "ids": [
+       "journal:2025-02-01:1351",
+       "journal:2025-02-01:1352",
+       "journal:2025-02-01:1353"
+      ]
+     }
+    ],
+    "diffKinds": 17,
+    "cited": [
+     {
+      "token": "ssi-federal-benefit-rate",
+      "gross": 941312,
+      "ids": [
+       "journal:2025-01-22:987",
+       "journal:2025-01-22:988",
+       "journal:2025-01-22:989"
+      ],
+      "control": 742912
+     }
+    ],
+    "controlCited": [],
+    "own": {
+     "targets": 4,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 3,
+       "moved": 437200,
+       "earliest": "2025-01-22",
+       "sample": [
+        {
+         "target": "household_3bb75041aa883d42",
+         "row": "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 218600,
+         "control": 0,
+         "journal": "journal:2025-01-22:989"
+        },
+        {
+         "target": "household_66eea741c2fb8988",
+         "row": "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 109300,
+         "control": 0,
+         "journal": "journal:2025-01-22:988"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 109300,
+         "control": 0,
+         "journal": "journal:2025-01-22:987"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 3,
+       "moved": 397600,
+       "earliest": "2025-01-21",
+       "sample": [
+        {
+         "target": "household_3bb75041aa883d42",
+         "row": "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+         "date": "2025-01-21",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 54001,
+         "control": 252801,
+         "journal": "journal:2025-01-21:766"
+        },
+        {
+         "target": "household_66eea741c2fb8988",
+         "row": "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+         "date": "2025-01-21",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 29601,
+         "control": 129001,
+         "journal": "journal:2025-01-21:765"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 29601,
+         "control": 129001,
+         "journal": "journal:2025-02-02:17039"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+       "way": "out",
+       "targets": 1,
+       "moved": 109300,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+         "way": "out",
+         "treatment": 218531,
+         "control": 327831,
+         "journal": "journal:2025-02-01:1350"
+        }
+       ]
+      }
+     ],
+     "paid": 3,
+     "pick": "accounts.transfer @ src/core2/life.ts:562|out",
+     "sample": [
+      {
+       "target": "household_3bb75041aa883d42",
+       "row": "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+       "date": "2025-01-21",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "treatment": 54001,
+       "control": 252801,
+       "journal": "journal:2025-01-21:766"
+      },
+      {
+       "target": "household_66eea741c2fb8988",
+       "row": "applied|ssi-federal-benefit-rate|household_66eea741c2fb8988|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+       "date": "2025-01-21",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "treatment": 29601,
+       "control": 129001,
+       "journal": "journal:2025-01-21:765"
+      },
+      {
+       "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+       "row": "applied|ssi-federal-benefit-rate|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "treatment": 29601,
+       "control": 129001,
+       "journal": "journal:2025-02-02:17039"
+      }
+     ],
+     "near": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 3,
+       "first": {
+        "target": "household_3bb75041aa883d42",
+        "row": "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+        "date": "2025-01-21",
+        "kind": "accounts.transfer @ src/core2/life.ts:562",
+        "way": "out",
+        "treatment": 54001,
+        "control": 252801,
+        "journal": "journal:2025-01-21:766"
+       }
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 3,
+       "first": {
+        "target": "household_3bb75041aa883d42",
+        "row": "applied|ssi-federal-benefit-rate|household_3bb75041aa883d42|law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
+        "date": "2025-01-22",
+        "kind": "accounts.transfer @ src/core2/life.ts:562",
+        "way": "in",
+        "treatment": 218600,
+        "control": 0,
+        "journal": "journal:2025-01-22:989"
+       }
+      }
+     ]
+    }
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:law-took-effect:law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 31,
+    "households": 10,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 12,
+    "ended": 0,
+    "sample": [
+     "ssi-federal-benefit-rate|jurisdiction_7e5743c50e41041b",
+     "applied|ssi-federal-benefit-rate|household_ff650c0740c3ddc1",
+     "applied|ssi-federal-benefit-rate|household_ff6f090740cc2d2d",
+     "applied|ssi-federal-benefit-rate|household_21f33307544faacd"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 57
+  },
+  {
+   "key": "social-security-earliest-claim-age",
+   "kind": "amount",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+   "lawIds": [
+    "law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+    "law:US:federal:social-security-earliest-claim-age:general:starting",
+    "law:US:federal:social-security-earliest-claim-age:general:2025-02-26:law-wiring-3d351f82-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 858,
+    "countedGroups": 435,
+    "countedPeople": 435,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1293,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_4941a8b9c0645ff3",
+     "applied|social-security-earliest-claim-age|person_5abd727ea38f27b5",
+     "applied|social-security-earliest-claim-age|person_16111d318132f5a6",
+     "applied|social-security-earliest-claim-age|person_16111e318132f759"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 858,
+    "countedGroups": 435,
+    "countedPeople": 435,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1293,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_4941a8b9c0645ff3",
+     "applied|social-security-earliest-claim-age|person_5abd727ea38f27b5",
+     "applied|social-security-earliest-claim-age|person_16111d318132f5a6",
+     "applied|social-security-earliest-claim-age|person_16111e318132f759"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 1293,
+    "withAmount": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_4941a8b9c0645ff3",
+     "applied|social-security-earliest-claim-age|person_5abd727ea38f27b5",
+     "applied|social-security-earliest-claim-age|person_16111d318132f5a6"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/retirement-claims.ts:99": 9788,
+    "src/core2/modules/retirement-claims.ts:118": 4012,
+    "src/core2/life.ts:557": 5,
+    "src/core2/modules/outcome-web.ts:214": 4,
+    "src/core2/modules/jobs.ts:4324": 2
+   },
+   "openingRow": "law:US:federal:social-security-earliest-claim-age:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:3569",
+      "treatment": 26846456,
+      "control": 50456005,
+      "ids": [
+       "journal:2025-02-01:4816",
+       "journal:2025-02-01:4817",
+       "journal:2025-02-01:4818"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:531",
+      "treatment": 12214103,
+      "control": 32593477,
+      "ids": [
+       "journal:2025-02-01:1434",
+       "journal:2025-02-01:1452",
+       "journal:2025-02-01:1457"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:555",
+      "treatment": 175618138,
+      "control": 185699683,
+      "ids": [
+       "journal:2025-01-22:990",
+       "journal:2025-01-23:995",
+       "journal:2025-01-23:996"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:812",
+      "treatment": 17968695875,
+      "control": 17961967810,
+      "ids": [
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854",
+       "journal:2025-01-21:856"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 28572786,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:853",
+       "journal:2025-01-21:855",
+       "journal:2025-01-21:857"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 7926846,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20124",
+       "journal:2025-02-19:20125",
+       "journal:2025-02-19:20128"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+      "treatment": 3649614641,
+      "control": 3650138215,
+      "ids": [
+       "journal:2025-02-01:4299",
+       "journal:2025-02-01:4300",
+       "journal:2025-02-01:4301"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 57724452,
+      "control": 58089852,
+      "ids": [
+       "journal:2025-01-21:922",
+       "journal:2025-01-21:952",
+       "journal:2025-01-21:955"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1083",
+      "treatment": 869044390,
+      "control": 869387689,
+      "ids": [
+       "journal:2025-02-01:1363",
+       "journal:2025-02-01:1364",
+       "journal:2025-02-01:1365"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+      "treatment": 400916490,
+      "control": 401091116,
+      "ids": [
+       "journal:2025-02-01:1276",
+       "journal:2025-02-01:1277",
+       "journal:2025-02-01:1278"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1150 <- src/core2/medical-bills.ts:1061",
+      "treatment": 568933310,
+      "control": 569082281,
+      "ids": [
+       "journal:2025-02-01:16988",
+       "journal:2025-02-01:16989"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 67511869,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     }
+    ],
+    "diffKinds": 25,
+    "cited": [],
+    "controlCited": [],
+    "own": {
+     "targets": 1293,
+     "among": "reached",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+       "way": "in",
+       "targets": 33,
+       "moved": 162,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_00486bd36119d67f",
+         "row": "applied|social-security-earliest-claim-age|person_00486bd36119d67f",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -48236,
+         "control": -48250,
+         "journal": "journal:2025-02-01:16932"
+        },
+        {
+         "target": "person_00762150d56dcb8d",
+         "row": "applied|social-security-earliest-claim-age|person_00762150d56dcb8d",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -21166,
+         "control": -21172,
+         "journal": "journal:2025-02-01:16940"
+        },
+        {
+         "target": "person_00bad6730a4f4803",
+         "row": "applied|social-security-earliest-claim-age|person_00bad6730a4f4803",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -7432,
+         "control": -7436,
+         "journal": "journal:2025-02-01:16954"
+        },
+        {
+         "target": "person_00be5c7144196dd5",
+         "row": "applied|social-security-earliest-claim-age|person_00be5c7144196dd5",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/medical-bills.ts:675",
+         "way": "in",
+         "treatment": -15968,
+         "control": -15972,
+         "journal": "journal:2025-02-01:16952"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+       "way": "out",
+       "targets": 24,
+       "moved": 70652,
+       "earliest": "2025-02-19",
+       "sample": [
+        {
+         "target": "person_01879c512fac9aaa",
+         "row": "applied|social-security-earliest-claim-age|person_01879c512fac9aaa",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 396151,
+         "control": 398348,
+         "journal": "journal:2025-02-19:20125"
+        },
+        {
+         "target": "person_01879d512fac9c5d",
+         "row": "applied|social-security-earliest-claim-age|person_01879d512fac9c5d",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 396154,
+         "control": 398351,
+         "journal": "journal:2025-02-19:20125"
+        },
+        {
+         "target": "person_07c86ca76e940f3a",
+         "row": "applied|social-security-earliest-claim-age|person_07c86ca76e940f3a",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 69982,
+         "control": 70370,
+         "journal": "journal:2025-02-19:20128"
+        },
+        {
+         "target": "person_07c86da76e9410ed",
+         "row": "applied|social-security-earliest-claim-age|person_07c86da76e9410ed",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 69978,
+         "control": 70366,
+         "journal": "journal:2025-02-19:20128"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+       "way": "out",
+       "targets": 4,
+       "moved": 18960,
+       "earliest": "2025-02-03",
+       "sample": [
+        {
+         "target": "person_2a4c1820b06b4f18",
+         "row": "applied|social-security-earliest-claim-age|person_2a4c1820b06b4f18",
+         "date": "2025-02-03",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": -1109,
+         "control": 0,
+         "journal": "journal:2025-02-03:17397"
+        },
+        {
+         "target": "person_a4419f64aecd9820",
+         "row": "applied|social-security-earliest-claim-age|person_a4419f64aecd9820",
+         "date": "2025-02-03",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": -1109,
+         "control": 0,
+         "journal": "journal:2025-02-03:17406"
+        },
+        {
+         "target": "person_85ba0e0721f2ab63",
+         "row": "applied|social-security-earliest-claim-age|person_85ba0e0721f2ab63",
+         "date": "2025-02-06",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": -2934,
+         "control": -2468,
+         "journal": "journal:2025-02-06:19662"
+        },
+        {
+         "target": "person_a441a064aecd99d3",
+         "row": "applied|social-security-earliest-claim-age|person_a441a064aecd99d3",
+         "date": "2025-02-13",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": -16276,
+         "control": 0,
+         "journal": "journal:2025-02-13:19974"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+       "way": "in",
+       "targets": 3,
+       "moved": 33080,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_2a4c1820b06b4f18",
+         "row": "applied|social-security-earliest-claim-age|person_2a4c1820b06b4f18",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "in",
+         "treatment": 0,
+         "control": -15229,
+         "journal": ""
+        },
+        {
+         "target": "person_a441a064aecd99d3",
+         "row": "applied|social-security-earliest-claim-age|person_a441a064aecd99d3",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "in",
+         "treatment": 0,
+         "control": -17385,
+         "journal": ""
+        },
+        {
+         "target": "person_85ba0d0721f2a9b0",
+         "row": "applied|social-security-earliest-claim-age|person_85ba0d0721f2a9b0",
+         "date": "2025-02-03",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "in",
+         "treatment": -643,
+         "control": -1109,
+         "journal": "journal:2025-02-03:17407"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 2,
+       "moved": 313344,
+       "earliest": "2025-02-15",
+       "sample": [
+        {
+         "target": "official:term:seat:US-ME:governor:2025-01-20",
+         "row": "applied|social-security-earliest-claim-age|official:term:seat:US-ME:governor:2025-01-20",
+         "date": "2025-02-15",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 0,
+         "control": 154023,
+         "journal": ""
+        },
+        {
+         "target": "official:seat:US-MO:us-house:03",
+         "row": "applied|social-security-earliest-claim-age|official:seat:US-MO:us-house:03",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 0,
+         "control": 159321,
+         "journal": ""
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+       "way": "in",
+       "targets": 2,
+       "moved": 156818,
+       "earliest": "2025-02-19",
+       "sample": [
+        {
+         "target": "person_75c8e8d0e21f6194",
+         "row": "applied|social-security-earliest-claim-age|person_75c8e8d0e21f6194",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "in",
+         "treatment": 78409,
+         "control": 0,
+         "journal": "journal:2025-02-19:20140"
+        },
+        {
+         "target": "person_75c8e9d0e21f6347",
+         "row": "applied|social-security-earliest-claim-age|person_75c8e9d0e21f6347",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "in",
+         "treatment": 78409,
+         "control": 0,
+         "journal": "journal:2025-02-19:20140"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+       "way": "out",
+       "targets": 2,
+       "moved": 89653,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_2a4c1820b06b4f18",
+         "row": "applied|social-security-earliest-claim-age|person_2a4c1820b06b4f18",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+         "way": "out",
+         "treatment": -29041,
+         "control": 0,
+         "journal": "journal:2025-02-01:2339"
+        },
+        {
+         "target": "person_a441a064aecd99d3",
+         "row": "applied|social-security-earliest-claim-age|person_a441a064aecd99d3",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+         "way": "out",
+         "treatment": -61806,
+         "control": -1194,
+         "journal": "journal:2025-02-01:4197"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+       "way": "in",
+       "targets": 2,
+       "moved": 16468,
+       "earliest": "2025-02-06",
+       "sample": [
+        {
+         "target": "person_2a4c1820b06b4f18",
+         "row": "applied|social-security-earliest-claim-age|person_2a4c1820b06b4f18",
+         "date": "2025-02-06",
+         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+         "way": "in",
+         "treatment": 0,
+         "control": -8234,
+         "journal": ""
+        },
+        {
+         "target": "person_a441a064aecd99d3",
+         "row": "applied|social-security-earliest-claim-age|person_a441a064aecd99d3",
+         "date": "2025-02-06",
+         "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+         "way": "in",
+         "treatment": 0,
+         "control": -8234,
+         "journal": ""
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 1,
+       "moved": 173701,
+       "earliest": "2025-02-07",
+       "sample": [
+        {
+         "target": "official:seat:US-SD:us-house:00",
+         "row": "applied|social-security-earliest-claim-age|official:seat:US-SD:us-house:00",
+         "date": "2025-02-07",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 173701,
+         "control": 0,
+         "journal": "journal:2025-02-07:19698"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/coverage.ts:650",
+       "way": "out",
+       "targets": 1,
+       "moved": 52467,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_791fcfe38f500836",
+         "row": "applied|social-security-earliest-claim-age|person_791fcfe38f500836",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/coverage.ts:650",
+         "way": "out",
+         "treatment": -52467,
+         "control": 0,
+         "journal": "journal:2025-02-01:6980"
+        }
+       ]
+      }
+     ],
+     "paid": 0,
+     "pick": null,
+     "sample": [],
+     "near": []
+    }
+   },
+   "web": {
+    "links": [
+     {
+      "key": "earliest-claim-age-to-older-work",
+      "status": "built",
+      "to": "labor.older-employment"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 13,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 13,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_90c758910ad4c44e",
+     "applied|social-security-earliest-claim-age|official:term:seat:US-FL:governor:2025-01-20",
+     "applied|social-security-earliest-claim-age|person_67682f1a5123882a",
+     "applied|social-security-earliest-claim-age|person_6768301a512389dd"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 56
+  },
+  {
+   "key": "social-security-full-retirement-age",
+   "kind": "amount",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+   "lawIds": [
+    "law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
+    "law:US:federal:social-security-full-retirement-age:general:starting",
+    "law:US:federal:social-security-full-retirement-age:general:2025-02-26:law-wiring-2e0ccc5c-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 788,
+    "countedGroups": 1936,
+    "countedPeople": 1936,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 2724,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-full-retirement-age|person_af07d1897dc8e8f4",
+     "applied|social-security-full-retirement-age|person_4da163c826b39904",
+     "applied|social-security-full-retirement-age|person_71c1b494e80c5166",
+     "applied|social-security-full-retirement-age|person_4941a7b9c0645e40"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 788,
+    "countedGroups": 1936,
+    "countedPeople": 1936,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 2724,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-full-retirement-age|person_af07d1897dc8e8f4",
+     "applied|social-security-full-retirement-age|person_4da163c826b39904",
+     "applied|social-security-full-retirement-age|person_71c1b494e80c5166",
+     "applied|social-security-full-retirement-age|person_4941a7b9c0645e40"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 2724,
+    "withAmount": 0,
+    "sample": [
+     "applied|social-security-full-retirement-age|person_af07d1897dc8e8f4",
+     "applied|social-security-full-retirement-age|person_4da163c826b39904",
+     "applied|social-security-full-retirement-age|person_71c1b494e80c5166"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/retirement-claims.ts:99": 11866,
+    "src/core2/modules/retirement-claims.ts:118": 5443,
+    "src/core2/life.ts:557": 5,
+    "src/core2/modules/outcome-web.ts:214": 4,
+    "src/core2/modules/jobs.ts:4324": 2
+   },
+   "openingRow": "law:US:federal:social-security-full-retirement-age:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:812",
+      "treatment": 17961273762,
+      "control": 17961967810,
+      "ids": [
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854",
+       "journal:2025-01-21:856"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 67492191,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1009",
+       "journal:2025-01-26:1012",
+       "journal:2025-01-26:1015"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1010",
+       "journal:2025-01-26:1013",
+       "journal:2025-01-26:1016"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 26823081,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:853",
+       "journal:2025-01-21:855",
+       "journal:2025-01-21:857"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 8514107,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20222",
+       "journal:2025-02-19:20223",
+       "journal:2025-02-19:20226"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:555",
+      "treatment": 185699621,
+      "control": 185699683,
+      "ids": [
+       "journal:2025-01-22:990",
+       "journal:2025-01-23:995",
+       "journal:2025-01-23:996"
+      ]
+     }
+    ],
+    "diffKinds": 7,
+    "cited": [],
+    "controlCited": [],
+    "own": {
+     "targets": 2724,
+     "among": "reached",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+       "way": "out",
+       "targets": 26,
+       "moved": 953,
+       "earliest": "2025-02-19",
+       "sample": [
+        {
+         "target": "person_01879c512fac9aaa",
+         "row": "applied|social-security-full-retirement-age|person_01879c512fac9aaa",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 398323,
+         "control": 398348,
+         "journal": "journal:2025-02-19:20223"
+        },
+        {
+         "target": "person_01879d512fac9c5d",
+         "row": "applied|social-security-full-retirement-age|person_01879d512fac9c5d",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 398326,
+         "control": 398351,
+         "journal": "journal:2025-02-19:20223"
+        },
+        {
+         "target": "person_07c86ca76e940f3a",
+         "row": "applied|social-security-full-retirement-age|person_07c86ca76e940f3a",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 70365,
+         "control": 70370,
+         "journal": "journal:2025-02-19:20226"
+        },
+        {
+         "target": "person_07c86da76e9410ed",
+         "row": "applied|social-security-full-retirement-age|person_07c86da76e9410ed",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": 70362,
+         "control": 70366,
+         "journal": "journal:2025-02-19:20226"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 1,
+       "moved": 159321,
+       "earliest": "2025-02-19",
+       "sample": [
+        {
+         "target": "official:seat:US-MO:us-house:03",
+         "row": "applied|social-security-full-retirement-age|official:seat:US-MO:us-house:03",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 0,
+         "control": 159321,
+         "journal": ""
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+       "way": "in",
+       "targets": 1,
+       "moved": 22108,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "person_00486bd36119d67f",
+         "row": "applied|social-security-full-retirement-age|person_00486bd36119d67f",
+         "date": "2025-02-13",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+         "way": "in",
+         "treatment": 66325,
+         "control": 44217,
+         "journal": "journal:2025-02-13:19994"
+        }
+       ]
+      },
+      {
+       "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+       "way": "out",
+       "targets": 1,
+       "moved": 3225,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "person_00486bd36119d67f",
+         "row": "applied|social-security-full-retirement-age|person_00486bd36119d67f",
+         "date": "2025-02-13",
+         "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+         "way": "out",
+         "treatment": -7632,
+         "control": -4407,
+         "journal": "journal:2025-02-13:19995"
+        }
+       ]
+      }
+     ],
+     "paid": 0,
+     "pick": null,
+     "sample": [],
+     "near": []
+    }
+   },
+   "web": {
+    "links": [
+     {
+      "key": "retirement-age-to-poverty",
+      "status": "built",
+      "to": "household.poverty-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 13,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 13,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-full-retirement-age|official:term:seat:US-FL:governor:2025-01-20",
+     "applied|social-security-full-retirement-age|person_67682f1a5123882a",
+     "applied|social-security-full-retirement-age|person_6768301a512389dd",
+     "applied|social-security-full-retirement-age|person_52e9e751eb4bec89"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 60
+  },
+  {
+   "key": "budget-line:socialSecurity",
+   "kind": "budget-line",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "US socialSecurity 161658658498893 -> 193990390198672 by law-wiring-47206d50",
+   "lawIds": [
+    "law-wiring-47206d50"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 14,
+    "countedGroups": 6,
+    "countedPeople": 1809,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 21,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:socialSecurity|person_8b98a4c20f7d6cfe",
+     "applied|budget-line:socialSecurity|person_f362ac50475062d1",
+     "applied|budget-line:socialSecurity|person_2631e575680e5897"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 14,
+    "countedGroups": 6,
+    "countedPeople": 1809,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 21,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:socialSecurity|person_8b98a4c20f7d6cfe",
+     "applied|budget-line:socialSecurity|person_f362ac50475062d1",
+     "applied|budget-line:socialSecurity|person_2631e575680e5897"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 21,
+    "withAmount": 21,
+    "sample": [
+     "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:socialSecurity|person_8b98a4c20f7d6cfe",
+     "applied|budget-line:socialSecurity|person_f362ac50475062d1"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+      "treatment": 62084802677400,
+      "control": 59389949784714,
+      "ids": [
+       "journal:2025-02-01:1144",
+       "journal:2025-02-01:1145",
+       "journal:2025-02-01:1146"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+      "treatment": 65645656322854,
+      "control": 68339967297835,
+      "ids": [
+       "journal:2025-02-01:1264",
+       "journal:2025-02-01:1265",
+       "journal:2025-02-01:1266"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:812",
+      "treatment": 18015094292,
+      "control": 17961967810,
+      "ids": [
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854",
+       "journal:2025-01-21:856"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:555",
+      "treatment": 188526954,
+      "control": 185699683,
+      "ids": [
+       "journal:2025-01-22:990",
+       "journal:2025-01-23:995",
+       "journal:2025-01-23:996"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 616360679,
+      "control": 615833137,
+      "ids": [
+       "journal:2025-02-01:1652",
+       "journal:2025-02-01:1653",
+       "journal:2025-02-01:1654"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+      "treatment": 400777222,
+      "control": 401091116,
+      "ids": [
+       "journal:2025-02-01:1274",
+       "journal:2025-02-01:1275",
+       "journal:2025-02-01:1276"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 67341963,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+      "treatment": 1832823168,
+      "control": 1832666950,
+      "ids": [
+       "journal:2025-01-21:822",
+       "journal:2025-01-21:823",
+       "journal:2025-01-21:824"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 8592530,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20211",
+       "journal:2025-02-19:20212",
+       "journal:2025-02-19:20215"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1009",
+       "journal:2025-01-26:1012",
+       "journal:2025-01-26:1015"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 58107037,
+      "control": 58089852,
+      "ids": [
+       "journal:2025-01-21:922",
+       "journal:2025-01-21:952",
+       "journal:2025-01-21:955"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1083",
+      "treatment": 869403037,
+      "control": 869387689,
+      "ids": [
+       "journal:2025-02-01:1341",
+       "journal:2025-02-01:1342",
+       "journal:2025-02-01:1343"
+      ]
+     }
+    ],
+    "diffKinds": 20,
+    "cited": [
+     {
+      "token": "law-wiring-47206d50",
+      "gross": 5388621949962,
+      "ids": [
+       "journal:2025-02-01:1146",
+       "journal:2025-02-01:1146"
+      ]
+     },
+     {
+      "token": "budget-line:socialSecurity",
+      "gross": 16165865849889,
+      "ids": [
+       "journal:2025-02-01:1146",
+       "journal:2025-02-01:1147"
+      ],
+      "control": 13471554874908
+     }
+    ],
+    "controlCited": [],
+    "lines": [
+     {
+      "government": "US",
+      "line": "socialSecurity",
+      "moved": 32331731699779,
+      "treatment": 16165865849889,
+      "control": 13471554874908,
+      "ids": [
+       "journal:2025-02-01:1146",
+       "journal:2025-02-01:1147"
+      ]
+     }
+    ],
+    "own": {
+     "targets": 21,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+       "way": "in",
+       "targets": 9,
+       "moved": 263771,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_10c538ad9ecbb9be",
+         "row": "applied|budget-line:socialSecurity|person_10c538ad9ecbb9be",
+         "date": "2025-02-01",
+         "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+         "way": "in",
+         "treatment": 174383,
+         "control": 145319,
+         "journal": "journal:2025-02-01:1657"
+        },
+        {
+         "target": "person_2631e575680e5897",
+         "row": "applied|budget-line:socialSecurity|person_2631e575680e5897",
+         "date": "2025-02-01",
+         "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+         "way": "in",
+         "treatment": 163030,
+         "control": 135858,
+         "journal": "journal:2025-02-01:1655"
+        },
+        {
+         "target": "person_3293602d7023155b",
+         "row": "applied|budget-line:socialSecurity|person_3293602d7023155b",
+         "date": "2025-02-01",
+         "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+         "way": "in",
+         "treatment": 181649,
+         "control": 151374,
+         "journal": "journal:2025-02-01:1659"
+        },
+        {
+         "target": "person_49f98cebcaf73d2d",
+         "row": "applied|budget-line:socialSecurity|person_49f98cebcaf73d2d",
+         "date": "2025-02-01",
+         "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+         "way": "in",
+         "treatment": 172566,
+         "control": 143805,
+         "journal": "journal:2025-02-01:1661"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+       "way": "in",
+       "targets": 5,
+       "moved": 156218,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_05f39058c3ddc6d3",
+         "row": "applied|budget-line:socialSecurity|person_05f39058c3ddc6d3",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+         "way": "in",
+         "treatment": 194364,
+         "control": 161970,
+         "journal": "journal:2025-02-01:4252"
+        },
+        {
+         "target": "person_110f57654497e49e",
+         "row": "applied|budget-line:socialSecurity|person_110f57654497e49e",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+         "way": "in",
+         "treatment": 194818,
+         "control": 162348,
+         "journal": "journal:2025-02-01:4253"
+        },
+        {
+         "target": "person_1b38228ebb249a8e",
+         "row": "applied|budget-line:socialSecurity|person_1b38228ebb249a8e",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+         "way": "in",
+         "treatment": 193910,
+         "control": 161592,
+         "journal": "journal:2025-02-01:4254"
+        },
+        {
+         "target": "person_1b38238ebb249c41",
+         "row": "applied|budget-line:socialSecurity|person_1b38238ebb249c41",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+         "way": "in",
+         "treatment": 161668,
+         "control": 134723,
+         "journal": "journal:2025-02-01:4255"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+       "way": "out",
+       "targets": 3,
+       "moved": 36378,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": 231817,
+         "control": 234074,
+         "journal": "journal:2025-02-01:4657"
+        },
+        {
+         "target": "person_d9c6d7e4579d8203",
+         "row": "applied|budget-line:socialSecurity|person_d9c6d7e4579d8203",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": -41706,
+         "control": -14761,
+         "journal": "journal:2025-02-01:4701"
+        },
+        {
+         "target": "person_f362ac50475062d1",
+         "row": "applied|budget-line:socialSecurity|person_f362ac50475062d1",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "out",
+         "treatment": -75787,
+         "control": -68611,
+         "journal": "journal:2025-02-01:4680"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+       "way": "in",
+       "targets": 1,
+       "moved": 2694852892686,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+         "way": "in",
+         "treatment": 62003949426620,
+         "control": 59309096533934,
+         "journal": "journal:2025-02-01:1146"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+       "way": "out",
+       "targets": 1,
+       "moved": 2694310974981,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+         "way": "out",
+         "treatment": 65645656322854,
+         "control": 68339967297835,
+         "journal": "journal:2025-02-01:1264"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/counted-money.ts:812",
+       "way": "in",
+       "targets": 1,
+       "moved": 19454052,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/counted-money.ts:812",
+         "way": "in",
+         "treatment": 152148965,
+         "control": 132694913,
+         "journal": "journal:2025-02-01:4246"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+       "way": "in",
+       "targets": 1,
+       "moved": 313894,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+         "way": "in",
+         "treatment": -400777222,
+         "control": -401091116,
+         "journal": "journal:2025-02-01:1274"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 1,
+       "moved": 309549,
+       "earliest": "2025-02-21",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-21",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 23952602,
+         "control": 24262151,
+         "journal": "journal:2025-02-21:20268"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+       "way": "out",
+       "targets": 1,
+       "moved": 77433,
+       "earliest": "2025-02-19",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-19",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+         "way": "out",
+         "treatment": -8592530,
+         "control": -8515097,
+         "journal": "journal:2025-02-19:20211"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+       "way": "in",
+       "targets": 1,
+       "moved": 26945,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "person_d9c6d6e4579d8050",
+         "row": "applied|budget-line:socialSecurity|person_d9c6d6e4579d8050",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/modules/residents.ts:1570",
+         "way": "in",
+         "treatment": -45913,
+         "control": -72858,
+         "journal": "journal:2025-02-01:4702"
+        }
+       ]
+      }
+     ],
+     "paid": 9,
+     "pick": "finance.contract-settlement @ src/core2/finance-cash.ts:2616|in",
+     "sample": [
+      {
+       "target": "person_10c538ad9ecbb9be",
+       "row": "applied|budget-line:socialSecurity|person_10c538ad9ecbb9be",
+       "date": "2025-02-01",
+       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+       "way": "in",
+       "treatment": 174383,
+       "control": 145319,
+       "journal": "journal:2025-02-01:1657"
+      },
+      {
+       "target": "person_2631e575680e5897",
+       "row": "applied|budget-line:socialSecurity|person_2631e575680e5897",
+       "date": "2025-02-01",
+       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+       "way": "in",
+       "treatment": 163030,
+       "control": 135858,
+       "journal": "journal:2025-02-01:1655"
+      },
+      {
+       "target": "person_3293602d7023155b",
+       "row": "applied|budget-line:socialSecurity|person_3293602d7023155b",
+       "date": "2025-02-01",
+       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+       "way": "in",
+       "treatment": 181649,
+       "control": 151374,
+       "journal": "journal:2025-02-01:1659"
+      },
+      {
+       "target": "person_49f98cebcaf73d2d",
+       "row": "applied|budget-line:socialSecurity|person_49f98cebcaf73d2d",
+       "date": "2025-02-01",
+       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+       "way": "in",
+       "treatment": 172566,
+       "control": 143805,
+       "journal": "journal:2025-02-01:1661"
+      }
+     ],
+     "near": [
+      {
+       "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+       "way": "in",
+       "targets": 9,
+       "first": {
+        "target": "person_10c538ad9ecbb9be",
+        "row": "applied|budget-line:socialSecurity|person_10c538ad9ecbb9be",
+        "date": "2025-02-01",
+        "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+        "way": "in",
+        "treatment": 174383,
+        "control": 145319,
+        "journal": "journal:2025-02-01:1657"
+       }
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+       "way": "in",
+       "targets": 5,
+       "first": {
+        "target": "person_05f39058c3ddc6d3",
+        "row": "applied|budget-line:socialSecurity|person_05f39058c3ddc6d3",
+        "date": "2025-02-01",
+        "kind": "accounts.transfer @ src/core2/modules/residents.ts:1588",
+        "way": "in",
+        "treatment": 194364,
+        "control": 161970,
+        "journal": "journal:2025-02-01:4252"
+       }
+      }
+     ]
+    }
+   },
+   "web": {
+    "links": [
+     {
+      "key": "social-security-line-to-poverty",
+      "status": "size-not-set",
+      "to": "household.poverty-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:socialSecurity:law-wiring-47206d50",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:socialSecurity:law-wiring-47206d50",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:socialSecurity:law-wiring-47206d50"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 53
+  },
+  {
+   "key": "energy-assistance-income-limit",
+   "kind": "amount",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "energy-assistance-income-limit 150 -> 165 at state (law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53) effective 2025-01-21",
+   "lawIds": [
+    "law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53",
+    "law:US-WV:state:energy-assistance-income-limit:general:2026-01-01:from-start",
+    "law:US-WV:state:energy-assistance-income-limit:general:2025-02-26:law-wiring-f5503d53-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 532,
+    "households": 17,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 19,
+    "ended": 0,
+    "sample": [
+     "energy-assistance-income-limit|jurisdiction_7e5743c50e41041b",
+     "applied|energy-assistance-income-limit|household_f6a3cb073bc7afc3",
+     "applied|energy-assistance-income-limit|household_0fd0cf0749cf5652",
+     "applied|energy-assistance-income-limit|household_0fbc480749bdc7e3"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 789,
+    "households": 23,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 25,
+    "ended": 0,
+    "sample": [
+     "energy-assistance-income-limit|jurisdiction_7e5743c50e41041b",
+     "applied|energy-assistance-income-limit|household_f6a3cb073bc7afc3",
+     "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1",
+     "applied|energy-assistance-income-limit|household_0fd0cf0749cf5652"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 789,
+    "households": 23,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 25,
+    "ended": 0,
+    "sample": [
+     "energy-assistance-income-limit|jurisdiction_7e5743c50e41041b",
+     "applied|energy-assistance-income-limit|household_f6a3cb073bc7afc3",
+     "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1",
+     "applied|energy-assistance-income-limit|household_0fd0cf0749cf5652"
+    ]
+   },
+   "inPlay": [
+    {
+     "id": "law:US-WV:state:energy-assistance-income-limit:general:2026-01-01",
+     "level": "state",
+     "effectiveDate": "2026-01-01",
+     "value": 150
+    }
+   ],
+   "applied": {
+    "rows": 24,
+    "withAmount": 24,
+    "sample": [
+     "applied|energy-assistance-income-limit|household_f6a3cb073bc7afc3",
+     "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1",
+     "applied|energy-assistance-income-limit|household_0fd0cf0749cf5652"
+    ]
+   },
+   "readers": {
+    "src/core2/life.ts:557": 5,
+    "src/core2/law-reach/group-b.ts:708 <- src/core2/modules/budgets.ts:1131": 2,
+    "src/core2/law-reach/group-b.ts:708 <- src/core2/life.ts:557": 1
+   },
+   "openingRow": "law:US-WV:state:energy-assistance-income-limit:general:2026-01-01:from-start",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 67862438,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1133",
+      "treatment": 20451702,
+      "control": 20348244,
+      "ids": [
+       "journal:2025-02-01:4266",
+       "journal:2025-02-01:4267"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1015",
+       "journal:2025-01-26:1018",
+       "journal:2025-01-26:1021"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1016",
+       "journal:2025-01-26:1019",
+       "journal:2025-01-26:1022"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 26823081,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:852",
+       "journal:2025-01-21:854",
+       "journal:2025-01-21:856"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:934",
+      "treatment": 3650140596,
+      "control": 3650138215,
+      "ids": [
+       "journal:2025-02-01:4280",
+       "journal:2025-02-01:4281",
+       "journal:2025-02-01:4282"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+      "treatment": 615834646,
+      "control": 615833137,
+      "ids": [
+       "journal:2025-02-01:1674",
+       "journal:2025-02-01:1675",
+       "journal:2025-02-01:1676"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+      "treatment": 591640269,
+      "control": 591641071,
+      "ids": [
+       "journal:2025-01-21:857",
+       "journal:2025-01-21:858",
+       "journal:2025-01-21:859"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2224",
+      "treatment": 8515844,
+      "control": 8515097,
+      "ids": [
+       "journal:2025-02-19:20231",
+       "journal:2025-02-19:20232",
+       "journal:2025-02-19:20235"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:1083",
+      "treatment": 869388158,
+      "control": 869387689,
+      "ids": [
+       "journal:2025-02-01:1366",
+       "journal:2025-02-01:1367",
+       "journal:2025-02-01:1368"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/official-living.ts:122",
+      "treatment": 550671358,
+      "control": 550670957,
+      "ids": [
+       "journal:2025-01-27:1040",
+       "journal:2025-01-27:1041",
+       "journal:2025-01-27:1042"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+      "treatment": 7358091,
+      "control": 7357690,
+      "ids": [
+       "journal:2025-02-01:1950",
+       "journal:2025-02-01:1953",
+       "journal:2025-02-01:1956"
+      ]
+     }
+    ],
+    "diffKinds": 15,
+    "cited": [
+     {
+      "token": "energy-assistance-income-limit",
+      "gross": 651625,
+      "ids": [
+       "journal:2025-01-21:780",
+       "journal:2025-01-21:781",
+       "journal:2025-01-21:782"
+      ],
+      "control": 440699
+     }
+    ],
+    "controlCited": [],
+    "own": {
+     "targets": 24,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 6,
+       "moved": 2406,
+       "earliest": "2025-01-22",
+       "sample": [
+        {
+         "target": "household_54f8d941b8a16eda",
+         "row": "applied|energy-assistance-income-limit|household_54f8d941b8a16eda",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 401,
+         "control": 0,
+         "journal": "journal:2025-01-22:993"
+        },
+        {
+         "target": "household_f6ce0141839bfb10",
+         "row": "applied|energy-assistance-income-limit|household_f6ce0141839bfb10",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 401,
+         "control": 0,
+         "journal": "journal:2025-01-22:994"
+        },
+        {
+         "target": "household_ff650c0740c3ddc1",
+         "row": "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 401,
+         "control": 0,
+         "journal": "journal:2025-01-22:992"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-01-22",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 401,
+         "control": 0,
+         "journal": "journal:2025-01-22:989"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "out",
+       "targets": 3,
+       "moved": 1203,
+       "earliest": "2025-02-02",
+       "sample": [
+        {
+         "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 29200,
+         "control": 29601,
+         "journal": "journal:2025-02-02:17054"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 128600,
+         "control": 129001,
+         "journal": "journal:2025-02-02:17055"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "out",
+         "treatment": 29200,
+         "control": 29601,
+         "journal": "journal:2025-02-02:17056"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+       "way": "out",
+       "targets": 2,
+       "moved": 802,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+         "way": "out",
+         "treatment": 327430,
+         "control": 327831,
+         "journal": "journal:2025-02-01:1364"
+        },
+        {
+         "target": "household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:1:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/credit-deposits.ts:151",
+         "way": "out",
+         "treatment": 327430,
+         "control": 327831,
+         "journal": "journal:2025-02-01:1365"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+       "way": "out",
+       "targets": 1,
+       "moved": 401,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "household_ff650c0740c3ddc1",
+         "row": "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+         "way": "out",
+         "treatment": -2790,
+         "control": -2389,
+         "journal": "journal:2025-02-01:4190"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/official-living.ts:122",
+       "way": "out",
+       "targets": 1,
+       "moved": 401,
+       "earliest": "2025-02-24",
+       "sample": [
+        {
+         "target": "household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:2:jurisdiction_7e5743c50e41041b:owner:0",
+         "date": "2025-02-24",
+         "kind": "accounts.transfer @ src/core2/official-living.ts:122",
+         "way": "out",
+         "treatment": -401,
+         "control": 0,
+         "journal": "journal:2025-02-24:20392"
+        }
+       ]
+      }
+     ],
+     "paid": 6,
+     "pick": "accounts.transfer @ src/core2/life.ts:562|in",
+     "sample": [
+      {
+       "target": "household_54f8d941b8a16eda",
+       "row": "applied|energy-assistance-income-limit|household_54f8d941b8a16eda",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 401,
+       "control": 0,
+       "journal": "journal:2025-01-22:993"
+      },
+      {
+       "target": "household_f6ce0141839bfb10",
+       "row": "applied|energy-assistance-income-limit|household_f6ce0141839bfb10",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 401,
+       "control": 0,
+       "journal": "journal:2025-01-22:994"
+      },
+      {
+       "target": "household_ff650c0740c3ddc1",
+       "row": "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 401,
+       "control": 0,
+       "journal": "journal:2025-01-22:992"
+      },
+      {
+       "target": "household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+       "row": "applied|energy-assistance-income-limit|household:person:press:outlet:newspaper:0:jurisdiction_7e5743c50e41041b:owner:0",
+       "date": "2025-01-22",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 401,
+       "control": 0,
+       "journal": "journal:2025-01-22:989"
+      }
+     ],
+     "near": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 6,
+       "first": {
+        "target": "household_54f8d941b8a16eda",
+        "row": "applied|energy-assistance-income-limit|household_54f8d941b8a16eda",
+        "date": "2025-01-22",
+        "kind": "accounts.transfer @ src/core2/life.ts:562",
+        "way": "in",
+        "treatment": 401,
+        "control": 0,
+        "journal": "journal:2025-01-22:993"
+       }
+      }
+     ]
+    }
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 608,
+    "households": 24,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 26,
+    "ended": 0,
+    "sample": [
+     "energy-assistance-income-limit|jurisdiction_7e5743c50e41041b",
+     "applied|energy-assistance-income-limit|household_f6a3cb073bc7afc3",
+     "applied|energy-assistance-income-limit|household_f692d0073bb9450f",
+     "applied|energy-assistance-income-limit|household_ff650c0740c3ddc1"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 58
+  },
+  {
+   "key": "budget-line:veterans",
+   "kind": "budget-line",
+   "family": "defense-veterans",
+   "inForceAtOpening": false,
+   "change": "US veterans 38972829050539 -> 46767394860647 by law-wiring-8285a4e0",
+   "lawIds": [
+    "law-wiring-8285a4e0"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 11,
+    "countedGroups": 1,
+    "countedPeople": 284,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 13,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:veterans|person_1e67ac6267b95e1c",
+     "applied|budget-line:veterans|person_4b81a43e562b6fa3",
+     "applied|budget-line:veterans|person_14f4ffba4b80a242"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 11,
+    "countedGroups": 1,
+    "countedPeople": 284,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 13,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:veterans|person_1e67ac6267b95e1c",
+     "applied|budget-line:veterans|person_4b81a43e562b6fa3",
+     "applied|budget-line:veterans|person_14f4ffba4b80a242"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 13,
+    "withAmount": 13,
+    "sample": [
+     "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+     "applied|budget-line:veterans|person_1e67ac6267b95e1c",
+     "applied|budget-line:veterans|person_4b81a43e562b6fa3"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+      "treatment": 60039627581611,
+      "control": 59389949784714,
+      "ids": [
+       "journal:2025-02-01:1144",
+       "journal:2025-02-01:1145",
+       "journal:2025-02-01:1146"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+      "treatment": 67690420146993,
+      "control": 68339967297835,
+      "ids": [
+       "journal:2025-02-01:1266",
+       "journal:2025-02-01:1267",
+       "journal:2025-02-01:1268"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:562",
+      "treatment": 71012509,
+      "control": 67651512,
+      "ids": [
+       "journal:2025-01-21:764",
+       "journal:2025-01-21:765",
+       "journal:2025-01-21:766"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+      "treatment": 404452113,
+      "control": 401091116,
+      "ids": [
+       "journal:2025-02-01:1276",
+       "journal:2025-02-01:1277",
+       "journal:2025-02-01:1278"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+      "treatment": 23846051,
+      "control": 23823943,
+      "ids": [
+       "journal:2025-01-26:1009",
+       "journal:2025-01-26:1012",
+       "journal:2025-01-26:1015"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:2476",
+      "treatment": 202332943,
+      "control": 202329718,
+      "ids": [
+       "journal:2025-01-26:1010",
+       "journal:2025-01-26:1013",
+       "journal:2025-01-26:1016"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+      "treatment": 26823081,
+      "control": 26820659,
+      "ids": [
+       "journal:2025-01-21:853",
+       "journal:2025-01-21:855",
+       "journal:2025-01-21:857"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:488",
+      "treatment": 929299,
+      "control": 929300,
+      "ids": [
+       "journal:2025-02-06:19796",
+       "journal:2025-02-06:19797"
+      ]
+     }
+    ],
+    "diffKinds": 8,
+    "cited": [
+     {
+      "token": "law-wiring-8285a4e0",
+      "gross": 1299094301684,
+      "ids": [
+       "journal:2025-02-01:1157",
+       "journal:2025-02-01:1157",
+       "journal:2025-02-01:1159"
+      ]
+     },
+     {
+      "token": "budget-line:veterans",
+      "gross": 3897303071036,
+      "ids": [
+       "journal:2025-02-01:1157",
+       "journal:2025-02-01:1158",
+       "journal:2025-02-01:1159"
+      ],
+      "control": 3247752559197
+     }
+    ],
+    "controlCited": [],
+    "lines": [
+     {
+      "government": "US",
+      "line": "veterans",
+      "moved": 7794565810108,
+      "treatment": 3897282905054,
+      "control": 3247735754212,
+      "ids": [
+       "journal:2025-02-01:1157",
+       "journal:2025-02-01:1158",
+       "journal:2025-02-01:1159"
+      ]
+     }
+    ],
+    "own": {
+     "targets": 13,
+     "among": "paid",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 12,
+       "moved": 3360997,
+       "earliest": "2025-02-02",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 19601785,
+         "control": 16366188,
+         "journal": "journal:2025-02-02:17049"
+        },
+        {
+         "target": "person_00328a3a83d79622",
+         "row": "applied|budget-line:veterans|person_00328a3a83d79622",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 68400,
+         "control": 57000,
+         "journal": "journal:2025-02-02:17038"
+        },
+        {
+         "target": "person_0b45277712cfb77d",
+         "row": "applied|budget-line:veterans|person_0b45277712cfb77d",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 68400,
+         "control": 57000,
+         "journal": "journal:2025-02-02:17039"
+        },
+        {
+         "target": "person_14b44a05bc50cfd1",
+         "row": "applied|budget-line:veterans|person_14b44a05bc50cfd1",
+         "date": "2025-02-02",
+         "kind": "accounts.transfer @ src/core2/life.ts:562",
+         "way": "in",
+         "treatment": 68400,
+         "control": 57000,
+         "journal": "journal:2025-02-02:17040"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+       "way": "in",
+       "targets": 1,
+       "moved": 649677796897,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1825",
+         "way": "in",
+         "treatment": 59958774330831,
+         "control": 59309096533934,
+         "journal": "journal:2025-02-01:1146"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+       "way": "out",
+       "targets": 1,
+       "moved": 649547150842,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:2154",
+         "way": "out",
+         "treatment": 67690420146993,
+         "control": 68339967297835,
+         "journal": "journal:2025-02-01:1266"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+       "way": "out",
+       "targets": 1,
+       "moved": 3360997,
+       "earliest": "2025-02-01",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-01",
+         "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1253",
+         "way": "out",
+         "treatment": -404452113,
+         "control": -401091116,
+         "journal": "journal:2025-02-01:1276"
+        }
+       ]
+      },
+      {
+       "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+       "way": "out",
+       "targets": 1,
+       "moved": 22108,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-13",
+         "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2419",
+         "way": "out",
+         "treatment": -2039332,
+         "control": -2017224,
+         "journal": "journal:2025-02-13:20008"
+        }
+       ]
+      },
+      {
+       "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+       "way": "out",
+       "targets": 1,
+       "moved": 2422,
+       "earliest": "2025-02-13",
+       "sample": [
+        {
+         "target": "jurisdiction_7e5743c50e41041b",
+         "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+         "date": "2025-02-13",
+         "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:855",
+         "way": "out",
+         "treatment": -223305,
+         "control": -220883,
+         "journal": "journal:2025-02-13:20010"
+        }
+       ]
+      }
+     ],
+     "paid": 12,
+     "pick": "accounts.transfer @ src/core2/life.ts:562|in",
+     "sample": [
+      {
+       "target": "jurisdiction_7e5743c50e41041b",
+       "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 19601785,
+       "control": 16366188,
+       "journal": "journal:2025-02-02:17049"
+      },
+      {
+       "target": "person_00328a3a83d79622",
+       "row": "applied|budget-line:veterans|person_00328a3a83d79622",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 68400,
+       "control": 57000,
+       "journal": "journal:2025-02-02:17038"
+      },
+      {
+       "target": "person_0b45277712cfb77d",
+       "row": "applied|budget-line:veterans|person_0b45277712cfb77d",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 68400,
+       "control": 57000,
+       "journal": "journal:2025-02-02:17039"
+      },
+      {
+       "target": "person_14b44a05bc50cfd1",
+       "row": "applied|budget-line:veterans|person_14b44a05bc50cfd1",
+       "date": "2025-02-02",
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "treatment": 68400,
+       "control": 57000,
+       "journal": "journal:2025-02-02:17040"
+      }
+     ],
+     "near": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:562",
+       "way": "in",
+       "targets": 12,
+       "first": {
+        "target": "jurisdiction_7e5743c50e41041b",
+        "row": "applied|budget-line:veterans|jurisdiction_7e5743c50e41041b",
+        "date": "2025-02-02",
+        "kind": "accounts.transfer @ src/core2/life.ts:562",
+        "way": "in",
+        "treatment": 19601785,
+        "control": 16366188,
+        "journal": "journal:2025-02-02:17049"
+       }
+      }
+     ]
+    }
+   },
+   "web": {
+    "links": [
+     {
+      "key": "veterans-line-to-poverty",
+      "status": "size-not-set",
+      "to": "household.poverty-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 152,
+    "sample": [
+     "person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:veterans:law-wiring-8285a4e0",
+     "person_449489accbda20a9:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:veterans:law-wiring-8285a4e0",
+     "person_d57fc6f489e7f19d:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:veterans:law-wiring-8285a4e0"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 52
+  }
+ ]
+}
