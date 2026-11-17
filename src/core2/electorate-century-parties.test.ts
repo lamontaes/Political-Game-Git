@@ -8,9 +8,14 @@
  */
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { centuryOf, setHistoryMode } from "./electorate-century";
+import {
+  centuryOf,
+  centuryStateVote,
+  setHistoryMode,
+} from "./electorate-century";
 import { partyKeyIssues } from "./electorate-century-laws";
 import { gameStartDate } from "./game-start";
+import { stateParties } from "./modules/parties";
 
 const RUN = `history-parties:${Date.now()}`;
 
@@ -60,5 +65,37 @@ describe("the century's parties stand where their members stand", () => {
       new Set(lastPositions).size,
       `day one's party positions across ${named.join("; ")}`,
     ).toBeGreaterThan(1);
+  }, 120_000);
+
+  it("gives each state the century's parties, at their shares of its last presidential count, at drawn worlds", () => {
+    const shares: string[] = [];
+    const named: string[] = [];
+    for (let i = 0; i < 3; i += 1) {
+      const place = drawPlace(`${RUN}:state:${i}`, "history-parties");
+      const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+      named.push(where);
+      setHistoryMode(place.seed, "century", gameStartDate(), place.state);
+      const counted = centuryStateVote(place.seed, place.state);
+      if (!counted) continue;
+      const century = centuryOf(place.seed, gameStartDate());
+      const parties = stateParties(place.state, place.seed);
+      // The century's parties, not the 2024 ballot's labels, each at its share of the count.
+      expect(parties.map((p) => p.name).sort(), where).toEqual(
+        century.parties.map((p) => p.name).sort(),
+      );
+      for (const party of parties) {
+        const side = century.parties.find((p) => p.name === party.name)!.side;
+        expect(party.share, `${where}: ${party.name}`).toBe(
+          side > 0 ? counted.republicanShare : 1 - counted.republicanShare,
+        );
+        expect(party.source, `${where}: ${party.name}`).toContain(counted.id);
+      }
+      shares.push(parties.map((p) => p.share.toFixed(6)).join(","));
+    }
+    expect(shares.length, named.join("; ")).toBeGreaterThan(1);
+    expect(
+      new Set(shares).size,
+      `state party shares across ${named.join("; ")}`,
+    ).toBe(shares.length);
   }, 120_000);
 });

@@ -318,6 +318,28 @@ function partyPositionsAt(
   return out;
 }
 
+/**
+ * A state's last presidential count in the century: the right's share there and the race's
+ * record. Undefined under "today" and for a place with no presidential vote.
+ */
+export function centuryStateVote(
+  seed: string,
+  stateKey: string,
+):
+  | {
+      readonly republicanShare: number;
+      readonly id: string;
+      readonly year: number;
+    }
+  | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  const last = centuryOf(seed, openingOf(seed)).presidencies.at(-1);
+  const row = last?.states.find((state) => state.stateKey === stateKey);
+  return last && row
+    ? { republicanShare: row.republicanShare, id: last.id, year: last.year }
+    : undefined;
+}
+
 /** The century's parties, under "century"; undefined under "today". */
 export function centuryParties(
   seed: string,

@@ -22,6 +22,7 @@ import nomination from "../../../data/research/elections/party-nomination-rules-
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
 import { partySide } from "../appointments";
 import { worldRoster, worldSwing } from "../electorate-places";
+import { centuryParties, centuryStateVote } from "../electorate-century";
 import { partyLean } from "../campaign-stances";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import type {
@@ -142,6 +143,17 @@ export function stateParties(
   seed: string,
 ): readonly { name: string; share: number; source: string }[] {
   const usps = stateKey.slice(3);
+  // In a world whose day one is the century's, the parties are the century's, each at its share
+  // of the state's last presidential count there (History family 9, PR 9c; CTO line 6935508228).
+  const parties = centuryParties(seed);
+  const counted = centuryStateVote(seed, stateKey);
+  if (parties && counted)
+    return parties.map((party) => ({
+      name: party.name,
+      share:
+        party.side > 0 ? counted.republicanShare : 1 - counted.republicanShare,
+      source: `The century's count of ${counted.year} in the state (${counted.id})`,
+    }));
   const president = (
     calibration as unknown as {
       presidentialByState: {
