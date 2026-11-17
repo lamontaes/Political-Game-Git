@@ -33,8 +33,8 @@ import { townsWithDamage } from "./tooling/disaster-damage-screen";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const MADE = 1_000_000;
 
-/** The first month of the run after the record, and the last month a made disaster may begin in. */
-const FIRST_MONTH = "2026-11";
+/** The first month of the run, and the last month a made disaster may begin in. */
+const FIRST_MONTH = "2025-01";
 const LAST_MONTH = "2029-12";
 const HAZARDS_MADE = ["flood", "storm", "wildfire"] as const;
 
@@ -82,7 +82,7 @@ function damagingDisaster(county: string, townName: string) {
     if (at < 0) continue;
     // The month the recorded rate first builds one whole disaster.
     let expected = 0;
-    for (let year = 2026; year <= 2029 && expected < 1; year++)
+    for (let year = 2025; year <= 2029 && expected < 1; year++)
       for (let month = 1; month <= 12 && expected < 1; month++) {
         const label = `${year}-${String(month).padStart(2, "0")}`;
         if (label < FIRST_MONTH || label > LAST_MONTH) continue;
@@ -95,7 +95,7 @@ function damagingDisaster(county: string, townName: string) {
 }
 
 describe(`the town's weather from the climate (seed ${seed})`, () => {
-  it("makes a disaster after the record that damages named households' homes", () => {
+  it("makes a disaster from the county's exposure that damages named households' homes", () => {
     const tried: string[] = [];
     let opened = 0;
     for (let draw = 0; draw < 4000 && opened < 6; draw++) {

@@ -38,10 +38,12 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { placePopulation } from "./gov-rules/place-population";
 import { advanceCore } from "./life";
 import {
+  causeDisaster,
   DISASTERS_MODULE_ID,
   normalizedGovernmentName,
   severityOf,
 } from "./modules/disasters";
+import { hazardOfIncident, type Hazard } from "./modules/climate";
 import { ownedHomes } from "./modules/housing";
 import { MOVES_MODULE_ID } from "./modules/moves";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
@@ -54,8 +56,6 @@ const seed = process.env.DISASTERS_WEB_SEED || randomBytes(20).toString("hex");
 const MAX_DRAWS = 8000;
 /** Days after the incident begins that both worlds run: past the web's next monthly record and the moves engine's next review. */
 const RUN_DAYS = 75;
-/** The latest an incident may begin and leave RUN_DAYS inside the first year. */
-const LATEST_BEGIN_DAYS = 290;
 /** A disaster that reads this severe moves records by a share the test can tell from rounding. */
 const MIN_SEVERITY = 0.5;
 
@@ -70,6 +70,8 @@ interface Candidate {
   readonly number: number;
   readonly begins: string;
   readonly severity: number;
+  /** The hazard its recorded incident belongs to: the one the county's exposure makes it from. */
+  readonly hazard: Hazard;
 }
 
 /**
@@ -79,8 +81,6 @@ interface Candidate {
  */
 function screen(drawn: ReturnType<typeof drawPlace>): Candidate | undefined {
   const usps = drawn.state.replace(/^US-/, "");
-  const start = gameStartDate();
-  const latest = addDays(start, LATEST_BEGIN_DAYS);
   const town = normalizedGovernmentName(drawn.name.split(",")[0] ?? "");
   const residents = placePopulation(drawn.key.replace(/^.*:/, ""), drawn.seed);
   if (!residents) return undefined;
@@ -103,11 +103,13 @@ function screen(drawn: ReturnType<typeof drawPlace>): Candidate | undefined {
       ...(byCounty[county] ?? []),
       ...(byCounty[`${county.slice(0, 2)}000`] ?? []),
     ]) {
-      if (row[0] <= start || row[0] > latest) continue;
+      // Any recorded disaster of a hazard the county's exposure makes can be the template.
+      const hazard = hazardOfIncident(declarations.types[row[2]] ?? "");
+      if (!hazard) continue;
       const homes = figures[`${county}|${row[4]}`]?.[town]?.[2] ?? 0;
       const severity = severityOf(homes / residents);
-      if (severity >= MIN_SEVERITY && (!best || row[0] < best.begins))
-        best = { number: row[4], begins: row[0], severity };
+      if (severity >= MIN_SEVERITY && (!best || severity > best.severity))
+        best = { number: row[4], begins: row[0], severity, hazard };
     }
   }
   return best;
@@ -192,12 +194,15 @@ function run(
   drawn: ReturnType<typeof drawPlace>,
   until: IsoDate,
   withoutDisasters: boolean,
+  cause?: Candidate,
 ): Kept {
   const core = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: drawn.key,
   }).core as CoreState;
   if (withoutDisasters) core.modules.delete(DISASTERS_MODULE_ID);
+  // The county's own exposure makes the disaster: cause the recorded one the screen found.
+  else if (cause) causeDisaster(coreAPI(core), cause.hazard, cause.number);
   advanceCore(core, until);
   return keep(core);
 }
@@ -243,8 +248,8 @@ describe("a severe disaster reaches home values and moving through the outcome w
             passed.push(`${label}: no severe disaster in its FEMA records`);
             continue;
           }
-          const until = addDays(makeIsoDate(found.begins), RUN_DAYS);
-          const treated = run(drawn, until, false);
+          const until = addDays(makeIsoDate(gameStartDate()), 1 + RUN_DAYS);
+          const treated = run(drawn, until, false, found);
           if (!treated.event || treated.event.severity < MIN_SEVERITY) {
             passed.push(
               `${label}: opened with no severe disaster (the player's county differs from the screen's)`,
