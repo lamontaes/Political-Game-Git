@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { approves, checkChanges } from "./check-changes.mjs";
+import { britishSpellings } from "../prose-eval/american-spelling";
+import { approves, checkChanges, stampMissing } from "./check-changes.mjs";
 
 const rules = JSON.parse(
   readFileSync("tests/guards/check-changes.json", "utf8"),
@@ -196,6 +197,45 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     expect(ids(research + band, research + plain)).not.toContain(
       "research-band",
     );
+  });
+
+  it("refuses British spelling added to a skill, rule or doc, and leaves code alone", () => {
+    const ids = (path: string, before: string | null, after: string) =>
+      checkChanges(
+        [{ path, before, after }],
+        rules,
+        () => null,
+        britishSpellings,
+      ).map((f) => f.id);
+    expect(
+      ids(
+        ".agents/skills/x/SKILL.md",
+        "The run was canceled.\n",
+        "The run was cancelled.\n",
+      ),
+    ).toEqual(["british-spelling"]);
+    expect(
+      ids("docs/design/x.md", null, "The colour of the labour.\n"),
+    ).toEqual(["british-spelling"]);
+    expect(
+      ids(
+        ".agents/skills/x/SKILL.md",
+        "The run was canceled.\n",
+        "The run was canceled again.\n",
+      ),
+    ).toEqual([]);
+    expect(ids("src/core2/x.ts", null, "// cancelled\n")).toEqual([]);
+  });
+
+  it("names each done-proof stamp line a pull request body lacks", () => {
+    const stamp =
+      "Verified: x\nFeature map rows: none\nScreenshot: none\nCTO line: none yet\n";
+    expect(stampMissing(`Pool item: a\n\n${stamp}`, rules)).toEqual([]);
+    expect(stampMissing("Pool item: a\nVerified: x\n", rules)).toEqual([
+      "Feature map rows:",
+      "Screenshot:",
+      "CTO line:",
+    ]);
   });
 
   it("refuses a skill added without retiring one, and lets a swap pass", () => {

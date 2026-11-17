@@ -31,6 +31,7 @@ jobs:
           filter: blob:none
           sparse-checkout: |
             scripts/guards
+            scripts/prose-eval
             tests/guards
           persist-credentials: true
       - name: Use Node 22
@@ -42,10 +43,12 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The body is read as data by the script (the done-proof stamp), never run.
+          PR_BODY: ${{ github.event.pull_request.body }}
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           git fetch --quiet --filter=blob:none origin "pull/${PR_NUMBER}/head"
           base="$(git merge-base "$PR_BASE_SHA" "$PR_HEAD_SHA")"
-          node scripts/guards/check-changes.mjs --base "$base" --head "$PR_HEAD_SHA"
+          node --experimental-strip-types scripts/guards/check-changes.mjs --base "$base" --head "$PR_HEAD_SHA"

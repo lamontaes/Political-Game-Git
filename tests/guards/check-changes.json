@@ -51,5 +51,7 @@
   "guardTests": "^tests/guards/[^/]+\\.test\\.ts$",
   "guardList": "scripts/guards/index.ts",
   "researchImport": "from\\s+[\"'][^\"']*data/research/",
-  "rangeAssertion": "\\.(?:toBeGreaterThan|toBeGreaterThanOrEqual|toBeLessThan|toBeLessThanOrEqual|toBeCloseTo)\\s*\\("
+  "rangeAssertion": "\\.(?:toBeGreaterThan|toBeGreaterThanOrEqual|toBeLessThan|toBeLessThanOrEqual|toBeCloseTo)\\s*\\(",
+  "spellingFiles": "^(?:\\.agents/|\\.claude/|docs/).*\\.md$|^(?:AGENTS|CLAUDE)\\.md$",
+  "stampLines": ["Verified:", "Feature map rows:", "Screenshot:", "CTO line:"]
 }

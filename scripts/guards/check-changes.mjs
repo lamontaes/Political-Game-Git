@@ -45,7 +45,12 @@ const ASSERTIONS = "\\b(?:expect(?:\\.soft)?|assert(?:\\.\\w+)?)\\s*\\(";
  * @param {any} rules
  * @returns {Finding[]}
  */
-export function checkChanges(changes, rules, readHead = () => null) {
+export function checkChanges(
+  changes,
+  rules,
+  readHead = () => null,
+  spellings = () => [],
+) {
   /** @type {Finding[]} */
   const findings = [];
   const isTest = new RegExp(rules.testFiles);
@@ -84,6 +89,25 @@ export function checkChanges(changes, rules, readHead = () => null) {
         add(
           "research-band",
           `adds range assertions to a test that reads research data (${before} before, ${after} after)`,
+        );
+    }
+    // Skills, rules and docs are written in American English, as player text
+    // is (owner; "cancelled" turned every pull request red on Nov 17): a
+    // change may not add a British spelling to them.
+    if (
+      new RegExp(rules.spellingFiles).test(change.path) &&
+      change.after !== null
+    ) {
+      const words = (text) =>
+        text === null
+          ? []
+          : spellings(text).map((f) => f.british.toLowerCase());
+      const before = words(change.before),
+        after = words(change.after);
+      if (after.length > before.length)
+        add(
+          "british-spelling",
+          `adds British spelling (${[...new Set(after.filter((w) => !before.includes(w)))].join(", ") || after.length - before.length + " more"})`,
         );
     }
     if (isTest.test(change.path)) {
@@ -169,6 +193,19 @@ function wholeChangeFindings(changes, rules, readHead) {
         says: `adds a guard test that no guard runs (not named in ${rules.guardList})`,
       });
   return findings;
+}
+
+/**
+ * The done-proof stamp a pull request body carries (done-proof, Nov 16): each
+ * line starts a line of the body. Returns the lines it lacks.
+ * @param {string} body
+ * @param {any} rules
+ * @returns {string[]}
+ */
+export function stampMissing(body, rules) {
+  return rules.stampLines.filter(
+    (line) => !new RegExp(`^${line}`, "m").test(body),
+  );
 }
 
 const CASE_TITLE =
@@ -291,7 +328,7 @@ function approvedOnCrewIssue(rules) {
   }
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   const option = (name) => {
     const at = args.indexOf(`--${name}`);
@@ -306,9 +343,21 @@ function main() {
       "utf8",
     ),
   );
-  const findings = checkChanges(changesBetween(base, head), rules, (file) =>
-    show(head, file),
+  const { britishSpellings } =
+    await import("../prose-eval/american-spelling.ts");
+  const findings = checkChanges(
+    changesBetween(base, head),
+    rules,
+    (file) => show(head, file),
+    britishSpellings,
   );
+  if (process.env.PR_BODY !== undefined)
+    for (const line of stampMissing(process.env.PR_BODY, rules))
+      findings.push({
+        path: "(pull request body)",
+        id: "stamp-missing",
+        says: `lacks the done-proof stamp line "${line}"`,
+      });
   if (findings.length === 0) {
     console.log("check-changes: this change loosens no check.");
     return;
@@ -329,4 +378,4 @@ function main() {
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1])
-  main();
+  await main();
