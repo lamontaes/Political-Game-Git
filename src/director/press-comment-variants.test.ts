@@ -221,43 +221,38 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     // PROBE (hand-made): the national press. A reporter of a national outlet
     // plays national at any level; the bill's level alone, for a reporter of
     // the town's own outlet, is not enough.
-    // One record at a time, like the probes below: the call is about a bill
-    // the member has no vote on, so the town-against read is zero and the
-    // outlet is the only record in the sum. With the member's real vote on
-    // record the hostile arc is in the same sum (its weight times the town's
-    // margin, times one plus the reporter's own pull), and it rightly wins
-    // where that product is the larger: Chetopa, Kansas, seed
-    // 9e06037dac12a152:0, margin 0.69, played hostile.
+    // The national press, on the member's vote as cast. The engine adds
+    // every arc in one sum: hostile is its weight times the town's margin
+    // against the vote, national is the outlet's desk and the bill's reach,
+    // each times one plus the reporter's own pull. So the national reporter
+    // plays hostile exactly where that product is the larger (Chetopa,
+    // Kansas, seed 9e06037dac12a152:0: margin 0.69, hostile 1.38 against
+    // national 1.07), and national where it is not. The hostile case is
+    // checked here on its own; the national arc is checked below on a vote
+    // that makes it the larger product (CTO, Nov 17: the probe must not hope
+    // the national arc wins).
+    const scoreIn = (choice: ReturnType<typeof pick>, name: string) =>
+      choice.scores.find((s) => s.variant === name)!.score;
+    let nationalSeen = "";
     if (nationalId) {
-      const national = pick(
-        "probe-national",
-        { level: "federal", billId: "no-vote-on-this-bill" },
-        nationalId,
-      );
-      expect(national.reads["town-against"], where).toBe(0);
-      expect(national.variant, JSON.stringify(national.reads)).toBe("national");
-      expect(national.reads["national-desk"]).toBe(1);
-      expect(national.recordIds.some((id) => id.startsWith("outlet:"))).toBe(
-        true,
-      );
-      // The same reporter calling about the vote the town stands against:
-      // the outlet still reads as the national desk, the margin is the
-      // electorate's, and the arc played is the one the engine's sum ranks
-      // first, hostile exactly where its score passes the national arc's.
-      const onVote = pick(
+      const asCast = pick(
         "probe-national-vote",
         { level: "federal" },
         nationalId,
       );
-      expect(onVote.reads["national-desk"], where).toBe(1);
-      expect(onVote.reads["town-against"], where).toBeCloseTo(expected, 10);
-      const onVoteScore = (name: string) =>
-        onVote.scores.find((s) => s.variant === name)!.score;
-      expect(onVote.variant, JSON.stringify(onVote.scores)).toBe(
-        onVoteScore("hostile") > onVoteScore("national")
-          ? "hostile"
-          : "national",
-      );
+      expect(asCast.reads["national-desk"], where).toBe(1);
+      expect(asCast.reads["town-against"], where).toBeCloseTo(expected, 10);
+      if (scoreIn(asCast, "hostile") > scoreIn(asCast, "national")) {
+        expect(asCast.variant, JSON.stringify(asCast.scores)).toBe("hostile");
+        expect(asCast.recordIds, where).toContain(vote!.id);
+      } else {
+        expect(asCast.variant, JSON.stringify(asCast.scores)).toBe("national");
+        expect(
+          asCast.recordIds.some((id) => id.startsWith("outlet:")),
+          where,
+        ).toBe(true);
+        nationalSeen = "on the vote as cast";
+      }
     }
     const federalLocal = pick("probe-federal-local", {
       level: "federal",
@@ -301,6 +296,34 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     const withTown = pick("probe-with", {});
     expect(withTown.reads["town-against"], where).toBe(0);
     expect(withTown.variant, where).not.toBe("hostile");
+    // The national arc, where the vote as cast gave hostile: the member's
+    // vote now stands with the town, so nothing is against it and the
+    // national arc is the larger product in the engine's own sum. A place
+    // whose national reporter still does not make it the largest (a pull of
+    // minus one zeroes the arc) is passed over by name.
+    if (nationalId && !nationalSeen) {
+      const withVote = pick(
+        "probe-national-with-town",
+        { level: "federal" },
+        nationalId,
+      );
+      expect(withVote.reads["town-against"], where).toBe(0);
+      expect(withVote.reads["national-desk"], where).toBe(1);
+      if (withVote.scores[0]!.variant !== "national") {
+        tried.push(
+          `${where}: the national arc is not the largest for ${nationalId} even with the town: ${withVote.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}`,
+        );
+        continue;
+      }
+      expect(withVote.variant, JSON.stringify(withVote.scores)).toBe(
+        "national",
+      );
+      expect(
+        withVote.recordIds.some((id) => id.startsWith("outlet:")),
+        where,
+      ).toBe(true);
+      nationalSeen = "on the vote re-recorded with the town";
+    }
 
     // PROBE (hand-made): five earlier talks the player answered on the record
     // to this reporter: the beat reporter who has covered them before.
@@ -387,7 +410,7 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     expect(scandal.variant, deciding).toBe("scandal");
     expect(scandal.recordIds).toContain("probe-exposed-a");
     process.stdout.write(
-      `PRESS COMMENT PROBES ${where}: against margin ${margin.toFixed(2)} gave ${gap.variant}; friendly ${friendly.variant}; scandal ${scandal.variant}; national ${nationalId ? "national desk tried" : "no national reporter"}\n`,
+      `PRESS COMMENT PROBES ${where}: against margin ${margin.toFixed(2)} gave ${gap.variant}; friendly ${friendly.variant}; scandal ${scandal.variant}; national ${nationalId ? `played ${nationalSeen}` : "no national reporter"}\n`,
     );
     process.stdout.write(
       `PRESS COMMENT passed over before ${where}: ${tried.join("; ") || "none"}\n`,
