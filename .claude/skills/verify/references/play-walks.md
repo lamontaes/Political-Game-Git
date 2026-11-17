@@ -1,16 +1,6 @@
----
-name: play-walks
-description: >
-  Plays a new life the way a player does, with scripts that click what a
-  player clicks (the people at home, the places Travel lists, the filing
-  office, every menu) and write down every line on screen. Use before a build
-  goes to the owner, after a train of screen or words pull requests, when
-  reading a words or screen pull request on screen, or when someone says the
-  game says nothing. Not one item's finish line (seen-in-game), a played-year
-  proof (played-world-proof), or a pass-or-fail check.
----
-
 # Play walks
+
+Part of the `verify` skill. Until Nov 17, 2026 this was the `play-walks` skill; the CTO merged it here when the skills were capped (owner: "Let's go ahead"). What it covered: Plays a new life the way a player does, with scripts that click what a player clicks (the people at home, the places Travel lists, the filing office, every menu) and write down every line on screen. Use before a build goes to the owner, after a train of screen or words pull requests, when reading a words or screen pull request on screen, or when someone says the game says nothing. Not one item's finish line (seen-in-game), a played-year proof (played-world-proof), or a pass-or-fail check.
 
 **A walk plays the game and writes down what it saw. It asserts nothing; a person or a session reads it.** The tests say whether a rule holds. A walk says what the player gets.
 

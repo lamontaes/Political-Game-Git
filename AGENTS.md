@@ -95,7 +95,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Process
 
-- **Builders build; checkers check (owner, Oct 29: "Start 5 new Sonnet sessions that are explicitly like type check or doing like the prep work for the mergers after coding. So that way the builders can strictly build").** A builder and its helpers run only the test files they wrote or changed while building, never `npm run typecheck`, the guards or the gate; they open the PR ready with the Done-when table filled and message the checker whose number is the PR number mod 5 (`docs/coordination/CREW.md`). The checker merges main in, runs the local gate below in its own container, fixes what is mechanical, sends the rest back, and hands a passed gate to the mergers. Skill `merger` (checker part).
+- **Builders build; checkers check (owner, Oct 29: "Start 5 new Sonnet sessions that are explicitly like type check or doing like the prep work for the mergers after coding. So that way the builders can strictly build").** A builder and its helpers run only the test files they wrote or changed while building, never `npm run typecheck`, the guards or the gate; (CTO, Nov 16 and 17, under `done-proof`: before a pull request the author also runs the fast set, the changed files' checks and the guards, with skill `verify`, which Claude Code also runs before each commit; typecheck and the full gate stay with the checker) they open the PR ready with the Done-when table filled and message the checker whose number is the PR number mod 5 (`docs/coordination/CREW.md`). The checker merges main in, runs the local gate below in its own container, fixes what is mechanical, sends the rest back, and hands a passed gate to the mergers. Skill `merger` (checker part).
 - **Local gate, not the full suite.** Typecheck, eslint and prettier on changed files, `release:check --mode pr`, `npm run zero-dice`, `npm run pool -- --check`, the tests for changed files, and `npm run test:skill-ops` when instruction files change (`npm run agent:test-cadence` lists the commands for your changed files). A failure that's also red on clean `main` doesn't block. Never force-push; never permanently delete. See `.agents/rules/standing-skills/local-gate/SKILL.md`.
 - **Generated-world proof.** Claims about simulation-driven events, scenes, dialogue or law effects need the route in an ordinary generated world through existing producers and writers, naming the place, seed and record ids. Hand-inserted fixtures prove edge cases only.
 - **A fix lands on the branch where the failure reproduces.** Diagnose from the log on every platform that shows the failure.
@@ -140,7 +140,6 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `play-first`: one item of the play-first lane; the screenshot and browser check
-- `play-walks`: playing a new life with scripts that click what a player clicks and write down every line
 - `played-world-proof`: proving a feature in a played year; a jobs or wage change month by month
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: the pool's paperwork: filing an item by hand, pool-only changes in one bundle an hour, the cap on new work
@@ -159,9 +158,20 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `session-start`: the pool worker loop
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows, long runs, and how often a step runs
 - `trusted-review-pass`: bulk review passes with planted calibration rows
+- `verify`: the fast checks before each commit and pull request in one script, a screenshot of a screen reached by playing, and the play walks
 - `wiring-audit`: auditing a family of mechanics end to end, and the 56-place trace audit
 - `words-engine`: the English engine and the director, speeches from the one planner, reading a term by policy area
 - `words-stamp-read`: how a words reader reads a pull request before it folds, and what a builder sends to get that read
+
+## Claude sessions
+
+CLAUDE.md is the one line `@AGENTS.md` (owner, Nov 17, as Anthropic recommends); these notes are for Claude sessions only.
+
+- **Project threads and cloud sessions do not load skills** (#9876). Anthropic's docs (Nov 17, 2026) say they load CLAUDE.md, and so this file, but not `.claude/skills`, hooks or settings. Before building, open these as files and read them: `.claude/skills/done-proof/SKILL.md` and the SKILL.md for your job, including its Gotchas section. Find the job's skill by its folder name in `.claude/skills/`.
+- **Skills load on demand** in local sessions. Skills live in `.agents/skills/` and are mirrored byte for byte in `.claude/skills/`; edit both, or `npm run test:skill-ops` fails. `civic-prose` is a development-time authoring process, never model calls in shipped play.
+- **Owner reports and PR bodies** follow `civic-reports`. Run `npm run report:check -- <file>` before sending one.
+- **Sub-agents** in `.claude/agents/` serve the prose and report skills. Give any other helper a bounded brief (see "Models, effort and helpers").
+- **Context.** Work one pool item at a time and write findings into the PR body, the item's Notes or the job's report, not only into the conversation. Skip ritual duplicate checks and whole-project rediscovery: read the item, its files and the rule it names.
 
 ## Implementation boundaries
 
