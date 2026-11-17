@@ -66,17 +66,12 @@ const view: DevView = {
         "Its cause is a circumstance or a turn in a tie that the engines write over time: dev mode runs the world until it comes",
       "no-event":
         "A bare record of its cause is refused: forcing it takes its module's own writer",
-      chair:
-        "Its cause is a bill you hold as a committee's chair, and the chamber's leadership or seniority seats the chair: dev mode cannot make you one",
       "members-decide":
         "Its cause is a trade a member makes for their own section, which only that member's position decides: dev mode cannot make a member trade",
-      lived:
-        "Its cause is a word at your seat on a day you live: play the day after a sitting and it comes",
       "no-seat":
         "No seat in this place's legislature covers your town, so dev mode cannot seat you to bring it about",
       "no-colleague": "Your body has no other living member to bring it about",
       "no-question": "Your seat has no question it may pass to put in a bill",
-      "no-committee": "Your chamber has no committee to hold a bill",
       "no-sitting":
         "Your chamber does not sit again within the run, so no count comes before a roll: try again when it is in session",
       "no-player": "There is no player to bring it about for",

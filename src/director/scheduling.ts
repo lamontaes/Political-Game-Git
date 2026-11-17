@@ -27,12 +27,7 @@ import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
-import { LETTER_TYPE, letterFacts } from "./letter-facts";
-import { nextMeetingFacts } from "./meeting-facts";
 import { isPayrollOrganization } from "../english/journal-words";
-
-/** A tie that grew: the friend's ask (situation-types.json). */
-const FRIENDS_TYPE = "becoming-friends";
 
 const zero = P.zero;
 const one = P.one;
@@ -335,16 +330,14 @@ export interface ScheduleEntry {
   bindings: SceneBinding[];
   /**
    * The types this cause bound that were held back, and why: the type's
-   * season was full (`season-cap`), or a letter would have asked the same with
-   * nothing on record since (`nothing-changed`), or a friend has nothing
-   * to ask that the game can settle (`nothing-to-ask`: no town meeting
-   * posted that the player may come to), or the type is not on the written
+   * season was full (`season-cap`), or the same cast was staged for the same
+   * record with nothing new since (`nothing-changed`), or the type is not on the written
    * list of kept scene kinds (`not-kept`: owner, Nov 17, its lines were not
    * composed from records). The journal tells these.
    */
   heldBack?: {
     typeKey: string;
-    reason: "season-cap" | "nothing-changed" | "nothing-to-ask" | "not-kept";
+    reason: "season-cap" | "nothing-changed" | "not-kept";
   }[];
   /**
    * The bound scenes with a purpose the player has answered, by type: a
@@ -1048,49 +1041,11 @@ export function scheduleMoment(
       row.setting.kind,
     );
   };
-  // A letter from a writer whose earlier letter was already staged plays
-  // again only with something on record since: news of the writer's life, a
-  // birthday they missed at the reader's table or their own birthday near
-  // (letter-facts.ts). The same ask with nothing changed goes to the journal.
-  const lettered = new Set(
-    book.schedule
-      .filter(
-        (entry) =>
-          entry.date <= moment.date &&
-          entry.momentId !== moment.id &&
-          entry.outcome !== "journal-line",
-      )
-      .flatMap((entry) =>
-        entry.bindings
-          .filter((row) => row.typeKey === LETTER_TYPE)
-          .map((row) => castOf(row)),
-      ),
-  );
-  const sameLetter = (row: SceneBinding) => {
-    if (row.typeKey !== LETTER_TYPE || !lettered.has(castOf(row))) return false;
-    const writer = row.roles.find((role) => role.role === "writer")?.personIds[
-      zero
-    ];
-    const reader = row.roles.find((role) => role.role === "reader")?.personIds[
-      zero
-    ];
-    if (!writer || !reader) return false;
-    const said = letterFacts(
-      core,
-      LETTER_TYPE,
-      moment.causeId,
-      writer,
-      reader,
-      () => null,
-    );
-    return Object.keys(said).length === zero;
-  };
   // The same scene with the same people about the same record again is not
   // staged: an earlier day's scene of this cast was staged for a cause record of
   // the same kind with the same facts, so nothing on record is new. A record
   // with any fact of its own (another bill, another law, another speech) is a
-  // new cause and stages. A letter reads what has happened since instead
-  // (above), and a scene about each cause keeps every one.
+  // new cause and stages, and a scene about each cause keeps every one.
   const factsKey = (id: string) => {
     const record = core.durableLog.get(id);
     return record
@@ -1116,7 +1071,6 @@ export function scheduleMoment(
   }
   const sameRecordAgain = (row: SceneBinding) =>
     !eachCause(row) &&
-    row.typeKey !== LETTER_TYPE &&
     !!stagedCauses.get(castOf(row))?.has(factsKey(moment.causeId));
   // A scene the player pressed for themselves (their own ask to a colleague
   // to sign on, to vote, to serve) is not counted against a season: each one
@@ -1134,12 +1088,6 @@ export function scheduleMoment(
       )
     );
   };
-  // A friend asks only for what the game can settle now (the Words lead,
-  // Nov 15; owner's ruling: a colleague asks only for what the game can do):
-  // the next posted town meeting the player may come to. With none, the
-  // scene is not staged rather than dropped at its request.
-  const nothingToAsk = (row: SceneBinding) =>
-    row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
   const seasonFull = (row: SceneBinding) =>
     !pressedByPlayer(row) &&
     !library.types.find((type) => type.key === row.typeKey)?.openDecision &&
@@ -1153,11 +1101,9 @@ export function scheduleMoment(
         ? [{ typeKey: row.typeKey, reason: "not-kept" }]
         : seasonFull(row)
           ? [{ typeKey: row.typeKey, reason: "season-cap" }]
-          : sameLetter(row) || sameRecordAgain(row)
+          : sameRecordAgain(row)
             ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
-            : nothingToAsk(row)
-              ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
-              : [],
+            : [],
   );
   const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(

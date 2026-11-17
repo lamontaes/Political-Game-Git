@@ -28,7 +28,6 @@ import {
   chambersOf,
   committeeMemberKeys,
   draftBill,
-  executiveOf,
   members,
   memberKey,
   scheduleVote,
@@ -46,15 +45,12 @@ import { seatView } from "./legislature";
 
 /** The legislature's situation types dev mode can force, by recipe. */
 export const LEGISLATURE_SCENES: Readonly<
-  Record<string, "carry" | "held" | "presented" | "introduced" | "count">
+  Record<string, "carry" | "introduced" | "count">
 > = {
   // The count waits for the chamber's next sitting, so it goes first in a run of every recipe.
   "vote-asked": "count",
   "bill-carry": "carry",
-  "hold-chair-sought": "held",
   "press-interview": "introduced",
-  // The desk seats a player who is no executive as governor, so it goes last.
-  "desk-visit": "presented",
 };
 
 /**
@@ -63,22 +59,12 @@ export const LEGISLATURE_SCENES: Readonly<
  * a word at the seat that reaches only a player living the day.
  */
 export const LEGISLATURE_REASONS: Readonly<Record<string, string>> = {
-  "bill-held-chair": "chair",
-  "section-bargain": "members-decide",
   "vote-confirmed": "members-decide",
-  "floor-debate": "lived",
-  "hearing-witness": "lived",
-  "lobby-remembers": "lived",
 };
 
 /** Why a recipe could not run in this world, a reason key of the scene view's labels. */
 export type LegislatureRefusal =
-  | "no-seat"
-  | "no-colleague"
-  | "no-question"
-  | "no-committee"
-  | "no-sitting"
-  | "no-player";
+  "no-seat" | "no-colleague" | "no-question" | "no-sitting" | "no-player";
 
 export interface LegislatureForce {
   readonly recipe: "legislature";
@@ -119,21 +105,6 @@ function bodiesHeld(api: CoreAPI, personId: string): string[] {
         members(api, officeId).some((term) => memberKey(term) === personId),
     )
     .sort();
-}
-
-/** A body whose executive the person is: a bill it passes goes to their desk. */
-function bodyAtDesk(
-  mode: DevMode,
-  api: CoreAPI,
-  personId: string,
-): string | undefined {
-  return mode
-    .lawmakingBodies()
-    .map((body) => body.id)
-    .find((id) => {
-      const term = executiveOf(api, id).term;
-      return !!term && memberKey(term) === personId;
-    });
 }
 
 /** The living members of a body other than the person, in key order. */
@@ -199,37 +170,22 @@ export function forceLegislatureScene(
     mode.director.watch(mode.core, playerId);
   const book = mode.director.ledger.people.get(playerId)!;
 
-  // The seat the scene needs: the desk of a body for the executive's visit, a member's seat else.
+  // The seat the scene needs: a member's seat.
   let seated: string | null = null;
-  let body: string | undefined;
-  if (way === "presented") {
-    body = bodyAtDesk(mode, api, playerId);
-    if (!body) {
-      if (!seatCoveringTown(api, "governor")) return refuse("no-seat");
-      seated = seatPlayerInStateOffice(api, {
-        personId: playerId,
-        role: "governor",
-      }).termId;
-      body = bodyAtDesk(mode, api, playerId);
-    }
-  } else {
+  let body = bodiesHeld(api, playerId)[0];
+  if (!body) {
+    if (!seatCoveringTown(api, "legislator")) return refuse("no-seat");
+    const held = seatPlayerInStateOffice(api, {
+      personId: playerId,
+      role: "legislator",
+    });
+    seated = held.termId;
     body = bodiesHeld(api, playerId)[0];
-    if (!body) {
-      if (!seatCoveringTown(api, "legislator")) return refuse("no-seat");
-      const held = seatPlayerInStateOffice(api, {
-        personId: playerId,
-        role: "legislator",
-      });
-      seated = held.termId;
-      body = bodiesHeld(api, playerId)[0];
-    }
   }
   if (!body) return refuse("no-seat", seated);
   const colleague = colleagues(api, body, playerId)[0];
-  if (!colleague && way !== "introduced" && way !== "held")
-    return refuse("no-colleague", seated);
-  const drafter =
-    way === "presented" || way === "count" ? colleague! : playerId;
+  if (!colleague && way !== "introduced") return refuse("no-colleague", seated);
+  const drafter = way === "count" ? colleague! : playerId;
   const section = sectionFor(mode, api, drafter);
   if (!section) return refuse("no-question", seated);
 
@@ -259,30 +215,6 @@ export function forceLegislatureScene(
       sponsorId: playerId,
       provisions: [section],
     });
-    written.push(bill.id);
-    day();
-  } else if (way === "held") {
-    const bill = draftBill(api, {
-      bodyOfficeId: body,
-      sponsorId: playerId,
-      provisions: [section],
-    });
-    const first = chambersOf(api, bill)[0]!;
-    if (!committeeMemberKeys(api, bill.id, first).length)
-      return refuse("no-committee", seated, [bill.id]);
-    // The chair holds it unheard: the committee stage decides by the chair's cast choice.
-    castChairHearing(api, bill.id, first, false);
-    mode.decideAt(bill.id, undefined, {});
-    written.push(bill.id, `committee:${bill.id}:${first}`);
-    day();
-  } else if (way === "presented") {
-    const bill = draftBill(api, {
-      bodyOfficeId: body,
-      sponsorId: colleague!,
-      provisions: [section],
-    });
-    // Every member votes for it in every chamber and each committee hears it.
-    mode.decideAt(bill.id, members(api, body).length, { chairHears: true });
     written.push(bill.id);
     day();
   } else {
