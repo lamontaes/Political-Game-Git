@@ -19,6 +19,8 @@ import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rul
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
+import { SeededRng } from "../core2/kernel/rng";
+import { generatePersonIdentity } from "../core2/gov-rules/person-identity";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 import { selectBenchPlace } from "./place-selection.mjs";
 
@@ -57,9 +59,17 @@ export function drawName(seed: string, draw: number, gender?: string) {
   };
 }
 
-/** A gender drawn by seed and draw number, for Random's whole character. */
+/**
+ * The gender Random gives a whole character: drawn by the generator the world
+ * uses for every person it invents (`generatePersonIdentity`, with its
+ * published weights), on the visit's seed and draw, so Random makes the same
+ * kind of person the world does and adds no pick of its own.
+ */
 export function drawGender(seed: string, draw: number): CreatorGender {
-  return GENDERS[hash(`${seed}:gender:${draw}`) % GENDERS.length]!;
+  const { gender } = generatePersonIdentity(
+    new SeededRng(`${seed}:gender:${draw}`),
+  );
+  return gender === "unstated" ? "nonbinary" : gender;
 }
 
 /**
