@@ -1052,7 +1052,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     table(api, "budgets").put({
       ...opening,
       baseSpendingMinor: opening.spendingMinor,
-      drivers: gov.level === "federal" ? budgetDrivers(api) : undefined,
+      ...(gov.level === "federal" && budgetDrivers(api)
+        ? { drivers: budgetDrivers(api) }
+        : {}),
       revenuePlanMonth: opening.startsOn.slice(0, 7),
     } as unknown as ModuleRow);
     calendar.schedule({
