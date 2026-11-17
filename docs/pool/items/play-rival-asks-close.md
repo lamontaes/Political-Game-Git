@@ -1,7 +1,7 @@
 ---
 id: play-rival-asks-close
 title: "Candidates in the player's own race keep asking the player for money after the player files against them"
-area: campaigns
+area: elections
 kind: bug
 priority: 1
 size: S
