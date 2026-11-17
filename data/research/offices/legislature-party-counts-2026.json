@@ -4,7 +4,7 @@
   "retrieved": "2026-10-12",
   "source": "https://data.openstates.org/people/current/",
   "license": "Open States data is public domain (CC0).",
-  "missing": "Guam, the U.S. Virgin Islands, American Samoa and the Northern Marianas (Open States has no roster for them).",
+  "missing": "Open States has no roster for Guam, the U.S. Virgin Islands, American Samoa or the Northern Marianas; their rows are read from each chamber's own source (its `source`, retrieved 2026-11-17, marked `estimate`): parties from the 2024 elections as seated in 2025. American Samoa's Fono is nonpartisan (its senators are chosen by county councils), so it lists no seats by party. The Northern Marianas' Senate seats on Saipan are inferred from the legislature's directory, whose totals are firm.",
   "places": {
     "US-AK": {
       "lower": {
@@ -8156,6 +8156,150 @@
           "8": ["Republican"],
           "9": ["Democratic"]
         }
+      }
+    },
+    "US-GU": {
+      "legislature": {
+        "members": 15,
+        "districts": 1,
+        "parties": {
+          "Republican": 9,
+          "Democratic": 6
+        },
+        "seatParties": {
+          "At-Large": [
+            "Republican",
+            "Republican",
+            "Republican",
+            "Republican",
+            "Republican",
+            "Republican",
+            "Republican",
+            "Republican",
+            "Republican",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic"
+          ]
+        },
+        "source": "https://en.wikipedia.org/wiki/Legislature_of_Guam",
+        "retrieved": "2026-11-17",
+        "estimate": true
+      }
+    },
+    "US-VI": {
+      "legislature": {
+        "members": 15,
+        "districts": 3,
+        "parties": {
+          "Democratic": 12,
+          "Independent": 3
+        },
+        "seatParties": {
+          "St. Croix": [
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Independent"
+          ],
+          "St. Thomas-St. John": [
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Democratic",
+            "Independent",
+            "Independent"
+          ],
+          "At-Large": ["Democratic"]
+        },
+        "source": "https://en.wikipedia.org/wiki/36th_Virgin_Islands_Legislature; https://en.wikipedia.org/wiki/2024_United_States_Virgin_Islands_general_election; https://en.wikipedia.org/wiki/Legislature_of_the_Virgin_Islands",
+        "retrieved": "2026-11-17",
+        "estimate": true
+      }
+    },
+    "US-AS": {
+      "upper": {
+        "members": 18,
+        "parties": {
+          "Nonpartisan": 18
+        },
+        "source": "https://en.wikipedia.org/wiki/American_Samoa_Fono",
+        "retrieved": "2026-11-17",
+        "estimate": true
+      },
+      "lower": {
+        "members": 21,
+        "parties": {
+          "Nonpartisan": 21
+        },
+        "source": "https://en.wikipedia.org/wiki/American_Samoa_Fono",
+        "retrieved": "2026-11-17",
+        "estimate": true
+      }
+    },
+    "US-MP": {
+      "upper": {
+        "members": 9,
+        "districts": 3,
+        "parties": {
+          "Republican": 4,
+          "Independent": 3,
+          "Democratic": 2
+        },
+        "seatParties": {
+          "Rota": ["Independent", "Independent", "Independent"],
+          "Tinian": ["Republican", "Republican", "Republican"],
+          "Saipan and Northern Islands": [
+            "Republican",
+            "Democratic",
+            "Democratic"
+          ]
+        },
+        "source": "https://cnmileg.net/resources/files/Directory/24TH%20Directory%20(08_26_2025)FINAL.pdf; https://en.wikipedia.org/wiki/2024_Northern_Mariana_Islands_general_election; https://en.wikipedia.org/wiki/Northern_Mariana_Islands_Senate",
+        "retrieved": "2026-11-17",
+        "estimate": true
+      },
+      "lower": {
+        "members": 20,
+        "districts": 7,
+        "parties": {
+          "Independent": 16,
+          "Republican": 2,
+          "Democratic": 2
+        },
+        "seatParties": {
+          "Saipan 1": [
+            "Independent",
+            "Independent",
+            "Independent",
+            "Independent",
+            "Democratic",
+            "Republican"
+          ],
+          "Saipan 2": ["Independent", "Independent"],
+          "Saipan 3 and Northern Islands": [
+            "Independent",
+            "Independent",
+            "Independent",
+            "Independent",
+            "Independent",
+            "Democratic"
+          ],
+          "Saipan 4": ["Independent", "Independent"],
+          "Saipan 5": ["Independent", "Independent"],
+          "Tinian 6": ["Republican"],
+          "Rota and Aguiguan 7": ["Independent"]
+        },
+        "source": "https://cnmileg.net/resources/files/Directory/24TH%20Directory%20(08_26_2025)FINAL.pdf; https://en.wikipedia.org/wiki/2024_Northern_Mariana_Islands_general_election; https://en.wikipedia.org/wiki/Northern_Mariana_Islands_Senate",
+        "retrieved": "2026-11-17",
+        "estimate": true
       }
     }
   },

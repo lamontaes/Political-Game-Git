@@ -69,10 +69,14 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
-import { incomeBandOf } from "../counted-income-fifth";
+import {
+  incomeBandOf,
+  incomeBandOn,
+  wageIndexToday,
+} from "../counted-income-fifth";
 import { parameter } from "../parameters";
 
-export { incomeBandOf };
+export { incomeBandOf, incomeBandOn };
 /** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
 export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
@@ -485,7 +489,10 @@ export function groupKeyOf(
     placeId: h.placeId,
     district: h.district ?? "town",
     kind,
-    incomeBand: incomeBandOf(householdIncome(rt, h)),
+    incomeBand: incomeBandOf(
+      householdIncome(rt, h),
+      rt.api ? wageIndexToday(rt.api) : 1,
+    ),
     tenure: h.tenure,
     ageBand: ageBandOf(Math.max(0, headAge)),
     work,

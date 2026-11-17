@@ -548,25 +548,23 @@
     },
     "family-filing": {
       "state": "ask",
-      "replies": ["tell", "request", "deflect", "comfort"],
+      "replies": ["tell", "request", "promise", "deflect"],
       "follow": {
-        "tell": ["comfort", "ask", "disagree"],
+        "tell": ["ask", "disagree"],
         "request": ["promise", "decline"],
+        "promise": ["thank", "press"],
         "deflect": ["press", "plea"],
-        "comfort": ["thank"],
         "apologize": ["accept"],
-        "promise": ["thank"],
         "thank": ["thank"],
         "accept": ["accept"]
       },
       "again": {
-        "ask": ["tell", "apologize", "request"],
-        "comfort": ["thank", "promise", "request"],
-        "disagree": ["tell", "apologize", "request"],
-        "press": ["tell", "apologize", "promise", "leave"],
-        "plea": ["tell", "apologize", "promise", "leave"],
-        "promise": ["thank", "accept", "leave"],
-        "decline": ["request", "accept"]
+        "ask": ["tell", "promise", "request"],
+        "disagree": ["apologize", "promise", "request"],
+        "press": ["promise", "apologize", "leave"],
+        "plea": ["promise", "apologize", "leave"],
+        "promise": ["thank", "accept"],
+        "decline": ["accept", "promise"]
       },
       "endings": [
         {

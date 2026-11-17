@@ -99,7 +99,11 @@ export {
 /** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
 export {
   centuryCongressSeat,
+  centuryLaw,
+  centuryLegislatures,
+  centuryParties,
   centuryOf,
+  centurySignedLean,
   centuryPresidency,
   centuryRace,
   centuryRecordVotes,
@@ -109,6 +113,7 @@ export {
   historyMode,
   presidencyPartyTerms,
   runCentury,
+  runLegislatures,
   setHistoryMode,
   type Century,
   type CenturyCongress,
@@ -117,6 +122,7 @@ export {
   type CenturySeatRace,
   type HistoryMode,
 } from "../electorate-century";
+export { partyKeyIssues } from "../electorate-century-laws";
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;
@@ -276,11 +282,17 @@ export interface FilingRow {
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
   /**
-   * "petitioning" while the candidate gathers signatures, then "on-ballot"
-   * or "short" by the clerk's check; "withdrawn" for one who left the race
-   * or lost a primary.
+   * "announced" from the day the candidate declares for a race whose filing
+   * window has not opened (owner, Nov 17: "Run now, file on the date"): the
+   * campaign raises money and gathers signatures, and the candidate is not
+   * yet in the race. Filing in the window makes it "petitioning" while the
+   * candidate gathers signatures, then "on-ballot" or "short" by the clerk's
+   * check; "withdrawn" for one who left the race or lost a primary.
    */
-  readonly status: "petitioning" | "on-ballot" | "short" | "withdrawn";
+  readonly status:
+    "announced" | "petitioning" | "on-ballot" | "short" | "withdrawn";
+  /** The day the candidate announced, where they announced before filing. */
+  readonly announcedOn?: string;
   /** How a candidate the world put on the ballot came to stand (an incumbent again, a party's nominee). */
   readonly how?: string;
   /**
@@ -1331,6 +1343,12 @@ export function playerFilingBar(
   api: CoreAPI,
   contestId: string,
   localKinds: readonly string[] = townLocalKinds(api),
+  /**
+   * Whether the player would announce for it (`announceCandidacy`): a window
+   * still ahead does not bar them, and the at-large race is the first of its
+   * seats not yet closed.
+   */
+  announcing = false,
 ): PlayerFilingBar | null {
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
@@ -1343,7 +1361,11 @@ export function playerFilingBar(
   const seat = offices.table("seats").get(contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
   if (seat?.coversTown === false) return "not-your-town";
-  if (!filingWindowOpen(contest, api.state.date))
+  const takes = (other: ContestRow) =>
+    announcing
+      ? other.filingDeadline >= api.state.date
+      : filingWindowOpen(other, api.state.date);
+  if (!takes(contest))
     return api.state.date < filingWindowOpens(contest)
       ? "window-not-open"
       : "window-closed";
@@ -1379,7 +1401,7 @@ export function playerFilingBar(
     .filter((other) => {
       const s = offices.table("seats").get(other.seatId) as
         { district?: string | null; index?: number } | undefined;
-      return !s?.district && filingWindowOpen(other, api.state.date);
+      return !s?.district && takes(other);
     })
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
   return atLarge[0]?.id === contest.id ? null : "at-large-elsewhere";
@@ -1615,7 +1637,12 @@ export function checkEligibility(
     table(api, "filings").query("byPerson", [
       personId,
     ]) as unknown as FilingRow[]
-  ).some((f) => f.status !== "withdrawn" && f.contestId === contestId);
+  ).some(
+    (f) =>
+      f.status !== "withdrawn" &&
+      f.status !== "announced" &&
+      f.contestId === contestId,
+  );
   // Where they must live: the town for a local seat; the state for a state
   // or federal one (a district's own residency rule is in the requirement
   // text the place's records give).
@@ -1774,6 +1801,11 @@ export function fileCandidacy(
   }
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
+  // A candidate who announced files the same candidacy: its campaign, money
+  // and signatures carry on under the filing (owner, Nov 17: "Run now, file
+  // on the date").
+  const announced = table(api, "filings").get(id) as unknown as
+    FilingRow | undefined;
   const filing: FilingRow = {
     id,
     contestId: input.contestId,
@@ -1783,6 +1815,9 @@ export function fileCandidacy(
     platform: [...input.platform],
     party: input.party ?? null,
     status: "petitioning",
+    ...(announced?.status === "announced"
+      ? { announcedOn: announced.announcedOn ?? announced.filedOn }
+      : {}),
   };
   table(api, "filings").put(filing as unknown as ModuleRow);
   announce(api, filing, contest);
@@ -1792,7 +1827,114 @@ export function fileCandidacy(
   return { status: kept.status, filing: kept };
 }
 
-/** The state a place lies in, from the place records. */
+/** The kind of the public record of a candidate announcing before filing. */
+export const CANDIDATE_ANNOUNCED_EVENT = "candidate-announced";
+
+/**
+ * Announce for a race whose filing window has not opened yet (owner, Nov 17:
+ * "Run now, file on the date. From day one the player can announce for a
+ * coming race, form a campaign committee, raise money and gather petition
+ * signatures. The official filing happens in the real window, and the year
+ * between is the campaign."). The candidacy is the filing's own row in the
+ * "announced" state, so the campaign engine opens its committee, raises money
+ * and gathers signatures on it as on any filing; filing in the window
+ * (`fileCandidacy`) turns the same row into the filing. The same checks as a
+ * filing, except that the window has not opened; a race whose filing closed
+ * or is open now takes a filing instead.
+ */
+export function announceCandidacy(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly contestId: string;
+    readonly platform: readonly string[];
+    readonly party?: string | null;
+  },
+):
+  | { readonly status: "refused"; readonly unmet: readonly RequirementCheck[] }
+  | { readonly status: "announced"; readonly filing: FilingRow } {
+  const contest = table(api, "contests").get(input.contestId) as unknown as
+    ContestRow | undefined;
+  if (!contest) throw new Error(`No contest ${input.contestId}`);
+  const today = api.state.date;
+  const id = `filing:${input.contestId}:${input.personId}`;
+  const held = table(api, "filings").get(id) as unknown as
+    FilingRow | undefined;
+  const checks = checkEligibility(
+    api,
+    input.personId,
+    input.contestId,
+    input.party ?? null,
+  ).flatMap((check): RequirementCheck[] => {
+    // Only a window still ahead is announced for; one open or closed is not.
+    if (check.rule === "filing-deadline")
+      return filingWindowOpens(contest) > today
+        ? []
+        : [{ ...check, met: false }];
+    // An announcement already made is the one candidacy.
+    if (check.rule === "already-filed")
+      return [
+        held && held.status !== "withdrawn"
+          ? { ...check, met: false, actual: held.status }
+          : check,
+      ];
+    return [check];
+  });
+  const unmet = checks.filter((c) => !c.met);
+  if (unmet.length) return { status: "refused", unmet };
+  const rules = filingRulesFor(
+    api,
+    contest,
+    filingSideFor(api, contest, input.party),
+  );
+  const filing: FilingRow = {
+    id,
+    contestId: input.contestId,
+    personId: input.personId,
+    filedOn: today,
+    announcedOn: today,
+    filedWith: rules.filedWith,
+    platform: [...input.platform],
+    party: input.party ?? null,
+    status: "announced",
+  };
+  table(api, "filings").put(filing as unknown as ModuleRow);
+  // A public record: the campaign engine forms the committee on it and the
+  // voting engine opens the petition the law will ask at filing.
+  api.emit({
+    id: `${CANDIDATE_ANNOUNCED_EVENT}:${id}:${today}`,
+    date: today,
+    kind: CANDIDATE_ANNOUNCED_EVENT,
+    personIds: api.state.people.has(input.personId) ? [input.personId] : [],
+    placeId: town(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Announcement ${id}`,
+      asOf: today,
+    },
+    publicRecord: true,
+    facts: {
+      filingId: id,
+      contestId: contest.id,
+      office: contest.title,
+      filingOpens: filingWindowOpens(contest),
+      electionDate: contest.electionDate,
+      filedWith: rules.filedWith,
+    },
+  });
+  return { status: "announced", filing };
+}
+
+/**
+ * Whether a candidacy's campaign works today: it stands in its race
+ * (`standing`), or it was announced and waits for its filing window.
+ */
+export function campaigning(
+  filing: Readonly<Pick<FilingRow, "status">>,
+): boolean {
+  return standing(filing) || filing.status === "announced";
+}
+
 /** The party organization a ballot label names in the town's state, by name. */
 function partyIdFor(api: CoreAPI, label: string): string | null {
   const key = partyName(label)?.trim().toLowerCase();
@@ -1895,7 +2037,11 @@ export function raceAhead(
   if (filing.status === "withdrawn") return false;
   const contest = table(api, "contests").get(filing.contestId) as unknown as
     ContestRow | undefined;
-  return !!contest && contest.electionDate >= api.state.date;
+  if (!contest) return false;
+  // An announcement never filed is out of the race once its filing closed.
+  if (filing.status === "announced" && contest.filingDeadline < api.state.date)
+    return false;
+  return contest.electionDate >= api.state.date;
 }
 
 /**
@@ -2077,15 +2223,39 @@ export function openPetition(
   return row;
 }
 
+/**
+ * Size a petition an announced candidate circulated by the law of the side
+ * they filed on: the signatures stand, the count asked and the due day are
+ * the filing's.
+ */
+export function resizePetition(
+  api: CoreAPI,
+  petition: PetitionRow,
+  input: { readonly rule: PetitionRule; readonly needed: number },
+): PetitionRow {
+  const filing = table(api, "filings").get(
+    petition.filingId,
+  ) as unknown as FilingRow;
+  const row: PetitionRow = {
+    ...petition,
+    rule: input.rule,
+    needed: input.needed,
+    due: petitionDue(api, filing),
+  };
+  table(api, "petitions").put(row as unknown as ModuleRow);
+  return row;
+}
+
 /** Whether a filing's petition is out and has not been checked yet. */
 export function petitionCirculating(api: CoreAPI, filingId: string): boolean {
   const petition = petitionOf(api, filingId);
   const filing = table(api, "filings").get(filingId) as unknown as
     FilingRow | undefined;
+  // An announced candidacy gathers signatures ahead of its filing.
   return Boolean(
     petition &&
     !petition.check &&
-    filing?.status === "petitioning" &&
+    (filing?.status === "petitioning" || filing?.status === "announced") &&
     api.state.date <= petition.due,
   );
 }

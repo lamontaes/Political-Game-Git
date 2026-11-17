@@ -14,7 +14,6 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
-  baseBudget,
   budgetsOf,
   enactedBudgetChanges,
   governments,
@@ -52,17 +51,21 @@ it("votes a state's or county's spending from the receipts it collected the year
           (m) => m.date >= from && m.date < to,
         );
         if (months.length !== 12) continue;
-        const collected = months.reduce((n, m) => n + m.collectedMinor, 0);
+        const collected = months.reduce(
+          (n, m) => n + m.collectedMinor - m.borrowedMinor,
+          0,
+        );
         const expected = Object.values(prior.revenueMinor).reduce(
           (n, v) => n + v,
           0,
         );
         const factor = collected / expected;
-        const base = baseBudget(api, gov, budget.fiscalYear);
-        // Lines no bill has changed are the base times the factor, rounded.
+        // A line no bill has changed is last year's line carried forward, times the factor, rounded.
         const changed = new Set(Object.keys(enactedBudgetChanges(api, gov.id)));
         let untouched = 0;
-        for (const [line, value] of Object.entries(base.spendingMinor)) {
+        for (const [line, value] of Object.entries(
+          prior.baseSpendingMinor ?? {},
+        )) {
           if (changed.has(line)) continue;
           expect(
             Math.abs(budget.spendingMinor[line]! - value * factor),

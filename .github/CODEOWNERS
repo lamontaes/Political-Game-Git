@@ -304,6 +304,7 @@
 /src/core2/life-stake-rule.ts @lamontaes
 /src/core2/life-stakes.ts @lamontaes
 /src/core2/coverage-module-id.ts @lamontaes
+/src/core2/modules/promises.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
