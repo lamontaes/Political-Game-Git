@@ -191946,31 +191946,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.the-roll-s-today-walk-with-me-a-second",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "The roll's today. Walk with me a second.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["vote-today"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.i-m-down-to-one-name-on-bill-it-s-yours",
       "move": "open-greet",
       "kind": "spoken",
@@ -191996,31 +191971,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-m-going-down-the-list-for-tomorrow-you-re-on-it",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'm going down the list for tomorrow. You're on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["count-several", "vote-tomorrow"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.follow-plea.you-were-with-me-last-time-stay-with-me-on-this",
       "move": "follow-plea",
       "kind": "spoken",
@@ -192034,58 +191984,6 @@
           "move": "plea",
           "role": "asker",
           "requiresFacts": ["voted-with-before"],
-          "excludesFacts": ["asked-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "plea",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.you-stood-with-me-before-i-need-you-once-more",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "You stood with me before. I need you once more.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "requiresFacts": ["voted-with-before"],
-          "excludesFacts": ["asked-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "plea",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.we-re-on-the-same-side-most-days-be-there-tomorrow",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "We're on the same side most days. Be there tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "requiresFacts": ["read-same-party", "vote-tomorrow"],
           "excludesFacts": ["asked-before"]
         }
       ],
@@ -192151,32 +192049,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.the-roll-is-today-i-need-an-answer-now",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "The roll is today. I need an answer now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["vote-today"],
-          "after": "stall"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.follow-threaten.you-were-against-me-last-time-too-i-ll-remember",
       "move": "follow-threaten",
       "kind": "spoken",
@@ -192216,32 +192088,6 @@
           "move": "threaten",
           "role": "asker",
           "requiresFacts": ["their-bill"],
-          "after": "refuse"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "threaten",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-threaten.the-caucus-will-hear-how-you-voted",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "The caucus will hear how you voted.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "requiresFacts": ["read-same-party"],
           "after": "refuse"
         }
       ],
@@ -192298,32 +192144,6 @@
         }
       ],
       "bearing": "tired",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.done-i-m-with-you-on-their-bill",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Done. I'm with you on {their-bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["their-bill"],
-          "after": "bargain"
-        }
-      ],
-      "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Opus",
       "date": "2026-11-17",
@@ -192409,31 +192229,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-see-you-at-the-roll-tomorrow",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. See you at the roll tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["vote-tomorrow", "said-yes"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.follow-refuse.i-can-t-put-that-in-bill-it-would-cost-me-votes",
       "move": "follow-refuse",
       "kind": "spoken",
@@ -192460,88 +192255,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.i-m-not-voting-for-their-bill-not-for-this",
-      "move": "follow-refuse",
-      "kind": "spoken",
-      "text": "I'm not voting for {their-bill}. Not for this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
-          "requiresFacts": ["their-bill"],
-          "after": "bargain"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.on-about-i-was-a-yes-before-you-asked",
+      "key": "scene-talk.reply-agree.i-ve-been-for-about-a-long-time-i-m-a-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "On {about}, I was a yes before you asked.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["stand", "about"],
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-m-for-about-you-have-my-vote",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm for {about}. You have my vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["stand", "about"],
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ve-wanted-this-on-about-a-long-time-i-m-a-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I've wanted this on {about} a long time. I'm a yes.",
+      "text": "I've been for {about} a long time. I'm a yes.",
       "uses": [
         {
           "subject": "scene",
@@ -192723,32 +192440,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.put-me-down-i-m-with-you-on-bill",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "Put me down. I'm with you on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["bill"],
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "lie",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-ll-tell-you-before-the-roll",
       "move": "reply-leave",
       "kind": "spoken",
@@ -192761,32 +192452,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["vote-tomorrow"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.you-ll-see-my-vote-on-the-board-today",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "You'll see my vote on the board today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["vote-today"]
+          "requiresFacts": ["vote-tomorrow"],
+          "setsFacts": ["said-later"]
         }
       ],
       "bearing": "guarded",
@@ -192812,32 +192479,6 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["stand-against"],
-          "setsFacts": ["said-no"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-won-t-vote-against-the-caucus-i-ll-vote-present",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I won't vote against the caucus. I'll vote present.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote.whip",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["read-same-party"],
           "setsFacts": ["said-no"]
         }
       ],
@@ -192877,58 +192518,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-relent.i-was-with-you-last-time-i-ll-be-with-you-again",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "I was with you last time. I'll be with you again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "requiresFacts": ["voted-with-before"],
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "relent",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.fine-i-ll-go-with-the-caucus",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "Fine. I'll go with the caucus.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "requiresFacts": ["read-same-party"],
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "tired",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "relent",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.don-t-hold-my-last-vote-over-me",
       "move": "reply-confront",
       "kind": "spoken",
@@ -192942,32 +192531,6 @@
           "move": "confront",
           "role": "asked",
           "requiresFacts": ["voted-against-before"],
-          "after": "threaten"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confront",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.their-bill-stands-on-its-own-leave-it-out-of-this",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "{their-bill} stands on its own. Leave it out of this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "requiresFacts": ["their-bill"],
           "after": "threaten"
         }
       ],
@@ -193058,31 +192621,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-see-you-on-the-floor",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you. See you on the floor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "requiresFacts": ["vote-today", "said-yes"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.close-press.sleep-on-it-the-roll-is-tomorrow",
       "move": "close-press",
       "kind": "spoken",
@@ -193100,32 +192638,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.find-me-before-the-roll",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Find me before the roll.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["vote-today"],
-          "excludesFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Opus",
       "date": "2026-11-17",
@@ -193174,7 +192686,7 @@
           "move": "accept",
           "role": "asker",
           "requiresFacts": ["count-several"],
-          "excludesFacts": ["said-yes"]
+          "excludesFacts": ["said-later", "said-yes"]
         }
       ],
       "bearing": "calm",
@@ -193200,7 +192712,7 @@
           "move": "accept",
           "role": "asker",
           "requiresFacts": ["bill", "count-one"],
-          "excludesFacts": ["said-yes"]
+          "excludesFacts": ["said-later", "said-yes"]
         }
       ],
       "bearing": "tired",
