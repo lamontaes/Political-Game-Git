@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude-story-cut-tests
-pr:
+pr: 10023
 after: story-cut-bank-lines-not-composed
 blocked-on:
 lead: story
