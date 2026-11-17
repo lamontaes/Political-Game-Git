@@ -8,8 +8,8 @@ description: >
   that makes the flow, never a hand-filled list. Use when adding or changing
   any module, record table, scene producer, office, body, budget or news
   source, and when a played world's first screens look empty. Not for the
-  world's past (the opening past is seeded generation, see the owner's Oct
-  rulings) or for timing (speed-work).
+  world's past (the century from 1925 makes day one's offices, parties and
+  laws: skill century-history) or for timing (speed-work).
 ---
 
 # Day one is in motion
@@ -29,6 +29,10 @@ A stock the engine already produces on day 0 needs no work; say so with a record
 ## What "in motion" has meant so far
 
 People already out of work on day 0 (the stock, not only the monthly flow); voters already registered; party chairs with ties; officials already giving their yearly address and holding office hours unattended; people with something to say; open vacancies; a ballot that already has filings when a world starts inside a filing window; campaigns with money already raised and set aside. At state and federal level: sessions under way, bills in progress, budgets in force, officeholders mid-term, laws in force with their enactment history. Every state's legislature is seated from day one (`OWNER-DECISIONS.md`, Sept 26 and the Oct ruling that laws work federally).
+
+## Where day one's politics comes from
+
+Who holds every office, party control and the laws in force on day one come from the century run from 1925 (owner, Nov 17, 2026; skill `century-history`), not from the warm-up and not from a real roster. The warm-up starts from the century's last records.
 
 ## The one mechanism: the opening warm-up
 

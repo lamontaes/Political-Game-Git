@@ -117,6 +117,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `ask-why`: every proof answers why, by record
 - `asset-scene-admission`: admitting art into the game
 - `cadence-and-summaries`: nothing runs or is kept every day by default; the daily register and its guard
+- `century-history`: the century before day one from 1925: adding an office or body, the one count path, the carry, the "today" setting and its checks
 - `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
