@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/history-opening-vacancy
-pr:
+pr: #10057
 after:
 blocked-on:
 lead: history
@@ -22,7 +22,7 @@ checked:
 **What.** Every town opens its rental stock at the national rental vacancy (6.75%), whatever its own renters did in the year before day one.
 Seen: `src/core2/housing-construction.ts` `openStock` sets units = renters / (1 - `construction.vacancy.rental`).
 
-**Cause.** Found in code and measured.
+**Cause.** Found in code: (and measured)
 
 1. `openStock` (`housing-construction.ts:142`) reads the national rate.
 2. The town's own leases (`housing-past.ts` `housingPast`, LEASE_SIGNED) can't stand in for it yet. A full renter's lease starts at the household's latest past move (`fullSince`, `housing-past.ts:153`), and the past's moves pass moves owners and renters alike. `past-moves.ts` `withinRecords` (line 297) runs the age rate alone (`-Math.log(1 - rate(placeId, age))`, about line 333) with no hold, and `moveRecords` applies only the children hold (line 232). The live moves engine applies `movesOwnerHold` (`modules/moves.ts:472`, `ownsHome` at line 392); the past never reads it.
@@ -40,6 +40,8 @@ Seen: `src/core2/housing-construction.ts` `openStock` sets units = renters / (1 
 **Rules.** No dice; real rates set only strengths; one rule for all 56 places.
 
 **Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, and reads the town's rental vacancy on day one with the leases it came from. At drawn worlds the vacancy equals the last year's leases × months ÷ 12 (the dev row shows both), and towns differ by their own renters' moves.
+
+**Waits on.** #10044 (the train's families guard fix), which this branch is merged with.
 
 **Files.** src/core2/housing-past.ts, src/core2/housing-construction.ts, src/core2/past-moves.ts, src/core2/opening-tenure.ts, src/bench/world.ts, src/core2/data/housing/parameters.json
 
