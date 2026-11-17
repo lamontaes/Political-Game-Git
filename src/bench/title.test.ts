@@ -24,6 +24,11 @@ describe("the title's monuments", () => {
     expect(files).toContain("lincoln-memorial__night.jpg");
     expect(files).toContain("us-capitol-exterior__morning.jpg");
     expect(files).toContain("supreme-court-exterior__rain.jpg");
+    // The owner's 14 (his title approval page, Nov 16): the Capitol in four
+    // lights, the White House in four, the Lincoln Memorial at night, the
+    // Supreme Court in four and the White House colonnade in the morning.
+    expect(files).toHaveLength(14);
+    expect(files).toContain("white-house-exterior__night.jpg");
   });
 
   it("plays every painting once per visit, no monument twice in a row", () => {

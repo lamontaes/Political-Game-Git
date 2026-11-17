@@ -6501,6 +6501,42 @@
       "tags": ["kind:white-house-exterior", "uses:shared-location"]
     },
     {
+      "place": "white-house-exterior",
+      "variant": "morning",
+      "file": "white-house-exterior__morning.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "af87f5ce6a093b259b203ebf22cdd3fd10d8ca1af33146cb302bc38b8bbfc090",
+      "sourceFile": "place-white-house-exterior__mor__e3e03aa1.jpg",
+      "sourceSha256": "af87f5ce6a093b259b203ebf22cdd3fd10d8ca1af33146cb302bc38b8bbfc090",
+      "approval": "owner-title-approval-page-2026-11-16",
+      "tags": ["kind:white-house-exterior", "uses:shared-location"]
+    },
+    {
+      "place": "white-house-exterior",
+      "variant": "night",
+      "file": "white-house-exterior__night.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "af3458b554c3d2e546e3e2d80d2470aa48b1ccc85e84c8cc56398796216ebbb0",
+      "sourceFile": "place-white-house-exterior__nig__477d25ba.jpg",
+      "sourceSha256": "af3458b554c3d2e546e3e2d80d2470aa48b1ccc85e84c8cc56398796216ebbb0",
+      "approval": "owner-title-approval-page-2026-11-16",
+      "tags": ["kind:white-house-exterior", "uses:shared-location"]
+    },
+    {
+      "place": "white-house-exterior",
+      "variant": "rain",
+      "file": "white-house-exterior__rain.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "f393951170da8d3f76837b1985f5d93a5c7537bea1999599d18f2ff20369394f",
+      "sourceFile": "place-white-house-exterior__rai__fa9a5cec.jpg",
+      "sourceSha256": "f393951170da8d3f76837b1985f5d93a5c7537bea1999599d18f2ff20369394f",
+      "approval": "owner-title-approval-page-2026-11-16",
+      "tags": ["kind:white-house-exterior", "uses:shared-location"]
+    },
+    {
       "place": "classroom",
       "variant": "morning",
       "file": "classroom__morning.jpg",
