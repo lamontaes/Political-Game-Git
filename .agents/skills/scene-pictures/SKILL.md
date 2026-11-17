@@ -46,4 +46,4 @@ The game and the gap report call the same function, so they cannot disagree.
 
 - A row key that is misspelled is skipped silently by the game; the guard catches it.
 - Do not add a second picture lookup in a screen or a scene: that is a duplicate to delete.
-- Real pictures are checked by eye before a scene is called done (`play-walks`, `seen-in-game`); the report says what a scene resolved to, not that it looks right.
+- Real pictures are checked by eye before a scene is called done (`verify` (play-walks part), `seen-in-game`); the report says what a scene resolved to, not that it looks right.
