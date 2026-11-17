@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-bands-moves-pr
-pr:
+pr: #9851
 after:
 blocked-on:
 root: none
