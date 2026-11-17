@@ -49,7 +49,15 @@ function setLevelWage(
   const id = `${key}:${level.jurisdiction}`;
   const held = mechanicRow(api, id);
   if (held?.active) return;
-  const prior = levelWage(api, level.jurisdiction);
+  // The wage this level held before: its own row, or, where the level's floor
+  // in force here is written under another jurisdiction (a territory's own
+  // federal rate, 29 USC 206(a)(3), sits under the territory, not "US"), that
+  // level's floor in force, so a repeal writes it back.
+  const prior =
+    levelWage(api, level.jurisdiction) ??
+    lawInForce(api, "minimum-wage").levels.find((l) => l.level === level.level)
+      ?.row?.value ??
+    null;
   if (prior !== null && prior >= target) return;
   enactLaw(api, {
     jurisdiction: level.jurisdiction,
