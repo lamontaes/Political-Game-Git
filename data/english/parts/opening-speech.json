@@ -115169,7 +115169,7 @@
       "key": "opening-speech.close.plain-unit4-loc-first-up-is-asked-about-let-s-get-it",
       "move": "close",
       "kind": "spoken",
-      "text": "First up is {asked-about}, let's get it done this year, thanks, {realm-bare}.",
+      "text": "First up is {asked-about}, and I'm asking {realm-bare} to get it done this year.",
       "uses": [
         {
           "move": "close",
@@ -115337,7 +115337,7 @@
       "key": "opening-speech.close.plain-unit4-fed-first-up-is-asked-about-send-it-to-me",
       "move": "close",
       "kind": "spoken",
-      "text": "First up is {asked-about}, so send it to me, I'll sign it, and God bless America.",
+      "text": "First up is {asked-about}, so send it over and I'll sign it with God's blessing.",
       "uses": [
         {
           "move": "close",
@@ -115365,7 +115365,7 @@
       "key": "opening-speech.close.plain-unit4-fed-get-me-asked-about-and-i-ll-sign-it",
       "move": "close",
       "kind": "spoken",
-      "text": "Get me {asked-about}, I'll sign it the same day, and God bless you all.",
+      "text": "Get me {asked-about}, and I'll sign it the same day, with thanks to every one of you.",
       "uses": [
         {
           "move": "close",
@@ -115393,7 +115393,7 @@
       "key": "opening-speech.close.plain-unit4-fed-we-start-with-asked-about-i-ll-be-watching",
       "move": "close",
       "kind": "spoken",
-      "text": "We start with {asked-about}, and I'll be watching every vote, God bless you all.",
+      "text": "We start with {asked-about}, and I'll be watching every vote from this desk.",
       "uses": [
         {
           "move": "close",
@@ -115817,7 +115817,7 @@
       "key": "opening-speech.close.polished-unit4-asked-holds-body-asked-about-is-in-front-of-the-realm-bare",
       "move": "close",
       "kind": "spoken",
-      "text": "{asked-about} is in front of the {realm-bare} {body-word}, and we have the votes to settle it this year, thank you.",
+      "text": "{asked-about} is in front of the {realm-bare} {body-word}, and we have the votes to settle it this year.",
       "uses": [
         {
           "move": "close",
@@ -115857,7 +115857,7 @@
       "key": "opening-speech.close.polished-unit4-asked-holds-body-we-have-the-votes-in-the-realm-bare-body",
       "move": "close",
       "kind": "spoken",
-      "text": "We have the votes in the {realm-bare} {body-word} for {asked-about}, and I mean to use them, thank you.",
+      "text": "We have the votes in the {realm-bare} {body-word} for {asked-about}, and I mean to use every one of them.",
       "uses": [
         {
           "move": "close",
@@ -115979,7 +115979,7 @@
       "key": "opening-speech.close.plain-unit4-asked-holds-body-asked-about-is-up-to-the-realm-bare-body",
       "move": "close",
       "kind": "spoken",
-      "text": "{asked-about} is up to the {realm-bare} {body-word} now, and we've got the votes, let's go.",
+      "text": "{asked-about} is up to the {realm-bare} {body-word} now, and we've got the votes to settle it.",
       "uses": [
         {
           "move": "close",
@@ -116021,7 +116021,7 @@
       "key": "opening-speech.close.plain-unit4-asked-holds-body-we-have-the-votes-for-asked-about-now-let",
       "move": "close",
       "kind": "spoken",
-      "text": "We have the votes for {asked-about}, now let's use them, thanks, everybody.",
+      "text": "We have the votes for {asked-about}, so let's use them before the year is out.",
       "uses": [
         {
           "move": "close",
@@ -116063,7 +116063,7 @@
       "key": "opening-speech.close.polished-unit4-asked-lacks-body-asked-about-needs-votes-in-the-realm-bare-body",
       "move": "close",
       "kind": "spoken",
-      "text": "{asked-about} needs votes in the {realm-bare} {body-word} that my party does not have, so I will be asking across the aisle, thank you.",
+      "text": "{asked-about} needs votes in the {realm-bare} {body-word} that my party does not have, so I will be asking across the aisle for them.",
       "uses": [
         {
           "move": "close",
@@ -116145,7 +116145,7 @@
       "key": "opening-speech.close.polished-unit4-asked-lacks-body-the-votes-for-asked-about-are-not-mine-to",
       "move": "close",
       "kind": "spoken",
-      "text": "The votes for {asked-about} are not mine to count on, so I will earn them, thank you.",
+      "text": "The votes for {asked-about} are not mine to count on, so I will go and earn them.",
       "uses": [
         {
           "move": "close",
@@ -116229,7 +116229,7 @@
       "key": "opening-speech.close.plain-unit4-asked-lacks-body-asked-about-needs-votes-my-party-doesn-t-have",
       "move": "close",
       "kind": "spoken",
-      "text": "{asked-about} needs votes my party doesn't have, I'll go get them.",
+      "text": "{asked-about} needs votes my party doesn't have, so I'll go get them.",
       "uses": [
         {
           "move": "close",
@@ -116271,7 +116271,7 @@
       "key": "opening-speech.close.plain-unit4-asked-lacks-body-on-asked-about-i-need-the-other-side-of",
       "move": "close",
       "kind": "spoken",
-      "text": "On {asked-about}, I need the other side of the {realm-bare} {body-word}, I'm asking, thanks, everybody.",
+      "text": "On {asked-about}, I need the other side of the {realm-bare} {body-word}, and I'm asking them now.",
       "uses": [
         {
           "move": "close",
