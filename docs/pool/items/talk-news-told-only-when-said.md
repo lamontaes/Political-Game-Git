@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/story-news-told-when-said
-pr:
+pr: 9938
 after:
 blocked-on:
 lead: words
