@@ -13,7 +13,8 @@
 import type { CoreAPI, CoreState } from "./types";
 import { lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
-import { placeChain } from "./place-map";
+import { corePlaceByJurisdictionId } from "./place-lookup";
+import { placeCounty, placeRow } from "./place-map";
 
 /** Module and table the country tier keeps its state rows in (macro.ts holds the same names). */
 const TIER_MODULE = "macro";
@@ -59,14 +60,24 @@ export function townPopulation(api: CoreAPI): number {
   return byPlace(core).get(lawChain(api).townPlaceId) ?? 0;
 }
 
+/** The county a place id sits in (`county:<geoid>`): a town's key, a county's own id or a recorded jurisdiction id. Read once per place. */
+const countyOf = new Map<string, string | null>();
+function countyOfPlace(placeId: string): string | null {
+  let held = countyOf.get(placeId);
+  if (held !== undefined) return held;
+  const key = placeRow(placeId)
+    ? placeId
+    : (corePlaceByJurisdictionId(placeId as never)?.key ?? null);
+  held = key ? (placeCounty(key)?.id ?? null) : null;
+  countyOf.set(placeId, held);
+  return held;
+}
+
 /** The people today at every place that sits in one county (`county:<geoid>`), the town's part included. */
 export function countyPopulation(api: CoreAPI, countyId: string): number {
   let n = 0;
   for (const [placeId, people] of byPlace(api.state as CoreState))
-    if (
-      placeId === countyId ||
-      placeChain(placeId).some((row) => row.id === countyId)
-    )
+    if (placeId === countyId || countyOfPlace(placeId) === countyId)
       n += people;
   return n;
 }

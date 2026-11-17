@@ -64,6 +64,9 @@ it.each([0, 1, 2])(
           nationPopulation(api) ?? residents,
         );
       expect(residents, `${where} ${gov.id}`).toBeGreaterThan(0);
+      // A county holds the town and everyone else in it.
+      if (gov.level === "county")
+        expect(residents, `${where} ${gov.id}`).toBeGreaterThanOrEqual(after);
       // The town's share of any government is its live count over that government's.
       expect(townShareOf(api, gov), `${where} ${gov.id}`).toBeCloseTo(
         gov.level === "city" ? 1 : Math.min(1, after / residents),
