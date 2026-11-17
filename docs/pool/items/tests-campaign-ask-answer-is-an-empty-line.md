@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-mark-asks-spoken
-pr:
+pr: #9792
 after:
 blocked-on:
 root: none
