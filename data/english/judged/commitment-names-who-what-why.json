@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 445,
+  "judged": 429,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -48,31 +48,6 @@
       ],
       "why": "The threat follows a 'deal' that is never named, so what was refused, and what the threat is over, is unclear."
     },
-    "00fje1irp7o": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
-        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
-        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
-        "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "Asked what changes this time, the line promises without naming any change."
-    },
-    "01s5kmeo17n": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.open-greet.repeat.we-have-to-do-this-again-first-it-s-the-missed-payment",
-        "scene-talk.state-confront.repeat.we-ve-been-through-this-over-money-before-first-i-need-more-than-an-apology-this-time",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "'You have my word' promises nothing named. The other person asked for more than an apology, and no concrete commitment is ever stated."
-    },
     "02a7thri9bd": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
@@ -99,16 +74,6 @@
         "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
       ],
       "why": "Threat over a 'deal' that is never named; what the presser wants is unknown."
-    },
-    "02qqriqa3qn": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
-        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "Asked what changes this time, the line promises without naming any change."
     },
     "044cequ6m1d": {
       "keys": [
@@ -744,14 +709,6 @@
         "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
       ],
       "why": "Repeat bribe; neither this visit nor the previous ask is named on the path."
-    },
-    "0rnexhntcrz": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.state-confront.repeat.i-m-tired-of-having-this-talk-first-tell-me-what-s-different-now",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "'You have my word' is given without saying what will be different, which is exactly what was asked; the subject is never named."
     },
     "0s25nhoddj3": {
       "keys": [
@@ -1430,16 +1387,6 @@
       ],
       "why": "The bad-week threat is over 'the deal', which is never named."
     },
-    "1dadsn07vby": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
-        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "Asked what changes this time, the line promises without naming any change."
-    },
     "1dlcouy1srg": {
       "keys": [
         "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
@@ -1668,20 +1615,6 @@
         "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you"
       ],
       "why": "Threat over reporting a 'deal' that is never named."
-    },
-    "1o98p4kjnfy": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
-        "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
-        "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
-        "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
-        "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "Asked what changes this time, the line promises without naming any change."
     },
     "1ou4b3khr1y": {
       "keys": [
@@ -2107,18 +2040,6 @@
       ],
       "why": "Veiled remark with no named ask."
     },
-    "26vwk2hgi8j": {
-      "keys": [
-        "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
-        "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
-        "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
-        "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
-        "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
-        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
-      ],
-      "why": "Asked what changes this time, the line promises without naming any change."
-    },
     "26zk91zzfum": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
@@ -2337,5 +2258,5 @@
       "why": "Bribe for 'it goes my way'; what 'it' is never appears."
     }
   },
-  "yesHash": "268hwge5omv"
+  "yesHash": "0fd9x0v4dhb"
 }

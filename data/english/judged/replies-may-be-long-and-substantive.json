@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 975,
+  "judged": 874,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -238,14 +238,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "04dqg8bqxmo": {
-      "keys": [
-        "scene-talk.follow-confront.i-swung-at-your-bill-you-swung-at-me",
-        "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
-      ],
-      "why": "Taking up the Tuesday fight or saying it's going nowhere answers \"you swung at me\" without a reason."
-    },
     "04orfcwlpf6": {
       "keys": [
         "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
@@ -321,14 +313,6 @@
       ],
       "why": "The replies offer to explain, apologize or exit, but none states a reason."
     },
-    "064smlftoa5": {
-      "keys": [
-        "scene-talk.follow-press.say-it-out-loud-then-at-the-meeting",
-        "scene-talk.reply-apologize.all-right-i-ll-say-it-at-the-start-of-the-meeting-to-your-face",
-        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
-      ],
-      "why": "Promising to say it at the meeting or refusing more apology carries no reason."
-    },
     "06c812yg8d3": {
       "keys": [
         "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
@@ -337,14 +321,6 @@
         "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "06escwb0wix": {
-      "keys": [
-        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
-        "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic",
-        "scene-talk.reply-leave.i-m-too-tired-to-do-this-right-tomorrow"
-      ],
-      "why": "Accepting a fight at the mic or being too tired gives no argument in reply."
     },
     "06iuv4io88v": {
       "keys": [
@@ -536,15 +512,6 @@
         "scene-talk.reply-leave.im-not-doing-this-twice-take-that-with-you"
       ],
       "why": "'Nothing has changed', 'I'm reporting this today', 'Just this once' and 'I'm not doing this twice' repeat positions without a reason."
-    },
-    "0app8rt3sp7": {
-      "keys": [
-        "scene-talk.follow-disagree.it-landed-exactly-where-you-aimed-it",
-        "scene-talk.reply-apologize.fine-it-was-personal-i-m-sorry-for-that",
-        "scene-talk.reply-confront.then-we-re-done-talking",
-        "scene-talk.reply-leave.let-s-talk-tomorrow-when-we-re-both-calmer"
-      ],
-      "why": "Conceding, ending the talk or putting it off to tomorrow gives no reason about where the remark was aimed."
     },
     "0bnjiopokik": {
       "keys": [
@@ -947,15 +914,6 @@
         "scene-talk.reply-leave.let-me-get-my-bearings-first"
       ],
       "why": "Keeping my head down, asking the boss and getting bearings are bare plans with no reason given."
-    },
-    "0jk9fhhdo4f": {
-      "keys": [
-        "scene-talk.follow-disagree.you-can-call-it-the-argument-everyone-in-the-room-heard-my-name",
-        "scene-talk.reply-apologize.fine-it-was-personal-i-m-sorry-for-that",
-        "scene-talk.reply-confront.then-we-read-the-room-differently",
-        "scene-talk.reply-leave.i-m-too-tired-to-do-this-right-tomorrow"
-      ],
-      "why": "Conceding it was personal, saying we read the room differently, and pleading tiredness give no argument about whose name was heard."
     },
     "0jkbxmdy6fg": {
       "keys": [
@@ -1729,15 +1687,6 @@
       ],
       "why": "Asked how many more weeks, the player gets a promise, a bare vote-no-hearing-yes, a bargaining question or an exit, with no reason."
     },
-    "0zfuwlxpvzy": {
-      "keys": [
-        "scene-talk.follow-disagree.it-landed-exactly-where-you-aimed-it",
-        "scene-talk.reply-apologize.fine-i-m-sorry-i-ll-say-it-at-the-meeting",
-        "scene-talk.reply-confront.then-we-re-done-talking",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "A clipped apology, \"Then we're done talking\" and \"I have to go\" give no reason and end the exchange."
-    },
     "0zmb3lr6na9": {
       "keys": [
         "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
@@ -1796,14 +1745,6 @@
         "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
       ],
       "why": "A thank-you and \"Point me where to start\" carry no reason."
-    },
-    "10j4fos03wx": {
-      "keys": [
-        "scene-talk.follow-confront.then-i-ll-speak-my-mind-thursday-instead",
-        "scene-talk.reply-confront.then-say-it-in-public-and-see-who-claps",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
-      ],
-      "why": "\"Then say it in public, and see who claps\" is a dare and the other reply ends the talk, neither with a reason."
     },
     "10l37yot0lc": {
       "keys": [
@@ -1956,14 +1897,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "14wu1s9hc6w": {
-      "keys": [
-        "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside",
-        "scene-talk.reply-apologize.all-right-thursday-on-the-record",
-        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
-      ],
-      "why": "\"Thursday, on the record\" and \"That's the apology I have\" commit or refuse without a reason."
     },
     "1506vkryhaw": {
       "keys": [
@@ -2158,23 +2091,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "Looking again, asking for the best argument and the five-minute exit are stances or exits with no reason."
-    },
-    "1an7a177o8y": {
-      "keys": [
-        "scene-talk.follow-confront.then-i-ll-speak-my-mind-thursday-instead",
-        "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
-      ],
-      "why": "\"I'm ahead\" is a taunt without a reason, and the other reply just says it's going nowhere."
-    },
-    "1aynrlbteuh": {
-      "keys": [
-        "scene-talk.follow-disagree.it-came-across-exactly-the-way-you-meant-it",
-        "scene-talk.reply-apologize.fine-i-m-sorry-i-ll-say-it-at-the-meeting",
-        "scene-talk.reply-confront.then-we-re-done-talking",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "A brief apology, ending the talk and leaving give no reason or argument."
     },
     "1b4062edwur": {
       "keys": [
@@ -2843,15 +2759,6 @@
       ],
       "why": "Calling tonight, sending it over, preferring tonight and an exit carry no argument."
     },
-    "1qxd3q9gzl8": {
-      "keys": [
-        "scene-talk.follow-disagree.it-landed-exactly-where-you-aimed-it",
-        "scene-talk.reply-apologize.fine-it-was-personal-i-m-sorry-for-that",
-        "scene-talk.reply-confront.then-we-re-done-talking",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "Conceding it was personal, ending the talk and leaving carry no reason."
-    },
     "1r6oot1rs4n": {
       "keys": [
         "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
@@ -2937,14 +2844,6 @@
       ],
       "why": "The replies offer to explain, challenge or say a two-word line, and none gives a reason."
     },
-    "1sanx6eufi3": {
-      "keys": [
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
-      ],
-      "why": "\"Fine. I'm ahead\" taunts without a reason and the other reply says it's going nowhere."
-    },
     "1shqd5e4px7": {
       "keys": [
         "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
@@ -2953,14 +2852,6 @@
         "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
       ],
       "why": "\"It wasn't how you took it\" only promises an explanation, and the rest are an apology and a pause."
-    },
-    "1smak02orry": {
-      "keys": [
-        "scene-talk.follow-confront.and-you-finished-it-that-s-the-difference",
-        "scene-talk.reply-apologize.fair-i-finished-it-i-m-sorry-for-that-part",
-        "scene-talk.reply-confront.then-let-s-finish-it-right-tuesday-in-front-of-everybody"
-      ],
-      "why": "A partial apology and a challenge for Tuesday carry no reason or argument."
     },
     "1steydywhng": {
       "keys": [
@@ -3368,14 +3259,6 @@
       ],
       "why": "The donor asks for a reason, but the replies only agree, promise a hearing, ask what they can live with or end the meeting."
     },
-    "20pa3k7w39l": {
-      "keys": [
-        "scene-talk.follow-press.say-it-out-loud-then-at-the-meeting",
-        "scene-talk.reply-apologize.you-re-right-i-ll-stand-up-and-say-it-in-front-of-everyone",
-        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
-      ],
-      "why": "Agreeing to say it in front of everyone or refusing more apology gives no reason."
-    },
     "2161jvh8a4y": {
       "keys": [
         "scene-talk.follow-ask.even-if-it-costs-you-votes",
@@ -3431,15 +3314,6 @@
         "scene-talk.reply-leave.this-conversation-is-over"
       ],
       "why": "Each reply refuses, accepts, reports or closes the talk without saying why."
-    },
-    "226pgy4trez": {
-      "keys": [
-        "scene-talk.follow-disagree.you-can-call-it-the-argument-everyone-in-the-room-heard-my-name",
-        "scene-talk.reply-apologize.fine-it-was-personal-i-m-sorry-for-that",
-        "scene-talk.reply-confront.then-we-read-the-room-differently",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "Conceding it was personal, disagreeing about the room, and leaving give no reason or argument."
     },
     "2287mixmsat": {
       "keys": [
@@ -3600,14 +3474,6 @@
       ],
       "why": "Starting with the contractor and getting a second estimate state plans without a reason."
     },
-    "26azqxokkcc": {
-      "keys": [
-        "scene-talk.follow-confront.that-s-the-version-you-ll-tell-sure",
-        "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out",
-        "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic"
-      ],
-      "why": "The replies are a bare apology and a challenge to fight Tuesday at the mic, neither giving any reason."
-    },
     "26mjngwxzbw": {
       "keys": [
         "scene-talk.follow-ask.did-they-say-yes-to-winning-or-yes-to-the-trying",
@@ -3705,15 +3571,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "Hearing it from me, a regret about walking away before the money moved, and leaving it to the prosecutor all state feeling or stance without a reason."
-    },
-    "28x0mrz0vyp": {
-      "keys": [
-        "scene-talk.follow-disagree.it-landed-exactly-where-you-aimed-it",
-        "scene-talk.reply-apologize.fine-i-m-sorry-i-ll-say-it-at-the-meeting",
-        "scene-talk.reply-confront.then-we-read-the-room-differently",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "A quick apology, \"we read the room differently\" and \"I have to go\" give no reason."
     },
     "28yshhzqvg3": {
       "keys": [
@@ -3962,14 +3819,6 @@
       ],
       "why": "A plain thank-you and resting carry no reason."
     },
-    "2ef835wkamd": {
-      "keys": [
-        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
-        "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic",
-        "scene-talk.reply-leave.let-s-talk-tomorrow-when-we-re-both-calmer"
-      ],
-      "why": "Accepting a fight at the mic or putting it off until tomorrow carries no reason."
-    },
     "2eg485sqqxj": {
       "keys": [
         "scene-talk.follow-plea.give-me-a-real-chance-if-it-s-going-badly-tell-me-and-we-ll-talk",
@@ -4078,5 +3927,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0n0p04ttju7"
+  "yesHash": "1t1ckh7yiqt"
 }
