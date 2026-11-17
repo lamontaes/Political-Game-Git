@@ -58,6 +58,8 @@ import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
 import { rescueOnset } from "./rescue";
 import { quarrelOverMoney } from "./quarrel";
+// The director reads a money quarrel's record through this entry (the apology talk).
+export { FAMILY_QUARREL } from "./quarrel";
 import {
   BIRTHDAY_KIND,
   birthdayGathering,

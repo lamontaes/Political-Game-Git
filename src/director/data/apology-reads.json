@@ -1,0 +1,14 @@
+{
+  "schema": "director-apology-reads/1",
+  "note": "How the apology over a missed payment says what the records hold, in words and never a figure (owner, Nov 11 rule 101). `behind` rows: the largest share of a monthly payment the loan is past due (its past-due money over its payment) that is said that way; the first row that holds is the one said. `householdShortRunwayDays`: the days of living costs the household's liquid money may cover, after its pay, for the talk to say the money was not there. Every cutoff is TUNABLE and registered as SG-STORY-arc-variant-weights beside the variants' own weights.",
+  "tag": "TUNABLE",
+  "spread": [0.5, 2],
+  "checkedAgainst": "A payment is billed monthly, so a loan past due by about one payment is a month behind and one past due by two is two months behind; the cutoffs are people's own round spans, checked by reading the words aloud for each in the walk (scripts/words/apology-walk.ts). A household with under a month of costs in hand is short for the month.",
+  "behind": [
+    { "upToPayments": 0.5, "said": "a little behind" },
+    { "upToPayments": 1.5, "said": "a month behind" },
+    { "upToPayments": 2.5, "said": "two months behind" },
+    { "said": "months behind" }
+  ],
+  "householdShortRunwayDays": 30
+}

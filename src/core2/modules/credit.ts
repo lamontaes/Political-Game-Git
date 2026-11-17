@@ -907,6 +907,28 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
   return [...months.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** A loan's row by id, as other families read it (the director's apology talk names the payment, who was not paid and how far behind). */
+export function loanOf(
+  api: CoreAPI,
+  id: string,
+): Readonly<LoanRow> | undefined {
+  return store(api).table("loans").get(id) as unknown as LoanRow | undefined;
+}
+
+/**
+ * The day the next payment on any loan is billed: the monthly review the
+ * engine has scheduled on its own calendar (`scheduleReview`), or undefined
+ * where none is waiting.
+ */
+export function nextBillingDay(api: CoreAPI): string | undefined {
+  const next =
+    addDays(
+      makeIsoDate(`${api.state.date.slice(0, "YYYY-MM".length)}-01`),
+      32,
+    ).slice(0, "YYYY-MM".length) + "-01";
+  return api.moduleCalendar(CREDIT_MODULE_ID).get(`review:${next}`)?.date;
+}
+
 function scheduleReview(api: CoreAPI): void {
   const next =
     addDays(
@@ -1023,7 +1045,7 @@ export const CREDIT_MODULE: CoreModule = {
   },
 };
 
-interface LoanRow {
+export interface LoanRow {
   id: string;
   isLoan: true;
   open: boolean;

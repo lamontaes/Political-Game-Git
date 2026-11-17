@@ -80,6 +80,8 @@ import {
   questionAbout,
   questionSaid,
 } from "../english/question-names";
+import { FAMILY_QUARREL } from "../core2/modules/partnerships";
+import { APOLOGY_PURPOSE, apologyReads } from "./apology-facts";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
@@ -1667,6 +1669,18 @@ function composeBinding(
           : undefined,
         personLean,
       ),
+    );
+  // The apology over a missed payment: what the payment was for, who was not
+  // paid, how far behind, the household's money, the next bill and an earlier
+  // quarrel, each from the record that holds it (apology-facts.ts).
+  if (type.purpose === APOLOGY_PURPOSE && record?.kind === FAMILY_QUARREL)
+    Object.assign(
+      facts,
+      apologyReads(core, {
+        causeId: moment.causeId,
+        wrongedId: askerId,
+        borrowerId: askedId,
+      }),
     );
   // How the two stand, from the one reader (relation-facts.ts): the asked
   // person's family (`kin`), known people (`acquainted`, else `stranger`), and
