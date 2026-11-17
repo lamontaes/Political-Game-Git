@@ -2088,5 +2088,17 @@
     "addedAt": "2026-11-17",
     "replacement": "The owner's own work commitment at their business, written when the business opens or the owner is filled in.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-fares-pension-no-books",
+    "kind": "missing-record",
+    "file": "src/core2/law-reach/group-b.ts",
+    "line": 454,
+    "whatItFakes": "Free transit replaces fares at transitFareboxPerResidentDollars ($28, NTD 2023 national) a resident, and funding pensions to schedule adds pensionShortfallPerResidentDollars ($70, Pew 2023 / Equable 2024 national) a resident, the same in every world, instead of the government's own fare receipts and pension shortfall.",
+    "why": "No government in the world keeps its riders' fares or its pension obligations on its books, so there is nothing of its own to read (Pins family 27, CTO LIFT THE PINS).",
+    "addedBy": "PINS (claude/happy-bell-8rj52e-pins-27)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each government's own transit fare receipts and its pension plan's obligations against its assets, kept in its budget books (Budgets lane, family 17), read when the law is enacted.",
+    "status": "open"
   }
 ]

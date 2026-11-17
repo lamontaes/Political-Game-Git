@@ -448,6 +448,10 @@ function runPolicy(
     case "housing-construction":
       return;
     case "transit-fares":
+      // No government keeps its riders' fares on its books yet: the money
+      // that replaces them is a national figure a resident (stopgap
+      // SG-GOV-REACH-B-fares-pension-no-books).
+      api.stopgap("SG-GOV-REACH-B-fares-pension-no-books");
       moveBudget(api, {
         key,
         level,
@@ -480,6 +484,9 @@ function runPolicy(
       break;
     }
     case "pension-funding":
+      // No government keeps its pension obligations on its books yet
+      // (stopgap SG-GOV-REACH-B-fares-pension-no-books).
+      api.stopgap("SG-GOV-REACH-B-fares-pension-no-books");
       moveBudget(api, {
         key,
         level,
