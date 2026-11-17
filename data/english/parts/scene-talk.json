@@ -177124,10 +177124,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-where-do-i-sign-for-office",
+      "key": "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. Where do I sign for {office}?",
+      "text": "Alright. I'll sign for {office} right here.",
       "uses": [
         {
           "subject": "scene",
@@ -179221,6 +179221,114 @@
       "date": "2026-11-17",
       "tag": {
         "move": "promise",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.losing-employer-like-that-isn-t-on-you",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Losing {employer} like that isn't on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.a-notice-for-deadline-is-a-lot-to-carry-i-m-sorry",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "A notice for {deadline} is a lot to carry. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.rent-notice",
+          "key": "door",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["deadline"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.rent-notice",
+          "key": "door",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "comfort",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.i-m-sorry-you-ve-been-sick-the-race-for-office-is-the-last-thing-you-need-at-the-door",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry you've been sick. The race for {office} is the last thing you need at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.sick",
+          "key": "door",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["read-own-illness", "office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "comfort",
         "key": "door"
       }
     },
