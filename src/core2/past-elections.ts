@@ -19,6 +19,7 @@
  * and the voting engine weighs them.
  */
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
+import { centuryRace, centurySeatRace } from "./modules/elections";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
 import { partySide } from "./appointments";
@@ -448,13 +449,27 @@ export function buildPriorElections(
         if (!date || date >= town.opening) continue;
         const id = `prior-election:${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
-        const real = realResult({
-          officeKind: office.kind,
-          seatId: seat.id,
-          usps: town.usps,
-          party: term.party,
-          date,
-        });
+        // The presidency's and Congress's races are the century's (electorate-century.ts): its
+        // share and votes cast are the count's, with no drift; "today" reads the real result.
+        const century:
+          { id: string; winnerShare: number; votes: number } | undefined =
+          office.kind === "president" || office.kind === "vice-president"
+            ? centuryRace(town.seed, town.opening, Number(date.slice(0, 4)))
+            : centurySeatRace(
+                town.seed,
+                office,
+                seat,
+                Number(date.slice(0, 4)),
+              );
+        const real = century
+          ? { share: century.winnerShare, total: century.votes }
+          : realResult({
+              officeKind: office.kind,
+              seatId: seat.id,
+              usps: town.usps,
+              party: term.party,
+              date,
+            });
         // The share the offices engine recorded when it seated the holder is
         // the one record of how the race went (wire-opening line 31: one
         // past-elections writer); only a term with no such record (the
@@ -464,6 +479,7 @@ export function buildPriorElections(
         const base = real?.share ?? averageShare(office);
         const share =
           term.elected?.share ??
+          century?.winnerShare ??
           worldWinnerShare(
             town.seed,
             { seatId: seat.id, date },
@@ -477,13 +493,16 @@ export function buildPriorElections(
         const center =
           real?.total ??
           electorateBallots(api, town, office, seat, date) * ratio;
+        // A race the century counted keeps its own votes cast.
         const total = Math.round(
-          worldLevel(
-            center,
-            town.seed,
-            `past-votes:${key}`,
-            "worldPastVotesSpreadShare",
-          ),
+          century
+            ? center
+            : worldLevel(
+                center,
+                town.seed,
+                `past-votes:${key}`,
+                "worldPastVotesSpreadShare",
+              ),
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);
@@ -532,10 +551,14 @@ export function buildPriorElections(
         // The winner holds more than half the ballots, whole votes: in a
         // town of a few voters a share just over half rounds to a tie, and a
         // tie has no winner.
-        const winnerVotes = Math.min(
-          total,
-          Math.max(Math.round(total * share), Math.floor(total / 2) + 1),
-        );
+        // A presidency the century counted keeps its own popular vote: its winner carried the
+        // electors and may hold less than half of it.
+        const winnerVotes = century
+          ? Math.round(total * century.winnerShare)
+          : Math.min(
+              total,
+              Math.max(Math.round(total * share), Math.floor(total / 2) + 1),
+            );
         const winnerShare = total > 0 ? winnerVotes / total : share;
         // A term the offices engine seated with no record of its race (the
         // federal executive's) keeps this one, so the race's share is read
@@ -577,7 +600,9 @@ export function buildPriorElections(
           winnerId,
           candidates,
           totalVotes: total,
-          sourceVotes: Math.round(center),
+          ...(century
+            ? { centuryRecordId: century.id }
+            : { sourceVotes: Math.round(center) }),
           townGroups: groupSplit(
             api,
             town,
@@ -590,16 +615,21 @@ export function buildPriorElections(
           ),
           promiseIds: promises.map((p) => p.id),
           promiseQuestions: promises.map((p) => p.stance.question),
-          source: real
+          source: century
             ? {
-                tag: "SOURCED",
-                citation: `${CORPUS_CITATION}; drifted within pastRealShareDrift`,
-              }
-            : {
                 tag: "ESTIMATED",
-                citation:
-                  "src/core2/data/offices/tenure.json winner shares within pastWinnerShareSpread; ballots from the state's or county's 2024 presidential total or the town's voter groups, scaled by pastMidtermTurnoutRatio or pastLocalTurnoutRatio",
-              },
+                citation: `The century's count of the ${date.slice(0, 4)} race, ${century.id} (src/core2/electorate-century.ts)`,
+              }
+            : real
+              ? {
+                  tag: "SOURCED",
+                  citation: `${CORPUS_CITATION}; drifted within pastRealShareDrift`,
+                }
+              : {
+                  tag: "ESTIMATED",
+                  citation:
+                    "src/core2/data/offices/tenure.json winner shares within pastWinnerShareSpread; ballots from the state's or county's 2024 presidential total or the town's voter groups, scaled by pastMidtermTurnoutRatio or pastLocalTurnoutRatio",
+                },
         };
         out.push(row);
         // The race the challenger lost, on their own past: the life record

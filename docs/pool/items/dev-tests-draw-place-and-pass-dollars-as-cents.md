@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9979
 after:
 blocked-on:
 lead: laws
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: vote-reasons thread, gate of #9646 on Train ef708196, Nov 16; Account lead, Nov 16 03:55Z ("they cannot sit as known reds")
+merged-at: 2026-11-17T19:43:18.152Z
 ---
 
 **What.** On Train ef708196, three tests are red, with and without #9646. They fail with the seeds the gate drew: src/bench/dev-chair.test.ts (DEV_MODE_SEED e8c451896b2115d7, Princeton, New Jersey), src/bench/dev-discharge.test.ts (4d1e24c1e726a8a8, Reading, Michigan) and src/bench/dev-discharge-state.test.ts (38091ae4983cb645). With other seeds they pass. All three throw "An amount of money in a law is in whole cents." from `wholeMoney` (src/bench/dev-mode.ts line 364) inside `DevMode.introduce`, before any vote is held.
