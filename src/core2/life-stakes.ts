@@ -3,7 +3,8 @@
  * views engine's life term): the circumstances the engines already record
  * (whether their household rents, its income fifth, whether they work, their
  * health plan, a young child at home, a government job), each measured
- * against the nation's average and weighed by how much their traits lead them
+ * against the world's own share over the adults whose stances are counted
+ * (`stakeReferences`) and weighed by how much their traits lead them
  * to weigh their own stake (`views.own-stake`). One rule for a full person and
  * a counted resident (one model, two tiers): a full person's facts come from
  * the records the engines keep for them, a counted resident's from their
@@ -14,13 +15,14 @@
 import {
   changedFacts,
   DATA,
-  reference,
+  LIFE_FACTS,
   WORKING_FROM,
   WORKING_TO,
   YOUNG_CHILD_UNDER,
   type LifeFact,
   type LifeFacts,
   type LifeStake,
+  type StakeReference,
 } from "./life-stake-rule";
 import { ageOnDate } from "./kernel/dates";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
@@ -28,8 +30,9 @@ import { fullHouseholdIncomes, incomeBandOf } from "./counted-income-fifth";
 import publicPay from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { planReaders } from "./life-plan-readers";
-import type { CountedHousehold } from "./counted-groups";
 import type { CoreState, PersonState } from "./types";
+import { coreAPI } from "./state";
+import { isDemoted, type CountedHousehold } from "./counted-groups";
 
 /**
  * How much a person weighs their own stake against what they think is right
@@ -50,14 +53,14 @@ export function lifeCare(
   return Math.exp(decisionTraitWeight(core, DATA.careDecision) * lean);
 }
 
-/** Every fact at the nation's average: a life the records do not hold. */
-const NATIONAL: LifeFacts = {
-  rents: reference("rents"),
-  incomeFifth: reference("incomeFifth"),
-  noWork: reference("noWork"),
-  noPrivatePlan: reference("noPrivatePlan"),
-  youngChild: reference("youngChild"),
-  publicWorker: reference("publicWorker"),
+/** No fact known: a life the records do not hold. */
+const UNKNOWN: LifeFacts = {
+  rents: null,
+  incomeFifth: null,
+  noWork: null,
+  noPrivatePlan: null,
+  youngChild: null,
+  publicWorker: null,
 };
 
 /** The public employer classes (the public pay floor's table of who funds each): a job with one is a government job. */
@@ -187,27 +190,15 @@ const openJob = (core: CoreState, person: Readonly<PersonState>) => {
   return job && job.endsAt === undefined ? job : undefined;
 };
 
-/**
- * A full person's circumstances and care, from the records the engines keep:
- * a lease on the books, the household's income, their open job and its
- * employer, their health plan and who lives with them. Kept for the day.
- */
-export function fullLifeStake(
+/** A full person's circumstances, from the records the engines keep (none where the engines keep no records for their place). */
+function fullLifeFacts(
   core: CoreState,
+  index: MonthIndex,
   person: Readonly<PersonState>,
-): LifeStake {
-  const index = monthIndex(core);
-  const kept = index.byPerson.get(person.id);
-  if (kept?.date === core.date) return kept.stake;
-  if (!index.recorded.has(person.placeId)) {
-    // Someone living where the engines keep no records (a relative far
-    // away): their circumstances are not known, so each sits at the nation's
-    // average and adds nothing.
-    return keep(core, index, person, {
-      facts: NATIONAL,
-      care: lifeCare(core, person),
-    });
-  }
+): LifeFacts {
+  // Someone living where the engines keep no records (a relative far away):
+  // their circumstances are not known, so none adds anything.
+  if (!index.recorded.has(person.placeId)) return UNKNOWN;
   const age = ageOnDate(person.birthDate, core.date);
   const working = age >= WORKING_FROM && age < WORKING_TO;
   const job = openJob(core, person);
@@ -223,67 +214,69 @@ export function fullLifeStake(
       ageOnDate(member.birthDate, core.date) < YOUNG_CHILD_UNDER
     );
   });
-  const stake: LifeStake = {
-    facts: {
-      rents:
-        lease && !lease.endedAt
-          ? 1
-          : index.housed.has(person.placeId)
-            ? 0
-            : reference("rents"),
-      incomeFifth: incomeBandOf(incomeOf(core, index, person.householdId)),
-      noWork: working ? (job ? 0 : 1) : reference("noWork"),
-      // A plan the coverage engine keeps no record of is not known: the nation's average.
-      noPrivatePlan:
-        working && plan !== undefined && plan !== null
-          ? plan === "employer"
-            ? 0
-            : 1
-          : reference("noPrivatePlan"),
-      youngChild: youngChild ? 1 : 0,
-      publicWorker:
-        employer?.classification && isPublicEmployer(employer.classification)
-          ? 1
-          : 0,
-    },
-    care: lifeCare(core, person),
+  return {
+    rents:
+      lease && !lease.endedAt ? 1 : index.housed.has(person.placeId) ? 0 : null,
+    incomeFifth: incomeBandOf(incomeOf(core, index, person.householdId)),
+    noWork: working ? (job ? 0 : 1) : null,
+    // A plan the coverage engine keeps no record of is not known.
+    noPrivatePlan:
+      working && plan !== undefined && plan !== null
+        ? plan === "employer"
+          ? 0
+          : 1
+        : null,
+    youngChild: youngChild ? 1 : 0,
+    publicWorker:
+      employer?.classification && isPublicEmployer(employer.classification)
+        ? 1
+        : 0,
   };
-  return keep(core, index, person, stake);
+}
+
+/**
+ * A full person's circumstances and care, from the records the engines keep:
+ * a lease on the books, the household's income, their open job and its
+ * employer, their health plan and who lives with them, measured against the
+ * world's references this month. Kept for the day.
+ */
+export function fullLifeStake(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): LifeStake {
+  const index = monthIndex(core);
+  const kept = index.byPerson.get(person.id);
+  if (kept?.date === core.date) return kept.stake;
+  return keep(core, index, person, {
+    facts: fullLifeFacts(core, index, person),
+    care: lifeCare(core, person),
+    reference: stakeReferences(core).reference,
+  });
 }
 
 /** A counted household's members' facts, kept until the household changes or the month turns. */
 const countedHeld = new WeakMap<
   CountedHousehold,
-  { rev: number; month: string; byId: Map<string, LifeStake> }
+  { rev: number; month: string; byId: Map<string, LifeFacts> }
 >();
 
 /**
- * A counted resident's circumstances and care, from their household's
- * columns: its tenure, its income (the residents engine's), each member's
- * work commitments and jobs, its health plan record and the members' ages.
- * The household's unplaced workers (working outside a recorded job) count as
+ * Each counted member's circumstances, from their household's columns: its
+ * tenure, its income (the residents engine's), each member's work
+ * commitments and jobs, its health plan record and the members' ages. The
+ * household's unplaced workers (working outside a recorded job) count as
  * working, shared over its members of working age with no recorded work.
- * Undefined for anyone the counts do not hold.
  */
-export function countedLifeStake(
+function countedFacts(
   core: CoreState,
-  personId: string,
-): LifeStake | undefined {
-  const rt = residentsRuntime(core);
-  const store = rt?.store;
-  const m = store?.countedMember(personId);
-  if (!rt || !store || m === undefined) return undefined;
-  const h = store.households[store.household[m]!];
-  if (!h) return undefined;
+  rt: NonNullable<ReturnType<typeof residentsRuntime>>,
+  h: CountedHousehold,
+): Map<string, LifeFacts> {
+  const store = rt.store;
   const month = monthOf(core.date);
   const rev = h.rev ?? 0;
-  let held = countedHeld.get(h);
-  if (!held || held.rev !== rev || held.month !== month) {
-    held = { rev, month, byId: new Map() };
-    countedHeld.set(h, held);
-  }
-  const kept = held.byId.get(personId);
-  if (kept) return kept;
+  const held = countedHeld.get(h);
+  if (held && held.rev === rev && held.month === month) return held.byId;
   const date = core.date;
   const members = store.countedMembers(h);
   const ages = members.map((member) => ageOnDate(store.born[member]!, date));
@@ -301,36 +294,129 @@ export function countedLifeStake(
   const covered = planReaders()?.countedCovered(core, h.id, h.placeId) ?? null;
   const uncovered =
     covered === null
-      ? reference("noPrivatePlan")
+      ? null
       : underMedicare
         ? 1 - Math.min(1, covered / underMedicare)
         : 0;
-  const age = ageOnDate(store.born[m]!, date);
-  const publicWorker = h.jobs.some((job) => {
-    if (job.personId !== personId || job.endsAt !== undefined) return false;
-    const kind = core.organizations.get(job.organizationId)?.classification;
-    return !!kind && isPublicEmployer(kind);
-  });
-  const stake: LifeStake = {
-    facts: {
-      rents:
-        h.tenure === "rent"
-          ? 1
-          : monthIndex(core).housed.has(h.placeId)
-            ? 0
-            : reference("rents"),
-      incomeFifth: incomeBandOf(householdIncome(rt, h)),
-      noWork: working(age)
-        ? atWork.has(personId)
-          ? 0
-          : worklessShare
-        : reference("noWork"),
-      noPrivatePlan: working(age) ? uncovered : reference("noPrivatePlan"),
-      youngChild: ages.some((a) => a < YOUNG_CHILD_UNDER) ? 1 : 0,
+  const rents =
+    h.tenure === "rent" ? 1 : monthIndex(core).housed.has(h.placeId) ? 0 : null;
+  const incomeFifth = incomeBandOf(householdIncome(rt, h));
+  const youngChild = ages.some((a) => a < YOUNG_CHILD_UNDER) ? 1 : 0;
+  const byId = new Map<string, LifeFacts>();
+  members.forEach((member, at) => {
+    const personId = store.ids[member]!;
+    const age = ages[at]!;
+    const publicWorker = h.jobs.some((job) => {
+      if (job.personId !== personId || job.endsAt !== undefined) return false;
+      const kind = core.organizations.get(job.organizationId)?.classification;
+      return !!kind && isPublicEmployer(kind);
+    });
+    byId.set(personId, {
+      rents,
+      incomeFifth,
+      noWork: working(age) ? (atWork.has(personId) ? 0 : worklessShare) : null,
+      noPrivatePlan: working(age) ? uncovered : null,
+      youngChild,
       publicWorker: publicWorker ? 1 : 0,
-    },
-    care: lifeCare(core, { traits: store.packedTraits(m) }),
+    });
+  });
+  countedHeld.set(h, { rev, month, byId });
+  return byId;
+}
+
+/** A counted resident's care, kept for the world: their packed traits do not change while counted. */
+const countedCare = new WeakMap<CoreState, Map<string, number>>();
+
+/**
+ * A counted resident's circumstances and care, from their household's
+ * columns (`countedFacts`), measured against the world's references this
+ * month. Undefined for anyone the counts do not hold.
+ */
+export function countedLifeStake(
+  core: CoreState,
+  personId: string,
+): LifeStake | undefined {
+  const rt = residentsRuntime(core);
+  const store = rt?.store;
+  const m = store?.countedMember(personId);
+  if (!rt || !store || m === undefined) return undefined;
+  const h = store.households[store.household[m]!];
+  if (!h) return undefined;
+  const facts = countedFacts(core, rt, h).get(personId);
+  if (!facts) return undefined;
+  let cares = countedCare.get(core);
+  if (!cares) countedCare.set(core, (cares = new Map()));
+  let care = cares.get(personId);
+  if (care === undefined) {
+    care = lifeCare(core, { traits: store.packedTraits(m) });
+    cares.set(personId, care);
+  }
+  return { facts, care, reference: stakeReferences(core).reference };
+}
+
+/**
+ * The world's references this month: each fact's share (or, for the income
+ * fifth, its mean) over the adults whose stances are counted, full people
+ * and counted residents alike, each counting where their records hold the
+ * fact. A fact no one's records hold stands at 0 and is read by no one.
+ */
+export interface StakeReferences {
+  readonly month: string;
+  readonly people: number;
+  readonly reference: StakeReference;
+  /** Each fact's sum over the people whose records hold it, and how many those are. */
+  readonly sums: Readonly<Record<LifeFact, { sum: number; of: number }>>;
+}
+const references = new WeakMap<CoreState, StakeReferences>();
+
+export function stakeReferences(core: CoreState): StakeReferences {
+  const month = monthOf(core.date);
+  const held = references.get(core);
+  if (held?.month === month) return held;
+  const sums = Object.fromEntries(
+    LIFE_FACTS.map((fact) => [fact, { sum: 0, of: 0 }]),
+  ) as Record<LifeFact, { sum: number; of: number }>;
+  const add = (facts: LifeFacts) => {
+    for (const fact of LIFE_FACTS) {
+      const value = facts[fact];
+      if (value === null) continue;
+      sums[fact].sum += value;
+      sums[fact].of += 1;
+    }
   };
-  held.byId.set(personId, stake);
-  return stake;
+  const adult = coreAPI(core).parameter("votingAge");
+  const index = monthIndex(core);
+  let people = 0;
+  for (const person of core.people.values()) {
+    if (!person.alive || isDemoted(person)) continue;
+    if (!index.recorded.has(person.placeId)) continue;
+    if (ageOnDate(person.birthDate, core.date) < adult) continue;
+    people += 1;
+    add(fullLifeFacts(core, index, person));
+  }
+  const rt = residentsRuntime(core);
+  if (rt)
+    for (const h of rt.store.liveHouseholds()) {
+      const byId = countedFacts(core, rt, h);
+      for (const member of rt.store.countedMembers(h)) {
+        if (ageOnDate(rt.store.born[member]!, core.date) < adult) continue;
+        const facts = byId.get(rt.store.ids[member]!);
+        if (!facts) continue;
+        people += 1;
+        add(facts);
+      }
+    }
+  const result: StakeReferences = {
+    month,
+    people,
+    reference: Object.fromEntries(
+      LIFE_FACTS.map((fact) => [
+        fact,
+        sums[fact].of ? sums[fact].sum / sums[fact].of : 0,
+      ]),
+    ) as unknown as StakeReference,
+    sums,
+  };
+  references.set(core, result);
+  return result;
 }

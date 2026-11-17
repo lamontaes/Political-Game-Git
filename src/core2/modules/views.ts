@@ -26,6 +26,7 @@ import {
   LIFE_EVENT_KINDS,
   questionsReading,
   stakeShift,
+  type LifeFact,
 } from "../life-stake-rule";
 import {
   countedLifeStake,
@@ -33,7 +34,9 @@ import {
   fullLifeStake,
   lifeChangesOf,
   lifeReadPeople,
+  stakeReferences,
 } from "../life-stakes";
+import type { ModuleRow } from "../module-data";
 
 // Screens read a full person's circumstances through the views engine.
 export { fullLifeStake };
@@ -1262,11 +1265,43 @@ function tellLifeEvent(api: CoreAPI, event: CoreEventInput): void {
 }
 
 const LIFE_REVIEW = "views-life-review";
+
+/**
+ * Keep this month's references every life term is measured against
+ * (`stakeReferences`), for the trace: one row a world, rewritten each month
+ * the life review runs.
+ */
+function keepStakeReferences(api: CoreAPI): void {
+  const refs = stakeReferences(api.state as CoreState);
+  const table = api.moduleState(VIEWS_MODULE_ID).table("stakeReferences");
+  const kept = table.get(STAKE_REFERENCES_ID) as unknown as
+    { month?: string } | undefined;
+  if (kept?.month === refs.month) return;
+  table.put({
+    id: STAKE_REFERENCES_ID,
+    month: refs.month,
+    people: refs.people,
+    facts: Object.fromEntries(
+      Object.entries(refs.sums).map(([fact, { sum, of }]) => [
+        fact,
+        {
+          reference: Math.round(refs.reference[fact as LifeFact] * 1e4) / 1e4,
+          sum: Math.round(sum * 1e3) / 1e3,
+          of,
+        },
+      ]),
+    ),
+  } as unknown as ModuleRow);
+}
+
+/** The id of the views engine's one row of this month's life-term references. */
+export const STAKE_REFERENCES_ID = "stake-references";
 const reviewing = new WeakSet<CoreState>();
 
 /** The first of next month, when everyone whose circumstances were read is read again. */
 function scheduleLifeReview(api: CoreAPI): void {
   const core = api.state as CoreState;
+  keepStakeReferences(api);
   const next =
     addDays(
       makeIsoDate(`${core.date.slice(0, "YYYY-MM".length)}-01`),
@@ -1296,6 +1331,8 @@ export const viewsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       people: {},
+      /** This month's references every life term is measured against: one row (`keepStakeReferences`). */
+      stakeReferences: {},
       countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       /** Groups of like full hearers nobody watches, and their member counts (`hearAsGroups`). */
       hearerGroups: {},
