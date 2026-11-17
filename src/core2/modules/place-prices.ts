@@ -30,7 +30,7 @@ import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
 import { placeStateKey } from "../place-map";
-import { incomeBandOf } from "./residents";
+import { incomeBandOn } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
@@ -1551,7 +1551,7 @@ function month(api: CoreAPI): void {
   // The web's factors on this place's use of a good, by income fifth: read once a band, not once a household.
   const bands = new Map<string, ReturnType<typeof webUse>>();
   const useFor = (rule: Rule, payMonthlyMinor: number) => {
-    const fifth = incomeBandOf(payMonthlyMinor * MONTHS);
+    const fifth = incomeBandOn(api, payMonthlyMinor * MONTHS);
     const key = `${rule.placeId}|${rule.good}|${rule.kind}|${rule.cause}|${fifth}`;
     let use = bands.get(key);
     if (!use) {

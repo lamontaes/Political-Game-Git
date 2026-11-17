@@ -42,10 +42,14 @@ import {
   votesOn,
 } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
+import { viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { billNameOf } from "../english/bill-names";
 import { seatSaid } from "../english/journal-words";
+import { questionTo } from "../english/question-names";
 import type { Fact } from "../english/scene-talk-words";
 import { publicReasons, type SaidPosition } from "./floor-debate-facts";
 
@@ -93,7 +97,11 @@ export function voteStandFacts(
   const reasons = new Set<string>(
     publicReasons(own.position, votedFor, wroteIt),
   );
-  if (memberId === core.playerId) reasons.add("own-view");
+  // The player is whoever the game is controlling (the legislature votes for
+  // everyone else), else the world's own player.
+  const playing =
+    snapshotExplicitControlV1(api.state).personId ?? core.playerId;
+  if (memberId === playing) reasons.add("own-view");
   if (own.traded?.length) reasons.add("deal");
   if (own.position.consistency * sign > P.zero) reasons.add("last-vote");
   // A reason cites the member's own vote row too, whose trace opens the
@@ -181,4 +189,70 @@ function bodySaid(
     },
     { first: false },
   );
+}
+
+/**
+ * What a reporter's question about a bill can lean on beyond the vote, each
+ * read from the one record that holds it and set only where it holds it (Story
+ * lead, Nov 17: a line that needs a fact the packet never sets is not written):
+ *
+ * - `sponsor`: who wrote the bill, said as the scene says a person, when it is
+ *   not the person asked (`wrote-bill` says it is);
+ * - `bill-purpose`: what the bill does, in the one clause the bill catalog
+ *   keeps for its first section (the same read the floor's speaker uses);
+ * - `knows-truth`: set when the person voted and the roll is public, so a
+ *   reporter can catch a lie about the vote;
+ * - `stand`: what the person asked has long wanted done on the question the
+ *   bill answers, as the views engine holds it, said as a verb phrase after
+ *   "to". Set only where the bill does what they want done (their view is for
+ *   it and the bill does not undo the policy), so a line that says "I've said
+ *   we should {stand}. This does it." is never said of a bill that does not.
+ */
+export function billReadsForPress(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  billId: string,
+  askedId: PersonId,
+  causeId: string,
+  sayPerson: (person: { id: string }) => string,
+): void {
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return;
+  const api = coreAPI(core as CoreState);
+  const bill = billOf(api, billId);
+  if (!bill) return;
+  const cited = [causeId, bill.id];
+  // The roll is public: a reporter who holds it can show a denial of how the
+  // person voted to be false (the arc's `knows-truth`), where no one's word is
+  // needed (purpose-arcs.json, `lie`).
+  const acted = facts.acted;
+  if (acted && (facts["voted-yes"] || facts["voted-no"]))
+    facts["knows-truth"] = {
+      text: "yes",
+      sourceRecordIds: acted.sourceRecordIds,
+    };
+  const sponsor =
+    bill.sponsorId !== askedId ? core.people.get(bill.sponsorId) : undefined;
+  if (sponsor)
+    facts.sponsor = {
+      text: sayPerson(sponsor),
+      sourceRecordIds: [...cited, sponsor.id],
+    };
+  const named = billNameOf(bill);
+  if (named?.purpose)
+    facts["bill-purpose"] = { text: named.purpose, sourceRecordIds: cited };
+  const section = bill.provisions[P.zero];
+  if (
+    section?.kind !== "policy-question" ||
+    !section.question ||
+    named?.reverses
+  )
+    return;
+  const to = questionTo(section.question);
+  const held = viewOf(api, askedId);
+  if (!to || !held) return;
+  if (viewOn(api, askedId, section.question, held.lean) > P.zero)
+    facts.stand = {
+      text: to,
+      sourceRecordIds: [...cited, askedId],
+    };
 }

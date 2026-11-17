@@ -56,7 +56,7 @@ import {
 } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { dayAhead, inNextMonth } from "../english/day-words";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
@@ -82,7 +82,7 @@ import {
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
-import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -142,7 +142,7 @@ import {
 import { factsSetBy, type Fact } from "../english/scene-talk-words";
 import { bargainFacts } from "./bargain-facts";
 import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
-import { voteStandFacts } from "./vote-stand-facts";
+import { billReadsForPress, voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
@@ -716,6 +716,10 @@ function composeBinding(
   // the record holds.
   const votedOn = billId ?? said.enactedBy;
   if (votedOn) voteStandFacts(core, facts, votedOn, askedId, moment.causeId);
+  // A reporter's question about the bill leans on who wrote it, what it does
+  // and what the asked person has long wanted done (vote-stand-facts.ts).
+  if (votedOn && type.purpose === "press-comment")
+    billReadsForPress(core, facts, votedOn, askedId, moment.causeId, sayPerson);
   // The chair a committee's hold names, for a member who is asked to press them.
   const chair = said.chair
     ? core.people.get(said.chair as PersonId)
@@ -1329,6 +1333,18 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
+  // The veto itself, and a veto that held because the override vote fell
+  // short (its record says whether the override passed).
+  if (record?.kind === "executive-action" && said.action === "vetoed")
+    facts.vetoed = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  if (record?.kind === "veto-override" && said.passed === "false")
+    facts["veto-held"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
   if (record?.kind === "executive-action" && said.action === "signed")
     facts["signed-it"] = {
       text: said.number ?? "",
@@ -1668,6 +1684,22 @@ function composeBinding(
           : undefined,
         personLean,
       ),
+      // Where the gift ranks, where the bill is, whether the player votes on
+      // it and which side the player's own view puts them on, each from the
+      // record that holds it (donor-ask-facts.ts, `donorReads`).
+      donorReads(core, {
+        causeId: moment.causeId,
+        donorId: askerId,
+        playerId: askedId,
+        ...(said.filingId ? { filingId: said.filingId } : {}),
+        ...(record?.kind === "campaign-gift" &&
+        facts["donor-bill"] &&
+        said.billId
+          ? { billId: said.billId }
+          : {}),
+        sayPerson,
+        leanOf: personLean,
+      }),
     );
   // How the two stand, from the one reader (relation-facts.ts): the asked
   // person's family (`kin`), known people (`acquainted`, else `stranger`), and
@@ -3451,9 +3483,11 @@ const DOOR_ASK_AFTER = "ask";
  * tie stands on today.
  */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number; unit?: string } | undefined>
+  Record<
+    string,
+    { value?: number; unit?: string; parameter?: string } | undefined
+  >
 >;
-const SHARE_OF_TIE = "share of the tie";
 
 /** The hours an ending's strain takes off the tie between two people today. */
 export function endingStrainHours(
@@ -3464,8 +3498,11 @@ export function endingStrainHours(
 ): number | undefined {
   const row = ENDING_STRAIN[keeps];
   if (!row) return undefined;
-  return row.unit === SHARE_OF_TIE
-    ? row.value * tieHoursBetween(core, a, b)
+  // A share of the tie is a core parameter (trust lost: closeness.ts
+  // trustLostHours, the row the promises engine reads too).
+  return row.parameter
+    ? parameter(row.parameter, core.data.parameters) *
+        tieHoursBetween(core, a, b)
     : row.value;
 }
 
@@ -3585,7 +3622,7 @@ export function replyInScene(
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       // A promise a record can settle: its kind and its tie, from the
-      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // ending's row in src/director/data/promise-endings.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
