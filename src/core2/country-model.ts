@@ -1563,7 +1563,11 @@ export function stepCountry(
   // the people it steps: stock and flows fitted together belong to the same people.
   if (first)
     for (const state of tier.states)
-      if (parts.has(state))
+      // A rest with nobody at work or looking has no share of its own to read.
+      if (
+        parts.has(state) &&
+        state.cells.some((c) => c.workers + c.seekers > 0)
+      )
         state.unemploymentMonths.fill(countryUnemployment(state));
   // The month opens with who moved, was born, aged and died; then the economy's month.
   const moved = moves(tier, law, rules);
