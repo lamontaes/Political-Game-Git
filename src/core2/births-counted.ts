@@ -51,7 +51,7 @@ import {
   countedHouseholdsByPlace,
   countedPartDeath,
   householdIncome,
-  incomeBandOf,
+  incomeBandOn,
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
@@ -475,7 +475,10 @@ export function applyCountedFlows(
       const fifth =
         at === undefined || counted!.households[at]!.quarters
           ? undefined
-          : incomeBandOf(householdIncome(runtime!, counted!.households[at]!));
+          : incomeBandOn(
+              api,
+              householdIncome(runtime!, counted!.households[at]!),
+            );
       for (const person of members) {
         people.push(person);
         weightOf.set(person.id, weight);
