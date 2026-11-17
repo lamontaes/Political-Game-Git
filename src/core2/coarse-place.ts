@@ -24,7 +24,8 @@ import type {
 
 import { parameter as p } from "./parameters";
 import { TOWN_WORKPLACES, type Role } from "./town-workplaces";
-import { startingMinimumHourlyAt, townJobRate } from "./town-pay";
+import { townJobRate } from "./town-pay";
+import { startingMinimumHourlyAt } from "./laws-in-force";
 import { gameStartDate } from "./game-start";
 import { placeReferencePopulation } from "./gov-rules/place-population";
 import { townWorkplaceWeights } from "./town-employment-mix";

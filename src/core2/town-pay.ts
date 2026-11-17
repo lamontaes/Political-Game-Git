@@ -13,8 +13,6 @@ import {
   TOWN_PAY_COUNTY_AREAS,
   TOWN_PAY_PERCENTILES,
 } from "./reference/town-pay.generated";
-import { resolveLawInForce } from "./laws-in-force";
-import { lawChainForPlace, startingLawRows } from "./laws-starting";
 
 import type { EntityId } from "./kernel/brands";
 import { parameter as p } from "./parameters";
@@ -214,7 +212,7 @@ export function townJobRate(
   occupation: string | null,
   jurisdictionId: EntityId | null,
   percentile: number,
-  /** The minimum wage where the job is, in dollars an hour: the law in force in play (minimumHourlyAt, wage-floor.ts), the starting law at an opening. */
+  /** The minimum wage where the job is, in dollars an hour: the law in force in play (`minimumHourlyAt`, wage-floor.ts), the starting law at an opening (`startingMinimumHourlyAt`, laws-in-force.ts). */
   minimum: number | null,
   seed?: string,
 ): TownJobRate | null {
@@ -236,31 +234,6 @@ export function townJobRate(
     };
   }
   return null;
-}
-
-/**
- * The minimum wage the starting law sets where a place is, in dollars an
- * hour, on a date: the higher of its state's and the federal floor, read from
- * the law rows (local minimums are not modeled in pay). An opening, or a
- * place built before the world runs, reads it; a world in play reads the law
- * in force (`minimumHourlyAt`, wage-floor.ts).
- */
-export function startingMinimumHourlyAt(
-  placeKey: string,
-  date: string,
-): number | null {
-  const chain = lawChainForPlace(placeKey);
-  const answer = resolveLawInForce({
-    series: "minimum-wage",
-    chain,
-    date,
-    rows: startingLawRows(chain).filter(
-      (row) =>
-        row.series === "minimum-wage" &&
-        (row.level === "federal" || row.level === "state"),
-    ),
-  });
-  return answer.value === null ? null : answer.value / p("minorPerDollar");
 }
 
 /** The hours a week a town job is paid for. */

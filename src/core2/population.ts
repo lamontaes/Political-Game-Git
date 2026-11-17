@@ -56,12 +56,12 @@ import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
-  startingMinimumHourlyAt,
   townJobRate,
   townPayPercentile,
   weeklyHoursOf,
 } from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
+import { startingMinimumHourlyAt } from "./laws-in-force";
 import { hudRentRowFor } from "./hud-rents";
 import { householdDailyCostMinor } from "./household-cost";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";

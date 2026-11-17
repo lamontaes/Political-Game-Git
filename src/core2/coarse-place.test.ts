@@ -8,7 +8,8 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { coarsePlace, metResident } from "./coarse-place";
 import { gameStartDate } from "./game-start";
-import { startingMinimumHourlyAt, townJobRate } from "./town-pay";
+import { townJobRate } from "./town-pay";
+import { startingMinimumHourlyAt } from "./laws-in-force";
 
 const seed = process.env.COARSE_PLACE_SEED || randomBytes(8).toString("hex");
 const places = Array.from({ length: 6 }, (_, i) =>

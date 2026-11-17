@@ -1,5 +1,6 @@
 import COUNTED_ROWS from "./data/counted/parameters.json" with { type: "json" };
-import type { CoreState } from "./types";
+import { sinceOpeningIndex } from "./tax-index";
+import type { CoreAPI, CoreState } from "./types";
 
 const COUNTED = COUNTED_ROWS as unknown as Readonly<
   Record<string, { value: number }>
@@ -17,7 +18,10 @@ const FIFTH_LIMITS = [1, 2, 3, 4].map(
  * (`sinceOpeningIndex`, read once per pass), 1 on day one.
  * stopgapId: SG-WORLD-tax-index-january
  */
-export function incomeBandOf(incomeMinorYear: number, wageIndex = 1): number {
+export function incomeBandOf(
+  incomeMinorYear: number,
+  wageIndex: number,
+): number {
   let band = 0;
   FIFTH_LIMITS.forEach((limit, at) => {
     if (incomeMinorYear > limit * wageIndex) band = at + 1;
@@ -56,4 +60,22 @@ export function fullHouseholdIncomes(core: CoreState): Map<string, number> {
     );
   }
   return income;
+}
+
+/** This world's average pay since it opened, read once a day for every reader of the fifths. */
+const wageIndexReads = new WeakMap<object, { date: string; index: number }>();
+export function wageIndexToday(api: CoreAPI): number {
+  const core = api.state;
+  let read = wageIndexReads.get(core);
+  if (!read || read.date !== core.date)
+    wageIndexReads.set(
+      core,
+      (read = { date: core.date, index: sinceOpeningIndex(api, "wages") }),
+    );
+  return read.index;
+}
+
+/** The national fifth a yearly income falls in today, in this world's own dollars: the one rule every engine reads. */
+export function incomeBandOn(api: CoreAPI, incomeMinorYear: number): number {
+  return incomeBandOf(incomeMinorYear, wageIndexToday(api));
 }

@@ -15,7 +15,7 @@ import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with 
 import COUNTED from "./data/counted/parameters.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { incomeBandOf } from "./counted-income-fifth";
+import { incomeBandOf, incomeBandOn } from "./counted-income-fifth";
 import { lawChain } from "./modules/laws";
 import { advanceCore } from "./life";
 import { povertyLineDollars as hhsLineDollars } from "./law-reach/poverty-line";
@@ -62,7 +62,9 @@ describe("thresholds follow the world's own prices and pay", () => {
           .slice(0, 40)
           .map((row) => ({ ...row })),
         guideline: reachLineDollars(chain.stateKey, 3, 1),
-        fifthBands: households.map((h) => incomeBandOf(householdIncome(rt, h))),
+        fifthBands: households.map((h) =>
+          incomeBandOf(householdIncome(rt, h), 1),
+        ),
         award: retirementAwardMonthlyMinor(api, claimant, 1)!.monthlyMinor,
       });
 
@@ -172,6 +174,12 @@ describe("thresholds follow the world's own prices and pay", () => {
         expect(
           groupKeyOf(rt, h, date).incomeBand,
           `${where}: household ${h.id} band read with the pay index ${wages}`,
+        ).toBe(incomeBandOf(householdIncome(rt, h), wages));
+      // Every other engine reads the same fifth (health, crime, prices, bills, schools, births, stances).
+      for (const h of households.slice(0, 50))
+        expect(
+          incomeBandOn(api, householdIncome(rt, h)),
+          `${where}: household ${h.id} band as every engine reads it`,
         ).toBe(incomeBandOf(householdIncome(rt, h), wages));
 
       // 4. The award a new claim sets, by the pay.

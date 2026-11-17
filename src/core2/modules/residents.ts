@@ -25,7 +25,6 @@ import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
 import { coreAPI } from "../state";
-import { sinceOpeningIndex } from "../tax-index";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type {
@@ -70,10 +69,14 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
-import { incomeBandOf } from "../counted-income-fifth";
+import {
+  incomeBandOf,
+  incomeBandOn,
+  wageIndexToday,
+} from "../counted-income-fifth";
 import { parameter } from "../parameters";
 
-export { incomeBandOf };
+export { incomeBandOf, incomeBandOn };
 /** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
 export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
@@ -447,23 +450,6 @@ export function unplacedPayPerWorker(
   return base * level;
 }
 
-/** This world's pay index since it opened, read once a day (1 where the run keeps no api). */
-const wageIndexReads = new WeakMap<object, { date: string; index: number }>();
-function wageIndexToday(rt: ResidentsRuntime): number {
-  const core = rt.api?.state as CoreState | undefined;
-  if (!core || !rt.api) return 1;
-  let read = wageIndexReads.get(core);
-  if (!read || read.date !== core.date)
-    wageIndexReads.set(
-      core,
-      (read = {
-        date: core.date,
-        index: sinceOpeningIndex(rt.api, "wages"),
-      }),
-    );
-  return read.index;
-}
-
 /** What keys a counted household to its group today. */
 export function groupKeyOf(
   rt: ResidentsRuntime,
@@ -503,7 +489,10 @@ export function groupKeyOf(
     placeId: h.placeId,
     district: h.district ?? "town",
     kind,
-    incomeBand: incomeBandOf(householdIncome(rt, h), wageIndexToday(rt)),
+    incomeBand: incomeBandOf(
+      householdIncome(rt, h),
+      rt.api ? wageIndexToday(rt.api) : 1,
+    ),
     tenure: h.tenure,
     ageBand: ageBandOf(Math.max(0, headAge)),
     work,
