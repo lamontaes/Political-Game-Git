@@ -74,6 +74,11 @@ function playYear(key: string, seed: string) {
     if (row.sourceRef.id.startsWith("mortgage:")) payments.push(row);
   });
   let alongsideShortfall = 0;
+  // The group each household stood in on the day this month's mortgages were
+  // paid: a household can change group (age into retirement) between that day
+  // and the review day, and it is its group on the payment day that paid.
+  let paidMonth = "";
+  let groupAtPayment = new Map<string, number>();
   try {
     for (let day = 0; day < 365; day++) {
       const next = addDays(makeIsoDate(core.date), 1);
@@ -87,6 +92,23 @@ function playYear(key: string, seed: string) {
             )
           : undefined;
       advanceCore(core, next);
+      const month = core.date.slice(0, "YYYY-MM".length);
+      if (
+        paidMonth !== month &&
+        [...rt.flows.values()].some(
+          (row) =>
+            row.id.startsWith("mortgage:") && row.lastPaidMonth === month,
+        )
+      ) {
+        paidMonth = month;
+        groupAtPayment = new Map(
+          (table.rows() as unknown as Loan[]).flatMap((row) => {
+            const at = rt.store.householdOf.get(row.householdId);
+            const home = at === undefined ? undefined : rt.store.households[at];
+            return home ? [[row.householdId, home.group] as const] : [];
+          }),
+        );
+      }
       if (!before) continue;
       for (const [id, prior] of before) {
         if (
@@ -99,7 +121,8 @@ function playYear(key: string, seed: string) {
         const household =
           ix === undefined ? undefined : rt.store.households[ix];
         if (!household || household.gone) continue;
-        const payment = rt.housingMonth.get(household.group);
+        const group = groupAtPayment.get(prior.householdId) ?? household.group;
+        const payment = rt.housingMonth.get(group);
         if (
           !payment ||
           payment.month !== core.date.slice(0, 7) ||
@@ -125,7 +148,7 @@ function playYear(key: string, seed: string) {
         const shortfall = [...rt.housingMonth.values()].some(
           (row) => row.month === payment.month && row.paid < row.asked,
         );
-        const fund = rt.funds.get(household.group);
+        const fund = rt.funds.get(group);
         const receipts = payments.filter(
           (entry) =>
             entry.date.slice(0, 7) === payment.month &&
@@ -140,7 +163,7 @@ function playYear(key: string, seed: string) {
           seed,
           date: core.date,
           id,
-          group: rt.store.groups[household.group]!.id,
+          group: rt.store.groups[group]!.id,
           payment: { ...payment },
           flowId: flow.id,
           journalIds: receipts.map((entry) => entry.id),
@@ -177,6 +200,34 @@ function playYear(key: string, seed: string) {
   };
 }
 
+/**
+ * A paid borrower of a loan held outside the town, still living and counted a
+ * month after the year's checks: the one the test then meets. Moves the world
+ * to that month (a world with none is passed over by the drawn search).
+ */
+function borrowerToMeet(world: ReturnType<typeof playYear>): Loan | undefined {
+  const { core, table, rt, checks } = world;
+  const nextMonth = addDays(
+    makeIsoDate(`${core.date.slice(0, 7)}-01`),
+    32,
+  ).slice(0, 7);
+  advanceCore(core, makeIsoDate(`${nextMonth}-02`));
+  const checkedIds = new Set(checks.map((row) => row.id));
+  return (table.rows() as unknown as Loan[]).find((row) => {
+    const ix = rt.store.householdOf.get(row.householdId);
+    const household = ix === undefined ? undefined : rt.store.households[ix];
+    return (
+      checkedIds.has(row.id) &&
+      core.organizations.get(row.holderId)?.outsideFlow !== undefined &&
+      row.monthsLeft > 0 &&
+      !row.foreclosedAt &&
+      household &&
+      !household.gone &&
+      rt.store.countedCount(household) > 0
+    );
+  });
+}
+
 it.each(cases)(
   "$label: credits the household's own payment before and after fill-in",
   ({ replay, placeKey, requireShortfall, suffix }) => {
@@ -186,18 +237,21 @@ it.each(cases)(
     const tried: string[] = [];
     const draws = placeKey ? 1 : DRAWS;
     let world: ReturnType<typeof playYear> | undefined;
+    let loan: Loan | undefined;
     for (let attempt = 0; attempt < draws; attempt++) {
       const place = drawPlace(
         attempt ? `${replay}:${attempt}` : replay,
         "paid-mortgage",
       );
       world = playYear(placeKey ?? place.key, placeKey ? replay : place.seed);
-      const found =
-        world.checks.length > 0 &&
-        (!requireShortfall || world.alongsideShortfall > 0);
-      if (found) break;
+      const shortfallFound = !requireShortfall || world.alongsideShortfall > 0;
+      loan =
+        world.checks.length > 0 && shortfallFound
+          ? borrowerToMeet(world)
+          : undefined;
+      if (loan) break;
       tried.push(
-        `${world.name} ${world.key} ${world.seed}: ${world.checks.length > 0 ? "no group short beside a paid one" : "no paid counted mortgage"}`,
+        `${world.name} ${world.key} ${world.seed}: ${world.checks.length === 0 ? "no paid counted mortgage" : !shortfallFound ? "no group short beside a paid one" : "no paid borrower held outside the town to meet"}`,
       );
     }
     const {
@@ -224,30 +278,11 @@ it.each(cases)(
         alongsideShortfall,
         `${name} ${key} ${replay}: no paid household alongside another group's shortfall in ${tried.length + 1} drawn places (passed over: ${tried.join("; ") || "none"})`,
       ).toBeGreaterThan(0);
-    const nextMonth = addDays(
-      makeIsoDate(`${core.date.slice(0, 7)}-01`),
-      32,
-    ).slice(0, 7);
-    advanceCore(core, makeIsoDate(`${nextMonth}-02`));
     // Meeting an actual borrower fills their existing household in; Money reads
     // the same amortized loan. No loan, cash or payment is supplied by the test.
-    const checkedIds = new Set(checks.map((row) => row.id));
-    const loan = (table.rows() as unknown as Loan[]).find((row) => {
-      const ix = rt.store.householdOf.get(row.householdId);
-      const household = ix === undefined ? undefined : rt.store.households[ix];
-      return (
-        checkedIds.has(row.id) &&
-        core.organizations.get(row.holderId)?.outsideFlow !== undefined &&
-        row.monthsLeft > 0 &&
-        !row.foreclosedAt &&
-        household &&
-        !household.gone &&
-        rt.store.countedCount(household) > 0
-      );
-    });
     expect(
       loan,
-      `${name} ${replay}: no surviving paid borrower to meet`,
+      `${name} ${replay}: no surviving paid borrower held outside the town to meet in ${tried.length + 1} drawn places (passed over: ${tried.join("; ") || "none"})`,
     ).toBeDefined();
     const household =
       rt.store.households[rt.store.householdOf.get(loan!.householdId)!]!;
@@ -284,6 +319,8 @@ it.each(cases)(
           Math.min(1, groupReceipt.paid / groupReceipt.asked),
       ),
     });
+    // The month the world stands in after the year's checks (borrowerToMeet moved it there).
+    const nextMonth = core.date.slice(0, "YYYY-MM".length);
     const followup: unknown[] = [];
     for (let month = 0; month < 2; month++) {
       const before = table.get(loan!.id) as unknown as Loan;
