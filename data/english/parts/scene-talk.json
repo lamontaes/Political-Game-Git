@@ -140198,35 +140198,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon",
-      "move": "reply-request",
-      "kind": "spoken",
-      "text": "I can't do this alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "request",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "owner-voice",
-      "author": "Owner (batch 2 voice note, Nov 9)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      },
-      "source": {
-        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
-        "date": "2026-11-09"
-      }
-    },
-    {
       "key": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi",
       "move": "reply-relent",
       "kind": "spoken",
@@ -140249,35 +140220,6 @@
       "tag": {
         "move": "relent",
         "key": "favor-asked"
-      },
-      "source": {
-        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
-        "date": "2026-11-09"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Can we even afford this? It's not like we have a ton of savings, right? How much does this even cost?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "owner-voice",
-      "author": "Owner (batch 2 voice note, Nov 9)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
       },
       "source": {
         "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
@@ -174010,33 +173952,6 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-the-money-talk-isn-t-over",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Go on. The money talk isn't over.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["stake-money"],
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.okay-child-and-i-will-be-here",
       "move": "close-accept",
       "kind": "spoken",
@@ -174192,32 +174107,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "warn",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.look-at-what-we-have-left-we-talk-tomorrow",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Look at what we have left. We talk tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["stake-money"],
-          "outcome": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
         "key": "news-received"
       }
     },
@@ -174563,68 +174452,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-we-ll-watch-the-account-together",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. We'll watch the account together.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["stake-money"],
-          "after": "apologize"
-        },
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["stake-money"],
-          "after": "accept"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.okay-just-don-t-spend-more-without-me",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. Just don't spend more without me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["stake-money", "gave-own"],
-          "after": "apologize"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-plea.i-m-not-against-you-running-for-office-i-need-help-with-child",
       "move": "follow-plea",
       "kind": "spoken",
@@ -174663,56 +174490,6 @@
           "move": "plea",
           "role": "asker",
           "requiresFacts": ["stake-time", "child"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "plea",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-it-s-our-money-too-don-t-shut-me-out",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. It's our money too. Don't shut me out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "plea",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-just-tell-me-how-much-more-goes-in",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. Just tell me how much more goes in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "requiresFacts": ["stake-money", "gave-own"]
         }
       ],
       "bearing": "anxious",
@@ -174894,32 +174671,6 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["office"],
-          "after": "deflect"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.no-the-bills-won-t-wait-till-tomorrow",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "No. The bills won't wait till tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "requiresFacts": ["stake-money"],
           "after": "deflect"
         }
       ],
@@ -176146,32 +175897,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.deal-i-ll-show-you-the-account-every-week",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "Deal. I'll show you the account every week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "requiresFacts": ["stake-money"],
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.thank-you-i-ll-make-it-up-to-child",
       "move": "reply-thank",
       "kind": "spoken",
@@ -176250,32 +175975,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-with-you-on-phones-we-spend-less",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you. With you on phones, we spend less.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "requiresFacts": ["stake-money"],
-          "after": "promise"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.thank-you-i-can-t-do-remaining-without-you",
       "move": "reply-thank",
       "kind": "spoken",
@@ -176298,31 +175997,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-take-a-walk-then-we-ll-talk-about-the-money",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll take a walk. Then we'll talk about the money.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
         "key": "news-received"
       }
     },
@@ -176478,31 +176152,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-those-savings-are-yours-too",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry about the savings. They're yours too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-apologize.i-m-sorry-i-should-ve-told-you-before-leaving-employer",
       "move": "reply-apologize",
       "kind": "spoken",
@@ -176516,56 +176165,6 @@
           "move": "apologize",
           "role": "asked",
           "requiresFacts": ["stake-money", "left-job", "employer"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.you-re-right-i-m-sorry-i-put-money-in-without-you",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "You're right. I'm sorry I put money in without you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["stake-money", "gave-own"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-should-ve-asked-before-spending-our-money",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry. I should've asked before spending our money.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["stake-money", "gave-own"]
         }
       ],
       "bearing": "contrite",
@@ -176869,31 +176468,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.no-more-of-our-money-goes-into-the-race",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "No more of our money goes into the race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["stake-money", "gave-own"]
-        }
-      ],
-      "bearing": "contrite",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Opus",
       "date": "2026-11-17",
@@ -177242,32 +176816,6 @@
           "move": "tell",
           "role": "asked",
           "requiresFacts": ["stake-time", "child"],
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Opus",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-ll-raise-it-from-others-our-savings-stay-put",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'll raise it from others. Our savings stay put.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "requiresFacts": ["stake-money"],
           "after": "ask"
         }
       ],
