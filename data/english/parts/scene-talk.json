@@ -170440,10 +170440,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.i-reported-the-last-one-ask-around-bill-is-off-the-table",
+      "key": "scene-talk.reply-confront.i-reported-the-last-one-and-bill-is-off-the-table",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "I reported the last one. Ask around. {bill} is off the table.",
+      "text": "I reported the last one, and {bill} is off the table.",
       "uses": [
         {
           "subject": "scene",
@@ -174843,30 +174843,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-back-about-bill-and-the-envelope-is-thicker-this-time",
+      "key": "scene-talk.narrate-narrate.name-puts-an-envelope-on-your-desk-and-names-bill",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is back about {bill}, and the envelope is thicker this time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "bribe-pressed",
-          "key": "threat",
-          "requiresFacts": ["bill", "favor-vote"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Claude, Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-come-back-for-your-vote-on-bill-money-in-hand-again",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has come back for your vote on {bill}, money in hand again.",
+      "text": "{name} puts an envelope on your desk and names {bill}.",
       "uses": [
         {
           "subject": "scene",
