@@ -1,6 +1,6 @@
 {
   "schema": "scene-sample/1",
-  "head": "c3646d66348ed28139da0e43e3999d00cc7c200d",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
   "scene": {
     "typeKey": "reach-out",
     "purpose": "favor-job",
@@ -94,9 +94,7 @@
               "role": "asker",
               "text": "I figured. I had to ask.",
               "move": "accept",
-              "pieces": [
-                "scene-talk.follow-accept.i-figured-i-had-to-ask"
-              ],
+              "pieces": ["scene-talk.follow-accept.i-figured-i-had-to-ask"],
               "wordings": [],
               "asks": false
             }
@@ -133,9 +131,7 @@
               "role": "asker",
               "text": "Somebody. Not you?",
               "move": "press",
-              "pieces": [
-                "scene-talk.follow-press.somebody-not-you"
-              ],
+              "pieces": ["scene-talk.follow-press.somebody-not-you"],
               "wordings": [],
               "asks": true
             }
@@ -243,9 +239,7 @@
               "role": "asker",
               "text": "That's all I'm asking.",
               "move": "thank",
-              "pieces": [
-                "scene-talk.follow-accept.that-s-all-i-m-asking"
-              ],
+              "pieces": ["scene-talk.follow-accept.that-s-all-i-m-asking"],
               "wordings": [],
               "asks": false
             }
@@ -268,9 +262,7 @@
           "role": "player",
           "text": "What's he done so far?",
           "move": "ask",
-          "pieces": [
-            "scene-talk.reply-ask.what-s-he-done-so-far"
-          ],
+          "pieces": ["scene-talk.reply-ask.what-s-he-done-so-far"],
           "wordings": [],
           "asks": true
         },
@@ -350,9 +342,7 @@
                     "role": "asker",
                     "text": "Somebody. Not you?",
                     "move": "press",
-                    "pieces": [
-                      "scene-talk.follow-press.somebody-not-you"
-                    ],
+                    "pieces": ["scene-talk.follow-press.somebody-not-you"],
                     "wordings": [],
                     "asks": true
                   }

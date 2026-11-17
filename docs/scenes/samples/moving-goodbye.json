@@ -1,6 +1,6 @@
 {
   "schema": "scene-sample/1",
-  "head": "c3646d66348ed28139da0e43e3999d00cc7c200d",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
   "scene": {
     "typeKey": "moving-goodbye",
     "purpose": "moving-goodbye",
@@ -151,9 +151,7 @@
           "role": "player",
           "text": "Can I ask what made you decide?",
           "move": "ask",
-          "pieces": [
-            "scene-talk.reply-ask.can-i-ask-what-made-you-decide"
-          ],
+          "pieces": ["scene-talk.reply-ask.can-i-ask-what-made-you-decide"],
           "wordings": [
             {
               "key": "scene-talk.reply-ask.why-now-what-changed",

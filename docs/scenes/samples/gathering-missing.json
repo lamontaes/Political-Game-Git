@@ -1,0 +1,336 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "gathering-missing",
+    "purpose": "gathering-ask",
+    "title": "Gathering missing"
+  },
+  "world": {
+    "place": "Tutu, U.S. Virgin Islands",
+    "placeKey": "territory:VI:tutu",
+    "seed": "story-batch-1",
+    "date": "2025-07-20"
+  },
+  "player": {
+    "name": "John Collins",
+    "standing": "a resident of Tutu, U.S. Virgin Islands, not in office"
+  },
+  "cause": {
+    "id": "family.gathering-missed:person_2e7621c8d2e3ba5f:person_42216b55bf22b212:2025-07-19",
+    "label": "feeling:event:family.gathering-missed"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_2e7620c8d2e3b8ac",
+      "name": "Carolyn Collins"
+    },
+    {
+      "role": "asked",
+      "id": "person_2e7621c8d2e3ba5f",
+      "name": "John Collins"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "You turned 88, and Michael wasn't at the table. Carolyn wants to talk to you about it.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.you-turned-age-and-absent-wasn-t-at-the-table-name-wants-to-talk-to-you-about-it"
+      ],
+      "wordings": [],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Carolyn Collins",
+      "role": "asker",
+      "text": "Do you have a minute? I keep thinking about Michael not being here.",
+      "move": "greet",
+      "pieces": [
+        "scene-talk.open-greet.do-you-have-a-minute-first-i-keep-thinking-about-absent-not-being-here"
+      ],
+      "wordings": [],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Carolyn Collins",
+    "role": "asker",
+    "text": "Would you go see Michael in the U.S. Virgin Islands? I'd feel better if someone from the family did.",
+    "move": "request",
+    "pieces": [
+      "scene-talk.state-request.would-you-go-see-absent-in-hometown-first-i-d-feel-better-if-someone-from-the-family-did"
+    ],
+    "wordings": [],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "Yes, of course. I'll get in touch with them.",
+          "move": "agree",
+          "pieces": [
+            "scene-talk.reply-agree.yes-of-course-i-ll-get-in-touch-with-them"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family",
+              "text": "Alright, yes. I'll do that for the family."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 7,
+              "speaker": "Carolyn Collins",
+              "role": "asker",
+              "text": "Thank you, John. I feel better knowing you'll do it.",
+              "move": "thank",
+              "pieces": [
+                "scene-talk.follow-thank.thank-you-first-i-feel-better-knowing-you-ll-do-it"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.that-takes-a-weight-off-i-m-glad-you-ll-do-it",
+                  "text": "That takes a weight off. I'm glad you'll do it."
+                },
+                {
+                  "key": "scene-talk.follow-thank.that-eases-my-mind-good",
+                  "text": "That eases my mind. Good."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "said-you-would-reach-out",
+              "label": "You said you would reach out",
+              "keeps": "kept-in-scene"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "Why are you asking me about this, and why now?",
+          "move": "ask",
+          "pieces": [
+            "scene-talk.reply-ask.why-are-you-asking-me-about-this-and-why-now"
+          ],
+          "wordings": [],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Carolyn Collins",
+              "role": "asker",
+              "text": "I only want Michael to hear from you. It doesn't have to be much.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 9,
+                "speaker": "You",
+                "role": "player",
+                "text": "That makes it easier. I'll do it.",
+                "move": "agree",
+                "pieces": [
+                  "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.knowing-that-helps-i-ll-do-it",
+                    "text": "Knowing that helps. I'll do it."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.that-helps-count-me-in",
+                    "text": "That helps. Count me in."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 11,
+                    "speaker": "Carolyn Collins",
+                    "role": "asker",
+                    "text": "That eases my mind. Good.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.that-eases-my-mind-good"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you-first-i-feel-better-knowing-you-ll-do-it",
+                        "text": "Thank you, {first}. I feel better knowing you'll do it."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.that-takes-a-weight-off-i-m-glad-you-ll-do-it",
+                        "text": "That takes a weight off. I'm glad you'll do it."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-you-would-reach-out",
+                    "label": "You said you would reach out",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "I understand why you asked, but I still can't do it. I'm sorry.",
+                "move": "decline",
+                "pieces": [
+                  "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry",
+                    "text": "Thank you for asking, but I can't do it. I'm sorry."
+                  },
+                  {
+                    "key": "scene-talk.reply-decline.i-see-why-you-asked-i-still-can-t-i-m-sorry",
+                    "text": "I see why you asked. I still can't. I'm sorry."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 12,
+                    "speaker": "Carolyn Collins",
+                    "role": "asker",
+                    "text": "Okay. I won't push right now.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.okay-i-won-t-push-right-now"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.alright-i-understand-and-i-ll-leave-it-for-now",
+                        "text": "Alright. I understand, and I'll leave it for now."
+                      },
+                      {
+                        "key": "scene-talk.follow-accept.okay-i-understand-maybe-another-time",
+                        "text": "Okay. I understand. Maybe another time."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "refused",
+                  "ending": {
+                    "id": "reaching-out-left-open",
+                    "label": "Left it for later",
+                    "keeps": "none"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'm sorry, but I'm not the right person to do that.",
+          "move": "decline",
+          "pieces": [
+            "scene-talk.reply-decline.i-m-sorry-but-i-m-not-the-right-person-to-do-that"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-decline.i-d-like-to-but-i-can-t-get-in-touch-with-them-right-now-i-hope-you-understand",
+              "text": "I'd like to, but I can't get in touch with them right now. I hope you understand."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 13,
+              "speaker": "Carolyn Collins",
+              "role": "asker",
+              "text": "Alright. I understand, and I'll leave it for now.",
+              "move": "accept",
+              "pieces": [
+                "scene-talk.follow-accept.alright-i-understand-and-i-ll-leave-it-for-now"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-accept.okay-i-understand-maybe-another-time",
+                  "text": "Okay. I understand. Maybe another time."
+                },
+                {
+                  "key": "scene-talk.follow-accept.okay-i-won-t-push-right-now",
+                  "text": "Okay. I won't push right now."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "refused",
+            "ending": {
+              "id": "reaching-out-left-open",
+              "label": "Left it for later",
+              "keeps": "none"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "endings": {
+    "said-you-would-reach-out": 2,
+    "reaching-out-left-open": 2
+  },
+  "depth": 2,
+  "gaps": []
+}
