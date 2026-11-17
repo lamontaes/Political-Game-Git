@@ -33,7 +33,7 @@ Seen: the check-changes guard's findings between main at 0a871a98 (Nov 12) and m
 
 **Waits on.** The CTO's line on whether a pull request that puts a drawn seed back may drop the case that only checked the pinned place (asked on issue 9747).
 
-**Files.** scripts/guards/check-changes.mjs (new, in #9752; the check that lists them), src/bench/bill-address.test.ts and the other files listed by folder in the Notes.
+**Files.** scripts/guards/check-changes.mjs (new), src/bench/bill-address.test.ts and the other files listed by folder in the Notes.
 
 **Notes.**
 Done or in a pull request: src/bench/bill-orders.test.ts (#9766), src/bench/campaign-asks-spoken.test.ts (#9792), the 28 bench files of the trial batch (bfbba819, branch claude/long-game-unpin-bench-trial), src/core2/canonical-policy-topics.test.ts and src/bench/card-life.test.ts (parked branches).
