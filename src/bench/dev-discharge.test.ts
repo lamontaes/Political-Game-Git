@@ -38,7 +38,7 @@ describe(`discharge petition: ${where}`, () => {
           bodyOfficeId: house!.id,
           sponsorId: house!.members[0]!.key,
           series: "minimum-wage",
-          value: 30 + tried / 10,
+          value: 3000 + tried,
         });
         if (bill.status === "blocked") continue;
         const result = dev.decideAt(bill.id, 40, {
