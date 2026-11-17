@@ -35,7 +35,7 @@ import { fullHouseholdIncomes } from "./counted-income-fifth";
 import {
   countedHouseholdsByPlace,
   groupKeyOf,
-  incomeBandOf,
+  incomeBandOn,
   residentsRuntime,
 } from "./modules/residents";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
@@ -244,7 +244,7 @@ export function studentsByPlace(
     fullStudents.push({
       placeId: person.placeId,
       id: person.id,
-      fifth: incomeBandOf(incomes.get(person.householdId) ?? 0),
+      fifth: incomeBandOn(api, incomes.get(person.householdId) ?? 0),
       trait: traitMean(person.traits),
       attended,
       movedIn: moved.get(person.householdId)?.id,

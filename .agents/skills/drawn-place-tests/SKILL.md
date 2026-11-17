@@ -80,10 +80,16 @@ A drawn place can name a business after a person, so a check that counts the pla
 - **Following whoever the case happens to, then replaying the town as that person, can fail by tier.** A townsperson who misses a loan payment opens with a loan and no cash; the same person as the player opens with cash and no loan, and never misses. Check that the case survives the rebuild before building a test on it, and file the tier difference when it does not.
 - **A build by the runner's drawn key is a draw.** A place where no player can live is passed over by the build itself when the key is the golden-path runner's (`passOver` in `src/bench/world.ts`); a test that draws its own key catches `NoPlayerHereError`, names the place and draws again, as `src/core2/past-votes-by-level.test.ts` does.
 
+## A case the player never reaches (Handoff, Nov 17)
+
+When the case happens to townspeople and not to the player (a borrower who misses a payment: the player's home opens with cash and no loan, so ten drawn places and six birthdays found none), the test finds the person the engines name in the drawn place, as `findTownBorrower` does, and stages only that person's choice, labeled where it stands. It follows them from day one (the director watches, and `focusPersonIds` keeps their records), and it reads what a non-player's record says the day it happens, since the engine forgets a person outside the player's circle after a week (`circleDecisionDetailDays`). That the player cannot reach the case is a gap for the lane that owns the player's choices, posted as "for Blockers".
+
 ## Gotchas (Nov 16 and 17)
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
+- Nov 17, 12:20Z (press-comment-variants, Bondurant, Wyoming): a scandal probe asked a town's reporters for a scandal arc, and every one of them leaned friendly. Cause: an arc's score is its records times one plus the asker's pull, so no record can win where every asker's temper refuses it. Pass over a town with no asker whose traits allow the case (#9959).
+- Nov 17, 13:45Z (business-charges, Calvin, North Dakota): a town total fell with a tax raise because a TV station sold more in the raised twin. Cause: twin worlds drift apart. Compare one business at a time, only where its inputs are equal in both twins, and add the exact half (the charge equals the rate times its own wages, to the cent).
 - Nov 17, 03:47Z (pay-on-time, apology-variants): a test pinned to one borrower in Ragland, Alabama went red when the world changed and she stopped missing payments. Cause: it was pinned to a town where the case need not happen. Draw places, advance until any borrower misses, and name the places passed over.
 - Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
 - Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
