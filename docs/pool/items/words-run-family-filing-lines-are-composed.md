@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Story lead (Fable) with an Opus builder
+pr: 9905
 after: words-run-filing-clerk-lines-are-composed
 blocked-on:
 lead: words
@@ -17,8 +17,8 @@ effort: medium
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine"); owner, Nov 17, on the scene list (#9750): "Their savings and time are at stake. That's a problem. That's why it keeps saying we only have 2 weeks of savings. You took that literally. That's not what I meant. Because a lot of time that's just said completely out of context with nothing making sense."; planned for Fable B from a read of main at 5ef67361
 checked:
-claimed-at:
-branch:
+claimed-at: 2026-11-17
+branch: claude/story-family-filing
 ---
 
 **What.** After the player files, a relative at home with a stake in it confronts them. The records already say which stake (money the household lacks for the race, or a young child at home while the player works) and the opening question sometimes names it, but the talk that follows is fixed: "So. You did it.", "I'm running because somebody has to.", "I didn't tell you because I wasn't sure I'd go through with it." 111 of the 134 lines under the `family-filing` purpose have no insert, so a spouse with three weeks of savings and one with a toddler hear the same replies. Seen: the talk box at home after filing, and the player's four replies.
@@ -49,3 +49,5 @@ branch:
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 134 lines, 111 with no insert and not excused. Three today: "So. You did it.", "I didn't tell you because I wasn't sure I'd go through with it.", "I'm running because somebody has to."
 
 - 2026-11-17 (Story lead): the owner graded the scene on his Desk: "That's why it keeps saying we only have 2 weeks of savings. You took that literally. That's not what I meant... said completely out of context with nothing making sense." Cause of that line, found in code: `filingStakeOf` (src/director/family-stake.ts) reads the household's liquid savings against living costs minus pay over the race's days and says the span as `cushion`; for an 18-year-old with no pay in a household that is short, the shortfall passes `runwayShortfall` at almost every filing, so the stake is "money" and the span is said whether or not the race costs the house anything. The CTO's rule from the grade (Nov 17): money talk comes from the household's actual books and only when they matter; never a stock "two weeks of savings". Fix step 2 gains: the money stake counts the race's own cost to the house (the campaign's spending the household covers, the filer's lost hours at `filer.jobId`), not the household's living shortfall, and the partner's reaction (owner: "this happens like every time") plays only when a stake is real; otherwise the filing is told at home as news, not as a stake scene.
+
+- 2026-11-17 (Story lead, Opus builder): draft #9905. The money stake now reads the race's own cost to the house (the campaign's gift row for the filer's own money, a job left since filing) and is said only when that cost leaves the savings short of the race; a house already short, or one the race costs nothing, has no stake and hears the filing as news in the evening talk. 117 family-filing uses deleted, 200 pieces drafted for the lead's read. Spoken lines carry no `{cushion}` (the owner's rule `no-figures-people-would-not-know`); only the narrator says it. The insert-guard baseline waits on #9757. Pairs and review batches are written for the lead's reviewers.
