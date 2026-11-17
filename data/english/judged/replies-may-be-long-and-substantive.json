@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 996,
+  "judged": 991,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1290,15 +1290,6 @@
       ],
       "why": "The replies offer to explain, apologize or exit, but none states a reason."
     },
-    "0pbxzevffgl": {
-      "keys": [
-        "scene-talk.state-request.i-m-on-the-ballot-for-office-i-d-like-to-count-on-your-vote",
-        "scene-talk.reply-agree.self-you-knew-you-had-me-before-you-knocked",
-        "scene-talk.reply-decline.self-i-know-you-that-s-the-problem",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
     "0ptijp9su3l": {
       "keys": [
         "scene-talk.follow-plea.we-miss-you-that-s-all",
@@ -1901,15 +1892,6 @@
       ],
       "why": "A taunt and a promise to explain carry no reason."
     },
-    "11w45caw0zd": {
-      "keys": [
-        "scene-talk.follow-answer.carefully-and-in-the-open-where-you-can-watch-me",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-leave.i-need-to-head-home"
-      ],
-      "why": "\"I'm with you\", \"I'm not sold yet\" and heading home give no reason."
-    },
     "12d9wvg2hk9": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -2044,16 +2026,6 @@
         "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
       ],
       "why": "The replies are a denial and two exits with no reason or argument."
-    },
-    "16ige2zw64a": {
-      "keys": [
-        "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
-        "scene-talk.reply-ask.what-would-you-actually-do-first",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "A question, a yes, \"I'm not sold yet\" and thinking it over carry no reason."
     },
     "175wdffrwp0": {
       "keys": [
@@ -2778,15 +2750,6 @@
         "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
       ],
       "why": "Asked 'Why not the vote?', the player can agree, defer, set a condition or say 'I'll tell you before the vote', and none of these gives a reason."
-    },
-    "1os3v4hm1hq": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-leave.i-need-to-head-home"
-      ],
-      "why": "Asked what holds them back, none of the three replies names anything."
     },
     "1pmyfxbql3r": {
       "keys": [
@@ -4101,5 +4064,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0kia4g8v1e4"
+  "yesHash": "0vt92fhbj5k"
 }
