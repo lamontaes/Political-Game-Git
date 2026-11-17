@@ -118286,6 +118286,153 @@
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-twn-lead-members-of-body-name-and-everybody-who-made-the",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of {body-name}, and everybody who made the trip tonight.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-twn-lead-to-body-name-and-to-the-folks-in-the",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "To {body-name}, and to the folks in the back rows.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-twn-lead-members-of-body-name-and-the-people-of-realm",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of {body-name}, and the people of {realm-name} who came out tonight.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.polished-twn-lead-members-of-body-name-and-the-residents-who-make",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of {body-name}, and the residents who make this place a home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "town-address",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["body-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-sos-lead-everybody-in-this-chamber-and-everybody-at-home-across",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Everybody in this chamber, and everybody at home across {realm-name}.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.plain-sos-lead-members-of-the-realm-bare-legislature-and-everybody-watching",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of the {realm-bare} legislature, and everybody watching tonight.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.salutation.polished-sos-lead-members-of-this-legislature-and-the-people-of-realm",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of this legislature, and the people of {realm-name} we answer to.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-state",
+          "role": "salutation",
+          "choice": "salutation",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     }
   ]
 }
