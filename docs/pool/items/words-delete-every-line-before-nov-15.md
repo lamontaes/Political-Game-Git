@@ -31,6 +31,8 @@ Seen: the owner's sitting on v0.113.0, Nov 17.
 
 **Done when.** A second session starts a new life in a drawn place on main and plays to the first evening and through the first week's talks and the paper, and sees no line from a part dated before Nov 15 (the register and the insert guard count zero of them), every screen that lost its bank showing the record through a label and never a stock sentence; the english guards pass with the baselines lowered.
 
+**Waits on.** Nothing: the three cut pull requests (#9999, #10023, #10011) rewrite the same banks, and whichever lands second merges by key, the deletion standing.
+
 **Files.** data/english/parts, data/english/judged, data/english/pulled.json, tests/guards/english/line-inserts-baseline.json, tests/guards/english/line-register-baseline.json, src/english/line-register.ts, src/director/data/stopgaps.json, docs/current.json
 
 **Notes.**
