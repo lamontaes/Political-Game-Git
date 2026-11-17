@@ -135,16 +135,20 @@ export function pinOnlyRemoved(before, after, rules) {
   return { cases, assertions };
 }
 
-/** Whether a crew-issue comment approves this pull request's check changes. */
+/**
+ * Whether a crew-issue comment approves this pull request's check changes:
+ * a comment whose first line starts with "CTO:" and with a line that names
+ * the pull request by number and says it is approved, never "not approved".
+ */
 export function approves(comment, number, rules) {
-  const line = new RegExp(
-    rules.approval.replace("{number}", String(number)),
-    "i",
-  );
-  return comment
-    .replace(/\r\n/g, "\n")
-    .split("\n")
-    .some((text) => line.test(text.trim()));
+  const fill = (pattern) =>
+    new RegExp(pattern.replaceAll("{number}", String(number)), "i");
+  const lines = comment.replace(/\r\n/g, "\n").split("\n");
+  const first = lines.find((text) => text.trim() !== "") ?? "";
+  if (!fill(rules.approvalStart).test(first.trim())) return false;
+  const approved = fill(rules.approvalLine),
+    refused = fill(rules.approvalRefused);
+  return lines.some((text) => approved.test(text) && !refused.test(text));
 }
 
 const git = (...args) =>

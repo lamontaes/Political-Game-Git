@@ -183,13 +183,21 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       expect(ids(file, "a", "b")).toContain("own-rules");
   });
 
-  it("takes an approval only from a line that starts with CTO and names the pull request", () => {
+  it("takes an approval only from a CTO comment with a line that names the pull request", () => {
     expect(approves("CTO: check change approved #9801", 9801, rules)).toBe(
       true,
     );
+    // The CTO's own formatting (issue 9747, Nov 16 to 17).
     expect(
       approves(
-        "Status.\nCTO: I approve the pin in #9801, one place.",
+        "CTO: Two answers.\n\n1. **Coordinator, #9801: approved.** It changes guard files.",
+        9801,
+        rules,
+      ),
+    ).toBe(true);
+    expect(
+      approves(
+        "CTO: \n- **Long game, CTO lines:** #9752 approved, as before. #9801 approved under the ruling.",
         9801,
         rules,
       ),
@@ -201,7 +209,18 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       false,
     );
     expect(approves("Long game: approved #9801", 9801, rules)).toBe(false);
+    expect(approves("Status.\nCTO: approved #9801", 9801, rules)).toBe(false);
     expect(approves("CTO: not yet for #9801", 9801, rules)).toBe(false);
+    expect(approves("CTO: #9801 is not approved yet.", 9801, rules)).toBe(
+      false,
+    );
     expect(approves("> CTO: approved #9801", 9801, rules)).toBe(false);
+  });
+
+  it("does not read another pull request's approval in the same line as this one's", () => {
+    const comment =
+      "CTO: \n- #9752 approved, as before. #9801 and #9793 need no line.";
+    expect(approves(comment, 9801, rules)).toBe(false);
+    expect(approves(comment, 9752, rules)).toBe(true);
   });
 });

@@ -1,7 +1,6 @@
 {
   "header": "The rules of the check-changes guard (scripts/guards/check-changes.mjs): what a pull request may not add to the checks that judge it. The guard reads this file from main, never from the pull request. A change it refuses needs a line on the crew issue, written by the CTO, that starts with the approval words and names the pull request by number.",
   "crewIssue": 9747,
-  "approval": "^CTO:.*\\bapprov\\w*\\b.*#{number}\\b",
   "testFiles": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
   "counts": [
     {
@@ -44,5 +43,8 @@
     ".github/workflows/checks-guard.yml"
   ],
   "pinOnlyCase": "pinned place|fixed seed|pinned seed",
-  "pinOnlyRuling": "The CTO's standing ruling on issue 9747: when a test moves from a pinned place or seed to a drawn one, it may delete the case that only checked the pin (a case whose title names its pinned place or fixed seed)."
+  "pinOnlyRuling": "The CTO's standing ruling on issue 9747: when a test moves from a pinned place or seed to a drawn one, it may delete the case that only checked the pin (a case whose title names its pinned place or fixed seed).",
+  "approvalStart": "^CTO:",
+  "approvalLine": "#{number}\\b[^.;]*\\bapprov|\\bapprov\\w*\\b[^.;]*#{number}\\b",
+  "approvalRefused": "\\bnot\\b[^.]*\\bapprov|\\bunapprov"
 }
