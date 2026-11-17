@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/story-one-landing-no-turn
-pr:
+pr: 10014
 after:
 blocked-on:
 lead: story
