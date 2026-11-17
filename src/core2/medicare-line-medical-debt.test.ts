@@ -17,7 +17,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { appliedOn } from "./law-reach/applied";
+import { appliedEver, appliedOn } from "./law-reach/applied";
 import { advanceCore } from "./life";
 import type { MedicalBillRow } from "./medical-bills";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
@@ -70,11 +70,12 @@ it(
         )[0]!;
         const base = budget.spendingMinor[LINE] ?? 0;
         expect(base, where).toBeGreaterThan(0);
+        const delta = Math.round(base / 5);
         expect(
           amendBudget(api, {
             governmentId: federal.id,
             line: LINE,
-            deltaMinor: Math.round(base / 5),
+            deltaMinor: delta,
             measureId: "H.R. 9003 (Medicare, test)",
             carry: true,
           }),
@@ -151,8 +152,32 @@ it(
           ),
           where,
         ).toBe(true);
+        // Putting the line back ends every member's row at the next bill:
+        // the undo shows on the bill card and in the Trace.
+        expect(
+          amendBudget(api, {
+            governmentId: federal.id,
+            line: LINE,
+            deltaMinor: -delta,
+            measureId: "H.R. 9004 (Medicare restored, test)",
+            carry: true,
+          }),
+          where,
+        ).not.toBeNull();
+        advanceCore(raised, addDays(makeIsoDate(raised.date), 31));
+        const stillOpen = appliedOn(api, `budget-line:${LINE}`).filter(
+          (r) => r.what === "medicare-share-changed-by-line",
+        );
+        expect(
+          stillOpen.map((r) => r.targetId),
+          where,
+        ).toEqual([]);
+        const ended = appliedEver(api, `budget-line:${LINE}`).filter(
+          (r) => r.what === "medicare-share-changed-by-line" && r.endedOn,
+        );
+        expect(ended.length, where).toBeGreaterThanOrEqual(reached.length);
         process.stdout.write(
-          `MEDICARE ${where}: ${members} Medicare members billed less; unpaid by their households ${Math.round(unpaidRaised / 100)} dollars against ${Math.round(unpaidAlone / 100)} left alone; ${carried.count} bill records priced by the line; ${reached.length} reach rows; e.g. ${example}. Passed over: ${passed.join("; ") || "none"}\n`,
+          `MEDICARE ${where}: ${members} Medicare members billed less; unpaid by their households ${Math.round(unpaidRaised / 100)} dollars against ${Math.round(unpaidAlone / 100)} left alone; ${carried.count} bill records priced by the line; ${reached.length} reach rows, all ended once the line was put back; e.g. ${example}. Passed over: ${passed.join("; ") || "none"}\n`,
         );
         return;
       }
