@@ -188,6 +188,17 @@ function townResidents(input: CoreInput, placeId: string) {
 }
 
 /**
+ * The birthday of a player who is the default age (owner, Nov 16: "18, unless
+ * you pick another age"): the start date's own month and day, `PLAYER_MIN_AGE`
+ * years back (a leap day falls on the 28th).
+ */
+export function defaultPlayerBirthDate(startDate: string): string {
+  const day = makeIsoDate(startDate);
+  const [year, month, date] = day.split("-");
+  return `${Number(year) - PLAYER_MIN_AGE}-${month}-${month === "02" && date === "29" ? "28" : date}`;
+}
+
+/**
  * The player of a new game: with no birthday chosen, one of the town's own adults (18 and up),
  * picked by the world's seeded unit from them in id order, so the player's age follows the
  * place's own adults. Only a resident counts: relatives who live in households of their own are
@@ -494,6 +505,10 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   const minimumPeople = settings.population ?? options.minimumPeople;
+  // With no birthday chosen the player is the default age, 18.
+  const playerBirthDate =
+    options.playerBirthDate ??
+    (options.twoLevel ? defaultPlayerBirthDate(startDate) : undefined);
   const built = buildPopulation({
     seed,
     startedAt: makeIsoDate(date),
@@ -502,10 +517,10 @@ function* benchWorldStages(
     ...(minimumPeople ? { minimumPeople } : {}),
     // With a resident of the age the creator's birthday makes the player, as
     // far as the place's households allow (`entrantBornNear`).
-    ...(options.playerBirthDate
+    ...(playerBirthDate
       ? {
           playerAge: ageOnDate(
-            makeIsoDate(options.playerBirthDate),
+            makeIsoDate(playerBirthDate),
             makeIsoDate(startDate),
           ),
         }
@@ -549,7 +564,7 @@ function* benchWorldStages(
       pick = entrantChoice(
         input,
         place.context.jurisdiction.id,
-        options.playerBirthDate,
+        playerBirthDate,
         options.playerGender,
       );
     } catch (error) {

@@ -251,35 +251,46 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The same people on top of the talk box while a talk is open, whoever speaks
- * lit and a little larger. A speaker who is not in the room (a caller, someone
- * a scene brings in) stands first, by the face their card gave.
+ * A talk's people (the owner's Desk answer, Nov 16: "the design of a but the
+ * people in the top tight like c"). Whoever speaks is one bust on the talk
+ * card itself; everyone else in the room sits small along the card's top,
+ * packed tight, in a band only as wide as they are. While the narrator speaks
+ * nobody is on the card and everyone sits small at the top. A speaker who is
+ * not in the room (a caller, someone a scene brings in) is on the card by the
+ * face their own card gave and never joins the people of the room; one heard
+ * on television is on the card inside a television's frame.
  */
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
 let talkPersonId;
+/** The person a television shows speaking, when the line is heard on one. */
+let talkScreenId;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
-  const inRoom = here.people.some((p) => p.personId === talkPersonId);
+  const speakerId = talkPersonId ?? talkScreenId;
+  const inRoom = talkScreenId
+    ? undefined
+    : here.people.find((p) => p.personId === speakerId);
   const speaker =
-    talkPersonId && !inRoom && talkFace
-      ? [{ personId: talkPersonId, name, face: talkFace }]
-      : [];
-  const others = here.people.filter((p) => p.personId !== talkPersonId);
-  const speaking = here.people.filter((p) => p.personId === talkPersonId);
-  // The speaker is always among those shown; the rest keep the room's order.
-  const shown = [...speaker, ...speaking, ...others]
-    .slice(0, TALK_STRIP_PEOPLE)
-    .sort(
-      (a, b) =>
-        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
-        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
-    );
-  $("talk-strip").replaceChildren(
-    ...(shown.length
-      ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
+    inRoom ??
+    (speakerId && talkFace
+      ? { personId: speakerId, name, face: talkFace }
+      : undefined);
+  const quiet = here.people
+    .filter((p) => p.personId !== speakerId)
+    .slice(0, TALK_STRIP_PEOPLE);
+  $("talk-speaker").replaceChildren(
+    ...(speaker
+      ? [bustStrip({ people: [speaker], speakingId: speakerId })]
       : []),
   );
+  $("talk-strip").replaceChildren(
+    ...(quiet.length
+      ? [bustStrip({ people: quiet, speakingId: speakerId ?? undefined })]
+      : []),
+  );
+  $("talk").classList.toggle("has-speaker", Boolean(speaker));
+  $("talk").classList.toggle("on-screen", Boolean(speaker && talkScreenId));
 }
 
 /**
@@ -362,6 +373,20 @@ $("news-reader-close").addEventListener("click", () =>
 // open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
 // restores focus; when none is open, it opens the session menu"). In order: a person's card, the
 // news reader, a term's card, the open menu. A talk or a scene is not one of them.
+/**
+ * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
+ * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
+ * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
+ */
+function closeCards() {
+  if (!$("person").hidden) closePerson();
+  show("news-reader", false);
+  show("tip", false);
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
+}
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
@@ -667,6 +692,7 @@ async function refresh(scene = {}) {
     `/api/election-night?id=${encodeURIComponent(me.id)}`,
   );
   if (night) {
+    closeCards();
     await electionNight(night);
     // That night, once the returns close: the scene of your own result (the
     // concession call or the victory), when the director staged one.
@@ -695,6 +721,13 @@ async function act(path) {
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    // The clock is held (a scene, a meeting, the polls): no menu stays open over it.
+    if (
+      result.packet?.kind === "stop" ||
+      result.pollingPlace ||
+      result.candidateMorning
+    )
+      closeCards();
     if (result.pollingPlace || result.candidateMorning) {
       // Election morning: canvass if you're running, then vote or stay home
       // (or, with no ballot here, go on with the day).
@@ -1454,16 +1487,23 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
-async function setWho(personId, name) {
+async function setWho(personId, name, { screenId } = {}) {
   talkPersonId = personId;
+  talkScreenId = personId ? undefined : screenId;
   $("talk-name").textContent = name ?? "";
   talkFace = undefined;
   show("talk-who", Boolean(name));
   drawTalkStrip();
-  // Someone in the room is already on the strip; anyone else stands there by their card's face.
-  if (!personId || here.people.some((p) => p.personId === personId)) return;
+  // Someone in the room has their face already; anyone else (a caller, a
+  // speaker on television) is shown by their card's face.
+  const shownId = personId ?? talkScreenId;
+  if (
+    !shownId ||
+    (personId && here.people.some((p) => p.personId === personId))
+  )
+    return;
   const c = await api(
-    `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
+    `/api/known?${new URLSearchParams({ id: me.id, other: shownId })}`,
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   talkFace = c.face ?? undefined;
@@ -2037,13 +2077,6 @@ async function campaignParts() {
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
-        // How many signed at the doors, a day of none included (owner, Nov 14:
-        // "Tab total and each outing"), outside the dialogue.
-        result.signed === null || result.signed === undefined
-          ? ""
-          : result.signed === 0
-            ? controls.campaignResults.signedNone
-            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.reached &&
         (result.votesAsked === null ||
           result.votesAsked === undefined ||
@@ -2171,22 +2204,9 @@ async function campaignParts() {
               ? [why]
               : choice.outing === "doors" && petition?.gatherTarget
                 ? [
-                    (petition.asksAtDoors
+                    petition.asksAtDoors
                       ? T.askingWhySignatures
-                      : T.askingWhyVotes
-                    )
-                      .replace(
-                        "{signed}",
-                        petition.signed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{needed}",
-                        petition.needed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{target}",
-                        petition.gatherTarget.toLocaleString("en-US"),
-                      ),
+                      : T.askingWhyVotes,
                   ]
                 : [],
           }),
@@ -2389,10 +2409,7 @@ async function campaignParts() {
                       value: (petition.signed >= petition.needed
                         ? labelsC.signaturesEnough
                         : labelsC.signaturesHeld
-                      )
-                        .replace("{signed}", String(petition.signed))
-                        .replace("{needed}", String(petition.needed))
-                        .replace("{date}", dateWords(petition.due)),
+                      ).replace("{date}", dateWords(petition.due)),
                     },
                   ]
                 : []),
@@ -2504,6 +2521,8 @@ async function showStory(momentId) {
     `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
+  // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
+  closeCards();
   $("backdrop").src = story.backdrop.url;
   drawHere(story);
   show("talk", true);
@@ -2534,10 +2553,14 @@ async function showStory(momentId) {
       show("talk-skip", true);
       // A speaker heard on a broadcast is named, never drawn in the room
       // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip.
+      // room is the bust on the talk card.
       setWho(
         story.beats || story.speech.inRoom ? story.speech.speakerId : null,
         story.names[story.speech.speakerId],
+        // Heard on television: the speaker is on the card in a television's frame.
+        story.speech.heardOn?.medium === "television"
+          ? { screenId: story.speech.speakerId }
+          : {},
       );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
@@ -2673,6 +2696,24 @@ function storyStop(value) {
           row.kind === "interrupt" && row.moduleId === "p13-story-director",
       )
     : undefined;
+}
+
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
 }
 
 // ---- The person card: only what you could know about them ----
@@ -2819,15 +2860,24 @@ async function personCardNode(
     // playtest, Nov 8).
     ...(c.history?.length
       ? [
-          stripSection(
-            5,
-            capital(heading("lifeStory", "lifeStoryThey")),
-            ...lifeParagraphs(c.history),
+          markLife(
+            stripSection(
+              5,
+              capital(heading("lifeStory", "lifeStoryThey")),
+              ...lifeParagraphs(c.history),
+            ),
           ),
         ]
       : []),
   ];
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
+  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
+  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2867,12 +2917,23 @@ async function personCardNode(
     node: stripScreen({
       name: c.name,
       role,
+      nameBeside: true,
+      // The approved card's bust stands as tall as its sections (pl-people).
+      bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
   };
+}
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 440;
+/** A card's life story section, marked so the card can set it in its second column. */
+function markLife(node) {
+  node.dataset.life = "1";
+  return node;
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -3071,9 +3132,10 @@ async function officeParts() {
                       if (asked.packet) renderPacket(asked.packet);
                       const moment = storyStop(asked.packet);
                       closeSheet();
+                      // The sit-down plays with nothing over it; with no scene, back to Office.
                       if (asked.story) await showStory(asked.story);
                       else if (moment) await showStory(moment.recordId);
-                      await openSheet("office");
+                      else await openSheet("office");
                     },
                   }),
                 ),
@@ -4351,6 +4413,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5462,7 +5540,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),
