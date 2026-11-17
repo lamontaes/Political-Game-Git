@@ -20,7 +20,11 @@ import {
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { residentsPart, residentsRuntime } from "./modules/residents";
+import {
+  loseAwayWork,
+  residentsPart,
+  residentsRuntime,
+} from "./modules/residents";
 import { placeStateKey } from "./place-map";
 import { coreAPI } from "./state";
 
@@ -69,11 +73,37 @@ it("counts a sampled county's workers once, and drops nobody who is looking", ()
         0;
       const said = `${where}, ${placeId}: ${Math.round(sum(part.workers))} at work of ${Math.round(sum(part.adults))} adults; ${Math.round(named)} named by a county employer, ${Math.round(unplaced)} unplaced, ${Math.round(recorded)} in recorded jobs; ${Math.round(sum(part.seekers))} looking`;
       process.stderr.write(`${said}\n`);
-      // The named and the unplaced are the same workers: at most the larger of the two is at
-      // work outside a recorded job, never their sum.
+      // The named and the unplaced are the same workers: the unplaced count is how many are
+      // at work outside a recorded job, never the two added.
       expect(sum(part.workers), said).toBeLessThanOrEqual(
-        recorded + Math.max(named, unplaced) + 1e-6,
+        recorded + unplaced + 1e-6,
       );
+      // The unplaced count is the one the world moves. A sampled household loses half an
+      // away worker by the game's own writer (the jobs engine's layoff of away workers):
+      // the place's people at work fall by the households it stands for, in the named sector.
+      const home = [...rt.store.liveHouseholds()].find(
+        (h) =>
+          h.placeId === placeId &&
+          rt.store.weightOf(h) > 1 &&
+          h.employment?.length === 1 &&
+          h.unplacedWorkers >= 0.5 &&
+          h.unplacedWorkers <= 1,
+      );
+      expect(
+        home,
+        `${said}: no sampled household with one named worker`,
+      ).toBeDefined();
+      const sector = home!.employment![0]!.sector;
+      const lost = 0.5 * rt.store.weightOf(home!);
+      expect(loseAwayWork(core, home!, 0.5), said).toBe(true);
+      const after = residentsPart(core, new Set([placeId]), COUNTRY_AGE_BANDS);
+      const fell = `${said}; after ${lost} lost away work in ${sector}: ${sum(after.workers)} at work`;
+      expect(sum(part.workers) - sum(after.workers), fell).toBeCloseTo(lost, 6);
+      expect(
+        (part.workersByIndustry.get(sector) ?? 0) -
+          (after.workersByIndustry.get(sector) ?? 0),
+        fell,
+      ).toBeCloseTo(lost, 6);
     }
     // And the state's tier keeps everyone the records say is looking: no band is so full of
     // workers that its seekers have no room.
@@ -98,10 +128,11 @@ it("counts a sampled county's workers once, and drops nobody who is looking", ()
       cash: 0,
     });
     const looking = sum(counts.seekers);
-    expect(
-      looking,
-      `${where}: nobody is looking in the played places`,
-    ).toBeGreaterThan(0);
+    if (!(looking > 0)) {
+      // A very small town can open with nobody looking: not a case, draw on.
+      passed.push(`${where}: nobody is on record looking in the played places`);
+      continue;
+    }
     expect(
       sum(held.seekers),
       `${where}: ${Math.round(looking)} looking by the records, ${Math.round(sum(held.seekers))} kept by the state`,

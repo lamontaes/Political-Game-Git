@@ -2699,8 +2699,7 @@ export function residentsPart(
   const rt = runtimes.get(core);
   if (rt) {
     const store = rt.store;
-    // Each place's unplaced workers by band, and its workers a county employer names.
-    const unplacedPools = new Map<string, { pool: number[]; named: number }>();
+    const unplacedPool: number[] = bands.map(() => 0);
     const from = countedParameter("countedWorkingAgeFrom"),
       below = countedParameter("countedWorkingAgeBelow");
     for (const h of store.liveHouseholds()) {
@@ -2716,7 +2715,8 @@ export function residentsPart(
       }
       const open: number[] = [];
       const adults: number[] = [];
-      let named = 0;
+      // Its members a county employer names, by band and the employer's sector.
+      const named: { band: number; sector: string }[] = [];
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
         const full = core.people.get(id);
@@ -2735,34 +2735,27 @@ export function residentsPart(
         // A counted job's heads can exceed the household's weight (a hire stands for the
         // position's heads): the member is at work for no more people than they stand for.
         if (job) atWork(band, job.employer, Math.min(job.heads, weight));
-        else if (county) {
-          atWork(band, county.sector, weight, part.workersByIndustry);
-          if (band >= 0) named += weight;
-        } else if (band >= 0 && age >= from && age < below) open.push(band);
+        else if (county && band >= 0)
+          named.push({ band, sector: county.sector });
+        else if (band >= 0 && age >= from && age < below) open.push(band);
       }
-      // Its workers outside a recorded employer are its working-age members without a job, shared alike.
-      const unplaced = h.unplacedWorkers * weight;
+      // Its workers outside a recorded employer (`unplacedWorkers`, the count the world moves:
+      // regional work found, away work lost, a member past working age) are its members
+      // without a recorded job. The ones a county employer names are those same workers, and
+      // the name says which sector they work in: they take the household's unplaced workers
+      // first, one each, and what is left is shared alike by its other working-age members.
+      // (Counting the named beside the unplaced put every working-age adult of a sampled
+      // county at work.)
+      let left = h.unplacedWorkers;
+      for (const row of named) {
+        const share = Math.min(1, left);
+        if (share <= 0) break;
+        atWork(row.band, row.sector, share * weight, part.workersByIndustry);
+        left -= share;
+      }
       const among = open.length ? open : adults;
-      let place = unplacedPools.get(h.placeId);
-      if (!place)
-        unplacedPools.set(
-          h.placeId,
-          (place = { pool: bands.map(() => 0), named: 0 }),
-        );
-      place.named += named;
-      for (const band of among) place.pool[band]! += unplaced / among.length;
-    }
-    // A place's unplaced workers are its employment target less its recorded jobs. A worker a
-    // county employer names holds no recorded job, so the target already counts them: the
-    // unplaced are the target's workers beyond the named ones, never both. (Counting both put
-    // every working-age adult of a sampled county at work.)
-    const unplacedPool: number[] = bands.map(() => 0);
-    for (const { pool, named } of unplacedPools.values()) {
-      const all = pool.reduce((n, v) => n + v, 0);
-      const beyond = all > 0 ? Math.max(0, all - named) / all : 0;
-      pool.forEach((v, band) => {
-        unplacedPool[band]! += v * beyond;
-      });
+      for (const band of among)
+        unplacedPool[band]! += (left * weight) / among.length;
     }
     // A band holds no more workers than it has adults: the unplaced share fills only what its
     // recorded jobs leave of them.
