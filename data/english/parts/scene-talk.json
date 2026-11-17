@@ -190987,6 +190987,15 @@
           "role": "asker",
           "requiresFacts": ["problem-sick"],
           "after": "press"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-sick", "declined"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
