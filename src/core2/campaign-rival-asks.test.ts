@@ -28,8 +28,8 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { acceptJobOffer, jobOffersFor } from "./modules/jobs";
-import { coreAPI, type CoreAPI } from "./state";
-import type { CoreState } from "./types";
+import { coreAPI } from "./state";
+import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.RIVAL_ASK_SEED || randomBytes(8).toString("hex");
 /** Places drawn in turn until one has the case (a list length and a run length, not model values). */
