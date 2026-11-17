@@ -7221,6 +7221,8 @@ function showLook(view) {
     lookRow(r, {
       onMove: (id, by) => void moveLook(id, by),
       onPick: (id, key) => void pickLook(id, key),
+      drawPicture: (picture) =>
+        drawFace(picture.face, { shape: "round", alt: picture.label }),
       arrowLabel: (by, it) =>
         controls.creator[by < 0 ? "previous" : "next"].replace(
           "{row}",

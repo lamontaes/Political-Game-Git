@@ -5,7 +5,6 @@
 // words for the arrows.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { face } from "./face.mjs";
 
 function swatchRow(row, onPick) {
   const buttons = row.swatches.map((swatch) => {
@@ -29,10 +28,11 @@ function swatchRow(row, onPick) {
   );
 }
 
-function pictureRow(row, onPick) {
+function pictureRow(row, onPick, drawPicture) {
   const buttons = row.pictures.map((picture) => {
     const b = makeButton({ className: "picture-button" });
-    b.append(face(picture.face, { shape: "round", alt: picture.label }));
+    // The screen draws the picture (only its face slots draw faces).
+    b.append(drawPicture(picture));
     b.setAttribute("aria-label", `${row.label}: ${picture.label}`);
     b.setAttribute("aria-pressed", String(picture.chosen));
     b.title = picture.label;
@@ -74,12 +74,16 @@ function stepRow(row, onMove, arrowLabel) {
   );
 }
 
-/** One look row; `onPick(rowId, swatchId)`, `onMove(rowId, by)`, `arrowLabel(by, row)`. */
-export function lookRow(row, { onPick, onMove, arrowLabel }) {
+/**
+ * One look row; `onPick(rowId, swatchId)`, `onMove(rowId, by)`,
+ * `arrowLabel(by, row)`, and `drawPicture(picture)` for a row of pictures (the
+ * creator draws each, as its face slot).
+ */
+export function lookRow(row, { onPick, onMove, arrowLabel, drawPicture }) {
   const line = row.swatches
     ? swatchRow(row, onPick)
     : row.pictures
-      ? pictureRow(row, onPick)
+      ? pictureRow(row, onPick, drawPicture)
       : stepRow(row, onMove, arrowLabel);
   line.dataset.testid = `engine-appearance-${row.id}`;
   return line;
