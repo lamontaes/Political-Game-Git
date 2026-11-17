@@ -22,6 +22,8 @@ import nomination from "../../../data/research/elections/party-nomination-rules-
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
 import { partySide } from "../appointments";
 import { worldRoster, worldSwing } from "../electorate-places";
+import { centuryParties, centuryStateVote } from "../electorate-century";
+import { stanceLean } from "./officials";
 import { partyLean } from "../campaign-stances";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import type {
@@ -136,12 +138,57 @@ function noPartyScore(
   );
 }
 
+/**
+ * In a world whose day one is the century's, a person takes their side's party when their own
+ * lean reaches far enough toward where that party stands (`partyIdentityReach` of the way, on the
+ * voters' scale), and has no party when they lean nowhere and think least (`noPartyReach`); so
+ * how many take a party follows the world's own parties, never a fixed share (History family 9,
+ * PR 9c; pins parties.ts:301, :340, :865). Undefined under "today".
+ */
+function centuryTies(seed: string):
+  | {
+      readonly identifies: (lean: number) => boolean;
+      readonly noPartyCut: number;
+    }
+  | undefined {
+  const parties = centuryParties(seed);
+  if (!parties) return undefined;
+  const at: Record<number, number> = {};
+  for (const party of parties) {
+    const now = party.positions.at(-1)?.position;
+    if (now !== undefined) at[party.side] = stanceLean(now);
+  }
+  const reach = value("partyIdentityReach");
+  return {
+    identifies: (lean) => {
+      const position = at[Math.sign(lean)];
+      return (
+        lean !== 0 &&
+        position !== undefined &&
+        Math.abs(lean) >= reach * Math.abs(position)
+      );
+    },
+    noPartyCut: value("noPartyReach"),
+  };
+}
+
 /** The parties of one state, with their shares, from the 2024 ballot or the legislature. */
 export function stateParties(
   stateKey: string,
   seed: string,
 ): readonly { name: string; share: number; source: string }[] {
   const usps = stateKey.slice(3);
+  // In a world whose day one is the century's, the parties are the century's, each at its share
+  // of the state's last presidential count there (History family 9, PR 9c; CTO line 6935508228).
+  const parties = centuryParties(seed);
+  const counted = centuryStateVote(seed, stateKey);
+  if (parties && counted)
+    return parties.map((party) => ({
+      name: party.name,
+      share:
+        party.side > 0 ? counted.republicanShare : 1 - counted.republicanShare,
+      source: `The century's count of ${counted.year} in the state (${counted.id})`,
+    }));
   const president = (
     calibration as unknown as {
       presidentialByState: {
@@ -298,63 +345,100 @@ export function openParties(core: CoreState): void {
       (a, b) =>
         Math.abs(b.lean) - Math.abs(a.lean) || a.p.id.localeCompare(b.p.id),
     );
-  const identifiers = Math.round(adults.length * value("partyIdentifierShare"));
-  const totalShare = parties.reduce((a, p) => a + p.share, 0) || 1;
-  const quota = new Map(
-    parties.map((p) => [
-      p.id,
-      Math.round((identifiers * p.share) / totalShare),
-    ]),
-  );
   const ties = api.moduleState(PARTIES_MODULE_ID).table("ties");
-  const minor = parties
-    .filter((p) => p.side === 0)
-    .sort((a, b) => b.share - a.share);
-  let assigned = 0;
-  const rest: typeof adults = [];
-  for (const entry of adults) {
-    const side = Math.sign(entry.lean);
-    const party =
-      assigned < identifiers
-        ? (parties.find(
-            (p) => p.side === side && side !== 0 && (quota.get(p.id) ?? 0) > 0,
-          ) ?? minor.find((p) => (quota.get(p.id) ?? 0) > 0))
+  // A world whose day one is the century's: each adult by their own lean against the parties.
+  const century = centuryTies(core.seed);
+  if (century)
+    for (const entry of adults) {
+      const party = century.identifies(entry.lean)
+        ? parties.find((p) => p.side === Math.sign(entry.lean))
         : undefined;
-    if (!party) {
-      rest.push(entry);
-      continue;
+      if (party)
+        put(
+          ties,
+          entry.p,
+          "party",
+          party.id,
+          entry.lean,
+          core.date,
+          "near-party-position",
+        );
+      else {
+        const none =
+          noPartyScore(entry.lean, entry.p.traits) <= century.noPartyCut;
+        put(
+          ties,
+          entry.p,
+          none ? "no-party" : "independent",
+          null,
+          entry.lean,
+          core.date,
+          none ? "leans-nowhere" : "independent-minded",
+        );
+      }
     }
-    quota.set(party.id, quota.get(party.id)! - 1);
-    assigned += 1;
-    put(
-      ties,
-      entry.p,
-      "party",
-      party.id,
-      entry.lean,
-      core.date,
-      party.side === side ? "lean-matches-party" : "minor-party",
+  // Under "today": the published shares, firmest leans first.
+  if (!century) {
+    const identifiers = Math.round(
+      adults.length * value("partyIdentifierShare"),
     );
-  }
-  // Of the rest: those who lean nowhere have no party; careful thinkers call themselves independent.
-  const noParty = Math.round(adults.length * value("noPartyShare"));
-  rest
-    .sort(
-      (a, b) =>
-        noPartyScore(a.lean, a.p.traits) - noPartyScore(b.lean, b.p.traits) ||
-        a.p.id.localeCompare(b.p.id),
-    )
-    .forEach((entry, index) =>
+    const totalShare = parties.reduce((a, p) => a + p.share, 0) || 1;
+    const quota = new Map(
+      parties.map((p) => [
+        p.id,
+        Math.round((identifiers * p.share) / totalShare),
+      ]),
+    );
+    const minor = parties
+      .filter((p) => p.side === 0)
+      .sort((a, b) => b.share - a.share);
+    let assigned = 0;
+    const rest: typeof adults = [];
+    for (const entry of adults) {
+      const side = Math.sign(entry.lean);
+      const party =
+        assigned < identifiers
+          ? (parties.find(
+              (p) =>
+                p.side === side && side !== 0 && (quota.get(p.id) ?? 0) > 0,
+            ) ?? minor.find((p) => (quota.get(p.id) ?? 0) > 0))
+          : undefined;
+      if (!party) {
+        rest.push(entry);
+        continue;
+      }
+      quota.set(party.id, quota.get(party.id)! - 1);
+      assigned += 1;
       put(
         ties,
         entry.p,
-        index < noParty ? "no-party" : "independent",
-        null,
+        "party",
+        party.id,
         entry.lean,
         core.date,
-        index < noParty ? "leans-nowhere" : "independent-minded",
-      ),
-    );
+        party.side === side ? "lean-matches-party" : "minor-party",
+      );
+    }
+    // Of the rest: those who lean nowhere have no party; careful thinkers call themselves independent.
+    const noParty = Math.round(adults.length * value("noPartyShare"));
+    rest
+      .sort(
+        (a, b) =>
+          noPartyScore(a.lean, a.p.traits) - noPartyScore(b.lean, b.p.traits) ||
+          a.p.id.localeCompare(b.p.id),
+      )
+      .forEach((entry, index) =>
+        put(
+          ties,
+          entry.p,
+          index < noParty ? "no-party" : "independent",
+          null,
+          entry.lean,
+          core.date,
+          index < noParty ? "leans-nowhere" : "independent-minded",
+        ),
+      );
+  }
   // Each party's leader: the member whose traits lean most toward taking part.
   for (const party of parties) {
     const members = (ties.query("byParty", [party.id]) as unknown as TieRow[])
@@ -859,6 +943,21 @@ function buildTieRule(api: CoreAPI): TieRule | undefined {
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }));
   if (!adults.length) return undefined;
+  const bySide = (side: number) =>
+    [...parties]
+      .filter((p) => p.side === side)
+      .sort((a, b) => b.share - a.share || a.id.localeCompare(b.id))[0];
+  // A world whose day one is the century's: the opening's own rule, by each lean against the parties.
+  const century = centuryTies(core.seed);
+  if (century)
+    return {
+      town,
+      adults,
+      partyFor: (lean: number) =>
+        century.identifies(lean) ? bySide(Math.sign(lean)) : undefined,
+      noPartyCut: century.noPartyCut,
+      townLean,
+    };
   const firm = adults.map((a) => Math.abs(a.lean)).sort((a, b) => b - a);
   const identifierCut =
     firm[
@@ -874,10 +973,6 @@ function buildTieRule(api: CoreAPI): TieRule | undefined {
         scores.length - Math.round(scores.length * value("noPartyShare")),
       )
     ] ?? 0;
-  const bySide = (side: number) =>
-    [...parties]
-      .filter((p) => p.side === side)
-      .sort((a, b) => b.share - a.share || a.id.localeCompare(b.id))[0];
   const partyFor = (lean: number) =>
     Math.abs(lean) >= identifierCut && lean !== 0
       ? (bySide(Math.sign(lean)) ?? bySide(0))

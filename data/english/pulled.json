@@ -282,6 +282,18 @@
       "ask-vote.whip/refuse",
       "ask-vote/refuse"
     ],
+    "scene-talk.follow-bargain.depends-on-the-favor": [
+      "ask-vote.friend/refuse",
+      "ask-vote.friend/stall",
+      "ask-vote.trade/refuse",
+      "ask-vote.trade/stall",
+      "ask-vote.watched/refuse",
+      "ask-vote.watched/stall",
+      "ask-vote.whip/refuse",
+      "ask-vote.whip/stall",
+      "ask-vote/refuse",
+      "ask-vote/stall"
+    ],
     "scene-talk.follow-bargain.i-can-write-it-in-tonight-it-ll-cost-me-two-other-votes": [
       "ask-vote.watched/refuse"
     ],
@@ -321,6 +333,7 @@
       "ask-vote.watched/relent",
       "ask-vote.whip/relent",
       "ask-vote/relent",
+      "confirm-vote/relent",
       "section-bargain/relent"
     ],
     "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
@@ -353,6 +366,9 @@
     ],
     "scene-talk.follow-thank.good-i-m-writing-you-down": ["ask-vote/refuse"],
     "scene-talk.follow-thank.i-knew-i-could-count-on-you": ["ask-vote/refuse"],
+    "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy": [
+      "ask-vote/refuse"
+    ],
     "scene-talk.follow-thank.thank-you-i-won-t-forget-it": ["ask-vote/refuse"],
     "scene-talk.follow-thank.thank-you-their-first-let-s-do-this-right": [
       "ask-to-serve/decline"
@@ -365,7 +381,10 @@
     ],
     "scene-talk.follow-thank.that-s-a-relief": ["ask-vote/refuse"],
     "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
+    "scene-talk.reply-agree.fine-you-have-it": ["ask-vote/plea"],
+    "scene-talk.reply-agree.i-m-with-you-on-bill": ["ask-vote/plea"],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
+    "scene-talk.reply-agree.you-have-my-vote": ["ask-vote/plea"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"
     ],
@@ -432,6 +451,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11209
+    "reply-second-move-follows-the-first (pairs)": 9777
   }
 }
