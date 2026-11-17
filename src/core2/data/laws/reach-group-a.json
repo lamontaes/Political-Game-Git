@@ -473,7 +473,20 @@
     "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
       "source": "State statutes and governors' executive orders on state-agency hiring (NELP Ban the Box guide, October 2021; data/research/executive/ban-the-box-public-hiring-2025-01.json).",
       "mechanic": "hiring-record",
-      "reaches": [],
+      "reaches": [
+        {
+          "id": "public-employers",
+          "target": "organizations",
+          "select": {
+            "group": "publicEmployers",
+            "employing": true
+          },
+          "kind": "compliance",
+          "what": "must leave the question about a conviction off the application",
+          "enforcer": "the state's civil rights or personnel agency",
+          "penalty": "a complaint to the agency"
+        }
+      ],
       "note": "Applied where the jobs engine ranks the applicants for a public employer's opening (src/core2/jobs-record-bias.ts); it records each hire made under the ban and each opening's ranking with lawApplied.",
       "stopgapId": "SG-LABOR-record-bias-public-only"
     },
