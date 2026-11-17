@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 864,
+  "judged": 873,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -38,6 +38,15 @@
         "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic"
       ],
       "why": "An apology, a stall and a challenge to a fight at the mic carry no reason."
+    },
+    "00qfs4l9ey8": {
+      "keys": [
+        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
+        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
+        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "The replies offer to explain, challenge or say a two-word line, and none gives a reason."
     },
     "00wo7693xqn": {
       "keys": [
@@ -726,6 +735,16 @@
       ],
       "why": "\"Point taken\" and a question about the workplace carry no reason."
     },
+    "0gy407qayrz": {
+      "keys": [
+        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
+        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
+        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
+        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "The replies offer to explain, apologize, challenge or say a two-word line, and none gives a reason."
+    },
     "0h1lzn5vkoo": {
       "keys": [
         "scene-talk.follow-confront.welcome-to-public-service",
@@ -1091,15 +1110,6 @@
       ],
       "why": "The replies offer to explain, apologize or exit, but none states a reason."
     },
-    "0pbxzevffgl": {
-      "keys": [
-        "scene-talk.state-request.i-m-on-the-ballot-for-office-i-d-like-to-count-on-your-vote",
-        "scene-talk.reply-agree.self-you-knew-you-had-me-before-you-knocked",
-        "scene-talk.reply-decline.self-i-know-you-that-s-the-problem",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
     "0ptijp9su3l": {
       "keys": [
         "scene-talk.follow-plea.we-miss-you-that-s-all",
@@ -1300,6 +1310,15 @@
         "scene-talk.reply-leave.im-walking-away-now-dont-follow-me"
       ],
       "why": "\"Threaten all you like. The answer is no\" and the rest refuse without an argument."
+    },
+    "0u42ody650j": {
+      "keys": [
+        "scene-talk.follow-confront.i-will",
+        "scene-talk.reply-deny.no-where-did-you-hear-that",
+        "scene-talk.reply-confront.say-that-on-the-record-if-you-believe-it",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "\"Where did you hear that?\", a dare to say it on the record and \"We're voting\" give no reason."
     },
     "0u7ybrsut6m": {
       "keys": [
@@ -1621,15 +1640,6 @@
       ],
       "why": "A taunt and a promise to explain carry no reason."
     },
-    "11w45caw0zd": {
-      "keys": [
-        "scene-talk.follow-answer.carefully-and-in-the-open-where-you-can-watch-me",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-leave.i-need-to-head-home"
-      ],
-      "why": "\"I'm with you\", \"I'm not sold yet\" and heading home give no reason."
-    },
     "12g7vhobdo2": {
       "keys": [
         "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
@@ -1718,16 +1728,6 @@
         "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
       ],
       "why": "The replies are a denial and two exits with no reason or argument."
-    },
-    "16ige2zw64a": {
-      "keys": [
-        "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
-        "scene-talk.reply-ask.what-would-you-actually-do-first",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "A question, a yes, \"I'm not sold yet\" and thinking it over carry no reason."
     },
     "17p18xwwr9y": {
       "keys": [
@@ -2239,6 +2239,16 @@
       ],
       "why": "A short yes with a chore and an exit give no reason or argument."
     },
+    "1j3s80awhw6": {
+      "keys": [
+        "scene-talk.follow-confront.i-will",
+        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
+        "scene-talk.reply-deny.no-where-did-you-hear-that",
+        "scene-talk.reply-confront.say-that-on-the-record-if-you-believe-it",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "Apology, \"Where did you hear that?\", an on-record dare and \"We're voting\" give no reason."
+    },
     "1jbucu4ftvs": {
       "keys": [
         "scene-talk.state-tell.you-ll-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due-have-y",
@@ -2378,15 +2388,6 @@
       ],
       "why": "Asked 'Why not the vote?', the player can agree, defer, set a condition or say 'I'll tell you before the vote', and none of these gives a reason."
     },
-    "1os3v4hm1hq": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-leave.i-need-to-head-home"
-      ],
-      "why": "Asked what holds them back, none of the three replies names anything."
-    },
     "1pmyfxbql3r": {
       "keys": [
         "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
@@ -2487,6 +2488,16 @@
       ],
       "why": "The replies agree, promise, or put off deciding without any reason."
     },
+    "1rs3ujn0bpa": {
+      "keys": [
+        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
+        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
+        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
+        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "The replies offer to explain, apologize, challenge or say a two-word line, and none gives a reason."
+    },
     "1s190m2ms9k": {
       "keys": [
         "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
@@ -2504,6 +2515,15 @@
         "scene-talk.reply-leave.i-ll-go-rest-for-a-bit"
       ],
       "why": "A plain thank-you and resting carry no reason."
+    },
+    "1s9eymtxkin": {
+      "keys": [
+        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
+        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-all-of-it",
+        "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "The replies offer to explain, challenge or say a two-word line, and none gives a reason."
     },
     "1sanx6eufi3": {
       "keys": [
@@ -3553,5 +3573,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0m48v0a3ec8"
+  "yesHash": "272w1gy2zi9"
 }
