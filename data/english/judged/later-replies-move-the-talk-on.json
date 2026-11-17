@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 933,
+  "judged": 874,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2706,19 +2706,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
-    "1e7apq23s2w": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-answer.whatever-nobody-else-wants-to-do-i-ll-start-there-and-learn-the-place-",
-        "scene-talk.reply-ask.why-what-did-they-tell-you",
-        "scene-talk.reply-tell.not-really-i-m-good-at-learning-on-the-fly",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "'Is this a good place to work?' restates the who-lasts question and 'I'll find the rest' restates learning on the fly, so two of three rehash."
-    },
     "1e7km4pufan": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -3183,19 +3170,6 @@
         "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here"
       ],
       "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
-    },
-    "1p42l7olixe": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-answer.whatever-nobody-else-wants-to-do-i-ll-start-there-and-learn-the-place-",
-        "scene-talk.reply-ask.why-what-did-they-tell-you",
-        "scene-talk.reply-tell.not-really-i-m-good-at-learning-on-the-fly",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "'Is this a good place to work?' restates 'does nobody last here past a year?' and 'I'll find the rest' restates 'good at learning on the fly', so two of three rehash."
     },
     "1p98mudn4jz": {
       "keys": [
@@ -4328,49 +4302,7 @@
         "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
       ],
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
-    },
-    "1vg7fgttf6e": {
-      "keys": [
-        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over it together, hearing him as a friend but not voting as one and 'I can't' replay the first read, can't-promise and sorry options."
-    },
-    "23zf7yfafi1": {
-      "keys": [
-        "scene-talk.follow-press.until-you-tell-me-otherwise-i-ll-assume-i-have-your-support",
-        "scene-talk.reply-agree.i-ll-look-again-i-won-t-tell-you-the-answer-before-i-ve-looked",
-        "scene-talk.reply-bargain.tell-me-what-the-change-is-and-who-it-costs-and-i-ll-tell-you-what-i",
-        "scene-talk.reply-decline.i-took-your-money-and-i-ll-take-your-call-i-won-t-take-instructions",
-        "scene-talk.reply-stall.give-me-until-the-committee-meets-i-ll-know-more-then",
-        "scene-talk.reply-agree.i-ll-go-back-through-it-tonight-and-you-ll-hear-from-me-before-the-vo",
-        "scene-talk.reply-decline.i-can-t-tie-a-vote-to-a-check-not-yours-not-anyone-s",
-        "scene-talk.reply-bargain.i-ll-listen-i-d-like-your-people-at-the-budget-hearing-in-return",
-        "scene-talk.reply-leave.i-ll-let-you-know"
-      ],
-      "why": "Going back through it tonight, refusing to tie a vote to a check and 'I'll let you know' restate the first look-again, no-instructions and wait-for-committee options."
-    },
-    "27co3eh1boo": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
     }
   },
-  "yesHash": "2f1gai18mwg"
+  "yesHash": "29uknys7y3w"
 }
