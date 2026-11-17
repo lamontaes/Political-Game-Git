@@ -44,7 +44,7 @@
     "retold": "retold"
   },
   "campaignGatherers": {
-    "hired": "{cost} set aside to pay people to gather signatures until {due}. {signed} signed so far.",
+    "hired": "{cost} set aside to pay people to gather signatures until {due}.",
     "noMoneyYet": "The campaign has no money to pay anyone yet.",
     "noMoney": "The campaign has no money left to pay anyone. All {raised} is spent or set aside."
   },
@@ -108,7 +108,7 @@
     "cabinet": "Appointing the cabinet",
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
-    "warmup": "Letting the country run a few weeks",
+    "warmup": "Letting the country, the state and the town run two months on their own before your first evening.",
     "opening": "Preparing the opening"
   },
   "worldSettings": {
@@ -576,16 +576,46 @@
       "abstain": "Abstained"
     },
     "bodySwitches": [
-      { "has": ["council"], "label": "Council meetings" },
-      { "has": ["police jury"], "label": "Police Jury meetings" },
-      { "has": ["town meeting"], "label": "Town Meeting" },
-      { "has": ["governing body"], "label": "Governing Body meetings" },
-      { "has": ["board"], "label": "Board meetings" },
-      { "has": ["commission"], "label": "Commission meetings" },
-      { "has": ["committee"], "label": "Committee meetings" },
-      { "has": ["assembly"], "label": "Assembly meetings" },
-      { "has": ["legislature"], "label": "Legislature sessions" },
-      { "has": ["aldermen"], "label": "Aldermen meetings" }
+      {
+        "has": ["council"],
+        "label": "Council meetings"
+      },
+      {
+        "has": ["police jury"],
+        "label": "Police Jury meetings"
+      },
+      {
+        "has": ["town meeting"],
+        "label": "Town Meeting"
+      },
+      {
+        "has": ["governing body"],
+        "label": "Governing Body meetings"
+      },
+      {
+        "has": ["board"],
+        "label": "Board meetings"
+      },
+      {
+        "has": ["commission"],
+        "label": "Commission meetings"
+      },
+      {
+        "has": ["committee"],
+        "label": "Committee meetings"
+      },
+      {
+        "has": ["assembly"],
+        "label": "Assembly meetings"
+      },
+      {
+        "has": ["legislature"],
+        "label": "Legislature sessions"
+      },
+      {
+        "has": ["aldermen"],
+        "label": "Aldermen meetings"
+      }
     ],
     "switches": {
       "meetings": "Meetings",
@@ -1144,8 +1174,6 @@
     "doors": "{n} doors",
     "reached": "{n} reached",
     "answered": "{n} answered",
-    "signed": "{n} signed",
-    "signedNone": "No one signed",
     "raised": "{amount} raised",
     "spent": "{amount} spent"
   },
@@ -1203,7 +1231,8 @@
       "trait": "it isn't the kind of bill {subject} brings",
       "consistency": "it runs against how {subject} voted last",
       "party": "{possessive} party's leaders are against it",
-      "wing": "{possessive} wing of the party is against it"
+      "wing": "{possessive} wing of the party is against it",
+      "budget": "it would take money out of the budget {subject} has to pass"
     },
     "askedReasonsThey": {
       "views": "they don't believe in it",
@@ -1212,7 +1241,8 @@
       "trait": "it isn't the kind of bill they bring",
       "consistency": "it runs against how they voted last",
       "party": "their party's leaders are against it",
-      "wing": "their wing of the party is against it"
+      "wing": "their wing of the party is against it",
+      "budget": "it would take money out of the budget they have to pass"
     }
   },
   "journal": {
@@ -1358,7 +1388,8 @@
       "trait": "Their temperament",
       "consistency": "Their last vote on it",
       "bribe": "A payment taken",
-      "reply": "What was said to them"
+      "reply": "What was said to them",
+      "budget": "The hole it leaves in their budget"
     },
     "showAll": "Show all",
     "staff": "Staff",
@@ -1391,13 +1422,13 @@
     "inboxOpen": "Answer",
     "doors": "Doors knocked",
     "signatures": "Signatures",
-    "signaturesHeld": "{signed} of {needed}, due {date}",
-    "signaturesEnough": "{signed} of {needed}, enough for the ballot",
+    "signaturesHeld": "Due {date}",
+    "signaturesEnough": "Enough for the ballot",
     "asking": "Asking for",
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
-    "askingWhySignatures": "Your petition holds {signed} of the {needed} the clerk asks for. You keep asking for signatures until it holds {target}. After that you ask for the vote.",
-    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for. That is enough, so from here you ask for the vote.",
+    "askingWhySignatures": "Your petition is short of what the clerk asks for. You keep asking for signatures until it holds enough. After that you ask for the vote.",
+    "askingWhyVotes": "Your petition holds what the clerk asks for. From here you ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
