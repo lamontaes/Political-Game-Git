@@ -1,6 +1,12 @@
 ---
 name: slim-down
-description: How the Slim down session removes duplicate and dead code in Our Civic Duty with no behavior change - what to check before deleting a file or merging copies, the traps already hit (import cycles when a hand-typed module name is replaced by its constant, validated versus plain helpers), and what each PR must prove. Use for any consolidation, dead-file, one-lookup or one-kit PR; not for changes that alter what the game does, which belong to the owning session.
+description: >
+  Removes duplicate and dead code with no behavior change: what to check
+  before deleting a file or merging copies, the traps already hit (import
+  cycles from a replaced module name, validated versus plain helpers), and
+  what each PR proves. Use for any consolidation, dead-file, one-lookup or
+  one-kit PR. Not for changes that alter what the game does, which belong to
+  the owning session.
 ---
 
 # Slim down

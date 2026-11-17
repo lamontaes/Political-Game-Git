@@ -1,6 +1,13 @@
 ---
 name: skill-lessons
-description: Grows and corrects Our Civic Duty's skills automatically, from both failures and successes. Reads the last hours of merger send-backs, red runs, owner stops and reopened items (what went wrong) and first-try merges, the owner's praise in sitting notes and the channel, and any method a session used twice that worked (what went right); turns a repeated cause into a skill line and a repeated working method into a new skill or a skill line, mirrored and tested, as one PR the CTO merges. Use on the scheduled skill-lessons job, in every CTO pass, after any sweep that used a new method, and whenever the same thing happens twice in a day.
+description: >
+  Grows and corrects the skills from failures and successes: reads recent
+  send-backs, red runs, owner stops and reopened items, and first-try merges,
+  praise and methods used twice, then turns a repeated cause or a working
+  method into a skill line or a new skill, mirrored and tested, as one PR the
+  CTO merges. Use on the scheduled skill-lessons job, in every CTO pass, after
+  a sweep that used a new method, and when the same thing happens twice in a
+  day.
 ---
 
 # Skill lessons

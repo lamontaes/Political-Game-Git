@@ -1,12 +1,12 @@
 ---
 name: lead-session
 description: >
-  Runs one of Our Civic Duty's lead sessions (laws, traits, speed, m0-m2,
-  effects): an Opus lead with at most two Sonnet helpers that owns one
-  family's matrix, lands one PR per finished row (owner, Oct 27), writes its status to the leads
-  channel every two hours, and never says "wired" without the row. Use when
-  started with a lead prompt or given a work order under docs/work-orders/;
-  not for one pool item (session-start) or the play-first lane (play-first).
+  Runs a lead session (laws, traits, speed, m0-m2, effects): an Opus lead with
+  at most two helpers that owns one family's matrix, lands one PR per finished
+  row (owner, Oct 27), posts status every two hours, and never says "wired"
+  without the row. Use when started with a lead prompt or a work order under
+  docs/work-orders/. Not for one pool item (session-start) or the play-first
+  lane (play-first).
 ---
 
 # Lead session

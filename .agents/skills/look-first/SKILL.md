@@ -1,12 +1,12 @@
 ---
 name: look-first
 description: >
-  The search every session of Our Civic Duty runs before it builds, fixes,
-  files, registers a stopgap or asks the owner anything: the rulings log, the
-  decision register, the prior-rulings digests, the lane's law, the docs, the
-  pool and the owner's Drive. Use at the start of every item and before every
-  question; a found ruling is built and cited, never asked again. Not a
-  substitute for research into the real world (`researcher`).
+  The search every session runs before it builds, fixes, files, registers a
+  stopgap or asks the owner anything: the rulings log, the decision register,
+  prior-rulings, the lane's law, the docs, the pool and the owner's Drive. Use
+  at the start of every item and before every question; a found ruling is
+  built and cited, never asked again. Not research into the real world
+  (researcher).
 ---
 
 # Look first

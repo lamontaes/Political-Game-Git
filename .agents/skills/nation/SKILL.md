@@ -1,15 +1,12 @@
 ---
 name: nation
 description: >
-  How to add the rest of the country to Our Civic Duty as results: a module
-  that keeps national opinion, other states' disasters, budgets, ballot
-  measures, the President's acts or the federal courts as rows and counts,
-  with detail built on open. Covers the module pattern, the national place record
-  the press reads, the words the press needs, the guards a new
-  module trips (zero-dice growth, the stopgap family file, import cycles), and
-  how to prove it in a played year. Use for any Nation item or any other
-  government's engine; not for the town's own engines (the line that owns
-  them) or for timing a year (speed-work).
+  Adds the rest of the country as results: a module keeping national opinion,
+  other states' disasters, budgets, ballot measures, the President's acts or
+  the federal courts as rows and counts, with detail built on open; the guards
+  a new module trips; proving it in a played year. Use for any Nation item or
+  another government's engine. Not for the town's own engines or timing a year
+  (speed-work).
 ---
 
 # The rest of the country, as results

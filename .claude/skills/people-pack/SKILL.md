@@ -1,13 +1,12 @@
 ---
 name: people-pack
 description: >
-  How Our Civic Duty draws people: the people pack (one manifest read only by
-  src/bench/people-pack.ts), mannequin plates that say where a person may be
-  drawn in a room, and fitting a figure to a plate's mannequin. Use when adding
-  people, clothes, colors or poses to the pack, adding or fixing a mannequin
-  plate, swapping the pack version, or debugging why someone is or is not
-  drawn in a room. Not for choosing who is in a scene (the director's cast) or
-  for backdrops themselves (asset-scene-admission).
+  Draws people from the pack (one manifest read only by
+  src/bench/people-pack.ts) on mannequin plates that say where a person may be
+  drawn in a room, and fits a figure to a plate. Use when adding people,
+  clothes, colors or poses to the pack, adding or fixing a plate, swapping the
+  pack version, or debugging why someone is or is not drawn. Not for choosing
+  a scene's cast or for backdrops (asset-scene-admission).
 ---
 
 # The people pack and mannequin plates

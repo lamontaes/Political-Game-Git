@@ -1,14 +1,12 @@
 ---
 name: generated-file-merges
 description: >
-  How to merge main into a branch when the conflict is in a file a command
-  writes (the pulled-lines file, the pool index, coverage and counts files) or
-  in a bank or rules file keyed by piece or rule id, without hand-editing
-  conflict markers or dropping the other side's rows. Use whenever a merge of
-  main stops on data/english, docs/pool/INDEX.md or another generated file,
-  and when several pull requests touch the same rules file in a row. Not for
-  conflicts in code (pr-fixer) or for deciding the order pull requests merge
-  in (merger).
+  Merges main into a branch when the conflict is in a file a command writes
+  (the pulled-lines file, the pool index, counts files) or a bank or rules
+  file keyed by id, without hand-editing markers or dropping the other side's
+  rows. Use when a merge of main stops on data/english, docs/pool/INDEX.md or
+  another generated file. Not for code conflicts (pr-fixer) or merge order
+  (merger).
 ---
 
 # Merging files a command writes
@@ -99,3 +97,4 @@ The train branch takes finished pull requests one named sha at a time, sometimes
 
 - **When main's judged files conflict with yours, take the Train's copy of data/english/judged/ whole** (`git checkout --theirs`), then fold your own verdict directories again (`npm run words:verdicts -- --from <dir>/verdicts`), then `npm run words:pairs --rule <rule> --since $(git merge-base HEAD origin/main) --out <dir>` lists the pairs the merge left without a verdict; send those to M5 and fold the result. For scene-talk.json, when both sides append pieces at the end, keep both: ours, a closing brace and comma, then theirs. Never run `git checkout -- .` in the middle of a merge: it throws away the resolution.
 - **A bank file conflicting on both sides** (data/english/parts/conversation.json): load base, ours and theirs, check no piece key changed on both sides, then take theirs and apply ours by key: drop pieces we removed, replace pieces we changed, insert pieces we added after the same predecessor; check the count is base plus our adds plus their adds, then prettier. Do not hand-edit markers.
+- **A branch whose base was a train is ported by net diff, never by merging main (Nov 16, #9670).** `git diff <last-merged-base> <head> | git apply --3way` onto a fresh branch from main, then read each conflict: the "theirs" side holds the base's own context lines, which main may have dropped on purpose, so keep main's lines and add only the lines the branch itself added. Say in the new PR that it replaces the old one. To show a check red on the old code, copy the old file in, run, and copy yours back before any commit; never switch branches while a run reads the tree.
