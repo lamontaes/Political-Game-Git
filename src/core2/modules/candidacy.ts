@@ -2148,6 +2148,7 @@ export const candidacyModule: CoreModule = {
 
 /** The filing clerk who takes a local race's papers, read by other families through this entry. */
 export { localClerkFor } from "./filing-clerk";
+export { partyOf } from "../candidate-pool";
 
 export const PARTY_MENTORSHIP = "party.mentorship-formed";
 

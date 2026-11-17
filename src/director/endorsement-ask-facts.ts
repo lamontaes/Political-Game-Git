@@ -22,9 +22,12 @@
  *   said by name.
  */
 import { ageOnDate, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
-import { partyOf } from "../core2/candidate-pool";
-import { DEFAULT_DRIVES_DATA } from "../core2/modules/drives";
-import { decisionOf, CANDIDACY_MODULE_ID } from "../core2/modules/candidacy";
+import drivesData from "../core2/data/drives.json" with { type: "json" };
+import {
+  decisionOf,
+  partyOf,
+  CANDIDACY_MODULE_ID,
+} from "../core2/modules/candidacy";
 import {
   CAMPAIGNS_MODULE_ID,
   ENDORSEMENT_ASKED_EVENT,
@@ -111,7 +114,11 @@ export function endorsementAskFacts(
     : null;
   if (decision && (decision.reasons.cause ?? P.zero) > P.zero) {
     const kinds = new Set(
-      DEFAULT_DRIVES_DATA.driveKinds
+      (
+        drivesData as unknown as {
+          driveKinds: { id: string; shareable?: boolean }[];
+        }
+      ).driveKinds
         .filter((kind) => kind.shareable)
         .map((kind) => kind.id),
     );
