@@ -74,7 +74,8 @@
     "sibling": "One older or younger brother or sister, said with the word for them, from the family record.",
     "direction": "Up or down, from which way the price engine's record moved the bill.",
     "learned": "Where the person learned of a law's effect, from the outlet of the story the record names.",
-    "clerk": "The clerk who took the filing, said as 'the clerk', from the scene's record (the petition told short by the clerk)."
+    "clerk": "The clerk who took the filing, said as 'the clerk', from the scene's record (the petition told short by the clerk).",
+    "topics": "The topics of two or more laws that changed what the person pays, joined as a list: utility regulation, electricity and the grid and transportation."
   },
   "maxWords": 10,
   "mining": {
@@ -10934,6 +10935,32 @@
       "origin": "authored",
       "author": "Words lead",
       "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.the-rules-on-topics-changed-what-i-pay",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "The rules on {topics} changed what I pay.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
       "tag": {
         "move": "tell"
       }

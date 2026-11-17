@@ -2426,6 +2426,20 @@ export function composeJournal(
       continue;
     const facts = factsFor(moment);
     if (!facts) continue;
+    // A child's birth is told once: the person's own child is the life list's
+    // `family:child` moment, and the director's moment of the same birth (the
+    // person-birth event, with the child unnamed) is not a second telling
+    // ("My son Connor came along." then "My son was born.", seed read-9119-h).
+    if (
+      moment.causeKind === "event:person-birth" &&
+      moments.some(
+        (other) =>
+          other.causeKind === "family:child" &&
+          other.date === moment.date &&
+          other.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
+      )
+    )
+      continue;
     // Someone's work is told only for someone the person has a tie to: a
     // person the records name with no tie is no one the writer would speak of
     // ("Ryan Sweet has been at Walters's Market since I was 14").
@@ -2740,6 +2754,56 @@ export function composeJournal(
         for (let index = units.length - one; index > slot; index -= one)
           if (gone.has(units[index]!)) units.splice(index, one);
       }
+    }
+  }
+
+  // Laws that changed what the person pays, told by what they were about,
+  // are one sentence for the paragraph they fall in, with their topics
+  // joined ("The rules on utility regulation, electricity and the grid and
+  // transportation changed what I pay."), never the same line three times
+  // (owner's standing complaint; Story lead, Nov 17).
+  {
+    const bare = (unit: Unit) =>
+      unit.moment.causeKind === "event:law.effect-learned" &&
+      !!unit.facts.topic;
+    for (const paragraph of new Set(
+      units.filter(bare).map((u) => u.paragraph),
+    )) {
+      const laws = units.filter(
+        (unit) => bare(unit) && unit.paragraph === paragraph,
+      );
+      if (laws.length < P.two) continue;
+      const first = laws[zero]!;
+      const topics: Fact = {
+        text: listOf([...new Set(laws.map((unit) => unit.facts.topic!.text))]),
+        sourceRecordIds: laws.flatMap((unit) => [
+          unit.moment.causeId,
+          ...unit.facts.topic!.sourceRecordIds,
+        ]),
+      };
+      const told = render(
+        { part: "line", kindPrefix: first.row.kindPrefix, whose: "own" },
+        {
+          ...Object.fromEntries(
+            Object.entries(first.facts).filter(([name]) => name !== "topic"),
+          ),
+          topics,
+        },
+        `${first.moment.id}:topics`,
+        topics.sourceRecordIds,
+        // The row's stage: lines that name no law.
+        "bare",
+      );
+      if (!told) continue;
+      const gone = new Set(laws.slice(one));
+      units.splice(units.indexOf(first), one, {
+        ...first,
+        facts: { ...first.facts, topics },
+        event: told,
+        framed: true,
+      });
+      for (let at = units.length - one; at >= zero; at -= one)
+        if (gone.has(units[at]!)) units.splice(at, one);
     }
   }
 

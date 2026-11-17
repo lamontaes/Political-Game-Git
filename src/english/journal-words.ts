@@ -469,6 +469,12 @@ function namedFirst(
   return naming?.length ? naming : rows;
 }
 
+/** The lines that name the person, over those that say only the relation, when there are any. */
+function namedOver(rows: readonly Wording[] | undefined) {
+  const naming = rows?.filter((row) => !/\{relation\}/.test(row.text));
+  return naming?.length ? naming : rows;
+}
+
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
@@ -489,7 +495,15 @@ function wordingsFor(
           move.whose === "own"
             ? move.together
               ? (row?.groupLine ?? row?.line)
-              : namedFirst(row?.line, move.named)
+              : // A child is born with a name (owner, Oct 15): the lines that
+                // say the relation alone ("My son was born.") wait for a
+                // child the records give no name.
+                namedFirst(
+                  move.kindPrefix === "family:child"
+                    ? namedOver(row?.line)
+                    : row?.line,
+                  move.named,
+                )
             : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
         // A line that names the other is preferred, never required: the
         // mayor who signed a bill someone else sponsored says "I signed

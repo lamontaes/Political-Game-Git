@@ -452,6 +452,7 @@
       "kindPrefix": "event:bill-failed",
       "turn": false,
       "entry": "story",
+      "stageFact": "stage",
       "stageWords": {
         "committee": "\\bcommittee\\b",
         "floor": "\\bvote\\b"
