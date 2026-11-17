@@ -162,7 +162,16 @@ function tiesBeyondHome(
   const household = new Set(
     api.state.households.get(listener.householdId)?.memberIds ?? [],
   );
+  // A person talks it over with a few: the ones they are closest to, nearest
+  // first, ties broken by id. Only those few are kept while the ties are read
+  // (the same few, in the same order, as sorting every tie and taking them).
+  const few = Math.trunc(s(api, "speechRetellTies"));
+  if (few <= 0) return [];
   const out: { person: PersonState; closeness: number }[] = [];
+  const before = (
+    a: { person: PersonState; closeness: number },
+    b: { person: PersonState; closeness: number },
+  ) => b.closeness - a.closeness || a.person.id.localeCompare(b.person.id);
   for (const key of api.state.relationshipsByPerson.get(listener.id) ?? []) {
     const tie = api.state.relationships.get(key);
     if (!tie) continue;
@@ -175,17 +184,16 @@ function tiesBeyondHome(
     )
       continue;
     const other = api.state.people.get(otherId);
-    if (other?.alive)
-      out.push({ person: other, closeness: currentCloseness(api.state, tie) });
+    if (!other?.alive) continue;
+    const row = { person: other, closeness: currentCloseness(api.state, tie) };
+    // Kept in order: a tie goes where it sorts, and the list stays `few` long.
+    if (out.length >= few && before(row, out[out.length - 1]!) >= 0) continue;
+    let at = out.length;
+    while (at > 0 && before(row, out[at - 1]!) < 0) at -= 1;
+    out.splice(at, 0, row);
+    if (out.length > few) out.pop();
   }
-  // A person talks it over with a few: the ones they are closest to.
-  return out
-    .sort(
-      (a, b) =>
-        b.closeness - a.closeness || a.person.id.localeCompare(b.person.id),
-    )
-    .slice(0, s(api, "speechRetellTies"))
-    .map((row) => row.person);
+  return out.map((row) => row.person);
 }
 
 /** A speech is heard by its audience; some listeners retell it at home. */

@@ -29,6 +29,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import openingCash from "../../../data/research/money/treasury-opening-cash.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { headsExecutive } from "../offices-executives";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
@@ -143,7 +144,7 @@ function sittingExecutiveOf(
         id: string;
         kind: string;
       }[]
-    ).find((o) => /^(mayor|governor|county-executive|president)$/.test(o.kind));
+    ).find((o) => headsExecutive(o.kind));
     if (office) break;
   }
   if (!office) return null;

@@ -5208,7 +5208,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5218,8 +5218,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
@@ -5588,8 +5586,11 @@ const sheets = {
         race.officeLevel === "county"
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
-      aside:
-        own && race.cannotFile?.metOn
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : own && race.cannotFile?.metOn
           ? `${labels.filingOpens} ${dateWords(
               race.filingOpens && race.filingOpens > race.cannotFile.metOn
                 ? race.filingOpens
@@ -5600,7 +5601,7 @@ const sheets = {
             ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
             : own && race.playerMayFile && race.filingOpen
               ? labels.fileForIt
-              : race.filers.length || filed.has(race.contestId)
+              : race.filers.length
                 ? status(race)
                 : "",
       data: { contest: race.contestId },

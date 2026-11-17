@@ -29,7 +29,11 @@ import {
 import { openLaws } from "../core2/modules/laws";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
-import { openElections } from "../core2/modules/elections";
+import {
+  openElections,
+  runCentury,
+  setHistoryMode,
+} from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
@@ -426,21 +430,41 @@ export function buildBenchWorld(
  * A new game's drawn place where no player can be picked is passed over and
  * the draw taken again without it; a place asked for by key, or any other
  * error, is thrown.
+ *
+ * The golden-path runner's key is a draw too, not an ask: it draws one place
+ * per spec from every locality (tests/golden-path/place.ts) and hands the key
+ * to the command as GOLDEN_PATH_PLACE_KEY. A build at that key passes the
+ * place over as well and takes the same state's next place by key, the
+ * runner's own order, naming what it passed over.
  */
 function passOver(options: BuildOptions, error: unknown): BuildOptions {
-  if (
-    options.placeKey ||
-    !(error instanceof NoPlayerHereError) ||
-    !error.placeKey
-  )
-    throw error;
-  return {
-    ...options,
-    passedOver: [
-      ...(options.passedOver ?? []),
-      { key: error.placeKey, reason: error.message },
-    ],
-  };
+  if (!(error instanceof NoPlayerHereError) || !error.placeKey) throw error;
+  const passedOver = [
+    ...(options.passedOver ?? []),
+    { key: error.placeKey, reason: error.message },
+  ];
+  if (!options.placeKey) return { ...options, passedOver };
+  const drawn =
+    options.placeKey === process.env.GOLDEN_PATH_PLACE_KEY ||
+    options.passedOver?.some((passed) => passed.key !== options.placeKey);
+  const here = realLocalities().find((row) => row.key === options.placeKey);
+  if (!drawn || !here) throw error;
+  const state = realLocalities()
+    .filter((row) => row.stateJurisdictionKey === here.stateJurisdictionKey)
+    .sort((a, b) => a.key.localeCompare(b.key));
+  const from = state.findIndex((row) => row.key === here.key);
+  const next = state
+    .map((_, step) => state[(from + step) % state.length]!)
+    .find((row) => !passedOver.some((passed) => passed.key === row.key));
+  if (!next) throw error;
+  // A developer's message, written as an Error's so the line register
+  // (scripts/words/line-register.ts) reads it as one and not as a game line,
+  // as NoPlayerHereError's own is.
+  const said = new Error(
+    `Passed over ${here.displayName} (${here.key}): ${error.message} Building at ${next.displayName} (${next.key}), the same state's next place.`,
+  );
+  process.stdout.write(said.message + "\n");
+  return { ...options, placeKey: next.key, passedOver };
 }
 
 /**
@@ -504,6 +528,8 @@ function* benchWorldStages(
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
+  // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
+  setHistoryMode(seed, settings.history ?? "century", startDate);
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
   const playerBirthDate =
@@ -712,6 +738,11 @@ function* benchWorldStages(
     ],
   });
   yield "government";
+  // The century before day one (owner, Nov 17, 2026: history simulated from 1925, a year at a
+  // step, during the loading screen): run here a year at a time, each year its own step so the
+  // loading screen keeps answering, before the offices seat whoever it elected.
+  const century = runCentury(seed, startDate);
+  while (!century.next().done) yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
