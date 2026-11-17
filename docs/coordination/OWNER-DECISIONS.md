@@ -12,6 +12,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - A new campaign starts at zero (#10013 already does).
   - Other candidates announce early, each deciding from their own record (Elections, #9995).
   - The paper covers announcements and filings modestly, often as a roundup that grows with the race's importance (Story, #9750).
+- **How announcing happens** (about 4:15 p.m.): "Also, announcing has to work somehow. Like, where do you announce? Maybe, maybe there is no real announcement. Maybe you're talking to a friend and you say, well, I guess I'm a candidate now, or I want to be. Or maybe you go to the party headquarters in your city, if it has one, and, you tell them you want to be a candidate. Or maybe you go to a rally, or maybe you just start talking to people. I don't know. There needs to be a bunch of different ways. Again, this goes to the story."
+  - Announcing is a moment in the world with many ways in, offered by the player's life and place, not a button that flips a state.
+  - Who hears depends on the way (a friend, the local party, the public). Story writes the scenes (#9750); Elections records the way and who heard (#9995).
 - **Faster checks** (about 3:20 p.m.): "whichever one's faster." Heavy test jobs move off pull requests to the train-to-main PR (Long game, #9752).
 
 ## Nov 17, 2026, midday: after playing v0.113.0 (owner, verbatim; recorded by the CTO)
