@@ -584,62 +584,10 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
-    case "bereaved": {
-      // Those who lost the same person: the living family the deceased's
-      // record names (a parent's widow, their children, their siblings), the
-      // subject's own household first, then the closest, never the subject.
-      // A funeral at a venue has no one "present" by setting.
-      const gone = core.people.get(moment.counterpartIds[zero] ?? "");
-      if (!gone) return [];
-      const home = new Set(household());
-      const kin = closest(
-        [...gone.familyIds].filter(
-          (id) => id !== moment.personId && alive(core, id) && !taken.has(id),
-        ),
-      );
-      return [
-        ...kin.filter((id) => home.has(id)),
-        ...kin.filter((id) => !home.has(id)),
-      ];
-    }
     case "household-stake":
       // The household members the filing puts something of theirs at risk
       // for, strongest first; none, and the scene is not staged.
       return stakeholders(core, moment.personId, moment.causeId, household());
-    case "decider": {
-      // Who decided the cause, from its record's facts (a layoff's owner): a living person, never the subject.
-      const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;
-      return id && id !== moment.personId && alive(core, id) ? [id] : [];
-    }
-    case "cause-named": {
-      // The first person the cause record names, living or not (whom a
-      // death is about), never the subject.
-      const id = core.durableLog.get(moment.causeId)?.personIds[zero];
-      return id && id !== moment.personId && core.people.has(id) ? [id] : [];
-    }
-    case "winner": {
-      // Who a count's record says won (its winnerId), never the subject.
-      const id = core.durableLog.get(moment.causeId)?.facts?.winnerId;
-      return id && id !== moment.personId && alive(core, id) ? [id] : [];
-    }
-    case "kin-visiting": {
-      // Kin who come to see what the cause record is about, never someone the
-      // record names (a new baby's own parents are not its visitors).
-      const named = new Set<string>(
-        core.durableLog.get(moment.causeId)?.personIds ?? [],
-      );
-      return closest(
-        [...book.threads.values()]
-          .filter(
-            (thread) =>
-              thread.kin.length &&
-              !named.has(thread.otherId) &&
-              alive(core, thread.otherId) &&
-              !taken.has(thread.otherId),
-          )
-          .map((thread) => thread.otherId),
-      );
-    }
     case "kin":
       return closest(
         [...book.threads.values()]
@@ -695,8 +643,7 @@ function fillRole(
     }
     default:
       // The civic roles come from the offices, voting and press records.
-      if (CIVIC_FILLS.has(fill))
-        return civicFill(fill, core, moment, taken, closest);
+      if (CIVIC_FILLS.has(fill)) return civicFill(fill, core, moment, taken);
       // Classmates, absent and the clerk have no records in the new core yet.
       return [];
   }

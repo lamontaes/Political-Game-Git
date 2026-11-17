@@ -85,7 +85,6 @@ const FILL_TIES: Readonly<Record<string, string>> = {
   household: "household",
   "household-stake": "household",
   kin: "kin",
-  "kin-visiting": "kin",
 };
 
 export type SpotTag = (typeof SPOT_TAGS)[number];

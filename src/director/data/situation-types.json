@@ -10,21 +10,13 @@
     "present": "Whoever else the setting's records place there that day.",
     "classmates": "People enrolled at the subject's school.",
     "coworkers": "People employed at the subject's workplace.",
-    "absent": "A person tied to the subject who is away for a recorded reason or has died.",
     "authority": "The subject's guardian on record: at home, a parent who lives with them, else an older relative in the household.",
     "poll-workers": "The poll workers the precinct's polling-place record names for that election day.",
-    "chair": "The presiding officer the body's record names that day.",
     "members": "The body's sitting members on record, other than the subject.",
     "press": "The reporter the press record names.",
     "clerk": "The official the office's record names at its counter.",
     "donor": "A person whose contribution record names the subject's campaign.",
-    "party-chair": "The chair the subject's party record names.",
-    "staff": "A person the subject's office record employs.",
-    "constituent": "A resident of the subject's district with a recorded problem (a lost job, an eviction, a serious illness).",
-    "opponent": "The other candidate the subject's contest record names.",
-    "volunteer": "A person the subject's campaign record lists as a volunteer.",
-    "bill-sponsor": "The member who sponsored the bill the cause's record names.",
-    "emergency-lead": "The state cabinet head who opens a governor's emergency briefing: the first holder of a post in the map for the disaster's incident type (data/executive/emergency.json). None, and the scene is not staged."
+    "staff": "A person the subject's office record employs."
   },
   "settings": {
     "home": "The subject's household home.",

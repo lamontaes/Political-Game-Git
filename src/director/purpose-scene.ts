@@ -124,6 +124,18 @@ import { promiseReplyFacts } from "./promises";
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
 
+/**
+ * An office's title as it reads inside a sentence: a title written in
+ * sentence case ("Council member", "Mayor") is lower case there ("the work of
+ * mayor"), one written in title case ("County Commissioner", "U.S. Senator")
+ * stays as the office names itself.
+ */
+function titleInSentence(title: string): string {
+  return /^[A-Z][^A-Z]*$/.test(title)
+    ? `${title.charAt(P.zero).toLowerCase()}${title.slice(P.one)}`
+    : title;
+}
+
 /** The moves engine's basis for a move to somewhere else in the same state. */
 const STATE_BASIS = "state";
 
@@ -163,7 +175,6 @@ import {
   viewReason,
   viewRecordId,
 } from "./view-learned";
-import { titleInSentence } from "./swearing-in";
 
 export interface PurposeScene {
   typeKey: string;
