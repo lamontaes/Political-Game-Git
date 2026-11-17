@@ -1,8 +1,11 @@
 /**
- * Pins, the grudge rule breaks (#9747, CTO 05:10Z). At three drawn places, a
- * played year each: every grudge a full person holds, with its own half-life
- * (from the holder's traits), and every confrontation with the tie's
- * closeness before and after.
+ * Pins, the grudge rule breaks (#9747, CTO 05:10Z). At three drawn places: the
+ * world plays a year; then, since a grudge is rare in a small town's year, up to
+ * 40 of its employed full adults are laid off through dev mode's own call
+ * (forceLayoff, the game's layoff path) and the world plays 90 days more.
+ * Every grudge a full person holds is listed with its own half-life (from the
+ * holder's traits), and every confrontation with the tie's closeness before
+ * and after.
  * Run: node --import tsx scripts/core2-year/pins-grudge-proof.ts [seed]
  */
 import { randomBytes } from "node:crypto";
@@ -13,6 +16,8 @@ import { coreAPI } from "../../src/core2/state";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { heldDrivesOf } from "../../src/core2/modules/drives";
+import { DevMode } from "../../src/bench/dev-mode";
+import { BenchPlayer } from "../../src/bench/player";
 import { drawPlace } from "./place";
 
 setBookkeeping(false);
@@ -22,10 +27,11 @@ out(`Pins grudge proof, seed ${seed}`);
 
 for (let draw = 0; draw < 3; draw += 1) {
   const place = drawPlace(seed, `pins-grudge-proof:${draw}`);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   });
+  const core = world.core;
   const api = coreAPI(core);
   const confronted: string[] = [];
   api.subscribeEvents(
@@ -39,6 +45,27 @@ for (let draw = 0; draw < 3; draw += 1) {
     },
   );
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
+  const dev = new DevMode(
+    core,
+    world.director,
+    new BenchPlayer(core, world.director),
+    world.placeId,
+  );
+  let laidOff = 0;
+  for (const person of [...core.people.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    if (laidOff >= 40) break;
+    if (!person.alive || !person.jobId || person.id === core.playerId) continue;
+    try {
+      dev.forceLayoff(person.id);
+      laidOff += 1;
+    } catch {
+      // Not someone the layoff path can reach (no recorded employer): passed over.
+    }
+  }
+  advanceCore(core, addDays(makeIsoDate(core.date), 90));
+  out(`laid off through dev mode: ${laidOff}`);
   const grudges = [...core.people.keys()].flatMap((id) =>
     heldDrivesOf(api, id)
       .filter((d) => d.kind === "grudge")
