@@ -37,3 +37,5 @@ Seen: pull request 9512, where every candidate's own gift in its played places c
 **Files.** src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/family-loss-stake-scene.test.ts
 
 **Notes.** Filed Nov 15 by hand on the branch of pull request 9512.
+
+Nov 17, Words read of pull request 9512 (merged head): the opener "That was a lot to spend and lose. Talk to me." plays for a gift of about $700 (Murtaugh ID, seed read-9512-a), $1,200 (Shiloh GA, read-9512-f) and $2,300 (Murtaugh), and only a gift of about $100 reads small; the bands follow the record's own read (`gift-size`), so a design note for the Words lead: whether a mid gift needs its own wording is a question for the record's read, not a new cutoff.
