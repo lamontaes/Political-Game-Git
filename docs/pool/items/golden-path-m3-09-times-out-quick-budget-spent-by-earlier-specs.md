@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-golden-path-own-budgets
-pr:
+pr: #9832
 after:
 blocked-on:
 lead: speed
