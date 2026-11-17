@@ -19,6 +19,7 @@ import {
   acceptJobOffer,
   applyForOpening,
   fillableOpenings,
+  quitJob,
   jobOffersFor,
   JOBS_MODULE_ID,
   type JobOfferRow,
@@ -44,6 +45,9 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       });
       const api = coreAPI(core);
       const playerId = core.playerId!;
+      // Only a player out of work is open to offers: a player with a job leaves it
+      // by their own press (the jobs sheet's Leave this job, `quitJob`).
+      if (core.people.get(playerId)!.jobId) quitJob(api, playerId);
       const before = core.people.get(playerId)!.jobId;
       // Eight weeks at a time for up to a year, until an employer picks them
       // (a town's openings and the player's fit decide when, if at all).
@@ -57,16 +61,26 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
 
       const jobs = api.moduleState(JOBS_MODULE_ID);
       const offers = jobs.table("offers").rows() as unknown as JobOfferRow[];
-      const hires = (
+      const changes = (
         jobs.table("changes").rows() as unknown as {
           personId: string;
           kind: string;
           jobId: string;
         }[]
-      ).filter((row) => row.personId === playerId && row.kind === "hire");
-      // Nothing answered for the player: no hire, and the job they began with is theirs still.
+      ).filter((row) => row.personId === playerId);
+      const hires = changes.filter((row) => row.kind === "hire");
+      // Nothing answered for the player: no hire. The player never gains a job
+      // they did not apply for; if the job they began with is gone, the record
+      // of why (a layoff, a closure, a quit) is on the jobs changes table.
       expect(hires).toEqual([]);
-      expect(core.people.get(playerId)!.jobId).toBe(before);
+      const now = core.people.get(playerId)!.jobId;
+      if (now !== before) {
+        expect(now, `the player holds ${now} after ${before}`).toBeUndefined();
+        expect(
+          changes.filter((row) => row.jobId === before),
+          `${before} ended with no layoff, closure or quit on record`,
+        ).not.toEqual([]);
+      }
       console.log(
         `player-job-offers: ${offers.length} offer(s): ${offers.map((row) => `${row.id} ${row.status}`).join(", ")}`,
       );
