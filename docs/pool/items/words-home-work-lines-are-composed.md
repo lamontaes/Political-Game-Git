@@ -46,7 +46,7 @@ merged-at: 2026-11-11T13:57:42.997Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 90 distinct lines across the four subjects, 23 with no insert and not excused (own-work 39 and 8, other-work 42 and 14, heard-work 21 and 3, shared-work 17 and 1). Three today: "What do you do?", "Have you been there long?", "Let's not talk shop. Maybe another time." Work is not talked about between relatives (`familyTalk.dropped`), so this is heard away from home.
 

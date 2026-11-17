@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** The eighteen-line item (words-padded-names-out-of-talk-lines-that-came-in-after-the-pass) folding.
 
-**Files.** data/english/parts/conversation.json, data/english/pulled.json, tests/guards/english/line-inserts-baseline.json
+**Files.** data/english/parts/conversation.json, data/english/pulled.json
 
 **Notes.** Built after the eighteen-line item; the scene-talk padded names that remain (15) are asks to run together and are under the baseline.

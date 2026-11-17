@@ -44,6 +44,6 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/arc-variants.json, src/director/town-hall-question-scene.test.ts, src/director/reply-set-check.ts, src/english/scene-talk-words.ts, src/core2/modules/meetings.ts, src/core2/modules/public-action.ts, src/core2/trait-decisions.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/arc-variants.json, src/director/town-hall-question-scene.test.ts, src/director/reply-set-check.ts, src/english/scene-talk-words.ts, src/core2/modules/meetings.ts, src/core2/modules/public-action.ts, src/core2/trait-decisions.ts, data/english/parts/scene-talk.json, data/english/part-grades.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 103 lines, 61 with no insert and not excused. Three today: "Good. I'll hold you to that.", "People say a lot of things." (graded good, kept), "At least you said it to my face." The protest and strike lines are a stopgap (`SG-WORDS-action-confront-town-hall-lines` in purpose-scene.ts); this item keeps that registration.

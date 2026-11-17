@@ -41,7 +41,7 @@ branch: claude/words-opening-address-versions
 
 **Waits on.** Nothing.
 
-**Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423 and two addresses played in the running game that night. How many policy points an address has depends on the President holding views on federal questions, which pull requests 8589 (the cause) and 8380 (the build) cover; this item does not wait on them, and step 5 says how its test treats the count. The pieces under data/english/parts are drafted by the builder in the pull request with `Review: words` unless the CTO says the Story session writes them.
 

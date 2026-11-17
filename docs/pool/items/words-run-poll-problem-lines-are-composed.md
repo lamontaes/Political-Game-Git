@@ -44,6 +44,6 @@ branch:
 
 **Waits on.** scene-trouble-at-the-polling-place (the producer that stages the scene), and the CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/polling-place.ts, src/director/polling-place.test.ts, src/director/purpose-scene.ts, src/director/words.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/voting.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/polling-place.ts, src/director/polling-place.test.ts, src/director/purpose-scene.ts, src/director/words.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/voting.ts, data/english/parts/scene-talk.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 64 lines, 62 with no insert and not excused. Three today: "Spell the last name for me?", "I'm sorry. You're not on the voter roll for this precinct.", "I've voted here for years. What changed?" This item is also `after:` words-run-filing-clerk-lines-are-composed for the composer; the pool field holds the producer, which is the longer wait.
