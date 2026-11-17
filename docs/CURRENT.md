@@ -205,3 +205,5 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `.claude/skills/people-pack` | .claude/skills/room-spots/references/people-pack.md | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/skill-lessons` | .agents/skills/done-proof/references/skill-lessons.md | 2026-11-17 | Merged into the done-proof skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
 | `.claude/skills/skill-lessons` | .claude/skills/done-proof/references/skill-lessons.md | 2026-11-17 | The mirror of the row above, removed with it. |
+| `.agents/skills/play-walks` | .agents/skills/verify/references/play-walks.md | 2026-11-17 | Merged into the verify skill, which drives the running game from a script, when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body moved word for word. |
+| `.claude/skills/play-walks` | .claude/skills/verify/references/play-walks.md | 2026-11-17 | The mirror of the row above, removed with it. |
