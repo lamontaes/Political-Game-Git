@@ -212,6 +212,13 @@ try {
   else {
     await page.getByRole("button", { name: "Go vote", exact: true }).click();
     await page.locator("#ballot:not([hidden])").waitFor();
+    // What I know about them comes from the player's own record a moment
+    // after the paper: the picture waits for its first candidate.
+    await page
+      .locator("#ballot .ballot-know .ballot-person")
+      .first()
+      .waitFor({ timeout: 15000 })
+      .catch(() => {});
     await shot("eday-3-ballot");
     // The ballot fits the window (pl-ballot): a long one scrolls inside its
     // paper, and "What I know about them" stays on screen beside it.
