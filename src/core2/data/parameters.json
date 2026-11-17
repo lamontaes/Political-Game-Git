@@ -5080,6 +5080,20 @@
     "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
     "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
   },
+  "driveBillVetoedImpulse": {
+    "value": 0.3,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "A sponsor's bill vetoed, sized below losing a job: the Social Readjustment Rating Scale's 'Foreclosure of mortgage or loan' is 30 life-change units, the nearest item for a lost stake that is not a person's livelihood (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218). Only the strength of the push is set here; whether the sponsor holds a grudge, takes up a cause or carries on is their own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.20 to 0.47"
+  },
+  "driveRaceLostImpulse": {
+    "value": 0.47,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Losing a public race, sized like losing a job: the Social Readjustment Rating Scale's 'Fired at work' is 47 life-change units (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218); it has no item for a lost election. Only the strength of the push is set here; whether a loser holds a grudge, takes up a cause or carries on is each person's own temperament.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.30 ('Foreclosure of mortgage or loan') to 0.47 ('Fired at work')"
+  },
   "driveHomeLostImpulse": {
     "value": 0.47,
     "tag": "ESTIMATED",

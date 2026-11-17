@@ -31,6 +31,7 @@ import { bookkeeping } from "../bookkeeping";
 import { tableTraceOn } from "../module-state";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween, ENCOUNTERS, householdIncome } from "./people";
+import { feelingBetween } from "../closeness";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -5992,7 +5993,7 @@ function weighEndorsement(
     const tie =
       row.candidateId === endorser.id
         ? 0
-        : closenessBetween(api.state, endorser.id, row.candidateId);
+        : feelingBetween(api.state, endorser.id, row.candidateId);
     // A favor the endorser owes this candidate from a deal they took
     // (campaign-favor-called-in): worth what a favor is worth in the
     // legislature, more the closer they are; a person speaks for themselves.
