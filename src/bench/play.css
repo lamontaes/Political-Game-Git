@@ -5305,8 +5305,8 @@ select.release-pick {
   font: var(--head-font);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--cream);
-  background: var(--head-wash);
+  color: var(--gold);
+  background: none;
 }
 /* A group heading set straight in the list (not in a paged box) keeps air above it. */
 .pick-list > .pick-group {
@@ -5795,4 +5795,66 @@ body.color-blind .meeting-member.vote-abstain {
 }
 .split-main:has(.dev-panels) .chamber {
   display: none;
+}
+
+/* Metrics (owner, Nov 12 and Nov 17): the areas at the left, the area's measures beside them and
+   the chosen measure's timeline; it fills the panel and never scrolls as a page, and a long list
+   of measures scrolls inside its own column. */
+#sheet-body:has(.roster-screen.metrics) {
+  display: flex;
+  overflow: hidden;
+}
+.roster-screen.metrics {
+  flex: 1;
+  width: auto;
+  min-height: 0;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.roster-screen.metrics > .roster-page {
+  min-height: 0;
+  overflow: hidden;
+}
+.metrics-page {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.3fr);
+  gap: 26px;
+  height: 100%;
+  min-height: 0;
+}
+.metric-rows,
+.metric-timeline {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.metric-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pick-list .metric-row,
+#sheet-body .pick-list .metric-row {
+  flex-wrap: wrap;
+  height: auto;
+}
+.metric-row small {
+  flex: 1 0 100%;
+  font: 400 var(--t-label) var(--ui);
+  color: var(--text-2);
+}
+.trend-value,
+.trend-year {
+  font: 500 var(--t-label) var(--ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  fill: var(--cream);
+}
+.trend-year {
+  fill: var(--text-2);
+}
+.metric-timeline .trend-line {
+  max-width: none;
+  margin: 14px 0 0;
 }

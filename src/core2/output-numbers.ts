@@ -315,6 +315,38 @@ function valueIn(
 }
 
 /**
+ * A kept figure's years for a place, oldest first, at most `limit`: each year's row holds one
+ * value (a lookup by row id, never a scan). A part-year sum or mean is left out, the same way
+ * `keptOutputNumber` leaves it out of "last year"; the latest year always stands.
+ */
+export function keptOutputHistory(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  placeId: string,
+  limit = 10,
+): { year: number; value: number }[] {
+  const number = NUMBERS[id];
+  if (!number?.kept || !core.modules.has(OUTPUT_NUMBERS_MODULE_ID)) return [];
+  const table = years(api);
+  const thisYear = yearOf(core.date);
+  const latest = (table.get(yearRowId(placeId, thisYear)) ??
+    table.get(yearRowId(placeId, thisYear - 1))) as OutputYearRow | undefined;
+  if (!latest) return [];
+  const points: { year: number; value: number }[] = [];
+  for (let year = latest.year; year > latest.year - limit; year--) {
+    const row = table.get(yearRowId(placeId, year)) as OutputYearRow | undefined;
+    if (!row) break;
+    const value = valueIn(row, number);
+    if (value === null) break;
+    if (year !== latest.year && number.fold !== "december" && !wholeYear(row))
+      break;
+    points.unshift({ year, value });
+  }
+  return points;
+}
+
+/**
  * A kept figure for a place: this year's value (the latest month, or the
  * year so far) beside last year's, each a lookup of the place's year row by
  * its id. Last year is null unless that very year's row holds the figure.
