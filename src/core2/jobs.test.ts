@@ -88,6 +88,14 @@ const filingData = {
     benefitsFileBase: { ...data.parameters.benefitsFileBase!, value: 2 },
   },
 };
+/** The filing base, with the keep review off: the layoff in the benefits test follows the shortfall in sales (the staffing review), later than the keep review would let a worker go. */
+const filingNoTurnoverData = {
+  ...noTurnoverData,
+  parameters: {
+    ...noTurnoverData.parameters,
+    benefitsFileBase: filingData.parameters.benefitsFileBase,
+  },
+};
 const start = "2021-01-01",
   employer = "organization:shop",
   place = "place:jobs-fixture";
@@ -584,7 +592,7 @@ describe("jobs", () => {
           ],
           placeMetadata: { placeKey: drawn.key },
         } as CoreInput,
-        { data: filingData, modules: [JOBS_MODULE] },
+        { data: filingNoTurnoverData, modules: [JOBS_MODULE] },
       ),
       api = coreAPI(core);
     openLaws(core);
