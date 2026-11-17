@@ -50,7 +50,7 @@ One family per helper (a Sonnet-level helper, at most two per lead), each with i
 - unexplained timeouts;
 - dice;
 - hand-written player text, or lines written under `data/english/parts/` by anyone but the Story session (owner, Nov 10);
-- imports from `src/simulation` (deleted Oct 28; the `old-imports` guard refuses it);
+- imports from `src/simulation` (removed) (deleted Oct 28; the `old-imports` guard refuses it);
 - owner or date notes in data;
 - claims the diff doesn't make.
 
