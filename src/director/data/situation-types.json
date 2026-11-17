@@ -1751,6 +1751,7 @@
             "deciding": "subject",
             "adviser": "counterpart"
           },
+          "sceneKey": "work-mentor",
           "opener": "adviser"
         },
         {
@@ -1763,6 +1764,7 @@
             "deciding": "subject",
             "adviser": "counterpart"
           },
+          "sceneKey": "party-mentor",
           "opener": "adviser",
           "setting": ["other-home"]
         }

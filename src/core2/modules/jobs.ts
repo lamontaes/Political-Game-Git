@@ -44,7 +44,12 @@ import {
   recordRanking,
   recordHiredUnderBan as recordHiredWithRecordUnderBan,
 } from "../jobs-record-bias";
-import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawInForce,
+  socialSecurityAges,
+  minimumHourlyAt,
+} from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
@@ -129,6 +134,8 @@ import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
+/** The kind of the stand-in organization for work out of town, read by the words that name an employer. */
+export { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -1085,6 +1092,14 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
     unemploymentReads.set(c, (cache = { date: c.date, byPlace: new Map() }));
   const known = cache.byPlace.get(placeId);
   if (known !== undefined) return known;
+  const gap = readUnemploymentGap(api, placeId);
+  cache.byPlace.set(placeId, gap);
+  return gap;
+}
+
+/** The gap read fresh from the macro engine's latest month row. */
+export function readUnemploymentGap(api: CoreAPI, placeId: string): number {
+  const c = core(api);
   let gap = 0;
   const macro = c.modules.has("macro")
     ? (api.moduleState("macro").table("state").get("macro:state") as
@@ -1094,19 +1109,19 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
     const regional = c.modules.has("regional")
       ? regionalMonth(api, placeId, macro.latestMonth)
       : undefined;
-    const rate =
-      regional?.unemploymentPct ??
-      (
-        api
-          .moduleState("macro")
-          .table("months")
-          .get(`macro-month:${macro.latestMonth}`) as
-          { unemploymentPct: number } | undefined
-      )?.unemploymentPct;
+    const month = api
+      .moduleState("macro")
+      .table("months")
+      .get(`macro-month:${macro.latestMonth}`) as
+      { unemploymentPct: number; naturalUnemploymentPct?: number } | undefined;
+    const rate = regional?.unemploymentPct ?? month?.unemploymentPct;
+    // Against the world's own normal rate, which drifts with the unemployment it has lived at (the macro engine's month row), never a published 4.5%.
     if (rate !== undefined)
-      gap = rate - api.parameter("macroNaturalUnemploymentPct");
+      gap =
+        rate -
+        (month?.naturalUnemploymentPct ??
+          api.parameter("macroNaturalUnemploymentPct"));
   }
-  cache.byPlace.set(placeId, gap);
   return gap;
 }
 
@@ -2975,7 +2990,7 @@ function hireRegional(
         occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
-        undefined,
+        minimumHourlyAt(api, seeker.placeId),
         c.seed,
       )
     : null;

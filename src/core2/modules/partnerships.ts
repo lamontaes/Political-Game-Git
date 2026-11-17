@@ -6,8 +6,11 @@
  * for the never married and NCFMR's remarriage pace for the previously
  * married, for single people of their age and sex), and a couple's pull to
  * part builds by NSFG's intact-marriage curve for how long they have been
- * together; each is moved by the person's traits' lean in its decision. A
- * pull that reaches one whole makes the change: never a roll.
+ * together; each is moved by the person's traits' lean in its decision, and
+ * a couple's by the hardship stress either partner carries (a layoff, an
+ * eviction, a missed payment). Nothing scales the pace back to the chain's:
+ * a place whose people lean against partnering partners less. A pull that
+ * reaches one whole makes the change: never a roll.
  *
  * Every change goes through the core's one partnership writer
  * (`setPartnersV1`), which records the link, each person's dated fact and
@@ -29,13 +32,17 @@
  * proposal (`family.engaged`), the wedding (`family.married`), and, by the
  * same NSFG curve as anyone, parting (`family.separated`, the one with less
  * cash starting a household of their own). Traits move how soon each step
- * comes, never whether the rate holds. The counted population's partnerships
+ * comes and how many partner. The counted population's partnerships
  * are their own unit (SG-LIVES-partner-counted).
  */
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { createStableId } from "../kernel/ids";
 import { SeededRng } from "../kernel/rng";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  hardshipReason,
+} from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import {
   partnerAgeFor,
@@ -56,6 +63,7 @@ import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { inGroupQuarters, livesElsewhere } from "./moves";
 import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
+export { WORK_MENTORSHIP } from "./mentorship";
 import { rescueOnset } from "./rescue";
 import { quarrelOverMoney } from "./quarrel";
 import {
@@ -102,6 +110,8 @@ const SAME_SEX_STOPGAP = "SG-LIVES-partner-same-sex";
 const COHABITING_STOPGAP = "SG-LIVES-partner-cohabiting";
 const STAGES_STOPGAP = "SG-LIVES-partner-stage-lengths";
 const COUNTED_STOPGAP = "SG-LIVES-partner-counted";
+const AGE_CURVE_STOPGAP = "SG-LIVES-partnering-age-curve";
+const PART_HARDSHIP_STOPGAP = "SG-LIVES-part-hardship-weight";
 
 interface PullRow {
   id: PersonId;
@@ -306,17 +316,30 @@ function partnerFactorOf(api: CoreAPI, person: Readonly<PersonState>): number {
   );
 }
 
+/**
+ * How fast a couple's pull to part builds against the curve: both partners'
+ * traits' lean toward parting, and the hardship stress each carries (a
+ * layoff, an eviction or a missed payment that has not worn off; its weight
+ * is a registered starting value), each the couple's mean, on the log scale.
+ */
 function partFactorOf(
   api: CoreAPI,
   person: Readonly<PersonState>,
   partner: Readonly<PersonState>,
 ): number {
   const core = api.state as CoreState;
+  const two = api.parameter("two");
+  const hardship =
+    hardshipReason(core, person, PART_DECISION).term +
+    hardshipReason(core, partner, PART_DECISION).term;
+  // stopgapId: SG-LIVES-part-hardship-weight
+  if (hardship > api.parameter("zero")) api.stopgap(PART_HARDSHIP_STOPGAP);
   return Math.exp(
     (decisionTraitWeight(core, PART_DECISION) *
       (decisionLean(core, person, PART_DECISION, "part", "stay-together") +
         decisionLean(core, partner, PART_DECISION, "part", "stay-together"))) /
-      api.parameter("two"),
+      two +
+      hardship / two,
   );
 }
 
@@ -338,47 +361,19 @@ function review(api: CoreAPI): void {
   for (const link of core.familyLinks.values())
     if (link.kind === "partner")
       for (const id of link.personIds) links.set(id, link);
+  // stopgapId: SG-LIVES-partnering-age-curve (the played place's ACS pace by age read for everyone, the people elsewhere too)
+  api.stopgap(AGE_CURVE_STOPGAP);
   const geo = partnershipGeo(core.placeMetadata?.placeKey);
   const month = p("one") / p("monthsPerYear");
-  // Traits decide who partners or parts sooner, not how many: each trait
-  // factor is weighed against the typical among the people reviewed toward
-  // the same change this month (as the moves engine weighs ties against its
-  // typical), so the chain's paces hold over everyone. Without it the lean
-  // toward partnering, which averages below zero, ran every draw 9 to 19%
-  // under the chain (CTO, Nov 1).
+  // Traits and hardship move who partners or parts and how many: nothing
+  // scales them back to the chain's pace (a town leaning against partnering
+  // partners less than the chain).
   const partnerFactor = (person: Readonly<PersonState>) =>
     partnerFactorOf(api, person);
   const partFactor = (
     person: Readonly<PersonState>,
     partner: Readonly<PersonState>,
   ) => partFactorOf(api, person, partner);
-  const typical = {
-    partner: [p("zero"), p("zero")],
-    part: [p("zero"), p("zero")],
-  };
-  for (const person of people) {
-    const link = links.get(person.id);
-    if (!link) {
-      typical.partner[0]! += partnerFactor(person);
-      typical.partner[1]! += p("one");
-      continue;
-    }
-    const partner = core.people.get(
-      link.personIds.find((id) => id !== person.id)!,
-    );
-    if (
-      partner &&
-      livesElsewhere(core, partner) &&
-      person.id.localeCompare(partner.id) < 0
-    ) {
-      typical.part[0]! += partFactor(person, partner);
-      typical.part[1]! += p("one");
-    }
-  }
-  const meanOf = ([sum, count]: number[]) =>
-    count! > p("zero") ? sum! / count! : p("one");
-  const typicalPartner = meanOf(typical.partner);
-  const typicalPart = meanOf(typical.part);
   const done = new Set<PersonId>();
   for (const person of people) {
     if (done.has(person.id) || !person.alive) continue;
@@ -418,9 +413,7 @@ function review(api: CoreAPI): void {
     );
     if (toward === "partner") {
       row.value +=
-        partneringPerYear(geo, sex, age) *
-        month *
-        (partnerFactor(person) / typicalPartner);
+        partneringPerYear(geo, sex, age) * month * partnerFactor(person);
       if (row.value >= p("one")) {
         const met = meetPartner(api, person, sex);
         if (met) {
@@ -459,9 +452,7 @@ function review(api: CoreAPI): void {
         ),
       );
       row.value +=
-        separatingPerYear(years) *
-        month *
-        (partFactor(person, partner) / typicalPart);
+        separatingPerYear(years) * month * partFactor(person, partner);
       if (row.value >= p("one")) {
         part(api, person, partner);
         // Each starts at the beginning of their pull to partner again.
@@ -727,6 +718,8 @@ function reviewTown(api: CoreAPI): void {
   const p = (key: string) => api.parameter(key);
   const today = makeIsoDate(core.date);
   const adultAge = p("votingAge");
+  // stopgapId: SG-LIVES-partnering-age-curve
+  api.stopgap(AGE_CURVE_STOPGAP);
   const geo = partnershipGeo(core.placeMetadata?.placeKey);
   const month = p("one") / p("monthsPerYear");
   const people = [...core.people.values()]
@@ -757,15 +750,10 @@ function reviewTown(api: CoreAPI): void {
     b: PersonState;
   }[] = [];
   const seen = new Set<string>();
-  const sum = { partner: [p("zero"), p("zero")], part: [p("zero"), p("zero")] };
   for (const person of people) {
     const link = linkOf.get(person.id);
     if (!link) {
-      if (sexOf(person)) {
-        singles.add(person.id);
-        sum.partner[0]! += partnerFactorOfCached(person);
-        sum.partner[1]! += p("one");
-      }
+      if (sexOf(person)) singles.add(person.id);
       continue;
     }
     if (seen.has(link.id)) continue;
@@ -774,13 +762,7 @@ function reviewTown(api: CoreAPI): void {
     const b = core.people.get(link.personIds[1])!;
     if (!isTownPerson(core, a) || !isTownPerson(core, b)) continue;
     couples.push({ link, a, b });
-    sum.part[0]! += partFactorOf(api, a, b);
-    sum.part[1]! += p("one");
   }
-  const typicalPartner =
-    sum.partner[1]! > p("zero") ? sum.partner[0]! / sum.partner[1]! : p("one");
-  const typicalPart =
-    sum.part[1]! > p("zero") ? sum.part[0]! / sum.part[1]! : p("one");
   const pulls = store(api).table("pulls");
   const rowFor = (id: PersonId, toward: PullRow["toward"]): PullRow => {
     const held = pulls.get(id) as unknown as PullRow | undefined;
@@ -808,7 +790,7 @@ function reviewTown(api: CoreAPI): void {
         ageOnDate(makeIsoDate(person.birthDate), today),
       ) *
       month *
-      (partnerFactorOfCached(person) / typicalPartner);
+      partnerFactorOfCached(person);
     if (row.value >= p("one")) {
       const known = knownSingle(api, person, sex, singles);
       if (known && !done.has(known.id)) {
@@ -890,10 +872,7 @@ function reviewTown(api: CoreAPI): void {
       p("zero"),
       Math.floor(ageOnDate(unionStart(core, link, api), today)),
     );
-    row.value +=
-      separatingPerYear(years) *
-      month *
-      (partFactorOf(api, a, b) / typicalPart);
+    row.value += separatingPerYear(years) * month * partFactorOf(api, a, b);
     if (row.value >= p("one")) {
       partInTown(api, a, b, couple.stage);
       store(api).table("couples").remove(link.id);
@@ -942,8 +921,7 @@ function reviewTown(api: CoreAPI): void {
     const [next, months] = NEXT_STAGE[couple.stage];
     couple.progress +=
       (p("one") / p(months)) *
-      (Math.sqrt(partnerFactorOfCached(a) * partnerFactorOfCached(b)) /
-        typicalPartner);
+      Math.sqrt(partnerFactorOfCached(a) * partnerFactorOfCached(b));
     const withPlayer = a.id === core.playerId || b.id === core.playerId;
     if (
       couple.progress >= p("one") &&

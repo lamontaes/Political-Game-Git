@@ -971,6 +971,48 @@
         "unit": "lead over the runner-up, as a share of votes cast",
         "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
       }
+    },
+    "directorMentorChanceGood": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "The player's own read of their chance in the race a party asked them to run for (the candidacy weighing's one rule, `ownChanceIn`, 0 to 1) at or above which their mentor tells them the race looks good (Story lead, Nov 17, the mentor's advice; mentor-advice-facts.ts). Never said as a figure.",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 0.35,
+        "high": 0.65,
+        "unit": "own read of the chance, 0 to 1",
+        "citation": "Unverified estimate (Nov 17, 2026): a read near an even chance, checked across drawn places in a played filing season; no study measures when an adviser calls a race winnable."
+      }
+    },
+    "directorMentorChanceThin": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "citation": "The player's own read of their chance in the race a party asked them to run for (the candidacy weighing's one rule, `ownChanceIn`, 0 to 1) below which their mentor tells them to build first (Story lead, Nov 17, the mentor's advice; mentor-advice-facts.ts). Never said as a figure.",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.35,
+        "unit": "own read of the chance, 0 to 1",
+        "citation": "Unverified estimate (Nov 17, 2026): a long shot, checked across drawn places in a played filing season; no study measures when an adviser calls a race a reach."
+      }
+    },
+    "directorGiftRankDonors": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "citation": "The fewest other named donors a campaign needs before a gift reads as one of many (the biggest or one of the smallest checks the candidate has had); with fewer, a rank says nothing (Story lead, Nov 17, the donor's call; donor-ask-facts.ts `donorReads`).",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 1,
+        "high": 4,
+        "unit": "other donors",
+        "citation": "Unverified estimate (Nov 17, 2026): the range checked across drawn places in a played campaign; no study measures it. One other donor would make every gift the biggest or the smallest of two; four would hide a rank in a small race."
+      }
     }
   },
   "channels": [
@@ -1043,7 +1085,11 @@
       "endsOn": "never",
       "producedBy": [],
       "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
+        {
+          "eventKind": "scene.reply",
+          "fact": "keeps",
+          "equals": "favor-owed"
+        }
       ]
     },
     {
@@ -1051,8 +1097,14 @@
       "endsOn": "settling-record",
       "producedBy": [],
       "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "promise" },
-        { "eventKind": "promise.answer", "fact": "promise" }
+        {
+          "eventKind": "scene.reply",
+          "fact": "promise"
+        },
+        {
+          "eventKind": "promise.answer",
+          "fact": "promise"
+        }
       ]
     }
   ],

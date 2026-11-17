@@ -33,7 +33,7 @@ import {
   remainingDaysAfterOnset,
   SUBSTANCE_CONDITION,
 } from "../death-cause";
-import { incomeBandOf } from "../counted-income-fifth";
+import { incomeBandOn } from "../counted-income-fifth";
 import {
   combineOwn,
   coverageSpellsNow,
@@ -691,7 +691,7 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       monthly == null ||
       api.state.households.get(person.householdId)?.quarters !== undefined
         ? undefined
-        : incomeBandOf(monthly * p("monthsPerYear"));
+        : incomeBandOn(api, monthly * p("monthsPerYear"));
     plan.fifth = fifth;
     const age = Math.floor(exactAge(api, person.birthDate, today));
     const mine = spells?.get(id);
