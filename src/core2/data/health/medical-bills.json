@@ -84,6 +84,7 @@
     },
     "medicalCareUnitHealthPayDays": {
       "value": 1.4,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "citation": "BLS Consumer Expenditure Survey 2024, medical services (series CXUMEDSERVSLB0101M, $1,252 a consumer unit), over the share of care paid out of pocket (MEPS Statistical Brief #441, 28.2 percent): the care cost the fit reproduces.",
       "estimatedFrom": "Fitted once, Nov 17, 2026, at four drawn places (draw purpose lives-coverage-fit, seeds a1 to d4, the February bills): the days of a health worker's pay one person's month of ordinary care takes, so that pay as the opening draws it gives the care cost the survey's bills gave. The four places' own ratios were 1.11, 1.32, 1.45 and 1.82; 1.4 is their middle. After the fit the price of care is the place's own health pay times this, and moves with it.",
@@ -96,6 +97,7 @@
     },
     "medicalCollectionsIncomeMidpoint": {
       "value": 3,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "citation": "KFF, Hospital Charity Care: How It Works and Why It Matters (https://www.kff.org/health-costs/issue-brief/hospital-charity-care-how-it-works-and-why-it-matters/), fetched 2026-11-17: of nonprofit hospitals studied, about one in three \"required patients to have incomes at or below 200 percent of the FPL\" for free care, and about three-fifths \"limited eligibility to patients with incomes at or below 400 percent of the FPL\" for discounted care.",
       "estimatedFrom": "Free care commonly ends near twice the poverty guideline and discounts near four times it; the midpoint between them, three times the guideline, is where half of an unpaid bill is written off and half sent to collections. A strength of the provider's weighing; it sets no town's share.",
@@ -108,6 +110,7 @@
     },
     "medicalCollectionsIncomeSlope": {
       "value": 5,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "citation": "KFF, Hospital Charity Care: How It Works and Why It Matters (https://www.kff.org/health-costs/issue-brief/hospital-charity-care-how-it-works-and-why-it-matters/), fetched 2026-11-17 (the same two limits).",
       "estimatedFrom": "With the midpoint at three times the guideline, a slope of 5 sends about 12 percent of an unpaid bill to collections at twice the guideline and about 81 percent at four times it: nearly free below the common free-care limit, nearly whole above the common discount limit, and a sliding scale between.",

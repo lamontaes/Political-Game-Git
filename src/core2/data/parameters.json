@@ -5801,16 +5801,19 @@
   },
   "healthWorkerPremiumShareSingle": {
     "value": 0.16,
+    "role": "coefficient",
     "tag": "SOURCED",
     "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"covered workers contribute 16% of the premium for single coverage and 25% of the premium for family coverage.\" A strength: how a plan's cost is split between worker and employer. The premium itself is the world's (modules/coverage.ts setRate)."
   },
   "healthWorkerPremiumShareFamily": {
     "value": 0.25,
+    "role": "coefficient",
     "tag": "SOURCED",
     "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"covered workers contribute 16% of the premium for single coverage and 25% of the premium for family coverage.\" A strength: the worker's part of each covered person's rate when the policy covers more than one person."
   },
   "healthPlanLoad": {
     "value": 1.176,
+    "role": "law",
     "tag": "SOURCED",
     "citation": "45 CFR 158.210(a) (https://www.law.cornell.edu/cfr/text/45/158.210, fetched 2026-11-17): in the large group market \"an issuer must provide a rebate to enrollees if the issuer has an MLR of less than 85 percent\"; (b) small group, 80 percent. A premium that pays 85 percent of itself in claims is the claims times 1/0.85.",
     "spread": {
@@ -5822,6 +5825,7 @@
   },
   "healthOfferSizeWeight": {
     "value": 0.9,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: firms with 200 or more workers, 98% offer coverage, \"versus 53% of small firms (3-199 workers)\"; \"93% of firms with 50 or more workers offer health benefits.\"",
     "estimatedFrom": "The log-odds of offering rise from 0.12 (53 percent, small firms, most of them under ten workers) to 3.9 (98 percent, firms of 200 or more) over about 4.1 natural logs of staff: 0.9 a log. A strength: how much an employer's size moves its offer. It sets no share of workers.",
@@ -5834,6 +5838,7 @@
   },
   "healthOfferPayWeight": {
     "value": 1,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: workers at firms with a large share of lower-wage workers are \"less likely to be covered by their own firm than workers at firms with a smaller share\" (50% versus 64%).",
     "estimatedFrom": "64 against 50 percent is 0.58 log-odds; firms with many lower-wage workers pay roughly half what others do (about 0.6 natural logs), so about one log-odds a log of pay over the plan's cost. A strength: how much a job's pay against the plan's cost moves the offer.",
@@ -5846,6 +5851,7 @@
   },
   "healthOfferBaseline": {
     "value": -3.75,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: at firms that offer coverage \"an average of 81% of workers are eligible\"; firms with 200 or more workers, 98% offer, small firms 53%.",
     "estimatedFrom": "Fitted once, Nov 17, 2026, at eight drawn places (draw purpose lives-coverage-fit, seeds a1 to h8, opening day): the baseline at which the mean of the places' offered shares of workers is about 0.72 (most workers work where a plan is offered, and 81 percent of those are eligible). At -4 the mean was 0.68 and at -3 it was 0.84. The places ranged from 0.4 to 0.94 at the fitted value: the baseline is the formula's zero point, and no place is pulled to the mean.",
@@ -5858,6 +5864,7 @@
   },
   "healthTakeBurdenTolerance": {
     "value": 0.026,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "KFF, 2024 Employer Health Benefits Survey, Summary of Findings (https://www.kff.org/report-section/ehbs-2024-summary-of-findings/), fetched 2026-11-17: \"Among eligible workers, 75% take up the firm's offer.\"",
     "estimatedFrom": "Fitted once, Nov 17, 2026, at the same eight drawn places: the worker's part of the premium for each person covered, as a share of pay, at which take-up is even odds; 0.025 gave a mean take-up of 0.744 and 0.03 gave 0.777. The world's own premiums and pay then move each worker's take-up.",
@@ -5870,6 +5877,7 @@
   },
   "healthTakeBurdenWeight": {
     "value": 1,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "How strongly a worker's take-up falls as their part of the premium rises against their pay: log-odds a natural log of the burden. No source fetched yet; checked against the spread below.",
     "spread": {

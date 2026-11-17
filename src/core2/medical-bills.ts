@@ -92,6 +92,7 @@ import {
   medicaidCoverageSpells,
   payMedicaidCare,
   payMedicareLinePart,
+  povertyLineDollars,
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import {
@@ -106,7 +107,6 @@ import { lawApplied } from "./law-reach/applied";
 /** The engine named on the law-reach rows these bills write. */
 const MEDICAL_BILLS_ENGINE = "medical-bills";
 import { parameter, type Parameter } from "./parameters";
-import { povertyLineDollars } from "./law-reach/poverty-line";
 import type {
   CoreAPI,
   CoreState,
