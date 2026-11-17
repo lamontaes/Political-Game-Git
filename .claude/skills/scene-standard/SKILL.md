@@ -1,6 +1,12 @@
 ---
 name: scene-standard
-description: The Wildermyth standard every scene and conversation in Our Civic Duty must meet, as checkable rules - a scene exists only if it writes something back, roles are cast from the world, lines vary by the speaker's traits and tie to the player, narration never restates the screen, and time jumps between scenes. Use when writing, wiring, reviewing or grading a scene, talk, situation type, narration or journal line, and in playtests.
+description: >
+  The Wildermyth standard every scene and conversation meets, as checkable
+  rules: a scene exists only if it writes something back, roles are cast from
+  the world, lines vary by the speaker's traits and tie to the player,
+  narration never restates the screen, time jumps between scenes. Use when
+  writing, wiring, reviewing or grading a scene, talk, situation type,
+  narration or journal line, and in playtests.
 ---
 
 # Scenes to the Wildermyth standard

@@ -1,14 +1,12 @@
 ---
 name: crew-messages
 description: >
-  How Our Civic Duty's sessions message each other: the one tool that reaches
-  another session, who gets which message (builder to checker, checker to
-  merger, a red to red main, a question for the owner to the CTO, a seam to the
-  session that owns it), what every message carries, what must also go into the
-  record, and the rule that a process is written as a skill, never explained in
-  a message. Use before sending any message to another session and whenever you
-  are about to explain how to do something. Not for the shared files themselves
-  (.agents/rules/how-we-talk.md) or for reports to the owner (civic-reports).
+  How sessions message each other: the one tool that reaches another session,
+  who gets which message (builder to checker, checker to merger, a red to red
+  main, an owner question to the CTO), what a message carries and what also
+  goes in the record. Use before messaging another session and before
+  explaining a process in a message (a process is a skill). Not for the shared
+  files (.agents/rules/how-we-talk.md) or owner reports (civic-reports).
 ---
 
 # Crew messages

@@ -1,15 +1,13 @@
 ---
 name: day-one-in-motion
 description: >
-  The rule that every world opens as a place already running, at every level:
-  town, state and federal. Before any module that keeps a record over time
-  ships, ask what that record looks like on day 0 and whether a real place
-  would have it empty; if not, build the opening stock from the same engine
-  that makes the flow, never a hand-filled list. Use when adding or changing
-  any module, record table, scene producer, office, body, budget or news
-  source, and when a played world's first screens look empty. Not for the
-  world's past (the opening past is seeded generation, see the owner's Oct
-  rulings) or for timing (speed-work).
+  Every world opens already running at town, state and federal level (owner,
+  Nov 14): before a module that keeps a record ships, say what that record
+  holds on day 0 and build the opening stock from the engine that makes the
+  flow, never a hand-filled list. Use when adding or changing a module, record
+  table, scene producer, office, body, budget or news source, or when a played
+  world's first screens look empty. Not for the world's past (seeded
+  generation) or timing (speed-work).
 ---
 
 # Day one is in motion

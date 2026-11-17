@@ -1,13 +1,12 @@
 ---
 name: helper-checkout
 description: >
-  Gives a helper or sub-agent of Our Civic Duty a copy of the repository that
-  holds only what its task needs: a sparse copy that skips image files, shares
-  the main checkout's git objects and links node_modules, made or narrowed
-  with one command. Use whenever a session starts a helper, sub-agent or
-  worktree, and whenever it finds a full helper copy on disk. Not for the main
-  checkout itself, and not for the Mac's registered workspace
-  (storage-and-workspaces).
+  Gives a helper or sub-agent a copy of the repository with only what its task
+  needs: a sparse copy without image files, sharing the main checkout's git
+  objects and linking node_modules, made or narrowed with one command. Use
+  whenever a session starts a helper, sub-agent or worktree, or finds a full
+  helper copy on disk. Not for the main checkout or the Mac's registered
+  workspace (storage-and-workspaces).
 ---
 
 # Helper checkout
@@ -19,7 +18,7 @@ description: >
 1. **Make a fresh sparse copy** from the main checkout, before you brief the helper:
    `scripts/storage/helper-checkout.sh new <dir> <branch>`
    - It skips image files (png, jpg, jpeg, webp, gif, psd) everywhere and keeps every folder. Code, data, notes and JSON stay, so typecheck, the tests and the guards all run in the copy.
-   - `<dir>` is outside the main checkout: your scratchpad or `/home/user/<name>`. The script refuses a path inside it, because vitest and the source-identity hash in `vite.config.ts` read every untracked file there. On Oct 29 helper worktrees under `.claude/worktrees/` gave false reds and a crashed config load.
+   - `<dir>` is outside the main checkout: your scratchpad or `/home/user/<name>`. The script refuses a path inside it, because vitest and the source-identity hash in `vite.config.ts` read every untracked file there. On Oct 29 helper worktrees under `.claude/worktrees/<name>` gave false reds and a crashed config load.
    - `<branch>` is checked out from the remote if it exists, so a fixer resumes a sent-back PR's branch; otherwise it starts from `origin/main`.
    - The copy borrows the main checkout's git objects and links its `node_modules`. It is a `git clone --shared`, or a `git worktree add` when the main checkout is a shallow clone, as cloud checkouts can be. A clone of a shallow repository copies every pack instead of sharing them; the words session found a 3.7 GB copy that way on Oct 29, and a worktree shares the objects either way. The helper never runs `npm install`, `git gc`, `git repack` or a bare `git fetch`; it fetches only `git fetch origin main` and its own branch. One helper's copy grew from 3 MB of `.git` to 2.6 GB after a fetch of everything. A plain `git fetch origin <branch>` in a copy can leave `origin/<branch>` at an older commit, so merging `origin/<branch>` merges the wrong one without a word; merge the SHA from `git ls-remote origin <branch>` (Oct 30, speed lead: a combined copy silently missed two of three fixes).
    - `--keep-images` is for a helper whose task is the pictures themselves (art, people, screens).

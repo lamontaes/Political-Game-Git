@@ -1,17 +1,13 @@
 ---
 name: seen-in-game
 description: >
-  The acceptance rule for Our Civic Duty (owner's ruling, Nov 3, ruling 1;
-  Fable audit, Nov 9, root cause 2): nothing is called done until a session
-  that did not build it has seen it working in the running game, in a place
-  and seed nobody chose, on main. Says what the second session does for each
-  kind of work (a law or budget line, a scene, words, a screen, a simulation
-  rule, a place fact, a speed change, a fix), how dev mode serves as the
-  check, the traps that give a false pass, and how the result is recorded
-  with `npm run pool -- seen`. Use when writing an item's Done when, before
-  reporting anything as done, and when taking a merged item to check. Not for
-  the builder's own proof (played-world-proof) or the merge gate (checker,
-  merger).
+  The acceptance rule (owner, Nov 3): nothing is done until a session that did
+  not build it has seen it working in the running game, in a place and seed
+  nobody chose, on main. What the second session does for each kind of work,
+  dev mode as the check, the traps that give a false pass, and recording with
+  npm run pool -- seen. Use when writing an item's Done when, before reporting
+  anything done, and when taking a merged item to check. Not for the builder's
+  proof (played-world-proof) or the merge gate (checker, merger).
 ---
 
 # Seen in the game
@@ -121,7 +117,7 @@ Every item at the standard says "second session" in its Done when (`.agents/rule
 - Never ask for "a record exists" or "the test passes" alone.
 - Open the screen yourself before you write its steps. On Nov 10 two checks named a "Laws panel" that does not exist and asked for a state row where the table has state columns; the second session had to say what it used instead.
 - Do the whole check yourself once before you hand it over, in a played world, and write the steps from what you did. On Nov 10 a check asked a second session to meet a neighbor and watch them go back to the counts after 240 days. It could not happen: a person the player talks to joins the player's circle, and the circle is kept as full people on purpose. The check came back "not seen" for a fix that worked.
-- **An item whose pull request merged but that still says `in-pr` or `claimed` cannot be recorded, and a second session does not wait on it (Nov 11).** `pool seen` refuses anything that is not `merged`, and the command that flips an item pushes to main, which a second session may not do. Tell the orchestrator and go on to the next group. The orchestrator flips the item in a pool-only pull request with `npm run pool -- status <id> merged --pr <n> --no-push` (every pool command takes `--no-push`); on Nov 11 a second session sat in a loop for an hour over five such items.
+- **An item whose pull request merged but that still says `in-pr` or `claimed` cannot be recorded, and a second session does not wait on it (Nov 11).** `pool seen` refuses anything that is not `merged`, and the command that flips an item pushes to main, which a second session may not do. Tell the orchestrator and go on to the next group. The orchestrator flips the item in the hour's pool bundle (`pool-notes`; owner, Nov 11: a pool-only change is not a pull request of its own) with `npm run pool -- status <id> merged --pr <n> --no-push` (every pool command takes `--no-push`); on Nov 11 a second session sat in a loop for an hour over five such items.
 
 ## When `seen` says "claimed, not merged"
 

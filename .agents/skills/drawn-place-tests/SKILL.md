@@ -1,13 +1,12 @@
 ---
 name: drawn-place-tests
 description: >
-  How a test that needs a particular case in the world (a race open for filing,
-  a renter, a named person the law covers, a body of three seats) finds one by
-  drawing places and waiting, and says what it passed over, so it never fails
-  or passes by the luck of the draw. Use when writing or fixing any test that
-  builds a played world, and when a test is red "by seed" on main. Not for
-  proving a feature in a played year (played-world-proof) or for reading a red
-  on main from its log (red-main).
+  A test that needs a particular case in the world (a race open for filing, a
+  renter, a person a law covers) finds one by drawing places and waiting, and
+  says what it passed over, so it never passes or fails by the luck of the
+  draw. Use when writing or fixing a test that builds a played world, and when
+  a test is red by seed on main. Not for a played-year proof
+  (played-world-proof) or reading a red's log (red-main).
 ---
 
 # Tests that draw their place

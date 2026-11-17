@@ -1,12 +1,11 @@
 ---
 name: scene-first-report
 description: >
-  The first report a scene or story builder for Our Civic Duty writes before
-  any line: what stages the scene, how often it would in a played year, what
-  facts the packet holds, what it writes back, and what the engine cannot yet
-  do. Use at the start of any scene, conversation, story or "ask someone to"
-  job, and when the Words lead asks a builder for its first report. Not for
-  writing the lines (civic-prose, words-engine) or for checking them
+  The first report a scene or story builder writes before any line: what
+  stages the scene, how often it would in a played year, what facts the packet
+  holds, what it writes back, and what the engine cannot yet do. Use at the
+  start of any scene, conversation, story or "ask someone to" job. Not for
+  writing lines (civic-prose, words-engine) or checking them
   (trusted-review-pass).
 ---
 

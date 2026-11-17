@@ -1,6 +1,13 @@
 ---
 name: play-walks
-description: How to play Our Civic Duty the way a player does, with scripts that start a new life on the bench, click what a player clicks (the people at home each day, the places Travel lists, the filing office, every menu) and write down every line on screen, so a lead or a second session reads the game and not only the tests. Use before a build goes to the owner, after a train of screen or words pull requests, when reading a words or screen pull request on screen, and when someone says the game says nothing or nothing happens. Not for one item's finish line (seen-in-game), not for proving a simulation change in a played year (played-world-proof), and not a check that passes or fails.
+description: >
+  Plays a new life the way a player does, with scripts that click what a
+  player clicks (the people at home, the places Travel lists, the filing
+  office, every menu) and write down every line on screen. Use before a build
+  goes to the owner, after a train of screen or words pull requests, when
+  reading a words or screen pull request on screen, or when someone says the
+  game says nothing. Not one item's finish line (seen-in-game), a played-year
+  proof (played-world-proof), or a pass-or-fail check.
 ---
 
 # Play walks

@@ -1,11 +1,18 @@
 ---
 name: words-stamp-read
-description: How a words reader reads a pull request's player-visible words before it folds, and what a builder must send to get that read. Covers finding the PR's own lines by piece against the train it merged, checking every new string is seen played at the exact head, reading each played talk for fit against the owner's rules, the stamp line, limits, carry-overs and send-backs. Use when you are a words reader or second reader, and when you are a builder about to ask for a words stamp. The owner's scene rules themselves live in words-reads; this is the reader's method and the builder's send list. Not for writing lines (civic-prose, words-engine), ruling on a question the rules do not answer (the Words lead), or the code gate (train-gate, checker).
+description: >
+  How a words reader reads a pull request's player-visible words before it
+  folds, and what a builder sends to get that read: finding the PR's own lines
+  by piece, checking every new string is seen played at the exact head,
+  reading each played talk against the owner's rules, the stamp line, limits,
+  carry-overs and send-backs. Use when you are a words reader or second
+  reader, or a builder about to ask for a words stamp. Not for writing lines
+  (civic-prose, words-engine) or the code gate (train-gate, checker).
 ---
 
 # Words stamp read
 
-A words read answers one question for one exact sha: can a player meet every word this pull request adds or moves, and does each one read right where it is said? The reader writes no lines, makes no ruling, never marks ready, merges or pushes.
+A words read answers one question for one exact sha: can a player meet every word this pull request adds or moves, and does each one read right where it is said? The reader writes no lines, makes no ruling, never marks ready, merges or pushes. The owner's scene rules themselves live in words-reads; this is the reader's method and the builder's send list. A question the rules do not answer goes to the Words lead.
 
 ## What a builder sends
 

@@ -1,15 +1,14 @@
 ---
 name: done-proof
 description: >
-  How done is proven in Our Civic Duty (CTO, Nov 16, on the crew's thread
-  #9747, from the owner's rule "fix the cause, don't loosen the check"): what
-  a pull request may never add without a CTO line, the screenshot from the
-  running game beside its mock or the owner's words, the feature map, three
-  strikes, no flaky-test skips, repeats that become checks, and the
-  verification stamp in every PR body. Use before opening a pull request or
-  marking one ready, and whenever loosening a red check looks easier than
-  fixing it. Not for the second session's check after merge (seen-in-game) or
-  the gate's commands (train-gate, checker).
+  How done is proven (CTO, Nov 16, from the owner's rule "fix the cause, don't
+  loosen the check"): what a pull request never adds without a CTO line, the
+  screenshot from the running game, the feature map, three strikes, repeats
+  that become checks, the verification stamp, and a one-line answer for each
+  standing rule. Use before opening a pull request or marking one ready, and
+  whenever loosening a red check looks easier than fixing it. Not for the
+  second session's check (seen-in-game) or the gate's commands (train-gate,
+  checker).
 ---
 
 # How done is proven

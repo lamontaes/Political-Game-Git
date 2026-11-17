@@ -1,6 +1,13 @@
 ---
 name: term-read
-description: How Our Civic Duty reads an official's or a town's term by policy area from the outcome web (src/core2/term-read.ts), and what is built on it, the kind of an address (src/director/address-kind.ts) and the town's strikes, protests and rallies (src/core2/modules/public-action.ts). Use when adding an area, a kind, a reaction to how a term is going, or a bank piece for an address kind, and when proving any of them in a played year. Not for the economy's own numbers (world-metrics, outcome-web) or for scenes (scene-producers).
+description: >
+  Reads an official's or a town's term by policy area from the outcome web
+  (src/core2/term-read.ts), and what is built on it: the kind of an address
+  (src/director/address-kind.ts) and the town's strikes, protests and rallies
+  (src/core2/modules/public-action.ts). Use when adding an area, a kind, a
+  reaction to how a term is going or an address bank piece, and when proving
+  one in a played year. Not for the economy's own numbers or for scenes
+  (scene-producers).
 ---
 
 # Reading a term by area, and what reads it

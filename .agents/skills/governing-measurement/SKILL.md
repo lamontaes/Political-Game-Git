@@ -1,15 +1,13 @@
 ---
 name: governing-measurement
 description: >
-  How the governing line measures the player's path and the world's elections
-  in drawn places: briefing the path-check runners, the re-election totals
-  script and its paired ablation, reading an ablation, knowing when a
-  measurement branch can show nothing new, running heavy commands on one
-  machine, and which campaign and voting records belong to a race or to a
-  person when someone asks who reads them. Use when measuring golden-path wins,
-  re-election totals or any calibration across drawn places, and when the speed
-  lead asks about a campaign or voting table. Not for proving one feature in a
-  played year (played-world-proof) or for timing a year (speed-work).
+  Measures the player's path and the world's elections in drawn places:
+  briefing path-check runners, the re-election totals script and its paired
+  ablation, reading an ablation, and which campaign and voting records belong
+  to a race or a person. Use when measuring golden-path wins, re-election
+  totals or a calibration across drawn places, or when the speed lead asks
+  about a campaign or voting table. Not for one feature's played-year proof
+  (played-world-proof) or timing (speed-work).
 ---
 
 # Governing measurement
@@ -34,10 +32,10 @@ Phase A's done-when is a count over drawn places (path-check wins a council seat
 
 ## Re-election totals and the paired ablation
 
-- **The script.** `scripts/core2-year/incumbency-totals.ts` (on the branch `governing/incumbency-calibration`, which was still unmerged on Nov 10: the script, `src/core2/incumbency-ablation.ts` and `docs/research/local-incumbency-2026-10-30.md` are not on main, so `git fetch` that branch to read them) runs the bench world with every module and no player. Options are `--seed`, `--places`, `--years` and `--ablation both|neither|no-trait|no-standing`. Three value knobs set a term's size instead of zeroing it: `--trait-weight`, `--recognition` and `--pledge-weight`. Each one left out reads the parameter, as play does. `--contests` adds one JSON line per contest, keyed by contest id, so two versions can be compared race by race. It prints one JSON line per place and a totals line against T1 to T6 of `docs/research/local-incumbency-2026-10-30.md`, with the holder-share quartiles (P1) and T3 by office kind (P6).
+- **The script.** `incumbency-totals.ts` under `scripts/core2-year/` on the branch `governing/incumbency-calibration` (still unmerged on Nov 16: the script, `incumbency-ablation.ts` under `src/core2/` and the research note `local-incumbency-2026-10-30.md` under `docs/research/` are only on that branch, so `git fetch` it to read them) runs the bench world with every module and no player. Options are `--seed`, `--places`, `--years` and `--ablation both|neither|no-trait|no-standing`. Three value knobs set a term's size instead of zeroing it: `--trait-weight`, `--recognition` and `--pledge-weight`. Each one left out reads the parameter, as play does. `--contests` adds one JSON line per contest, keyed by contest id, so two versions can be compared race by race. It prints one JSON line per place and a totals line against T1 to T6 of the branch's research note, with the holder-share quartiles (P1) and T3 by office kind (P6).
 - **One totals run at a time, in any container.** Two versions started together were both killed for memory (exit 137) after about 20 minutes and five or six places (Nov 1). Run both, then neither, one after the other, with `NODE_OPTIONS=--max-old-space-size=6000`.
 - **Pair the versions.** Use the same seed for every version, so every version plays the same places and the differences are the terms, not the draw. Use two runners on two seeds (`incumb-A`, `incumb-B`). At 6 places and 3 years, a version takes about 30 minutes.
-- **Measurement knobs** are module-level settings that default off and that nothing in play sets (`src/core2/incumbency-ablation.ts`). Never a parameter in play.
+- **Measurement knobs** are module-level settings that default off and that nothing in play sets (`incumbency-ablation.ts` on the branch above). Never a parameter in play.
 - **Count every stage the same way.** A holder who beats a primary rival and then runs alone in November had a contested race (review, Nov 1). Counties have their own bands, so total them apart from cities and townships.
 - **Read the ablation before you tune.** If removing either of two terms alone changes no winner, but removing both flips many, neither term is the double count: something amplifies any edge. Look for a feedback, such as a door yes adding to the very preference that produced it. On Nov 1, T3 (contested races the holder won) was 0.94 with both terms, 0.94 with no trait, 0.94 with no standing and 0.56 with neither. Tuning one term to hit a total then breaks again in the next place.
 - **A place that crashes in another engine.** Name it from its salt (`drawPlace(salt, "incumbency-totals")` in `scripts/core2-year/place.ts`), send it to red main with the error and a repro, and skip it by name. Never drop it silently. On Nov 1, Superior, Colorado died in finance's `closeEmployer`.
