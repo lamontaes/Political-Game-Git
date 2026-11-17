@@ -2,7 +2,8 @@
  * Every counted move names what weighed toward it (pool item
  * people-in-state-moves-name-no-cause): within the town's state as across
  * states, the rate of leaving at the movers' age, and from another state the
- * pull toward this one. A played year of a place drawn from all 56; set
+ * pull toward this one; from abroad, the country tier's month that brought
+ * them. Each names the records it read (Pins family 29). A played year of a place drawn from all 56; set
  * GOLDEN_PATH_SEED to reproduce the draw.
  */
 import { randomBytes } from "node:crypto";
@@ -45,7 +46,18 @@ it("every counted move in a played year, within the state or across states, reco
       const within = moves.filter(inState);
       const across = moves.filter((row) => !inState(row) && !fromAbroad(row));
       for (const row of moves) {
-        // The rate its people's age leaves at, on every move.
+        // From abroad: the country tier's arrivals this month, and the tier's
+        // row it read (no state's leavers, so no rate of leaving).
+        if (fromAbroad(row)) {
+          expect(row.reasons.fromAbroad, `${where}: ${row.id}`).toBeGreaterThan(
+            0,
+          );
+          expect(row.reads?.fromAbroad?.length, `${where}: ${row.id}`).toBe(1);
+        } else
+          // The records the rate read: the tier's row for the state it left.
+          expect(row.reads?.lifeStage?.length, `${where}: ${row.id}`).toBe(1);
+        if (fromAbroad(row)) continue;
+        // The rate its people's age leaves at, on every other move.
         // (or, for a household of minors alone that its group's movers came
         // due for, the group's rate: no adult of its own was weighed).
         expect(

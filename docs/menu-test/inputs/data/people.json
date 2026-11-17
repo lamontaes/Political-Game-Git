@@ -1,0 +1,21 @@
+{
+  "screen": "People (a person's card)",
+  "my_people": {
+    "Home": [{"name": "Ashley Lucas", "tie": "partner"}],
+    "Family": [{"name": "Laura Summers", "tie": "daughter"}, {"name": "Monique Summers", "tie": "mother"}],
+    "Work": [{"name": "Shane Harrison", "tie": "coworker"}]
+  },
+  "selected": {
+    "name": "Ashley Lucas",
+    "tie": "Partner",
+    "age": 45,
+    "portrait": "crop a woman from art/busts/v1/sheets/women-all27-front.png",
+    "who_she_is": ["Has served as a commissioner since 2024.", "Works outside Grano, North Dakota.", "Born in Grano, North Dakota, in 1979."],
+    "how_i_see_her": ["Conciliatory", "Takes chances"],
+    "politics": "You don't know where she stands yet.",
+    "between_us": "Lives with you",
+    "her_people": [{"name": "Shane Harrison", "role": "council member"}, {"name": "Shirley Pratt", "role": "council member"}],
+    "her_story_facts": ["Middle school, 1991", "High school at 14", "College, 1998", "Moved within Grano, 2001", "Started a life with you, 2001", "Daughter Laura born, 2001", "Graduated college, 2002", "Three months without work, 2002"],
+    "story_note": "The game's English engine writes the story itself; show where it sits and how it reads, not a list of dated facts."
+  }
+}

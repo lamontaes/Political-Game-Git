@@ -1,0 +1,27 @@
+{
+  "screen": "Politics > Government (Local, Legislative)",
+  "tabs": ["Government", "Elections", "Parties", "Issues", "Bills", "Budgets", "Metrics"],
+  "levels": ["Local", "State", "Federal"],
+  "branch": ["Legislative", "Executive"],
+  "bodies": ["Grano City Council", "Renville County Board of Commissioners"],
+  "body": {
+    "name": "Grano City Council",
+    "seats": 5,
+    "partisanship": "Nonpartisan",
+    "room_painting": "art/backdrops/council-chamber-small__midday.jpg",
+    "members": [
+      {"name": "Alexis Harrison", "seat": "At large"},
+      {"name": "Allen Schultz", "seat": "At large", "note": "Named mayor pro tem this week"},
+      {"name": "Charlotte Schultz", "seat": "At large"},
+      {"name": "Shane Harrison", "seat": "At large"},
+      {"name": "Shirley Pratt", "seat": "At large"}
+    ],
+    "recent_votes": [
+      {"title": "Fund pensions to schedule", "date": "Jan 18, 2024", "result": "Passed", "yes": 3, "no": 0},
+      {"title": "Raise minimum wage", "date": "Jul 13, 2023", "result": "Passed", "yes": 3, "no": 0}
+    ],
+    "coming_up": [{"date": "Feb 4", "what": "Regular meeting"}],
+    "executive": {"title": "Mayor", "name": "Chris Munoz", "since": "June 2022"}
+  },
+  "today": "Monday, January 20, 2025"
+}

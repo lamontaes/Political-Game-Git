@@ -422,6 +422,12 @@ describe("jobs", () => {
   it("fills a declined player opening with the next willing applicant", () => {
     const fixture = input();
     fixture.playerId = "s2";
+    // An employer offers the player a job only through someone on its staff who
+    // knows them (owner, Nov 16: "I didn't even apply for one"), so the player
+    // knows a worker at the shop.
+    fixture.people = fixture.people.map((row) =>
+      row.id === "s2" ? { ...row, knownIds: ["w1"] } : row,
+    );
     const core = createLifeCore(fixture, { data, modules: [JOBS_MODULE] });
     const api = coreAPI(core);
     withBooks(core, 2);
