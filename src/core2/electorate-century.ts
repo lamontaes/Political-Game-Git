@@ -28,8 +28,8 @@
  */
 import {
   candidateReasons,
+  electorateParameter,
   nationalParty,
-  typicalSpendPerVote,
   type CandidateInputs,
 } from "./electorate-inputs";
 import { countParties, type RacePlace, type SampleVoter } from "./electorate";
@@ -466,12 +466,12 @@ function presidentialElection(
       },
       field.map((candidate, i) => ({
         ...candidate,
-        spentMinor: typicalSpendPerVote("president") * eligible * means[i]!,
+        spentMinor: typicalCampaign(eligible) * means[i]!,
       })),
       {
         cycle: "presidential",
         federal: true,
-        typicalSpendPerVote: typicalSpendPerVote("president"),
+        contactPriceMinor: CENTURY_CONTACT_PRICE,
         raceVotes: eligible,
         approvalGapPoints: gap,
         town: null,
@@ -654,6 +654,19 @@ function careerOf(
 }
 
 /**
+ * The century keeps no campaign books, so a contact has no price there: its
+ * candidates' spending is a multiple of one typical campaign (reaching every
+ * voter the number of times `spendingContactsPerVoteAtEven` says), at a price
+ * of one, and only that multiple is read. The multiple is each candidate's
+ * own means, drawn once per person (who exists).
+ */
+const CENTURY_CONTACT_PRICE = 1;
+const typicalCampaign = (eligible: number): number =>
+  electorateParameter("spendingContactsPerVoteAtEven") *
+  CENTURY_CONTACT_PRICE *
+  eligible;
+
+/**
  * A century candidate's campaign means against the typical race's, drawn once per person (who
  * exists: their donors, their own money, their party's backing), as a multiple of the typical
  * spending; the one race rule reads it through its spending reason (electorate-inputs.ts
@@ -819,8 +832,7 @@ function congressElections(
     // A holder runs again until their career ends or the office's term limit stops them.
     const runs =
       seat.termsWon < Math.min(seat.careerTerms, seat.termLimit ?? Infinity);
-    const typicalSpend =
-      typicalSpendPerVote(house ? "usHouse" : "statewideExecutive") * eligible;
+    const typicalSpend = typicalCampaign(eligible);
     const field: CandidateInputs[] = [-1, 1].map((side) => ({
       id: `party:${side > 0 ? "R" : "D"}`,
       party: nationalParty(side),
@@ -855,9 +867,7 @@ function congressElections(
       {
         cycle,
         federal: seat.chamber !== "executive",
-        typicalSpendPerVote: typicalSpendPerVote(
-          house ? "usHouse" : "statewideExecutive",
-        ),
+        contactPriceMinor: CENTURY_CONTACT_PRICE,
         raceVotes: eligible,
         approvalGapPoints: gap,
         town: null,
@@ -929,7 +939,7 @@ function timeForChangeOf(
     const reason = candidateReasons(candidate, {
       cycle: "presidential",
       federal: true,
-      typicalSpendPerVote: 0,
+      contactPriceMinor: 0,
       raceVotes: 1,
       approvalGapPoints: gap,
       town: null,
