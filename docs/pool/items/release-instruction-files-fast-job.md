@@ -30,7 +30,7 @@ Seen: the CTO's 05:22Z comment on issue 9747.
 
 **Rules.** American English everywhere: the job runs the spelling guard before a skills pull request merges.
 
-**Done when.** A second session opens a scratch pull request that adds the word "colour" to a skill and reads the `instruction checks` job's summary naming the American English guard as failed, with the job passing while `OBSERVE` is "true". No place is drawn: the check reads files, not a played world.
+**Done when.** A second session opens a scratch pull request that adds a British spelling of "color" to a skill and reads the `instruction checks` job's summary naming the American English guard as failed, with the job passing while `OBSERVE` is "true". No place is drawn: the check reads files, not a played world.
 
 **Waits on.** Nothing.
 
