@@ -122,9 +122,22 @@ function playToJune(drawSeed: string) {
   const fillDay = makeIsoDate(`${year}-06-30`);
   const lastPayday = `${year}-06-01`;
   advanceCore(core, fillDay);
+  // Households whose policyholder has a recorded job come first: filling one
+  // in gives its holder that job, so the review on the 1st can weigh them again.
+  // A holder among the place's unplaced workers has no recorded employer, and
+  // a filled-in person has no job record to be weighed on (filed on the crew's
+  // thread for the residents lane), so those households follow.
+  const recordedJob = (row: { householdId: string; holderId: string }) =>
+    (rt.store.liveHousehold(row.householdId)?.jobs ?? []).some(
+      (job) => job.personId === row.holderId && job.endsAt === undefined,
+    );
   const paidCounted = counted()
     .filter(paidInFull)
-    .sort((a, b) => a.householdId.localeCompare(b.householdId));
+    .sort(
+      (a, b) =>
+        Number(recordedJob(b)) - Number(recordedJob(a)) ||
+        a.householdId.localeCompare(b.householdId),
+    );
   const paidFull = full().filter(
     (row) =>
       row.plan === "employer" &&
