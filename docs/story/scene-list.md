@@ -2,7 +2,7 @@
 
 For the owner to read and riff on (owner, Nov 16: "just a list of scenes or something and potential scenes and stuff, I can riff off of that as well"). Kept by the Story lead on the Story thread (#9750) and refreshed every few hours. Part (a) is every scene kind the game has today, in plain words. Part (b) is what is planned or being weighed, by where you are in life, with the scenes each one unlocks. A riff on any line goes back to the thread verbatim and changes the engine, not only the line.
 
-Updated Nov 17, 2026, 00:30 UTC.
+Updated Nov 17, 2026, 11:30 UTC.
 
 ## (a) Every scene kind that exists today
 
@@ -48,15 +48,15 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 - A friend or relative held before trial or in prison asks you to visit, look after a child, or carry word to family. Anyone. [prison-visit]
 - Someone who knows you accuses you of a crime at school, at work or in public, while people watch. Anyone. [accusation]
 - A friend or relative moving away stops by to say goodbye. Anyone. [moving-goodbye]
-- An organizer in public asks you to join a cause group taking up an issue. Anyone. [cause-invite]
+- A neighbor who shared a cause with you stops you with a clipboard and asks you to come to the town body's next posted meeting about it; a yes is a promise the meeting's record keeps or breaks, and you can only say yes to a cause you agree with. Anyone. Rewritten Nov 17 (#9947), ready. [cause-invite]
 - A seated officeholder of your party who took you under their wing weighs in, at their home, on whether you should run. Anyone weighing a run. [advice]
 
 ### Running for office: doors, filing, the campaign, election night
 
 - The clerk at the counter checks your papers when you file to run. At stake: the office and your petition. Candidates. [filing]
-- Your family reacts when you file: pride, worry, who drives you, what it costs the house, said only when the household's books turn on it (owner, Nov 17: the stock "two weeks of savings" came out of context; the money line waits for a real shortfall). At home. Candidates. Graded Nov 17. [family-filing]
-- A voter opens the door to your canvass, the first time or again; their view of your platform decides how it goes. At stake: their vote. Candidates. [door-ask]
-- A voter at the door is asked to sign your petition while it circulates, and says yes or no. Candidates. [door-signature]
+- Your family reacts when you file, only when the race itself costs the house something read from its books: your own money in the campaign, a job you left to run, or a young child at home while you work. The talk names the office, the race's length, the money put in, the job or the child; nobody says how long the savings last. A house the race costs nothing hears the filing as news at the evening talk. At home. Candidates. Rebuilt Nov 17 (#9905), ready. [family-filing]
+- A voter opens the door to your canvass, the first time or again; their view of your platform decides how it goes, and what they say is placed by their record (a lost job, a rent notice, a sick relative, your rival's name, your stand on their question). At stake: their vote. Candidates. Rewritten Nov 17 (#9846), ready. [door-ask]
+- A voter at the door is asked to sign your petition while it circulates; the petition record's answer decides, and the talk reads it. Candidates. Rewritten Nov 17 (#9846), ready. [door-signature]
 - At a petition table in town, someone asks about your petition and may sign it. Candidates. [petition-short]
 - Someone passes on a rival's word about you, from a paid message or a remark. At stake: your race. Candidates. [rival-word]
 - At a public rally, a rival candidate confronts you while the crowd listens. Candidates. [rally-opponent]
@@ -65,7 +65,7 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 - A reporter presses you for an on-the-record answer about your race. Candidates. [interview-sitting]
 - An outlet or group invites you to a debate. Candidates. [debate-invite]
 - You stand on stage at a debate with your opponent, before the press and the public. Candidates. [debate-sitting]
-- Another candidate asks you, at home or by phone, to endorse them. Anyone the candidate is close to. [endorsement-ask]
+- Another candidate asks you to endorse them, and says why now from their own records: how long they worked for you, the question they carry, a job lost, an earlier run, the same party, or that they run against someone you backed. Anyone the candidate is close to. Rebuilt Nov 17 (#9909), ready. [endorsement-ask]
 - Someone who knows you heard you filed and comes by to offer help on your campaign. Candidates. [volunteer-offer]
 - Someone close to you (a partner, a relative, a best friend) offers to run your campaign, not only help it. Candidates. [manager-offer]
 - A party chair comes to your home to ask you to run under the party's name for a seat nobody filed for. Party members. [party-recruit]
@@ -78,7 +78,7 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 
 ### Holding a local office
 
-- A reporter catches you in the hallway after a vote, a bill, a veto or an act, and asks for comment. Officeholders. [press-interview]
+- A reporter catches you in the hallway after a vote, a bill, a veto or an act, and asks for comment; the questions name the bill and your vote, a lie is caught by the roll call, and the closes follow what you actually said. Officeholders. Rewritten Nov 17 (#9794), ready. [press-interview]
 - A paper exposes you or your office, and a reporter asks for your side: confess, refuse, or lie. Officeholders. [scandal]
 - A resident stops you in the street about a vote you cast or a law that just reached them. Fires far too often today (owner, Nov 17); each stop needs its cause on record and a cooldown, and the board picks a few. Officeholders and candidates. Graded Nov 17. [constituent-stop]
 - Recall petitioners corner you at a table or by phone and ask you to answer for your record. Officeholders. [recall]
@@ -86,9 +86,9 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 - At the swearing-in, the officiant reads the oath and you take it. Anyone who just won or was appointed. [swearing-in]
 - A department head asks you to fight a budget cut, or to accept it. At stake: the cut and your votes. Officeholders. [budget-cut]
 - A constituent comes to office hours with a lost job, rent trouble, a relative in custody or an illness, and asks for help. Fires far too often today (owner, Nov 17); same rule: a cause on record, a cooldown, the board picks a few. Officeholders. Graded Nov 17. [office-hours]
-- Someone offers you a bribe at your office or a venue for a favor; you can take it, refuse it, or report it. Officeholders. [bribe-offer]
+- Someone offers you a bribe at your office or a venue for a favor; you can take it, refuse it, or report it; the lines name the bill or the contract, the gift's weight in words and your own stand. Officeholders. Rewrite in build Nov 17. [bribe-offer]
 - After you refuse, the same person presses harder. Officeholders. [bribe-pressed]
-- A donor asks for your support on a bill. Officeholders and candidates. [donor-ask]
+- A donor calls about a bill: their gift's weight is said in words against the other donors (the biggest check, a small one), your yes or no gives your own side on the question, the bill's stage places a stall, and a lie about a bill that never moved is caught by the sponsor or the chair. A gift that names no bill brings no call. Officeholders and candidates. Rewritten Nov 17 (#9931), ready. [donor-ask]
 - At a town hall, a resident asks you a question in front of the room. Officeholders and candidates. [town-hall-question]
 - A protester or striker confronts you at the edge of the crowd about what it is over. Officeholders. [action-confront]
 - The day after a crowd formed against the town, someone you live with doubts you, having seen it on your face. Officeholders. [office-doubt]
@@ -98,7 +98,7 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 ### Holding a seat in a legislature (town council, state house or senate, Congress)
 
 - A member who sat on the committee that heard a bill asks you to vote their way in the hallway. Members. [vote-asked]
-- Before a floor vote, a colleague asks you to back their bill; you say yes, not yet, or no. Members. [vote-sought]
+- The evening before the roll, a colleague asks for your vote and says whether you are the one name they still need or one on a list; your yes or no gives your own stand on the question, a thank comes only after a yes, and a lie is believed or caught. Members. Rewritten Nov 17 (#9935), ready. [vote-sought]
 - A colleague asks you to take a seat, a committee or a role in the body. Members. [serve-sought]
 - The sponsor of a bill whose veto override failed asks you for another try. Members. [vote-confirmed]
 - A member who introduced a bill asks you to carry it with them. Members. [bill-carry]
@@ -149,7 +149,7 @@ Each line says who, where, what is at stake, and what it unlocks. "Unlocks" mean
 - Someone challenges your petition, or you challenge theirs, and the board rules. Unlocks: a rival off the ballot and their grudge; a press story.
 - The incumbent who said they would step aside files at the last hour, against their own word to you. Unlocks: the lie remembered in the race.
 - Other candidates filing the same day at the clerk's counter; a party official watching who files; a reporter checking the list at closing. Unlocks: the first rival word.
-- A long-time volunteer or staffer asks for your endorsement to run on their own (the owner's example). Unlocks: their race night; an ally on the body; or, refused, they leave your campaign and may run against someone you back. (planned)
+- A long-time volunteer or staffer asks for your endorsement to run on their own (the owner's example). Unlocks: their race night; an ally on the body; or, refused, they leave your campaign and may run against someone you back. (Built Nov 17, #9909: the ask says why now from their records; a housemate's ask at home follows once #9809 lands.)
 - A friend signs you up for a group that would help the campaign; at the first meeting the organizer names the price. Unlocks: the favor called in.
 - The heckler who says you are not one of us, and the friend in the room who answers them. Unlocks: the friend's standing with you; the heckler at the next door.
 - Answer for a vote you once cast: an opponent says you once voted for the other side; you own it, explain it, or deny it (a denial the record contradicts is a lie). Unlocks: the press if the lie is caught. Owner, Nov 17: "pretty thin. i have never seen consequences"; it must fire from the roll and change something he can see before it is listed as built.
