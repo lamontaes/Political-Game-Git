@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: laws-and-effects (builder crew, Nov 17)
 pr:
 after:
 blocked-on:
@@ -33,3 +33,5 @@ root: rc8-law-judged-by-paperwork
 **Waits on.** Nothing.
 
 **Files.** src/core2/budgets-treasury.ts, src/core2/modules/macro.ts, src/core2/data/budgets/spending-payees.json
+
+**Notes.** Nov 17 (Laws and effects lane, branch claude/laws-federal-transportation-aid): built for the five federal lines the close already charges aid to (health, income security, transportation, education, community development). Each line's part of a lower treasury's federal aid, split by the lines' base amounts, moves with the line in force over its base; a raise is paid under the bill's own payment id and recorded as reaching the government, a cut comes off the month's aid (`grantLineChanges` in src/core2/budgets-treasury.ts). Proven in the game for transportation; agriculture's and international affairs' grant shares are not federal aid to a state and stay with their own items.
