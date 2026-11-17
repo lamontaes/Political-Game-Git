@@ -10,11 +10,17 @@ const FIFTH_LIMITS = [1, 2, 3, 4].map(
     COUNTED[`countedIncomeFifthLimit${i}Dollars`]!.value * CENTS_PER_DOLLAR,
 );
 
-/** The national household-income fifth a yearly income (in minor units) falls in, 0 to 4. */
-export function incomeBandOf(incomeMinorYear: number): number {
+/**
+ * The national household-income fifth a yearly income (in minor units) falls
+ * in, 0 to 4. The limits are written in the source year's dollars; `wageIndex`
+ * is how far this world's own average pay has moved since it opened
+ * (`sinceOpeningIndex`, read once per pass), 1 on day one.
+ * stopgapId: SG-WORLD-tax-index-january
+ */
+export function incomeBandOf(incomeMinorYear: number, wageIndex = 1): number {
   let band = 0;
   FIFTH_LIMITS.forEach((limit, at) => {
-    if (incomeMinorYear > limit) band = at + 1;
+    if (incomeMinorYear > limit * wageIndex) band = at + 1;
   });
   return band;
 }
