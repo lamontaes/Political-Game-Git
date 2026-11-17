@@ -9,7 +9,7 @@ status: in-pr
 standard: 2
 root: none
 claimed-by: claude/long-game-office-hours-reply-id
-pr:
+pr: #9882
 after:
 blocked-on:
 lead: words
