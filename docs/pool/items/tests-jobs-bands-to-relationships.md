@@ -1,6 +1,6 @@
 ---
 id: tests-jobs-bands-to-relationships
-title: "The jobs-and-economy checks fail a world or a data file for leaving a published band instead of checking how strongly one thing moves another"
+title: "Checks Long game handed to Pins fail a world or a data file for leaving a published band instead of checking how strongly one thing moves another"
 area: core
 kind: bug
 priority: 2
@@ -18,11 +18,11 @@ effort: medium
 source: Pins lane, Nov 17 (the CTO's calibration audit, family 32, on issue 9747; handed from Long game's 03:48Z list)
 ---
 
-**What.** `commuting-shares.test.ts` failed the LODES table when the national share of working residents who work in their own place left 0.2 to 0.5 ("ACS puts it near a third"). That holds a level inside a published band, which the owner's rule forbids. The check should instead say how strongly one thing moves another in the data the game carries. Guards: the commuting table's order between places, read by the test at every sourced place.
+**What.** `commuting-shares.test.ts` failed the LODES table when the national share of working residents who work in their own place left 0.2 to 0.5 ("ACS puts it near a third"). That holds a level inside a published band, which the owner's rule forbids. `candidacy.test.ts` likewise failed a town whose age-weighted share of incumbents standing again left 0.65 to 0.95. The check should instead say how strongly one thing moves another in the data the game carries. Guards: the commuting table's order between places, read by the test at every sourced place.
 
 **Cause.** Found in code: src/core2/commuting-shares.test.ts (line 60) compares a national share with a fixed band.
 
-**Fix.** The band goes. The check reads the relationship the files carry: across every sourced place, the share of working residents who work at home rises with the jobs the place holds per working resident (Spearman rank correlation, ties at their mean rank, above zero; 0.64 over 29,941 places). A table whose shares were one copied figure has no order and fails. The rest of Long game's jobs-and-economy list stays open here; each converts in its own commit.
+**Fix.** The band goes. The check reads the relationship the files carry: across every sourced place, the share of working residents who work at home rises with the jobs the place holds per working resident (Spearman rank correlation, ties at their mean rank, above zero; 0.64 over 29,941 places). A table whose shares were one copied figure has no order and fails. Incumbents: those 70 and over must stand again less often than those under 60, the age relationship `votingStandAgainAgeWeight` stands for (97.6% against 23.1% at seed candidacy-a); with the weight at zero the check fails. The rest of Long game's jobs-and-economy list stays open here; each converts in its own commit.
 
 **Time box.** 1 hour for this check.
 
@@ -32,4 +32,4 @@ source: Pins lane, Nov 17 (the CTO's calibration audit, family 32, on issue 9747
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/commuting-shares.test.ts
+**Files.** src/core2/commuting-shares.test.ts, src/core2/candidacy.test.ts
