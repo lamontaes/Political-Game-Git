@@ -4785,7 +4785,6 @@ function publicReasons(
     : undefined;
   const conditions = raceConditions(api, {
     federal: contest.level === "federal",
-    family: president ? "president" : contest.family,
     cycle: electionCycle(contest.electionDate),
     raceVotes: votes * cycleTurnout(contest.electionDate).share,
     townPlaceId: town(api).townPlaceId,
@@ -6408,7 +6407,6 @@ export function electoralCollege(
   const date = api.state.date;
   const conditions = raceConditions(api, {
     federal: true,
-    family: "president",
     cycle: "presidential",
     raceVotes: 0,
     townPlaceId: null,
@@ -7100,12 +7098,6 @@ function decide(
   const townsState = `US-${race.usps}` === lawChain(api).stateKey;
   const conditions = raceConditions(api, {
     federal: race.office.startsWith("us-"),
-    family:
-      race.office === "us-house"
-        ? "usHouse"
-        : race.office.startsWith("legislature-")
-          ? "stateLegislative"
-          : "statewideExecutive",
     cycle,
     raceVotes: votesAt2024 * cycleTurnout(date).share,
     townPlaceId: null,

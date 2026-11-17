@@ -69,7 +69,6 @@ import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { notifySalesReceipt } from "./finance";
 import { filingClerkFor } from "./filing-clerk";
-import { medianTransactionBalance } from "../starting-cash";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
@@ -1231,7 +1230,12 @@ interface Address {
 }
 const addressCache = new WeakMap<
   object,
-  { key: string; list: readonly Address[]; countedAdults: number }
+  {
+    key: string;
+    list: readonly Address[];
+    countedAdults: number;
+    namedAdults: number;
+  }
 >();
 
 /**
@@ -1257,6 +1261,8 @@ export function townDoorCount(api: CoreAPI): number {
 function townAddresses(api: CoreAPI): {
   readonly list: readonly Address[];
   readonly countedAdults: number;
+  /** The full adults living at the list's full households. */
+  readonly namedAdults: number;
 } {
   const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
@@ -1269,6 +1275,8 @@ function townAddresses(api: CoreAPI): {
   // stopgapId: SG-GOV-campaign-walk-order
   api.stopgap("SG-GOV-campaign-walk-order");
   const ids = new Map<string, { counted: boolean; eldest: string }>();
+  const date = api.state.date;
+  let namedAdults = 0;
   for (const id of named ?? []) {
     const person = core.people.get(id);
     if (
@@ -1282,12 +1290,12 @@ function townAddresses(api: CoreAPI): {
         const member = core.people.get(m);
         if (member?.alive && member.birthDate < eldest)
           eldest = member.birthDate;
+        if (member?.alive && ageOn(member, date) >= adultAge) namedAdults += 1;
       }
       ids.set(person.householdId, { counted: false, eldest });
     }
   }
   let countedAdults = 0;
-  const date = api.state.date;
   // The wider population is read from its groups' columns, never built as records.
   for (const h of rt?.store.liveHouseholds() ?? []) {
     if (h.placeId !== town || ids.has(h.id)) continue;
@@ -1305,7 +1313,7 @@ function townAddresses(api: CoreAPI): {
     .sort(
       (a, b) => a.eldest.localeCompare(b.eldest) || a.id.localeCompare(b.id),
     );
-  const built = { key, list, countedAdults };
+  const built = { key, list, countedAdults, namedAdults };
   addressCache.set(core, built);
   return built;
 }
@@ -3938,7 +3946,7 @@ export function giftOf(
 /**
  * A donor's own reasons to give to a candidate: warmth, agreement with the
  * platform, party, how they stand with the candidate, what they have to
- * spare against a typical gift (`spareAgainstGift`, from `giftBudget`) and
+ * spare against their own bills (`spareAgainstGift`, from `giftBudget`) and
  * every trait's lean between giving and keeping. Above zero they would give
  * if they have the cash; at or below it they keep it (and a minor or the
  * dead never give).
@@ -3971,24 +3979,28 @@ export function donorReason(
 }
 
 /**
- * What a person has to spare against a typical gift, -1 to 1: the month's
+ * What a person has to spare against their own bills, -1 to 1: the month's
  * income left after taxes and bills plus the savings beyond their cushion
- * (`giftBudget`), set against `donorSpareGiftsAtEven` typical gifts
- * (`donorTypicalGiftMinor`), sliding as (spare - even) / (spare + even). With
- * nothing to spare it reads -1 (a gift would come out of the bills), at that
- * many gifts 0, and it nears 1 as a gift becomes a small part of what they
- * have; never a threshold.
+ * (`giftBudget`), set against `donorSpareMonthsAtEven` months of their own
+ * living costs, sliding as (spare - even) / (spare + even). With nothing to
+ * spare it reads -1 (a gift would come out of the bills), at that span 0, and
+ * it nears 1 as their spare money outgrows their bills; never a threshold.
+ * The scale is the donor's own month, so the same spare dollars weigh more
+ * for someone who lives on little than for someone who lives on a lot, and
+ * it moves with the town's own costs of living.
  */
 export function spareAgainstGift(
   budget: Pick<
     ReturnType<typeof giftBudget>,
-    "discretionaryMinor" | "savingsMinor"
+    "discretionaryMinor" | "savingsMinor" | "ownMonthLivingMinor"
   >,
 ): number {
   const spare = Math.max(0, budget.discretionaryMinor + budget.savingsMinor);
   const even =
-    campaignParameter("donorSpareGiftsAtEven") *
-    campaignParameter("donorTypicalGiftMinor");
+    campaignParameter("donorSpareMonthsAtEven") *
+    Math.max(0, budget.ownMonthLivingMinor);
+  // Nothing spare and no bills on record: a gift has nothing to come from.
+  if (spare + even <= 0) return -1;
   return (spare - even) / (spare + even);
 }
 
@@ -4185,22 +4197,7 @@ export function donationAnswer(
   // comes out of the month never passes the month's spare itself: a warm
   // donor with little left gives at most what is left, not more of the
   // month than they have.
-  const reasonToGive = Math.min(1, reason);
-  const fromMonth = Math.min(
-    budget.discretionaryMinor,
-    reasonToGive *
-      campaignParameter("donationShareOfMonthPerWarmth") *
-      weighedAgainst(
-        budget.discretionaryMinor,
-        campaignParameter("donationMonthScaleMonths") *
-          budget.ownMonthLivingMinor,
-      ),
-  );
-  const fromSavings =
-    reasonToGive *
-    campaignParameter("donationShareOfCashPerWarmth") *
-    weighedAgainst(budget.savingsMinor, budget.cushionMinor);
-  const wanted = fromMonth + fromSavings;
+  const wanted = wantedGiftMinor(reason, budget);
   // Whole dollars: what they'd give in all, less what they've given, never
   // more than they hold. A candidate's own money has no limit (Buckley v.
   // Valeo, 424 U.S. 1, 1976; state limits on contributions likewise cover
@@ -4231,6 +4228,35 @@ export function donationAnswer(
   if (options.suggestOnly) return { givenMinor: amount, why: "gave" };
   giveDonation(api, filingId, donorId, amount);
   return { givenMinor: amount, why: "gave" };
+}
+
+/**
+ * What a donor with a reason to give would give in all, before the law's
+ * limit and what they have already given: a share of the month's spare and a
+ * share of their savings beyond their cushion, each sliding with the reason
+ * (the one amount rule, read by `donationAnswer` and by the outside donors'
+ * sample, `townGivingSample`).
+ */
+function wantedGiftMinor(
+  reason: number,
+  budget: ReturnType<typeof giftBudget>,
+): number {
+  const reasonToGive = Math.min(1, reason);
+  const fromMonth = Math.min(
+    budget.discretionaryMinor,
+    reasonToGive *
+      campaignParameter("donationShareOfMonthPerWarmth") *
+      weighedAgainst(
+        budget.discretionaryMinor,
+        campaignParameter("donationMonthScaleMonths") *
+          budget.ownMonthLivingMinor,
+      ),
+  );
+  const fromSavings =
+    reasonToGive *
+    campaignParameter("donationShareOfCashPerWarmth") *
+    weighedAgainst(budget.savingsMinor, budget.cushionMinor);
+  return fromMonth + fromSavings;
 }
 
 /** A gift moves from the donor's account to the campaign's through the journal, and their running total is kept in one row the next ask reads. */
@@ -4380,11 +4406,11 @@ export function answerDonationAsk(
  * town (governor, U.S. Senate, U.S. House, a legislative seat) draws on the
  * adults of its district or state, counted by place at the coarser level.
  * Each turn the campaign's lists reach another share of the adults who lean
- * its candidate's way (`outsideReachPerTurn`); of those, `outsideDonorShare`
- * give, each the savings share of the person rule (the cash a typical donor
- * holds times the share they give per unit of agreement), never past the
- * individual limit; the month's-income share a named donor also gives from
- * is not read here (stopgap SG-GOV-outside-donor-month-income). The gift is one record per place group, from the
+ * its candidate's way (`outsideReachPerTurn`). Who among them gives, and how
+ * much, is read by the person rule from the campaign's own people in town
+ * (`townGivingSample`): the same share give as of the adults it reaches
+ * here, each the mean of what those would give, the law's limit included.
+ * The gift is one record per place group, from the
  * outside account to the campaign's, so the dollars balance on the journal.
  * Returns the minor units raised.
  */
@@ -4431,6 +4457,77 @@ export function contributeOwnMoney(
   return amount;
 }
 
+/**
+ * How the campaign's own people in town give, read by the person rule: of
+ * the adults in town its lists reach (`reachablePeople`; never the
+ * controlled person, whose money is theirs to move), how many have a reason
+ * to give and something to give from, what each would give in all
+ * (`wantedGiftMinor`, never past what they hold), and how far the law's
+ * limit holds those gifts down. The outside donors' rule reads it: the
+ * like-minded adults a district campaign's lists reach outside the town give
+ * as the like-minded adults it reaches in town do. Read once a calendar
+ * month for each campaign.
+ */
+export function townGivingSample(
+  api: CoreAPI,
+  filingId: string,
+): {
+  readonly asked: number;
+  readonly givers: number;
+  /** The mean gift of those who give, after the law's limit, in minor units. */
+  readonly eachMinor: number;
+  /** The mean the law's limit took off each giver's gift, in minor units. */
+  readonly heldMinor: number;
+} {
+  const month = api.state.date.slice(0, 7);
+  const held = givingSamples.get(api.state)?.get(filingId);
+  if (held?.month === month) return held.sample;
+  const campaign = campaignFor(api, filingId);
+  const core = api.state as CoreState;
+  const adultAge = api.parameter("votingAge");
+  const town = townRow(api).townPlaceId;
+  const limit = contributionLimit(api, campaign.contestId).minor;
+  let asked = 0;
+  let givers = 0;
+  let given = 0;
+  let heldBack = 0;
+  for (const id of reachablePeople(api, campaign)) {
+    if (id === core.playerId) continue;
+    const donor = core.people.get(id);
+    if (!donor?.alive || donor.placeId !== town) continue;
+    if (ageOn(donor, api.state.date) < adultAge) continue;
+    asked += 1;
+    const budget = giftBudget(api, donor);
+    const reason = donorReason(api, filingId, id, budget);
+    if (reason <= 0) continue;
+    const already = giftOf(api, filingId, id)?.totalMinor ?? 0;
+    // What they have given came out of what they hold now.
+    const wanted = Math.min(
+      wantedGiftMinor(reason, budget),
+      Math.max(0, donor.liquidMinor) + already,
+    );
+    const gift = limit === null ? wanted : Math.min(wanted, limit);
+    if (gift < api.parameter("minorPerDollar")) continue;
+    givers += 1;
+    given += gift;
+    heldBack += wanted - gift;
+  }
+  const sample = {
+    asked,
+    givers,
+    eachMinor: givers ? given / givers : 0,
+    heldMinor: givers ? heldBack / givers : 0,
+  };
+  const byFiling = givingSamples.get(api.state) ?? new Map();
+  givingSamples.set(api.state, byFiling);
+  byFiling.set(filingId, { month, sample });
+  return sample;
+}
+const givingSamples = new WeakMap<
+  object,
+  Map<string, { month: string; sample: ReturnType<typeof townGivingSample> }>
+>();
+
 export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const campaign = campaignFor(api, filingId);
   const reached = campaign.outsideReached ?? 0;
@@ -4448,15 +4545,17 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     townRow(api).townPlaceId,
   );
   if (!outside) return 0;
+  // Who gives outside the town, and how much, is how the campaign's own
+  // people in town give. Until it reaches someone in town who would give,
+  // its lists outside have no one to go on and are not spent.
+  const sample = townGivingSample(api, filingId);
+  if (!sample.asked || !sample.givers) return 0;
+  const givingShare = sample.givers / sample.asked;
   const side = partySide(filing.party ?? null);
   const step = Math.min(1 - reached, campaignParameter("outsideReachPerTurn"));
   const limit = contributionLimit(api, campaign.contestId);
   const minorPerDollar = api.parameter("minorPerDollar");
-  const spare =
-    medianTransactionBalance(
-      campaignParameter("outsideDonorIncomeUsd"),
-      api.state.seed,
-    ) * minorPerDollar;
+  const each = Math.floor(sample.eachMinor / minorPerDollar) * minorPerDollar;
   let total = 0;
   for (const place of places) {
     // The share of the place's adults on the candidate's side of the lean
@@ -4467,28 +4566,14 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
         : side < 0
           ? 1 - place.rightShare
           : shareValue("evenSplit");
-    // Their reason to give is how much of the place stands with the candidate.
-    const reason = aligned;
-    const donors = Math.floor(
-      place.eligible * aligned * step * campaignParameter("outsideDonorShare"),
-    );
+    const donors = Math.floor(place.eligible * aligned * step * givingShare);
     if (donors <= 0) continue;
-    // stopgapId: SG-GOV-outside-donor-month-income
-    const each =
-      Math.floor(
-        Math.min(
-          spare * reason * campaignParameter("donationShareOfCashPerWarmth"),
-          limit.minor ?? Infinity,
-        ) / minorPerDollar,
-      ) * minorPerDollar;
     const amount = donors * each;
     if (amount <= 0) continue;
     const donorId = `outside:${place.id}`;
     // The law reached this place's donors when it held each gift below what
     // they would have given.
-    const wouldGive =
-      spare * reason * campaignParameter("donationShareOfCashPerWarmth");
-    if (limit.law && limit.minor !== null && limit.minor < wouldGive)
+    if (limit.law && limit.minor !== null && sample.heldMinor > 0)
       lawApplied(api, {
         key: limit.law.key,
         lawId: limit.law.id,
@@ -4497,7 +4582,7 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
         engine: CAMPAIGNS_MODULE_ID,
         what: "gift-held-to-the-limit",
         count: donors,
-        amountMinor: -Math.round(donors * (wouldGive - limit.minor)),
+        amountMinor: -Math.round(donors * sample.heldMinor),
       });
     const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
     // The outside account pays the campaign's account through the accounts
@@ -4511,9 +4596,8 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       {
         tag: "ESTIMATED",
         asOf: api.state.date,
-        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule`,
-        estimatedFrom:
-          "Pew Research Center, 5 facts about U.S. political donations (2017)",
+        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule, giving as ${sample.givers} of the ${sample.asked} adults the campaign reaches in town would`,
+        estimatedFrom: "the campaign's own people in town (townGivingSample)",
       },
     );
     if (paid <= 0) continue;
@@ -5428,6 +5512,8 @@ let adOutlet:
       organizationId: string;
       followerIds: readonly string[];
       countedFollowers: number;
+      /** What the outlet charges to reach one follower once, from its own books (press.ts `adContactPriceMinor`). */
+      contactPriceMinor: number;
     } | null)
   | null = null;
 export function registerAdOutlet(fn: typeof adOutlet): void {
@@ -5449,10 +5535,11 @@ export function adAudience(
   readonly countedViewers: number;
 } | null {
   const outlet = adOutlet?.(api) ?? null;
-  if (!outlet) return null;
-  const contacts = Math.floor(
-    (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
-  );
+  // An outlet with no price has no followers or no costs on record: it has
+  // nothing to sell.
+  if (!outlet || outlet.contactPriceMinor <= 0) return null;
+  // The money buys contacts at the outlet's own price.
+  const contacts = Math.floor(amount / outlet.contactPriceMinor);
   const full = outlet.followerIds
     .map((id) => api.state.people.get(id))
     .filter((p): p is PersonState => p !== undefined);
@@ -5471,12 +5558,17 @@ export function adAudience(
   };
 }
 
+/** What the town's ad outlet charges to reach one follower once, from its own books; zero where none sells. */
+export function adContactPrice(api: CoreAPI): number {
+  return adOutlet?.(api)?.contactPriceMinor ?? 0;
+}
+
 /** Whether this world sells ad time: the campaigns engine is installed and open. */
 export function adTimeForSale(api: CoreAPI): boolean {
   return (
     (api.state as CoreState).modules.has(CAMPAIGNS_MODULE_ID) &&
     table(api, "town").get("town") !== undefined &&
-    (adOutlet?.(api) ?? null) !== null
+    (adOutlet?.(api)?.contactPriceMinor ?? 0) > 0
   );
 }
 
@@ -5895,6 +5987,133 @@ function attackTarget(
     if (items > 0 && (!best || items > best.items)) best = { row, items };
   }
   return best?.row;
+}
+
+/**
+ * The case for putting ad money on a rival's record, 0 to 1, from the
+ * world's own records. First, how much of that record cuts against the rival
+ * with the town: of everything the rival's votes and settled promises weigh
+ * with a voter at the town's own lean (`recordAppeal`, shown the whole
+ * record as an ad shows it), the share that weighs against them. A record
+ * the town likes gives an attack little to show; one it dislikes gives a
+ * lot. Second, the campaign's own latest poll: a candidate it shows behind
+ * the rival leans on the rival's record by the gap, one it shows ahead
+ * holds back by the gap; with no poll of its own it does not know, and the
+ * record alone decides.
+ */
+export function attackCase(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  target: CampaignRow,
+): number {
+  const lean = townRow(api).lean;
+  const reasons = recordAppeal(
+    api,
+    { id: "campaigns:town-voter" } as unknown as PersonState,
+    target.candidateId,
+    lean,
+    true,
+    true,
+  ).reasons;
+  let against = 0;
+  let all = 0;
+  for (const r of reasons) {
+    all += Math.abs(r.effect);
+    if (r.effect < 0) against -= r.effect;
+  }
+  if (all <= 0) return 0;
+  const polls = (
+    table(api, "polls").query("byContest", [
+      campaign.contestId,
+    ]) as unknown as PollRow[]
+  )
+    .filter((poll) => poll.campaignId === campaign.id && poll.contacted > 0)
+    .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
+  const poll = polls[0];
+  const behind = poll
+    ? ((poll.answers[target.candidateId] ?? 0) -
+        (poll.answers[campaign.candidateId] ?? 0)) /
+      poll.contacted
+    : 0;
+  return Math.min(1, Math.max(0, (against / all) * (1 + behind)));
+}
+
+/**
+ * What a contact with one of the race's voters costs in this town today, in
+ * minor units: the cheaper of the town outlet's own price to reach one
+ * follower once (from its books, press.ts `adContactPriceMinor`) and a
+ * mailed piece (its print and postage unit prices). The electorate reads a
+ * candidate's spending against it (`candidateReasons`).
+ */
+export function voterContactPriceMinor(api: CoreAPI): number {
+  const mail = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
+  const ad = adContactPrice(api);
+  return ad > 0 ? Math.min(ad, mail) : mail;
+}
+
+/**
+ * What a dollar is worth to this campaign through each kind of reach, in
+ * this town today (the shares of a turn's money follow these, `campaignTurn`):
+ *
+ * - an ad: how far an ad moves a viewer (`adWarmthWeight`) over the town
+ *   outlet's own price of a contact; nothing where no outlet sells;
+ * - mail: how far a mailer moves its readers (`mailWarmthWeight`) times the
+ *   adults at an address in town, over a piece's print and postage;
+ * - an event: how far a speech moves a listener (`speechWeight`) times the
+ *   people who would come to this candidate's evening today (`whoComes`),
+ *   over the venue's price;
+ * - a poll buys no reach but what the campaign does not know: it is worth
+ *   the mean of the three above times how stale the campaign's knowledge is,
+ *   one with no poll of its own on record, and after a poll the share of the
+ *   time from that poll to election day that has passed.
+ */
+export function channelWeights(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  daysLeft: number,
+): {
+  readonly ad: number;
+  readonly mail: number;
+  readonly event: number;
+  readonly poll: number;
+} {
+  const adPrice = adContactPrice(api);
+  const ad = adPrice > 0 ? campaignParameter("adWarmthWeight") / adPrice : 0;
+  const addresses = townAddresses(api);
+  const adults = addresses.namedAdults + addresses.countedAdults;
+  const perAddress = addresses.list.length ? adults / addresses.list.length : 0;
+  const mail =
+    (campaignParameter("mailWarmthWeight") * perAddress) /
+    (unitPrice(api, "mailer-print") + unitPrice(api, "postage"));
+  const event =
+    (campaignParameter("speechWeight") * whoComes(api, campaign).length) /
+    unitPrice(api, "event-venue");
+  const reach = [ad, mail, event].filter((value) => value > 0);
+  const mean = reach.length
+    ? reach.reduce((a, b) => a + b, 0) / reach.length
+    : 0;
+  const lastPoll = (
+    table(api, "polls").query("byContest", [
+      campaign.contestId,
+    ]) as unknown as PollRow[]
+  )
+    .filter((poll) => poll.campaignId === campaign.id)
+    .map((poll) => poll.date)
+    .sort()
+    .at(-1);
+  const since = lastPoll
+    ? Math.max(
+        0,
+        Math.round(
+          (Date.parse(`${api.state.date}T00:00:00Z`) -
+            Date.parse(`${lastPoll}T00:00:00Z`)) /
+            86_400_000,
+        ),
+      )
+    : null;
+  const stale =
+    since === null ? 1 : since + daysLeft > 0 ? since / (since + daysLeft) : 0;
+  return { ad, mail, event, poll: mean * stale };
 }
 
 function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
@@ -8104,17 +8323,19 @@ export function campaignTurn(
   );
   const trait = (key: string) => candidate?.traits[key] ?? 0;
   const w = campaignParameter("spendTraitWeight");
+  // Where the money goes is this campaign's own choice: each kind of reach
+  // weighs what a dollar buys of it in this town today (`channelWeights`),
+  // and the candidate's own temperament leans it further.
+  const worth = channelWeights(api, campaign, daysLeft);
   const shares = {
-    ad: campaignParameter("adSpendShare"),
-    mail: campaignParameter("mailSpendShare"),
+    ad: worth.ad,
+    mail: worth.mail,
     // Only a candidate who is a person stands in a room.
     event: candidate?.alive
-      ? campaignParameter("eventSpendShare") *
-        Math.max(0, 1 + w * trait("people-mind-v1:sociability"))
+      ? worth.event * Math.max(0, 1 + w * trait("people-mind-v1:sociability"))
       : 0,
     poll:
-      campaignParameter("pollSpendShare") *
-      Math.max(0, 1 + w * trait("people-mind-v1:deliberation")),
+      worth.poll * Math.max(0, 1 + w * trait("people-mind-v1:deliberation")),
   };
   const total = shares.ad + shares.mail + shares.event + shares.poll || 1;
   const part = (k: keyof typeof shares) =>
@@ -8128,16 +8349,18 @@ export function campaignTurn(
   const told: string[] = [];
   if (part("ad") > 0) {
     // A challenger facing a rival with a record in office (their votes, the
-    // promises they made) puts part of the ad money on showing it, by their
-    // own temperament (rival-ad-quotes-a-real-vote; register D-2 and D-5:
-    // never a fixed share). The rest carries their own platform.
+    // promises they made) puts part of the ad money on showing it: as much
+    // as that record gives them to show and their own poll says they need
+    // (`attackCase`), by their own temperament (rival-ad-quotes-a-real-vote;
+    // register D-2 and D-5: never a fixed share). The rest carries their own
+    // platform.
     const target = attackTarget(api, campaignFor(api, filingId));
     const attackShare = target
       ? Math.min(
           1,
           Math.max(
             0,
-            campaignParameter("attackAdShare") *
+            attackCase(api, campaignFor(api, filingId), target) *
               (1 + w * trait("people-mind-v1:conflict")),
           ),
         )

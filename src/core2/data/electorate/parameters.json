@@ -1,17 +1,5 @@
 {
   "about": "The electorate the world does not name (owner, Oct 14, 2026): the town's counted residents, and every place outside the town counted on the same engine at a coarser level (each county's, House district's or state legislative district's eligible voters, voting as the town's counted residents would on the place's own 2024 lean). Read by src/core2/electorate.ts, src/core2/electorate-places.ts and src/core2/electorate-inputs.ts. Every number is tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it is checked against). Vote effects are in shares of the two-party vote in an evenly split electorate; the engine turns them into appeal on the lean scale.",
-  "typicalSpendPerVoteMinor": {
-    "about": "What one major-party candidate typically spends in a general election, per two-party vote cast in the race, by office family, in cents. A candidate the world records no campaign for spends this; a recorded campaign spends what its books show.",
-    "tag": "ESTIMATED",
-    "source": "OpenSecrets, Cost of Election and race totals, 2022 and 2024: the average major-party House general-election candidate spends about $1 to $2 million in a district of about 300,000 two-party votes; Senate and governor candidates about $10 to $30 million in states of 2 to 6 million votes; each 2024 presidential campaign about $1.5 billion of about 152 million two-party votes. National Institute on Money in Politics (FollowTheMoney), state legislative candidates 2022: about $50,000 to $250,000 per candidate in districts of 20,000 to 100,000 votes.",
-    "spread": "half to twice each value",
-    "byFamily": {
-      "usHouse": 500,
-      "statewideExecutive": 500,
-      "president": 1000,
-      "stateLegislative": 250
-    }
-  },
   "parameters": {
     "experiencedCandidateShare": {
       "value": 0.03,
@@ -28,8 +16,14 @@
     "spendingSharePerLogUnit": {
       "value": 0.015,
       "tag": "ESTIMATED",
-      "source": "The two-party vote share a candidate gains per natural-log unit of their own spending against the typical: Jacobson's House models put challenger spending in logs with about 2 to 4 points per log unit, incumbents' less; Sides, Vavreck and Warshaw (American Political Science Review, 2022) find television advertising advantages move a few tenths of a point in presidential races and more down the ballot.",
+      "source": "The two-party vote share a candidate gains per natural-log unit of their own spending against what reaching the race's voters costs: Jacobson's House models put challenger spending in logs with about 2 to 4 points per log unit, incumbents' less; Sides, Vavreck and Warshaw (American Political Science Review, 2022) find television advertising advantages move a few tenths of a point in presidential races and more down the ballot.",
       "spread": [0.005, 0.04]
+    },
+    "spendingContactsPerVoteAtEven": {
+      "value": 2.5,
+      "tag": "TUNABLE",
+      "source": "How many times a campaign must be able to reach each of its race's voters, at this world's own price of a contact (the cheaper of the town outlet's ad price from its books and a mailed piece), for its spending to move its share neither up nor down (candidateReasons). A strength inside the spending formula, never a dollar level: the dollars it stands for move with the outlet's costs and audience and with the price of mail. It replaced a table of published dollars per vote by office (Nov 17, 2026, owner: 'Everything comes from the simulation. Stop pegging things to real numbers'); 2.5 is where that table's legislative and local row ($2.50 a vote) sat at a contact price of about a dollar. Checked as a relationship: the same dollars move a candidate's share more where a contact is cheap than where it is dear (src/core2/campaign-money-own-actors.test.ts).",
+      "spread": [1, 6]
     },
     "spendingFloorShareOfTypical": {
       "value": 0.05,
