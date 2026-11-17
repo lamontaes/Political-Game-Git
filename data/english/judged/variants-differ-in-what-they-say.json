@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1172,
+  "judged": 1062,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -53,13 +53,6 @@
       ],
       "why": "Both lines ask a friend for the same favor in other words, with no fact to choose between them."
     },
-    "00z77ug8lmo": {
-      "keys": [
-        "scene-talk.reply-leave.i-have-something-on-the-stove",
-        "scene-talk.reply-leave.i-really-have-to-go"
-      ],
-      "why": "Both lines are an excuse to end the conversation."
-    },
     "014qhjr4157": {
       "keys": [
         "scene-talk.close-thank.appreciate-the-time-it-runs-tomorrow",
@@ -82,14 +75,6 @@
         "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say"
       ],
       "why": "Most of the lines are the same defiance toward an investigation, with no fact to choose."
-    },
-    "01msn3wa0f3": {
-      "keys": [
-        "scene-talk.follow-confront.i-m-being-straight-with-you",
-        "scene-talk.follow-confront.i-m-not-trying-anything-i-m-asking",
-        "scene-talk.follow-confront.try-what-i-asked-you-a-plain-question"
-      ],
-      "why": "All three lines insist the asker is being straight, reworded."
     },
     "01r7m3ih09f": {
       "keys": [
@@ -161,14 +146,6 @@
       ],
       "why": "Both confirm the message is taken and send the player off."
     },
-    "02zfk4vod07": {
-      "keys": [
-        "scene-talk.close-accept.all-right-thanks-for-listening",
-        "scene-talk.close-accept.of-course-take-care",
-        "scene-talk.close-accept.sure-thing-have-a-good-one"
-      ],
-      "why": "All three are interchangeable goodbyes."
-    },
     "030ekynza88": {
       "keys": [
         "scene-talk.follow-accept.right",
@@ -183,26 +160,12 @@
       ],
       "why": "Both lines accept the bribe and promise the outcome in other words."
     },
-    "03891ytvqgq": {
-      "keys": [
-        "scene-talk.state-request.i-m-not-letting-bill-drop-where-do-you-stand",
-        "scene-talk.state-request.this-is-the-second-time-i-m-asking-i-d-like-a-yes-or-a-no"
-      ],
-      "why": "Both lines demand an answer on the second ask, with no fact separating them."
-    },
     "039pvrbvo86": {
       "keys": [
         "scene-talk.close-accept.all-right-well-figure-it-out",
         "scene-talk.close-accept.okay-we-ll-figure-it-out-together"
       ],
       "why": "Both lines say they will figure it out."
-    },
-    "03a5xmj4u10": {
-      "keys": [
-        "scene-talk.follow-thank.thank-you-for-squeezing-me-in",
-        "scene-talk.follow-thank.that-works-i-ll-call-friday-to-pick-the-day"
-      ],
-      "why": "Both lines thank the player for making time, with no fact behind either."
     },
     "03a8g6ji1zd": {
       "keys": [
@@ -355,14 +318,6 @@
       ],
       "why": "Both lines say yes, glad to, the same agreement with no fact to choose between them."
     },
-    "06qif8aigp2": {
-      "keys": [
-        "scene-talk.close-warn.decide-soon-please-this-could-come-down-to-a-few-hundred-votes",
-        "scene-talk.close-warn.don-t-wait-too-long-the-race-is-close",
-        "scene-talk.close-warn.i-d-hate-for-it-to-be-close-and-know-i-didn-t-ask-you-twice"
-      ],
-      "why": "All three say the race is close and to decide soon, with no record fact about the race's margin behind any of them."
-    },
     "06sb1do7lj7": {
       "keys": [
         "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
@@ -404,13 +359,6 @@
         "scene-talk.close-accept.too-late-for-that-go-on"
       ],
       "why": "Both lines simply tell the other person to go, with no difference in what is said or what it depends on."
-    },
-    "072oxsg5cv6": {
-      "keys": [
-        "scene-talk.follow-threaten.don-t-count-on-my-help-next-time",
-        "scene-talk.follow-threaten.the-other-guy-returns-my-calls"
-      ],
-      "why": "Both lines threaten to take the donor's support elsewhere, the same threat reworded."
     },
     "07c4hyw6b41": {
       "keys": [
@@ -569,13 +517,6 @@
         "scene-talk.reply-comfort.i-wont-help-you-this-way-let-me-see-what-i-can-do-thats-honest"
       ],
       "why": "Both lines refuse and offer honest help in other words."
-    },
-    "09o9xcr3sy2": {
-      "keys": [
-        "scene-talk.reply-agree.i-owe-you-an-answer-give-me-until-friday-and-i-ll-have-one",
-        "scene-talk.reply-agree.you-re-right-to-ask-again-i-ll-go-through-it-this-week-and-call-you"
-      ],
-      "why": "Both lines promise an answer within the week."
     },
     "09s20lrz9mg": {
       "keys": [
@@ -793,13 +734,6 @@
       ],
       "why": "Both narrate the person falling asleep before the player leaves."
     },
-    "0ch3oozw5ok": {
-      "keys": [
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t"
-      ],
-      "why": "Both lines are the same regretful no."
-    },
     "0cj28pchzlb": {
       "keys": [
         "scene-talk.reply-answer.all-right-it-helps-people-who-need-it-and-i-d-vote-for-it-again",
@@ -893,14 +827,6 @@
       ],
       "why": "Both say the player might lose and be stuck with it for eight years, nearly the same words."
     },
-    "0dy43mf2eai": {
-      "keys": [
-        "scene-talk.state-request.i-meant-every-word-up-there-can-i-count-on-your-vote",
-        "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
-        "scene-talk.state-request.if-any-of-that-made-sense-to-you-i-d-be-grateful-for-your-vote"
-      ],
-      "why": "All three ask whether the speaker can count on the vote, only one naming {cause}."
-    },
     "0e9n2py21x4": {
       "keys": [
         "scene-talk.close-thank.general-will-be-here-before-you-know-it",
@@ -974,13 +900,6 @@
       ],
       "why": "Both lines stop the argument for today."
     },
-    "0fyuqoi3jxe": {
-      "keys": [
-        "scene-talk.narrate-narrate.after-the-speech-name-works-the-room-and-stops-to-shake-your-hand",
-        "scene-talk.narrate-narrate.the-chairs-are-emptying-when-name-comes-down-the-aisle-toward-you"
-      ],
-      "why": "Both narrate {name} approaching the player after the speech, with no fact choosing between them."
-    },
     "0g7m1is0f8v": {
       "keys": [
         "scene-talk.close-accept.fine-morning-then",
@@ -1017,22 +936,6 @@
         "scene-talk.reply-leave.i-can-t-talk-right-now"
       ],
       "why": "Both lines say the same thing, that the speaker cannot talk right now."
-    },
-    "0gnv6apodde": {
-      "keys": [
-        "scene-talk.follow-thank.i-appreciate-it-have-a-good-night",
-        "scene-talk.follow-thank.thank-you-right-on-the-line-there-and-the-date",
-        "scene-talk.follow-thank.thank-you-that-helps",
-        "scene-talk.follow-thank.thanks-i-ll-make-it-count"
-      ],
-      "why": "All four lines thank the signer, and only the time-of-day tag separates one of them."
-    },
-    "0gq3a8mnqny": {
-      "keys": [
-        "scene-talk.close-accept.good-luck-with-it",
-        "scene-talk.close-accept.hope-you-make-it-on"
-      ],
-      "why": "Both lines are the same parting wish of good luck getting on the ballot."
     },
     "0gyybgc9475": {
       "keys": [
@@ -1119,13 +1022,6 @@
         "scene-talk.narrate-narrate.name-is-at-a-folding-table-with-a-clipboard-and-a-stack-of-petitions-you-d-have-to-walk-right-past"
       ],
       "why": "Both narrations describe {name} at a petition table, reworded."
-    },
-    "0hwnvyjofgv": {
-      "keys": [
-        "scene-talk.reply-decline.ask-me-some-other-way-self-not-on-paper",
-        "scene-talk.reply-decline.i-like-you-fine-self-i-just-don-t-sign-petitions-not-even-for-friends"
-      ],
-      "why": "Both lines say the friend won't sign a petition, the same refusal reworded."
     },
     "0hy2ue5ipuc": {
       "keys": [
@@ -1323,22 +1219,6 @@
       ],
       "why": "Both lines say to stop and talk when calmer."
     },
-    "0m7onuhd1dc": {
-      "keys": [
-        "scene-talk.close-warn.don-t-expect-the-next-one-to-come-easy",
-        "scene-talk.close-warn.i-won-t-forget-this",
-        "scene-talk.close-warn.remember-this-when-you-ask-me-for-the-next-check"
-      ],
-      "why": "All three lines say the donor will remember this, with nothing in the world to choose between them."
-    },
-    "0mc5zb5mc9q": {
-      "keys": [
-        "scene-talk.follow-ask.did-you-raise-it-or-didn-t-you",
-        "scene-talk.follow-ask.why-is-source-wrong",
-        "scene-talk.follow-ask.wrong-about-what-exactly"
-      ],
-      "why": "All three lines demand a straight answer in other words on the same fact."
-    },
     "0mearb3jbgw": {
       "keys": [
         "scene-talk.reply-apologize.i-ve-let-things-slide-at-home-i-know",
@@ -1491,15 +1371,6 @@
       ],
       "why": "Both lines accept the offer in other words."
     },
-    "0opatm1inu0": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-answers-already-half-smiling",
-        "scene-talk.narrate-narrate.name-answers-and-steps-out-onto-the-step-to-talk",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-hears-you-out-with-a-nod",
-        "scene-talk.narrate-narrate.name-sees-the-clipboard-and-nods-before-you-say-anything"
-      ],
-      "why": "All four narrations show a friendly same-party voter answering the door, reworded with nothing to choose between them."
-    },
     "0opmvu5zjlj": {
       "keys": [
         "scene-talk.reply-thank.i-appreciate-that-more-than-you-know",
@@ -1513,15 +1384,6 @@
         "scene-talk.follow-press.that-isn-t-an-answer-i-can-take-home"
       ],
       "why": "Both say the answer isn't good enough, in other words."
-    },
-    "0p10egl1oaf": {
-      "keys": [
-        "scene-talk.follow-press.i-m-not-asking-for-your-vote-today-just-a-chance-to-run",
-        "scene-talk.follow-press.it-only-puts-my-name-on-the-ballot-you-d-still-vote-however-you-want",
-        "scene-talk.follow-press.it-s-just-to-get-on-the-ballot-it-doesn-t-commit-you-to-anything",
-        "scene-talk.follow-press.it-takes-a-minute-and-it-s-public-anyone-can-read-the-list"
-      ],
-      "why": "Three of four lines say signing only puts the name on the ballot, with nothing in the world to choose between them."
     },
     "0p32w1w8z2b": {
       "keys": [
@@ -1594,15 +1456,6 @@
         "scene-talk.reply-agree.yes-i-ll-take-it"
       ],
       "why": "Both lines are the same acceptance of the job."
-    },
-    "0q1yg68ils8": {
-      "keys": [
-        "scene-talk.reply-agree.everybody-should-get-a-shot-i-ll-sign",
-        "scene-talk.reply-agree.fine-where-do-i-sign",
-        "scene-talk.reply-agree.okay-print-or-sign",
-        "scene-talk.reply-agree.sure-hand-me-the-pen"
-      ],
-      "why": "All four lines are the same agreement to sign, reworded with nothing in the world choosing among them."
     },
     "0q8ys42qvmr": {
       "keys": [
@@ -1679,21 +1532,6 @@
         "scene-talk.follow-answer.you-d-work-hours-hours-a-week-alongside-crew-of-us"
       ],
       "why": "Two of the three say the hours and that the newcomer will be taught, so most are rewordings of the same answer with no condition between them."
-    },
-    "0rawd33sf0p": {
-      "keys": [
-        "scene-talk.follow-press.that-s-not-a-no",
-        "scene-talk.follow-press.that-s-not-a-yes-either",
-        "scene-talk.follow-press.you-didn-t-answer-me"
-      ],
-      "why": "All three lines say the player dodged the question, reworded."
-    },
-    "0rchgwswx96": {
-      "keys": [
-        "scene-talk.reply-apologize.i-dropped-it-that-s-on-me",
-        "scene-talk.reply-apologize.you-re-right-i-should-have-called-you-back"
-      ],
-      "why": "Both lines admit the player dropped it, in other words."
     },
     "0rlhiriglue": {
       "keys": [
@@ -1897,13 +1735,6 @@
       ],
       "why": "Both lines are the same acceptance, one only adding the person's name."
     },
-    "0ux29yl19zz": {
-      "keys": [
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-agree.you-ve-got-my-vote"
-      ],
-      "why": "Both pledge the vote, a rewording."
-    },
     "0v2qhxgg6oc": {
       "keys": [
         "scene-talk.reply-decline.i-can-t-not-on-this-one",
@@ -2012,13 +1843,6 @@
       ],
       "why": "Both lines brag that the place did it first or did the hard part, the same boast with nothing in the world to choose between them."
     },
-    "0wx5ei5f1g9": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back",
-        "scene-talk.follow-press.what-would-it-take-to-get-you-there"
-      ],
-      "why": "Both ask what would win the player over, a rewording."
-    },
     "0wxqe1vg0jr": {
       "keys": [
         "scene-talk.follow-accept.all-right-that-i-ll-take",
@@ -2033,13 +1857,6 @@
         "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now"
       ],
       "why": "Both lines are the same polite refusal of help, reworded, with nothing to choose between them."
-    },
-    "0wyr2jmr8wc": {
-      "keys": [
-        "scene-talk.open-greet.evening-i-ll-be-quick-i-promise",
-        "scene-talk.open-greet.hi-there-sorry-to-bother-you"
-      ],
-      "why": "Both lines are a polite opener at the door, separated only by time of day."
     },
     "0x8jv5va7xq": {
       "keys": [
@@ -2132,14 +1949,6 @@
       ],
       "why": "Both lines ask how to do it and who to talk to, the same question with no fact to choose between them."
     },
-    "0z4cgnpy93e": {
-      "keys": [
-        "scene-talk.follow-accept.no-problem-have-a-good-evening",
-        "scene-talk.follow-accept.okay-thanks-anyway",
-        "scene-talk.follow-accept.that-s-fine-thanks-for-opening-the-door"
-      ],
-      "why": "All three lines accept a no politely, separated only by time of day."
-    },
     "0z766l8n775": {
       "keys": [
         "scene-talk.close-warn.i-m-not-finished-with-this-conversation",
@@ -2185,15 +1994,6 @@
         "scene-talk.narrate-morning.the-polls-opened-this-morning"
       ],
       "why": "All three lines only announce that it is Election Day and the polls are open, and the same-day tag picks nothing different to say."
-    },
-    "0zqszqic8du": {
-      "keys": [
-        "scene-talk.reply-decline.i-d-rather-keep-my-name-off-it",
-        "scene-talk.reply-decline.i-don-t-sign-things-at-the-door-sorry",
-        "scene-talk.reply-decline.i-don-t-think-so",
-        "scene-talk.reply-decline.not-today-thanks"
-      ],
-      "why": "All four lines are the same refusal to sign, reworded."
     },
     "0zri52mo1zt": {
       "keys": [
@@ -2267,13 +2067,6 @@
       ],
       "why": "Both end the exchange by leaving, the same line reworded."
     },
-    "109viuwydua": {
-      "keys": [
-        "scene-talk.follow-accept.fair-enough-i-hope-i-earn-it-before-election-day",
-        "scene-talk.follow-accept.i-respect-that-thanks-for-hearing-me-out"
-      ],
-      "why": "Both accept the hesitation and thank the player, with no fact to choose between them."
-    },
     "10eiyhwixc6": {
       "keys": [
         "scene-talk.reply-ask.do-i-say-it-after-you",
@@ -2331,15 +2124,6 @@
       ],
       "why": "Both lines ask the person not to try it again, with no fact to set them apart."
     },
-    "11c5s73t7kh": {
-      "keys": [
-        "scene-talk.state-request.bill-is-the-reason-i-wrote-that-check-i-want-you-on-it",
-        "scene-talk.state-request.i-don-t-give-this-kind-of-money-for-nothing-i-want-your-vote-on-bill",
-        "scene-talk.state-request.i-m-not-here-for-a-thank-you-note-i-m-here-to-find-out-what-my-suppor",
-        "scene-talk.state-request.i-put-money-behind-you-bill-comes-up-soon-and-i-expect-you-with-me"
-      ],
-      "why": "Three of the four lines demand the vote on the same named bill in other words, so most say the same thing."
-    },
     "11jc6ividbw": {
       "keys": [
         "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
@@ -2382,13 +2166,6 @@
         "scene-talk.reply-agree.yes-of-course-i-d-be-glad-to"
       ],
       "why": "Both lines are a plain yes, I can do it, with no fact to choose between them."
-    },
-    "124xfn3y9mm": {
-      "keys": [
-        "scene-talk.follow-confront.i-m-telling-you-how-it-looks-from-where-i-sit",
-        "scene-talk.follow-confront.take-it-however-you-want-i-m-only-describing-the-weather"
-      ],
-      "why": "Both lines say the asker is only describing how it looks, reworded."
     },
     "12j0tk640v7": {
       "keys": [
@@ -2447,13 +2224,6 @@
       ],
       "why": "Both lines offer to show the reporter the dated file, by sending it or by an office visit, the same offer with no fact to choose between them."
     },
-    "13oe3q6t6e6": {
-      "keys": [
-        "scene-talk.state-request.you-know-i-don-t-ask-for-much-i-need-signatures-to-run-for-office-would-you-sign",
-        "scene-talk.state-request.you-ve-probably-heard-by-now-i-m-running-for-office-and-i-need-signatures-to-get"
-      ],
-      "why": "Both lines ask a friend to sign the petition for the office in nearly the same words."
-    },
     "13qaoo1jve4": {
       "keys": [
         "scene-talk.reply-agree.i-remember-earlier-you-have-my-vote",
@@ -2476,15 +2246,6 @@
         "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties"
       ],
       "why": "Both lines recite the same oath for {office} and add a pledge in other words."
-    },
-    "144op58zu1n": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-answers-the-knock",
-        "scene-talk.narrate-narrate.name-comes-to-the-door",
-        "scene-talk.narrate-narrate.name-opens-the-door",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-waits"
-      ],
-      "why": "All four lines say the person opens the door, reworded with nothing to choose between them."
     },
     "145txfwlhfp": {
       "keys": [
@@ -2529,31 +2290,12 @@
       ],
       "why": "Both lines say the diploma did not come and {name} wants to talk."
     },
-    "14v0cnbxqiq": {
-      "keys": [
-        "scene-talk.follow-press.i-ve-waited-long-enough-name-a-day",
-        "scene-talk.follow-press.then-when-i-ve-called-three-times",
-        "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week"
-      ],
-      "why": "All three lines press for a date in other words."
-    },
     "14yk2ef3q11": {
       "keys": [
         "scene-talk.reply-answer.then-write-that-i-stand-by-every-page-of-it",
         "scene-talk.reply-answer.then-write-that-i-stand-by-it"
       ],
       "why": "Both tell the reporter to write that the official stands by it, the first only adding every page."
-    },
-    "150udthlcig": {
-      "keys": [
-        "scene-talk.narrate-narrate.door-name-comes-to-the-door-before-you-ve-finished-knocking",
-        "scene-talk.narrate-narrate.door-you-knock-and-after-a-moment-name-opens-the-door",
-        "scene-talk.narrate-narrate.name-answers-after-the-second-knock",
-        "scene-talk.narrate-narrate.name-answers-the-door-and-steps-halfway-out",
-        "scene-talk.narrate-narrate.name-opens-the-door-partway-and-waits-for-you-to-speak",
-        "scene-talk.narrate-narrate.name-opens-the-screen-door-and-leans-on-the-frame"
-      ],
-      "why": "All six lines say the same thing, that {name} answers the door, with no fact choosing among them."
     },
     "151c8lnr7kc": {
       "keys": [
@@ -2591,13 +2333,6 @@
       ],
       "why": "Both thank the official, a rewording."
     },
-    "15v0h602q6x": {
-      "keys": [
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you"
-      ],
-      "why": "Both lines agree to hear the friend out in full."
-    },
     "15wbnj9qupw": {
       "keys": [
         "scene-talk.reply-agree.i-ll-call-relative-tonight",
@@ -2633,13 +2368,6 @@
       ],
       "why": "Both accept and note the stance, a rewording."
     },
-    "16qdxdcj0xs": {
-      "keys": [
-        "scene-talk.follow-threaten.i-can-give-again-next-time-or-i-can-give-to-your-opponent-think-about",
-        "scene-talk.follow-threaten.other-candidates-in-this-town-return-calls"
-      ],
-      "why": "Both lines threaten to support another candidate, and naming the place does not change what is said."
-    },
     "16xpolbaiom": {
       "keys": [
         "scene-talk.reply-apologize.fair-i-ll-save-it-for-the-volunteers-bar-tab",
@@ -2657,14 +2385,6 @@
         "scene-talk.follow-ask.you-let-me-think-we-understood-each-other-why"
       ],
       "why": "All three ask why the player strung the briber along, in other words."
-    },
-    "17hklqza2t0": {
-      "keys": [
-        "scene-talk.reply-apologize.i-didn-t-mean-it-like-that",
-        "scene-talk.reply-apologize.i-m-sorry-that-came-out-wrong",
-        "scene-talk.reply-apologize.i-shouldn-t-have-put-it-that-way"
-      ],
-      "why": "All three lines are the same apology reworded."
     },
     "17hqhkuj2s7": {
       "keys": [
@@ -2747,14 +2467,6 @@
       ],
       "why": "Both lines accept and drop it for now in the same words."
     },
-    "18vc6kbzu8w": {
-      "keys": [
-        "scene-talk.reply-agree.all-right-set-up-the-meeting",
-        "scene-talk.reply-agree.fine-a-meeting-nothing-more-call-my-office",
-        "scene-talk.reply-agree.that-i-can-do-let-s-find-a-time"
-      ],
-      "why": "All three lines agree to a meeting in other words, with nothing in the world to choose between them."
-    },
     "18xe5b3i4xp": {
       "keys": [
         "scene-talk.reply-leave.go-i-mean-it",
@@ -2826,13 +2538,6 @@
         "scene-talk.reply-tell.tired-happy-mostly-tired"
       ],
       "why": "Both say the parent is exhausted."
-    },
-    "1a9gkzo6xmg": {
-      "keys": [
-        "scene-talk.state-request.last-time-you-said-you-d-look-at-bill-did-you",
-        "scene-talk.state-request.you-said-you-d-get-back-to-me-i-m-still-waiting"
-      ],
-      "why": "Both lines say the player promised to get back and did not, and naming the bill adds nothing new."
     },
     "1adfco8jvm2": {
       "keys": [
@@ -2947,13 +2652,6 @@
       ],
       "why": "Both lines are the same relieved thanks."
     },
-    "1bm4ti25q46": {
-      "keys": [
-        "scene-talk.follow-thank.glad-you-came-around",
-        "scene-talk.follow-thank.i-knew-you-d-come-around"
-      ],
-      "why": "Both lines say the player came around, the same line reworded."
-    },
     "1boiqgjo63f": {
       "keys": [
         "scene-talk.reply-confront.if-you-keep-this-up-ill-report-it-all-of-it",
@@ -3033,13 +2731,6 @@
       ],
       "why": "Both lines say the story will report a decline to comment."
     },
-    "1dj4onm0lfd": {
-      "keys": [
-        "scene-talk.open-greet.glad-you-made-it-i-saw-you-listening",
-        "scene-talk.open-greet.thanks-for-coming-out"
-      ],
-      "why": "Both thank the player for coming, a rewording."
-    },
     "1dkdd3n0f76": {
       "keys": [
         "scene-talk.reply-agree.then-that-s-what-we-protect-i-ll-take-it-to-the-council",
@@ -3076,27 +2767,12 @@
       ],
       "why": "Both ask the player to run for {office} because nobody has and people know them, in other words."
     },
-    "1dugq8v1t18": {
-      "keys": [
-        "scene-talk.follow-plea.a-hearing-is-all-i-want-when",
-        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote"
-      ],
-      "why": "Both lines ask only for a hearing before the vote, with no fact to choose between them."
-    },
     "1dutgiqgxau": {
       "keys": [
         "scene-talk.reply-ask.do-you-want-to-hold-kid",
         "scene-talk.reply-ask.do-you-want-to-hold-kid-carefully"
       ],
       "why": "Both ask whether the visitor wants to hold {kid}, one adding a single word."
-    },
-    "1dvyrovhbqp": {
-      "keys": [
-        "scene-talk.follow-thank.i-won-t-forget-it-thank-you",
-        "scene-talk.follow-thank.that-means-a-lot-thank-you",
-        "scene-talk.follow-thank.that-s-all-i-needed-to-hear"
-      ],
-      "why": "All three lines are the same thanks in other words."
     },
     "1dxz0a713f3": {
       "keys": [
@@ -3127,13 +2803,6 @@
         "scene-talk.reply-agree.of-course-ill-keep-it-short"
       ],
       "why": "All three lines just agree to speak, with no fact in the world to choose among them."
-    },
-    "1eo5x278ovt": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-what-s-true",
-        "scene-talk.follow-plea.then-tell-me-who-s-right"
-      ],
-      "why": "Both lines ask for the truth in other words."
     },
     "1ersdmrgmyv": {
       "keys": [
@@ -3359,14 +3028,6 @@
       ],
       "why": "Both lines say the town can't help and point to free legal aid."
     },
-    "1j99mpi1shc": {
-      "keys": [
-        "scene-talk.close-press.no-rush-but-the-clock-is-running",
-        "scene-talk.close-press.take-a-few-days-i-ll-check-back",
-        "scene-talk.close-press.think-it-over-election-day-isn-t-far"
-      ],
-      "why": "All three say take time but not too long, in other words."
-    },
     "1j9hapm9h6g": {
       "keys": [
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it",
@@ -3417,14 +3078,6 @@
         "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous"
       ],
       "why": "All four are the same brief apology, two citing nerves."
-    },
-    "1jyw6qsvhrr": {
-      "keys": [
-        "scene-talk.close-accept.go-on-thanks-for-coming",
-        "scene-talk.close-accept.no-problem-thanks-for-the-time",
-        "scene-talk.close-accept.safe-travels-thanks-for-stopping-by"
-      ],
-      "why": "All three are interchangeable goodbyes with thanks."
     },
     "1k3009qccxs": {
       "keys": [
@@ -3483,13 +3136,6 @@
         "scene-talk.reply-promise.thank-you-ill-keep-working-to-make-it-last"
       ],
       "why": "All three lines promise to keep working on it, and naming the area does not change what is said."
-    },
-    "1kiagu19grz": {
-      "keys": [
-        "scene-talk.reply-leave.nothing-i-can-get-into-excuse-me",
-        "scene-talk.reply-leave.that-s-all-i-ve-got-for-you"
-      ],
-      "why": "Both lines are the same brush-off exit."
     },
     "1kny41yn91b": {
       "keys": [
@@ -3613,13 +3259,6 @@
       ],
       "why": "Both lines say the asker is late with things too."
     },
-    "1mvnx2broea": {
-      "keys": [
-        "scene-talk.close-thank.thank-you-that-means-a-lot-to-this-campaign",
-        "scene-talk.close-thank.you-just-made-my-week-thank-you"
-      ],
-      "why": "Both thank the player warmly, a rewording."
-    },
     "1ng8hngdpyy": {
       "keys": [
         "scene-talk.state-request.it-s-self-again-from-the-petition-for-office-do-you-have-a-minute-to-sign",
@@ -3690,13 +3329,6 @@
         "scene-talk.follow-thank.youre-kinder-than-i-had-a-right-to-expect"
       ],
       "why": "Both lines give the same grateful thanks."
-    },
-    "1pfflrgt169": {
-      "keys": [
-        "scene-talk.reply-leave.that-s-enough-of-that",
-        "scene-talk.reply-leave.we-re-done"
-      ],
-      "why": "Both lines end the talk in other words."
     },
     "1pjyc23mz07": {
       "keys": [
@@ -3809,28 +3441,12 @@
       ],
       "why": "Both lines need the same facts and say the same thing, that {name} wants a word about {bill} on the desk."
     },
-    "1rs3rhfmkay": {
-      "keys": [
-        "scene-talk.reply-deflect.i-d-check-who-s-talking-before-i-believed-it",
-        "scene-talk.reply-deflect.people-say-a-lot-of-things",
-        "scene-talk.reply-deflect.that-s-not-the-whole-story"
-      ],
-      "why": "All three lines dismiss the rumor in other words."
-    },
     "1rxb9j94ro1": {
       "keys": [
         "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
         "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this"
       ],
       "why": "Both lines are the same regretful refusal."
-    },
-    "1s21x6jqibj": {
-      "keys": [
-        "scene-talk.reply-offer.let-me-get-you-with-my-chief-of-staff",
-        "scene-talk.reply-offer.let-me-put-you-on-the-calendar-for-a-real-meeting",
-        "scene-talk.reply-offer.my-staff-can-set-aside-time-for-you"
-      ],
-      "why": "All three lines offer time with staff or on the calendar, the same offer reworded."
     },
     "1s3dvpxmlv5": {
       "keys": [
@@ -3847,14 +3463,6 @@
       ],
       "why": "Both say the offer still stands, a rewording."
     },
-    "1sh38lmduqm": {
-      "keys": [
-        "scene-talk.follow-thank.glad-to-hear-it-i-ll-let-my-people-know",
-        "scene-talk.follow-thank.good-to-hear-keep-me-posted",
-        "scene-talk.follow-thank.that-s-what-i-wanted-to-hear-thanks"
-      ],
-      "why": "All three lines are the same thanks in other words."
-    },
     "1soxs8qoipw": {
       "keys": [
         "scene-talk.follow-agree.me-too",
@@ -3869,20 +3477,6 @@
         "scene-talk.reply-agree.write-down-what-you-need-back-i-ll-carry-it-myself"
       ],
       "why": "All three lines are the same agreement to fight the cut at the council, reworded with nothing to choose among them."
-    },
-    "1thg08iq0rt": {
-      "keys": [
-        "scene-talk.follow-accept.i-won-t-push",
-        "scene-talk.follow-accept.no-hard-feelings"
-      ],
-      "why": "Both lines are the same gracious acceptance of a no."
-    },
-    "1tpl9j1ufez": {
-      "keys": [
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to"
-      ],
-      "why": "Both lines decline to promise a vote to a friend in other words."
     },
     "1ttbzqr7f7x": {
       "keys": [
@@ -4027,13 +3621,6 @@
       ],
       "why": "Both lines have the friend ask to talk, with no fact behind either."
     },
-    "1vp0kjvwj8o": {
-      "keys": [
-        "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
-        "scene-talk.reply-confront.ask-source-who-they-re-working-for"
-      ],
-      "why": "Both lines insinuate that {source} is compromised, the same jab reworded."
-    },
     "1vrjti4wns2": {
       "keys": [
         "scene-talk.state-request.bill-needs-a-member-to-sponsor-it-and-you-re-the-one-i-want",
@@ -4117,15 +3704,6 @@
       ],
       "why": "Both say the story runs without the player's side."
     },
-    "1xj4ms891s7": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-looks-at-the-clipboard-then-at-you-and-smiles",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-laughs-a-little-at-the-sight-of-you-with-a-clipboard",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-leans-on-the-frame-in-no-hurry",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-you-both-know-each-other"
-      ],
-      "why": "All four narrations show a friend opening the door warmly, reworded with nothing in the world to choose between them."
-    },
     "1xk3olr9cj6": {
       "keys": [
         "scene-talk.state-greet-counter.everybody-who-runs-in-place-starts-at-this-counter",
@@ -4191,41 +3769,12 @@
       ],
       "why": "Both lines say a promised call won't beat the date on the paper."
     },
-    "1yh11l8dnai": {
-      "keys": [
-        "scene-talk.reply-stall.give-me-until-the-committee-meets-i-ll-know-more-then",
-        "scene-talk.reply-stall.i-haven-t-seen-the-final-text-send-me-the-numbers-you-re-working-from"
-      ],
-      "why": "Both lines stall for more information before answering, with no fact to choose between them."
-    },
     "1ym6xyd711f": {
       "keys": [
         "scene-talk.follow-accept.if-you-say-so",
         "scene-talk.follow-accept.suit-yourself"
       ],
       "why": "Both lines are the same dismissive acceptance."
-    },
-    "1yqgh0s8k6k": {
-      "keys": [
-        "scene-talk.follow-accept.all-right-i-ll-bring-what-i-have",
-        "scene-talk.follow-accept.that-s-more-than-i-got-last-time-send-me-the-date"
-      ],
-      "why": "Both lines accept the meeting, with nothing in the world to choose between them."
-    },
-    "1ys504pv8ov": {
-      "keys": [
-        "scene-talk.follow-accept.all-right-i-got-you-i-ll-ask-them",
-        "scene-talk.follow-accept.i-ll-ask-them-then",
-        "scene-talk.follow-accept.i-ll-put-that-in"
-      ],
-      "why": "All three lines say the asker will ask them, reworded."
-    },
-    "1z1hebqykmf": {
-      "keys": [
-        "scene-talk.close-accept.all-right-i-got-you-i-ll-keep-working",
-        "scene-talk.close-accept.i-respect-that-thanks-for-the-straight-answer"
-      ],
-      "why": "Both accept the answer and thank the player, a rewording."
     },
     "1z1ucs39c35": {
       "keys": [
@@ -4257,13 +3806,6 @@
       ],
       "why": "Both lines say that is what people are saying."
     },
-    "1zv77d7mqpv": {
-      "keys": [
-        "scene-talk.reply-leave.i-need-to-head-home",
-        "scene-talk.reply-leave.i-should-get-going"
-      ],
-      "why": "Both say the player needs to leave, a rewording."
-    },
     "1zvk0fshl6m": {
       "keys": [
         "scene-talk.reply-agree.done-don-t-worry-about-it",
@@ -4278,13 +3820,6 @@
         "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
       ],
       "why": "All three lines say the player has nothing to give, in other words."
-    },
-    "1zzmqqmw0hl": {
-      "keys": [
-        "scene-talk.state-request.you-know-i-don-t-ask-for-much-i-d-like-your-vote-for-office",
-        "scene-talk.state-request.you-ve-probably-heard-by-now-i-m-running-for-office-and-i-d-like-your-vote"
-      ],
-      "why": "Both lines ask a friend for their vote for the office in nearly the same words."
     },
     "208ghbt2dwn": {
       "keys": [
@@ -4336,14 +3871,6 @@
         "scene-talk.reply-agree.you-have-my-vote"
       ],
       "why": "Both lines just say the player has the asker's vote."
-    },
-    "20z4rhacgit": {
-      "keys": [
-        "scene-talk.reply-lie.source-wasn-t-in-the-room",
-        "scene-talk.reply-lie.then-source-has-it-wrong",
-        "scene-talk.reply-lie.whatever-source-told-you-it-isn-t-what-i-said"
-      ],
-      "why": "All three lines say {source} is wrong, with nothing in the world to choose between them."
     },
     "20zaf2ugj8i": {
       "keys": [
@@ -4411,14 +3938,6 @@
       ],
       "why": "Both lines just ask for the phone to make the call."
     },
-    "21xh9oslx1y": {
-      "keys": [
-        "scene-talk.close-promise.i-ll-keep-my-word-you-ll-see",
-        "scene-talk.close-promise.i-ll-work-for-every-vote-yours-included",
-        "scene-talk.close-promise.you-won-t-regret-this-i-ll-earn-it"
-      ],
-      "why": "All three promise to earn the vote, in other words."
-    },
     "222tn3nur3c": {
       "keys": [
         "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question",
@@ -4448,15 +3967,6 @@
         "scene-talk.close-warn.you-ll-need-friends-after-this-vote-i-won-t-be-one"
       ],
       "why": "All three lines are the same vague warning of consequences."
-    },
-    "22ig4zl7zp5": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-comes-to-the-door-with-a-dish-towel-over-one-shoulder",
-        "scene-talk.narrate-narrate.name-opens-the-door-and-looks-at-the-clipboard-in-your-hand",
-        "scene-talk.narrate-narrate.the-porch-light-is-on-name-opens-the-door-partway",
-        "scene-talk.narrate-narrate.you-knock-with-the-petition-on-a-clipboard-name-answers"
-      ],
-      "why": "All four lines say the same thing, that {name} answers the door, with no fact choosing among them."
     },
     "22m6eqtpvqb": {
       "keys": [
@@ -4501,13 +4011,6 @@
         "scene-talk.follow-confront.keep-telling-yourself-that"
       ],
       "why": "Both lines dismiss the opponent's confidence, the same retort reworded."
-    },
-    "2308qe102pa": {
-      "keys": [
-        "scene-talk.follow-press.i-m-different-watch",
-        "scene-talk.follow-press.try-someone-new"
-      ],
-      "why": "Both lines pitch the player as a fresh alternative, the same press reworded."
     },
     "230kqfbaeqd": {
       "keys": [
@@ -4610,13 +4113,6 @@
       ],
       "why": "All three lines ask the friend whether the report is true in other words, and no fact in the record picks among them."
     },
-    "24vp2r1w31h": {
-      "keys": [
-        "scene-talk.follow-press.friend-to-friend",
-        "scene-talk.follow-press.you-know-me"
-      ],
-      "why": "Both lines press on the friendship in nearly the same words."
-    },
     "24y34v42g7r": {
       "keys": [
         "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
@@ -4655,27 +4151,12 @@
       ],
       "why": "Both ask the visitor to take over briefly, with no fact choosing between them."
     },
-    "2678sc0sfh3": {
-      "keys": [
-        "scene-talk.state-request.i-need-you-to-look-at-bill-and-i-couldn-t-ask-anyone-else",
-        "scene-talk.state-request.i-put-in-money-because-it-was-you-i-m-asking-for-something-back-just",
-        "scene-talk.state-request.i-ve-never-asked-you-for-anything-bill-is-what-i-m-asking-about"
-      ],
-      "why": "The two bill lines both ask a friend to look at the bill, so most of the slot says the same thing."
-    },
     "26emqp4qn4q": {
       "keys": [
         "scene-talk.close-thank.i-appreciate-you-listening",
         "scene-talk.close-thank.thank-you-for-hearing-me-out"
       ],
       "why": "Both lines are the same thanks for listening, reworded, with no fact to pick between them."
-    },
-    "26f6z5f0nrx": {
-      "keys": [
-        "scene-talk.reply-deflect.i-m-still-making-up-my-mind",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "Both say the player is still deciding, a rewording."
     },
     "26srp4kt8p5": {
       "keys": [
@@ -4737,13 +4218,6 @@
       ],
       "why": "All three lines say the conversation isn't finished."
     },
-    "27p92yvvle5": {
-      "keys": [
-        "scene-talk.follow-accept.done-my-people-will-call-yours",
-        "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow"
-      ],
-      "why": "Both lines accept and promise a follow-up in other words."
-    },
     "27su9yl4bna": {
       "keys": [
         "scene-talk.follow-accept.phones-start-ringing-at-eight-sharp",
@@ -4803,13 +4277,6 @@
       ],
       "why": "Both lines are the same welcome to a new hire."
     },
-    "28t9m9bzf0p": {
-      "keys": [
-        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face",
-        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first"
-      ],
-      "why": "Both lines ask to be heard before the player decides, in other words."
-    },
     "290gx4pnqdo": {
       "keys": [
         "scene-talk.reply-leave.i-should-feed-kid-soon",
@@ -4859,14 +4326,6 @@
         "scene-talk.reply-comfort.it-looks-worse-than-it-is-people-are-upset-and-theyre-allowed"
       ],
       "why": "Both lines reassure that things are fine, with no fact to separate them."
-    },
-    "29kqf82vzdx": {
-      "keys": [
-        "scene-talk.follow-accept.apology-accepted-let-s-start-over",
-        "scene-talk.follow-accept.i-know-neither-did-i",
-        "scene-talk.follow-accept.no-harm-done"
-      ],
-      "why": "All three lines accept the apology in other words."
     },
     "29nj2k6a03n": {
       "keys": [
@@ -4984,13 +4443,6 @@
       ],
       "why": "Both lines falsely say don't worry, I've got you, the same lie with no fact to choose between them."
     },
-    "2b0oxcorswe": {
-      "keys": [
-        "scene-talk.reply-stall.i-m-still-waiting-on-the-committee-s-numbers-i-ll-call-when-i-have-th",
-        "scene-talk.reply-stall.not-yet-there-s-an-amendment-i-want-to-see-first"
-      ],
-      "why": "Both lines stall while waiting on committee work, with no fact to choose between them."
-    },
     "2bci599twal": {
       "keys": [
         "scene-talk.close-accept.thats-all-then",
@@ -5013,16 +4465,6 @@
       ],
       "why": "Both questions ask what prompted the request, the same question reworded."
     },
-    "2bmf1kujf8f": {
-      "keys": [
-        "scene-talk.narrate-narrate.it-takes-a-while-name-comes-to-the-door-slowly-one-hand-on-the-frame",
-        "scene-talk.narrate-narrate.name-answers-in-a-robe-and-slippers-moving-slowly",
-        "scene-talk.narrate-narrate.name-answers-in-a-robe-with-a-blanket-around-both-shoulders",
-        "scene-talk.narrate-narrate.name-opens-the-door-partway-and-doesn-t-open-it-farther",
-        "scene-talk.narrate-narrate.you-hear-a-chair-scrape-then-slow-steps-name-opens-the-door"
-      ],
-      "why": "All five narrations show the same thing, a sick person slowly answering the door, with only the props reworded and nothing in the world to choose among them."
-    },
     "2bn04c1h81m": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-a-notebook-open-before-you-sit-down",
@@ -5044,13 +4486,6 @@
         "scene-talk.reply-decline.then-it-s-not-for-me-thank-the-executive"
       ],
       "why": "All three lines decline the appointment in other words."
-    },
-    "2bwql7y99sl": {
-      "keys": [
-        "scene-talk.state-request.anyone-else-i-d-go-through-your-office-with-you-i-d-rather-just-say-i",
-        "scene-talk.state-request.can-i-ask-you-something-and-have-you-not-hear-it-as-the-donor-talking"
-      ],
-      "why": "Both lines ask to speak as a friend and not a donor, with no fact behind either."
     },
     "2c20xvt6zx9": {
       "keys": [
@@ -5239,13 +4674,6 @@
       ],
       "why": "Both press for a guess, nearly identical."
     },
-    "2f880bsgzab": {
-      "keys": [
-        "scene-talk.follow-thank.thank-you-i-ll-write-it-down-so-i-don-t-ramble",
-        "scene-talk.follow-thank.this-weekend-then-i-ll-bring-coffee"
-      ],
-      "why": "Both lines thank the player and confirm the meeting, with nothing in the world to choose between them."
-    },
     "2feg3ambmsn": {
       "keys": [
         "scene-talk.follow-thank.deceased-would-have-liked-that",
@@ -5289,14 +4717,7 @@
         "scene-talk.follow-disagree.we-ll-see-who-s-right"
       ],
       "why": "Both lines hold to the speaker's view in other words."
-    },
-    "2ghsvnk0xhe": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-look-into-it-before-deadline",
-        "scene-talk.follow-promise.let-me-find-out-where-tenants-can-get-free-help-and-i-ll-bring-it-by-before-dead"
-      ],
-      "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0spyj8ykgf3"
+  "yesHash": "2fgt2aucag3"
 }

@@ -23228,29 +23228,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-agree.good-it-s-been-like-that-in-place-a-while",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "Good. It's been like that in {place} a while.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["year-point", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
       "key": "conversation.address-point-back-disagree.it-looks-different-from-employer-where-i-sit-all-day",
       "move": "address-point-back-disagree",
       "kind": "spoken",
@@ -23267,6 +23244,29 @@
           "role": "core",
           "stages": ["disagree"],
           "requiresFacts": ["year-point", "why-work", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-it-s-been-like-that-in-place-a-while",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. It's been like that in {place} a while.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["year-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23297,29 +23297,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-decider-votes",
-      "move": "address-point-back-disagree",
-      "kind": "spoken",
-      "text": "We'll see who's right once {decider} votes.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-disagree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["policy-point", "decider"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
       "key": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-on-said",
       "move": "address-point-back-disagree",
       "kind": "spoken",
@@ -23336,6 +23313,29 @@
           "role": "core",
           "stages": ["disagree"],
           "requiresFacts": ["policy-point", "said"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-decider-votes",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "We'll see who's right once {decider} votes.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point", "decider"]
         }
       ],
       "origin": "authored",
@@ -23774,6 +23774,30 @@
       "date": "2026-11-12"
     },
     {
+      "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "I'll bring it up at {employer} tomorrow.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "why-work", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
       "key": "conversation.address-point-back-agree.i-ll-believe-it-when-decider-passes-it",
       "move": "address-point-back-agree",
       "kind": "spoken",
@@ -23798,30 +23822,6 @@
         "required": true
       },
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "I'll bring it up at {employer} tomorrow.",
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["policy-point", "why-work", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-17"
@@ -41928,17 +41928,17 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.address-point-answer-agree.same-here-president-is-right-to-to",
+      "key": "conversation.address-point-answer-agree.can-t-tell-yet-either-let-s-see-what-it-costs-place",
       "move": "address-point-answer-agree",
       "kind": "spoken",
-      "text": "Same here. {president} is right to {to}.",
+      "text": "Can't tell yet either. Let's see what it costs {place}.",
       "uses": [
         {
           "move": "address-point-answer-agree",
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["president", "to", "stand-with", "president-for"]
+          "requiresFacts": ["place", "stand-unsure"]
         }
       ],
       "origin": "authored",
@@ -41946,28 +41946,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "conversation.address-point-answer-agree.i-d-to-too-if-it-were-up-to-me",
+      "key": "conversation.address-point-answer-agree.you-re-right-about-is-the-wrong-fight-for-capital",
       "move": "address-point-answer-agree",
       "kind": "spoken",
-      "text": "I'd {to} too, if it were up to me.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["to", "stand-with", "president-for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.right-we-shouldn-t-to-president-called-that-one",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Right. We shouldn't {to}. {president} called that one.",
+      "text": "You're right. {about} is the wrong fight for {capital}.",
       "uses": [
         {
           "move": "address-point-answer-agree",
@@ -41975,69 +41957,10 @@
           "role": "answer",
           "choice": "agree",
           "requiresFacts": [
-            "to",
-            "president",
-            "stand-with",
-            "president-against"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.agreed-i-wouldn-t-to-either",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Agreed. I wouldn't {to} either.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["to", "stand-with", "president-against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.same-here-i-wouldn-t-to-whatever-president-says",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Same here. I wouldn't {to}, whatever {president} says.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["to", "president", "stand-against", "president-for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.i-m-with-you-we-should-to-and-president-won-t",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "I'm with you. We should {to}, and {president} won't.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": [
-            "to",
-            "president",
+            "about",
+            "capital",
             "stand-against",
-            "president-against"
+            "president-for"
           ]
         }
       ],
@@ -42069,10 +41992,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "conversation.address-point-answer-agree.you-re-right-about-is-the-wrong-fight-for-capital",
+      "key": "conversation.address-point-answer-agree.i-m-with-you-we-should-to-and-president-won-t",
       "move": "address-point-answer-agree",
       "kind": "spoken",
-      "text": "You're right. {about} is the wrong fight for {capital}.",
+      "text": "I'm with you. We should {to}, and {president} won't.",
       "uses": [
         {
           "move": "address-point-answer-agree",
@@ -42080,10 +42003,10 @@
           "role": "answer",
           "choice": "agree",
           "requiresFacts": [
-            "about",
-            "capital",
+            "to",
+            "president",
             "stand-against",
-            "president-for"
+            "president-against"
           ]
         }
       ],
@@ -42092,21 +42015,178 @@
       "date": "2026-11-17"
     },
     {
-      "key": "conversation.address-point-answer-agree.can-t-tell-yet-either-let-s-see-what-it-costs-place",
+      "key": "conversation.address-point-answer-agree.same-here-i-wouldn-t-to-whatever-president-says",
       "move": "address-point-answer-agree",
       "kind": "spoken",
-      "text": "Can't tell yet either. Let's see what it costs {place}.",
+      "text": "Same here. I wouldn't {to}, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-answer-agree",
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["place", "stand-unsure"]
+          "requiresFacts": ["to", "president", "stand-against", "president-for"]
         }
       ],
       "origin": "authored",
       "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.agreed-i-wouldn-t-to-either",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Agreed. I wouldn't {to} either.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["to", "stand-with", "president-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.right-we-shouldn-t-to-president-called-that-one",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Right. We shouldn't {to}. {president} called that one.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-with",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.i-d-to-too-if-it-were-up-to-me",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "I'd {to} too, if it were up to me.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["to", "stand-with", "president-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.same-here-president-is-right-to-to",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Same here. {president} is right to {to}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["president", "to", "stand-with", "president-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.out-of-town-im-position",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "Out of town. I'm {position}.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.work-not-around-here",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "I'm {position}. The work's not around here.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.i-drive-out-for-it",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "I drive out of town for it. I'm {position}.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.over-in-work-place",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "Over in {work_place}. I'm {position} there.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position", "work-place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
       "date": "2026-11-17"
     }
   ]

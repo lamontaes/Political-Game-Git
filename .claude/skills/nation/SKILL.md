@@ -1,15 +1,12 @@
 ---
 name: nation
 description: >
-  How to add the rest of the country to Our Civic Duty as results: a module
-  that keeps national opinion, other states' disasters, budgets, ballot
-  measures, the President's acts or the federal courts as rows and counts,
-  with detail built on open. Covers the module pattern, the national place record
-  the press reads, the words the press needs, the guards a new
-  module trips (zero-dice growth, the stopgap family file, import cycles), and
-  how to prove it in a played year. Use for any Nation item or any other
-  government's engine; not for the town's own engines (the line that owns
-  them) or for timing a year (speed-work).
+  Adds the rest of the country as results: a module keeping national opinion,
+  other states' disasters, budgets, ballot measures, the President's acts or
+  the federal courts as rows and counts, with detail built on open; the guards
+  a new module trips; proving it in a played year. Use for any Nation item or
+  another government's engine. Not for the town's own engines or timing a year
+  (speed-work).
 ---
 
 # The rest of the country, as results
@@ -51,3 +48,11 @@ description: >
 - **Fixes while the machine runs a long job.** Do not switch the main checkout under a running test or timing. Work in a sparse copy that shares git objects and links `node_modules` (`helper-checkout`); never `git worktree add` or copy the repository on the owner's Mac, and a full copy is about 3.3 GB (owner, Oct 29).
 - **A treasury reads the country tier through the macro module's own table, never by importing it.** `budgets-treasury.ts` cannot import `modules/macro.ts` (an import cycle breaks at load: "Cannot access ... before initialization"), and a registration function called at the macro file's top level hits the same cycle. Read `api.moduleState("macro").table("countryStates").rows()` (rows are not cloned: 0.0 ms for 56 states). Each state's last `whatMoved` row is its rest, the town's own part already taken out before the state steps, so the tier's figure and the town's own people are never counted twice. `CountryWithheldLine.tax` says income, social-security or medicare. A line is calibrated as plan times the tier's figure now over its figure in the first month the treasury read it (`tierBases`), so the Census level holds and a law change moves it; a tax at nothing pays nothing and the month is recorded.
 - **Budgeted revenue is read, not only reported** (Nov 15, order 8 of the metrics plan). A treasury's outside receipts are its budget's revenue lines (`outsideRevenueMonthly`, `budgets-treasury.ts`), so re-budgeting revenue from last year's collections feeds the next year's collections. Use the government's own receipts (`collectedMinor` less `borrowedMinor`: the nation's collected figure includes its borrowing) over the Census base for the fiscal year before, and compare against the other states' rows the country tier keeps in the same world.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 01:06Z: elections outside the town restarted from the 2024 county map every time. Cause: a real result used as each race's start. Each place's lean carries forward from its own last result.
+- Nov 17, 01:06Z: crime, health, coverage and turnout were rebuilt from 2024 every month in the outcome web. Cause: a real level reloaded monthly. Carry each from last month and move it by the world's own causes.
+- Nov 17, 01:05Z: the presidency's ballot fell back on a `fileNominees` stand-in. Cause: a fallback hides a race with nobody on the ballot (Cross Anchor, South Carolina). Candidacy alone fields the nominees.
