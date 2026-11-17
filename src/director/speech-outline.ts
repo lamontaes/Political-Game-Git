@@ -113,6 +113,7 @@ import {
   HURT_KINDS,
   type AddressKind,
 } from "./address-kind";
+import { storyOf } from "./address-story";
 
 const N = (
   openingData as unknown as {
@@ -128,6 +129,7 @@ const N = (
 /** The sections an outline row may hold, in the words of speech-outlines.json. */
 export type Section =
   | "salutation"
+  | "story"
   | "occasion"
   | "creed"
   | "history"
@@ -922,6 +924,8 @@ export interface OutlineSpeaker {
 export interface SpeechPlan {
   readonly blocks: Block[];
   readonly addressKind: AddressKind;
+  /** The world's story the address opens on (address-story.ts), "steady" when none. */
+  readonly story: string;
   /** The bill catalog's subject the speech is about; null when the record gives it none. */
   readonly theme: string | null;
   readonly asks: readonly string[];
@@ -1958,7 +1962,7 @@ function contextFacts(
 }
 
 /** Every month the macro engine has recorded or will open from, oldest first, up to today. */
-function macroHistory(core: CoreState): MacroMonth[] {
+export function macroHistory(core: CoreState): MacroMonth[] {
   const api = coreAPI(core);
   const recorded = core.modules.has(MACRO_MODULE_ID)
     ? (api
@@ -2098,6 +2102,21 @@ export function planSpeech(
       ? crisisTopic
       : null;
   const response = crisis ? answered!.response : null;
+  // The world's story the address opens on, before the speaker's own issues
+  // (address-story.ts; owner, Nov 16: "maybe it's warning because ... the
+  // economy's been terrible ... or maybe corruption"): its row orders the
+  // sections, so a warning and a brag do not share a skeleton.
+  const story = storyOf(
+    core,
+    {
+      serviceStart: speaker.serviceStart,
+      federal,
+      stateKey: level === "state" ? speaker.jurisdiction : null,
+      ...(local?.bodyOfficeId ? { bodyOfficeId: local.bodyOfficeId } : {}),
+      ...termOf(core, official?.termId ?? null),
+    },
+    macroHistory(core),
+  );
   // The answer is the first point, said with the condition in one paragraph;
   // the theme's points follow it. The answer's question is said once.
   const pointStands = response
@@ -2285,18 +2304,16 @@ export function planSpeech(
     // The first shape in the speaker's order that the point can open on and no
     // earlier point of the speech opened on: a shape says something about the
     // point, so one the point cannot bear stays unpicked (the second reader,
-    // Nov 14). A figure first needs a measure to show; the question first
-    // needs a wording its question can be asked of; and one who defends what
+    // Nov 14). The question first needs a wording its question can be
+    // asked of; and one who defends what
     // is in force (a supporter of a law in force, an opponent of one not) asks
     // "Why would we change course, when ..." only of a wording that is not a
     // complaint.
     const defends = stand.stance > P.zero === stand.law.inForce;
     const fits = (name: string) =>
-      name === "figure-first"
-        ? topicOf.has(stand.question)
-        : name === "question-first"
-          ? todays.some((text) => !defends || !questionTodayComplains(text))
-          : todays.length > P.zero;
+      name === "question-first"
+        ? todays.some((text) => !defends || !questionTodayComplains(text))
+        : todays.length > P.zero;
     const shape =
       order.find((name) => fits(name) && !shapesUsed.has(name)) ??
       order.find(fits) ??
@@ -2497,6 +2514,24 @@ export function planSpeech(
     });
   };
   const sections: Record<Section, () => Draft[]> = {
+    // The world's story, said before anything the speaker asks for: what the
+    // records say the country, state or place has been through, then what
+    // the speaker makes of it for the term ahead (story-open, story-turn).
+    story: () =>
+      story.id === "steady"
+        ? []
+        : [
+            {
+              key: "story",
+              level: "country",
+              joins: true,
+              facts: story.facts,
+              moves: [
+                move("story-open", { topic: story.id }),
+                move("story-turn", { topic: story.id }),
+              ],
+            },
+          ],
     salutation: () => [
       {
         key: "salutation",
@@ -2835,7 +2870,10 @@ export function planSpeech(
         facts: { ...draft.facts, ...closeFacts() } as Facts,
       })),
   };
-  const drafts = row.sections
+  // The story's order where it has one for this level, else the kind's own.
+  const sectionOrder =
+    (story.sections as readonly Section[] | null) ?? row.sections;
+  const drafts = sectionOrder
     .filter((section) => !row.asides.includes(section) || asides.has(section))
     .flatMap((section) =>
       sections[section]().map((draft) => ({
@@ -2940,6 +2978,7 @@ export function planSpeech(
   return {
     blocks,
     addressKind,
+    story: story.id,
     theme,
     asks: asks.map((stand) => stand.question),
     crisis,
@@ -2958,6 +2997,19 @@ const SAYS_ASK_AGAIN: ReadonlySet<string> = new Set([
   "floor-speech",
   "campaign-speech",
 ]);
+
+/** The speaker's serving term by its id, with its end, from the offices engine. */
+function termOf(
+  core: CoreState,
+  termId: string | null,
+): { term?: { id: string; endDate: string } } {
+  if (!termId || !core.modules.has(OFFICES_MODULE_ID)) return {};
+  const row = coreAPI(core)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(termId) as { endDate?: string } | undefined;
+  return row?.endDate ? { term: { id: termId, endDate: row.endDate } } : {};
+}
 
 /** An office row's kind, from the offices engine. */
 function officeKindOf(core: CoreState, officeId: string): string | undefined {

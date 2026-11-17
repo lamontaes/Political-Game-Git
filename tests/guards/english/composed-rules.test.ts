@@ -101,6 +101,42 @@ const FIXTURES: Record<
   string,
   { catches: ComposedSample; spares: ComposedSample; breaksAt?: number[] }
 > = {
+  "name-check-does-work": {
+    catches: sampleOf(
+      text("speech:president", [
+        [
+          "With Vice President Grace Talbot here, things are looking up for working families.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:president", [
+        [
+          "With help from Vice President Grace Talbot, we passed the farm bill.",
+        ],
+      ]),
+    ),
+  },
+  "close-names-the-body": {
+    catches: sampleOf(
+      text("speech:governor", [
+        [
+          "Members of the Ohio legislature. Collective bargaining for public workers became law this year.",
+        ],
+        [
+          "That's the work in front of Ohio, and I thank you for hearing me out.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:governor", [
+        [
+          "Members of the Ohio legislature. Collective bargaining for public workers became law this year.",
+        ],
+        ["On collective bargaining, you have my word. Thank you, Ohio."],
+      ]),
+    ),
+  },
   "full-name-once-per-screen": {
     catches: sampleOf(
       text("speech:president", [
