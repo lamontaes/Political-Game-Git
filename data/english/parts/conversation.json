@@ -41938,8 +41938,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["president", "to"],
-          "onlyWhen": ["stand-with", "president-for"]
+          "requiresFacts": ["president", "to", "stand-with", "president-for"]
         }
       ],
       "origin": "authored",
@@ -41957,8 +41956,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["to"],
-          "onlyWhen": ["stand-with", "president-for"]
+          "requiresFacts": ["to", "stand-with", "president-for"]
         }
       ],
       "origin": "authored",
@@ -41976,8 +41974,12 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["to", "president"],
-          "onlyWhen": ["stand-with", "president-against"]
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-with",
+            "president-against"
+          ]
         }
       ],
       "origin": "authored",
@@ -41995,8 +41997,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["to"],
-          "onlyWhen": ["stand-with", "president-against"]
+          "requiresFacts": ["to", "stand-with", "president-against"]
         }
       ],
       "origin": "authored",
@@ -42014,8 +42015,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["to", "president"],
-          "onlyWhen": ["stand-against", "president-for"]
+          "requiresFacts": ["to", "president", "stand-against", "president-for"]
         }
       ],
       "origin": "authored",
@@ -42033,8 +42033,12 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["to", "president"],
-          "onlyWhen": ["stand-against", "president-against"]
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-against",
+            "president-against"
+          ]
         }
       ],
       "origin": "authored",
@@ -42052,8 +42056,12 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["capital", "to"],
-          "onlyWhen": ["stand-against", "president-against"]
+          "requiresFacts": [
+            "capital",
+            "to",
+            "stand-against",
+            "president-against"
+          ]
         }
       ],
       "origin": "authored",
@@ -42071,8 +42079,12 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["about", "capital"],
-          "onlyWhen": ["stand-against", "president-for"]
+          "requiresFacts": [
+            "about",
+            "capital",
+            "stand-against",
+            "president-for"
+          ]
         }
       ],
       "origin": "authored",
@@ -42090,8 +42102,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["decider"],
-          "onlyWhen": ["stand-unsure"]
+          "requiresFacts": ["decider", "stand-unsure"]
         }
       ],
       "origin": "authored",
@@ -42109,8 +42120,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["capital"],
-          "onlyWhen": ["stand-unsure"]
+          "requiresFacts": ["capital", "stand-unsure"]
         }
       ],
       "origin": "authored",
@@ -42128,8 +42138,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": ["place"],
-          "onlyWhen": ["stand-unsure"]
+          "requiresFacts": ["place", "stand-unsure"]
         }
       ],
       "origin": "authored",
