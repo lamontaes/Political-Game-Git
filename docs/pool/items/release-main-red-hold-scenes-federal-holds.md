@@ -19,7 +19,7 @@ source: Red desk, Nov 13 (Fable A on #8928, comment 6842448463)
 merged-at: 2026-11-13T04:23:03.984Z
 ---
 
-**What.** `src/director/hold-scenes.test.ts` fails on clean main at GOLDEN_PATH_SEED=07dadfc81a04b1923d9ea056b67cde5952921ea0 in Pine Hills, Florida (1256825), on its first draw: "no chair was asked for a hearing: expected 0 to be greater than 0". All four bills held in that world's 90 days are U.S. House and Senate bills, whose chairs are members of Congress from other states. Seen: a council, county board or legislature chair asked for a hearing by the sponsor of the bill it holds.
+**What.** `src/director/hold-scenes.test.ts` (removed) fails on clean main at GOLDEN_PATH_SEED=07dadfc81a04b1923d9ea056b67cde5952921ea0 in Pine Hills, Florida (1256825), on its first draw: "no chair was asked for a hearing: expected 0 to be greater than 0". All four bills held in that world's 90 days are U.S. House and Senate bills, whose chairs are members of Congress from other states. Seen: a council, county board or legislature chair asked for a hearing by the sponsor of the bill it holds.
 
 **Cause.** Found in code: the check watches only the members of the town's city, county and state bodies (`director.watch`), but takes any `bill-held-in-committee` record as the place's hold, and the legislature engine records Congress's holds too (src/core2/modules/legislature.ts, with the bill's `level`). A place whose only holds are federal counted as found, and no watched chair could be asked.
 

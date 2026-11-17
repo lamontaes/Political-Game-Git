@@ -112,7 +112,7 @@ export const facts: Record<string, Fact> = {
   rent: fact("$900 a month"),
   stake: fact("your seat"),
   // What the partnerships engine's records give a partner's ask to live
-  // together (`moveInFacts`, src/director/move-in-facts.ts): who would move,
+  // together (`moveInFacts`, src/director/move-in-facts.ts (removed)): who would move,
   // here the asker, and that the one asked has a place of their own.
   "asker-moves": fact(adults[1]!.givenName),
   "asked-has-own-place": fact(core.people.get(askedId)!.givenName),

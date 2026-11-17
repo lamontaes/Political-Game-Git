@@ -20,7 +20,7 @@ claimed-at:
 checked: words builder A 2026-11-15
 ---
 
-**What.** `src/director/celebration-gathering-scene.test.ts` "every line of the two purposes carries its own facts, with no name said twice and no stray words" fails with `celebration-ask: expected 72 to be less than or equal to 45` (line 507, the per-purpose count) on the clean train. Seen: the celebration ask scene's bank holds more lines than its own test allows, so the test no longer guards it.
+**What.** `src/director/celebration-gathering-scene.test.ts` (removed) "every line of the two purposes carries its own facts, with no name said twice and no stray words" fails with `celebration-ask: expected 72 to be less than or equal to 45` (line 507, the per-purpose count) on the clean train. Seen: the celebration ask scene's bank holds more lines than its own test allows, so the test no longer guards it.
 
 **Cause.** Measured: `npx vitest run src/director/celebration-gathering-scene.test.ts -t "every line of the two purposes"` (no world is built; the count is of bank pieces, so no place or seed applies), bisected from the train head aa927a84 (red) to c315218502 (green) by running that one test; git names 0b315dc9 ("The opening lands the player at home when the household is home") as the first bad commit, but that commit touches no bank file (src/bench/handler.ts, opening.ts, play.mjs), so the count comes from scene-talk entries united by fold (data/english/parts/scene-talk.json) that the bisect crossed, not from it. Next step: count the `celebration-ask` pieces at c315218502 and at aa927a84 and name the fold that added the difference.
 

@@ -29,7 +29,7 @@ claimed-at:
 
 **Rules.** No dice. Wire to the world: another engine reads what is written. One rule, all 56 places: no place is named in logic.
 
-**Done when.** A second session, on main at a drawn place and a seed the builder did not choose, plays a governor through a disaster and sees every head the map names for its type speak, by record id of the offered record, and the declaration still settles through `answerEmergencyBriefing`. A test in `src/director/emergency-briefing.test.ts` fails when a map head is missing from the room.
+**Done when.** A second session, on main at a drawn place and a seed the builder did not choose, plays a governor through a disaster and sees every head the map names for its type speak, by record id of the offered record, and the declaration still settles through `answerEmergencyBriefing`. A test in `src/director/emergency-briefing.test.ts` (removed) fails when a map head is missing from the room.
 
 **Waits on.** director-scene-several-speakers-at-one-table.
 

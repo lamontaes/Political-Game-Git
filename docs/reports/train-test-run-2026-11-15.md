@@ -28,7 +28,7 @@ Each pull request ran its own changed tests when it was folded into the train. T
 - `src/core2/housing-ready-at-opening.test.ts`: 45 households open without a home row.
 - `src/core2/law-wiring-government.test.ts`: a ward charter place, attempt 4, no registrations paid or owed by the county.
 - `src/core2/law-wiring-prices.test.ts`: no drawn place had a builder start a project in 760 days under the gas hookup ban.
-- `src/director/celebration-gathering-scene.test.ts`: the celebration ask has 72 lines against a limit of 45.
+- `src/director/celebration-gathering-scene.test.ts` (removed): the celebration ask has 72 lines against a limit of 45.
 - `src/director/interview-sitting-words.test.ts`: a brief answer reads "Then your record will have to speak" where the test expects "No comment, then."
 
 ## Cleared by taking the filing fee out (1 file, confirmed)
@@ -54,9 +54,9 @@ Each of these names its place and seed in its own failure line.
 
 - `src/director/conversation-said.test.ts`: Olla, Louisiana.
 - `src/director/home-talk-own-race-only.test.ts`: Sherrodsville.
-- `src/director/office-hours-reply-case.test.ts` (3 tests): Taylors, South Carolina; Kandiyohi, Minnesota; Donnelly, Idaho. The case's reply id is missing.
+- `src/director/office-hours-reply-case.test.ts` (removed) (3 tests): Taylors, South Carolina; Kandiyohi, Minnesota; Donnelly, Idaho. The case's reply id is missing.
 - `src/core2/staff-hire-employed.test.ts`: Agugulu, American Samoa.
-- `src/director/concession-reported.test.ts` (2 tests): North Westminster, Vermont. The race named no winner.
+- `src/director/concession-reported.test.ts` (removed) (2 tests): North Westminster, Vermont. The race named no winner.
 - `src/director/political-asks.test.ts` (2 tests): Adams, Massachusetts, no accusation scene; Rainelle, West Virginia, no advice scene.
 - `src/core2/party-mentor.test.ts`: Denver, Pennsylvania.
 - `src/core2/rival-campaign-day-played.test.ts`: Kirby, Wyoming.
@@ -64,14 +64,14 @@ Each of these names its place and seed in its own failure line.
 - `src/bench/printed-police-log.test.ts`: Surrency, Georgia.
 - `src/director/justice-talk.test.ts`: Perkins, Georgia.
 - `src/director/speech-occasion-read.test.ts`: Wilmington Manor, Delaware.
-- `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts`: Ciales, Puerto Rico.
+- `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts` (removed): Ciales, Puerto Rico.
 - `src/bench/endorsement-played.test.ts` (2 tests): North Courtland, Alabama; Laurel, Montana.
 - `src/director/eviction-leads-the-talk.test.ts`: Faleasao, American Samoa.
 - `src/core2/candidate-platform-spread.test.ts`: Marshfield, Massachusetts.
 - `src/bench/election-notice-printed.test.ts`: the notice does not name the County Commissioner race.
 - `src/bench/campaign-team.test.ts`: Hyde Park, Pennsylvania.
-- `src/director/study-committee-scenes.test.ts`: Jessup, Pennsylvania.
-- `src/director/bill-sign-on.test.ts`: Wilmont, Minnesota.
+- `src/director/study-committee-scenes.test.ts` (removed): Jessup, Pennsylvania.
+- `src/director/bill-sign-on.test.ts` (removed): Wilmont, Minnesota.
 - `src/director/view-learned.test.ts`: seed 7e4e7180c987d9b34da9.
 - `src/director/conversation-home-lines.test.ts`: Gascoyne, North Dakota.
 

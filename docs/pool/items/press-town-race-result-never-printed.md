@@ -30,7 +30,7 @@ The stories it puts in front of players for the first time follow the Words lead
 
 **Rules.** One engine per mechanic: the desk's own score, no special case that prints every race. No dice. One rule, all 56 places: no place named in logic. Speed: no new scan of the wire or the people per desk.
 
-**Done when.** A second session, not the builder, on main, draws three places with `drawPlace` (named, with seeds), plays each to the day after its first local race with two or more candidates on the ballot, and reads in dev mode a `press.printed` story whose `sourceRecordId` is that race's `election-result`, within ten days of the count, in each. `src/director/concession-reported.test.ts` passes on five fresh seeds with no place passed over for "the race was not printed".
+**Done when.** A second session, not the builder, on main, draws three places with `drawPlace` (named, with seeds), plays each to the day after its first local race with two or more candidates on the ballot, and reads in dev mode a `press.printed` story whose `sourceRecordId` is that race's `election-result`, within ten days of the count, in each. `src/director/concession-reported.test.ts` (removed) passes on five fresh seeds with no place passed over for "the race was not printed".
 
 **Waits on.** Nothing.
 
