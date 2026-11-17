@@ -179550,10 +179550,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-m-a-yes-i-ve-wanted-to-stand-since-i-got-here",
+      "key": "scene-talk.reply-answer.yes-because-i-ve-wanted-to-stand-since-i-got-here",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'm a yes. I've wanted to {stand} since I got here.",
+      "text": "Yes, because I've wanted to {stand} since I got here.",
       "uses": [
         {
           "subject": "scene",
