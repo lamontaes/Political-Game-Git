@@ -219,8 +219,10 @@ try {
       const box = (s) => document.querySelector(s)?.getBoundingClientRect();
       const panel = box("#ballot");
       const know = box(".ballot-know .sechead");
+      const leave = box("#ballot-leave");
       return {
         bottom: Math.round(panel.bottom),
+        leave: leave ? Math.round(leave.bottom) : null,
         height: innerHeight,
         know: know ? Math.round(know.top) : null,
       };
@@ -234,6 +236,36 @@ try {
       fit.know !== null && fit.know >= 0 && fit.know < fit.height,
       "What I know about them is not on screen beside the ballot",
     );
+    assert.ok(
+      fit.leave !== null && fit.leave <= fit.height,
+      "Leave is not on screen under the ballot",
+    );
+    // A mark far down a long ballot keeps the paper where the voter was: the
+    // redraw never throws them back to the first race.
+    const long = await page.evaluate(() => {
+      const sheet = document.querySelector("#ballot .ballot-sheet");
+      if (!sheet || sheet.scrollHeight <= sheet.clientHeight) return false;
+      sheet.scrollTop = sheet.scrollHeight;
+      return true;
+    });
+    if (long) {
+      const before = await page.evaluate(
+        () => document.querySelector("#ballot .ballot-sheet").scrollTop,
+      );
+      await page
+        .locator("#ballot .ballot-choice:not([disabled])")
+        .last()
+        .click();
+      await page.waitForTimeout(1500);
+      const after = await page.evaluate(
+        () => document.querySelector("#ballot .ballot-sheet")?.scrollTop ?? 0,
+      );
+      console.log("BALLOT SCROLL:", before, after);
+      assert.ok(
+        after > before / 2,
+        `a mark threw the ballot back from ${before}px to ${after}px`,
+      );
+    }
   }
   // Mark each race for its first candidate, as a voter might; a race below
   // the panel's fold is marked the same way (the ballot scrolls).

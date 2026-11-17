@@ -1368,6 +1368,9 @@ function atThePolls(scene) {
       scene = value;
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
+      // A mark redraws the paper: it stays scrolled where the voter was.
+      const scrolled =
+        $("ballot").querySelector(".ballot-sheet")?.scrollTop ?? 0;
       $("ballot").replaceChildren(
         ballotPaper({
           contests: scene.contests,
@@ -1400,6 +1403,8 @@ function atThePolls(scene) {
           },
         }),
       );
+      const sheet = $("ballot").querySelector(".ballot-sheet");
+      if (sheet) sheet.scrollTop = scrolled;
     };
     const finish = () => {
       show("ballot", false);

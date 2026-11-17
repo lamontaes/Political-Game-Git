@@ -5510,7 +5510,17 @@ select.release-pick {
   min-height: 0;
   font-family: var(--ui);
 }
+.ballot-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.ballot-foot {
+  padding-top: 12px;
+  border-top: 1px solid var(--brass-lo);
+}
 .ballot-sheet {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
