@@ -20,7 +20,7 @@ root: design-story-director
 
 **What.** A build waiting on a missing player act, not a drop. After a housemate gets help for the player, the rescuer asks the player to see a doctor. The player has no act that takes them to a doctor; care is the coverage engine's monthly bill. So the promise could not be kept or broken, and under ruling 1 it was cut from rescue-ask (/mnt/project-files/words-lead/promises/cuts.md). Seen: at the rescue scene, and later when the rescuer asks whether the player went.
 
-**Cause.** Design: src/core2/modules/health.ts has no care-visit action for a person (its exports read in the Nov 10 triage, docs/stopgaps/triage-2026-11-10/director.md); the promise kind `see-a-doctor` is named in src/director/data/promise-kinds.json with `settle: []`.
+**Cause.** Design: src/core2/modules/health.ts has no care-visit action for a person (its exports read in the Nov 10 triage, docs/stopgaps/triage-2026-11-10/director.md); the promise kind `see-a-doctor` is named in src/core2/data/promises/promise-kinds.json with `settle: []`.
 
 **Fix.** Design a care visit as one player act that the health engine records and charges through the coverage it already keeps (the visit's cost, what it finds). Then give `see-a-doctor` its settle operation on that record, and restore the rescue-ask promise reply and its ending row. The Words lead writes the restored lines.
 
@@ -32,4 +32,4 @@ root: design-story-director
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/health.ts, src/director/data/promise-kinds.json, src/director/data/purpose-arcs.json, src/director/promises.ts
+**Files.** src/core2/modules/health.ts, src/core2/data/promises/promise-kinds.json, src/director/data/purpose-arcs.json, src/director/promises.ts
