@@ -114,7 +114,7 @@ it("a place takes in people from abroad as moves with their cause (Washington, D
   const arrived = abroad.reduce((n, row) => n + row.people, 0);
   expect(abroad.length, "moves in from abroad").toBeGreaterThan(0);
   process.stdout.write(
-    `abroad: Washington, D.C.: ${arrived} arrived from abroad in two years, ${Math.round(start)} people at the start\n`,
+    `abroad: Washington, D.C.: ${Math.round(arrived)} arrived from abroad in two years, ${Math.round(start)} people at the start\n`,
   );
   for (const row of abroad) expect(row.reasons.lifeStage).toBeGreaterThan(0);
 }, 3_600_000);
