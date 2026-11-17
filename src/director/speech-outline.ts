@@ -2523,7 +2523,8 @@ export function planSpeech(
         : [
             {
               key: "story",
-              level: "country",
+              // Said where the occasion is: what brings the speaker here.
+              level: "occasion",
               joins: true,
               facts: story.facts,
               moves: [

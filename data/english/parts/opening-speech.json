@@ -113538,6 +113538,466 @@
       "date": "2026-11-16"
     },
     {
+      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-and-i-ll-veto-any",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll protect {law-name}, and I'll veto any bill that tries to undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-and-i-ll-veto-any-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll protect {law-name}, and I'll veto any bill that tries to undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.polished-redraft-law-name-stays-and-i-will-veto-any-bill-that",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{law-name} stays, and I will veto any bill that would undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.polished-redraft-law-name-stay-and-i-will-veto-any-bill-that",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{law-name} stay, and I will veto any bill that would undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.plain-redraft-i-m-protecting-law-name-and-my-veto-pen-is",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm protecting {law-name}, and my veto pen is ready if anybody comes after it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-because-belief-and-i-ll",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll protect {law-name} because {belief}, and I'll veto any bill that tries to undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-because-belief-and-i-ll-2",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll protect {law-name} because {belief}, and I'll veto any bill that tries to undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.polished-redraft-law-name-stays-because-belief-and-i-will-veto-any",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{law-name} stays because {belief}, and I will veto any bill that would undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.polished-redraft-law-name-stay-because-belief-and-i-will-veto-any",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{law-name} stay because {belief}, and I will veto any bill that would undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.ask.plain-redraft-i-m-protecting-law-name-because-belief",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm protecting {law-name}, because {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-one",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about-many",
+            "law-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
       "key": "opening-speech.story-open.polished-hard-run-fed-for-run-span-prices-have-climbed-faster-than-paychecks",
       "move": "story-open",
       "kind": "spoken",
@@ -114602,6 +115062,156 @@
       "move": "story-open",
       "kind": "spoken",
       "text": "The last {run-span} were good to working people, and they earned every bit of it.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-over-the-last-run-span-more-americans-went-back",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, more Americans went back to work, and this term begins on that footing.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-the-last-run-span-gave-working-families-something-to",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} gave working families something to build on, and they earned every bit of it.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-this-country-comes-into-this-term-in-better-shape",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "This country comes into this term in better shape than it was {run-span} ago, and the credit belongs to the people who did the work.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-over-the-last-run-span-a-lot-of-folks",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, a lot of folks got back to work. That's where we start.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-jobs-gained"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-we-re-in-better-shape-than-we-were-run",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "We're in better shape than we were {run-span} ago, and working people did that, not Washington.",
       "uses": [
         {
           "move": "story-open",
@@ -116099,466 +116709,6 @@
       "voice": "plain",
       "bearing": "braced",
       "topic": "scandal",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-and-i-ll-veto-any",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll protect {law-name}, and I'll veto any bill that tries to undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-and-i-ll-veto-any-2",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll protect {law-name}, and I'll veto any bill that tries to undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.polished-redraft-law-name-stays-and-i-will-veto-any-bill-that",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{law-name} stays, and I will veto any bill that would undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.polished-redraft-law-name-stay-and-i-will-veto-any-bill-that",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{law-name} stay, and I will veto any bill that would undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.plain-redraft-i-m-protecting-law-name-and-my-veto-pen-is",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm protecting {law-name}, and my veto pen is ready if anybody comes after it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-because-belief-and-i-ll",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll protect {law-name} because {belief}, and I'll veto any bill that tries to undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.plain-redraft-i-ll-protect-law-name-because-belief-and-i-ll-2",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll protect {law-name} because {belief}, and I'll veto any bill that tries to undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.polished-redraft-law-name-stays-because-belief-and-i-will-veto-any",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{law-name} stays because {belief}, and I will veto any bill that would undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.polished-redraft-law-name-stay-because-belief-and-i-will-veto-any",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{law-name} stay because {belief}, and I will veto any bill that would undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "opening-speech.ask.plain-redraft-i-m-protecting-law-name-because-belief",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm protecting {law-name}, because {belief}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-one",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about-many",
-            "law-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
       "date": "2026-11-17"
