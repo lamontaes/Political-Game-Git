@@ -51,9 +51,13 @@ import {
   PARTIES_MODULE_ID,
   joinParty,
   partiesHere,
+  nextPartyMeeting,
   partyAgreement,
+  partyMemberIds,
+  partyStands,
   partyTie,
 } from "../core2/modules/parties";
+import { policyNames } from "./words";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
 
@@ -213,6 +217,55 @@ export function holderFace(
   };
 }
 
+let namedQuestions: Record<string, string> | undefined;
+// Engineering page size: how many of a party's positions its page lists.
+const STANDS_FOR_LISTED = 6;
+
+/**
+ * What each party's page tells, from the records: its chair (the party's
+ * leader record), how many members it has here (its ties joined to its
+ * organization), the town's next party meeting (the calendar's pending work),
+ * and the questions it takes the strongest side on (its position on each
+ * platform question, as the campaign stances read it). A field the records
+ * do not hold is null, and the page says so.
+ */
+function partyFacts(core: CoreState, place: string) {
+  if (!core.modules.has(PARTIES_MODULE_ID)) return {};
+  const api = coreAPI(core);
+  const meeting = nextPartyMeeting(api);
+  // Only a question the game words by name is listed; a bare key is never shown.
+  const named = (namedQuestions ??= policyNames());
+  return Object.fromEntries(
+    partiesHere(api).map((row) => {
+      const chair = row.leaderId ? core.people.get(row.leaderId) : undefined;
+      const stands = partyStands(
+        api,
+        row,
+        (question) => !!named[question],
+        STANDS_FOR_LISTED,
+      );
+      return [
+        row.name.trim().toLowerCase(),
+        {
+          chair: chair
+            ? {
+                name: `${chair.givenName} ${chair.familyName}`,
+                ...holderFace(
+                  core,
+                  { id: chair.id, personId: chair.id },
+                  place,
+                ),
+              }
+            : null,
+          members: partyMemberIds(api, row.id).length,
+          nextMeeting: meeting,
+          standsFor: stands,
+        },
+      ];
+    }),
+  );
+}
+
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const place = facePlace(core, personId);
@@ -261,6 +314,7 @@ export function governmentView(core: CoreState, personId: string) {
     date: core.date,
     partySeatsByOffice,
     parties: [...seatsByParty].map(([party, held]) => ({ party, seats: held })),
+    partyFacts: partyFacts(core, place),
     // Every law in force here: the amounts, then each policy question a level
     // has a law on, answered yes or no.
     law: lawHere(api).map((row) => ({
