@@ -60,6 +60,8 @@ Every complaint the owner has made twice gets a check that fails when the proble
 
 Each check ships in the pull request of its fix and fails on the old code: undo the fix once and watch it go red (`session-start`, step 2).
 
+To run a check against the old code, put main's copy of each changed file in place and restore it after: `git show origin/main:<path> > <path>`, run, then `git checkout HEAD -- <path>`. For a list of files take only the changed ones (`git diff origin/main --name-only --diff-filter=M`): `git checkout origin/main -- <paths>` with one new file in the list stops on that path and changes nothing, and the "old code" run is your own code (Blockers lane, Nov 17). Or remove only the line that is the fix (a call, a field) and run, which also shows the check reads that line.
+
 ## 7. Fast checks and heavy checks
 
 The Long game lane splits the checks first, and builds the rule-1 guard in the same pull request:
