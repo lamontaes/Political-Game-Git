@@ -57,6 +57,31 @@ export function drawName(seed: string, draw: number, gender?: string) {
   };
 }
 
+/** A gender drawn by seed and draw number, for Random's whole character. */
+export function drawGender(seed: string, draw: number): CreatorGender {
+  return GENDERS[hash(`${seed}:gender:${draw}`) % GENDERS.length]!;
+}
+
+/**
+ * The whole character Random draws (owner, Nov 17: "you should be able to
+ * randomize an entire character"): a gender, a name for it, a birthday, a
+ * place from all 56. The look is drawn by the page's next request for the
+ * gender's appearance, on the same seed and draw.
+ */
+export function drawCharacter(seed: string, draw: number) {
+  const gender = drawGender(seed, draw);
+  const birthday = drawBirthday(seed, draw);
+  return {
+    gender,
+    name: drawName(seed, draw, gender),
+    birthday: {
+      ...birthday,
+      age: ageAtStart(birthday.year, birthday.month, birthday.day),
+    },
+    place: creatorRandomPlace(seed, draw),
+  };
+}
+
 const startParts = () => gameStartDate().split("-").map(Number) as number[];
 
 /** The age on the opening date of someone born on this day. */
