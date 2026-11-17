@@ -5522,7 +5522,7 @@ function memberStanceOn(
 ): number {
   const official = officialOf(api, memberId);
   return official
-    ? ownStance(official.ideal, official.signature, question)
+    ? ownStance(api, official.ideal, official.signature, question)
     : viewOn(api, memberId, question, leanOf(api, memberId));
 }
 

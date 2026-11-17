@@ -165,7 +165,7 @@ function rollCall(
       else noIds.push(id);
     } else {
       predecessors += 1;
-      if (memberSupportAt(seatLean(api, id), question) * position > 0)
+      if (memberSupportAt(api, seatLean(api, id), question) * position > 0)
         predecessorsYes += 1;
     }
   }
@@ -324,7 +324,8 @@ export function buildPriorTerms(
       // A chamber whose members all took their seats since: the seats'
       // earlier holders brought it, the way the seats lean.
       const seatsLean = chamber.members.reduce(
-        (sum, t) => sum + memberSupportAt(seatLean(api, t.personId!), question),
+        (sum, t) =>
+          sum + memberSupportAt(api, seatLean(api, t.personId!), question),
         0,
       );
       const position = Math.sign(lead?.s || seatsLean);

@@ -16,6 +16,8 @@ import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
 import { personStance, publicOffset } from "./campaign-views";
 import { axisOf, PLATFORM_QUESTIONS } from "./campaign-data";
+import { lawConsensus } from "./law-consensus";
+import type { CoreAPI } from "./types";
 
 interface Spread {
   readonly mean: number;
@@ -288,23 +290,29 @@ export function supportAt(
 
 /**
  * How strongly a member at a lean supports a question's "yes": their lean
- * along the question's axis plus how widely legislatures have already made
- * it law (the share of states with it, `issue-axes-2026.json`; for a
- * question only federal law answers, the share of members who voted its yes
- * on the roll call `federal-issue-axes-2026.json` cites), the elite consensus
- * members answer to, where voters answer to the polls
+ * along the question's axis plus how widely the world's own governments have
+ * already made it law (`lawConsensus`: the share of the world's states whose
+ * law answers yes, or for a question only federal law answers, the world's
+ * latest roll call on it, else the sitting Congress's leans), the elite
+ * consensus members answer to, where voters answer to the polls
  * (`supportAt`). A budget line has no such record and reads by lean alone.
  */
-export function memberSupportAt(lean: number, question: string): number {
+export function memberSupportAt(
+  api: CoreAPI,
+  lean: number,
+  question: string,
+): number {
   const row = axisOf[question];
+  const consensus = row ? lawConsensus(api, question) : null;
   return (
     personStance(lean, question) +
-    (row ? Math.abs(row.axis) * (2 * row.yesShare - 1) : 0)
+    (row && consensus ? Math.abs(row.axis) * (2 * consensus.share - 1) : 0)
   );
 }
 
 /** A member's own stance on a question: their position, and their own tilt if it's one of their causes. */
 export function ownStance(
+  api: CoreAPI,
   ideal: number,
   signature: readonly SignatureIssue[],
   question: string,
@@ -315,7 +323,7 @@ export function ownStance(
     -1,
     Math.min(1, (ideal + tilt) * OFFICIALS_DATA.ideology.leanScale.value),
   );
-  return memberSupportAt(lean, question);
+  return memberSupportAt(api, lean, question);
 }
 
 /**

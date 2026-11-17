@@ -17,6 +17,7 @@ import type {
   PreStartWindow,
 } from "../pre-start";
 import { lawHistory } from "../past-module";
+import { recordLawConsensus } from "../law-consensus";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -155,6 +156,8 @@ export const LAWS_MODULE: PreStartModule = {
       raises: {
         indexes: { byPerson: { fields: ["personId"] } },
       },
+      /** The world's consensus on each policy question a law was enacted on (`recordLawConsensus`): one row a question, rewritten. */
+      consensus: {},
     },
   },
   onCalendarWork: (api, work) => {
@@ -1026,6 +1029,8 @@ export function enactLaw(
     .moduleState(LAWS_MODULE_ID)
     .table("laws")
     .put(row as unknown as ModuleRow);
+  // What members answer to beyond their own lean moves the day it passes.
+  recordLawConsensus(api, row.series);
   const source = {
     tag: "SOURCED" as const,
     citation: input.citation,

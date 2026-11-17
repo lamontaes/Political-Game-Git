@@ -1,0 +1,175 @@
+/**
+ * How widely the world's own governments have made a policy question's "yes"
+ * law: the elite consensus a member of a legislature answers to beyond their
+ * own lean (`memberSupportAt`). Everything is read from the world: each
+ * state's own answer (`answerIn`, an act passed and waiting on its date
+ * counted, since members answer to what passed), so an outside session's act,
+ * a state's own bill or a dev-mode law moves it the day it is enacted. A
+ * question only federal law answers reads the world's latest roll call on it,
+ * else the share of the sitting members of Congress whose lean alone favors it.
+ * Real data sets none of it; it is kept per world while the laws (and, for the
+ * members' share, the officials) are unchanged.
+ */
+import type { CoreAPI, CoreState } from "./types";
+import type { ModuleRow } from "./module-data";
+import {
+  answerIn,
+  enactmentOf,
+  lawRows,
+  LAWS_MODULE_ID,
+  POLICY_QUESTIONS,
+} from "./modules/laws";
+import { POLICY_SERIES_BY_LEVEL } from "./policy-answers";
+import { placeStateKeys } from "./places";
+import { axisOf } from "./campaign-data";
+import { personStance } from "./campaign-views";
+import { officialsIn, OFFICIALS_MODULE_ID } from "./modules/officials";
+import { OFFICIALS_DATA } from "./officials-roster";
+import type { LawRowInput } from "./laws-starting";
+
+/** The world's consensus on a question: its "yes" share and what it was read from. */
+export interface LawConsensus {
+  /** The share of those read that favor "yes", 0 to 1. */
+  readonly share: number;
+  readonly from: "states" | "roll call" | "members' leans";
+  /** States: those answering yes, and those answering at all. Roll call or members: the yes side and those counted. */
+  readonly yes: number;
+  readonly counted: number;
+  /** The roll call's law row, for a federal question read from one. */
+  readonly lawId?: string;
+}
+
+const FEDERAL_BODIES = ["US:us-house", "US:us-senate"];
+
+interface Held {
+  readonly key: string;
+  readonly byQuestion: Map<string, LawConsensus | null>;
+}
+const held = new WeakMap<CoreState, Held>();
+
+/** What the consensus is read from changes only when a law is written or, for the members' share, an official is. */
+function keyOf(api: CoreAPI): string {
+  const laws = api.moduleState(LAWS_MODULE_ID);
+  const order = laws.table("chain").get("enactment-order") as unknown as
+    { next?: number } | undefined;
+  const officials = api.state.modules.has(OFFICIALS_MODULE_ID)
+    ? api.moduleState(OFFICIALS_MODULE_ID).writes
+    : 0;
+  return `${laws.table("laws").size}:${order?.next ?? 0}:${officials}`;
+}
+
+const isStateQuestion = (question: string): boolean =>
+  POLICY_QUESTIONS[question] !== undefined;
+
+/** The latest row a government has on a question, enacted and waiting counted. */
+function latestRow(
+  api: CoreAPI,
+  question: string,
+  jurisdiction: string,
+): LawRowInput | undefined {
+  return [...lawRows(api, question, jurisdiction)].sort((a, b) =>
+    b.effectiveDate.localeCompare(a.effectiveDate),
+  )[0];
+}
+
+function read(api: CoreAPI, question: string): LawConsensus | null {
+  if (isStateQuestion(question)) {
+    let yes = 0,
+      counted = 0;
+    for (const state of placeStateKeys()) {
+      const answer = answerIn(api, state, question, true);
+      if (answer === null) continue;
+      counted += 1;
+      if (answer === 1) yes += 1;
+    }
+    return counted
+      ? { share: yes / counted, from: "states", yes, counted }
+      : null;
+  }
+  // A question only federal law answers: the world's latest roll call on it.
+  const row = latestRow(api, question, "US");
+  const passed = row ? enactmentOf(api, row) : null;
+  if (row && passed) {
+    const forSide = (1 + passed.margin) / 2;
+    const share = row.value === 1 ? forSide : 1 - forSide;
+    return { share, from: "roll call", yes: share, counted: 1, lawId: row.id };
+  }
+  // Else the sitting members of Congress, each by their own lean alone.
+  let yes = 0,
+    counted = 0;
+  const scale = OFFICIALS_DATA.ideology.leanScale.value;
+  for (const body of FEDERAL_BODIES)
+    for (const member of officialsIn(api, body)) {
+      const lean = Math.max(-1, Math.min(1, member.ideal * scale));
+      const stance = personStance(lean, question);
+      if (stance === 0) continue;
+      counted += 1;
+      if (stance > 0) yes += 1;
+    }
+  return counted
+    ? { share: yes / counted, from: "members' leans", yes, counted }
+    : null;
+}
+
+/** The world's consensus on a question's "yes", or null where nothing in the world answers it. */
+export function lawConsensus(
+  api: CoreAPI,
+  question: string,
+): LawConsensus | null {
+  if (!axisOf[question] || !api.state.modules.has(LAWS_MODULE_ID)) return null;
+  const core = api.state as CoreState;
+  const key = keyOf(api);
+  let kept = held.get(core);
+  if (kept?.key !== key)
+    held.set(core, (kept = { key, byQuestion: new Map() }));
+  if (!kept.byQuestion.has(question))
+    kept.byQuestion.set(question, read(api, question));
+  return kept.byQuestion.get(question)!;
+}
+
+/** The policy question a law series is the row of, at whatever level. */
+function questionOfSeries(series: string): string | undefined {
+  if (axisOf[series]) return series;
+  for (const [question, byLevel] of Object.entries(POLICY_SERIES_BY_LEVEL))
+    if (Object.values(byLevel).includes(series) && axisOf[question])
+      return question;
+  return undefined;
+}
+
+/**
+ * Keep the consensus a law row just changed, for the trace: the
+ * `consensus:<question>` row in the laws engine's `consensus` table, with the
+ * law rows each state's answer was read from. Written when a law is enacted
+ * or repealed, never on a read.
+ */
+export function recordLawConsensus(api: CoreAPI, series: string): void {
+  const question = questionOfSeries(series);
+  if (!question) return;
+  const consensus = lawConsensus(api, question);
+  if (!consensus) return;
+  const lawIds: string[] = [];
+  if (consensus.from === "states")
+    for (const state of placeStateKeys()) {
+      const row = latestRow(api, question, state);
+      if (row) lawIds.push(row.id);
+    }
+  else if (consensus.lawId) lawIds.push(consensus.lawId);
+  api
+    .moduleState(LAWS_MODULE_ID)
+    .table("consensus")
+    .put({
+      id: `consensus:${question}`,
+      question,
+      asOf: api.state.date,
+      from: consensus.from,
+      yes: consensus.yes,
+      counted: consensus.counted,
+      share: Math.round(consensus.share * 1e4) / 1e4,
+      // The yes share's term in a member's stance: |axis| x (2 x share - 1).
+      term:
+        Math.round(
+          Math.abs(axisOf[question]!.axis) * (2 * consensus.share - 1) * 1e4,
+        ) / 1e4,
+      lawIds,
+    } as unknown as ModuleRow);
+}

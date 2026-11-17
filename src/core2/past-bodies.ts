@@ -112,7 +112,7 @@ export function supportOn(
 ): number {
   return (
     officialStance(api, memberId, question) ??
-    memberSupportAt(leanOf(api, memberId), question)
+    memberSupportAt(api, leanOf(api, memberId), question)
   );
 }
 

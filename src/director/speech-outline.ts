@@ -650,6 +650,8 @@ export interface Stand {
   /** Positive for a President who wants it, negative for one who does not. */
   readonly stance: number;
   readonly signature: boolean;
+  /** A centrist official's stance on it (`ownStance` at lean 0): the world's consensus alone. */
+  readonly centrist: number;
   /** The powers record that lets this level answer the question. */
   readonly power: string;
   readonly law: {
@@ -701,7 +703,7 @@ export function standsAt(
 ): Stand[] {
   const own = new Set(official.signature.map((row) => row.question));
   return NAMED_QUESTIONS.flatMap((question): Stand[] => {
-    const stance = ownStance(official.ideal, official.signature, question);
+    const stance = ownStance(api, official.ideal, official.signature, question);
     if (stance === P.zero || !jurisdiction) return [];
     const power = policyAuthority(api, question, level);
     return standOn(
@@ -783,6 +785,7 @@ function standOn(
           question,
           stance,
           signature,
+          centrist: ownStance(api, P.zero, [], question),
           power: power.source,
           law,
         },
@@ -1391,7 +1394,7 @@ export function poleOf(stand: Stand): "a" | "b" | null {
 /** How far a speaker's view on a question stands from a centrist's. */
 function distinct(official: OfficialRow | undefined, stand: Stand): number {
   return official
-    ? Math.abs(stand.stance - ownStance(P.zero, [], stand.question))
+    ? Math.abs(stand.stance - stand.centrist)
     : Math.abs(stand.stance);
 }
 

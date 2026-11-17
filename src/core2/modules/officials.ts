@@ -1312,10 +1312,10 @@ const reads = new Map<string, BodyRead>();
 
 type Stances = readonly { question: string; position: number }[];
 
-const stanceOf = (row: OfficialRow, stances: Stances) =>
+const stanceOf = (api: CoreAPI, row: OfficialRow, stances: Stances) =>
   stances.reduce(
     (sum, s) =>
-      sum + ownStance(row.ideal, row.signature, s.question) * s.position,
+      sum + ownStance(api, row.ideal, row.signature, s.question) * s.position,
     0,
   );
 
@@ -1337,7 +1337,7 @@ function bodyRead(api: CoreAPI, body: string, stances: Stances): BodyRead {
   const leader = new Map<number, number>();
   for (const m of members) {
     const side = partySide(m.party);
-    const own = stanceOf(m, stances);
+    const own = stanceOf(api, m, stances);
     add(`party|${side}`, own);
     add(`${side}|${m.wing}`, own);
     if (
@@ -1374,7 +1374,7 @@ export function officialParts(
   row: OfficialRow,
   stances: Stances,
 ): OfficialParts {
-  const own = stanceOf(row, stances);
+  const own = stanceOf(api, row, stances);
   const independent = row.independent;
   const truly = independent !== null && independent.caucus === null;
   // A truly independent member weighs the questions behind their reason more.
@@ -1385,7 +1385,7 @@ export function officialParts(
           (sum, s) =>
             sum +
             weight("independentReason") *
-              ownStance(row.ideal, row.signature, s.question) *
+              ownStance(api, row.ideal, row.signature, s.question) *
               s.position,
           0,
         )
@@ -1972,7 +1972,7 @@ export function officialStance(
   // Their opening position, moved by what they have heard since, as any
   // resident's view is (views.ts `viewOn`): a case made to them, a story
   // they read, a vote they took.
-  const opening = ownStance(row.ideal, row.signature, question);
+  const opening = ownStance(api, row.ideal, row.signature, question);
   const moved =
     VIEWS_DATA.parameters.stanceViewWeight!.value *
     stanceOn(api, memberId, question);

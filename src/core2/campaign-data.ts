@@ -36,10 +36,9 @@ export function campaignParameter(key: string): number {
   return row.value;
 }
 
-/** A question's measured direction and how widely its "yes" is already backed. */
+/** A question's measured left-right direction. */
 export interface QuestionAxis {
   readonly axis: number;
-  readonly yesShare: number;
 }
 
 type AxisFile = { axes: Record<string, QuestionAxis> };

@@ -157,6 +157,7 @@ describe("the opening address from a world's records", () => {
         ).toBe(row.value === 1);
         // The President's side, from their recorded stance on that question.
         const stance = ownStance(
+          api,
           official.ideal,
           official.signature,
           row.series,
