@@ -52,6 +52,19 @@ export function lateSaid(days: number): string {
 }
 
 /**
+ * How many people worked a campaign, as a size and never a number: "a
+ * handful", "a few dozen" (the supporter's "{volunteers} of us worked on
+ * this").
+ */
+export function crewSaid(people: number): string {
+  const rows = data.crewSteps.rows as readonly {
+    below: number | null;
+    said: string;
+  }[];
+  return rows.find((row) => row.below === null || people < row.below)!.said;
+}
+
+/**
  * The days a number of months of rent stand for, so a household that owes
  * two months of rent has been behind about two months whatever day its first
  * payment was missed.

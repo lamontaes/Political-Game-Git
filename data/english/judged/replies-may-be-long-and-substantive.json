@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 991,
+  "judged": 972,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -2449,15 +2449,6 @@
       ],
       "why": "\"Thanks for sticking with me\" and lying down carry no reason."
     },
-    "1gp82bcfiug": {
-      "keys": [
-        "scene-talk.follow-press.monday-s-fine-tonight-though-give-the-room-one-line-it-can-cheer",
-        "scene-talk.reply-answer.one-line-then-we-start-monday",
-        "scene-talk.reply-tell.i-m-going-to-thank-the-people-who-knocked-doors-by-name-all-of-them-th",
-        "scene-talk.reply-leave.okay-open-the-door-before-i-lose-my-nerve"
-      ],
-      "why": "A slogan, a plan to thank door-knockers and an exit give no reason."
-    },
     "1h9h8clmdc4": {
       "keys": [
         "scene-talk.state-ask.okay-honestly-how-are-you-holding-up",
@@ -4084,5 +4075,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0qqmoti5m7i"
+  "yesHash": "2ggwexl41t5"
 }

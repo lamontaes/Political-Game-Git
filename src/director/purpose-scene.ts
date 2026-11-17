@@ -83,6 +83,7 @@ import {
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { VICTORY_NIGHT_TYPE, victoryNightFacts } from "./victory-night-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -1946,6 +1947,23 @@ function composeBinding(
     Object.assign(facts, raceTurnoutFacts(core, said.contestId));
     Object.assign(facts, raceReadFacts(core, said.contestId, askedId));
   }
+  // The night the asked won (victory-night-facts.ts): the count's margin, the
+  // day the term begins, the winner's plank and the campaign's own record.
+  if (
+    type.key === VICTORY_NIGHT_TYPE &&
+    said.contestId &&
+    said.winnerId === askedId
+  )
+    Object.assign(
+      facts,
+      victoryNightFacts(core, {
+        causeId: moment.causeId,
+        contestId: said.contestId,
+        askerId,
+        winnerId: askedId,
+        setting: binding.setting.kind,
+      }),
+    );
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer): over the
   // first who missed the cut, so in an at-large race the margin of the cut.
