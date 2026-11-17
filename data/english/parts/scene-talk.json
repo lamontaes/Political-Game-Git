@@ -179392,10 +179392,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.you-know-what-i-think-office-needs-somebody-who-shows-up",
+      "key": "scene-talk.reply-tell.you-know-what-i-think-the-race-for-office-needs-somebody-who-shows-up",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "You know what I think. {office} needs somebody who shows up.",
+      "text": "You know what I think: the race for {office} needs somebody who shows up.",
       "uses": [
         {
           "subject": "scene",
@@ -179428,10 +179428,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.keep-office-on-our-side-and-don-t-make-me-regret-it",
+      "key": "scene-talk.reply-tell.win-the-race-for-office-for-our-side-and-don-t-make-me-regret-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Keep {office} on our side and don't make me regret it.",
+      "text": "Win the race for {office} for our side, and don't make me regret it.",
       "uses": [
         {
           "subject": "scene",
