@@ -1,5 +1,5 @@
 import { appendFileSync, writeFileSync } from "node:fs";
-import { expect, it } from "vitest";
+import { beforeAll, expect, it } from "vitest";
 import { playLife, type Presses } from "../../scripts/words/family-loss-life";
 import {
   CANDIDACY_MODULE_ID,
@@ -23,12 +23,24 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // Played lives, never staged: a new adult is the player, files through the
 // bench's own filing and presses only what the campaign page offers
 // (scripts/words/family-loss-life.ts), and the scene is read for that player
-// from the world's own count. The lives are pinned by seed; each was found by
-// scripts/words/family-loss-life-scan.ts (the report names the picks and what
-// it passed over). Each is about a minute.
+// from the world's own count. The lives are pinned by seed (each is about a
+// minute and a half); the place is drawn from the seed.
+//
+// Re-pinned on the merged head (the old pin needs the CTO's line, done-proof):
+// the first pin, Ili'ili American Samoa at "losslife:5", filed for the
+// territory's at-large seat in a special election of 2025-05-13. Main's
+// later changes to special elections and the opening calendar (most likely the
+// empty-ballot special, #9741, or the vacancy and 18-or-older folds of Nov 16)
+// stopped it: the territory holds no race the player can file for within the first year (its
+// next filings open in 2026): "no race to file for (0 open)". The life
+// below loses a race on the merged head: Shiloh GA, a relative whose money
+// went in. The seed is one the Words read drew, not one found by a search for a
+// result. A second life (Stoneham MA, "read-9512-d", a relative who worked it)
+// plays the same way but needs more memory than a shared container gives a
+// test worker, so it is read in the pull request's played file instead.
 const LIVES: { seed: string; presses: Presses }[] = [
-  // Ili'ili AS: volunteers asked, no money given; a household member worked it.
-  { seed: "losslife:5", presses: { volunteer: true, give: 0 } },
+  // Shiloh GA: volunteers asked and a quarter of the savings given.
+  { seed: "read-9512-f", presses: { volunteer: true, give: "quarter" } },
 ];
 
 /** Every line under a node, with the reply that led to it. */
@@ -140,6 +152,13 @@ const run = (life: (typeof LIVES)[number]): { done: boolean; note: string } => {
     treeLines(talk.tree, [], said);
     for (const text of [talk.state.text, ...said])
       expect(text, `${here}: the count said again`).not.toContain(margin.text);
+    // People do not say the figure (owner, rule 101): no spoken line holds a
+    // dollar sign or a digit; the narration may say the sum once.
+    for (const line of [
+      talk.state.text,
+      ...said.map((row) => row.split("=> ").pop()!),
+    ])
+      expect(line, `${here}: a figure in a spoken line`).not.toMatch(/[$\d]/);
     // What the count was, so a reader can judge "close": every candidate's
     // votes, the winner's lead as a share of the votes cast, and (for money)
     // what was given.
@@ -269,19 +288,23 @@ const run = (life: (typeof LIVES)[number]): { done: boolean; note: string } => {
   return { done: promised, note: lines.join("\n") };
 };
 
-it("the talk after a lost race is for the relative who put in work or money, says the count once, places its size words by the count, and what is said about running again is read by the next contest", () => {
+beforeAll(() => {
   const file = process.env.PLAYED_FILE;
   if (file)
     writeFileSync(
       file,
       `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
     );
-  for (const life of LIVES) {
+});
+
+// One life to a test, so each is played and let go before the next (a life
+// holds a whole played world in memory).
+for (const life of LIVES)
+  it(`the talk after a lost race (${life.seed}) is for the relative who put in work or money, says the count once, places its size words by the count, and what is said about running again is read by the next contest`, () => {
     const began = Date.now();
     const out = run(life);
     expect(out.done, out.note).toBe(true);
     process.stdout.write(
       `${out.note}\n${life.seed}: ${Math.round((Date.now() - began) / 1000)} s\n`,
     );
-  }
-}, 600_000);
+  }, 600_000);
