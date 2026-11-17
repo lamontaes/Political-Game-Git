@@ -3,7 +3,9 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
-import { orderableBy } from "../core2/modules/executive";
+import { orderableBy, orderQuestionOf } from "../core2/modules/executive";
+import { placeStateKey } from "../core2/place-map";
+import research from "../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import { townSeats } from "../core2/modules/offices";
 import { heldFederal, releaseFederal } from "../core2/office-day-federal";
 import { resultsOf } from "../core2/office-day-state";
@@ -30,11 +32,33 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
 
+// The draw is from the places whose state's researched powers let a governor
+// issue an order the engine carries (seven states on Nov 17): a place drawn
+// from all 56 lands in one only about one time in eight, and 40 such draws
+// passed over 35 places for want of the power (#9766, CI seed
+// 27420fc2c11b164b). The world's own check (`orderableBy`, which also reads
+// the state's law in force) still decides.
+const ordering = new Set(
+  Object.entries(
+    (
+      research as unknown as {
+        places: Record<string, { canOrder?: readonly { key: string }[] }>;
+      }
+    ).places,
+  )
+    .filter(([, powers]) =>
+      (powers.canOrder ?? []).some((row) => orderQuestionOf(row.key)),
+    )
+    .map(([state]) => state),
+);
+
 describe(`an executive order the player decides (seed ${seed})`, () => {
   it("stops the governor for the order and records their decision as theirs", () => {
     const tried: string[] = [];
     for (let attempt = 0; attempt < 40; attempt += 1) {
-      const place = drawPlace(`${seed}:${attempt}`, "orders");
+      const place = drawPlace(`${seed}:${attempt}`, "orders", (key) =>
+        ordering.has(placeStateKey(key) ?? ""),
+      );
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
