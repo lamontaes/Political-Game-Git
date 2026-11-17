@@ -1006,8 +1006,9 @@ export function countedStanceProfile(
 
 /**
  * A counted resident's view of one question, -1 to 1: the same read a full
- * person's view is made from (their lean on the town's scale, the question's
- * popularity, their life's stake), without making them a full person (one
+ * person's view is made from (their lean on the town's scale at the
+ * question's strength, their faith, degree and life's stake), without making
+ * them a full person (one
  * model, two tiers). `town` is the town's own lean.
  */
 export function countedViewOn(
@@ -1028,9 +1029,8 @@ export function countedViewOn(
 
 /**
  * A counted group's view of one question, -1 to 1, read as a full person's
- * `viewOn` is: where the group's mean lean puts it on the question's axis,
- * the question's popularity, and how far what the group has heard or lived
- * since has moved it (`heard`, its row in countedStances).
+ * `viewOn` is: where the group's mean lean puts it at the question's
+ * strength, and how far what the group has heard or lived since has moved it (`heard`, its row in countedStances).
  */
 export function countedGroupViewOn(
   api: CoreAPI,

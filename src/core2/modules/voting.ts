@@ -2061,9 +2061,8 @@ const sidesByDay = new WeakMap<
  * stance its record gives (`groupStance` from its place in the town's lean
  * order, `personLean`, and its faith and degree, `countedStanceProfile`, as
  * the counted ballot reads it), as many times as the people it stands for
- * (one model, two tiers). The shares on each side and the mean. The policy's
- * national popularity is not added: a voter weighs a platform by their own
- * view alone. The one reader of where the town stands on a question: a
+ * (one model, two tiers). The shares on each side and the mean: a voter
+ * weighs a platform by their own view alone. The one reader of where the town stands on a question: a
  * candidate's platform weighs the shares (`platformScores`) and an interview
  * answer is shaded toward the mean (`townStand`). Read once a day, until
  * someone is filled in or the people change (as `countedResidents` is kept),
