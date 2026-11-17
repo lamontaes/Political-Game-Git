@@ -190678,7 +190678,7 @@
       "key": "scene-talk.narrate-narrate.the-money-on-wanted-was-taken-and-name-knows-your-name-is-in-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The money on {wanted} was taken, and {name} knows your name is in it.",
+      "text": "The money on {wanted} was taken, and your name is in {name}'s complaint.",
       "uses": [
         {
           "subject": "scene",
@@ -190926,7 +190926,7 @@
       "key": "scene-talk.reply-leave.we-vote-on-bill-soon-after",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "We vote on {bill} soon. After.",
+      "text": "Ask me again after the vote on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -191332,7 +191332,7 @@
       "key": "scene-talk.narrate-narrate.name-has-outlet-folded-in-one-hand-and-waits-for-the-others-to-go",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has {outlet} folded in one hand, and waits for the others to go.",
+      "text": "{name} has {outlet} folded in one hand.",
       "uses": [
         {
           "subject": "scene",
@@ -191428,7 +191428,7 @@
       "key": "scene-talk.narrate-narrate.name-did-not-want-to-file-about-complaint-of-and-has-come-to-you-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} did not want to file about {complaint-of}, and has come to you first.",
+      "text": "{name}, a friend, has filed a complaint about {complaint-of}.",
       "uses": [
         {
           "subject": "scene",
@@ -191452,7 +191452,7 @@
       "key": "scene-talk.narrate-narrate.name-is-a-friend-and-went-to-the-prosecutor-over-wanted-anyway",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is a friend, and went to the prosecutor over {wanted} anyway.",
+      "text": "{name} is a friend, and has been to the prosecutor over the money on {wanted}.",
       "uses": [
         {
           "subject": "scene",
