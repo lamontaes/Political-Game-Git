@@ -1546,6 +1546,8 @@ export function centuryLaw(
   question: string,
 ): CenturyLaw | null | undefined {
   if (historyMode(seed) !== "century") return undefined;
+  // Only the questions the century's bodies vote on: the nation's federal ones, a state's the rest.
+  if (!sessionQuestions(place === "US").includes(question)) return undefined;
   const start = openingOf(seed);
   if (place === "US")
     return centuryOf(seed, start).laws.get(`US|${question}`) ?? null;

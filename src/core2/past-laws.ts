@@ -472,7 +472,9 @@ export function buildLawHistories(
       const century = policy
         ? centuryLaw(town.seed, row.jurisdiction, row.series)
         : undefined;
-      if (century === null) return;
+      // A question no law stands on (never enacted, or repealed) has nothing to record, as a
+      // recorded answer of no.
+      if (century === null || century?.value === 0) return;
       // Answers read as in force at the opening carry no enactment date.
       const undated =
         phase === town.opening ||
