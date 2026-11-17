@@ -210,8 +210,8 @@
       "reason": "circumstance"
     },
     "donor-ask": {
-      "how": "writer",
-      "reason": "circumstance"
+      "how": "campaigns",
+      "recipe": "gift"
     },
     "bribe-offer": {
       "how": "writer",
@@ -344,24 +344,24 @@
       "reason": "journal-line"
     },
     "endorsement-ask": {
-      "how": "writer",
-      "reason": "journal-line"
+      "how": "campaigns",
+      "recipe": "endorse"
     },
     "volunteer-offer": {
-      "how": "writer",
-      "reason": "circumstance"
+      "how": "campaigns",
+      "recipe": "offer"
     },
     "manager-offer": {
-      "how": "writer",
-      "reason": "circumstance"
+      "how": "campaigns",
+      "recipe": "offer"
     },
     "job-offer": {
       "how": "writer",
       "reason": "journal-line"
     },
     "rival-word": {
-      "how": "writer",
-      "reason": "journal-line"
+      "how": "campaigns",
+      "recipe": "rival"
     },
     "petition-short": {
       "how": "event",
