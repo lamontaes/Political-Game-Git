@@ -1,6 +1,6 @@
 # Not everything every day, and summaries are automatic (owner, Nov 10, 2026)
 
-Every role follows this file. The skill `cadence-and-summaries` says how to apply it; the guard `daily-register` holds it.
+Every role follows this file. The skill `speed-work` (cadence-and-summaries part) says how to apply it; the guard `daily-register` holds it.
 
 The owner's words (Nov 10, about 10:02 p.m. ET, relayed by the CTO on #7365, Nov 11 03:03 UTC): "make it a project requirement that not everything is tracked every day, and that summaries are automatic, and that if something does need to be tracked more often, then it's specifically written and it's reasoned through by the coordinator or you. So that way this stops happening, because we obviously know the cause and it keeps happening."
 
