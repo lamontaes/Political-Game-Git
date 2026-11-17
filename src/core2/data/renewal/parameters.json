@@ -22,6 +22,7 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalFertilityHalfAge": {
+    "role": "coefficient",
     "value": 40,
     "tag": "ESTIMATED",
     "citation": "The age at which a woman's fecundity is one half of its peak: the body's own decline, where about a third of women are unable to conceive (Menken, Trussell and Larsen, Science 233, 1986: 14 percent sterile at 35, 35 percent at 40, 87 percent at 45, from historical natural-fertility populations).",
@@ -35,6 +36,7 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalFertilityWidth": {
+    "role": "coefficient",
     "value": 3.5,
     "tag": "ESTIMATED",
     "citation": "How fast fecundity falls around its half age: set so the curve passes from 14 percent below the peak at 35 to 87 percent below at 45 (Menken, Trussell and Larsen, Science 233, 1986).",
