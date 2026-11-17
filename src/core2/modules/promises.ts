@@ -22,7 +22,7 @@
  * promise raised moves the tie by the answer's row (owning it, explaining,
  * denying). The kinds, windows and sizes are src/core2/data/promises/.
  */
-import { trustLostHours } from "../closeness";
+import { registerFeelingTerm, trustLostHours } from "../closeness";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   billOf,
@@ -31,10 +31,12 @@ import {
   LEGISLATURE_MODULE_ID,
 } from "./legislature";
 import { officeActsOf } from "./office-day";
-import { P } from "../parameters";
+import { P, parameter } from "../parameters";
+import { coreAPI } from "../state";
 import { declareSnapshotCovered } from "../snapshot";
 import type {
   CoreAPI,
+  CoreState,
   CoreEventInput,
   CoreModule,
   IsoDate,
@@ -599,6 +601,26 @@ export const PROMISES_MODULE: CoreModule = {
   },
 };
 declareSnapshotCovered(PROMISES_MODULE_ID);
+
+/**
+ * A debt owed is part of how one feels toward the one owed: the promises the
+ * holder gave the other that are still open pull the holder toward them, by
+ * the first open promise most and each next less (n over n plus one), never
+ * a step. Read by `feelingBetween` for every vote, endorsement and ranking.
+ */
+registerFeelingTerm((core, holderId, otherId) => {
+  const state = core as CoreState;
+  if (!state.modules.has(PROMISES_MODULE_ID)) return 0;
+  const owed = (
+    table(coreAPI(state)).query("byPair", [
+      pairKey(holderId, otherId),
+    ]) as unknown as PromiseRow[]
+  ).filter((row) => row.outcome === "open" && row.holderId === holderId).length;
+  return owed
+    ? (parameter("feelingFavorOwedWeight", state.data.parameters) * owed) /
+        (owed + 1)
+    : 0;
+});
 
 /** One promise by id. */
 export function promiseOf(api: CoreAPI, id: string): PromiseRow | undefined {

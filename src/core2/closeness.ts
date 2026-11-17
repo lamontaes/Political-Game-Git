@@ -126,6 +126,24 @@ export function grudgeBetween(
 }
 
 /**
+ * What a record other than the tie adds to how a holder feels toward another
+ * person, in the same -1 to 1 scale (a debt the holder owes them, from the
+ * promises engine). Every engine that keeps such a record registers its
+ * reader here; the terms add. Closeness cannot import them (the engines
+ * import closeness), the way shared hours are registered.
+ */
+type FeelingTerm = (
+  core: object,
+  holderId: PersonId,
+  otherId: PersonId,
+) => number;
+const feelingTerms = new Set<FeelingTerm>();
+
+export function registerFeelingTerm(term: FeelingTerm): void {
+  feelingTerms.add(term);
+}
+
+/**
  * How the holder feels toward another person, -1 to 1: closeness less the
  * holder's grudge. The one read every decision that weighs a person uses
  * (votes, endorsements, leadership, recalls, the press's regard); closeness
@@ -137,10 +155,13 @@ export function feelingBetween(
   holderId: PersonId,
   otherId: PersonId,
 ): number {
+  let terms = 0;
+  for (const term of feelingTerms) terms += term(core, holderId, otherId);
   return Math.min(
     Math.max(
       closenessBetween(core, holderId, otherId) -
-        grudgeBetween(core, holderId, otherId),
+        grudgeBetween(core, holderId, otherId) +
+        terms,
       -1,
     ),
     1,
