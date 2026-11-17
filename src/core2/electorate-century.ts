@@ -304,10 +304,14 @@ function presidentialElection(
       winnerSide: share > 0.5 ? 1 : share < 0.5 ? -1 : sittingSide,
     });
     // The state's lean carries its own result forward, cleared of what was personal to the two
-    // candidates (their incumbency and experience); the tide of the year stays in it.
+    // candidates (their incumbency and experience) and of the year's national tide (approval,
+    // the midterm, the party's time in the White House, the economy): how it moved against the
+    // nation (CTO line 6936486748, Nov 17, 2026).
     const personal = (side: number) => {
       const r = reasons.find((x) => x.side === side)!;
-      return r.incumbency + r.experience;
+      return (
+        r.incumbency + r.experience + r.economy + r.midterm + r.timeForChange
+      );
     };
     const cleared = share - (personal(1) - personal(-1));
     const carry = centuryParameter("centuryLeanCarryShare");
