@@ -18,10 +18,9 @@
   },
   "debate": {
     "title": "Debate invitation",
-    "answer": "Answer",
-    "for": "For",
-    "against": "Against",
-    "pass": "Pass"
+    "accept": "Accept",
+    "decline": "Decline",
+    "accepted": "Accepted"
   },
   "raceStanding": {
     "title": "Where the race stands"
