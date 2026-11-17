@@ -1384,15 +1384,40 @@ input[type="range"]::-moz-range-thumb {
 #front:has(#cr-screen:not([hidden])) {
   width: min(1180px, calc(var(--vw) * 0.94));
 }
+/* Before a gender is picked there is no person and no look: the creator is its one column,
+   and a second column opens beside it with the person once a gender is picked (owner, Nov 17). */
+#front:has(#cr-screen.no-gender:not([hidden])) {
+  width: min(560px, calc(var(--vw) * 0.94));
+}
 #cr-screen {
-  grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: 22px;
+  align-items: start;
+}
+#cr-screen.no-gender {
+  grid-template-columns: minmax(0, 1fr);
+}
+#cr-look-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+#cr-look-col[hidden] {
+  display: none;
 }
 #cr-figure {
   align-items: center;
 }
 #cr-figure .strip-name {
   text-align: center;
+}
+/* One row of buttons under both columns: Random draws the whole character, Begin starts the life. */
+#cr-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
 }
 #cr-screen .secbody {
   padding-bottom: 8px;
@@ -1510,11 +1535,10 @@ input[type="range"]::-moz-range-thumb {
   justify-content: center;
 }
 .swatch-row {
-  grid-template-columns: 110px 1fr;
-  row-gap: 2px;
+  grid-template-columns: 110px auto 1fr;
 }
 .swatch-row .look-value {
-  grid-column: 2;
+  grid-column: 3;
   justify-content: flex-start;
   color: var(--text-2);
   font: 500 var(--t-label) var(--ui);
@@ -1540,6 +1564,53 @@ input[type="range"]::-moz-range-thumb {
 .swatch-button:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 2px;
+}
+.swatch-button.none {
+  background: linear-gradient(
+    135deg,
+    transparent 44%,
+    var(--text-2) 44% 56%,
+    transparent 56%
+  );
+}
+/* A row of pictures (hairstyle, facial hair, top): frameless crops that light when chosen. */
+.picture-row {
+  grid-template-columns: 110px auto 1fr;
+}
+.picture-row .look-value {
+  grid-column: 3;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 var(--t-label) var(--ui);
+}
+.pictures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pick-picture {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--control-radius);
+  background: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.pick-picture:hover:not(:disabled) {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
+}
+.pick-picture[aria-pressed="true"] {
+  background: var(--pick-on);
+}
+.crop {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
 }
 .swatch {
   width: 12px;

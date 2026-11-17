@@ -2,6 +2,14 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 17, 2026, midday: after playing v0.113.0 (owner, verbatim; recorded by the CTO)
+
+- **Delete what the engine didn't write** (about 11:45 a.m.): "STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING." Read back to him, he confirmed "Yes, that's it. Go.": every scene and line the English engine didn't compose from the world's own records is deleted, including stock lines picked whole from a bank and lines whose only insert is a padded name. A scene kind with nothing engine-written stops playing and is removed with its lines and tests, and a check keeps them out. Fewer scenes play until the engine writes them. Menus are not in this ruling.
+- **Running for office:** "Run now, file on the date." From day one the player can announce for a coming race, form a campaign committee, raise money and gather petition signatures. The official filing happens in the real window, and the year between is the campaign.
+- **Visual stops, in his order:** "Yes, go in that order": no boxes, the strip shrinks to its people, silent people never shown big, skin and colors as swatches with hair as pictures, no empty space in the creator, no person before a gender is picked, Metrics doesn't scroll. Also: "you should be able to randomize an entire character."
+- **Builds ship on his stops, not on green checks:** a build ships only after a session that didn't build the fixes has played the installed app through filing and every stop he named, with screenshots.
+- "saves literally dont matter. but make your own save so you can see."
+
 ## Nov 17, 2026, morning: Desk answers (owner, verbatim; recorded by the CTO)
 
 - **Who hears a speech** (8:04 a.m.): "One by one: only the people you can see that day (household, family, people in focus, officials present). Everyone else hears it as part of their group, and each still keeps their own record when you meet them." Detail on demand: one record per group, and a person's own record is made when the player meets them.

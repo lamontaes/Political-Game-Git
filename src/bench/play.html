@@ -223,15 +223,8 @@
           <div id="pick-detail" class="mx3col"></div>
         </div>
         <!-- The creator: one screen (the Nov 8 front mock): the bust, who I am, where I'm from, how I look. -->
-        <div id="cr-screen" class="strip-screen" hidden>
-          <div id="cr-figure" class="mx3left">
-            <div id="cr-bust" data-testid="creator-bust"></div>
-            <p id="cr-figure-name" class="strip-name"></p>
-            <button id="cr-randomize" class="action small" type="button">
-              Random
-            </button>
-          </div>
-          <div class="mx3col">
+        <div id="cr-screen" class="strip-screen no-gender" hidden>
+          <div class="mx3col" id="cr-who-col">
             <section class="sec strips dp1">
               <h3 class="sechead">Who I am</h3>
               <div class="secbody">
@@ -280,14 +273,6 @@
                       >Last name
                       <input id="cr-family" maxlength="40" autocomplete="off"
                     /></label>
-                    <button
-                      id="cr-random-name"
-                      class="action small"
-                      type="button"
-                      data-testid="creator-randomize-name"
-                    >
-                      Randomize name
-                    </button>
                   </div>
                   <div
                     class="group row"
@@ -319,20 +304,10 @@
                         ></select
                       ></label>
                     </div>
-                    <button
-                      id="cr-random-birthday"
-                      class="action small"
-                      type="button"
-                      data-testid="creator-randomize-birthday"
-                    >
-                      Randomize birthday
-                    </button>
                   </div>
                 </div>
               </div>
             </section>
-          </div>
-          <div class="mx3col">
             <section id="cr-place-sec" class="sec strips dp2">
               <h3 class="sechead">Where I'm from</h3>
               <div class="secbody">
@@ -393,7 +368,13 @@
                 </div>
               </div>
             </section>
-            <section class="sec strips dp3">
+          </div>
+          <div id="cr-look-col" hidden>
+            <div id="cr-figure" class="mx3left">
+              <div id="cr-bust" data-testid="creator-bust"></div>
+              <p id="cr-figure-name" class="strip-name"></p>
+            </div>
+            <section class="sec strips dp3" id="cr-look-sec">
               <h3 class="sechead">How I look</h3>
               <div class="secbody">
                 <div id="cr-look" data-testid="creator-stage-appearance">
@@ -422,16 +403,24 @@
                 </div>
               </div>
             </section>
-            <div class="acts">
-              <button
-                id="cr-begin"
-                class="action primary small"
-                type="button"
-                data-testid="begin"
-              >
-                Begin my life
-              </button>
-            </div>
+          </div>
+          <div id="cr-foot" class="acts">
+            <button
+              id="cr-random"
+              class="action small"
+              type="button"
+              data-testid="creator-random"
+            >
+              Random
+            </button>
+            <button
+              id="cr-begin"
+              class="action primary small"
+              type="button"
+              data-testid="begin"
+            >
+              Begin my life
+            </button>
           </div>
         </div>
         <div class="progress" hidden><span></span></div>

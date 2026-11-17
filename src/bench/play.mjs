@@ -7107,58 +7107,43 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
-function pickGender(g) {
+function markGender(g) {
   setup.gender = g;
   filledIn();
+  // The look, and the person in it, appear only once a gender is picked (owner, Nov 17).
+  $("cr-screen").classList.remove("no-gender");
+  show("cr-look-col", true);
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
   }
+}
+function pickGender(g) {
+  markGender(g);
   void openLook();
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
-$("cr-random-name").addEventListener("click", async () => {
-  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
-  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
-  if (!setup.gender) {
-    document
-      .querySelector("[data-gender]")
-      ?.closest(".group")
-      ?.classList.add("missing");
-    return;
-  }
-  setup.nameDraws++;
-  const name = await api(
-    `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
-  );
-  $("cr-given").value = name.givenName;
-  $("cr-family").value = name.familyName;
-  filledIn();
-  nameFigure();
-});
-async function randomBirthday() {
-  setup.birthdayDraws++;
-  const b = await api(
-    `/api/creator/birthday?${new URLSearchParams({ seed: setup.seed, draw: setup.birthdayDraws })}`,
-  );
+async function setBirthday(b) {
   $("cr-month").value = String(b.month);
   fillDays();
   $("cr-day").value = String(b.day);
   await fillYears(b.year);
 }
-$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
+/** The birthday a new creator opens on: the youngest a life may begin at, 18, unless one is picked (owner, Nov 16 and 17). */
+async function defaultBirthday() {
+  fillDays();
+  await fillYears(9999);
+}
 
 /** Opens the creator for Start a life. */
 async function openCreator() {
   // The seed Advanced holds, drawn when the page loads, draws the world.
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
-  if (!$("cr-year").options.length) await randomBirthday();
+  if (!$("cr-year").options.length) await defaultBirthday();
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  // A bust stands in the creator from its first frame, before a gender is chosen.
-  void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -7281,16 +7266,12 @@ function showLook(view) {
   setup.lookView = view;
   const tab = setup.lookTab;
   $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
+    drawFace(view.faces[tab], { shape: "bust", column: 220 }),
   );
   const row = (r) =>
     lookRow(r, {
-      onMove: (id, by) => void moveLook(id, by),
-      arrowLabel: (by, it) =>
-        controls.creator[by < 0 ? "previous" : "next"].replace(
-          "{row}",
-          it.label.toLowerCase(),
-        ),
+      onPick: (id, option) => void pickLook(id, option),
+      picture: (option) => drawFace(option.face, { shape: option.picture }),
     });
   const tabs = Object.entries(controls.creator.lookTabs).filter(([key]) =>
     view.rows.some((r) => r.tab === key),
@@ -7350,9 +7331,9 @@ function showPlaceName() {
     ? setup.town.name
     : `${setup.town.name}, ${setup.state.name}`;
 }
-async function moveLook(row, by) {
+async function pickLook(row, pick) {
   const view = await post(
-    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, by })}`,
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, pick })}`,
   );
   setup.previous = [...setup.previous, setup.recipe].slice(-20);
   showLook(view);
@@ -7366,10 +7347,32 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
-$("cr-randomize").addEventListener("click", async () => {
+// One Random draws the whole character (owner, Nov 17: "you should be able to randomize an
+// entire character"): gender, name, birthday, place and look, on the creator's seed.
+$("cr-random").addEventListener("click", async () => {
+  setup.nameDraws++;
+  setup.birthdayDraws++;
+  setup.placeDraws++;
   setup.appearanceDraws++;
-  const view = await api(`/api/creator/appearance?${lookQuery({})}`);
-  await setLook(view.recipe, true);
+  const draw = setup.nameDraws;
+  const who = await api(
+    `/api/creator/character?${new URLSearchParams({ seed: setup.seed, draw })}`,
+  );
+  setup.state = who.place.state;
+  setup.town = who.place.town;
+  $("cr-state-name").textContent = who.place.state.name;
+  showPlaceName();
+  $("cr-given").value = who.name.givenName;
+  $("cr-family").value = who.name.familyName;
+  nameFigure();
+  await setBirthday(who.birthday);
+  markGender(who.gender);
+  setup.previous = [];
+  setup.initial = who.look.recipe;
+  showLook(who.look);
+  setup.lookGender = who.gender;
+  filledIn();
+  await showStates();
 });
 $("cr-reset").addEventListener(
   "click",

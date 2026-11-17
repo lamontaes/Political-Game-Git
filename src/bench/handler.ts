@@ -139,6 +139,9 @@ import {
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
+
+/** When this game was opened, so the title's paintings and New game's people differ each launch. */
+const TITLE_LAUNCH = String(Date.now());
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
@@ -149,11 +152,13 @@ import {
   creatorTowns,
   creatorRandomPlace,
   drawBirthday,
+  drawCharacter,
   drawName,
   readChosenPerson,
 } from "./creator";
 import {
   appearanceRows,
+  pickAppearance,
   drawnAppearance,
   lookForGender,
   moveAppearance,
@@ -920,7 +925,21 @@ const ROUTES: readonly Route[] = [
       const gender = q.get("gender") ?? "";
       const route = url.pathname.slice("/api/creator/".length);
       if (route === "name") send(200, drawName(seed, draw, gender));
-      else if (route === "birthday") {
+      else if (route === "character") {
+        const character = drawCharacter(seed, draw);
+        const recipe = lookForGender(
+          drawnAppearance(character.gender, seed, draw),
+          character.gender,
+        );
+        send(200, {
+          ...character,
+          look: {
+            recipe,
+            rows: appearanceRows(recipe, character.gender),
+            faces: lookFaces(recipe),
+          },
+        });
+      } else if (route === "birthday") {
         const b = drawBirthday(seed, draw);
         send(200, { ...b, age: ageAtStart(b.year, b.month, b.day) });
       } else if (route === "years")
@@ -935,12 +954,19 @@ const ROUTES: readonly Route[] = [
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
-            ? moveAppearance(
-                readRecipe(q.get("recipe")!),
-                gender,
-                q.get("row") ?? "",
-                Number(q.get("by") ?? 1),
-              )
+            ? q.get("pick")
+              ? pickAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  q.get("pick")!,
+                )
+              : moveAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  Number(q.get("by") ?? 1),
+                )
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
@@ -961,10 +987,10 @@ const ROUTES: readonly Route[] = [
     run: async ({ send }) => {
       // One visit to the title: its scene; the life to continue (the one in
       // play, else the most recent save); and every saved life.
-      const scenes = titleRotation(
-        new Date().toISOString().slice(0, 10),
-        state.titleVisits++,
-      );
+      // This launch's stamp starts the rotation on other paintings each time the game is opened.
+      const visit = state.titleVisits++;
+      const today = new Date().toISOString().slice(0, 10);
+      const scenes = titleRotation([today, TITLE_LAUNCH].join("#"), visit);
       const playing = lifeCover();
       const saves = savedLives().map(({ id, save }) => ({
         ...(id === state.lifeId && playing ? playing : save.cover),
@@ -977,7 +1003,7 @@ const ROUTES: readonly Route[] = [
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
         // New game's busts, before any world exists.
-        newGame: newGameFaces(),
+        newGame: newGameFaces([TITLE_LAUNCH, visit].join("#")),
         life: playing
           ? {
               ...playing,
