@@ -8502,6 +8502,7 @@
   "homeUpkeepHoursPerMember": {
     "value": 2.04,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "The housework and shopping a home needs a day for each person it keeps, shared by its adults (free-block.ts homeUpkeep). Fitted once so the average U.S. household reproduces ATUS: household activities 1.99 plus purchasing 0.69 hours a day per person 15 and over (BLS ATUS 2025 Table 3), times 1.9 adults over 2.5 people per household (Census CPS ASEC 2024, America's Families and Living Arrangements, Table H2/AVG1) is 2.68 x 1.9 / 2.5 = 2.04. After the fit each adult's share moves with the people their own home keeps.",
     "estimatedFrom": "ATUS 2025 Table 3; Census CPS ASEC 2024 average household size and adults.",
     "spread": {
@@ -8514,6 +8515,7 @@
   "homePresenceFamilyShare": {
     "value": 0.375,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "The share of the waking time two family members are both home that they spend in each other's company (closeness.ts homeTogether). Fitted once: ATUS 2019 reports 243 minutes a day with household family (Kannan and Veazie 2022, SSM Population Health 21:101331); with a 15.3-hour waking day (24 less workSleepReserveHours 8.7) and the more-working of a typical pair at about 4.5 hours of work a day (ATUS 2025 Table 3: 3.32 hours for all persons 15 and over, employed adults about 7.9 on days worked), both are home about 648 minutes, and 243 / 648 = 0.375. After the fit a pair's minutes follow their own schedules.",
     "estimatedFrom": "Kannan and Veazie (2022) ATUS 2019; BLS ATUS 2025 Table 3.",
     "spread": {
@@ -8526,6 +8528,7 @@
   "homePresenceOtherShare": {
     "value": 0.066,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "The share of the waking time two housemates who are not family are both home that they spend in each other's company (closeness.ts homeTogether). Fitted once to ATUS 2019's 43 minutes a day with 'others' (roommates, neighbors, acquaintances, coworkers and clients together; Kannan and Veazie 2022) over the same 648 shared minutes as homePresenceFamilyShare: 43 / 648 = 0.066.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
@@ -8539,6 +8542,7 @@
   "willStakeWeight": {
     "value": 1,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "How much what a person has to leave adds to their lean toward having made a will, per e-fold of their estate in months of their own living cost (estates.ts willReasons). Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of adults have one, rising with age and income; age shows here only through what a life has saved.",
     "spread": {
       "low": 0.5,
@@ -8550,6 +8554,7 @@
   "willHeirWeight": {
     "value": 0.5,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "How much each living partner or child adds to a person's lean toward having made a will (estates.ts willReasons): people make wills to provide for the people they leave. Checked against Gallup (May 2016): parents and married adults more often have one.",
     "spread": {
       "low": 0.25,
@@ -8561,6 +8566,7 @@
   "willCostPull": {
     "value": 1.25,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "The bother and cost of making a will, against which a person's stakes (willStakeWeight per e-fold of months of their own living cost saved) and their partner and children (willHeirWeight each) weigh, with the shared trait lean (estates.ts willReasons). Fitted once, Nov 17, over the adults of three drawn played worlds (Huntingdon TN, Hartford AL, Manzanita OR; 2,850 adults): at 1.25 about 44% lean toward having a will, Gallup's share of U.S. adults (May 2016, 'Majority in U.S. Do Not Have a Will'); the same fit gave 50% at 1.0 and 38% at 1.5. After the fit a world's share moves with its own people's savings and families.",
     "estimatedFrom": "Gallup May 2016, 44% of U.S. adults have a will; fit table in PR #9852.",
     "spread": {
@@ -8573,6 +8579,7 @@
   "ownUpkeepBaseHours": {
     "value": 2.05,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "A grown person's own upkeep a day at adulthood in good health: personal care beyond the sleep the work schedule reserves (workSleepReserveHours 8.7), and meals (free-block.ts ownUpkeep). Fitted once with ownUpkeepHoursPerYear so the ATUS 2025 Table 3 age groups are met at their middles: personal care less 8.7 plus eating and drinking runs about 2.0 to 2.3 hours from ages 25 to 64 and 2.2 to 2.7 past 65; the average adult lands near 2.3. After the fit, a person's upkeep moves with their own age and health.",
     "estimatedFrom": "BLS ATUS 2025 Table 3 by age (src/core2/data/time-use-reference.json).",
     "spread": {
@@ -8585,6 +8592,7 @@
   "ownUpkeepCareHours": {
     "value": 1,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "How many more hours a day a person's own upkeep takes at full care need (the health engine's careNeedOf, 0 to 1, from their own conditions and hazard): dressing, washing and eating take longer when health fails. Checked so the oldest ATUS group's extra personal care is within reach of people whose health asks for care. A strength; who needs care comes from each person's own health.",
     "spread": {
       "low": 0.5,
@@ -8596,6 +8604,7 @@
   "ownUpkeepHoursPerYear": {
     "value": 0.008,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "How much more of a day a person's own upkeep takes for each year past adulthood (free-block.ts ownUpkeep): ATUS 2025 Table 3's personal care beyond sleep plus meals rises about 0.4 hours from ages 25-34 to 75 and over, about 0.008 a year. A strength, fitted once; how old a person is comes from their own record.",
     "spread": {
       "low": 0.003,

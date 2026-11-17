@@ -562,7 +562,6 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       "modules/counted-moves.ts",
       "modules/health.ts",
       "modules/moves.ts",
-      "free-block.ts",
       "school-outcomes.ts",
     ])
       expect(
