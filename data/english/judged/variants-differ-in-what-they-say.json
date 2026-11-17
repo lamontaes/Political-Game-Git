@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1058,
+  "judged": 1035,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -459,13 +459,6 @@
         "scene-talk.reply-apologize.i-m-sorry-i-wasn-t-paying-attention-i-let-a-lot-of-things-slide-and-i-"
       ],
       "why": "Both lines apologize for not paying attention, with nothing in the world to choose between them."
-    },
-    "097332cpx78": {
-      "keys": [
-        "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
-        "scene-talk.reply-lie.you-re-fine-count-me"
-      ],
-      "why": "Both lines falsely say count me in, the same lie in other words with no fact to choose between them."
     },
     "09au38inytl": {
       "keys": [
@@ -1750,13 +1743,6 @@
       ],
       "why": "All three lines tell the asker to stop listing past mistakes."
     },
-    "0vlseqj7kb0": {
-      "keys": [
-        "scene-talk.reply-refuse.i-m-grateful-for-earlier-i-still-can-t-vote-for-bill",
-        "scene-talk.reply-refuse.you-voted-for-my-bill-and-i-haven-t-forgotten-it-this-one-is-a-no"
-      ],
-      "why": "Both lines say I'm grateful for your earlier vote but this one is a no, the same refusal with only a filled-in name to tell them apart."
-    },
     "0vug7tqvhmh": {
       "keys": [
         "scene-talk.follow-accept.i-just-miss-you-that-s-all",
@@ -1865,14 +1851,6 @@
         "scene-talk.reply-thank.thanks-for-everything-i-mean-it"
       ],
       "why": "All three lines thank the person for coming to say goodbye, the same thanks with no fact to choose between them."
-    },
-    "0x9r41zxyb6": {
-      "keys": [
-        "scene-talk.open-greet.can-i-ask-you-something-without-you-hating-me",
-        "scene-talk.open-greet.don-t-say-anything-until-i-m-done",
-        "scene-talk.open-greet.i-need-a-favor-and-i-hate-that-i-need-it"
-      ],
-      "why": "Most of the openers say I need a favor and hope you won't hate me, the same nervous ask with no fact to choose between them."
     },
     "0xesf7zeo9w": {
       "keys": [
@@ -2262,13 +2240,6 @@
       ],
       "why": "Two of three lines are the same apology for making tight money worse, with no fact choosing."
     },
-    "14hceuzqovh": {
-      "keys": [
-        "scene-talk.follow-accept.then-i-ll-stop-counting-what-you-owe-me",
-        "scene-talk.follow-accept.then-we-re-even-and-i-won-t-bring-up-earlier-again"
-      ],
-      "why": "Both lines say the debt is cleared and won't be raised again, the same acceptance with only a filled-in name to tell them apart."
-    },
     "14ircaobgif": {
       "keys": [
         "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-again-right-away",
@@ -2555,13 +2526,6 @@
         "scene-talk.reply-leave.let-me-talk-to-my-family-i-ll-call-you-friday"
       ],
       "why": "All four lines ask to call back later, only the day changing with nothing in the world behind it."
-    },
-    "1anz5qetsxi": {
-      "keys": [
-        "scene-talk.reply-agree.put-me-down-yes",
-        "scene-talk.reply-agree.yes-you-ll-see-it-on-the-board"
-      ],
-      "why": "Both lines just say put me down yes, with nothing in the world to choose between them."
     },
     "1apxz5zo9g4": {
       "keys": [
@@ -3998,26 +3962,12 @@
       ],
       "why": "All four lines take back a promised yes in other words, with no fact to choose between them."
     },
-    "22wcofpjatk": {
-      "keys": [
-        "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no",
-        "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no"
-      ],
-      "why": "Both lines say I'm sorry but it's no because you're my friend, the same refusal with no fact to choose between them."
-    },
     "22ye0qtbktk": {
       "keys": [
         "scene-talk.follow-confront.clapping-isn-t-voting",
         "scene-talk.follow-confront.keep-telling-yourself-that"
       ],
       "why": "Both lines dismiss the opponent's confidence, the same retort reworded."
-    },
-    "230kqfbaeqd": {
-      "keys": [
-        "scene-talk.follow-thank.good-i-like-to-keep-my-ledger-short",
-        "scene-talk.follow-thank.we-re-square-thank-you"
-      ],
-      "why": "Both lines say the debt is settled and thanks, the same follow-up with no fact to choose between them."
     },
     "235pril06yy": {
       "keys": [
@@ -4354,13 +4304,6 @@
       ],
       "why": "Both lines are a warm welcome home, with the saved plate chosen by nothing in the record."
     },
-    "2a9r73axn3z": {
-      "keys": [
-        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
-        "scene-talk.reply-relent.you-earned-it-put-me-down-yes"
-      ],
-      "why": "Both lines say you earned it, put me down yes, the same relenting with only a bill name to tell them apart."
-    },
     "2acyy2f70bf": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-been-counting-votes-on-bill-all-week-now-name-is-at-your-door",
@@ -4426,13 +4369,6 @@
         "scene-talk.reply-refuse.not-today"
       ],
       "why": "All three lines are the same exit in other words."
-    },
-    "2b01jcp5u9u": {
-      "keys": [
-        "scene-talk.reply-lie.yes-stop-worrying-about-it",
-        "scene-talk.reply-lie.you-re-fine-i-ve-got-you"
-      ],
-      "why": "Both lines falsely say don't worry, I've got you, the same lie with no fact to choose between them."
     },
     "2bci599twal": {
       "keys": [
@@ -4710,5 +4646,5 @@
       "why": "Both lines hold to the speaker's view in other words."
     }
   },
-  "yesHash": "0zdsydy109h"
+  "yesHash": "21mydkeve97"
 }

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 923,
+  "judged": 921,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -28,20 +28,6 @@
         "scene-talk.reply-deflect.ask-me-again-after-the-pie-comes-i-think-better-with-something-in-fron"
       ],
       "why": "The no-speech promise rewords \"I'll tell you the truth\" and the pie deferral rewords the worst-habit dodge, so two of three rehash."
-    },
-    "00kfgux5cjo": {
-      "keys": [
-        "scene-talk.follow-plea.please-not-as-a-member-as-me",
-        "scene-talk.reply-agree.for-you-yes-not-for-the-bill-for-you",
-        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
-        "scene-talk.reply-bargain.i-ll-do-it-if-you-ll-hear-me-out-on-my-own-bill-next-week",
-        "scene-talk.reply-stall.don-t-make-me-answer-standing-here",
-        "scene-talk.reply-lie.yes-stop-worrying-about-it",
-        "scene-talk.reply-relent.all-right-i-m-in-you-re-buying-lunch",
-        "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no",
-        "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it"
-      ],
-      "why": "'I'm in', 'It's a no' and the road-money condition repeat the first yes, refusal and conditional-yes replies."
     },
     "01ezaq9gift": {
       "keys": [
@@ -4256,5 +4242,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1hjnkro3ka1"
+  "yesHash": "1udl24ue8kb"
 }

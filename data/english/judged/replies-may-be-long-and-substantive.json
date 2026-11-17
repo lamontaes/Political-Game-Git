@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 943,
+  "judged": 939,
   "no": {
     "00ad5h63sx7": {
       "keys": [
@@ -903,15 +903,6 @@
       ],
       "why": "Repeat, tell the clerk, not here and said all, none reasoned."
     },
-    "0jva4pprx3n": {
-      "keys": [
-        "scene-talk.follow-plea.it-s-one-vote-i-m-asking-as-a-friend",
-        "scene-talk.reply-relent.all-right-i-m-in-you-re-buying-lunch",
-        "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no",
-        "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it"
-      ],
-      "why": "Giving in for lunch, an apologetic no and a road-money trade carry no reason."
-    },
     "0jvwxyicgdd": {
       "keys": [
         "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
@@ -1058,15 +1049,6 @@
         "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
       ],
       "why": "The replies apologize, deny or exit without any reason or argument."
-    },
-    "0mnr56k22wo": {
-      "keys": [
-        "scene-talk.follow-plea.please-not-as-a-member-as-me",
-        "scene-talk.reply-relent.all-right-i-m-in-you-re-buying-lunch",
-        "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no",
-        "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it"
-      ],
-      "why": "Giving in for lunch, an apologetic no and a road-money trade carry no reason."
     },
     "0n0mlcp7fwy": {
       "keys": [
@@ -2499,17 +2481,6 @@
       ],
       "why": "Agreeing with instructions, an apology and an exit carry no reason."
     },
-    "1n846lgemll": {
-      "keys": [
-        "scene-talk.state-request.i-need-your-vote-on-bill-i-wouldn-t-ask-if-there-were-another-way",
-        "scene-talk.reply-agree.you-didn-t-have-to-ask-twice-yes",
-        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
-        "scene-talk.reply-bargain.i-ll-do-it-if-you-ll-hear-me-out-on-my-own-bill-next-week",
-        "scene-talk.reply-stall.don-t-make-me-answer-standing-here",
-        "scene-talk.reply-lie.yes-stop-worrying-about-it"
-      ],
-      "why": "Two yeses, an emotional can't, a hearing trade and a deferral carry no reason."
-    },
     "1o1hf8otlvo": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -3738,5 +3709,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "2cstnvv6snz"
+  "yesHash": "0msdu3vgdvp"
 }
