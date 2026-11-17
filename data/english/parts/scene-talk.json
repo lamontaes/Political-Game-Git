@@ -2151,14 +2151,6 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "hearing-ask",
           "key": "favor-asked"
         }
@@ -2273,14 +2265,6 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -2328,14 +2312,6 @@
           "move": "greet",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
           "key": "favor-asked"
         }
       ],
@@ -2385,14 +2361,6 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
         }
       ],
       "bearing": "nervous",
@@ -2440,14 +2408,6 @@
           "move": "greet",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
           "key": "favor-asked"
         }
       ],
@@ -2497,14 +2457,6 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -2552,14 +2504,6 @@
           "move": "greet",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
           "key": "favor-asked"
         }
       ],
@@ -2618,30 +2562,6 @@
       "tag": {
         "move": "greet",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.thanks-for-taking-my-call",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Thanks for taking my call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
       }
     },
     {
@@ -14870,30 +14790,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-won-t-keep-you-long-how-s-the-campaign-holding-up",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I won't keep you long. How's the campaign holding up?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
         "key": "favor-asked"
       }
     },

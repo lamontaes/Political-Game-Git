@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1062,
+  "judged": 1061,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -589,17 +589,6 @@
         "scene-talk.state-rule-registered-voter.you-have-to-be-a-registered-voter-to-file-for-seat"
       ],
       "why": "Both lines state the same registered-voter rule for the seat, the first only adding the county wording."
-    },
-    "0agr23u7x9m": {
-      "keys": [
-        "scene-talk.open-greet.can-i-talk-to-you",
-        "scene-talk.open-greet.do-you-have-a-minute",
-        "scene-talk.open-greet.got-a-second",
-        "scene-talk.open-greet.have-you-got-a-few-minutes",
-        "scene-talk.open-greet.i-won-t-keep-you-long-how-s-the-campaign-holding-up",
-        "scene-talk.open-greet.thanks-for-taking-my-call"
-      ],
-      "why": "Four of six lines are the same request for a minute, and only two add campaign or phone-call details with no fact behind them."
     },
     "0aj8jecp5ar": {
       "keys": [
