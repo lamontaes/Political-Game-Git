@@ -1,8 +1,9 @@
 /**
  * Rent assistance from a housing budget line. A government whose housing line
  * stands above its Census base pays the extra to as many of the town's
- * renting households as it covers at the average voucher, the households with
- * the least income per member first. Full households are paid through the
+ * renting households as its dollars cover, each at the rent above its own
+ * share of income (42 U.S.C. 1437f(o)), the households with the least income
+ * per member first. Full households are paid through the
  * journal to their oldest adult; a counted household is paid through its
  * group's account for the households it stands for. A cut that leaves the
  * line at its base, or too small to cover a household, ends that household's
@@ -36,7 +37,7 @@ export function payRentAssistance(
 ): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const c = api.state as CoreState;
-  const annual = lawParameters.parameters.housingAssistanceAnnualMinor.value;
+  const own = lawParameters.parameters.housingVoucherTenantIncomeShare.value;
   const months = api.parameter("macroMonthsPerYear");
   const adult = api.parameter("votingAge");
   const today = makeIsoDate(c.date);
@@ -55,8 +56,9 @@ export function payRentAssistance(
     // stopgapId: SG-GOV-rent-help-population-share
     if (share < 1 && extra > 0)
       api.stopgap("SG-GOV-rent-help-population-share");
-    let slots = (extra * share) / annual;
-    if (!(slots > 0)) continue;
+    // The line's dollars for the month; each household's help comes out of them until they run out.
+    let money = (extra * share) / months;
+    if (!(money > 0)) continue;
     // The measure that last changed this line is the law the help is paid under.
     const lawId = String(
       mechanicRow(api, housingLineMeasureId(gov.id))?.facts.lawId ?? budget.id,
@@ -70,19 +72,26 @@ export function payRentAssistance(
             b.incomeMinor / b.memberIds.length || a.id.localeCompare(b.id),
       );
     for (const tenant of ranked) {
-      if (slots <= 0) break;
+      if (money <= 0) break;
       if (funded.has(tenant.id)) continue;
-      // A counted household uses one slot per household it stands for; the last one may be served in part.
-      const served = Math.min(tenant.weight, slots);
-      slots -= served;
+      // One household's help is its rent above its own share of income; a household whose income carries its rent needs none.
+      const voucher = Math.floor(
+        Math.min(
+          tenant.rentMinor,
+          Math.max(0, tenant.rentMinor - tenant.incomeMinor * own),
+        ),
+      );
+      if (voucher <= 0) continue;
+      // A counted household takes the help of every household it stands for; the last one may be served in part.
+      const served = Math.min(tenant.weight, money / voucher);
+      money -= served * voucher;
       // The last household may be served in part, full or counted alike.
-      const amount =
-        (Math.min(annual / months, tenant.rentMinor) * served) / tenant.weight;
+      const amount = (voucher * served) / tenant.weight;
       const source = {
         tag: "ESTIMATED" as const,
         asOf: c.date,
-        citation: `${budget.id}: housing line above its Census base, paid as rent assistance at the average voucher.`,
-        estimatedFrom: `HUD Picture of Subsidized Households 2023, average voucher ${annual} a year`,
+        citation: `${budget.id}: housing line above its Census base, paid as rent assistance, each household's rent above its own share of income.`,
+        estimatedFrom: `The household's rent less ${own} of its monthly income (42 U.S.C. 1437f(o)), out of the line's dollars for the month.`,
       };
       const id = `rent-assistance:${tenant.id}:${c.date}`;
       let paid = 0;

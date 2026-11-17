@@ -17,7 +17,6 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { budgetToday } from "./law-reach/group-a-money";
-import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
 // A state's or county's adopted lines are scaled by its receipts (receiptsFactor in modules/budgets.ts).
@@ -95,9 +94,8 @@ for (const pin of PINS) {
         seen.countyEnactedBefore =
           enactedBudgetChanges(api, county.id).housing ?? 0;
         seen.countyPaidInYear = paidBy(county, "0000-00-00");
-        // A raise: the county's housing line is amended by a thousand vouchers' worth.
-        const raise =
-          parameters.parameters.housingAssistanceAnnualMinor.value * 1000;
+        // A raise: the county's housing line is amended by 11.5 million dollars (a stimulus).
+        const raise = 1_150_000_000;
         const raisedOn = core.date;
         amendBudget(api, {
           governmentId: county.id,

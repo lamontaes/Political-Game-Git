@@ -11,7 +11,6 @@ import { HOUSING_LINE_KEY } from "./law-reach/group-a-money";
 import { townShare } from "./law-reach/group-b-money";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
-import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 // A state's housing line above its base is shared across all its people: the
 // played town receives the part its own people stand for, not the whole state's
@@ -38,14 +37,14 @@ describe(`a state's housing line in one town (seed ${seed})`, () => {
           tried.push(`${where}: no state budget`);
           continue;
         }
-        const annual = parameters.parameters.housingAssistanceAnnualMinor.value;
-        const vouchers = 1000;
+        // A raise of 11.5 million dollars (a stimulus; the line pays out of it each month).
+        const raiseMinor = 1_150_000_000;
         // Advance a year first, as the family test does, so the leases are in place.
         advanceCore(core, addDays(makeIsoDate(core.date), 120));
         amendBudget(api, {
           governmentId: state.id,
           line: "housing",
-          deltaMinor: annual * vouchers,
+          deltaMinor: raiseMinor,
           measureId: "housing-share-test",
         });
         const share = townShare(api, state);
@@ -60,10 +59,10 @@ describe(`a state's housing line in one town (seed ${seed})`, () => {
         }
         // At most the town's share of the extra for the months paid (rounded up to whole months).
         const months = Math.ceil(days / 30) + 1;
-        const ceiling = (annual * vouchers * share * months) / 12;
+        const ceiling = (raiseMinor * share * months) / 12;
         expect(
           paid,
-          `${where}: ${paid} paid in ${days} days against a ceiling of ${Math.round(ceiling)} (town share ${share.toFixed(5)} of the state's ${vouchers} vouchers)`,
+          `${where}: ${paid} paid in ${days} days against a ceiling of ${Math.round(ceiling)} (town share ${share.toFixed(5)} of the state's raise of ${raiseMinor})`,
         ).toBeLessThanOrEqual(ceiling * 1.01 + 1);
         return;
       }
