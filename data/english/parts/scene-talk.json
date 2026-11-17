@@ -191090,6 +191090,31 @@
       "bearing": "guarded"
     },
     {
+      "key": "scene-talk.follow-thank.case-help-sick-2",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll watch for it. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-sick", "expansion"],
+          "after": "scene-talk.reply-answer.case-help-sick-4"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "guarded"
+    },
+    {
       "key": "scene-talk.state-tell.your-petition-for-office-is-thin-and-time-is-short",
       "move": "state-tell",
       "kind": "spoken",
