@@ -155,7 +155,11 @@ it(`a complaint naming the player plays the variant its records give (seed ${see
       expect(chosen.reads.told, where).toBe(
         complaint!.basis === "told" ? 1 : 0,
       );
-      const allowed = lineSources(chosen.purpose);
+      // The variant's own lines, and the family's shared ones (the replies after a caught lie).
+      const allowed = [
+        ...lineSources(chosen.purpose),
+        ...lineSources("conflict-accuse"),
+      ];
       for (const text of treeTexts(scene.talk.tree))
         expect(
           allowed.some((re) => re.test(text.replace(/\s+/g, " "))),

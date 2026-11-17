@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "escalation-can-be-answered-in-kind",
   "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
-  "judged": 170,
+  "judged": 140,
   "no": {
     "00jwepcdcwk": {
       "keys": [
@@ -83,16 +83,6 @@
         "scene-talk.reply-leave.let-me-get-my-bearings-first"
       ],
       "why": "\"Prove it by lunch\" gets only a concession, a sidestep to the boss, or a pause; none takes up the dare."
-    },
-    "0qi61rmyp9f": {
-      "keys": [
-        "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
-      ],
-      "why": "The replies explain, apologize, deny, or decline to talk, and none answers the accusation in kind."
     },
     "0u26unx9raw": {
       "keys": [
@@ -192,5 +182,5 @@
       "why": "A concession, a question and a pause; none pushes back."
     }
   },
-  "yesHash": "1r59xdmnsn6"
+  "yesHash": "0dzfxdnxrnf"
 }

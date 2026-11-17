@@ -9,10 +9,9 @@
  * - `took-it`: the crime row says the bribe was taken and the player is a
  *   party to it. A denial is then a lie, and the confession is offered.
  * - `complaint-of`: what the complaint went to the prosecutor about, as a
- *   thing a person says ("a payment on the road repair contract").
+ *   thing a person says ("the payment on the road repair contract").
  * - `bill`, `contract`, `wanted`: the vote or the award the bribe asked for,
  *   and whichever of the two it is.
- * - `firm`, `firm-yours`: a firm on the award's bid list that the player owns.
  * - `source`: who told the accuser, from the corruption engine's
  *   `crime.told` record, when the complaint rests on being told; with
  *   `knows-truth` where that person was a party to the bribe, so a denial
@@ -25,8 +24,6 @@
  * the lines that need it never play. When the bribe's reads (bribe-facts.ts,
  * #9953) land, the two readers of the crime row unite in one file.
  */
-import { awardsOn } from "../core2/modules/budgets";
-import { ownerOf } from "../core2/modules/business";
 import {
   JUSTICE_MODULE_ID,
   crimeRecord,
@@ -44,7 +41,6 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import { contractSaid } from "../english/contract-words";
-import { organizationName } from "./words";
 
 /** The situation type that reads these facts. */
 export const ACCUSATION_TYPE = "accusation";
@@ -106,12 +102,6 @@ export function accusationReads(
     wanted.favor === "vote" && core.modules.has(LEGISLATURE_MODULE_ID)
       ? billOf(api, crime.subjectId)
       : undefined;
-  const award =
-    wanted.favor === "contract"
-      ? awardsOn(api, crime.subjectId.split(":").pop() ?? "").find(
-          (row) => row.id === crime.subjectId,
-        )
-      : undefined;
   const contract =
     wanted.favor === "contract"
       ? contractSaid(wanted.contractLine ?? "")
@@ -121,19 +111,10 @@ export function accusationReads(
   const thing = bill ? input.billSaid : contract;
   if (thing) facts.wanted = fact(thing, [...cited, crime.subjectId]);
   if (input.complaintId && thing)
-    facts["complaint-of"] = fact(`a payment on ${thing}`, [
+    facts["complaint-of"] = fact(`the payment on ${thing}`, [
       ...cited,
       input.complaintId,
     ]);
-  // A firm on the award's bid list that the player owns.
-  const mine = award?.bids.find(
-    (bid) => ownerOf(api, bid.organizationId) === playerId,
-  );
-  const firm = mine ? core.organizations.get(mine.organizationId) : undefined;
-  if (mine && firm) {
-    facts.firm = fact(organizationName(firm), [...cited, award!.id, firm.id]);
-    facts["firm-yours"] = fact("yes", [...cited, award!.id, firm.id]);
-  }
   // Who told the accuser, when the complaint rests on being told.
   const complaint = input.complaintId
     ? (api

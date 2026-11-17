@@ -170,8 +170,9 @@
     "members": "The other people who sit on the study committee, by name, from the study record.",
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
-    "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
-    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
+    "firm": "A firm on a contract's bid list or the firm a contract award went to, by name, from the contracts engine's award record.",
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
+    "complaint-of": "What a complaint to the prosecutor is about, as a person says it (\"a payment on the road repair contract\"), from the corruption engine's crime record the complaint names."
   },
   "maxWords": 70,
   "parts": [
@@ -189930,6 +189931,2872 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-gone-to-the-prosecutor-about-complaint-of-and-has-come-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has gone to the prosecutor about {complaint-of}, and has come to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.source-told-name-about-wanted-the-prosecutor-has-it-now",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{source} told {name} about {wanted}. The prosecutor has it now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["source", "wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.quiet-word-first-about-complaint-of",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Quiet word first, about {complaint-of}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-i-ask-you-about-wanted-i-ve-been-to-the-prosecutor",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I ask you about {wanted}? I've been to the prosecutor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-told-the-prosecutor-about-complaint-of-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I told the prosecutor about {complaint-of}. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.source-told-me-about-complaint-of-i-went-to-the-prosecutor",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{source} told me about {complaint-of}. I went to the prosecutor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["source", "complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.someone-who-knew-told-me-about-wanted-i-reported-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Someone who knew told me about {wanted}. I reported it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["source"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-told-you-about-wanted",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who told you about {wanted}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["source"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.name-your-source-on-complaint-of",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Name your source on {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.no-there-was-no-payment-on-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "No. There was no payment on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["took-it", "owned"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.complaint-of-is-a-rumor-and-it-isn-t-true",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "{complaint-of} is a rumor, and it isn't true.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"],
+          "excludesFacts": ["took-it", "owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.nobody-paid-me-anything-for-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "Nobody paid me anything for {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-took-it-i-ll-tell-the-prosecutor-about-wanted-myself",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I took it. I'll tell the prosecutor about {wanted} myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.here-is-all-of-wanted-start-to-finish",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Here is all of {wanted}, start to finish.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["took-it"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-took-complaint-of-to-a-prosecutor-on-hearsay",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You took {complaint-of} to a prosecutor on hearsay?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.rumors-about-wanted-ruin-people-you-should-have-asked-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Rumors about {wanted} ruin people. You should have asked me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-can-t-say-they-knew-wanted-firsthand",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I can't say. They knew {wanted} firsthand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["source"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.source-they-d-know-wanted-better-than-i-do",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{source}. They'd know {wanted} better than I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["source", "wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.someone-told-me-otherwise-about-wanted",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Someone told me otherwise about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-told-me-different-and-the-prosecutor-has-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} told me different, and the prosecutor has it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["knows-truth", "source"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.the-prosecutor-already-has-complaint-of-don-t-tell-me-no",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "The prosecutor already has {complaint-of}. Don't tell me no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["knows-truth", "complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-then-i-was-told-wrong-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. Then I was told wrong about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-i-ll-tell-the-prosecutor-what-you-said-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell the prosecutor what you said about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.then-why-would-source-say-otherwise",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Then why would {source} say otherwise?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["source"],
+          "excludesFacts": ["took-it"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-didn-t-make-it-up-source-told-me",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I didn't make it up. {source} told me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["source"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.the-prosecutor-has-complaint-of-now-it-isn-t-mine-to-undo",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "The prosecutor has {complaint-of} now. It isn't mine to undo.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-answering-me-about-wanted",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for answering me about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["took-it"],
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.you-came-to-me-first-on-complaint-of-i-ll-say-so",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "You came to me first on {complaint-of}. I'll say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of", "took-it"],
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.if-wanted-is-clean-tell-the-prosecutor-so",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If {wanted} is clean, tell the prosecutor so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-i-ll-raise-bill-from-the-floor",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll raise {bill} from the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["bill", "in-chamber"],
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["bill", "in-chamber"],
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["bill", "in-chamber"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.that-doesn-t-settle-complaint-of-not-yet",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "That doesn't settle {complaint-of}. Not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-that-s-all-i-wanted-from-you-about-wanted",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. That's all I wanted from you about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "refused"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-react.name-frowns-and-says-nothing-more-about-wanted",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} frowns, and says nothing more about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-money-on-wanted-was-taken-and-name-knows-your-name-is-in-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The money on {wanted} was taken, and {name} knows your name is in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-went-to-the-prosecutor-over-complaint-of-and-wants-to-hear-it-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} went to the prosecutor over {complaint-of}, and wants to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-won-t-take-long-it-s-about-complaint-of",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I won't take long. It's about {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.before-bill-comes-up-i-need-to-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Before {bill} comes up, I need to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["bill", "in-chamber"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.the-money-on-wanted-was-taken-your-name-is-in-my-complaint",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "The money on {wanted} was taken. Your name is in my complaint.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.complaint-of-was-taken-not-just-offered-did-you-touch-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{complaint-of} was taken, not just offered. Did you touch it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of", "took-it"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.i-had-nothing-to-do-with-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "I had nothing to do with {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.nobody-can-show-i-touched-complaint-of",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "Nobody can show I touched {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-took-it-i-ll-say-so-to-the-prosecutor-before-you-have-to",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I took it. I'll say so to the prosecutor before you have to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["took-it", "wanted"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-started-as-one-thing-on-wanted-and-became-another",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It started as one thing on {wanted} and became another.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-i-should-have-walked-away-from-wanted",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I should have walked away from {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-ll-answer-for-complaint-of-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'll answer for {complaint-of}. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of", "took-it"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.we-vote-on-bill-soon-after",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "We vote on {bill} soon. After.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["bill", "in-chamber"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["bill", "in-chamber"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-discuss-wanted-yet",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't discuss {wanted} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.sorry-doesn-t-tell-me-who-else-was-in-wanted",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry doesn't tell me who else was in {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "apologize",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-prosecutor-has-complaint-of-tell-me-the-rest",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The prosecutor has {complaint-of}. Tell me the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.the-prosecutor-has-complaint-of-and-i-have-the-paper",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "The prosecutor has {complaint-of}, and I have the paper.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["knows-truth", "complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-told-me-what-happened-on-wanted",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} told me what happened on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["knows-truth", "source"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-ll-put-that-with-what-i-know-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll put that with what I know about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-that-took-nerve-and-wanted-needed-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you. That took nerve, and {wanted} needed it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-else-knew-about-wanted",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who else knew about {wanted}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-then-i-was-wrong-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. Then I was wrong about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-ll-hold-that-with-complaint-of",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll hold that, with {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "apologize",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-being-straight-about-wanted",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for being straight about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-prosecutor-will-want-the-rest-of-complaint-of",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The prosecutor will want the rest of {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.that-isn-t-all-of-wanted",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "That isn't all of {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-know-where-you-stand-on-wanted",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I know where you stand on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "refused"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-react.name-lets-out-a-long-breath-over-wanted-and-steps-away",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} lets out a long breath over {wanted}, and steps away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-outlet-folded-in-one-hand-and-waits-for-the-others-to-go",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has {outlet} folded in one hand, and waits for the others to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-what-outlet-ran",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute? It's about what {outlet} ran.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.outlet-says-you-took-money-on-wanted-did-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{outlet} says you took money on {wanted}. Did you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported",
+          "requiresFacts": ["outlet", "wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.outlet-printed-it-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{outlet} printed it. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-did-not-want-to-file-about-complaint-of-and-has-come-to-you-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} did not want to file about {complaint-of}, and has come to you first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-a-friend-and-went-to-the-prosecutor-over-wanted-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is a friend, and went to the prosecutor over {wanted} anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-filed-about-complaint-of-you-should-hear-that-from-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I filed about {complaint-of}. You should hear that from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-didn-t-sleep-it-s-about-wanted",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I didn't sleep. It's about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-filed-it-now-tell-me-complaint-of-never-happened",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I filed it. Now tell me {complaint-of} never happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.tell-me-about-wanted-i-can-listen-even-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell me about {wanted}. I can listen, even now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-didn-t-you-come-to-me-before-wanted",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why didn't you come to me before {wanted}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-you-sat-on-complaint-of",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you sat on {complaint-of}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.it-isn-t-true-there-was-no-payment-on-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "It isn't true. There was no payment on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["took-it", "owned"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.i-d-never-do-that-to-you-not-on-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "I'd never do that to you. Not on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-took-it-i-ll-tell-you-all-of-wanted",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I took it. I'll tell you all of {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-tell-you-all-of-wanted-and-i-won-t-dress-it-up",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell you all of {wanted}, and I won't dress it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "excludesFacts": ["took-it"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-you-deserved-to-hear-about-complaint-of-from-me",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. You deserved to hear about {complaint-of} from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["complaint-of", "took-it"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-you-had-to-carry-wanted",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry you had to carry {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.because-i-was-afraid-you-d-say-wanted-was-true",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because I was afraid you'd say {wanted} was true.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-couldn-t-ask-about-complaint-of-and-still-do-right",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I couldn't ask about {complaint-of} and still do right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-want-to-believe-you-give-me-something-on-wanted",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I want to believe you. Give me something on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-know-about-complaint-of-don-t-make-me-say-how",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I know about {complaint-of}. Don't make me say how.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["knows-truth", "complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-needed-to-hear-that-about-wanted-from-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I needed to hear that about {wanted} from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-telling-me-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-that-all-there-is-to-complaint-of",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is that all there is to {complaint-of}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-ll-hold-that-and-i-ll-still-stand-by-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll hold that, and I'll still stand by you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "apologize",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.sorry-isn-t-enough-on-wanted-help-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry isn't enough on {wanted}. Help me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "apologize",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-not-shutting-me-out-of-wanted",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for not shutting me out of {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-tell-the-prosecutor-what-you-said-about-wanted",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll tell the prosecutor what you said about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-need-more-than-that-on-complaint-of",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I need more than that on {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"],
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-hold-on-to-wanted-for-now",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll hold on to {wanted} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "outcome": "refused"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-react.name-nods-eyes-wet-and-lets-wanted-drop",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} nods, eyes wet, and lets {wanted} drop.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "close",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-read-outlet-tell-me-wanted-isn-t-true",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I read {outlet}. Tell me {wanted} isn't true.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported",
+          "requiresFacts": ["outlet", "wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "state",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-saw-what-outlet-ran-i-had-to-come",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I saw what {outlet} ran. I had to come.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "open",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-won-t-answer-for-wanted-today-not-here",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I won't answer for {wanted} today. Not here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-do-this-now-we-ll-talk-about-wanted-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this now. We'll talk about {wanted} later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-d-take-a-rumor-over-me-on-wanted",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You'd take a rumor over me on {wanted}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.say-complaint-of-to-a-prosecutor-then",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Say {complaint-of} to a prosecutor, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.the-prosecutor-has-complaint-of-i-m-not-backing-off",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "The prosecutor has {complaint-of}. I'm not backing off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.this-isn-t-a-rumor-about-wanted",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "This isn't a rumor about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.the-prosecutor-already-has-the-record-on-wanted-don-t-say-no",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "The prosecutor already has the record on {wanted}. Don't say no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "deny",
+          "requiresFacts": ["knows-truth", "wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.you-re-right-i-took-it-on-wanted",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "You're right. I took it on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["took-it", "wanted"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-took-it-complaint-of-is-on-me",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I took it. {complaint-of} is on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["took-it", "complaint-of"],
+          "setsFacts": ["owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-here-wanted-isn-t-for-the-hallway",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not here. {wanted} isn't for the hallway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.nothing-happened-on-wanted-i-ll-say-it-again",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Nothing happened on {wanted}. I'll say it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["took-it", "wanted"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-have-the-record-on-wanted-that-s-my-answer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I have the record on {wanted}. That's my answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-else-was-in-on-wanted",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who else was in on {wanted}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confess",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-saying-it-wanted-comes-out-either-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for saying it. {wanted} comes out either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confess",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.that-took-nerve-i-ll-tell-the-prosecutor-you-said-it-on-wanted",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "That took nerve. I'll tell the prosecutor you said it, on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "confess",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-doesn-t-answer-complaint-of",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That doesn't answer {complaint-of}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "deflect",
+          "requiresFacts": ["complaint-of"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.not-here-then-but-wanted-won-t-wait",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Not here, then. But {wanted} won't wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "after": "deflect",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "follow",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.i-never-promised-my-vote-on-wanted-i-only-took-it",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "I never promised my vote on {wanted}. I only took it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it", "owned"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it", "owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
       }
     }
   ]
