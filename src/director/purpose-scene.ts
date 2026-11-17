@@ -225,7 +225,7 @@ import {
   PRESS_EXPOSED,
   exposedFinding,
 } from "../core2/modules/press";
-import { relationFacts, tieSide } from "./relation-facts";
+import { passedBetween, relationFacts, tieSide } from "./relation-facts";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
@@ -1688,7 +1688,7 @@ function composeBinding(
     };
   // What passed between them in an earlier scene, from its reply records: the
   // asker came before, and the asked person helped or refused then.
-  const passed = relation.passed;
+  const passed = passedBetween(director.ledger, core, askerId, askedId);
   if (passed.askedBefore.length)
     facts["asked-before"] = {
       text: asker.givenName,

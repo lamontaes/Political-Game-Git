@@ -13,7 +13,8 @@ import {
   sharedHoursBetween,
 } from "../core2/closeness";
 import { P } from "../core2/parameters";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreEventInput, CoreState, PersonId } from "../core2/types";
+import type { Ledger } from "./types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
 export interface RelationFacts {
@@ -41,47 +42,65 @@ export interface RelationFacts {
   side: "friend" | "rival" | null;
   /** The tie record the side or closeness rests on, if any. */
   tieId: string | null;
-  /** What earlier scene replies between the two left: ids of the `scene.reply` records, by what they say. */
-  passed: {
-    /** The asker came to the asked before, in an earlier scene. */
-    askedBefore: string[];
-    /** The asked person's answer to the asker then was help. */
-    helpedBefore: string[];
-    /** The asked person's answer to the asker then was a refusal. */
-    refusedBefore: string[];
-  };
 }
 
 const PASSED = rulesFile.passedBetween;
+
+/** The record kind every scene's reply is written as. */
+export const SCENE_REPLY = "scene.reply";
+
+/** What earlier scene replies between two people left (passedBetween). */
+export interface PassedBetween {
+  /** The asker came to the asked before, in an earlier scene. */
+  askedBefore: string[];
+  /** The asked person's answer to the asker then was help. */
+  helpedBefore: string[];
+  /** The asked person's answer to the asker then was a refusal. */
+  refusedBefore: string[];
+}
+
+/** Files a scene reply under both people it names, as it is recorded (the ledger's onEvent). */
+export function indexReply(
+  ledger: Pick<Ledger, "repliesByPlayer">,
+  event: Pick<CoreEventInput, "id" | "personIds">,
+): void {
+  const [first, second] = event.personIds;
+  if (!first || !second) return;
+  for (const [one, other] of [
+    [first, second],
+    [second, first],
+  ] as const) {
+    let byOther = ledger.repliesByPlayer.get(one);
+    if (!byOther) ledger.repliesByPlayer.set(one, (byOther = new Map()));
+    const ids = byOther.get(other);
+    if (ids) ids.push(event.id);
+    else byOther.set(other, [event.id]);
+  }
+}
 
 /**
  * What earlier scene replies between two people say: who came to whom and how
  * the one asked answered (a `scene.reply` names the player first; its `asked`
  * fact is there only where the player asked, and its `move` is the answerer's).
+ * Reads only the two people's own replies, from the ledger's index.
  */
-function passedBetween(
+export function passedBetween(
+  ledger: Pick<Ledger, "repliesByPlayer">,
   core: Readonly<CoreState>,
   askerId: PersonId,
   askedId: PersonId,
-): RelationFacts["passed"] {
-  const passed: RelationFacts["passed"] = {
+): PassedBetween {
+  const passed: PassedBetween = {
     askedBefore: [],
     helpedBefore: [],
     refusedBefore: [],
   };
-  const ids = core.logByKind.get("scene.reply");
-  if (!ids) return passed;
-  for (const id of ids) {
+  for (const id of ledger.repliesByPlayer.get(askerId)?.get(askedId) ?? []) {
     const event = core.durableLog.get(id);
     if (!event) continue;
     if (event.date >= core.date) continue;
     const [first, second] = event.personIds;
     if (!first || !second) continue;
-    if (!(
-      (first === askerId && second === askedId) ||
-      (first === askedId && second === askerId)
-    ))
-      continue;
     const playerAsked = event.facts?.asked !== undefined;
     const recordAsker = playerAsked ? first : second;
     if (recordAsker !== askerId) continue;
@@ -246,7 +265,6 @@ export function relationFacts(
     metSource,
     side,
     tieId: tie ? tieId : null,
-    passed: passedBetween(core, askerId, askedId),
   };
 }
 

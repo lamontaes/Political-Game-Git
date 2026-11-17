@@ -16,7 +16,8 @@
  * it returns and the ordinary scheduler stages the situation type whose
  * cause carries the row's label.
  */
-import { receives, type ReceiveRule } from "./scheduling";
+import { receives, SITUATION_LIBRARY, type ReceiveRule } from "./scheduling";
+import { cardsByString, rowsOnRecord, type StringIndex } from "./strings";
 import {
   holdsAny,
   openContests,
@@ -138,20 +139,6 @@ export const CIRCUMSTANCES = rowsJson as unknown as CircumstanceLibrary;
 
 /** The label a circumstance moment carries, which the situation type's cause matches. */
 export const circumstanceLabel = (rowId: string) => `circumstance:${rowId}`;
-
-/** The rows by trigger record kind, so a record is checked only against its own. */
-export function rowsByKind(
-  library: CircumstanceLibrary = CIRCUMSTANCES,
-): Map<string, CircumstanceRow[]> {
-  const out = new Map<string, CircumstanceRow[]>();
-  for (const row of library.rows)
-    for (const kind of row.recordKinds) {
-      const list = out.get(kind) ?? [];
-      list.push(row);
-      out.set(kind, list);
-    }
-  return out;
-}
 
 /** A record written today that some row could stage, kept as it was recorded. */
 export interface QueuedRecord {
@@ -514,13 +501,14 @@ export function circumstancePicks(
       row: CircumstanceRow,
       record: QueuedRecord,
     ) => boolean;
-    byKind?: Map<string, CircumstanceRow[]>;
+    /** The cards on each string, built once (strings.ts). */
+    strings?: StringIndex;
   },
 ): CircumstancePick[] {
   const playerId = book.personId;
   const player = core.people.get(playerId);
   if (!player?.alive || !queue.length) return [];
-  const byKind = options.byKind ?? rowsByKind();
+  const strings = options.strings ?? cardsByString(SITUATION_LIBRARY);
   let standing: PlayerStanding | undefined;
   const best = new Map<string, CircumstancePick>();
   for (const record of queue) {
@@ -528,7 +516,7 @@ export function circumstancePicks(
     // A scene cites its cause: an event the log does not keep cannot call one.
     if (!record.direct && !core.durableLog.has(record.id)) continue;
     const namesPlayer = record.personIds.includes(playerId);
-    for (const row of byKind.get(record.kind) ?? []) {
+    for (const row of rowsOnRecord(strings, record.kind)) {
       // A record held for later calls only the rows that wait for it.
       if (!!row.afterDays !== !!record.later) continue;
       if (namesPlayer && !row.playerNamed) continue;

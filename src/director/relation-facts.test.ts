@@ -12,7 +12,7 @@ import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { addDays } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
-import { relationFacts, tieSide } from "./relation-facts";
+import { passedBetween, relationFacts, tieSide } from "./relation-facts";
 
 // One world for both checks: building the bench world is most of the time.
 const world = buildBenchWorld("7", gameStartDate(), {
@@ -61,7 +61,9 @@ describe("relationFacts", () => {
   }, 120_000);
 
   it("reads what an earlier scene between two people left: who asked, and how they answered", () => {
-    const { core, playerId } = world;
+    const { core, playerId, director } = world;
+    const passed = (asker: PersonId, asked: PersonId) =>
+      passedBetween(director.ledger, core, asker, asked);
     const otherId = [...core.people.keys()].find(
       (id) => id !== playerId && core.people.get(id)!.alive,
     )! as PersonId;
@@ -76,9 +78,7 @@ describe("relationFacts", () => {
         facts: { typeKey: "fixture", causeId: "fixture", ...facts },
         source: { tag: "SOURCED", citation: "Fixture reply.", asOf: core.date },
       });
-    expect(relationFacts(core, otherId, playerId).passed.askedBefore).toEqual(
-      [],
-    );
+    expect(passed(otherId, playerId).askedBefore).toEqual([]);
     // The other person came to the player and the player agreed (the reply
     // record names the player first; its `asked` fact is there only where the
     // player asked). Then, as the player, the player asked and was refused.
@@ -96,11 +96,9 @@ describe("relationFacts", () => {
       settled: "help",
     });
     // The same day is not "before".
-    expect(relationFacts(core, otherId, playerId).passed.askedBefore).toEqual(
-      [],
-    );
+    expect(passed(otherId, playerId).askedBefore).toEqual([]);
     advanceCore(core, addDays(core.date, 1));
-    const came = relationFacts(core, otherId, playerId).passed;
+    const came = passed(otherId, playerId);
     expect(came.askedBefore.sort()).toEqual([
       "scene-reply:fixture-came:0",
       "scene-reply:fixture-kept:0",
@@ -111,7 +109,7 @@ describe("relationFacts", () => {
       "scene-reply:fixture-kept:0",
     ]);
     expect(came.refusedBefore).toEqual([]);
-    const went = relationFacts(core, playerId, otherId).passed;
+    const went = passed(playerId, otherId);
     expect(went.askedBefore).toEqual(["scene-reply:fixture-went:0"]);
     expect(went.refusedBefore).toEqual(went.askedBefore);
     expect(went.helpedBefore).toEqual([]);
