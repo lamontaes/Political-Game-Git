@@ -506,5 +506,16 @@
       "high": 0.01,
       "unit": "share of owned homes per month"
     }
+  },
+  "rentalVacantMonths": {
+    "value": 3.0,
+    "tag": "TUNABLE",
+    "citation": "How many months a rental unit sits empty between one tenant's lease and the next; day one's vacant rentals are the leases a town's renters signed in its last year times this (housing-past.ts openingVacancy). Checked against the national rental vacancy, 6.75% (Census HVS 2024, construction.json vacancy.rental), at drawn towns; it sets only the strength, and each town's vacancy follows its own renters' moves.",
+    "spread": {
+      "low": 1.5,
+      "high": 4.5,
+      "unit": "months",
+      "citation": "Checked against Census HVS 2024's 6.75% rental vacancy at drawn towns."
+    }
   }
 }

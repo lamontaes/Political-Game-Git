@@ -122,6 +122,8 @@ interface Home {
 
 interface Lease extends Home {
   leaseId: string;
+  /** The renting households this lease stands for: a counted household's weight, a full one's 1. */
+  weight: number;
   /** The rent the opening gave this household (its share of the sourced median). */
   openingRentMinor: number;
 }
@@ -240,6 +242,44 @@ function restatedFacts(
 }
 
 /** The pre-start pass. Runs in housing's government-phase run, after `openHousing`. */
+/**
+ * Day one's vacant rentals come from the town's own past, not the national vacancy (History; the
+ * CTO's 16:27Z line on Justice's B item 10): the leases its renters signed in the year before day
+ * one each left a unit empty between tenants for `rentalVacantMonths`, so a town whose renters
+ * stay put opens with few vacant units and one whose renters move often opens with more.
+ */
+function openingVacancy(
+  api: CoreAPI,
+  leases: readonly Lease[],
+  through: string,
+): void {
+  // stopgapId: SG-HIST-opening-tenure-one-curve
+  const yearBefore = addDays(makeIsoDate(through), -365);
+  const months = api.parameter("rentalVacantMonths");
+  const signed = new Map<string, number>();
+  for (const lease of leases)
+    if (lease.since > yearBefore)
+      signed.set(
+        lease.placeId,
+        (signed.get(lease.placeId) ?? 0) + lease.weight,
+      );
+  const stock = table(api, "stock");
+  for (const row of stock.rows() as unknown as {
+    id: string;
+    placeId: string;
+    rentalUnits: number;
+    vacantRental: number;
+  }[]) {
+    const renters = row.rentalUnits - row.vacantRental;
+    const vacant = Math.round(((signed.get(row.placeId) ?? 0) * months) / 12);
+    stock.put({
+      ...row,
+      rentalUnits: renters + vacant,
+      vacantRental: vacant,
+    } as never);
+  }
+}
+
 export function housingPast(
   api: CoreAPI,
   window: PreStartWindow,
@@ -276,6 +316,7 @@ export function housingPast(
       household,
       memberIds: tenant.memberIds,
       leaseId: tenant.leaseId,
+      weight: tenant.weight,
       openingRentMinor: tenant.rentMinor,
       since: before(
         counted
@@ -423,6 +464,7 @@ export function housingPast(
       historyRecordId: `${LEASE_SIGNED}:${lease.householdId}`,
     });
   }
+  openingVacancy(api, leases, window.through);
   for (const home of owned) {
     setSince(api, home);
     history.record({

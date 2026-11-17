@@ -263,5 +263,27 @@
     "addedAt": "2026-11-17",
     "replacement": "The ticket rule read in the century: a joint ticket's offices take the governor's race.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-opening-vacancy-without-past",
+    "kind": "partial-model",
+    "file": "src/core2/housing-construction.ts",
+    "whatItFakes": "A world that runs no housing past (a test that opens the housing module alone) opens its rental stock at the national rental vacancy; a played world's vacancy is then set from the town's own leases (housing-past.ts openingVacancy).",
+    "why": "openStock runs before the history passes, and some worlds run none.",
+    "addedBy": "History lane (claude/history-opening-vacancy)",
+    "addedAt": "2026-11-17",
+    "replacement": "The stock opened by the housing past itself, once every world that opens the housing module runs its past.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-opening-tenure-one-curve",
+    "kind": "partial-model",
+    "file": "src/core2/housing-past.ts",
+    "whatItFakes": "The moves pass before day one (and the opening's years in place) moves people by age only, owners and renters alike, though renters move several times as often as owners at the same age; so about 7% of a town's renters signed a lease in the year before day one (Godfrey GA, Marienthal KS, Nov 17), and day one's vacancy read from those leases comes out near 1 to 2%.",
+    "why": "The ACS mover rates on file are by age, not by tenure.",
+    "addedBy": "History lane (claude/history-opening-vacancy)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's household past (family 21): each household's moves run through the moves engine before day one, so its tenure and its lease dates are its own.",
+    "status": "open"
   }
 ]
