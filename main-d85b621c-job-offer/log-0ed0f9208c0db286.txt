@@ -1,0 +1,44 @@
+seed 0ed0f9208c0db286 place Tiki Gardens, Hawaii me Rowan Peterson
+opening talk with "": Jason Peterson Brittany Peterson It's the afternoon of January 20. You stay in. Continue
+work at start: Rowan Peterson Age 18 Work No current job You have no job of your own; your household lives on what Jason Peterson earns at Tiki Gardens Public Works Department. Open in town Cook Blake's Kitchen PAY $20.40 per hour HOURS 3.1 per day Apply Dishwasher Perkins's Kitchen PAY $17.81 per hour HOURS 3.1 per day Apply Home health aide Kelly Care Home PAY $18.86 per hour HOURS 3.1 per day Apply Janitor Schwartz Building Services PAY $16.55 per hour HOURS 3.1 per day Apply Medical assistant Shepherd Family Clinic PAY $21.67 per hour HOURS 5.7 per day Apply Server Noble's Kitchen PAY $19.58 per hour HOU
+no-apply press 1: 
+no-apply wk0 talk with "": Jason Peterson Brittany Peterson It's early on January 22. You stay in. You caught Governor David Gutierrez's State of the State address on KUTX-TV last night. Continue
+no-apply press 2: 
+no-apply press 3: 
+no-apply wk2 talk with "": Jason Peterson Brittany Peterson It's early on February 11. You stay in. You caught County Executive Damian Cannon's yearly address on KUTX-TV last night. Continue
+no-apply press 4: 
+no-apply press 5: 
+no-apply press 6: 
+no-apply press 7: 
+no-apply press 8: 
+no-apply press 9: 
+no-apply wk8 talk with "": Stephanie Peterson Late in the morning on March 21st, you go over to see Stephanie Peterson. Stephanie is leaving town and wanted to say it face to face. Continue
+no-apply press 10: 
+no-apply press 11: 
+no-apply press 12: 
+work after no-apply weeks: Rowan Peterson Age 18 Work No current job You have no job of your own; your household lives on what Jason Peterson earns at Tiki Gardens Public Works Department. Open in town Cashier O'Donnell's Market PAY $17.23 per hour HOURS 3.3 per day Apply Cook Blake's Kitchen PAY $20.40 per hour HOURS 3.1 per day Apply Cook Blake's Kitchen PAY $19.60 per hour HOURS 5.7 per day Apply Cook Blake's Kitchen PAY $21.53 per hour HOURS 3.1 per day Apply Home health aide Kelly Care Home PAY $18.86 per hour HOURS 3.1 per day Apply Home health aide Kelly Care Home PAY $19.32 per hour Apply Home health aide Kelly Care Home PAY $19.13 per hour Apply Janitor Schwartz Building Services PAY $16.55 per hour HOURS 3.1 per day Apply Janitor Schwartz Building Services PAY $15.69 per hour HOURS 6.1 per day Apply Landscaper Schwartz Building Services PAY $19.33 per hour HOURS 6.1 per day Apply Production worker Owens 
+APPLIED: Cashier | O'Donnell's Market | PAY $17.23 per hour | HOURS 3.3 per day
+APPLIED: Cook | Blake's Kitchen | PAY $20.40 per hour | HOURS 3.1 per day
+applied press 1: 
+applied wk0 talk with "": Daniel Morrison First thing on April 22nd, your phone lights up with Daniel Morrison's name. Daniel from Blake's Kitchen is calling about the opening. Continue
+OFFER from "" | card: 
+  call line: Daniel Morrison Daniel Morrison The opening at Blake's Kitchen is yours if you want it: a cook, $22.39 an hour. Who else works at Blake's Kitchen? Yes. I'll take it. Thank you, but I'm going to pass on working as a cook. It isn't what I'm looking for. Can I think it over and call you back?
+  replies ["Who else works at Blake's Kitchen?","Yes. I'll take it.","Thank you, but I'm going to pass on working as a cook. It isn't what I'm looking for.","Can I think it over and call you back?"] -> pressed "Who else works at Blake's Kitchen?"
+  call line: Daniel Morrison Daniel Morrison ROWAN PETERSON Who else works at Blake's Kitchen? There are 5 people here. You'd be on 22 hours a week with them. That's great news. Count me in. I appreciate it, but a cook isn't the work I want to do. Let me call you back.
+  replies ["That's great news. Count me in.","I appreciate it, but a cook isn't the work I want to do.","Let me call you back."] -> pressed "That's great news. Count me in."
+  call line: Daniel Morrison Daniel Morrison ROWAN PETERSON That's great news. Count me in. Good. We'll be glad to have you. Continue
+applied press 2: 
+applied press 3: 
+applied press 4: 
+applied press 5: 
+applied press 6: 
+applied press 7: 
+applied press 8: 
+applied wk7 talk with "": Marshall Goodman First thing on June 3rd, Marshall Goodman finds you at work at Blake's Kitchen. Marshall just started at Blake's Kitchen doing the same job you do, and has come over to say hello. Continue
+OFFER from "" | card: 
+  call line: Marshall Goodman Marshall Goodman Hi, I'm Marshall. I just started at Blake's Kitchen, and you're Rowan, right? They told me you do the same job I do at Blake's Kitchen, so you're the one to ask. What do you wish somebody had told you when you started? Sure. I'm glad to help you get settled. You hav
+  replies ["Sure. I'm glad to help you get settled.","You have my word. I'll help you get your feet under you this week.","Why did you pick me to ask?","I don't have time right now. Find me tomorrow and ask me again."] -> pressed "Sure. I'm glad to help you get settled."
+  call line: Marshall Goodman Marshall Goodman ROWAN PETERSON Sure. I'm glad to help you get settled. Thank you. That already makes my first day easier. Continue
+applied wk7 talk with "": Jason Peterson It's early on June 7. You stay in. You didn't graduate with your class. Jason has been waiting to talk about it. Continue
+work at end: Rowan Peterson Cook, Blake's Kitchen Work Cook Blake's Kitchen PAY $70.37 per day HOURS 3.1 per day Leave this job Work and school In 2012, I started school at Tiki Gardens Public Schools. At 11, I went on to middle school. At age 14, I moved up to high school. At 18, I took a job at Blake's Kitchen.
+offers 2; errors []

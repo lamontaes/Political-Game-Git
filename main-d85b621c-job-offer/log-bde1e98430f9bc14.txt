@@ -1,0 +1,39 @@
+seed bde1e98430f9bc14 place Jamesport, Missouri me Rafael Mills
+opening talk with "": It's the evening of January 20. The house is quiet. Continue
+work at start: Rafael Mills Age 18 Work No current job Open in town Home health aide Oliver Care Home PAY $16.06 per hour HOURS 5.1 per day Apply Medical assistant Holt Family Clinic PAY $17.38 per hour HOURS 6.4 per day Apply Production worker McClure Manufacturing PAY $19.92 per hour HOURS 6.1 per day Apply Production worker Morris Manufacturing PAY $20.74 per hour HOURS 6.1 per day Apply Work and school At 5, I started kindergarten at Jamesport Public Schools. In 2018, I began middle school. Then in 2021, I made it to high school.
+no-apply press 1: 
+no-apply wk0 talk with "": It's early on January 22. You stay in. You caught Governor Peter Yates's State of the State address on KYKA-TV last night. Continue
+no-apply press 2: 
+no-apply wk1 talk with "": Jesse Mills First thing on February 2nd, you open a letter from Jesse Mills. A letter from Jesse has come from Daviess County, with something to ask you. Continue
+no-apply press 3: 
+no-apply wk2 talk with "": It's early on February 11. You stay in. You caught Mayor Kimberly Payne's yearly address on KYKA-TV last night. Continue
+no-apply press 4: 
+no-apply press 5: 
+no-apply press 6: 
+no-apply press 7: 
+no-apply press 8: 
+no-apply press 9: 
+no-apply press 10: 
+no-apply press 11: 
+no-apply press 12: 
+work after no-apply weeks: Rafael Mills Age 18 Work No current job Open in town Cashier Shaffer's Market PAY $14.52 per hour Apply Construction laborer Richmond Construction PAY $22.05 per hour Apply Electrician Richmond Construction PAY $29.67 per hour Apply Home health aide Oliver Care Home PAY $23.38 per hour HOURS 5.1 per day Apply Insurance agent Shaffer Insurance Agency PAY $20.59 per hour HOURS 6.5 per day Apply Machinist Haynes Manufacturing PAY $24.31 per hour Apply Machinist Bryant Manufacturing PAY $24.05 per hour Apply Production worker Haynes Manufacturing PAY $20.89 per hour HOURS 5.8 per day Apply Production worker Bryant Manufacturing PAY $20.99 per hour HOURS 5.8 per day Apply Production worker Bryant Manufacturing PAY $19.74 per hour HOURS 5.8 per day Apply Production worker Bryant Manufacturing PAY $19.74 per hour HOURS 5.8 per day Apply Sales associate Stevenson's Market PAY $33.65 per hour App
+APPLIED: Cashier | Shaffer's Market | PAY $14.52 per hour
+APPLIED: Construction laborer | Richmond Construction | PAY $22.05 per hour
+applied press 1: 
+applied wk0 talk with "": Lila Phelps First thing on April 22nd, the phone rings. It's Lila Phelps. Lila from Richmond Construction is calling about the opening. Continue
+OFFER from "" | card: 
+  call line: Lila Phelps Lila Phelps Rafael? It's Lila from Richmond Construction. Do you have a minute? We went through everybody, and we'd like to bring you on as a construction laborer, at $24.21 an hour. Who had this job at Richmond Construction? That's great news. Count me in. Thank you, but I'm going to pa
+  replies ["Who had this job at Richmond Construction?","That's great news. Count me in.","Thank you, but I'm going to pass on working as a construction laborer. It isn't what I'm looking for.","Can I think it over and call you back?"] -> pressed "Who had this job at Richmond Construction?"
+  call line: Lila Phelps Lila Phelps RAFAEL MILLS Who had this job at Richmond Construction? Jennifer Dawson, who works for Cameron Bryant, had the job before you. It's 43 hours a week. Yes. I'll take it. I appreciate it, but a construction laborer isn't the work I want to do. Let me call you back.
+  replies ["Yes. I'll take it.","I appreciate it, but a construction laborer isn't the work I want to do.","Let me call you back."] -> pressed "Yes. I'll take it."
+  call line: Lila Phelps Lila Phelps RAFAEL MILLS Yes. I'll take it. Welcome aboard. I'll let everyone know. Continue
+applied press 2: 
+applied press 3: 
+applied press 4: 
+applied wk3 talk with "": David Morris First thing on May 6th, at work, you talk with David Morris. David has just started as an electrician at Richmond Construction and has come over to say hello. Continue
+applied press 5: 
+applied press 6: 
+applied press 7: 
+applied press 8: 
+work at end: Rafael Mills Construction laborer, Richmond Construction Work Construction laborer Richmond Construction PAY $146.99 per day HOURS 6.1 per day Leave this job Work and school At 5, I started kindergarten at Jamesport Public Schools. In 2018, I began middle school. Then in 2021, I made it to high school. At 18, I worked at Richmond Construction.
+offers 1; errors []
