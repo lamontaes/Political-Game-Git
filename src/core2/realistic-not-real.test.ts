@@ -90,7 +90,6 @@ import {
   hudRentRowFor,
   hudStateRentRow,
 } from "./hud-rents";
-import { permitRates, publishedPermitRates } from "./housing-construction";
 import { publishedShelterRateFor, shelterRateFor } from "./housing-homeless";
 import { pastPriceRatio } from "./housing-price-path";
 import { housingMacroParameter } from "./modules/housing";
@@ -361,20 +360,13 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       whole(area.mine),
       `${where} HUD row (${area.mine.area}): other world`,
     ).not.toBe(whole(area.other));
-    // Row 9: shelter beds and permits per the state's people.
+    // Row 9: shelter beds per the state's people (starts follow each town's own builders).
     differs(
       `shelter beds per 10,000 in ${usps}`,
       shelterRateFor(usps, a.seed),
       publishedShelterRateFor(usps),
       shelterRateFor(usps, b.seed),
     );
-    for (const kind of ["singlePerThousand", "multiPerThousand"] as const)
-      differs(
-        `permits ${kind} in ${usps}`,
-        permitRates(usps, a.seed)[kind],
-        publishedPermitRates(usps)[kind],
-        permitRates(usps, b.seed)[kind],
-      );
   });
 
   it("age unemployment, seasonal staffing, employment rates, pay, sector mix and place earnings (audit rows 4, 10, 11, 12, 13)", () => {

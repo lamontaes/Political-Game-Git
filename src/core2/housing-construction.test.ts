@@ -1,4 +1,4 @@
-/** New homes: builders start what pays at the state's permit rate, zoning moves it, and a finished building adds rental units. */
+/** New homes: a town's builders start what they have the hands for and what pays, zoning moves it, and a finished building adds rental units. */
 import { describe, expect, it } from "vitest";
 import {
   houseUnassignedHouseholds,
@@ -7,7 +7,8 @@ import {
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
-import { buildMonth, openStock, permitRates } from "./housing-construction";
+import housingParameters from "./data/housing/parameters.json" with { type: "json" };
+import { builderHeads, buildMonth, openStock } from "./housing-construction";
 import { advanceCore, createLifeCore } from "./life";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
@@ -23,7 +24,8 @@ const src: Source = {
   citation: "Technical fixture records.",
   estimatedFrom: "Construction fixture only.",
 };
-function input(): CoreInput {
+/** `builders` full workers on one construction firm's staff (the town's builders). */
+function input(builders = 0): CoreInput {
   const people = Array.from({ length: 1000 }, (_, i) => `p${i}`);
   return {
     seed: "build-fixture",
@@ -49,8 +51,45 @@ function input(): CoreInput {
       memberIds: [id],
       source: src,
     })),
-    jobs: [],
+    jobs: people.slice(0, builders).map((id) => ({
+      id: `job:${id}`,
+      personId: id,
+      organizationId: "organization:builder",
+      title: "Builder",
+      wageDailyMinor: 20_000,
+      hoursDaily: 8,
+      source: src,
+    })),
+    finance: {
+      contracts: [],
+      facilities: [],
+      gaps: [],
+      businesses: builders
+        ? [
+            {
+              organizationId: "organization:builder",
+              kindId: "construction",
+              annualPayrollMinor: builders * 20_000 * 365,
+              annualDemandMinor: 1_000_000_000,
+              annualOtherCostsMinor: 100_000_000,
+              openingTownIncomeMinor: 0,
+              capacityMinor: 1_000_000_000,
+              price: 1,
+              costContractIds: [],
+              source: src,
+            },
+          ]
+        : [],
+    },
     organizations: [
+      {
+        id: "organization:builder",
+        placeId: place,
+        name: "Builder",
+        kind: "employer",
+        liquidMinor: 1_000_000_000,
+        source: src,
+      },
       {
         id: landlord,
         placeId: place,
@@ -109,15 +148,27 @@ function month(fixture = input()) {
 }
 
 describe("new homes", () => {
-  it("apartment starts follow the permit rate of the state when no web factor is running", () => {
-    const base = month();
-    base.run();
-    const carry = Number(base.tables.stock.get(`stock:${place}`)!.carryMulti);
-    // The state's permits as this world draws them: about 1,000 residents start a fraction of a building a month.
-    expect(carry).toBeCloseTo(
-      (permitRates("TX", base.core.seed).multiPerThousand * 1) / 12,
+  it("apartment starts follow the town's builders when no web factor is running", () => {
+    const carryOf = (builders: number) => {
+      const t = month(input(builders));
+      t.run();
+      return {
+        heads: builderHeads(t.core, place),
+        carry: Number(t.tables.stock.get(`stock:${place}`)!.carryMulti),
+      };
+    };
+    const few = carryOf(10);
+    const many = carryOf(20);
+    expect(few.heads).toBe(10);
+    expect(many.heads).toBe(20);
+    // Each head starts a fitted fraction of a unit a year, at the baseline signal; twice the builders start twice the units.
+    expect(many.carry / few.carry).toBeCloseTo(2, 6);
+    expect(few.carry).toBeCloseTo(
+      (10 * housingParameters.housingMultiUnitsPerBuilderYear.value) / 12,
       6,
     );
+    // A town with no construction firm starts nothing.
+    expect(carryOf(0).carry).toBe(0);
   });
   it("the landlord pays for an apartment building month by month and its finish adds rental units", () => {
     const t = month();

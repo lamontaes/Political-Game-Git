@@ -17,7 +17,6 @@
  */
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
-import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
 import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
@@ -25,7 +24,7 @@ import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
-import { housingWorldOffset } from "./housing-prices";
+import { countedHeadcountOf } from "./residents-economy";
 
 /** The policy keys the builders' decision reads, and the law row each was governed by this month. */
 export const CONSTRUCTION_LAW_KEYS = {
@@ -101,41 +100,32 @@ export function openingZoning(): Zoning {
   };
 }
 
-/** The state's building permits per thousand people in this world: the published rates (Census Building Permits Survey) moved once by the world's own offset (owner, Oct 27: realistic, not real). */
-export function permitRates(
-  usps: string,
-  seed: string,
-): {
-  singlePerThousand: number;
-  multiPerThousand: number;
-} {
-  const published = publishedPermitRates(usps);
-  const share =
-    1 +
-    housingWorldOffset(
-      seed,
-      `permits:${usps}`,
-      "housingWorldPermitSpreadShare",
-    );
-  return {
-    singlePerThousand: published.singlePerThousand * share,
-    multiPerThousand: published.multiPerThousand * share,
-  };
+/** The town's construction firms still open: the builders that start its homes. */
+function buildersOf(c: CoreState, placeId: string): string[] {
+  return [...c.finance.businesses.entries()]
+    .filter(
+      ([id, book]) =>
+        !book.closedAt &&
+        /construction/.test(book.kindId) &&
+        c.organizations.get(id)?.placeId === placeId,
+    )
+    .map(([id]) => id);
 }
 
-/** The state's published permits per thousand people (calibration). */
-export function publishedPermitRates(usps: string): {
-  singlePerThousand: number;
-  multiPerThousand: number;
-} {
-  return (
-    (
-      construction.byState as Record<
-        string,
-        { singlePerThousand: number; multiPerThousand: number }
-      >
-    )[usps] ?? construction.national
-  );
+/**
+ * The town's builders' capacity: the heads on their staff, full workers plus
+ * what their counted jobs stand for. A town starts what its builders have
+ * the hands for, so a town with more builders builds more and one with none
+ * starts none until a construction firm opens.
+ */
+export function builderHeads(c: CoreState, placeId: string): number {
+  let heads = 0;
+  for (const id of buildersOf(c, placeId)) {
+    for (const jobId of c.finance.jobsByOrganization.get(id) ?? [])
+      if (c.jobs.get(jobId)?.endsAt === undefined) heads += 1;
+    heads += countedHeadcountOf(c, id);
+  }
+  return heads;
 }
 
 /** A place's homes at the opening: renters' units at the national rental vacancy. */
@@ -206,40 +196,6 @@ export function takeNewHome(
   return builder;
 }
 
-function residentsOf(c: CoreState, placeId: string): number {
-  let n = 0;
-  for (const person of c.people.values())
-    if (person.alive && person.placeId === placeId) n += 1;
-  const counted = residentsRuntime(c)?.store;
-  if (counted) n += countedByPlace(counted).get(placeId) ?? 0;
-  return n;
-}
-
-/**
- * The counted people by place, summed once for each change to the counts (the
- * store's `version` and `membersVersion` move with every change to who is
- * counted or grouped), not walked again for every place built in.
- */
-const countedPlaces = new WeakMap<
-  object,
-  { key: string; byPlace: Map<string, number> }
->();
-function countedByPlace(
-  store: NonNullable<ReturnType<typeof residentsRuntime>>["store"],
-): ReadonlyMap<string, number> {
-  const key = `${store.version}|${store.membersVersion}`;
-  const held = countedPlaces.get(store);
-  if (held?.key === key) return held.byPlace;
-  const byPlace = new Map<string, number>();
-  for (const h of store.liveHouseholds())
-    byPlace.set(
-      h.placeId,
-      (byPlace.get(h.placeId) ?? 0) + store.countedCount(h),
-    );
-  countedPlaces.set(store, { key, byPlace });
-  return byPlace;
-}
-
 /**
  * One month of building in a place: start what pays, pay what's under way,
  * finish what's due. `homeValueMinor` and `rentMinor` are today's typical
@@ -251,7 +207,6 @@ export function buildMonth(
   tables: { stock: ModuleTable; projects: ModuleTable },
   input: {
     placeId: string;
-    usps: string;
     landlordId?: string;
     homeValueMinor: number;
     rentMinor: number;
@@ -288,8 +243,12 @@ export function buildMonth(
   const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
-  const rates = permitRates(input.usps, c.seed);
-  const perMonth = residentsOf(c, input.placeId) / 1000 / MONTHS;
+  // What the town's builders have the hands to start in a month: each head
+  // starts a fitted fraction of a house (or apartment unit) a year.
+  const heads = builderHeads(c, input.placeId);
+  const singleMonthly =
+    (heads * p("housingSingleStartsPerBuilderYear")) / MONTHS;
+  const multiMonthly = (heads * p("housingMultiUnitsPerBuilderYear")) / MONTHS;
   const priceLevel = input.priceLevel / openingPriceLevel;
   // Houses: today's value against today's cost, relative to the opening's.
   const singleCost =
@@ -305,12 +264,10 @@ export function buildMonth(
       construction.farmland.developmentShare * carriedLink(FARMLAND_LINK).size!
     : 1;
   // Unsold new houses weigh on starts as they pass the usual months of supply.
-  const usual =
-    rates.singlePerThousand * perMonth * p("housingNewHomeSupplyMonths");
+  const usual = singleMonthly * p("housingNewHomeSupplyMonths");
   const inventory = usual > 0 ? 1 / (1 + row.newHomesForSale / usual) : 1;
   const single =
-    rates.singlePerThousand *
-    perMonth *
+    singleMonthly *
     (singleValue / singleCost) ** elasticity *
     farmland ** landElasticity *
     inventory;
@@ -337,8 +294,7 @@ export function buildMonth(
   );
   if (largeBuildings !== 1) api.stopgap("SG-GOV-REACH-A-housing-supply");
   const multi =
-    rates.multiPerThousand *
-    perMonth *
+    multiMonthly *
     (multiValue / multiCost) ** elasticity *
     // The outcome web's researched effect of the law on large new buildings (by-right
     // multifamily zoning) and on rental supply (rent stabilization), one factor per place a month.
@@ -372,18 +328,11 @@ export function buildMonth(
   if (input.landlordId)
     for (const rule of Object.keys(ruleWhat) as (keyof typeof ruleWhat)[])
       applyRule(rule, input.landlordId);
-  const builder = [...c.finance.businesses.entries()]
-    .filter(
-      ([id, book]) =>
-        !book.closedAt &&
-        /construction/.test(book.kindId) &&
-        c.organizations.get(id)?.placeId === input.placeId,
-    )
-    .sort(
-      (a, b) =>
-        c.organizations.get(b[0])!.liquidMinor -
-          c.organizations.get(a[0])!.liquidMinor || a[0].localeCompare(b[0]),
-    )[0]?.[0];
+  const builder = buildersOf(c, input.placeId).sort(
+    (a, b) =>
+      c.organizations.get(b)!.liquidMinor -
+        c.organizations.get(a)!.liquidMinor || a.localeCompare(b),
+  )[0];
   // The place's outside market, never a public payer that also carries an outside flow.
   const outside = townOutsideOf(c.organizations.values(), input.placeId)?.id;
   let carrySingle = row.carrySingle + single,
