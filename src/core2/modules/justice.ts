@@ -48,6 +48,8 @@ import type {
   Source,
 } from "../types";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+// The director reads a bribe's record and the scandals the engine wrote through this entry.
+export { SCANDAL_REPORTED, crimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
 import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";
@@ -1968,3 +1970,6 @@ export function bribeRefusedBy(
     .get(crimeId) as unknown as CrimeRecord | undefined;
   return crime && !crime.taken ? crime.officialId : undefined;
 }
+
+// The director reads what a bribe asks for (a vote or an award) through this entry.
+export { wantedFacts } from "./corruption";

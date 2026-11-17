@@ -80,6 +80,11 @@ import {
   questionAbout,
   questionSaid,
 } from "../english/question-names";
+import {
+  ACCUSATION_TYPE,
+  accusationReads,
+  accusedBillId,
+} from "./accusation-facts";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
@@ -649,7 +654,11 @@ function composeBinding(
     record?.kind === PRESS_EXPOSED
       ? exposedFinding(coreAPI(core as CoreState), said)
       : null;
-  const billId = said.billId ?? remark?.billId ?? exposed?.billId;
+  const billId =
+    said.billId ??
+    remark?.billId ??
+    exposed?.billId ??
+    accusedBillId(core, said.crimeId);
   const named =
     billId && core.modules.has(LEGISLATURE_MODULE_ID)
       ? billOf(coreAPI(core as CoreState), billId)
@@ -1203,6 +1212,23 @@ function composeBinding(
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
   }
+  // What an accusation's lines may lean on beyond the cast: whether the bribe
+  // was taken, what the complaint is about, the firm on the bid list, who told
+  // the accuser and whether the vote is minutes away, each from the one record
+  // that holds it (accusation-facts.ts).
+  if (binding.typeKey === ACCUSATION_TYPE && said.crimeId)
+    for (const [key, fact] of Object.entries(
+      accusationReads(core, {
+        causeId: moment.causeId,
+        crimeId: said.crimeId,
+        ...(said.complaintId ? { complaintId: said.complaintId } : {}),
+        playerId: askedId,
+        accuserId: askerId,
+        sayPerson,
+        ...(facts.bill ? { billSaid: facts.bill.text } : {}),
+      }),
+    ))
+      if (!facts[key]) facts[key] = fact;
   // The finding a reporter calls about (press.ts press.exposed): a bribe, by
   // who paid it and the vote or contract it bought; a conflict, by the award,
   // the firm and whose it is. The reporter says what the story says, not only
