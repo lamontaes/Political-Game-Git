@@ -96695,16 +96695,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave", "variant-plain"],
-          "after": "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave", "variant-plain"],
           "after": "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first"
         },
         {
