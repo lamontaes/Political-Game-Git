@@ -84,6 +84,8 @@ A drawn place can name a business after a person, so a check that counts the pla
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
+- Nov 17, 12:20Z (press-comment-variants, Bondurant, Wyoming): a scandal probe asked a town's reporters for a scandal arc, and every one of them leaned friendly. Cause: an arc's score is its records times one plus the asker's pull, so no record can win where every asker's temper refuses it. Pass over a town with no asker whose traits allow the case (#9959).
+- Nov 17, 13:45Z (business-charges, Calvin, North Dakota): a town total fell with a tax raise because a TV station sold more in the raised twin. Cause: twin worlds drift apart. Compare one business at a time, only where its inputs are equal in both twins, and add the exact half (the charge equals the rate times its own wages, to the cent).
 - Nov 17, 03:47Z (pay-on-time, apology-variants): a test pinned to one borrower in Ragland, Alabama went red when the world changed and she stopped missing payments. Cause: it was pinned to a town where the case need not happen. Draw places, advance until any borrower misses, and name the places passed over.
 - Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
 - Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
