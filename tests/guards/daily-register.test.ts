@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildBenchWorld } from "../../src/bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { officeActKits } from "../../src/core2/office-day-registry";
 import { worldRecords } from "../../src/core2/snapshot";
@@ -53,12 +53,41 @@ export const approved = (entry: Entry): boolean =>
 export const needsApproval = (entry: Entry): boolean =>
   entry.section === "steps" || /^grows\b/i.test(entry.cells[0] ?? "");
 
+/**
+ * A played world at a place drawn from all 56. A place where no player can live is
+ * passed over and named, and the next draw is taken (any played world keeps every
+ * module's steps and tables, so the register is checked the same at any of them).
+ */
+function playedWorld(): {
+  world: ReturnType<typeof buildBenchWorld>;
+  place: ReturnType<typeof drawPlace>;
+} {
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < 8; draw += 1) {
+    const place = drawPlace(
+      draw ? `${seed}:${String(draw)}` : seed,
+      "daily-register",
+    );
+    try {
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      if (passedOver.length)
+        process.stderr.write(
+          `daily-register: passed over ${passedOver.join("; ")}\n`,
+        );
+      return { world, place };
+    } catch (error) {
+      if (!(error instanceof NoPlayerHereError)) throw error;
+      passedOver.push(`${place.name} (${place.key}): ${error.message}`);
+    }
+  }
+  throw new Error(`No drawn place holds a player: ${passedOver.join("; ")}`);
+}
+
 describe("the daily register", () => {
-  const place = drawPlace(seed, "daily-register");
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  const { world, place } = playedWorld();
   const core = world.core;
   const steps: string[] = [];
   for (const module of core.modules.values()) {
