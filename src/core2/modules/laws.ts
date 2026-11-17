@@ -70,6 +70,7 @@ export { townFacts, townStatePlaces } from "../law-reach/group-b-people";
 /** Who a law reached, by key, for the speeches that say what a law did. */
 export { reachedBy, reachOn } from "../law-reach/host";
 export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
+export { veteransIncomeByHousehold } from "../law-reach/group-b-veterans";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
 export { POLICY_QUESTIONS } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
