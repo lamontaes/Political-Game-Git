@@ -852,14 +852,33 @@ export function specialContestFor(
     family === "municipalOffice"
       ? municipalFilingDeadline(stateKey, race.electionDate)
       : null;
+  const usualClose = new Date(
+    Date.parse(`${race.electionDate}T00:00:00Z`) -
+      campaignParameter("specialFilingDaysBefore") * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  // A special called on short notice has its usual close behind it already:
+  // filing stays open for a share of the time left, so a petition always has
+  // days to circulate (never closing the day it opens).
+  const daysLeft = Math.max(
+    0,
+    Math.round(
+      (Date.parse(`${race.electionDate}T00:00:00Z`) -
+        Date.parse(`${api.state.date}T00:00:00Z`)) /
+        86_400_000,
+    ),
+  );
   const deadline =
     own?.date ??
-    new Date(
-      Date.parse(`${race.electionDate}T00:00:00Z`) -
-        campaignParameter("specialFilingDaysBefore") * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10);
+    (usualClose > api.state.date
+      ? usualClose
+      : addDays(
+          makeIsoDate(api.state.date),
+          Math.floor(
+            daysLeft * campaignParameter("specialShortNoticeFilingShare"),
+          ),
+        ));
   const contest: ContestRow = {
     id: `contest:${race.seatId}:${race.electionDate}:special`,
     officeId: entry.office.id,
