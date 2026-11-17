@@ -431,7 +431,7 @@
       "old": "src/director/concession-night.test.ts",
       "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
       "when": "2026-11-12",
-      "why": "It played concession-received and concession-taken, deleted by the scene inventory; the loser’s call stays in concession-reported.test.ts."
+      "why": "It played concession-received and concession-taken, deleted by the scene inventory; the loser\u2019s call stays in concession-reported.test.ts."
     },
     {
       "old": "src/director/concession-received.test.ts",
@@ -461,7 +461,7 @@
       "old": "src/director/hallway-scene.test.ts",
       "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
       "when": "2026-11-12",
-      "why": "It played hallway, deleted by the scene inventory (its causes are vote-asked’s, press-interview’s and lobby-remembers’)."
+      "why": "It played hallway, deleted by the scene inventory (its causes are vote-asked\u2019s, press-interview\u2019s and lobby-remembers\u2019)."
     },
     {
       "old": "src/director/hearing-scenes.test.ts",
@@ -497,13 +497,13 @@
       "old": "src/director/reunion-facts.ts",
       "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
       "when": "2026-11-12",
-      "why": "The reunion scene’s facts; reunion was deleted by the scene inventory (its cause was the director’s own echo, and no engine records a return)."
+      "why": "The reunion scene\u2019s facts; reunion was deleted by the scene inventory (its cause was the director\u2019s own echo, and no engine records a return)."
     },
     {
       "old": "src/director/rival-filed-late.test.ts",
       "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
       "when": "2026-11-12",
-      "why": "It played rival-filed’s late-filer cause, deleted by the scene inventory."
+      "why": "It played rival-filed\u2019s late-filer cause, deleted by the scene inventory."
     },
     {
       "old": "src/director/run-doubt-scene.test.ts",
@@ -533,7 +533,7 @@
       "old": "src/director/testimony-heard.test.ts",
       "now": "docs/design/scene-inventory.md says why; restore it from commit c7880ba20abc55778808870af7b56586dcd708ce",
       "when": "2026-11-12",
-      "why": "It played testimony-heard, deleted by the scene inventory (town-hall-question’s arc)."
+      "why": "It played testimony-heard, deleted by the scene inventory (town-hall-question\u2019s arc)."
     },
     {
       "old": "src/core2/data/elections/municipal-petition-rules.json",
@@ -570,6 +570,102 @@
       "now": "desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f",
       "when": "2026-11-15",
       "why": "It tested saved-identity-proof.mjs, deleted with it."
+    },
+    {
+      "old": "src/simulation/justice/prosecution.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "docs/night-2026-11-08",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "docs/audits/fable-vision-2026-11-09.md",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/presentation",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/simulation/people-upbringing.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/bench/data/opening-pictures.json",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/director/opening-sequence.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/presentation/character-components.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "scripts/words/w3-news-year.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/check.json",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "data/arc-variants.json",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "data/whole-figures.json",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "tests/e2e/runtime-text-audit.spec.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/presentation/life-story.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "src/presentation/person-contact.ts",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
+    },
+    {
+      "old": "docs/archive/2026-10-19",
+      "now": "removed; nothing replaces it (see docs/CURRENT.md)",
+      "when": "2026-11-16",
+      "why": "The path is not in the repository; a pointer to it was left behind."
     }
   ]
 }

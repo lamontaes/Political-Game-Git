@@ -57,7 +57,7 @@ const TYPE = (
 
 // A resident who brings a problem to office hours is the official's
 // constituent-help scene. Which arc plays is read from the constituent's own
-// records (arc-variant.ts, data/arc-variants.json): a layoff on the books
+// records (arc-variant.ts, data/arc-variants.json (removed)): a layoff on the books
 // (work.job-lost), an open rent notice on their household (the housing
 // module's cases), the problem the office's case names (pay under the minimum
 // wage the law sets) and the care their health asks of them or of someone at

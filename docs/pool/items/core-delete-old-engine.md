@@ -13,7 +13,7 @@ source: "core-needs-fixer-51 triage, Oct 15"
 claimed-at: 2026-10-28T17:50:29.121Z
 ---
 
-**What.** `src/simulation` (507 files) and `src/presentation` still hold about 940 files, down from about 1,600. Non-test code outside them that still imports them: 14 files in `src/core2` (item core-old-imports-14), `src/bench/world.ts`, `src/bench/creator.ts`, `src/education/tuition-prices.ts` and about 31 scripts. Move what is still used into core2 or rules, delete the rest, and keep `scripts/core2-guard` reachability green.
+**What.** `src/simulation` (removed) (507 files) and `src/presentation` still hold about 940 files, down from about 1,600. Non-test code outside them that still imports them: 14 files in `src/core2` (item core-old-imports-14), `src/bench/world.ts`, `src/bench/creator.ts`, `src/education/tuition-prices.ts` and about 31 scripts. Move what is still used into core2 or rules, delete the rest, and keep `scripts/core2-guard` reachability green.
 
 **Rules.** Replace, never layer: the old code, styles, data and markers are deleted in the same change, and the PR body counts what was removed.
 

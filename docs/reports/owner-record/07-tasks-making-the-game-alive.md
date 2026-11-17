@@ -145,7 +145,7 @@ conversation and Work_.
 ### A4 · Someone gets in touch with you first — WITHDRAWN, already met
 
 **I got this wrong and the people-and-life lane caught it.** I read
-`const contactAvailable = false;` at `src/presentation/person-contact.ts:81`
+`const contactAvailable = false;` at `src/presentation/person-contact.ts:81` (removed)
 as a producer switched off. It is not. It is the player's **outbound** Contact
 button, and the reason sitting beside it is true: _"No phone, mail or message
 channel exists in this life yet."_ Flipping it would claim a producer that does
@@ -258,7 +258,7 @@ what unblocks it at scale.
 **Lane:** playtesting, then whoever owns the clock. **Depends on:** nothing.
 **Start now:** yes.
 `QUIET_ADULT_STEPS: readonly number[] = [31, 47, 78, 124]` at
-`src/presentation/life-story.ts:803` on `origin/main` `273fd2b8`, selected by
+`src/presentation/life-story.ts:803` (removed) on `origin/main` `273fd2b8`, selected by
 `total % length`. This produced his _"Oh, it's April 11th, 2028. Whoa! What the
 hell happened? How did we go to April?"_ in overnight [20].
 **Alive criterion:** _some intervals are quiet_ — quiet is not the same as

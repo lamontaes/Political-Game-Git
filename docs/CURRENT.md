@@ -156,3 +156,19 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `desktop/scripts/transfer-test.mjs` | desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f | 2026-11-15 | It drove the browser save repository's export and import, which no longer exist. |
 | `desktop/scripts/saved-identity-proof.mjs` | desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f | 2026-11-15 | It read the browser save repository (IndexedDB) that no longer exists. |
 | `desktop/tests/saved-identity-proof.test.mjs` | desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f | 2026-11-15 | It tested saved-identity-proof.mjs, deleted with it. |
+| `src/simulation/justice/prosecution.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `docs/night-2026-11-08` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `docs/audits/fable-vision-2026-11-09.md` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/presentation` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/simulation/people-upbringing.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/bench/data/opening-pictures.json` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/director/opening-sequence.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/presentation/character-components.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `scripts/words/w3-news-year.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/check.json` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `data/arc-variants.json` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `data/whole-figures.json` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `tests/e2e/runtime-text-audit.spec.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/presentation/life-story.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `src/presentation/person-contact.ts` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |
+| `docs/archive/2026-10-19` | removed; nothing replaces it (see docs/CURRENT.md) | 2026-11-16 | The path is not in the repository; a pointer to it was left behind. |

@@ -241,7 +241,7 @@ function figureIn(
  * A figure holding something is drawn only where that thing belongs (owner,
  * Oct 29: phones at a rally or on the street, paper at a hearing or the
  * address desk, pen and paper at a desk; never at home), read from
- * data/whole-figures.json `propPlaces`; one holding nothing goes anywhere.
+ * data/whole-figures.json (removed) `propPlaces`; one holding nothing goes anywhere.
  */
 const PROP_PLACES: Readonly<Record<string, readonly string[]>> =
   rules.propPlaces;
