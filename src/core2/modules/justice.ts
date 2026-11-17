@@ -48,6 +48,7 @@ import type {
   Source,
 } from "../types";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+export { SCANDAL_REPORTED } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
 import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";

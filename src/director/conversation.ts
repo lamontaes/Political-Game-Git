@@ -4199,8 +4199,21 @@ function replyFacts(
     case "their-work": {
       const theirs = jobOf(core, listener);
       const said = theirs ? employerWords(theirs.org) : null;
-      // Work out of town for outside buyers has no employer to name.
-      if (theirs && !said) return null;
+      // Work out of town for outside buyers has no employer to name: the
+      // answer is the job's title and, when the record names it, the town.
+      if (theirs && !said)
+        return sayableTitle(theirs.title)
+          ? {
+              facts: {
+                "work-out-of-town": {
+                  text: "yes",
+                  sourceRecordIds: [theirs.job.id, theirs.org.id],
+                },
+                ...workDetail(core, listener, theirs, WORK_SLOTS),
+              },
+              stage: "working",
+            }
+          : null;
       if (theirs && said)
         return {
           facts: {

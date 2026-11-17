@@ -64,7 +64,7 @@ import {
   prisonersServing,
   servedShare,
 } from "./modules/justice";
-import { lawChain } from "./modules/laws";
+import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
@@ -262,6 +262,11 @@ export function stateOfficeOf(
   api: CoreAPI,
   personId: string,
 ): StateOffice | null {
+  // A world without the offices module has no state office to hold: the
+  // sitting calendars are one list for every world in the process
+  // (sitting-closeness.ts), so a small world is asked too, as
+  // `servingTermsOf` allows for.
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const terms = (
     offices.table("terms").query("byPerson", [personId]) as unknown as TermRow[]
@@ -1502,6 +1507,13 @@ function holdsPost(api: CoreAPI, personId: string): boolean {
  */
 function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
   const out = new Map<string, OfficeTime>();
+  // The office-time readers are one list for every world in the process
+  // (work.ts): a small world with no laws or offices has no state office.
+  if (
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return out;
   const stateKey = lawChain(api).stateKey;
   if (!stateKey) return out;
   const offices = api.moduleState(OFFICES_MODULE_ID);
