@@ -63,7 +63,7 @@ import {
 } from "./town-employment-mix";
 import { parameter as p } from "./parameters";
 import {
-  townBusinessCount,
+  townSeedBusiness,
   type TownBusinessCount,
 } from "./town-establishments";
 import {
@@ -945,16 +945,16 @@ function heldTownRoles(
 }
 
 /**
- * Spread the town's opening jobs over as many businesses of each kind as its
- * workers fill (owner, Nov 16: no fixed count of stores, restaurants or
- * clinics): every job of a kind's first business, from both opening passes,
- * is dealt in job order over `townBusinessCount` businesses, each written
- * with its first worker as its founder and named as play names a new
- * business. A bank or a hospital is one per source record the town has. The
- * jobs' and the work relationships' employers change in place; returns what
- * each kind opened with and why.
+ * What each kind of private work opens with: one business, the town's first
+ * of its kind, holding every opening job of the kind (owner, Nov 17: "Stop
+ * pegging things to real numbers. Everything comes from the simulation."). No
+ * count of stores, restaurants or clinics is dealt, from a table or from the
+ * county's real establishments: the founding engine opens the rest where the
+ * town's own demand outgrows what one business of the kind serves (the
+ * kind's usual size is how much that is, `kindBusinessSize`). Returns what
+ * each kind opened with, for dev mode's Businesses view.
  */
-export function spreadTownBusinesses(
+export function townSeedBusinesses(
   draft: OpeningDraft,
   town: EntityId,
   jobs: JobInput[],
@@ -967,58 +967,14 @@ export function spreadTownBusinesses(
     const match = /:employer:([a-z-]+):0$/.exec(organization.stableKey);
     if (match) kindOf.set(organization.id, match[1]!);
   }
-  const byKind = new Map<string, JobInput[]>();
+  const held = new Map<string, number>();
   for (const job of jobs) {
     const kind = kindOf.get(job.organizationId);
-    if (!kind) continue;
-    const list = byKind.get(kind) ?? [];
-    list.push(job);
-    byKind.set(kind, list);
+    if (kind) held.set(kind, (held.get(kind) ?? 0) + 1);
   }
-  const moved = new Map<string, EntityId>();
-  const counts: TownBusinessCount[] = [];
-  for (const [kind, held] of [...byKind].sort(([a], [b]) =>
-    a.localeCompare(b),
-  )) {
-    const workplace = TOWN_WORKPLACE_BY_KEY.get(kind)!;
-    const sized = townBusinessCount(town, kind, held.length, countScale);
-    const plan = SOURCED_ONLY.has(kind)
-      ? {
-          ...sized,
-          count: Math.max(
-            p("one"),
-            Math.min(sourcedTownInstitutions(town, kind).length, sized.count),
-          ),
-        }
-      : sized;
-    counts.push(plan);
-    if (plan.count <= p("one")) continue;
-    held
-      .sort((a, b) => a.id.localeCompare(b.id))
-      .forEach((job, n) => {
-        const outlet = n % plan.count;
-        if (outlet === 0) return;
-        if (n < plan.count)
-          writeTownEmployer(
-            draft,
-            town,
-            workplace,
-            outlet,
-            draft.currentDate,
-            job.personId as EntityId,
-          );
-        job.organizationId = createStableId(
-          "organization",
-          `${draft.id}:${prefix}${kind}:${outlet}`,
-        );
-        moved.set(job.id, job.organizationId as EntityId);
-      });
-  }
-  if (moved.size > 0)
-    draft.history.workRelationships.forEach((row, n) => {
-      const to = moved.get(row.id);
-      if (to)
-        draft.history.workRelationships[n] = { ...row, organizationId: to };
-    });
-  return counts;
+  return [...held]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([kind, records]) =>
+      townSeedBusiness(town, kind, records, countScale),
+    );
 }

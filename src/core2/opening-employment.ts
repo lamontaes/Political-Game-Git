@@ -13,7 +13,7 @@ import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { activeWorkers, townResidents } from "./opening-town-jobs";
 
 /** The opening's first employment pass, the town's own jobs; this file is the second. */
-export { openingTownJobs, spreadTownBusinesses } from "./opening-town-jobs";
+export { openingTownJobs, townSeedBusinesses } from "./opening-town-jobs";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_WORKPLACES,

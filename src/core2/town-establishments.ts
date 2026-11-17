@@ -1,12 +1,12 @@
 /**
- * How many businesses of each kind a town opens with (owner, Nov 16: every
- * town's stores, restaurants and clinics sized from its own people, not a
- * fixed three). A kind's usual business size is its sector's private
- * employment over its establishments in the town's counties (Census 2023
- * County Business Patterns); the town opens with as many businesses of the
- * kind as its own workers in that kind fill at that size. Nothing is drawn
- * and nothing is tuned: a county whose sector figure the Census withheld
- * reads its state's counties, and a state with none reads the nation's.
+ * How big one business of a kind runs in a town (owner, Nov 17: "Everything
+ * comes from the simulation. Stop pegging things to real numbers."). A kind's
+ * usual size is its sector's private employment over its establishments in
+ * the town's counties (Census 2023 County Business Patterns), the strength
+ * that says how much one business serves; a county whose sector figure the
+ * Census withheld reads its state's counties, and a state with none reads the
+ * nation's. It sets no count: a town opens with one business of each kind and
+ * the business engine founds more where demand outgrows it.
  */
 import type { EntityId } from "./kernel/brands";
 import { corePlaceByJurisdictionId } from "./place-lookup";
@@ -17,6 +17,7 @@ import {
   TOWN_EMPLOYMENT_META,
 } from "./reference/town-employment.generated";
 import { workplaceSector } from "./town-employment-mix";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "./business-books";
 
 type Sector = (typeof TOWN_EMPLOYMENT_META.sectors)[number];
 
@@ -32,11 +33,11 @@ export interface SectorBusinessSize {
   readonly basis: BusinessSizeBasis;
 }
 
-/** Why a town opens with the businesses of one kind it does. */
+/** What a town opened with for one kind of work. */
 export interface TownBusinessCount {
   /** The workplace kind (`TOWN_WORKPLACES` key). */
   readonly kind: string;
-  /** How many businesses the town opens with. */
+  /** How many businesses the town opens with: the seed, one. */
   readonly count: number;
   /** The town's workers in the kind at its real size. */
   readonly workers: number;
@@ -134,31 +135,39 @@ export function sectorBusinessSize(
 }
 
 /**
- * How many businesses of a kind the town opens with: its real workers in the
- * kind (`records` generated worker records, each standing for `scale` real
- * workers) over the sector's usual business size, at least one. A business
- * needs a worker record, so it is never more than the records. A workplace no
- * private sector lists (a police department, a post office) is one public
- * employer.
+ * A kind's usual business size in a town: how many workers one business of
+ * the kind runs, from its Census sector (`censusSector` on the kind). It is
+ * how much demand one business serves, never how many there are.
  */
-export function townBusinessCount(
+export function kindBusinessSize(
+  town: string,
+  kindId: string,
+): SectorBusinessSize | null {
+  const sector = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
+    (row) => row.id === kindId,
+  )?.censusSector;
+  return sector ? sectorBusinessSize(town as EntityId, sector as Sector) : null;
+}
+
+/**
+ * The one business a town opens with for a kind (`records` generated worker
+ * records, each standing for `scale` real workers): the first of its kind,
+ * which every opening job of the kind belongs to. The rest are founded by the
+ * business engine where demand outgrows it, so `size` is read for the Businesses
+ * view and nothing here sets a count.
+ */
+export function townSeedBusiness(
   town: EntityId,
   kind: string,
   records: number,
   scale: number,
 ): TownBusinessCount {
-  const workers = records * scale;
   const sector = workplaceSector(kind);
-  const size = sector ? sectorBusinessSize(town, sector) : null;
-  if (!size || records <= 0)
-    return { kind, count: 1, workers, size, heldToRecords: false };
-  const wanted = Math.max(1, Math.round(workers / size.size));
-  const most = Math.max(1, Math.round(records));
   return {
     kind,
-    count: Math.min(wanted, most),
-    workers,
-    size,
-    heldToRecords: wanted > most,
+    count: 1,
+    workers: records * scale,
+    size: sector ? sectorBusinessSize(town, sector) : null,
+    heldToRecords: false,
   };
 }

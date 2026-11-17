@@ -5,7 +5,7 @@ import {
   openingEmploymentFromRecordedRoles,
   openingJobStart,
   openingTownJobs,
-  spreadTownBusinesses,
+  townSeedBusinesses,
 } from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
 import {
@@ -1087,9 +1087,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobs.push(job);
     jobByPerson.set(job.personId, job);
   }
-  // Every opening job is made: the town opens with as many businesses of
-  // each kind as its workers fill.
-  const businessCounts = spreadTownBusinesses(world, town, jobs, countScale);
+  // Every opening job is made: the town opens with one business of each
+  // kind its workers fill, and the founding engine opens the rest.
+  const businessCounts = townSeedBusinesses(world, town, jobs, countScale);
   // When each opening job was taken, by one rule (openingJobStart): the
   // opening's own hires carry it from the allocation; a relationship the
   // world wrote is estimated the same way (its own start is the old median

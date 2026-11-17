@@ -1,113 +1,85 @@
 /**
- * A town opens with as many businesses of each kind as its own workers fill
- * at the county's usual business size (Census 2023 County Business
- * Patterns), not a fixed three stores, three restaurants and one clinic.
- * Pinned places and seeds: a small town (Edgar, Wisconsin), a mid-size town
- * (Pierre, South Dakota) and a city opened at its Census size (Danville,
- * Virginia, where each generated resident stands for about four).
+ * A town opens with one business of each kind its workers fill, and its
+ * businesses after that are the ones the founding engine opens where the
+ * town's own demand outgrows what one business serves (owner, Nov 17:
+ * "Stop pegging things to real numbers. Everything comes from the
+ * simulation."). Played in three places drawn from all 56 on a seed nobody
+ * chose (NATION_SEED replays), a year each: at the opening no kind has a
+ * count dealt from a table or the county's real establishments, and after
+ * the year the towns' mixes differ for their own reasons (record ids of the
+ * foundings named).
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { corePlaceByKey } from "./place-lookup";
-import { buildPopulation } from "./population";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import { TOWN_WORKPLACE_BY_KEY } from "./town-workplaces";
-import type { TownBusinessCount } from "./town-establishments";
-import type { CoreInput } from "./types";
+import type { CoreState } from "./types";
 
-const PLACES = [
-  { name: "Edgar, Wisconsin", key: "5522550", seed: "edgar-petition-1" },
-  { name: "Pierre, South Dakota", key: "4649600", seed: "size-4649600" },
-  { name: "Danville, Virginia", key: "5121344", seed: "size-5121344" },
-] as const;
+const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 3;
 
-const opened = new Map<string, CoreInput>();
-function open(place: (typeof PLACES)[number]): CoreInput {
-  let input = opened.get(place.key);
-  if (!input) {
-    input = buildPopulation({
-      seed: place.seed,
-      startedAt: "2025-01-01",
-      placeKey: place.key,
-      openAtCensusScale: true,
-    });
-    opened.set(place.key, input);
+/** The town's open businesses by kind, from the books. */
+function mix(core: CoreState, placeId: string) {
+  const counts = new Map<string, number>();
+  for (const [id, book] of core.finance.businesses) {
+    if (book.closedAt || core.organizations.get(id)?.placeId !== placeId)
+      continue;
+    counts.set(book.kindId, (counts.get(book.kindId) ?? 0) + 1);
   }
-  return input;
+  return counts;
 }
 
-const countsOf = (input: CoreInput) =>
-  new Map(
-    (
-      JSON.parse(
-        input.placeMetadata!.openingBusinessCounts!,
-      ) as TownBusinessCount[]
-    ).map((row) => [row.kind, row]),
-  );
-
-describe("a town's businesses are sized from its own workers", () => {
-  for (const place of PLACES)
-    it(`${place.name}: every kind's count is its workers over the county's business size, and every job's employer exists`, () => {
-      const input = open(place);
-      const scale = Number(input.placeMetadata!.openingCountScale);
-      const counts = countsOf(input);
-      const organizations = new Set(input.organizations.map((row) => row.id));
-      const jobsAt = new Map<string, number>();
-      for (const job of input.jobs) {
-        expect(organizations.has(job.organizationId), job.id).toBe(true);
-        jobsAt.set(
-          job.organizationId,
-          (jobsAt.get(job.organizationId) ?? 0) + 1,
-        );
-      }
-      for (const row of counts.values()) {
-        expect(row.count, row.kind).toBeGreaterThanOrEqual(1);
-        if (!row.size) {
-          expect(row.count, row.kind).toBe(1);
-          continue;
-        }
-        const records = row.workers / scale;
-        const wanted = Math.max(1, Math.round(row.workers / row.size.size));
-        expect(row.count, row.kind).toBe(
-          Math.min(wanted, Math.max(1, Math.round(records))),
-        );
-        expect(row.heldToRecords, row.kind).toBe(wanted > row.count);
-      }
-      // The jobs are dealt evenly: the town's businesses of a kind differ by
-      // at most one job record.
-      const town = corePlaceByKey(place.key)!.context.jurisdiction.id;
-      for (const row of counts.values()) {
-        const classification = TOWN_WORKPLACE_BY_KEY.get(
-          row.kind,
-        )!.classification;
-        const held = input.organizations
-          .filter(
+describe(`a town's businesses come from its own demand (seed ${seed})`, () => {
+  it(
+    "opens with one business of a kind and founds more where demand outgrows it",
+    { timeout: 1_800_000 },
+    () => {
+      const ends: string[] = [];
+      let founded = 0;
+      for (let at = 0; at < DRAWS; at += 1) {
+        const place = drawPlace(`${seed}:${at}`, "town-businesses");
+        const world = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+        const core = world.core;
+        const town = core.people.get(core.playerId!)!.placeId;
+        const opening = mix(core, town);
+        // Every kind of workplace the opening deals is one organization.
+        for (const workplace of TOWN_WORKPLACE_BY_KEY.values()) {
+          const dealt = [...core.organizations.values()].filter(
             (org) =>
-              org.placeId === town && org.classification === classification,
-          )
-          .map((org) => jobsAt.get(org.id) ?? 0);
-        if (held.length < 2) continue;
-        expect(
-          Math.max(...held) - Math.min(...held),
-          row.kind,
-        ).toBeLessThanOrEqual(1);
+              org.placeId === town &&
+              org.classification === workplace.classification,
+          );
+          expect(
+            dealt.length,
+            `${place.name} (${place.key}), seed ${place.seed}: ${workplace.key} opened with ${dealt.length}, dealt rather than founded`,
+          ).toBeLessThanOrEqual(1);
+        }
+        advanceCore(core, addDays(makeIsoDate(core.date), 365));
+        const after = mix(core, town);
+        const added = [...after].filter(
+          ([kind, count]) => count > (opening.get(kind) ?? 0),
+        );
+        founded += added.length;
+        ends.push(
+          `${place.name} (${place.key}), seed ${place.seed}: ${JSON.stringify(Object.fromEntries([...after].sort()))}`,
+        );
       }
-    }, 30_000);
-
-  it("Danville, Virginia: a city opens with many stores and restaurants, each near the county's usual size", () => {
-    const counts = countsOf(open(PLACES[2]));
-    const retail = counts.get("retail")!;
-    const restaurant = counts.get("restaurant")!;
-    expect(retail.count).toBeGreaterThan(50);
-    expect(restaurant.count).toBeGreaterThan(20);
-    for (const row of [retail, restaurant]) {
-      const perBusiness = row.workers / row.count;
-      expect(perBusiness).toBeGreaterThan(row.size!.size / 2);
-      expect(perBusiness).toBeLessThan(row.size!.size * 2);
-    }
-  }, 30_000);
-
-  it("Edgar, Wisconsin: a small town keeps a few of each, and a public employer is one", () => {
-    const counts = countsOf(open(PLACES[0]));
-    expect(counts.get("retail")!.count).toBeLessThan(10);
-    expect(counts.get("police")?.count ?? 1).toBe(1);
-  }, 30_000);
+      process.stdout.write(
+        `town businesses after a year: ${ends.join("; ")}\n`,
+      );
+      expect(founded, "some kind was founded past its first").toBeGreaterThan(
+        0,
+      );
+      expect(
+        new Set(ends.map((row) => row.split(": ")[1])).size,
+      ).toBeGreaterThan(1);
+    },
+  );
 });
