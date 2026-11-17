@@ -60,5 +60,24 @@
   "rangeAssertion": "\\.(?:toBeGreaterThan|toBeGreaterThanOrEqual|toBeLessThan|toBeLessThanOrEqual|toBeCloseTo)\\s*\\(",
   "spellingFiles": "^(?:\\.agents/|\\.claude/|docs/).*\\.md$|^(?:AGENTS|CLAUDE)\\.md$",
   "stampLines": ["Verified:", "Feature map rows:", "Screenshot:", "CTO line:"],
-  "skillMirror": "^(\\.agents|\\.claude)/skills/(.+)$"
+  "skillMirror": "^(\\.agents|\\.claude)/skills/(.+)$",
+  "observe": [
+    "own-rules",
+    "test-deleted",
+    "expected-failure",
+    "known-red-row",
+    "failing-today-row",
+    "pinned-place-or-seed",
+    "drawn-seed-dropped",
+    "cases-dropped",
+    "assertions-dropped",
+    "level-row-added",
+    "baseline-raised",
+    "skill-added",
+    "skill-copies-differ",
+    "guard-unlisted",
+    "research-band",
+    "british-spelling",
+    "stamp-missing"
+  ]
 }

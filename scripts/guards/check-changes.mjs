@@ -222,6 +222,20 @@ function wholeChangeFindings(changes, rules, readHead) {
  * @param {any} rules
  * @returns {string[]}
  */
+/**
+ * A new rule starts in observe mode (CTO, Nov 17, 05:22Z on #9747: "How
+ * every new gate starts: in observe mode first"): its findings are reported
+ * and do not refuse the pull request, until the CTO takes its id out of
+ * `observe` in the rules file on main.
+ */
+export function splitByMode(findings, rules) {
+  const observe = new Set(rules.observe ?? []);
+  return {
+    enforced: findings.filter((finding) => !observe.has(finding.id)),
+    observed: findings.filter((finding) => observe.has(finding.id)),
+  };
+}
+
 export function stampMissing(body, rules) {
   return rules.stampLines.filter(
     (line) => !new RegExp(`^${line}`, "m").test(body),
@@ -382,16 +396,27 @@ async function main() {
     console.log("check-changes: this change loosens no check.");
     return;
   }
-  for (const finding of findings)
+  const { enforced, observed } = splitByMode(findings, rules);
+  for (const finding of observed)
+    console.log(
+      `${process.env.GITHUB_ACTIONS ? "::warning::" : ""}${finding.path}: ${finding.says} [${finding.id}, observe mode: reported, not refused]`,
+    );
+  for (const finding of enforced)
     console.log(`${finding.path}: ${finding.says} [${finding.id}]`);
+  if (enforced.length === 0) {
+    console.log(
+      `check-changes: ${observed.length} finding(s), all from rules in observe mode; the CTO switches a rule to enforce by taking its id out of "observe" in tests/guards/check-changes.json on main.`,
+    );
+    return;
+  }
   if (approvedOnCrewIssue(rules)) {
     console.log(
-      `check-changes: ${findings.length} finding(s), approved by a CTO line on issue #${rules.crewIssue} for #${process.env.PR_NUMBER}.`,
+      `check-changes: ${enforced.length} finding(s), approved by a CTO line on issue #${rules.crewIssue} for #${process.env.PR_NUMBER}.`,
     );
     return;
   }
   console.error(
-    `check-changes: ${findings.length} finding(s). No session edits the checks that judge it. ` +
+    `check-changes: ${enforced.length} finding(s). No session edits the checks that judge it. ` +
       `Fix the cause and take the mark out, or ask on issue #${rules.crewIssue} for a line that starts "CTO:" and approves this pull request by number (CTO: check change approved #<number>).`,
   );
   process.exitCode = 1;

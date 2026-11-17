@@ -1,7 +1,12 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { britishSpellings } from "../prose-eval/american-spelling";
-import { approves, checkChanges, stampMissing } from "./check-changes.mjs";
+import {
+  approves,
+  checkChanges,
+  splitByMode,
+  stampMissing,
+} from "./check-changes.mjs";
 
 const rules = JSON.parse(
   readFileSync("tests/guards/check-changes.json", "utf8"),
@@ -378,5 +383,34 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       "CTO: \n- #9752 approved, as before. #9801 and #9793 need no line.";
     expect(approves(comment, 9801, rules)).toBe(false);
     expect(approves(comment, 9752, rules)).toBe(true);
+  });
+
+  it("reports an observe-mode rule's finding without refusing, and refuses once the rule is taken out of observe", () => {
+    const finding = { path: "a.test.ts", id: "expected-failure", says: "x" };
+    expect(rules.observe, "every new rule starts in observe mode").toContain(
+      "expected-failure",
+    );
+    expect(splitByMode([finding], rules)).toEqual({
+      enforced: [],
+      observed: [finding],
+    });
+    expect(splitByMode([finding], { ...rules, observe: [] })).toEqual({
+      enforced: [finding],
+      observed: [],
+    });
+  });
+
+  it("names only rule ids the guard can find in observe", () => {
+    const script = readFileSync("scripts/guards/check-changes.mjs", "utf8");
+    const ids = new Set([
+      ...rules.counts.map((rule: { id: string }) => rule.id),
+      ...[...script.matchAll(/(?:add\(|id: |\[)\s*"([a-z]+-[a-z-]+)"/g)].map(
+        (match) => match[1],
+      ),
+      ...[...script.matchAll(/^\s+"([a-z]+-[a-z-]+)",$/gm)].map(
+        (match) => match[1],
+      ),
+    ]);
+    for (const id of rules.observe) expect(ids, id).toContain(id);
   });
 });
