@@ -5,6 +5,7 @@
  * the cards of the member and of the player opens a record in dev mode's Trace. The place and
  * seed are in every message; replay with LIFE_SEED and LIFE_PLACE_KEY.
  */
+import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -13,6 +14,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { lifeOf } from "../core2/modules/people";
+import { organizationName as organizationNameAt } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreEventInput, IsoDate } from "../core2/types";
 import { inOrderParagraphs } from "./ui/strips.mjs";
@@ -20,154 +22,168 @@ import { knownCard } from "./card";
 import { traceNode } from "./dev-trace";
 import { buildBenchWorld } from "./world";
 
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env LIFE_SEED or randomBytes, so the places it drew changed every
-// run. The fixed seed below draws East Merrimack, New Hampshire (3321780) first
-// for "card-life".
-// Two cases stay red here for item
-// tests-card-life-employer-missing-and-player-alone: red on every Train head
-// from the pin (749af289) to ff41d81e, the same records each run, three runs a
-// head (Nov 16). A note that they passed from 8d26a629 was wrong.
-// Limit: the slowest case took 147 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 300 s.
-const seed = "pin-card-life";
-const drawn = drawPlace(seed, "card-life");
-const placeKey = process.env.LIFE_PLACE_KEY ?? drawn.key;
+// The seed is drawn each run (LIFE_SEED replays one; LIFE_PLACE_KEY replays a
+// place). The cases need a player who shares a home with someone living, so
+// the shared world is the first draw whose player has a living household
+// member; every place passed over is named (a player who lives alone is the
+// place, not a fault: item tests-card-life-employer-missing-and-player-alone).
+// Limit: 600 s, the drawn test's own limit before it was pinned. The slowest
+// case took 147 s at one place, and a draw may build several worlds first.
+const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 8;
 
-let built: ReturnType<typeof buildBenchWorld> | undefined;
-/** One drawn world, played 60 days, shared by the tests of this file. */
+let built:
+  | (ReturnType<typeof buildBenchWorld> & {
+      placeKey: string;
+      drawSeed: string;
+    })
+  | undefined;
+const passedOver: string[] = [];
+/** One drawn world whose player lives with someone, played 60 days, shared by the tests of this file. */
 function played() {
   if (!built) {
     setBookkeeping(false);
-    built = buildBenchWorld(drawn.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey,
-    });
-    advanceCore(built.core, addDays(makeIsoDate(built.core.date), 60));
+    for (let draw = 0; draw < DRAWS && !built; draw += 1) {
+      // The first draw is the seed itself, so LIFE_SEED replays a reported world.
+      const drawSeed = draw === 0 ? seed : `${seed}:${draw}`;
+      const place = drawPlace(drawSeed, "card-life");
+      const placeKey = process.env.LIFE_PLACE_KEY ?? place.key;
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey,
+      });
+      const player = world.core.people.get(world.core.playerId!)!;
+      const home = world.core.households.get(player.householdId);
+      const living = (home?.memberIds ?? []).filter(
+        (id) => id !== player.id && world.core.people.get(id)?.alive,
+      );
+      if (!living.length) {
+        passedOver.push(
+          `${world.place.displayName} (${placeKey}), seed ${drawSeed}: the player lives alone`,
+        );
+        continue;
+      }
+      advanceCore(world.core, addDays(makeIsoDate(world.core.date), 60));
+      built = { ...world, placeKey, drawSeed };
+      process.stdout.write(
+        `card-life: ${world.place.displayName} (${placeKey}), seed ${drawSeed}; passed over: ${passedOver.join("; ") || "none"}\n`,
+      );
+    }
+    if (!built)
+      throw new Error(
+        `card-life: no drawn place's player lives with anyone (seed ${seed}): ${passedOver.join("; ")}`,
+      );
   }
   return {
     ...built,
-    where: `${built.place.displayName} (${placeKey}), seed ${seed}`,
+    where: `${built.place.displayName} (${built.placeKey}), seed ${built.drawSeed}`,
   };
 }
 
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "card-life")).toMatchObject({
-    key: "3321780",
-    name: "East Merrimack, New Hampshire",
-  });
-});
+it("a household member's card tells a job lost and an illness from play, and every line opens a record", () => {
+  const world = played();
+  const { core, director, playerId, where } = world;
+  const player = core.people.get(playerId!)!;
+  const member = [...(core.households.get(player.householdId)?.memberIds ?? [])]
+    .map((id) => core.people.get(id))
+    .find((row) => row && row.id !== playerId && row.alive);
+  expect(member, `${where}: a living household member`).toBeDefined();
+  const orgId = [...core.organizations.values()].find(
+    (row) => row.name && row.kind !== "government",
+  )!.id;
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: core.date as IsoDate,
+    citation: "A test of the person card.",
+    estimatedFrom: "card-life.test.ts",
+  };
+  const lost = `event:work.job-lost:${core.date}:card-life-${member!.id}`;
+  const ill = `health.serious-illness:${member!.id}:${core.date}`;
+  const common = {
+    date: core.date as IsoDate,
+    personIds: [member!.id],
+    placeId: member!.placeId,
+    source,
+  };
+  const api = coreAPI(core);
+  api.emit({
+    ...common,
+    id: lost,
+    kind: "work.job-lost",
+    publicRecord: false,
+    topic: orgId,
+    facts: { decidedBy: orgId, organizationId: orgId },
+  } as CoreEventInput);
+  api.emit({
+    ...common,
+    id: ill,
+    kind: "health.serious-illness",
+    topic: "health:serious-illness",
+    facts: { [`event:${ill}:condition`]: "serious-illness" },
+  } as CoreEventInput);
 
-it.fails(
-  "a household member's card tells a job lost and an illness from play, and every line opens a record (expected failure, item tests-card-life-employer-missing-and-player-alone)",
-  () => {
-    const world = played();
-    const { core, director, playerId, where } = world;
-    const player = core.people.get(playerId!)!;
-    const member = [
-      ...(core.households.get(player.householdId)?.memberIds ?? []),
-    ]
-      .map((id) => core.people.get(id))
-      .find((row) => row && row.id !== playerId && row.alive);
-    expect(member, `${where}: a living household member`).toBeDefined();
-    const orgId = [...core.organizations.values()].find(
-      (row) => row.name && row.kind !== "government",
-    )!.id;
-    const source = {
-      tag: "ESTIMATED" as const,
-      asOf: core.date as IsoDate,
-      citation: "A test of the person card.",
-      estimatedFrom: "card-life.test.ts",
-    };
-    const lost = `event:work.job-lost:${core.date}:card-life-${member!.id}`;
-    const ill = `health.serious-illness:${member!.id}:${core.date}`;
-    const common = {
-      date: core.date as IsoDate,
-      personIds: [member!.id],
-      placeId: member!.placeId,
-      source,
-    };
-    const api = coreAPI(core);
-    api.emit({
-      ...common,
-      id: lost,
-      kind: "work.job-lost",
-      publicRecord: false,
-      topic: orgId,
-      facts: { decidedBy: orgId, organizationId: orgId },
-    } as CoreEventInput);
-    api.emit({
-      ...common,
-      id: ill,
-      kind: "health.serious-illness",
-      topic: "health:serious-illness",
-      facts: { [`event:${ill}:condition`]: "serious-illness" },
-    } as CoreEventInput);
+  // Fixtures (hand-made events, shaped as wage-floor.ts and voting.ts write them): a raise the
+  // minimum wage brought, and a primary the member was put out of.
+  const raised = `minimum-wage-raise:fixture-${member!.id}:${core.date}`;
+  const primary = `primary-result:fixture-${member!.id}`;
+  api.emit({
+    ...common,
+    id: raised,
+    kind: "pay-raised-to-minimum-wage",
+    facts: {
+      jobId: "fixture-job",
+      fromMinor: "1000",
+      toMinor: "1200",
+      lawId: "fixture-law",
+    },
+  } as CoreEventInput);
+  api.emit({
+    ...common,
+    id: primary,
+    kind: "primary-result",
+    publicRecord: true,
+    facts: {
+      contestId: "fixture-contest",
+      office: "Council Member",
+      outIds: JSON.stringify([member!.id]),
+    },
+  } as CoreEventInput);
 
-    // Fixtures (hand-made events, shaped as wage-floor.ts and voting.ts write them): a raise the
-    // minimum wage brought, and a primary the member was put out of.
-    const raised = `minimum-wage-raise:fixture-${member!.id}:${core.date}`;
-    const primary = `primary-result:fixture-${member!.id}`;
-    api.emit({
-      ...common,
-      id: raised,
-      kind: "pay-raised-to-minimum-wage",
-      facts: {
-        jobId: "fixture-job",
-        fromMinor: "1000",
-        toMinor: "1200",
-        lawId: "fixture-law",
-      },
-    } as CoreEventInput);
-    api.emit({
-      ...common,
-      id: primary,
-      kind: "primary-result",
-      publicRecord: true,
-      facts: {
-        contestId: "fixture-contest",
-        office: "Council Member",
-        outIds: JSON.stringify([member!.id]),
-      },
-    } as CoreEventInput);
+  const card = knownCard(core, playerId!, member!.id);
+  expect(
+    card.history.find((line) => line.recordId === raised)?.text,
+    `${where}: fixture raise`,
+  ).toMatch(/got a raise when the minimum wage went up in \d{4}\./);
+  expect(
+    card.history.find((line) => line.recordId === primary)?.text,
+    `${where}: fixture primary`,
+  ).toMatch(/lost the primary for council member\./);
+  const byRecord = new Map(card.history.map((line) => [line.recordId, line]));
+  expect(byRecord.has(lost), `${where}: the job lost, ${lost}`).toBe(true);
+  expect(byRecord.has(ill), `${where}: the illness, ${ill}`).toBe(true);
+  expect(byRecord.get(lost)!.text, where).toContain(
+    core.organizations.get(orgId)!.name,
+  );
+  expect(byRecord.get(lost)!.kind, where).toBe("work");
+  expect(byRecord.get(ill)!.kind, where).toBe("health");
 
-    const card = knownCard(core, playerId!, member!.id);
-    expect(
-      card.history.find((line) => line.recordId === raised)?.text,
-      `${where}: fixture raise`,
-    ).toMatch(/got a raise when the minimum wage went up in \d{4}\./);
-    expect(
-      card.history.find((line) => line.recordId === primary)?.text,
-      `${where}: fixture primary`,
-    ).toMatch(/lost the primary for council member\./);
-    const byRecord = new Map(card.history.map((line) => [line.recordId, line]));
-    expect(byRecord.has(lost), `${where}: the job lost, ${lost}`).toBe(true);
-    expect(byRecord.has(ill), `${where}: the illness, ${ill}`).toBe(true);
-    expect(byRecord.get(lost)!.text, where).toContain(
-      core.organizations.get(orgId)!.name,
-    );
-    expect(byRecord.get(lost)!.kind, where).toBe("work");
-    expect(byRecord.get(ill)!.kind, where).toBe("health");
-
-    // Every line of both cards opens a record in Trace.
-    const mine = knownCard(core, playerId!, playerId!);
-    const lines = [...card.history, ...mine.history];
-    const missing = lines.filter(
-      (line) =>
-        traceNode(core, director, line.recordId).answer === "not-a-record",
-    );
-    expect(
-      missing.map((line) => `${line.recordId}: ${line.text}`),
-      where,
-    ).toEqual([]);
-    // The player's own life is told to them, in the second person.
-    expect(mine.history.length, where).toBeGreaterThan(0);
-    console.log(
-      `card-life: ${where}; ${member!.id} told ${card.history.length} lines, the player ${mine.history.length}; all ${lines.length} open in Trace`,
-    );
-  },
-  300_000,
-);
+  // Every line of both cards opens a record in Trace.
+  const mine = knownCard(core, playerId!, playerId!);
+  const lines = [...card.history, ...mine.history];
+  const missing = lines.filter(
+    (line) =>
+      traceNode(core, director, line.recordId).answer === "not-a-record",
+  );
+  expect(
+    missing.map((line) => `${line.recordId}: ${line.text}`),
+    where,
+  ).toEqual([]);
+  // The player's own life is told to them, in the second person.
+  expect(mine.history.length, where).toBeGreaterThan(0);
+  console.log(
+    `card-life: ${where}; ${member!.id} told ${card.history.length} lines, the player ${mine.history.length}; all ${lines.length} open in Trace`,
+  );
+}, 600_000);
 
 it("the player's own life is told in the first person, never repeats who they are, and no `.you` piece is left", () => {
   const { core, playerId, where } = played();
@@ -215,52 +231,51 @@ it("the player's own life is told in the first person, never repeats who they ar
     ).toEqual([]);
 });
 
-it.fails(
-  "three or more jobs are one sentence naming every employer, on every job's record (expected failure, item tests-card-life-employer-missing-and-player-alone)",
-  () => {
-    const { core, playerId, where } = played();
-    const spells = (id: string) =>
-      lifeOf(core, id as never).filter(
-        (event) => event.life === "work" && event.what === "job-started",
-      );
-    const worker = [...core.people.values()].find(
-      (row) =>
-        row.id !== playerId &&
-        new Set(spells(row.id).map((event) => event.facts?.organizationId))
-          .size >= 3,
+it("three or more jobs are one sentence naming every employer, on every job's record", () => {
+  const { core, playerId, where } = played();
+  const spells = (id: string) =>
+    lifeOf(core, id as never).filter(
+      (event) => event.life === "work" && event.what === "job-started",
     );
-    if (!worker) {
-      console.log(`card-life jobs: ${where}; no one with three employers`);
-      return;
-    }
-    const card = knownCard(core, playerId!, worker.id);
-    // The one sentence of several jobs, by the piece that worded it (its
-    // wordings vary: "held jobs at A and B before C", "bounced from A to C").
-    const jobs = card.history.filter((line) =>
-      line.piece.startsWith("person-history.story.work.history."),
-    );
-    expect(jobs, `${where}: ${worker.id}`).toHaveLength(1);
-    const employers = [
-      ...new Set(
-        spells(worker.id).map(
-          (event) =>
-            core.organizations.get(String(event.facts?.organizationId))!.name,
-        ),
-      ),
-    ];
-    for (const name of employers)
-      expect(jobs[0]!.text, `${where}: ${name}`).toContain(name);
-    for (const event of spells(worker.id))
-      expect(jobs[0]!.records, `${where}: ${event.id}`).toContain(event.id);
-    expect(
-      card.history.filter((line) =>
-        line.piece.startsWith("person-history.story.work.spell."),
-      ),
-      where,
-    ).toEqual([]);
-    console.log(`card-life jobs: ${where}; ${worker.id}: ${jobs[0]!.text}`);
-  },
-);
+  const worker = [...core.people.values()].find(
+    (row) =>
+      row.id !== playerId &&
+      new Set(spells(row.id).map((event) => event.facts?.organizationId))
+        .size >= 3,
+  );
+  if (!worker) {
+    console.log(`card-life jobs: ${where}; no one with three employers`);
+    return;
+  }
+  const card = knownCard(core, playerId!, worker.id);
+  // The one sentence of several jobs, by the piece that worded it (its
+  // wordings vary: "held jobs at A and B before C", "bounced from A to C").
+  const jobs = card.history.filter((line) =>
+    line.piece.startsWith("person-history.story.work.history."),
+  );
+  expect(jobs, `${where}: ${worker.id}`).toHaveLength(1);
+  const employers = [
+    ...new Set(
+      spells(worker.id).map((event) => {
+        // A world employer by its record; one in a place the world keeps
+        // none for (a job before they came to town) as the card names it.
+        const id = String(event.facts?.organizationId);
+        return core.organizations.get(id)?.name ?? organizationNameAt(core, id);
+      }),
+    ),
+  ];
+  for (const name of employers)
+    expect(jobs[0]!.text, `${where}: ${name}`).toContain(name);
+  for (const event of spells(worker.id))
+    expect(jobs[0]!.records, `${where}: ${event.id}`).toContain(event.id);
+  expect(
+    card.history.filter((line) =>
+      line.piece.startsWith("person-history.story.work.spell."),
+    ),
+    where,
+  ).toEqual([]);
+  console.log(`card-life jobs: ${where}; ${worker.id}: ${jobs[0]!.text}`);
+});
 
 it("a partner the person was made with is told before their children", () => {
   const { core, playerId, where } = played();
