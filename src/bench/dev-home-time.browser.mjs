@@ -48,7 +48,14 @@ try {
     .first()
     .evaluate((e) => e.click());
   const rows = page.locator(".roster-screen.people .roster-row");
-  await rows.first().waitFor();
+  await rows
+    .first()
+    .waitFor()
+    .catch(async (e) => {
+      if (shots)
+        await page.screenshot({ path: `${shots}/dev-home-time-no-roster.png` });
+      throw e;
+    });
   const count = Math.min(12, await rows.count());
   for (let i = 0; i < count && !found; i += 1) {
     await rows.nth(i).click();
