@@ -46,8 +46,16 @@ describe("an estate keeps its heirs through probate (played world)", () => {
                 : will
                   ? []
                   : heirsOf(api, p).heirs;
+            // By the law, a share passes down to an heir's own children
+            // only in the descendants' class (Uniform Probate Code §2-103,
+            // §2-106): a dead parent's share goes to the surviving parent.
+            // So the heir is the decedent's own child there.
             return named
-              .filter((h) => kidsOf(h).length > 0)
+              .filter(
+                (h) =>
+                  kidsOf(h).length > 0 &&
+                  (by === "will" || kidsOf(p.id).includes(h)),
+              )
               .map((h) => ({ dead: p.id, heir: h }));
           })[0];
 

@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { findRecord } from "../bench/dev-trace";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -195,6 +196,11 @@ it(`counted giving and home time are each world's own over a played year, seed $
       }[];
     }[];
     const pairs = homes.flatMap((row) => row.pairs);
+    // Dev mode's Trace box opens what a household's time at home was made of.
+    const traced = findRecord(core, (homes[0] as unknown as { id: string }).id);
+    expect(traced?.engine, `${place.name}: home-time trace`).toBe(
+      "core2-people-p15-v1.home-time",
+    );
     expect(pairs.length, `${place.name}: home-time pairs`).toBeGreaterThan(0);
     // Pairs' shared minutes differ with their weeks, not one fixed figure.
     expect(
@@ -222,6 +228,9 @@ it(`counted giving and home time are each world's own over a played year, seed $
       );
       continue;
     }
+    expect(findRecord(core, gifts[0]!.id)?.engine).toBe(
+      "core2-drives-p10-v1.counted-giving",
+    );
     for (const row of gifts) {
       expect(row.countedGivers, `${place.name} ${row.id}`).toBe(
         Math.floor(

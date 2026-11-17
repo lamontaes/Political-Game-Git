@@ -270,6 +270,8 @@ export function willReasons(
   let heirs = p("zero");
   for (const [id, relation] of relationsOf(person))
     if (WILL_HEIRS.has(relation) && livingKin(api, id)) heirs += p("one");
+  // A person kept with no living cost of their own (an official outside the
+  // town) has no measure of what their savings would keep them for.
   const months =
     monthlyCostMinor > p("zero") ? estateMinor / monthlyCostMinor : p("zero");
   return {

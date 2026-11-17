@@ -15,6 +15,7 @@ import { coreAPI } from "../../src/core2/state";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { reserveHours } from "../../src/core2/free-block";
+import { willOf, willReasons } from "../../src/core2/estates";
 import { drawPlace } from "./place";
 
 setBookkeeping(false);
@@ -111,6 +112,31 @@ for (let draw = 0; draw < 3; draw += 1) {
     }`,
   );
 
+  // Who would leave a will if they died today, by age: age shows only
+  // through what each life has saved and who it has to provide for.
+  const bands = [
+    ["18-39", 18, 40],
+    ["40-64", 40, 65],
+    ["65+", 65, 200],
+  ] as const;
+  const wills = bands.map(([label, low, high]) => {
+    let n = 0,
+      yes = 0;
+    const months: number[] = [];
+    for (const person of core.people.values()) {
+      if (!person.alive) continue;
+      const age =
+        (Date.parse(core.date) - Date.parse(person.birthDate)) / 3.15576e10;
+      if (age < low || age >= high) continue;
+      n += 1;
+      if (willOf(api, person)) yes += 1;
+      const why = willReasons(api, person);
+      months.push(why.estateMinor / Math.max(1, why.monthlyCostMinor));
+    }
+    months.sort((a, b) => a - b);
+    return `${label}: ${f((100 * yes) / Math.max(1, n), 0)}% of ${n} (median ${f(months[Math.floor(months.length / 2)] ?? NaN, 1)} months saved)`;
+  });
+  out(`adults who would leave a will today: ${wills.join("; ")}`);
   const probate = api
     .moduleState("core2-estates-v1")
     .table("probate")
