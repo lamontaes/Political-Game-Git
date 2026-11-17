@@ -141,7 +141,7 @@ it(`a tax repeal's hole in the budget weighs on every member: ${place.name}, rep
     ).length;
     const back = federalPositions.filter((p) => p.total > 0).length;
 
-    // The rate route to the same end: to zero is the whole line, half is half of it.
+    // The rate route to the same end: a rate of zero ends the tax, the whole line.
     const rate = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === "federal",
     )!.row!.value;
@@ -158,10 +158,9 @@ it(`a tax repeal's hole in the budget weighs on every member: ${place.name}, rep
       "lower",
       rate / 2,
     );
-    expect(memberPosition(api, half.id, sponsor).budget).toBeCloseTo(
-      (-weight * federal.share) / 2,
-      9,
-    );
+    // A cut that keeps the tax is weighed by the member's own view of it, not
+    // by a hole: spending has no counterpart weight, so only ending a tax is.
+    expect(memberPosition(api, half.id, sponsor).budget).toBeUndefined();
     // A raise gives up nothing, and the record carries no such reason.
     const raise = draft(
       FEDERAL_HOUSE,

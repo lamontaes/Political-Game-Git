@@ -38,13 +38,14 @@ export function carriesRevenue(key: string | undefined): boolean {
 
 /**
  * The share of a government's planned revenue, in its budget in force, that
- * one change to its own law gives up (0 to 1): the whole line for an answer
- * that ends the tax, and the cut's share of the line for a rate lowered. A
- * member weighing the bill reads it as the hole the change leaves in the
- * budget they must still pass (legislature positionOfMember, the agenda's
- * filingReason). Nothing for a government with no such line in its budget (a
- * state with no income tax), for a raise, or for a law no revenue line rests
- * on: what a raise brings in is already in the member's own view of it.
+ * one change to its own law gives up by ending a tax (0 to 1): the whole line
+ * for an answer that ends it, or for a rate set to zero. A member weighing the
+ * bill reads it as the hole the change leaves in the budget they must still
+ * pass (legislature positionOfMember, the agenda's filingReason). Nothing for
+ * a rate lowered but kept, a raise, a government with no such line in its
+ * budget (a state with no income tax), or a law no revenue line rests on: a
+ * member weighs a cut or a raise by their own view of it, and spending has no
+ * counterpart weight, so only ending a tax outright is weighed by its hole.
  */
 export function revenueGivenUp(
   api: CoreAPI,
@@ -59,17 +60,9 @@ export function revenueGivenUp(
       line = row.line;
       cut = 1;
     }
-  } else if (
-    change.from !== null &&
-    change.from > 0 &&
-    change.to < change.from
-  ) {
+  } else if (change.from !== null && change.from > 0 && change.to <= 0) {
     line = REVENUE.series[change.series]?.line;
-    // stopgapId: SG-LAWS-revenue-hole-rate-share
-    // A rate cut is read as giving up the same share of its line; no record
-    // prices a new schedule against the payers' incomes before it is law.
-    if (line) api.stopgap("SG-LAWS-revenue-hole-rate-share");
-    cut = 1 - Math.max(0, change.to) / change.from;
+    cut = 1;
   }
   if (!line || cut <= 0) return 0;
   const government = governmentOfJurisdiction(api, jurisdiction);
