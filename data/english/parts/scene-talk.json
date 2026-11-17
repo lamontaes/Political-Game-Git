@@ -180310,7 +180310,7 @@
       "key": "scene-talk.follow-answer.case-help-4",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's {pay} an hour, and the minimum wage is {floor}.",
+      "text": "It's {pay} an hour. The law says more than that, and they know it.",
       "uses": [
         {
           "subject": "scene",
@@ -180340,7 +180340,7 @@
       "key": "scene-talk.follow-answer.case-help-5",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{pay} an hour. The law says {floor}.",
+      "text": "{pay} an hour. The law says they owe me more.",
       "uses": [
         {
           "subject": "scene",
@@ -180370,7 +180370,7 @@
       "key": "scene-talk.follow-answer.case-help-6",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{pay}, every check, when the minimum wage is {floor}.",
+      "text": "{pay}, every check. That's less than the law lets them pay.",
       "uses": [
         {
           "subject": "scene",
