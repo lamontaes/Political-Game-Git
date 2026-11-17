@@ -5,16 +5,19 @@
   "baseline": {
     "about": "The share of a student of the nation's average income mix who clears each line: one fitted constant per measure. A place's rate is the sum of its own students' rates (the income gradient, class size, a switch of schools and the web's factors move it), never this constant.",
     "math": {
+      "role": "coefficient",
       "value": 26.2,
       "tag": "ESTIMATED",
       "estimatedFrom": "NAEP grade 8 mathematics, percent at or above Proficient: the median of the 51 places the source reports (place-outcome-bases-2024), fitted once."
     },
     "reading": {
+      "role": "coefficient",
       "value": 28.6,
       "tag": "ESTIMATED",
       "estimatedFrom": "NAEP grade 8 reading, percent at or above Proficient: the median of the 51 places the source reports (place-outcome-bases-2024), fitted once."
     },
     "graduation": {
+      "role": "coefficient",
       "value": 86,
       "tag": "ESTIMATED",
       "estimatedFrom": "Four-year adjusted cohort graduation rate: the median of the 52 places the source reports (place-outcome-bases-2024), fitted once."
