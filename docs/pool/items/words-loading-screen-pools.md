@@ -23,15 +23,15 @@ Seen: the owner's sitting on v0.113.0, Nov 17.
 
 **Cause.** Design: the owner's words of Nov 17 on #9750 (docs/coordination/OWNER-DECISIONS.md, Nov 17). The controls bank (src/bench/data/controls.json) holds the step names only; no pool of lines exists for the card to cycle.
 
-**Fix.** Story writes the pools into the controls bank: 15 to 25 lines per loading step to start, each step its own pool so the jokes fit what is being built (the economy, the elections, the budgets, the two months running), American English, no real people or parties named, nothing that punches at a group of voters, the joke always on the machinery. Menus (#9995) builds the cycling on the loading card from #10002 and reads every line from the controls bank; the real step names stay readable. The lines go through the register guard like every other control string.
+**Fix.** Story writes the pools into the controls bank: 15 to 25 lines per loading step to start, each step its own pool so the jokes fit what is being built (the economy, the elections, the budgets, the two months running), American English, no real people or parties named, nothing that punches at a group of voters, the joke always on the machinery. The Menus lane builds the cycling on the loading card and reads every line from the controls bank; the real step names stay readable. The lines go through the register guard like every other control string.
 
 **Time box.** 3 hours, the Story lead at medium.
 
 **Rules.** No hand-written player text in code: the lines are bank entries the card reads. American English everywhere. The one list and detail part: the card reads the one controls bank, no second list.
 
-**Done when.** A second session starts a new game on main and sees, during the two-months step, a new line every few seconds from that step's pool with no line shown twice in one load, the step names still readable; the Menus lane's before-and-after is on #9995.
+**Done when.** A second session starts a new game in a drawn place on main and, during the two-months step of the loading card, sees a new line every few seconds drawn from that step's pool, no line shown twice in one load, and the step names still readable; a screenshot of the card mid-load goes in the pull request body, and the register guard passes with the pools counted.
 
-**Waits on.** Menus' cycling on the loading card (#9995).
+**Waits on.** The Menus lane's cycling on the loading card.
 
 **Files.** src/bench/data/controls.json
 
