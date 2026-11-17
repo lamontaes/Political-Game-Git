@@ -50,11 +50,16 @@ The ruling: CTO line 6935086070 on #9747 (Nov 17, 2026), the owner's answers to 
 - **Each unit ships a test** that seats the century's holders at two drawn places, and fails with the century switched off (main's behavior). Undo the century lookup once and watch it go red.
 - **Relationships across many worlds, never a target for one** (CTO 6936486748). Re-elected sitting Presidents in a plausible band across 20 drawn worlds, few alternating worlds, a spread between worlds, and day one differing between worlds.
 - **No two races share a winning share.** Search a century's races for repeats before you push.
-- **Cost.** Time a century with `runCentury` and note the longest year. About 1.1 s and 120 ms with the presidency, Congress and the statewide officers. Tell Speed.
+- **Cost.** Time a century with `runCentury` and note the longest year. About 0.6 s with the presidency, Congress and the statewide officers; the legislatures' pass about 5 s more. Tell Speed.
 
 ## Traps
 
-- **The roster's congress map takes Congress only.** An executive seat that leaked into `centuryCongressRoster` became a House district named "governor" in `realistic-not-real` row 45.
+- **The roster's congress map takes Senate and House seats only.** An executive seat that leaked into `centuryCongressRoster` became a House district named "governor" in `realistic-not-real` row 45; the legislators that leaked next made a 5,490-member House and a 150 s world build. Filter by `chamber`, never by "not an executive".
+- **Opening shifts draw any size** (`centuryShift`), never `worldOffsetUnit`. Its floor keeps a figure off a published value; 1925 has none, and the floor left no state near the nation, so a close year had no close state (#9820's guards, row 42).
+- **Experience counts only for a non-incumbent** in the race rule. Give a sitting holder's challenger experience and the challenger's 3 points beat incumbency's 2 every time: Presidents re-elected 28% of the time, worlds alternating every term. A challenger to a sitting holder is typical, as play's count from afar does.
+- **Take a race's share from the unrounded count** (`countPlaces`'s `exact`), and give each district its own size. Whole votes in equal small districts gave 130 repeated shares among 7,566 legislative races.
+- **A pass nothing else reads runs on its own** (`runLegislatures`): on the loading screen after the core, on first read elsewhere, so a presidency test does not pay for 7,000 legislative seats.
+- **Run `date -u` right before writing any time** in a post; two status lines went out with times guessed from memory.
 - **A territory has no county places.** Size it by its delegate's race (`statePlaces(usps, seed, 1)`), as play does.
 - **A century test that runs 20 centuries passes vitest's 30 s default** once Congress runs. Give it an explicit timeout.
 - **Prove a red on main in a sparse copy of main** (`scripts/storage/helper-checkout.sh new <dir> origin/main`), run the one test, then remove the copy.
