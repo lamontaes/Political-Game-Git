@@ -57,6 +57,10 @@ const NAMES = new Set([
   "to",
   "place",
   "name",
+  // The ask and the close name the President's question through these slots
+  // (Story lead, #9840); the bar of two world names an address is unchanged.
+  "asked-about",
+  "law-name",
 ]);
 
 /**
