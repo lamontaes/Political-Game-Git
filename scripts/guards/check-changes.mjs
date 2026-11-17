@@ -25,7 +25,7 @@
  * limit raised. A reader still checks those.
  */
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -50,6 +50,7 @@ export function checkChanges(
   rules,
   readHead = () => null,
   spellings = () => [],
+  sourcedRows = new Map(),
 ) {
   /** @type {Finding[]} */
   const findings = [];
@@ -110,6 +111,40 @@ export function checkChanges(
           `adds British spelling (${[...new Set(after.filter((w) => !before.includes(w)))].join(", ") || after.length - before.length + " more"})`,
         );
     }
+    // Calibration, not pins (owner, Nov 16: "Everything comes from the
+    // simulation"; CTO, Nov 17 on the crew issue, item 7): new code may not
+    // read a SOURCED parameter as a level or an opening value. Real data sets
+    // only a relationship's strength (role coefficient) or the law in force
+    // (role law). A SOURCED row with no role cannot be told apart, so a new
+    // read of one is reported too: give the row its role.
+    if (
+      new RegExp(rules.sourcedReadFiles).test(change.path) &&
+      !isTest.test(change.path) &&
+      change.after !== null
+    ) {
+      const before = literalCounts(change.before, sourcedRows),
+        after = literalCounts(change.after, sourcedRows);
+      for (const [id, kind, says] of [
+        ["sourced-level-read", "level", "a level or an opening value"],
+        [
+          "sourced-unlabeled-read",
+          "unlabeled",
+          "a value whose row has no role",
+        ],
+      ]) {
+        const added = [...after]
+          .filter(
+            ([name, n]) =>
+              sourcedRows.get(name) === kind && n > (before.get(name) ?? 0),
+          )
+          .map(([name]) => name);
+        if (added.length)
+          add(
+            id,
+            `adds a read of a SOURCED parameter as ${says} (${added.join(", ")})`,
+          );
+      }
+    }
     if (isTest.test(change.path)) {
       if (change.after === null) {
         add("test-deleted", "deletes a test file");
@@ -146,6 +181,54 @@ export function checkChanges(
   }
   findings.push(...wholeChangeFindings(changes, rules, readHead));
   return findings;
+}
+
+/**
+ * How often each SOURCED parameter's id appears as a string literal.
+ * @param {string | null} text
+ * @param {Map<string, string>} rows id to "level" or "unlabeled"
+ */
+function literalCounts(text, rows) {
+  const counts = new Map();
+  if (text === null || rows.size === 0) return counts;
+  for (const match of text.matchAll(/["'`]([A-Za-z][\w.-]*)["'`]/g))
+    if (rows.has(match[1]))
+      counts.set(match[1], (counts.get(match[1]) ?? 0) + 1);
+  return counts;
+}
+
+/**
+ * The SOURCED parameter rows that new code may not read as a level: role
+ * level or opening ("level"), or no role at all ("unlabeled"). A row is an
+ * object with a numeric value and a tag; its id is its `id` field or its key,
+ * and a one-word key is skipped.
+ * @param {readonly { path: string, text: string }[]} files parameter files
+ * @returns {Map<string, string>}
+ */
+export function sourcedLevelRows(files) {
+  const rows = new Map();
+  const walk = (node, key) => {
+    if (Array.isArray(node)) return node.forEach((item) => walk(item));
+    if (!node || typeof node !== "object") return;
+    if (typeof node.value === "number" && node.tag === "SOURCED") {
+      const named = typeof node.id === "string" ? node.id : key;
+      // A one-word key ("zero", "farm", "reference") names a slot in a
+      // nested table, not a parameter that code reads by name.
+      const id = named && !/^[a-z]+$/.test(named) ? named : undefined;
+      if (id && node.role === undefined) rows.set(id, "unlabeled");
+      else if (id && (node.role === "level" || node.role === "opening"))
+        rows.set(id, "level");
+    }
+    for (const [k, v] of Object.entries(node)) walk(v, k);
+  };
+  for (const file of files) {
+    try {
+      walk(JSON.parse(file.text));
+    } catch {
+      // Not JSON this guard can read; the parameter guards judge it.
+    }
+  }
+  return rows;
 }
 
 /**
@@ -384,6 +467,12 @@ async function main() {
     rules,
     (file) => show(head, file),
     britishSpellings,
+    sourcedLevelRows(
+      git("ls-files", "--", ...rules.parameterFiles)
+        .split("\n")
+        .filter((file) => file && existsSync(file))
+        .map((file) => ({ path: file, text: readFileSync(file, "utf8") })),
+    ),
   );
   if (process.env.PR_BODY !== undefined)
     for (const line of stampMissing(process.env.PR_BODY, rules))

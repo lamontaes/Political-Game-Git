@@ -4,6 +4,7 @@ import { britishSpellings } from "../prose-eval/american-spelling";
 import {
   approves,
   checkChanges,
+  sourcedLevelRows,
   splitByMode,
   stampMissing,
 } from "./check-changes.mjs";
@@ -412,5 +413,63 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       ),
     ]);
     for (const id of rules.observe) expect(ids, id).toContain(id);
+  });
+
+  it("refuses a new read of a SOURCED level and reports one of a row with no role, but not a coefficient or a test", () => {
+    const sourced = sourcedLevelRows([
+      {
+        path: "src/core2/data/x/parameters.json",
+        text: JSON.stringify({
+          openingVacancyRate: { value: 0.06, tag: "SOURCED", role: "opening" },
+          wageElasticity: { value: 0.3, tag: "SOURCED", role: "coefficient" },
+          monthsPerYear: { value: 12, tag: "SOURCED" },
+          rows: [{ id: "jobsLevel", value: 5, tag: "SOURCED", role: "level" }],
+          guess: { value: 2, tag: "TUNABLE", role: "level" },
+          stakes: { reference: { value: 1, tag: "SOURCED", role: "level" } },
+        }),
+      },
+    ]);
+    expect([...sourced].sort()).toEqual([
+      ["jobsLevel", "level"],
+      ["monthsPerYear", "unlabeled"],
+      ["openingVacancyRate", "level"],
+    ]);
+    const read = (path: string, before: string, after: string) =>
+      checkChanges(
+        [{ path, before, after }],
+        rules,
+        () => null,
+        () => [],
+        sourced,
+      )
+        .filter((f) => f.id.startsWith("sourced-"))
+        .map((f) => `${f.id}: ${f.says}`);
+    expect(
+      read(
+        "src/core2/modules/jobs.ts",
+        'const a = c(api, "wageElasticity");',
+        'const a = c(api, "wageElasticity");\nconst b = c(api, "openingVacancyRate") * c(api, "wageElasticity");',
+      ),
+    ).toEqual([
+      "sourced-level-read: adds a read of a SOURCED parameter as a level or an opening value (openingVacancyRate)",
+    ]);
+    expect(
+      read("src/core2/modules/jobs.ts", "", 'c(api, "monthsPerYear")'),
+    ).toEqual([
+      "sourced-unlabeled-read: adds a read of a SOURCED parameter as a value whose row has no role (monthsPerYear)",
+    ]);
+    expect(
+      read(
+        "src/core2/modules/jobs.ts",
+        'c(api, "jobsLevel")',
+        'c(api, "jobsLevel")',
+      ),
+      "a read that was already there",
+    ).toEqual([]);
+    expect(
+      read("src/core2/jobs.test.ts", "", 'c(api, "jobsLevel")'),
+      "a test may compare with a level",
+    ).toEqual([]);
+    expect(rules.observe).toContain("sourced-level-read");
   });
 });

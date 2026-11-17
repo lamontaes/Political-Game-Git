@@ -78,6 +78,10 @@
     "guard-unlisted",
     "research-band",
     "british-spelling",
-    "stamp-missing"
-  ]
+    "stamp-missing",
+    "sourced-level-read",
+    "sourced-unlabeled-read"
+  ],
+  "sourcedReadFiles": "^src/.*\\.[cm]?[jt]sx?$",
+  "parameterFiles": ["src/*/data/*.json", "src/*/data/**/*.json"]
 }

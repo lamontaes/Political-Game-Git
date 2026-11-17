@@ -23,7 +23,8 @@ jobs:
     timeout-minutes: 10
     steps:
       # Main's copy of the guard and its rules, without file contents: the
-      # guard asks git for the few files a pull request changed.
+      # guard asks git for the few files a pull request changed. Main's
+      # parameter files come too, so a new read of a SOURCED level is seen.
       - name: Check out main's guard
         uses: actions/checkout@v7
         with:
@@ -34,6 +35,8 @@ jobs:
             scripts/guards
             scripts/prose-eval
             scripts/report-check
+            src/core2/data
+            src/director/data
             tests/guards
           persist-credentials: true
       - name: Use Node 22
