@@ -24,12 +24,12 @@ import { townShareOf } from "./budgets-treasury";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 
-it(
-  "governments read the live count, which moves with the world's own people",
-  { timeout: 900_000 },
-  () => {
+it.each([0, 1, 2])(
+  "governments read the live count, which moves with the world's own people (draw %i)",
+  { timeout: 1_800_000 },
+  (draw) => {
     setBookkeeping(false);
-    const place = drawPlace(seed, "live-population");
+    const place = drawPlace(seed, `live-population:${draw}`);
     const where = `${place.name}, ${place.state} (${place.key}), run seed ${seed}, place seed ${place.seed}`;
     process.stdout.write(`live-population: ${where}\n`);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -41,7 +41,7 @@ it(
     const before = townPopulation(api);
     expect(before, where).toBeGreaterThan(0);
     const start = makeIsoDate(core.date);
-    for (let month = 1; month <= 4; month += 1)
+    for (let month = 1; month <= 12; month += 1)
       advanceCore(core, addDays(start, 30 * month));
     const after = townPopulation(api);
     process.stdout.write(
