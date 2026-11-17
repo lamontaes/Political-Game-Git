@@ -181604,6 +181604,15 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -190943,7 +190952,17 @@
           "step": "close",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["problem-sick"]
+          "requiresFacts": ["problem-sick"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "press"
         }
       ],
       "origin": "authored",
