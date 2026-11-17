@@ -17,6 +17,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Who hears depends on the way (a friend, the local party, the public). Story writes the scenes (#9750); Elections records the way and who heard (#9995).
 - **Menu colors** (Desk, about 4:25 p.m.): "I like the one that's in the current game colors I do also like the red white and blue. There is still a lot of dead space though and text is just floating." Part B of #10038 uses the game's own colors, with two screens also in the paper red, white and blue. No dead space, and no text floating on the background: every block sits on a painted surface or a grouped panel.
 - **Loading screen** (about 4:30 p.m.): "I don't like how boring the loading screen is... it should have a bunch of different things, like skimming a little off the top, closing alphabet agencies, legislating bureaucracy, you know, things like that, things that are kind of sarcastic." Each loading step shows a rotating stream of dry, sarcastic lines about the machinery of government (Story writes them; Menus builds the rotation), and the real step names stay readable.
+- **Delete, don't fix** (about 4:45 p.m., angry, said "at least three times today"): "I said you can delete everything that wasn't written in the past couple days because it's all shit. I keep saying this I'd rather it start from nothing and build it up correctly and keep trying to fix the same garbage that isn't working."
+  - The opening address scene is deleted. The game opens at home on the evening of January 20, and the address survives only as a record for the news and the family.
+  - Story content that isn't working, or that predates the last couple of days and isn't proven in play, is deleted, not repaired.
+  - Never ask him keep-or-cut questions about old content.
 - **Faster checks** (about 3:20 p.m.): "whichever one's faster." Heavy test jobs move off pull requests to the train-to-main PR (Long game, #9752).
 
 ## Nov 17, 2026, midday: after playing v0.113.0 (owner, verbatim; recorded by the CTO)
