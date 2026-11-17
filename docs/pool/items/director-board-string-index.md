@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/story-board-strings
+pr: 9819
 after:
 blocked-on:
 model: sonnet
