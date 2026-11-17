@@ -686,13 +686,11 @@ export function holdsHighOffice(api: CoreAPI, id: string): boolean {
   const minted = offices
     .table("terms")
     .get(id.slice("official:".length)) as unknown as
-    | { personId: string }
-    | undefined;
+    { personId: string } | undefined;
   if (!minted) return false;
   return servingTermsOf(api, minted.personId).some((term) => {
     const office = offices.table("offices").get(term.officeId) as unknown as
-      | { level?: string }
-      | undefined;
+      { level?: string } | undefined;
     return office?.level === "federal" || office?.level === "state";
   });
 }
@@ -710,8 +708,7 @@ function servesLocally(api: CoreAPI, personId: string): boolean {
     if (term.status !== "serving") return false;
     const level = (
       offices.table("offices").get(term.officeId) as unknown as
-        | { level?: string }
-        | undefined
+        { level?: string } | undefined
     )?.level;
     return level !== undefined && level !== "federal" && level !== "state";
   });
@@ -816,8 +813,7 @@ export function runDesk(
   const bindsTown = (lawId: string): boolean => {
     if (!chainJurisdictions) return true;
     const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-      | { jurisdiction?: string }
-      | undefined;
+      { jurisdiction?: string } | undefined;
     return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
   };
   // Who a count's result concerns: the named voters on its roll.

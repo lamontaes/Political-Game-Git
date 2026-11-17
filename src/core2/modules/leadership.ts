@@ -163,8 +163,7 @@ function chamberOf(api: CoreAPI, chamber: string): string {
   if (chamber === FEDERAL_HOUSE || chamber === FEDERAL_SENATE) return chamber;
   const kind = (
     api.moduleState(OFFICES_MODULE_ID).table("offices").get(chamber) as
-      | { kind: string }
-      | undefined
+      { kind: string } | undefined
   )?.kind;
   if (kind?.startsWith("us-house")) return FEDERAL_HOUSE;
   return kind === "us-senate" ? FEDERAL_SENATE : chamber;
@@ -429,8 +428,7 @@ function keepSignature(api: CoreAPI, chamber: string, signature: string) {
 export function organize(api: CoreAPI, body: string): readonly PostRow[] {
   const chamber = chamberOf(api, body);
   const done = table(api, "organized").get(chamber) as unknown as
-    | OrganizedRow
-    | undefined;
+    OrganizedRow | undefined;
   // Membership has not changed since the chamber was last read: what its
   // member list reads (the date, and the offices, officials and voting
   // engines' records) is as it was, so its signature is too.
@@ -897,8 +895,7 @@ export function leaderOf(
   const chamber = chamberOf(api, body);
   organize(api, chamber);
   const row = table(api, "posts").get(`${chamber}:${post}`) as unknown as
-    | PostRow
-    | undefined;
+    PostRow | undefined;
   return row?.holderId ?? null;
 }
 

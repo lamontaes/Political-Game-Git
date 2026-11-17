@@ -729,8 +729,7 @@ export function lastVotesForOffice(
     .table("results")
     .rows() as unknown as ResultRow[]) {
     const contest = contests.get(result.contestId) as unknown as
-      | ContestRow
-      | undefined;
+      ContestRow | undefined;
     const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
     if (contest?.officeId !== officeId || votes <= 0) continue;
     if (
@@ -763,12 +762,10 @@ export function lastTownVotesForKind(
     .table("results")
     .rows() as unknown as ResultRow[]) {
     const contest = contests.get(result.contestId) as unknown as
-      | ContestRow
-      | undefined;
+      ContestRow | undefined;
     const office = contest
       ? (offices.get(contest.officeId) as unknown as
-          | { kind?: string }
-          | undefined)
+          { kind?: string } | undefined)
       : undefined;
     if (office?.kind !== officeKind) continue;
     const votes =
@@ -804,8 +801,7 @@ export function lastVotesAtLevel(
       .rows() as unknown as ResultRow[]
   ).flatMap((result) => {
     const contest = contests.get(result.contestId) as unknown as
-      | ContestRow
-      | undefined;
+      ContestRow | undefined;
     const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
     return contest?.level === level && votes > 0
       ? [{ votes, recordId: result.id, date: result.date }]
@@ -1124,8 +1120,7 @@ export function seatHolder(
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
     .query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
-    | TermRow
-    | undefined;
+    TermRow | undefined;
 }
 
 /** Whether a candidate id is a term's holder. */
@@ -2450,8 +2445,7 @@ function fileNominees(api: CoreAPI, contest: ContestRow): void {
       .moduleState(OFFICES_MODULE_ID)
       .table("terms")
       .query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
-      | TermRow
-      | undefined) ??
+      TermRow | undefined) ??
     (contest.incumbentTermId
       ? (api
           .moduleState(OFFICES_MODULE_ID)
@@ -2627,8 +2621,7 @@ function countPrimary(
       if (voter.id === (api.state as CoreState).playerId) {
         const chosen = (
           table(api, "chosen").get(`${contestId}|${voter.id}`) as unknown as
-            | { candidateId: string | null }
-            | undefined
+            { candidateId: string | null } | undefined
         )?.candidateId;
         if (chosen && field.some((f) => f.personId === chosen)) {
           votes[chosen] = (votes[chosen] ?? 0) + 1;
@@ -3266,8 +3259,7 @@ function precinctOfHousehold(
   const rows = table(api, "householdPrecincts");
   const dwelt = dwellingMovedIn(api, householdId) ?? "";
   const held = rows.get(`household-precinct:${householdId}`) as unknown as
-    | { precinct: number; movedIn: string }
-    | undefined;
+    { precinct: number; movedIn: string } | undefined;
   if (held && held.movedIn === dwelt && held.precinct <= precincts)
     return held.precinct;
   const fill = precinctFill(api, precincts);
@@ -3650,8 +3642,7 @@ function keepPollDay(
   if (outcome !== "registers-at-polls") return;
   const rows = table(api, "registrations");
   const row = rows.get(`registration:${person.id}`) as unknown as
-    | Record<string, unknown>
-    | undefined;
+    Record<string, unknown> | undefined;
   if (row)
     rows.put({
       ...row,
@@ -3701,11 +3692,7 @@ export function registeredAtPollsShare(api: CoreAPI, voterId: string): number {
 
 /** Where a named person stands with the rolls for an election day: on them, able to register at the polls (a state that does), or why not. */
 export type PollingStatus =
-  | "on"
-  | "same-day"
-  | "old-address"
-  | "not-registered"
-  | "after-deadline";
+  "on" | "same-day" | "old-address" | "not-registered" | "after-deadline";
 
 /** The one read of a named person's standing for a day's election, from their registration record and the state's laws in force. */
 export function pollingStatus(
@@ -3939,8 +3926,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       .map(
         (row) =>
           table(api, "chosen").get(`${row.id}|${voter.id}`) as unknown as
-            | { candidateId: string | null }
-            | undefined,
+            { candidateId: string | null } | undefined,
       )
       .find(Boolean);
     // The player's ballot is the player's own: the engine never casts it.
@@ -5072,8 +5058,7 @@ export interface RecountRow {
 export function recountOf(api: CoreAPI, raceId: string): RecountRow | null {
   return (
     (table(api, "recounts").get(`recount:${raceId}`) as unknown as
-      | RecountRow
-      | undefined) ?? null
+      RecountRow | undefined) ?? null
   );
 }
 
@@ -5238,8 +5223,7 @@ function answerRecountOffer(
     sourceIds: [...row.sourceIds, String(facts.replyId ?? "")],
   });
   const result = table(api, "results").get(row.resultId) as unknown as
-    | ResultRow
-    | undefined;
+    ResultRow | undefined;
   if (result?.takesOffice && ends > result.takesOffice)
     table(api, "results").put({
       ...result,
@@ -5253,12 +5237,10 @@ function answerRecountOffer(
  */
 function endRecount(api: CoreAPI, recountId: string): void {
   const row = table(api, "recounts").get(recountId) as unknown as
-    | RecountRow
-    | undefined;
+    RecountRow | undefined;
   const result = row
     ? (table(api, "results").get(row.resultId) as unknown as
-        | ResultRow
-        | undefined)
+        ResultRow | undefined)
     : undefined;
   // An earlier day's entry for a recount opened again since waits for its own.
   if (!row || row.status !== "open" || !result || row.ends > api.state.date)
@@ -5356,8 +5338,7 @@ export function dropOlderTownReturns(
   ]) {
     if (row.contestId === contestId || !contests.get(row.contestId)) continue;
     const older = results.get(`result:${row.contestId}`) as unknown as
-      | { date: string }
-      | undefined;
+      { date: string } | undefined;
     if (!older || older.date >= date) continue;
     for (const place of [
       ...(places.query("byContest", [row.contestId]) as unknown as {
@@ -5457,8 +5438,7 @@ export function returnsOf(
   contestId: string,
 ): ReturnsRow | undefined {
   return table(api, "returns").get(`returns:${contestId}`) as unknown as
-    | ReturnsRow
-    | undefined;
+    ReturnsRow | undefined;
 }
 
 /** Each place's votes in a contest. */
@@ -5590,8 +5570,7 @@ export function ballotOf(
 ): BallotRow | null {
   return (
     (table(api, "ballots").get(`ballot:${contestId}:${voterId}`) as unknown as
-      | BallotRow
-      | undefined) ?? null
+      BallotRow | undefined) ?? null
   );
 }
 
@@ -5623,8 +5602,7 @@ function countedRow(
   contestId: string,
 ): CountedBallotsRow | undefined {
   return table(api, "countedBallots").get(`counted:${contestId}`) as unknown as
-    | CountedBallotsRow
-    | undefined;
+    CountedBallotsRow | undefined;
 }
 
 /** The engine's own reading of one kept counted ballot. */
@@ -5754,8 +5732,7 @@ export function onContestRoll(
 export function resultOf(api: CoreAPI, contestId: string): ResultRow | null {
   return (
     (table(api, "results").get(`result:${contestId}`) as unknown as
-      | ResultRow
-      | undefined) ?? null
+      ResultRow | undefined) ?? null
   );
 }
 
@@ -6093,8 +6070,7 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     const year = Number(work.sourceRecordIds[0]);
     // The races counted before the previous general election fold first.
     const held = table(api, "world").get("generals") as unknown as
-      | { last: string }
-      | undefined;
+      { last: string } | undefined;
     if (held) foldOutsideRaces(api, held.last);
     table(api, "world").put({
       id: "generals",
@@ -6165,8 +6141,7 @@ function specialSeatKind(
       : null;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const seat = offices.table("seats").get(seatId) as unknown as
-    | { coversTown: boolean; officeId: string }
-    | undefined;
+    { coversTown: boolean; officeId: string } | undefined;
   const office = seat
     ? (offices.table("offices").get(seat.officeId) as unknown as
         | {
@@ -6596,8 +6571,7 @@ export function electoralCollege(
  */
 function decideContingent(api: CoreAPI, year: number): void {
   const row = table(api, "races").get(`presidential:${year}`) as unknown as
-    | PresidentialRow
-    | undefined;
+    PresidentialRow | undefined;
   if (!row?.contingent || row.contingent.status !== "pending") return;
   const result = contingentElection(api, {
     year,
@@ -6703,8 +6677,7 @@ function townPresidentialVote(
 /** Noon, January 20: the president-elect and their running mate take office. */
 function inaugurate(api: CoreAPI, rowId: string): void {
   const row = table(api, "races").get(rowId) as unknown as
-    | PresidentialRow
-    | undefined;
+    PresidentialRow | undefined;
   if (!row) return;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const terms = offices.table("terms");
@@ -6744,8 +6717,7 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         : {}),
     });
     const office = offices.table("offices").get(officeId) as
-      | { readonly title?: string }
-      | undefined;
+      { readonly title?: string } | undefined;
     seatWinner(api, {
       seatId,
       officeId,
@@ -6964,8 +6936,7 @@ function currentParty(
   start: string | null,
 ): string | null {
   const row = table(api, "seats").get(seatId) as unknown as
-    | { party: string; since: string }
-    | undefined;
+    { party: string; since: string } | undefined;
   return row && row.since <= api.state.date ? row.party : start;
 }
 
@@ -6985,8 +6956,7 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
   // general) is counted over the state's counties.
   const seat = race.offices
     ? (offices.table("seats").get(race.offices.seatId) as unknown as
-        | { district: string | null }
-        | undefined)
+        { district: string | null } | undefined)
     : undefined;
   if (race.office === "us-senate" || seat?.district === null)
     return statePlaces(usps, api.state.seed);
@@ -7321,8 +7291,7 @@ export function runningMateChoice(
 } | null {
   const elections = api.moduleState(ELECTIONS_MODULE_ID);
   const filing = elections.table("filings").get(governorFilingId) as unknown as
-    | FilingRow
-    | undefined;
+    FilingRow | undefined;
   if (!filing) return null;
   const governor = elections
     .table("contests")
@@ -7805,8 +7774,7 @@ function onGovernorTicket(api: CoreAPI, race: Race): boolean {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(race.offices.officeId) as unknown as
-    | { kind: string; jurisdiction: string }
-    | undefined;
+    { kind: string; jurisdiction: string } | undefined;
   return office
     ? electedWithGovernorOnTicket(office.jurisdiction, office.kind)
     : false;
@@ -7950,8 +7918,7 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
   };
   const named = race.candidates?.find((c) => c.party === race.winnerParty);
   const office = offices.table("offices").get(race.offices.officeId) as
-    | { readonly title?: string; readonly jurisdiction?: string }
-    | undefined;
+    { readonly title?: string; readonly jurisdiction?: string } | undefined;
   // A new holder lives in the office's own state; a local office's is the
   // town's.
   const homeState = office?.jurisdiction?.startsWith("US-")
@@ -8006,8 +7973,7 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
   });
   if (race.special) return;
   const seatRow = offices.table("seats").get(race.seatId) as unknown as
-    | { electionYear?: number }
-    | undefined;
+    { electionYear?: number } | undefined;
   if (seatRow && years)
     offices.table("seats").put({
       ...seatRow,
@@ -8027,7 +7993,6 @@ export function presidentialOf(
 ): PresidentialRow | null {
   return (
     (table(api, "races").get(`presidential:${year}`) as unknown as
-      | PresidentialRow
-      | undefined) ?? null
+      PresidentialRow | undefined) ?? null
   );
 }

@@ -423,11 +423,7 @@ export interface OrganizedGroup {
  * does not touch among them).
  */
 export type EndorsementReason =
-  | "agrees"
-  | "close-tie"
-  | "disagrees"
-  | "prefers-rival"
-  | "declines";
+  "agrees" | "close-tie" | "disagrees" | "prefers-rival" | "declines";
 
 /**
  * One answer to an endorsement, kept for the scene, the press and the rival
@@ -729,8 +725,7 @@ function scheduleTurn(api: CoreAPI): void {
   const calendar = api.moduleCalendar(CAMPAIGNS_MODULE_ID);
   // One chain of turns: a turn already waiting keeps its place.
   const next = table(api, "town").get("turn") as unknown as
-    | { date: string }
-    | undefined;
+    { date: string } | undefined;
   if (
     next &&
     next.date > api.state.date &&
@@ -782,8 +777,7 @@ function townRow(api: CoreAPI) {
 /** The campaign of a filing, started the first time it's used. */
 export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
   const existing = table(api, "campaigns").get(filingId) as unknown as
-    | CampaignRow
-    | undefined;
+    CampaignRow | undefined;
   if (existing) return existing;
   const filing = elections(api, "filings").get(
     filingId,
@@ -879,8 +873,7 @@ function recordTilted(
     .table("terms")
     .get(contest.incumbentTermId) as unknown as TermRow | undefined;
   const office = offices.table("offices").get(contest.officeId) as unknown as
-    | { jurisdiction?: string }
-    | undefined;
+    { jurisdiction?: string } | undefined;
   if (!term || !office?.jurisdiction) return shares;
   // A state's or the country's office is read where it serves; a town's, a
   // county's or a board's is the town's own record, the web's place.
@@ -929,8 +922,7 @@ export function impressionOf(
 ): ImpressionRow | null {
   return (
     (table(api, "impressions").get(`${voterId}|${candidateId}`) as unknown as
-      | ImpressionRow
-      | undefined) ?? null
+      ImpressionRow | undefined) ?? null
   );
 }
 
@@ -2109,8 +2101,7 @@ export function rivalFiling(
  */
 function leaveForOwnRun(api: CoreAPI, filingId: string): void {
   const filing = elections(api, "filings").get(filingId) as unknown as
-    | FilingRow
-    | undefined;
+    FilingRow | undefined;
   if (!filing) return;
   const personId = filing.personId;
   for (const campaign of table(api, "campaigns").query("byContest", [
@@ -2150,8 +2141,7 @@ function leaveForOwnRun(api: CoreAPI, filingId: string): void {
     )
       continue;
     const campaign = table(api, "campaigns").get(row.filingId) as unknown as
-      | CampaignRow
-      | undefined;
+      CampaignRow | undefined;
     if (!campaign || rivalFiling(api, campaign, personId)?.id !== filing.id)
       continue;
     table(api, "endorsements").put({
@@ -2447,8 +2437,7 @@ function offersToHelp(api: CoreAPI): void {
     const candidate = api.state.people.get(filing.personId);
     if (!candidate?.alive || !candidate.knownIds.size) continue;
     const contest = elections(api, "contests").get(filing.contestId) as
-      | ContestRow
-      | undefined;
+      ContestRow | undefined;
     if (!contest || contest.electionDate <= date) continue;
     const filedOn = api.state.durableLog.get(
       `candidate-filed:${filing.id}` as never,
@@ -2463,8 +2452,7 @@ function offersToHelp(api: CoreAPI): void {
     const toldInPerson = (id: string) =>
       inTouchSince(api.state as CoreState, id, candidate.id, filedOn);
     const existing = table(api, "campaigns").get(filing.id) as unknown as
-      | CampaignRow
-      | undefined;
+      CampaignRow | undefined;
     // Offers come a week or more apart: the next waits its turn, unweighed.
     if (
       existing?.lastOfferOn &&
@@ -2792,8 +2780,7 @@ function rivalWordPassedOn(api: CoreAPI): void {
         .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0];
       if (!teller) continue;
       const contest = elections(api, "contests").get(filing.contestId) as
-        | ContestRow
-        | undefined;
+        ContestRow | undefined;
       const id = `${message.id}:${candidate.id}`;
       table(api, "rivalWord").put({
         id,
@@ -2960,8 +2947,7 @@ function answerAskForVote(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       (row) =>
         ((
           contests.get(row.contestId) as unknown as
-            | { electionDate?: string }
-            | undefined
+            { electionDate?: string } | undefined
         )?.electionDate ?? "") >= api.state.date,
     )
     .sort((a, b) => a.contestId.localeCompare(b.contestId))[0];
@@ -3073,8 +3059,7 @@ export function townShareOfRace(api: CoreAPI, contestId: string): number {
   const kept = held.get(contestId);
   if (kept && daysBetween(kept.asOf, api.state.date) < 90) return kept.share;
   const contest = elections(api, "contests").get(contestId) as unknown as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   const whole = contest ? raceElectorate(api, contest) : 0;
   const share =
     !contest || !basePlaces(api, contest).places.length || whole <= 0
@@ -3250,11 +3235,9 @@ export function volunteerShifts(
   walked: Set<string> = new Set(),
 ): readonly VolunteerShift[] {
   const filing = elections(api, "filings").get(filingId) as unknown as
-    | FilingRow
-    | undefined;
+    FilingRow | undefined;
   const held = table(api, "campaigns").get(filingId) as unknown as
-    | CampaignRow
-    | undefined;
+    CampaignRow | undefined;
   if (!filing || !standing(filing) || !held?.volunteerIds.length) return [];
   const core = api.state as CoreState;
   const date = api.state.date;
@@ -3341,8 +3324,7 @@ export function volunteerShifts(
   }
   const noted: Record<string, string> = { ...(campaign.shiftNotedOn ?? {}) };
   const contest = elections(api, "contests").get(filing.contestId) as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   for (const shift of shifts) {
     const id = shift.volunteerId;
     // Kept as a cause is: where the player's circle is in it (their own
@@ -3653,8 +3635,7 @@ function petitionReach(
   const kept = held.get(contestId);
   if (kept && daysBetween(kept.asOf, api.state.date) < 90) return kept.reach;
   const contest = elections(api, "contests").get(contestId) as unknown as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   const reach = contest
     ? wideElectorate(api, contest, {
         voters: townElectorate(api),
@@ -3941,8 +3922,7 @@ function partyFit(
 
 function filingOf(api: CoreAPI, filingId: string): FilingRow | undefined {
   return elections(api, "filings").get(filingId) as unknown as
-    | FilingRow
-    | undefined;
+    FilingRow | undefined;
 }
 
 export function giftOf(
@@ -3952,8 +3932,7 @@ export function giftOf(
 ): GiftRow | null {
   return (
     (table(api, "gifts").get(`${filingId}|${donorId}`) as unknown as
-      | GiftRow
-      | undefined) ?? null
+      GiftRow | undefined) ?? null
   );
 }
 
@@ -4164,11 +4143,7 @@ export function askForDonation(
 
 /** Why an ask brought in nothing, from the donor's own records. */
 export type DonationWhy =
-  | "gave"
-  | "not-warm"
-  | "no-spare"
-  | "at-limit"
-  | "small";
+  "gave" | "not-warm" | "no-spare" | "at-limit" | "small";
 
 /**
  * An ask answered: what the person gave, or the record-side reason they did
@@ -4338,8 +4313,7 @@ function askOpen(api: CoreAPI, row: AskRow): boolean {
   const filing = filingOf(api, row.campaignId);
   const contest = filing
     ? (elections(api, "contests").get(filing.contestId) as
-        | ContestRow
-        | undefined)
+        ContestRow | undefined)
     : undefined;
   return (
     !!filing &&
@@ -4820,8 +4794,7 @@ export function reachablePeople(
   // voting engine counts together), its sibling seats; only standing filings
   // count, and other offices on the same day's ballot are other races.
   const contest = elections(api, "contests").get(campaign.contestId) as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   for (const seat of contest
     ? atLargeGroup(api, contest)
     : [{ id: campaign.contestId }])
@@ -5123,8 +5096,7 @@ function nextTopic(
   if (!sides.length) return undefined;
   const emphasis = table(api, "emphasis");
   const row = emphasis.get(campaign.filingId) as unknown as
-    | EmphasisRow
-    | undefined;
+    EmphasisRow | undefined;
   const all = row?.counts ?? {};
   const own = row?.byKind[kind] ?? {};
   const sum = (c: Readonly<Record<string, number>>) =>
@@ -6217,8 +6189,7 @@ export function askForEndorsement(
   if (!endorser?.alive) return false;
   const id = `endorsement:${filingId}:${endorserId}`;
   const held = table(api, "endorsements").get(id) as unknown as
-    | EndorsementRow
-    | undefined;
+    EndorsementRow | undefined;
   if (held?.answer === "yes") return true;
   const weighing = endorsementWeighing(api, campaign, endorser);
   const reached = weighing.yes
@@ -6279,8 +6250,7 @@ function askPlayerForEndorsement(
     obligationsOwedBetween(api, player.id, campaign.candidateId)[0]?.id;
   const id = `endorsement:${filingId}:${player.id}`;
   const held = table(api, "endorsements").get(id) as unknown as
-    | EndorsementRow
-    | undefined;
+    EndorsementRow | undefined;
   if (renew && held?.answer !== "asked") return;
   if (held && held.answer !== "asked") return;
   if (rivalFiling(api, campaign, player.id)) return;
@@ -6319,8 +6289,7 @@ function askPlayerForEndorsement(
   };
   table(api, "endorsements").put(row as unknown as ModuleRow);
   const contest = elections(api, "contests").get(campaign.contestId) as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   api.emit({
     id: `${ENDORSEMENT_ASKED_EVENT}:${id}:${date}`,
     date,
@@ -6949,8 +6918,7 @@ function campaignWindows(
     from: filing.filedOn,
     through: (
       contests.get(filing.contestId) as unknown as
-        | { electionDate?: string }
-        | undefined
+        { electionDate?: string } | undefined
     )?.electionDate,
   }));
 }
@@ -7072,8 +7040,7 @@ function foldCauses(
     for (const [voterId, rows] of byVoter) {
       const id = `${voterId}|${candidateId}`;
       const before = summaries.get(id) as unknown as
-        | CauseSummaryRow
-        | undefined;
+        CauseSummaryRow | undefined;
       let moved = before?.moved ?? 0;
       let firstDoor = before?.firstDoor ?? null;
       const acts: Record<
@@ -7976,8 +7943,7 @@ function recordSteppedUp(
   };
   table(api, "steppedUp").put(row as unknown as ModuleRow);
   const contest = elections(api, "contests").get(campaign.contestId) as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   const share = (x: number) => String(Math.round(x * 1000) / 1000);
   // stopgapId: SG-GOV-stepped-up-unread
   api.stopgap("SG-GOV-stepped-up-unread");
@@ -8401,8 +8367,7 @@ export function closeRace(api: CoreAPI, contestId: string): void {
 export function campaignRecognition(api: CoreAPI, filingId: string): number {
   const adultAge = api.parameter("votingAge");
   const campaign = table(api, "campaigns").get(filingId) as unknown as
-    | CampaignRow
-    | undefined;
+    CampaignRow | undefined;
   if (!campaign) return 0;
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
@@ -8551,8 +8516,7 @@ export function tellPetitionShort(
   if (!reading?.due) return false;
   const petition = petitionOf(api, filingId)!;
   const contest = elections(api, "contests").get(campaign.contestId) as
-    | ContestRow
-    | undefined;
+    ContestRow | undefined;
   api.emit({
     id,
     date: api.state.date,

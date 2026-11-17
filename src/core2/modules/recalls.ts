@@ -237,8 +237,7 @@ export function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
   if (!memberId.startsWith("official:"))
     return servingTermsOf(api, memberId)[0];
   const minted = terms.get(memberId.slice("official:".length)) as unknown as
-    | TermRow
-    | undefined;
+    TermRow | undefined;
   if (!minted?.personId) return undefined;
   const serving = servingTermsOf(api, minted.personId);
   return (
@@ -486,8 +485,7 @@ export function openToRecall(api: CoreAPI, term: TermRow): boolean {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(term.officeId) as unknown as
-    | (OfficeInput & { termYears?: number })
-    | undefined;
+    (OfficeInput & { termYears?: number }) | undefined;
   const years = office?.termYears ?? undefined;
   const since =
     term.endDate && years
@@ -1040,8 +1038,7 @@ function recount(api: CoreAPI, recall: RecallRow): RecallRow {
 function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "misconduct-check") return weighMisconduct(api, work);
   const held = table(api).get(work.sourceRecordIds[0]!) as unknown as
-    | RecallRow
-    | undefined;
+    RecallRow | undefined;
   if (!held) return;
   if (work.kind === "petition-due" && held.status === "circulating") {
     // Where the member answered the petition, the count reads the answer.
