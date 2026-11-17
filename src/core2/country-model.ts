@@ -1650,6 +1650,7 @@ export function stepCountry(
         // opening: what the rest wants beyond what its firms sell is bought elsewhere (from
         // the part's firms) from then on, and what they sell beyond it is their other buyers.
         // A sector the part took whole has no firms in the rest to balance.
+        // stopgapId: SG-NATION-rest-buys-from-the-part-fixed-share (the shares are fixed this month and do not follow the played places' own trade afterward)
         row.boughtElsewhereShare =
           modeled > row.sales && modeled > 0 ? 1 - row.sales / modeled : 0;
         const perUnit = otherBuyersOf({ ...row, otherBuyers: 1 });

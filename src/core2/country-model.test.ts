@@ -679,20 +679,22 @@ describe(`a played part where nobody is on record looking: ${where}`, () => {
     // staff than another: every private sector ends the same share of its jobs (its spread of
     // firms in a month when all are asked for the same), and the public sector ends none.
     const cut = state.whatMoved.at(-1)!.jobsCut;
-    const shares = state.sectors.map((cell, at) => {
-      expect(rest[at]!, `${said}, ${cell.sector}`).toBeGreaterThan(0);
-      return cut[at]! / rest[at]!;
-    });
-    const first =
-      shares[state.sectors.findIndex((cell) => cell.sector !== "government")]!;
+    // A sector the state has no jobs in (the District of Columbia has no mining) has no firms
+    // to balance and is no part of the case.
+    const staffed = state.sectors.flatMap((cell, at) =>
+      rest[at]! > 0 ? [{ cell, at, share: cut[at]! / rest[at]! }] : [],
+    );
+    const firms = staffed.filter((row) => row.cell.sector !== "government");
+    expect(firms.length, said).toBeGreaterThan(1);
+    const first = firms[0]!.share;
     expect(first, said).toBeGreaterThan(0);
-    state.sectors.forEach((cell, at) => {
+    for (const { cell, at, share } of staffed) {
       const where = `${said}, ${cell.sector} (${drawnSector} went to the part): ${cut[at]} of ${rest[at]} jobs ended in the first month`;
-      expect(shares[at]!, where).toBeCloseTo(
+      expect(share, where).toBeCloseTo(
         cell.sector === "government" ? 0 : first,
         9,
       );
-    });
+    }
   });
 
   it("over ten years a layoff in the state moves its rate, and nothing brings it back on a schedule", () => {
