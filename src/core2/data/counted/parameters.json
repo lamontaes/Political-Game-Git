@@ -83,6 +83,18 @@
       "citation": "The same fit to the CPS ASEC 2019 to 2023 range of in-state shares, 0.50 to 0.65."
     }
   },
+  "countedMovesUnheldScale": {
+    "value": 2.45,
+    "tag": "ESTIMATED",
+    "citation": "The rate of leaving the county for a counted household nothing holds (a renter with no children at home) over its state's average at its age (the country tier's rate): the one strength the counted leaving rule reads (counted-moves.ts month), so each household's own holds set how far it sits from the unheld rate and nothing renormalizes a place to the average. Fitted once nationally so the holds the counted rule carries, averaged over the nation's people, give back the average: owners 226.1 million and renters 101.0 million people (CPS ASEC 2023, Table 1, rows 66-67), so with the owner hold (movesOwnerHold, 1.21) the tenure part averages 0.515; family householders 15 to 54 with own children under 18 are 31.1 of 49.3 million (Table 6, rows 9-10), so with the children hold (movesChildrenHold, 0.4) that part averages 0.792; 1 / (0.515 x 0.792) = 2.45 (data/research/core/cps-asec-2023-mobility.json).",
+    "estimatedFrom": "1 / (E[exp(-owner hold)] x E[exp(-children hold)]) over the nation's people, the two taken as independent; the children share is of family householders 15 to 54 (Table 6's universe), above its share of all people, so the scale leans high. Nothing renormalizes a place to the average: a place with more owners or children leaves less, one with fewer leaves more.",
+    "spread": {
+      "low": 1.94,
+      "high": 2.45,
+      "unit": "multiple of the state's average rate of leaving",
+      "citation": "Tenure alone, 6.23% / 3.20% different-county movers among renters over everyone (CPS ASEC 2023 Table 1) = 1.94, to tenure and children together, 2.45."
+    }
+  },
   "countedMovesRenterHousingWeight": {
     "value": 0.3,
     "tag": "ESTIMATED",

@@ -600,7 +600,11 @@ function stageRate(
     wages,
     renter,
   );
-  if (tier) return tier;
+  if (tier)
+    return {
+      rate: tier.rate * m(api, "movesLifeStageScale"),
+      reads: tier.reads,
+    };
   // stopgapId: SG-LIVES-moves-no-tier-rate
   api.stopgap(NO_TIER_STOPGAP);
   return {

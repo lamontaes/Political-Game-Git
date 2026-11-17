@@ -634,9 +634,8 @@ function weighingFor(
  * A full person's yearly rate of leaving their county by the counted tier's
  * own rule (one leaving rule for both tiers): their home state's rate at
  * their age from the country tier, for another state and, on top, for the
- * rest of their state by the destination weighing at their wages and tenure,
- * times the one strength fitted nationally (movesLifeStageScale). Their own
- * holds, pushes, place and web are the caller's (moves.ts). None where no
+ * rest of their state by the destination weighing at their wages and tenure.
+ * Their own scale, holds, pushes, place and web are the caller's (moves.ts). None where no
  * tier runs (a world without the economy).
  */
 export function countedLeavingRate(
@@ -655,10 +654,7 @@ export function countedLeavingRate(
   const band = coarseIndex(age, api.parameter("votingAge"));
   const near = weighingFor(api, rt, home, wages, renter).near;
   return {
-    rate:
-      yearlyRate(rt, home, band) *
-      (1 + near) *
-      MOVES.movesLifeStageScale!.value,
+    rate: yearlyRate(rt, home, band) * (1 + near),
     reads: [tierStateId(home)],
   };
 }
@@ -785,8 +781,8 @@ function month(api: CoreAPI): void {
     return row;
   };
   // The one strength fitted once nationally: an unheld household's rate of
-  // leaving over its state's average (moves parameters).
-  const scale = MOVES.movesLifeStageScale!.value;
+  // leaving over its state's average.
+  const scale = countedParameter("countedMovesUnheldScale");
 
   // Each home state's yearly rate of leaving for another state at an age, by
   // the tier's own rule: the share of its band leaving this month, a year of
