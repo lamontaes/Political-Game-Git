@@ -53,6 +53,11 @@ A words read answers one question for one exact sha: can a player meet every wor
 - A carry-over line says what was compared (the by-piece lists at both heads) and that the played file at the new head was read; if the old file is deleted, say that "the same" rests on the compare and the read, not on a diff.
 - Thread messages cap at 2,000 characters. A longer read goes in a file beside the played file and is deleted when the head moves or the PR is stamped.
 
+## When the builder's thread is gone (Nov 17, Story lead)
+
+- The Words lead's and its builders' played files were kept under `/mnt/project-files/words-lead/`, which a cloud session on another account cannot read. The reader then remakes the evidence: a Sonnet helper merges main into the branch (a train base that main already holds is read against main), makes the by-piece lists against main, runs the PR's own tests, and plays the lines at the head with the branch's own scripts or one written in its scratchpad (never committed), at two or three drawn seeds. The stamp or hold rests on that run and names it. The same helper then carries the fixes as the branch's fixer, since no builder session remains.
+- The read of #9512 (Nov 17) found four classes a replay catches that a test does not: a figure said in the narration and again in a reply, a reply answered by a line that answers something else (an `after` placing missing), a possessive built after an appositive ("the Select Board,'s team"), and a pin that stopped reaching its case once main moved. Look for each in every replay.
+
 ## Traps found Nov 15 (after #9455, #9369, #9389)
 
 - Two lines that differ by one word (a form with "the" and one without, a slot in a different spot) match the same search fragment. Count each sibling by the words only it has, or by its key; a fragment match on the shared part is not "seen". The Words lead's own check passed an unplayed line this way.

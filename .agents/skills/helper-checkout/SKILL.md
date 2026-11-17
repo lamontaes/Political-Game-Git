@@ -46,6 +46,8 @@ description: >
 - **Never check out, `checkout -B` or `reset` a branch another copy has checked out (Long game, Nov 17).** Worktree copies share one set of branch refs, so `git checkout -B <branch>` in a helper moved that branch under the main checkout, which then showed the merge backwards as uncommitted changes. Before reusing a copy for a branch, run `git worktree list`; if another copy holds the branch, work there or detach this one first. To recover, `git switch --detach <commit>` in the copy whose files already match that commit, which leaves its tree clean without a reset.
 - If `df -h /` shows little free space with low "Used", the session's allowance is spent: narrow every helper copy before deleting anything else.
 
+- **One heavy run per machine, not per helper (Nov 17, Story lead).** Five helpers each running "one heavy command at a time" put eleven node processes and 11 GB on a 15 GB machine; a 6 GB scene-samples run and a 12-seed trace were killed (exit 137). The lead's brief sets the ceiling: name which helpers may run a world build at the same time, give trace scripts `--max-old-space-size=4096`, and check `free -g` before starting a run of your own. A run killed this way prints nothing; look for "Killed" in the task output.
+
 ## Stop condition
 
 The skill ends when every helper's copy is sparse, outside the main checkout and on its own branch. Anything it cannot narrow (a copy another session owns) goes to that session or the CTO.
