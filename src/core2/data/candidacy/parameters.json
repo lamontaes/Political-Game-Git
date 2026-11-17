@@ -86,6 +86,12 @@
     "citation": "How much each person already running for a seat lowers the pull of running for it: would-be candidates weigh their chances and avoid crowded races, entering where the field is thin (strategic entry: Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Cox and Katz 1996, American Journal of Political Science 40(2):478-497). Set so a second challenger enters only when their own pull clears the stay-out bar by half a point, which in drawn towns keeps local seats at one or two challengers. Spread 0.25 to 1.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
+  "candidacyPrimaryFieldWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "How much each person already running on a would-be candidate's own side of a partisan race lowers the pull of running: the crowd they weigh is the primary they would enter (Jacobson and Kernell 1983; Cox and Katz 1996), not the other party's. Set so the runners per partisan race in drawn towns stay near where the whole-field rule (candidacyFieldWeight per runner of any party) put them, while one party filling the field no longer keeps the other's out. Nov 17, by 2026-09-01: Littleton, New Hampshire (seed c39493ecf5cbe155) state legislative races drew 17 Democrats, 6 Republicans and 5 others under the whole-field rule, 23/6/6 at 1.0 and 19/6/5 at 1.5; its U.S. House race 1/5, 3/7 and 1/7. At Quinton, Oklahoma (seed 2fddcecdc805d664) the 2028 presidency drew 7 Republicans and no Democrat under the whole-field rule and 2 and 2 at 1.5. Spread 1 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "candidacyCountywideWeight": {
     "value": 0.5,
     "tag": "TUNABLE",
