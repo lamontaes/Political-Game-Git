@@ -91,7 +91,17 @@ export function findTownBorrower(
       const cash = members.reduce((sum, row) => sum + row.liquidMinor, 0);
       const costs =
         members.reduce((sum, row) => sum + row.livingCostDailyMinor, 0) * 30;
-      if (cash < costs) built.director.watch(core, head.id as PersonId);
+      if (cash < costs) {
+        built.director.watch(core, head.id as PersonId);
+        // HAND-STAGED: the borrower and their housemates are followed as the
+        // player's own household is (state.ts keeps the durable record of a
+        // followed person's days), so the missed payment, the quarrel and the
+        // promise are kept as records the talk can read.
+        for (const member of members)
+          (core.focusPersonIds as unknown as Set<PersonId>).add(
+            member.id as PersonId,
+          );
+      }
     }
     const found: CoreEventInput[] = [];
     const missedBy = new Map<string, CoreEventInput>();
