@@ -177969,7 +177969,7 @@
       "key": "scene-talk.narrate-narrate.name-is-expecting-you-at-employer",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is expecting you at {employer}.",
+      "text": "{name} is at the door of {employer} when you come in.",
       "uses": [
         {
           "subject": "scene",
@@ -178019,7 +178019,7 @@
       "key": "scene-talk.narrate-narrate.your-first-day-at-employer-name-has-been-here-longest-there-and-has-the",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Your first day at {employer}. {name} has been here {longest-there} and has the keys.",
+      "text": "Your first day at {employer}. {name} has been here {longest-there}.",
       "uses": [
         {
           "subject": "scene",
@@ -178144,7 +178144,7 @@
       "key": "scene-talk.narrate-narrate.you-ve-come-over-from-came-from-to-employer-name-meets-you-at-the-door",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You've come over from {came-from} to {employer}. {name} meets you at the door.",
+      "text": "Your first day at {employer}, after {came-from}. {name} meets you at the door.",
       "uses": [
         {
           "subject": "scene",
