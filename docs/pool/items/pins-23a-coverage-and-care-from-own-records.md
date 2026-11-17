@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: L
-status: open
+status: in-pr
 standard: 2
 claimed-by: lives
 pr:
