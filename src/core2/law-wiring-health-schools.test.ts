@@ -761,19 +761,17 @@ function play(where: string, seed: string, core: CoreState): void {
       members(snapHousehold?.targetId ?? "").includes(id),
     ),
   );
-  const workRow = appliedOn(api, ASSIST_WORK).find(
-    (r) => r.target === "person",
-  );
-  record(
-    ASSIST_WORK,
-    workRow,
-    moneyTo("benefit|snap-baseline", (id) => id === workRow?.targetId) ??
-      moneyTo(
-        "benefit|budget-line:welfareAndMedicaid",
-        (id) => id === workRow?.targetId,
-      ) ??
-      moneyTo(`ended|snap-baseline`, (id) => id === workRow?.targetId),
-  );
+  // The first person the requirement bound whose benefit the journal paid or
+  // ended: a bound person with no benefit on the books has no money to follow.
+  const workMoney = (id: string) =>
+    moneyTo("benefit|snap-baseline", (who) => who === id) ??
+    moneyTo("benefit|budget-line:welfareAndMedicaid", (who) => who === id) ??
+    moneyTo("ended|snap-baseline", (who) => who === id);
+  const workRow =
+    appliedOn(api, ASSIST_WORK).find(
+      (r) => r.target === "person" && workMoney(r.targetId) !== null,
+    ) ?? appliedOn(api, ASSIST_WORK).find((r) => r.target === "person");
+  record(ASSIST_WORK, workRow, workRow ? workMoney(workRow.targetId) : null);
   const prekHousehold = prek.find(
     (r) =>
       r.target === "household" &&
