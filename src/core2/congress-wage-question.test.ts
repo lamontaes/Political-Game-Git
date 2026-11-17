@@ -26,7 +26,10 @@ const place = drawPlace(replay, "congress-wage-question");
 const shared = "us-policy-positions:labor-workforce.raise-minimum-wage";
 const canonical =
   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
-it(`Congress uses one wage rule through either catalog name: ${place.name}, replay ${replay}`, () => {
+// One label per rule at a level (Laws and effects, Nov 17, on issue 9747; item
+// laws-congress-holds-two-questions-for-one-federal-wage-rule): Congress drafts the
+// wage rule under its own federal label only, and the states' label is not Congress's.
+it(`Congress drafts the one wage rule under its own label: ${place.name}, replay ${replay}`, () => {
   setBookkeeping(false);
   try {
     const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -38,11 +41,21 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
       billCatalog(api, "federal", "US").flatMap((s) =>
         s.topics.flatMap((t) => t.policies),
       );
-    const common = () => menu().find((p) => p.id === `question:${shared}`)!;
     const legacy = () => menu().find((p) => p.id === `question:${canonical}`)!;
-    expect(common()).toBeDefined();
-    expect(common().authority.allowed).toBe(true);
-    expect(common().inForceRecordId).toBe(legacy().inForceRecordId);
+    // The menu offers the rule once, under Congress's label.
+    expect(menu().some((p) => p.id === `question:${shared}`)).toBe(false);
+    expect(legacy()).toBeDefined();
+    expect(legacy().authority.allowed).toBe(true);
+    // A federal bill under the states' label is refused: Congress decides the
+    // rule under its own label.
+    const statesLabel = draftBill(api, {
+      bodyOfficeId: FEDERAL_HOUSE,
+      sponsorId: memberKey(members(api, FEDERAL_HOUSE)[0]!),
+      provisions: [
+        provisionFor({ policyId: `question:${shared}`, operation: "enact" }),
+      ],
+    });
+    expect(statesLabel.authority.some((a) => !a.allowed)).toBe(true);
     const before = lawInForce(api, "minimum-wage").levels.find(
       (l) => l.level === "federal",
     )!.row!;
@@ -60,10 +73,10 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
     });
     const records: string[] = [];
     for (const [question, operation] of [
-      [shared, "enact"],
-      [shared, "repeal"],
       [canonical, "enact"],
-      [shared, "repeal"],
+      [canonical, "repeal"],
+      [canonical, "enact"],
+      [canonical, "repeal"],
     ] as const) {
       const effectiveDate = addDays(makeIsoDate(api.state.date), 1);
       const bill = draftBill(api, {
@@ -88,8 +101,8 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
         } as unknown as ModuleRow);
       expect(executiveDecision(api, bill.id, true).status).toBe("enacted");
       advanceCore(world.core, addDays(makeIsoDate(effectiveDate), 1));
-      expect(common().inForce).toBe(operation === "enact" ? 1 : 0);
-      expect(common().inForceRecordId).toBe(legacy().inForceRecordId);
+      expect(legacy().inForce).toBe(operation === "enact" ? 1 : 0);
+      expect(legacy().inForceRecordId).toBeTruthy();
       const answer = lawInForce(api, "minimum-wage");
       const federal = answer.levels.find((l) => l.level === "federal")!.row!;
       if (operation === "enact")
@@ -99,7 +112,7 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
       expect(
         answer.levels.find((l) => l.row?.id === stronger.id)?.setAside,
       ).toBeUndefined();
-      records.push(common().inForceRecordId!, federal.id);
+      records.push(legacy().inForceRecordId!, federal.id);
     }
     const duplicate = api
       .moduleState(LAWS_MODULE_ID)

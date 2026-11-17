@@ -2,6 +2,11 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 17, 2026, morning: Desk answers (owner, verbatim; recorded by the CTO)
+
+- **Who hears a speech** (8:04 a.m.): "One by one: only the people you can see that day (household, family, people in focus, officials present). Everyone else hears it as part of their group, and each still keeps their own record when you meet them." Detail on demand: one record per group, and a person's own record is made when the player meets them.
+- **New mechanics from real lives, bank 3** (8:03 a.m.): "Build the basic versions after the road to the first election is done: impeachment and censure, certification, quorum, special election dates. Violence aimed at officeholders stays out for now."
+
 ## Nov 16-17, 2026, night (owner, verbatim; recorded by the CTO)
 
 - **Everything comes from the simulation.** "No, again, real number of businesses. Everything comes from the simulation. Stop pegging things to real numbers. Everything comes from the simulation." Real data only sets the strength of a relationship. It never sets a count, rate, level, share, band or starting value. (cto-notes/playtest/2026-11-17-pins-to-lift.md lists the 489 pins being lifted.)
