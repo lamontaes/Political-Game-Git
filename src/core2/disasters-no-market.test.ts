@@ -80,7 +80,6 @@ const dueIn = (core: CoreState, end: string) =>
  * homes with the payees noted.
  */
 function playYear(core: CoreState) {
-  causeDamagingDisaster(coreAPI(core));
   const end = addDays(makeIsoDate(core.date), 365);
   const payees = new Map<number, Payees>();
   for (const disaster of dueIn(core, end)) {
@@ -130,6 +129,7 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
     });
     const where = `${place.name} (${place.key}), seed ${seed}`;
     const api = coreAPI(core);
+    causeDamagingDisaster(api);
     const end = addDays(makeIsoDate(core.date), 365);
     const disaster = dueIn(core, end)[0];
     expect(
@@ -217,13 +217,16 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
       const drawn = drawPlace(`${drawSeed}:${draw}`, "disasters-no-market");
       const name = normalizedGovernmentName(drawn.name.split(",")[0] ?? "");
       if (!townsWithDamage(drawn.state.replace(/^US-/, "")).has(name)) continue;
-      opened += 1;
       const core = createLifeCore(
         generatedOpening(drawn, {
           twoLevel: true,
           settings: { population: 1500 },
         }),
       );
+      // The county's own exposure makes the disaster: cause the next that damages the town.
+      // A place whose county has none recorded is passed over unopened.
+      if (!causeDamagingDisaster(coreAPI(core))) continue;
+      opened += 1;
       if (!dueIn(core, addDays(makeIsoDate(core.date), 365)).length) continue;
       const where = `${drawn.name} (${drawn.key}), seed ${drawSeed}:${draw}`;
       const damaged = playYear(core);
