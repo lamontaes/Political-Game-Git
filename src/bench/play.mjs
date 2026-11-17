@@ -366,13 +366,15 @@ $("news-reader-close").addEventListener("click", () =>
  * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
  * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
  * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
- * clock closes the cards first.
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
  */
 function closeCards() {
   if (!$("person").hidden) closePerson();
   show("news-reader", false);
   show("tip", false);
-  if (openTab) closeSheet();
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
 }
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -2674,6 +2676,24 @@ function storyStop(value) {
     : undefined;
 }
 
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
+}
+
 // ---- The person card: only what you could know about them ----
 let personRequest = 0;
 let personOpener;
@@ -2818,15 +2838,24 @@ async function personCardNode(
     // playtest, Nov 8).
     ...(c.history?.length
       ? [
-          stripSection(
-            5,
-            capital(heading("lifeStory", "lifeStoryThey")),
-            ...lifeParagraphs(c.history),
+          markLife(
+            stripSection(
+              5,
+              capital(heading("lifeStory", "lifeStoryThey")),
+              ...lifeParagraphs(c.history),
+            ),
           ),
         ]
       : []),
   ];
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
+  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
+  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2866,12 +2895,23 @@ async function personCardNode(
     node: stripScreen({
       name: c.name,
       role,
+      nameBeside: true,
+      // The approved card's bust stands as tall as its sections (pl-people).
+      bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
   };
+}
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 440;
+/** A card's life story section, marked so the card can set it in its second column. */
+function markLife(node) {
+  node.dataset.life = "1";
+  return node;
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -5462,7 +5502,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),

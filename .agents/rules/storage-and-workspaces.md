@@ -14,6 +14,6 @@ On 2026-09-19 more than 100 GB of project copies had accumulated on the owner's 
 
 ## Branches and takeovers
 
-- **One writer per branch.** Don't push to a branch another session is working on. Claiming a sent-back pool item transfers its branch to you (`pr-fixer`).
+- **One writer per branch.** Don't push to a branch another session is working on. Claiming a sent-back pool item transfers its branch to you (`merger` (pr-fixer part)).
 - **Takeover:** treat the previous session's workspace as read-only. Salvage dirty work as an inspectable patch plus reviewed untracked files. Never clean, reset or stash another agent's tree.
 - **Publishing:** plain fast-forward pushes only; never force-push, rebase or amend a pushed branch. Fetch and re-check the remote head right before pushing. If the remote branch moved unexpectedly, stop rather than overwrite it.
