@@ -22,6 +22,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
+import keptJson from "./data/kept-scene-kinds.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
@@ -259,9 +260,18 @@ export interface SituationLibrary {
     metWhereYouAre?: readonly string[];
   };
   types: readonly SituationType[];
+  /**
+   * The scene kinds the director may stage (data/kept-scene-kinds.json; owner,
+   * Nov 17: every scene the English engine did not compose from the world's
+   * own records is deleted). A type not on it is held back as `not-kept`.
+   */
+  kept: readonly string[];
 }
 
-export const SITUATION_LIBRARY = situationJson as unknown as SituationLibrary;
+export const SITUATION_LIBRARY: SituationLibrary = {
+  ...(situationJson as unknown as Omit<SituationLibrary, "kept">),
+  kept: keptJson.kinds.map((kind) => kind.key),
+};
 
 export interface SceneBinding {
   typeKey: string;
@@ -328,11 +338,13 @@ export interface ScheduleEntry {
    * season was full (`season-cap`), or a letter would have asked the same with
    * nothing on record since (`nothing-changed`), or a friend has nothing
    * to ask that the game can settle (`nothing-to-ask`: no town meeting
-   * posted that the player may come to). The journal tells these.
+   * posted that the player may come to), or the type is not on the written
+   * list of kept scene kinds (`not-kept`: owner, Nov 17, its lines were not
+   * composed from records). The journal tells these.
    */
   heldBack?: {
     typeKey: string;
-    reason: "season-cap" | "nothing-changed" | "nothing-to-ask";
+    reason: "season-cap" | "nothing-changed" | "nothing-to-ask" | "not-kept";
   }[];
   /**
    * The bound scenes with a purpose the player has answered, by type: a
@@ -1132,15 +1144,20 @@ export function scheduleMoment(
     !pressedByPlayer(row) &&
     !library.types.find((type) => type.key === row.typeKey)?.openDecision &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
+  // A scene kind not on the written list is never staged (owner, Nov 17:
+  // "DELETE EVERYTHING THAT IT HASNT WRITTEN"), and the trace says why.
+  const notKept = (row: SceneBinding) => !library.kept.includes(row.typeKey);
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
-      seasonFull(row)
-        ? [{ typeKey: row.typeKey, reason: "season-cap" }]
-        : sameLetter(row) || sameRecordAgain(row)
-          ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
-          : nothingToAsk(row)
-            ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
-            : [],
+      notKept(row)
+        ? [{ typeKey: row.typeKey, reason: "not-kept" }]
+        : seasonFull(row)
+          ? [{ typeKey: row.typeKey, reason: "season-cap" }]
+          : sameLetter(row) || sameRecordAgain(row)
+            ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
+            : nothingToAsk(row)
+              ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
+              : [],
   );
   const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(

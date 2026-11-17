@@ -1,0 +1,217 @@
+{
+  "about": "The scene kinds the director may stage (owner, Nov 17, 2026, after playing v0.113.0: \"STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING.\"; confirmed \"Yes, that's it. Go.\"). Every situation type in situation-types.json must be on this list (tests/guards/director/kept-scene-kinds.test.ts), and the director refuses to stage a type that is not, writing a held-back row with reason not-kept. The list is the Story lead's KEPT list on issue #9750 (comment 6955131279): kinds whose lines the English engine composes from the world's own records. records: the cause records the type is staged from; composedIn: where its lines are composed.",
+  "kinds": [
+    {
+      "key": "door-ask",
+      "records": [
+        "campaign.door"
+      ],
+      "composedIn": "on main: the door (#9846)"
+    },
+    {
+      "key": "door-signature",
+      "records": [
+        "campaign.door"
+      ],
+      "composedIn": "on main: the door (#9846)"
+    },
+    {
+      "key": "speech-afterward",
+      "records": [
+        "speech.heard"
+      ],
+      "composedIn": "on main: the door (#9846)"
+    },
+    {
+      "key": "filing",
+      "records": [
+        "candidate-filed"
+      ],
+      "composedIn": "on main: the filing petition"
+    },
+    {
+      "key": "press-interview",
+      "records": [
+        "executive-action",
+        "veto-override",
+        "office.introduced",
+        "legislative-vote",
+        "interview-published",
+        "bill-held-in-committee"
+      ],
+      "composedIn": "#9794"
+    },
+    {
+      "key": "family-filing",
+      "records": [
+        "candidate-filed"
+      ],
+      "composedIn": "#9905"
+    },
+    {
+      "key": "endorsement-ask",
+      "records": [
+        "endorsement-asked"
+      ],
+      "composedIn": "#9909"
+    },
+    {
+      "key": "donor-ask",
+      "records": [
+        "cause.donated",
+        "campaign-gift"
+      ],
+      "composedIn": "#9931"
+    },
+    {
+      "key": "vote-asked",
+      "records": [
+        "bill-amendment",
+        "vote-ahead",
+        "committee-hearing"
+      ],
+      "composedIn": "#9935"
+    },
+    {
+      "key": "vote-sought",
+      "records": [
+        "vote-ahead"
+      ],
+      "composedIn": "#9935"
+    },
+    {
+      "key": "cause-invite",
+      "records": [],
+      "composedIn": "#9947"
+    },
+    {
+      "key": "bribe-offer",
+      "records": [
+        "corruption.bribe-offered"
+      ],
+      "composedIn": "#9953"
+    },
+    {
+      "key": "bribe-pressed",
+      "records": [
+        "corruption.bribe-pressed"
+      ],
+      "composedIn": "#9953"
+    },
+    {
+      "key": "accusation",
+      "records": [
+        "justice.accused",
+        "news.read"
+      ],
+      "composedIn": "#9972"
+    },
+    {
+      "key": "apology",
+      "records": [
+        "family.quarrel"
+      ],
+      "composedIn": "#9975"
+    },
+    {
+      "key": "advice",
+      "records": [
+        "work.mentorship-formed",
+        "party-asked"
+      ],
+      "composedIn": "#9983"
+    },
+    {
+      "key": "last-day",
+      "records": [
+        "school.finished",
+        "job"
+      ],
+      "composedIn": "#9984"
+    },
+    {
+      "key": "bill-carry",
+      "records": [
+        "office.introduced",
+        "carry-asked"
+      ],
+      "composedIn": "#9986"
+    },
+    {
+      "key": "vote-confirmed",
+      "records": [
+        "veto-override",
+        "vote-promise"
+      ],
+      "composedIn": "#9986"
+    },
+    {
+      "key": "race-won",
+      "records": [
+        "election-result"
+      ],
+      "composedIn": "being rewritten with inserts today (election night)"
+    },
+    {
+      "key": "first-day",
+      "records": [],
+      "composedIn": "being rewritten with inserts today"
+    },
+    {
+      "key": "serve-sought",
+      "records": [
+        "serve-asked"
+      ],
+      "composedIn": "on main, mostly composed; its bare lines are cut today"
+    },
+    {
+      "key": "constituent-stop",
+      "records": [
+        "news.read",
+        "law.effect-learned"
+      ],
+      "composedIn": "on main, mostly composed; its bare lines are cut today"
+    },
+    {
+      "key": "job-offer",
+      "records": [
+        "job-offered"
+      ],
+      "composedIn": "on main, mostly composed; its bare lines are cut today"
+    },
+    {
+      "key": "news-arrives",
+      "records": [],
+      "composedIn": "no lines of its own: it draws from the conversation bank, which loses every bare line"
+    },
+    {
+      "key": "debate-sitting",
+      "records": [
+        "debate-accepted"
+      ],
+      "composedIn": "no lines of its own: it draws from other registers"
+    },
+    {
+      "key": "interview-sitting",
+      "records": [
+        "interview-accepted"
+      ],
+      "composedIn": "no lines of its own: it draws from other registers"
+    },
+    {
+      "key": "polling-place",
+      "records": [],
+      "composedIn": "no lines of its own: it draws from other registers"
+    },
+    {
+      "key": "address",
+      "records": [
+        "president.address",
+        "governor.address",
+        "mayor.address"
+      ],
+      "composedIn": "placeholder: the Story lead rebuilds it from the world's own year today or deletes it",
+      "status": "rebuild-or-delete-today"
+    }
+  ]
+}
