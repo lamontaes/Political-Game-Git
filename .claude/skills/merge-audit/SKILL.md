@@ -29,7 +29,7 @@ Who merges and who checks is in `docs/coordination/CREW.md` (mergers split by PR
    - A pool item built that lacks `checked: fable`, says `Needs cause.`, or has no `standard: 2` fields (owner, Nov 10; `.agents/rules/pool-item-standard.md`); an item moved to `done` without `npm run pool -- seen` by a second session (owner, Nov 3).
    - A rule, check or skill PR that did not merge ahead of the PRs it judges, or a PR its rule should have caught (owner, Nov 10).
    - A play item merged without its before and after screenshots, or a changed look merged without the owner's yes.
-   - Any import or path under `src/simulation` (the old core was deleted Oct 28, #6659; the `old-imports` guard refuses it).
+   - Any import or path under `src/simulation` (removed) (the old core was deleted Oct 28, #6659; the `old-imports` guard refuses it).
    - Owner or date notes in code or data.
    - Pool sections pasted twice.
    - Places hard-coded in logic.
