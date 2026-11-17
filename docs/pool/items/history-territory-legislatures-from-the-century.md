@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/history-territory-legislatures
-pr:
+pr: "#9976"
 after: history-state-places-from-the-century
 blocked-on:
 lead: elections
