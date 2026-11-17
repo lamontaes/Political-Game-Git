@@ -292,7 +292,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.reply-agree.all-right-i-ll-call-tonight",
   "scene-talk.reply-agree.okay-i-ll-go-over-there-tonight",
   "scene-talk.reply-agree.then-i-ll-do-it-tonight",
-  "scene-talk.follow-confront.not-after-tonight-you-re-not",
   "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
   "scene-talk.follow-warn.earn-it-again-tomorrow-tonight-be-gracious",
   "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
@@ -306,7 +305,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
   "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
-  // The bill's vote that evening, from its floor date (rule 22).
   "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
 describe("the time of day in scene talk", () => {
