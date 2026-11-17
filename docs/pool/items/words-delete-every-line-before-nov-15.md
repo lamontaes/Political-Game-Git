@@ -5,10 +5,10 @@ area: words
 kind: cleanup
 priority: 1
 size: L
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: story
+pr: 10063
 after:
 blocked-on:
 lead: story
