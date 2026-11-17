@@ -117431,7 +117431,7 @@
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
           "tie": "law"
         },
         {
@@ -117439,7 +117439,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
           "tie": "law"
         }
       ],
@@ -117527,7 +117527,7 @@
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
           "tie": "law"
         },
         {
@@ -117535,7 +117535,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "requiresFacts": ["asked", "asked-about", "realm-bare", "asked-for"],
           "tie": "law"
         }
       ],
@@ -117667,7 +117667,7 @@
           "subject": "inaugural",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
           "tie": "law"
         },
         {
@@ -117675,7 +117675,7 @@
           "subject": "state-of-the-union",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
+          "requiresFacts": ["asked", "asked-about", "asked-for"],
           "tie": "law"
         }
       ],
@@ -118220,7 +118220,8 @@
             "asked-holds-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118234,7 +118235,8 @@
             "asked-holds-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
@@ -118380,7 +118382,8 @@
             "asked-holds-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118394,7 +118397,8 @@
             "asked-holds-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
@@ -118420,7 +118424,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118434,7 +118439,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
@@ -118500,7 +118506,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118514,7 +118521,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
@@ -118540,7 +118548,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118554,7 +118563,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
@@ -118580,7 +118590,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118594,7 +118605,8 @@
             "asked-lacks-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
