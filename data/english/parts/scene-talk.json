@@ -191481,6 +191481,30 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.money.you-missed-loan-and-name-has-the-papers-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You missed {loan}, and {name} has the papers out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.money.name-has-gone-over-the-bills-and-found-you-behind",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -191505,10 +191529,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.money.you-re-behind-on-loan-and-name-has-the-papers-out",
+      "key": "scene-talk.narrate-narrate.money.name-has-the-bills-out-and-is-waiting-for-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You're {behind} on {loan}, and {name} has the papers out.",
+      "text": "{name} has the bills out and is waiting for you.",
       "uses": [
         {
           "subject": "scene",
@@ -191516,8 +191540,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["behind", "loan"]
+          "key": "routine"
         }
       ],
       "origin": "authored",
@@ -191525,31 +191548,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.money.do-you-have-a-minute-we-re-behind",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Do you have a minute? We're {behind}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["behind"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
         "key": "routine"
       }
     },
@@ -191604,10 +191602,35 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.money.lender-called-about-loan-i-found-out-from-them",
+      "key": "scene-talk.open-greet.money.do-you-have-a-minute-we-re-behind",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute? We're {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.money.lender-called-i-found-out-from-them",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "{lender} called about {loan}. I found out from them.",
+      "text": "{lender} called. I found out from them.",
       "uses": [
         {
           "subject": "scene",
@@ -191616,7 +191639,7 @@
           "role": "asker",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["lender", "loan"]
+          "requiresFacts": ["lender"]
         }
       ],
       "bearing": "hurt",
@@ -191629,10 +191652,10 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.money.we-re-behind-on-loan-when-were-you-going-to-tell-me",
+      "key": "scene-talk.state-confront.money.you-missed-loan-and-i-want-to-know-why",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "We're {behind} on {loan}. When were you going to tell me?",
+      "text": "You missed {loan}, and I want to know why.",
       "uses": [
         {
           "subject": "scene",
@@ -191641,35 +191664,10 @@
           "role": "asker",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["behind", "loan"]
+          "requiresFacts": ["loan"]
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-confront.money.again-with-loan-i-m-done-pretending-it-s-fine",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Again with {loan}. I'm done pretending it's fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["quarreled-before", "loan"]
-        }
-      ],
-      "bearing": "firm",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -191704,6 +191702,56 @@
       }
     },
     {
+      "key": "scene-talk.state-confront.money.we-re-behind-when-were-you-going-to-tell-me",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We're {behind}. When were you going to tell me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.money.again-i-m-done-pretending-it-s-fine",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Again. I'm done pretending it's fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["quarreled-before"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-apologize.money.you-re-right-i-missed-loan-and-that-s-on-me",
       "move": "reply-apologize",
       "kind": "spoken",
@@ -191717,31 +191765,6 @@
           "purpose": "owed-apology.money",
           "key": "routine",
           "requiresFacts": ["loan"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.money.i-let-us-fall-behind-i-m-sorry-and-i-ll-fix-it",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I let us fall {behind}. I'm sorry, and I'll fix it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["behind"]
         }
       ],
       "bearing": "contrite",
@@ -191779,10 +191802,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.money.i-ll-pay-loan-by-due-next-hold-me-to-it",
+      "key": "scene-talk.reply-apologize.money.i-let-us-fall-behind-i-m-sorry-and-i-ll-fix-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I let us fall {behind}. I'm sorry, and I'll fix it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.money.i-ll-pay-by-due-next-hold-me-to-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll pay {loan} by {due-next}. Hold me to it.",
+      "text": "I'll pay by {due-next}. Hold me to it.",
       "uses": [
         {
           "subject": "scene",
@@ -191791,7 +191839,7 @@
           "role": "asked",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["loan", "due-next"]
+          "requiresFacts": ["due-next"]
         }
       ],
       "bearing": "firm",
@@ -191804,10 +191852,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.money.on-due-next-the-first-thing-i-pay-is-loan",
+      "key": "scene-talk.reply-promise.money.on-due-next-the-first-thing-i-pay-is-the-bill",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "On {due-next}, the first thing I pay is {loan}.",
+      "text": "On {due-next}, the first thing I pay is the bill.",
       "uses": [
         {
           "subject": "scene",
@@ -191816,7 +191864,7 @@
           "role": "asked",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["loan", "due-next"]
+          "requiresFacts": ["due-next"]
         }
       ],
       "bearing": "firm",
@@ -191829,10 +191877,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.money.i-ll-get-us-out-of-being-behind-by-due-next",
+      "key": "scene-talk.reply-promise.money.next-time-loan-gets-paid-first-hold-me-to-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll get us out of being {behind} by {due-next}.",
+      "text": "Next time, {loan} gets paid first. Hold me to it.",
       "uses": [
         {
           "subject": "scene",
@@ -191841,7 +191889,7 @@
           "role": "asked",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["behind", "due-next"]
+          "requiresFacts": ["loan"]
         }
       ],
       "bearing": "firm",
@@ -191854,10 +191902,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.money.i-ll-set-the-money-aside-before-due-next-we-ll-be-caught-up",
+      "key": "scene-talk.reply-promise.money.i-ll-get-us-out-of-being-behind-hold-me-to-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll set the money aside before {due-next}. We'll be caught up.",
+      "text": "I'll get us out of being {behind}. Hold me to it.",
       "uses": [
         {
           "subject": "scene",
@@ -191866,7 +191914,7 @@
           "role": "asked",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["due-next", "behind"]
+          "requiresFacts": ["behind"]
         }
       ],
       "bearing": "firm",
@@ -191904,6 +191952,31 @@
       }
     },
     {
+      "key": "scene-talk.reply-deflect.money.it-ll-be-paid-by-due-next-don-t-make-it-bigger",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It'll be paid by {due-next}. Don't make it bigger.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-deflect.money.being-behind-isn-t-the-end-of-the-world",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -191929,32 +192002,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.money.we-ve-done-this-before-it-never-changes-anything",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "We've done this before. It never changes anything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["quarreled-before"],
-          "setsFacts": ["confronted"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.money.you-ve-never-once-asked-how-i-m-managing-loan",
       "move": "reply-confront",
       "kind": "spoken",
@@ -191968,6 +192015,32 @@
           "purpose": "owed-apology.money",
           "key": "routine",
           "requiresFacts": ["loan"],
+          "setsFacts": ["confronted"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.money.you-only-check-on-me-when-due-next-gets-close",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You only check on me when {due-next} gets close.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
           "setsFacts": ["confronted"]
         }
       ],
@@ -192007,10 +192080,36 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.money.not-now-i-ll-have-an-answer-on-loan-by-due-next",
+      "key": "scene-talk.reply-confront.money.we-ve-done-this-before-it-never-changes-anything",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "We've done this before. It never changes anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["quarreled-before"],
+          "setsFacts": ["confronted"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.i-can-t-talk-about-loan-now-give-me-a-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not now. I'll have an answer on {loan} by {due-next}.",
+      "text": "I can't talk about {loan} now. Give me a day.",
       "uses": [
         {
           "subject": "scene",
@@ -192019,7 +192118,7 @@
           "role": "asked",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["loan", "due-next"]
+          "requiresFacts": ["loan"]
         }
       ],
       "bearing": "calm",
@@ -192032,10 +192131,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.money.i-can-t-talk-about-loan-now-being-behind-won-t-change-today",
+      "key": "scene-talk.reply-leave.money.not-now-i-ll-have-an-answer-by-due-next",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't talk about {loan} now. Being {behind} won't change today.",
+      "text": "Not now. I'll have an answer by {due-next}.",
       "uses": [
         {
           "subject": "scene",
@@ -192044,7 +192143,162 @@
           "role": "asked",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["loan", "behind"]
+          "requiresFacts": ["due-next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.give-me-a-day-i-know-we-re-behind",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me a day. I know we're {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-we-ll-deal-with-loan-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before this gets worse. We'll deal with {loan} later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-due-next-isn-t-here-yet",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before this gets worse. {due-next} isn't here yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-we-re-behind-not-finished",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before this gets worse. We're {behind}, not finished.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.i-can-t-keep-going-over-loan-today",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't keep going over {loan} today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.give-me-until-due-next-then-we-talk",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me until {due-next}. Then we talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "press"
         }
       ],
       "bearing": "calm",
@@ -192135,6 +192389,32 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.money.okay-then-loan-is-the-first-thing-paid",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Then {loan} is the first thing paid.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.money.then-due-next-it-is-i-ll-hold-you-to-it",
       "move": "follow-accept",
       "kind": "spoken",
@@ -192157,6 +192437,84 @@
       "date": "2026-11-17",
       "tag": {
         "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.money.okay-then-we-re-not-behind-for-long",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Then we're not {behind} for long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.money.sorry-is-easy-what-happens-to-loan-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry is easy. What happens to {loan} now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "apologize"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.money.sorry-is-easy-what-happens-before-due-next",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry is easy. What happens before {due-next}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "apologize"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
         "key": "routine"
       }
     },
@@ -192187,10 +192545,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.money.sorry-is-easy-what-happens-to-loan-now",
+      "key": "scene-talk.follow-press.money.and-if-loan-slips-again-then-what",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Sorry is easy. What happens to {loan} now?",
+      "text": "And if {loan} slips again? Then what?",
       "uses": [
         {
           "subject": "scene",
@@ -192200,7 +192558,7 @@
           "purpose": "owed-apology.money",
           "key": "routine",
           "requiresFacts": ["loan"],
-          "after": "apologize"
+          "after": "promise"
         }
       ],
       "bearing": "firm",
@@ -192239,6 +192597,32 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.money.what-if-we-re-behind-again-next-month",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "What if we're {behind} again next month?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.money.short-or-not-loan-still-has-to-be-paid",
       "move": "follow-press",
       "kind": "spoken",
@@ -192252,6 +192636,32 @@
           "purpose": "owed-apology.money",
           "key": "routine",
           "requiresFacts": ["loan"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.money.short-or-not-due-next-is-coming-what-s-the-plan",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Short or not, {due-next} is coming. What's the plan?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
           "after": "deflect"
         }
       ],
@@ -192317,6 +192727,32 @@
       }
     },
     {
+      "key": "scene-talk.follow-confront.money.don-t-change-the-subject-due-next-is-what-matters",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't change the subject. {due-next} is what matters.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.follow-confront.money.i-m-not-the-one-who-got-us-behind-you-are",
       "move": "follow-confront",
       "kind": "spoken",
@@ -192365,6 +192801,32 @@
       "date": "2026-11-17",
       "tag": {
         "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.money.if-loan-slips-again-i-won-t-ask-nicely",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If {loan} slips again, I won't ask nicely.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
         "key": "routine"
       }
     },
@@ -192473,6 +192935,32 @@
       }
     },
     {
+      "key": "scene-talk.close-press.money.get-us-out-of-being-behind-that-s-all-i-ask",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Get us out of being {behind}. That's all I ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.close-thank.money.thanks-for-saying-so-about-loan-that-helps",
       "move": "close-thank",
       "kind": "spoken",
@@ -192527,6 +193015,111 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.money.thank-you-just-get-us-out-of-being-behind",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. Just get us out of being {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "excludesFacts": ["confronted"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.money.i-won-t-bring-up-loan-again-before-it-s-due",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I won't bring up {loan} again before it's due.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.money.we-ll-leave-it-until-due-next-then",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll leave it until {due-next}, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.money.i-ll-let-it-go-once-we-re-not-behind",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll let it go once we're not {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.close-react.money.name-lets-it-drop-for-now-and-watches-you-go",
       "move": "close-react",
       "kind": "spoken",
@@ -192539,7 +193132,6 @@
           "role": "asker",
           "purpose": "owed-apology.money",
           "key": "routine",
-          "requiresFacts": ["behind"],
           "after": "leave"
         }
       ],
@@ -192566,6 +193158,32 @@
           "purpose": "owed-apology.money",
           "key": "routine",
           "requiresFacts": ["due-next"],
+          "after": "leave"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "react",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-react.money.name-lets-loan-drop-for-now-and-watches-you-go",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} lets {loan} drop for now, and watches you go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "requiresFacts": ["loan"],
           "after": "leave"
         }
       ],
@@ -192627,6 +193245,29 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.close.name-has-been-quiet-since-the-mail-came",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been quiet since the mail came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.open-greet.close.i-don-t-want-to-fight-about-loan-can-we-talk",
       "move": "open-greet",
       "kind": "spoken",
@@ -192640,31 +193281,6 @@
           "purpose": "owed-apology.close",
           "key": "routine",
           "requiresFacts": ["loan"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.close.i-d-rather-hear-it-from-you-we-re-behind",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'd rather hear it from you. We're {behind}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["behind"]
         }
       ],
       "bearing": "tender",
@@ -192702,6 +193318,56 @@
       }
     },
     {
+      "key": "scene-talk.open-greet.close.i-d-rather-hear-it-from-you-we-re-behind",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather hear it from you. We're {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.close.lender-called-i-just-wish-you-d-told-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{lender} called. I just wish you'd told me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["lender"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.state-request.close.i-m-not-angry-about-loan-i-m-hurt-you-didn-t-say",
       "move": "state-request",
       "kind": "spoken",
@@ -192714,57 +193380,7 @@
           "role": "asker",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["loan", "behind"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.close.we-re-behind-with-lender-i-just-wish-you-d-told-me",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "We're {behind} with {lender}. I just wish you'd told me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["behind", "lender"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.close.it-s-loan-again-please-talk-to-me-before-it-gets-this-far",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "It's {loan} again. Please talk to me before it gets this far.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["quarreled-before", "loan"]
+          "requiresFacts": ["loan"]
         }
       ],
       "bearing": "hurt",
@@ -192789,10 +193405,60 @@
           "role": "asker",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["due-next", "behind"]
+          "requiresFacts": ["due-next"]
         }
       ],
       "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.close.we-re-behind-i-just-wish-you-d-told-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're {behind}. I just wish you'd told me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.close.again-please-talk-to-me-before-it-gets-this-far",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Again. Please talk to me before it gets this far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["quarreled-before"]
+        }
+      ],
+      "bearing": "hurt",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -192815,31 +193481,6 @@
           "purpose": "owed-apology.close",
           "key": "routine",
           "requiresFacts": ["loan"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.close.i-m-sorry-i-kept-it-to-myself-that-we-re-behind",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry. I kept it to myself that we're {behind}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["behind"]
         }
       ],
       "bearing": "contrite",
@@ -192877,10 +193518,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.close.i-ll-pay-loan-by-due-next-i-ll-tell-you-if-i-can-t",
+      "key": "scene-talk.reply-apologize.close.i-m-sorry-i-kept-it-to-myself-that-we-re-behind",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I kept it to myself that we're {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.close.next-time-loan-gets-paid-first-i-ll-show-you",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll pay {loan} by {due-next}. I'll tell you if I can't.",
+      "text": "Next time, {loan} gets paid first. I'll show you.",
       "uses": [
         {
           "subject": "scene",
@@ -192889,7 +193555,7 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["loan", "due-next"]
+          "requiresFacts": ["loan"]
         }
       ],
       "bearing": "warm",
@@ -192914,7 +193580,7 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["due-next", "behind"]
+          "requiresFacts": ["due-next"]
         }
       ],
       "bearing": "warm",
@@ -192927,10 +193593,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.close.we-won-t-be-behind-after-due-next-i-ll-show-you",
+      "key": "scene-talk.reply-promise.close.i-ll-pay-by-due-next-i-ll-tell-you-if-i-can-t",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "We won't be {behind} after {due-next}. I'll show you.",
+      "text": "I'll pay by {due-next}. I'll tell you if I can't.",
       "uses": [
         {
           "subject": "scene",
@@ -192939,7 +193605,32 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["behind", "due-next"]
+          "requiresFacts": ["due-next"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.close.we-won-t-be-behind-for-long-i-ll-show-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We won't be {behind} for long. I'll show you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"]
         }
       ],
       "bearing": "warm",
@@ -193052,6 +193743,31 @@
       }
     },
     {
+      "key": "scene-talk.reply-deflect.close.it-ll-be-paid-by-due-next-it-isn-t-the-end-of-us",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It'll be paid by {due-next}. It isn't the end of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["due-next"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-deflect.close.being-behind-isn-t-the-end-of-us",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -193089,7 +193805,7 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["loan", "behind"]
+          "requiresFacts": ["loan"]
         }
       ],
       "bearing": "calm",
@@ -193114,7 +193830,110 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["due-next", "behind"]
+          "requiresFacts": ["due-next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.close.give-me-some-time-i-know-we-re-behind",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me some time. I know we're {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-ll-deal-with-loan-soon",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before this gets worse. We'll deal with {loan} soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-have-until-due-next",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before this gets worse. We have until {due-next}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-re-behind-not-done",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before this gets worse. We're {behind}, not done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "after": "press"
         }
       ],
       "bearing": "calm",
@@ -193153,6 +193972,32 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.close.okay-tell-me-what-you-need-before-due-next",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Tell me what you need before {due-next}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "apologize"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.close.okay-we-ll-work-our-way-out-of-being-behind-together",
       "move": "follow-accept",
       "kind": "spoken",
@@ -193179,6 +194024,32 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.close.okay-i-ll-take-your-word-on-loan",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll take your word on {loan}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.close.okay-due-next-then-i-ll-take-your-word",
       "move": "follow-accept",
       "kind": "spoken",
@@ -193192,6 +194063,32 @@
           "purpose": "owed-apology.close",
           "key": "routine",
           "requiresFacts": ["due-next"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.close.okay-i-ll-take-your-word-that-we-re-not-behind-for-long",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll take your word that we're not {behind} for long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
           "after": "promise"
         }
       ],
@@ -193231,6 +194128,84 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.close.i-believe-you-what-changes-before-due-next",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I believe you. What changes before {due-next}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "apologize"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.close.i-believe-you-re-sorry-how-do-we-stop-being-behind",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I believe you're sorry. How do we stop being {behind}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "after": "apologize"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.close.and-if-loan-slips-anyway-tell-me-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "And if {loan} slips anyway? Tell me now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.close.what-happens-if-due-next-comes-and-the-money-isn-t-there",
       "move": "follow-press",
       "kind": "spoken",
@@ -193245,6 +194220,84 @@
           "key": "routine",
           "requiresFacts": ["due-next"],
           "after": "promise"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.close.and-if-we-re-behind-again-tell-me-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "And if we're {behind} again? Tell me now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "after": "promise"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.close.it-isn-t-only-loan-it-s-that-you-hid-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It isn't only {loan}. It's that you hid it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.close.it-s-not-about-due-next-it-s-that-you-hid-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's not about {due-next}. It's that you hid it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "after": "deflect"
         }
       ],
       "bearing": "hurt",
@@ -193358,32 +194411,6 @@
       }
     },
     {
-      "key": "scene-talk.close-press.close.please-don-t-let-due-next-slip-by",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Please don't let {due-next} slip by.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["due-next"],
-          "outcome": "open"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.close-press.close.i-m-not-asking-for-much-on-loan-just-honesty",
       "move": "close-press",
       "kind": "spoken",
@@ -193410,10 +194437,62 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.close.if-we-re-behind-next-month-tell-me-first",
+      "key": "scene-talk.close-press.close.please-don-t-let-due-next-slip-by",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please don't let {due-next} slip by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["due-next"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.close.just-don-t-let-us-stay-behind-please",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Just don't let us stay {behind}. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.close.if-loan-slips-again-i-ll-want-to-know-first",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "If we're {behind} next month, tell me first.",
+      "text": "If {loan} slips again, I'll want to know first.",
       "uses": [
         {
           "subject": "scene",
@@ -193422,7 +194501,7 @@
           "role": "asker",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["behind"],
+          "requiresFacts": ["loan"],
           "outcome": "open"
         }
       ],
@@ -193462,6 +194541,32 @@
       }
     },
     {
+      "key": "scene-talk.close-warn.close.if-we-re-behind-next-month-tell-me-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If we're {behind} next month, tell me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.close-react.close.name-nods-slowly-and-lets-you-go",
       "move": "close-react",
       "kind": "spoken",
@@ -193474,7 +194579,6 @@
           "role": "asker",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["behind"],
           "after": "leave"
         }
       ],
@@ -193514,127 +194618,127 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-we-re-behind-not-finished",
-      "move": "reply-leave",
+      "key": "scene-talk.close-react.close.name-lets-loan-rest-and-turns-away",
+      "move": "close-react",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We're {behind}, not finished.",
+      "text": "{name} lets {loan} rest, and turns away.",
       "uses": [
         {
           "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.money",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["behind"],
-          "after": "confront"
+          "requiresFacts": ["loan"],
+          "after": "leave"
         }
       ],
-      "bearing": "calm",
+      "bearing": "tender",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
       "tag": {
-        "move": "leave",
+        "move": "react",
         "key": "routine"
       }
     },
     {
-      "key": "scene-talk.reply-leave.money.give-me-until-due-next-then-we-talk",
-      "move": "reply-leave",
+      "key": "scene-talk.close-thank.close.thank-you-for-talking-about-loan-it-helps",
+      "move": "close-thank",
       "kind": "spoken",
-      "text": "Give me until {due-next}. Then we talk.",
+      "text": "Thank you for talking about {loan}. It helps.",
       "uses": [
         {
           "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.money",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["loan"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.close.thank-you-that-s-all-i-wanted-before-due-next",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's all I wanted before {due-next}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.close",
           "key": "routine",
           "requiresFacts": ["due-next"],
-          "after": "press"
+          "outcome": "resolved"
         }
       ],
-      "bearing": "calm",
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
       "tag": {
-        "move": "leave",
+        "move": "thank",
         "key": "routine"
       }
     },
     {
-      "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-re-behind-not-finished",
-      "move": "reply-leave",
+      "key": "scene-talk.close-thank.close.thank-you-i-just-don-t-want-us-to-stay-behind",
+      "move": "close-thank",
       "kind": "spoken",
-      "text": "Let's stop before this gets worse. We're {behind}, not finished.",
+      "text": "Thank you. I just don't want us to stay {behind}.",
       "uses": [
         {
           "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
           "purpose": "owed-apology.close",
           "key": "routine",
           "requiresFacts": ["behind"],
-          "after": "press"
+          "outcome": "resolved"
         }
       ],
-      "bearing": "calm",
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
       "tag": {
-        "move": "leave",
+        "move": "thank",
         "key": "routine"
       }
     },
     {
-      "key": "scene-talk.reply-confront.money.you-only-check-on-me-when-due-next-gets-close",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "You only check on me when {due-next} gets close.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["due-next"],
-          "setsFacts": ["confronted"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.money.i-won-t-bring-up-loan-again-before-due-next",
+      "key": "scene-talk.close-promise.close.i-ll-leave-loan-alone-until-it-s-due",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I won't bring up {loan} again before {due-next}.",
+      "text": "I'll leave {loan} alone until it's due.",
       "uses": [
         {
           "subject": "scene",
           "step": "close",
           "move": "promise",
           "role": "asker",
-          "purpose": "owed-apology.money",
+          "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["loan", "due-next"],
+          "requiresFacts": ["loan"],
           "outcome": "resolved"
         }
       ],
-      "bearing": "calm",
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -193644,23 +194748,49 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.money.we-ll-leave-it-until-due-next-then",
+      "key": "scene-talk.close-promise.close.i-ll-wait-until-due-next-keep-me-posted",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "We'll leave it until {due-next}, then.",
+      "text": "I'll wait until {due-next}. Keep me posted.",
       "uses": [
         {
           "subject": "scene",
           "step": "close",
           "move": "promise",
           "role": "asker",
-          "purpose": "owed-apology.money",
+          "purpose": "owed-apology.close",
           "key": "routine",
-          "requiresFacts": ["behind", "due-next"],
+          "requiresFacts": ["due-next"],
           "outcome": "resolved"
         }
       ],
-      "bearing": "calm",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.close.i-ll-wait-but-tell-me-if-we-re-still-behind",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll wait, but tell me if we're still {behind}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "requiresFacts": ["behind"],
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",

@@ -52,6 +52,7 @@ const runway = option("runway", "");
 const before = flag("before");
 const flush = flag("flush");
 const kind = option("kind", "personal");
+const paid = flag("paid");
 const seenOut = option("seen-out", "");
 const KEYS = [
   "loan",
@@ -222,6 +223,17 @@ console.log(
   `# QUARREL ${quarrel.id} over ${missed.id} (loan ${missed.facts?.loanId}, kind ${missed.facts?.loanKind}); wronged ${wronged}`,
 );
 
+// With --paid the loan row shows nothing past due by the time the scene is composed (HAND-STAGED: the
+// player caught up before the two sat down), so the talk has no `behind`.
+if (paid)
+  api
+    .moduleState("credit")
+    .table("loans")
+    .put({
+      ...(api.moduleState("credit").table("loans").get(loanId) as object),
+      pastDueMinor: 0,
+      standing: "current",
+    } as never);
 const nextEntry = (causeId: string): ScheduleEntry | undefined => {
   const find = () =>
     book.schedule.find(
