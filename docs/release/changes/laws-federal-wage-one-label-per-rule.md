@@ -1,5 +1,5 @@
 ---
-id: laws-congress-holds-two-questions-for-one-federal-wage-rule
+id: laws-federal-wage-one-label-per-rule
 impact: patch
 section: Fixed
 title: Congress's Labor list shows the federal minimum wage once
