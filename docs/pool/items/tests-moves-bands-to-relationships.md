@@ -1,6 +1,6 @@
 ---
 id: tests-moves-bands-to-relationships
-title: "The moves checks fail a world for leaving the survey's mover counts instead of checking how strongly age moves leaving"
+title: "The people-and-moves checks fail a world for leaving a survey's counts instead of checking how strongly one thing moves another"
 area: people
 kind: bug
 priority: 2
@@ -25,7 +25,9 @@ Guards: the moves engine's age relationship and the admissions law's push on arr
 
 **Fix.** Each band becomes a check on the relationship it stood for (skill `relationship-checks`). Relatives elsewhere: the movers' mean age rate is E[r²]/E[r] of everyone at risk, within four standard errors, above everyone's mean. Unlisted counted groups: their share who left is compared with the rest of the town's in the same months, within a factor of three. Arrivals from abroad: the band goes, the moves keep their cause, and the admissions law's twin-world case carries the strength. The town's own check (`moves.test.ts`) is converted on `claude/long-game-bands-moves` and red there: it found the age fault World fixes, and it ships with that fix.
 
-**Time box.** 2 hours.
+Meeting people: the parent-to-sibling visit ratio is checked against the GSS's, within a factor of two; the hours are printed. Circle turnover: the world's retention is printed beside the study's, which gives levels only; the study's range, its module and the two parameters only that check read are deleted. The drives and hazard checks are a fit's and an arithmetic's own checks on fixtures, and their comments say so.
+
+**Time box.** 3 hours.
 
 **Rules.** Calibration only: real data sets the strength of a relationship, never a count (owner, Nov 17, "Everything comes from the simulation"); sense checks stay.
 
@@ -33,4 +35,4 @@ Guards: the moves engine's age relationship and the admissions law's push on arr
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/moves-elsewhere.test.ts, src/core2/counted-moves-balance.test.ts, src/core2/counted-moves-town.test.ts
+**Files.** src/core2/moves-elsewhere.test.ts, src/core2/counted-moves-balance.test.ts, src/core2/counted-moves-town.test.ts, src/core2/m0-meeting-people.test.ts, src/core2/tooling/m0-07-turnover-check.ts, src/core2/circle-turnover-check.ts (deleted), src/core2/data/parameters.json, src/core2/drives.test.ts, src/core2/health-hazard.test.ts
