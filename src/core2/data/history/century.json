@@ -64,6 +64,13 @@
       "tag": "SOURCED",
       "role": "law",
       "source": "U.S. Const. art. I, sec. 3: senators are divided into three classes, one elected every second year for six-year terms. Class 1 was elected in 2024, class 2 in 2026's cycle (2020), class 3 in 2028's (2022); data/research/offices/senate-classes-2026.json names each state's classes."
+    },
+    "centuryCampaignMeansLogSpread": {
+      "value": 1.0,
+      "tag": "TUNABLE",
+      "role": "opening",
+      "source": "How far a century candidate's campaign means stand from the typical race's, on a natural-log scale: each candidate's multiple is exp(spread x (2u - 1)) for their own seeded unit, so between about a third and about three times the typical. Generation of who exists (their donors, own money and party backing), read by the one race rule's spending reason (spendingSharePerLogUnit, 0.015 a log unit), so it moves a candidate by at most about 1.5 points. Not yet sourced: the spread of House and statewide candidates' receipts around their race's typical in FEC and state filings (research item history-campaign-means-spread).",
+      "spread": [0.5, 2.0]
     }
   }
 }

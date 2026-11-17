@@ -167,7 +167,8 @@ describe("the century elects day one's Congress", () => {
             senateClassUp(seat.senateClass, race.year),
             `${where} ${race.id}`,
           ).toBe(true);
-        else expect(race.year % 2, `${where} ${race.id}`).toBe(0);
+        else if (seat.chamber === "house")
+          expect(race.year % 2, `${where} ${race.id}`).toBe(0);
     }
   });
 });

@@ -1202,6 +1202,12 @@ export function countPlaces(
   readonly votes: Readonly<Record<string, number>>;
   readonly cast: number;
   readonly places: readonly PlaceResult[];
+  /**
+   * Each place's votes before they are rounded to whole people, in the places' order: a share is
+   * the division of the counted people, and only the printed counts are whole (two districts of
+   * a few thousand voters otherwise print one share by the rounding alone).
+   */
+  readonly exact: readonly Readonly<Record<string, number>>[];
 } {
   const { voters, placement } = coarseSample(sample);
   // A race between one candidate of each side, by their ids; each counted record's stretch.
@@ -1223,6 +1229,7 @@ export function countPlaces(
       : one;
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
+  const exacts: Record<string, number>[] = [];
   let cast = 0;
   for (const place of places) {
     const votes: Record<string, number> = {};
@@ -1289,6 +1296,7 @@ export function countPlaces(
         for (const id of Object.keys(parts))
           votes[id] = (votes[id] ?? 0) + share * parts[id]!;
       }
+    const exact = { ...votes };
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);
       totals[id] = (totals[id] ?? 0) + votes[id]!;
@@ -1304,6 +1312,7 @@ export function countPlaces(
       votes,
       source: place.source,
     });
+    exacts.push(exact);
   }
-  return { votes: totals, cast, places: results };
+  return { votes: totals, cast, places: results, exact: exacts };
 }

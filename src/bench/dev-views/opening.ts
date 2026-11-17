@@ -264,6 +264,20 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         : "today's real roster (the world chose it)",
     ),
     row(
+      "town.governors",
+      "Governors on day one",
+      historyMode(core.seed) === "century"
+        ? (() => {
+            const governors = [...century.seats.values()].filter(
+              (seat) =>
+                seat.chamber === "executive" && seat.rosterKey === "governor",
+            );
+            const r = governors.filter((seat) => seat.side > 0).length;
+            return `${r} R, ${governors.length - r} D, elected through the century`;
+          })()
+        : "today's real record (the world chose it)",
+    ),
+    row(
       "town.congresses",
       "The century's Congresses",
       historyMode(core.seed) === "century"

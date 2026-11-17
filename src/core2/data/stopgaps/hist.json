@@ -252,5 +252,16 @@
     "addedAt": "2026-11-17",
     "replacement": "The territory's people counted from its own population (the people engine's counts), so its delegate's races run in the century and in play.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-tickets",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "In the century every partisan statewide officer is elected in a race of their own, including a lieutenant governor a state elects on the governor's ticket.",
+    "why": "The century elects each office from the state-offices research's cycle; the ticket rule (which offices run jointly) is read by play's elections, not yet by the century.",
+    "addedBy": "History lane (claude/history-states)",
+    "addedAt": "2026-11-17",
+    "replacement": "The ticket rule read in the century: a joint ticket's offices take the governor's race.",
+    "status": "open"
   }
 ]
