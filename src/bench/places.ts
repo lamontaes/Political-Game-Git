@@ -106,6 +106,25 @@ function civicBusiness(
   return business;
 }
 
+/**
+ * Why a place is on Travel's list, each kind worded by its control label
+ * (`travel.reasons` in src/bench/data/controls.json): a tie to the
+ * player, civic business, or, for a place with no tie, one of the town's
+ * biggest workplaces ("large").
+ */
+type PlaceReason = {
+  kind:
+    | CivicReason["kind"]
+    | (typeof WORK_TIES)[number]
+    | "study"
+    | "studySelf"
+    | "action"
+    | "serve"
+    | "member"
+    | "large";
+  recordId: string;
+};
+
 /** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
 const PARTY_OFFICE = "membership:political-party";
 
@@ -168,7 +187,7 @@ export function townPlaces(
       const actions = offers
         .filter((offer) => offer.targetId === org.id)
         .map((offer) => offer.actionId);
-      const reasons = [
+      const reasons: PlaceReason[] = [
         // "You work here" only where the player works; a relative's
         // workplace says so.
         ...(ownWork.has(org.id)
@@ -273,7 +292,7 @@ export function townPlaces(
       if (biggest.length < BIGGEST_LISTED)
         biggest.push({
           ...row,
-          reasons: [{ kind: "large" as const, recordId: row.organizationId }],
+          reasons: [{ kind: "large", recordId: row.organizationId }],
         });
   }
   return [...tied, ...biggest].slice(0, LISTED);
