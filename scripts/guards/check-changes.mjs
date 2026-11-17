@@ -65,6 +65,27 @@ export function checkChanges(changes, rules, readHead = () => null) {
           `${rule.refuse === "fewer" ? "takes out" : "adds"} ${rule.says} (${before} before, ${after} after)`,
         );
     }
+    // A test that reads a research file may not add range assertions: a
+    // band a world must stay inside is how a published figure becomes a pin
+    // (owner, Nov 17: "Everything comes from the simulation"). A relationship
+    // checked against research is written with its own approved line.
+    const research = new RegExp(rules.researchImport);
+    if (
+      isTest.test(change.path) &&
+      change.after !== null &&
+      research.test(change.after)
+    ) {
+      const before =
+          change.before === null
+            ? 0
+            : count(change.before, rules.rangeAssertion),
+        after = count(change.after, rules.rangeAssertion);
+      if (after > before)
+        add(
+          "research-band",
+          `adds range assertions to a test that reads research data (${before} before, ${after} after)`,
+        );
+    }
     if (isTest.test(change.path)) {
       if (change.after === null) {
         add("test-deleted", "deletes a test file");

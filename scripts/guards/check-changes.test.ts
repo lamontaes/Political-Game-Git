@@ -178,6 +178,26 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     ).toEqual([]);
   });
 
+  it("refuses a range assertion added to a test that reads research data", () => {
+    const research =
+      'import rates from "../../data/research/migration/rates.json" with { type: "json" };\n';
+    const band = "expect(count).toBeGreaterThan(rates.low);\n";
+    const ids = (before: string | null, after: string) =>
+      checkChanges([{ path: "src/a.test.ts", before, after }], rules).map(
+        (f) => f.id,
+      );
+    expect(ids(research + plain, research + plain + band)).toEqual([
+      "research-band",
+    ]);
+    expect(ids(null, research + band)).toEqual(["research-band"]);
+    // The same bound in a test that reads no research file is the world's own.
+    expect(ids(plain, plain + band)).toEqual([]);
+    // Taking a band out passes.
+    expect(ids(research + band, research + plain)).not.toContain(
+      "research-band",
+    );
+  });
+
   it("refuses a skill added without retiring one, and lets a swap pass", () => {
     const skill = (
       name: string,

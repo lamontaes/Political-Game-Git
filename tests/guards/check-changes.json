@@ -49,5 +49,7 @@
   "approvalRefused": "\\bnot\\b[^.]*\\bapprov|\\bunapprov",
   "skillFiles": "^\\.agents/skills/[^/]+/SKILL\\.md$",
   "guardTests": "^tests/guards/[^/]+\\.test\\.ts$",
-  "guardList": "scripts/guards/index.ts"
+  "guardList": "scripts/guards/index.ts",
+  "researchImport": "from\\s+[\"'][^\"']*data/research/",
+  "rangeAssertion": "\\.(?:toBeGreaterThan|toBeGreaterThanOrEqual|toBeLessThan|toBeLessThanOrEqual|toBeCloseTo)\\s*\\("
 }
