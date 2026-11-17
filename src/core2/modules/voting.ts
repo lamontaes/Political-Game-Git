@@ -5849,6 +5849,48 @@ export function raceShare(api: CoreAPI, race: RaceRow): number {
   return (result && republicanShareOf(result)) ?? race.lean;
 }
 
+/**
+ * How far ahead the seat's newest counted race finished, as a share of the
+ * votes cast: the lead of its first place over its second, from the race's
+ * own count. A seat whose races the town doesn't vote in reads its race
+ * rows' major-party votes; a town seat reads its newest counted contest's
+ * totals. Zero where the seat has no counted race (a seat with no standing
+ * is an open race).
+ */
+export function seatLastMargin(api: CoreAPI, seatId: string): number {
+  const lead = (votes: readonly number[]): number => {
+    const sorted = [...votes].sort((a, b) => b - a);
+    const cast = sorted.reduce((sum, n) => sum + n, 0);
+    return cast > 0 ? ((sorted[0] ?? 0) - (sorted[1] ?? 0)) / cast : 0;
+  };
+  const races = (
+    table(api, "races").query("bySeat", [seatId]) as unknown as RaceRow[]
+  )
+    .filter((race) => race.seatedOn <= api.state.date)
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const race = races.at(-1);
+  if (race) {
+    const { republican, democratic } = raceVotes(api, race);
+    return lead([republican, democratic]);
+  }
+  const contests = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .query("bySeat", [seatId]) as unknown as {
+      id: string;
+      electionDate: string;
+    }[]
+  )
+    .filter((contest) => contest.electionDate <= api.state.date)
+    .sort((a, b) => a.electionDate.localeCompare(b.electionDate));
+  for (let at = contests.length - 1; at >= 0; at -= 1) {
+    const result = resultOf(api, contests[at]!.id);
+    if (result) return lead(Object.values(result.totals));
+  }
+  return 0;
+}
+
 /** The seat a race id names: `race:<seat>:<year>` or `race:<seat>:<date>:special`. */
 function seatOfRaceId(id: string): string | null {
   const m = /^race:(.+?):(\d{4}|\d{4}-\d{2}-\d{2}:special)$/.exec(id);

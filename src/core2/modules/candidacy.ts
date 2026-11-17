@@ -85,7 +85,8 @@ import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
-import { countedVoters } from "./voting";
+import { countedVoters, seatLastMargin } from "./voting";
+import { normalCdf } from "../opening-personality";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -102,6 +103,8 @@ export interface OpenContest {
   countywide?: boolean;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
+  /** The seat the contest fills: where its last race's lead is read. */
+  seatId?: string;
   /** How many have already decided to run for it. */
   runners?: number;
   poolFacts?: ReadonlyMap<PersonId, PoolFacts>;
@@ -509,6 +512,23 @@ export function countedCandidacyReasons(
   );
 }
 
+/**
+ * A challenger's odds against the sitting holder: the chance a swing as large
+ * as the holder's last winning lead happens, from the seat's own last race
+ * (`seatLastMargin`) and the world's swing spread. An open seat has no holder
+ * to beat (one); a holder with no counted race (a seat no one has been
+ * counted for) leads by nothing, so the contest is even.
+ */
+export function challengerOdds(api: CoreAPI, contest: OpenContest): number {
+  const one = api.parameter("one");
+  if (!contest.incumbentId) return one;
+  const lead = contest.seatId ? seatLastMargin(api, contest.seatId) : 0;
+  return (
+    one -
+    normalCdf(lead / c(api, "candidacySwingSpread"), one, api.parameter("two"))
+  );
+}
+
 function reasonsFrom(
   api: CoreAPI,
   person: RunFacts,
@@ -535,8 +555,7 @@ function reasonsFrom(
   // and the hope an enterprising, risk-taking person adds to them. A long
   // shot who files anyway is realistic (owner, Nov 8).
   const odds =
-    (standing *
-      (contest.incumbentId ? c(api, "candidacyChallengerOdds") : one)) /
+    (standing * challengerOdds(api, contest)) /
     (one + (contest.runners ?? zero));
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
@@ -1007,6 +1026,7 @@ export function weighContest(
     filingDeadline: rules.deadline ?? contest.filingDeadline,
     ...(contest.family === "countyOffice" ? { countywide: true } : {}),
     ...(incumbentId ? { incumbentId } : {}),
+    seatId: contest.seatId,
     ...(scope ? { poolFacts: facts, wideScope: scope } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
   };
@@ -1784,6 +1804,7 @@ function decideAsked(
       ...(incumbent?.personId && !standDown
         ? { incumbentId: incumbent.personId as PersonId }
         : {}),
+      seatId: contest.seatId,
       askedBy: { recordId, chairId },
       sourceIds: [contest.id, recordId, ...(standDown ? [standDown.id] : [])],
     },
