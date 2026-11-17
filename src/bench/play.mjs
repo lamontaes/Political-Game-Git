@@ -7547,6 +7547,21 @@ function playLoadingStory(story) {
  * Nov 16: "It should continue to load."). `onStory` runs once the built world has its story to play.
  */
 function followBuild(bar, onStory) {
+  const STEPS = [
+    "people",
+    "past",
+    "economy",
+    "core",
+    "government",
+    "elections",
+    "budgets",
+    "legislature",
+    "cabinet",
+    "workings",
+    "history",
+    "warmup",
+    "opening",
+  ];
   show("front-status", true);
   bar.hidden = false;
   bar.firstElementChild.style.width = "0";
