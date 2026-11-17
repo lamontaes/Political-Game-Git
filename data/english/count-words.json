@@ -247,5 +247,34 @@
       "eighty",
       "ninety"
     ]
+  },
+  "crewSteps": {
+    "about": "How many people worked a campaign, said as a size and never a number (Story lead, Nov 17, victory night; owner: no figure in talk): the words a supporter uses after \"of us\" (\"a handful of us worked on this\"). Each row: the headcount below which the phrase is said. Boundaries are TUNABLE words, checked by reading a played race's crew against its phrase; none is sourced. Read by crewSaid in src/english/count-words.ts.",
+    "rows": [
+      {
+        "below": 4,
+        "said": "a couple"
+      },
+      {
+        "below": 8,
+        "said": "a handful"
+      },
+      {
+        "below": 15,
+        "said": "about a dozen"
+      },
+      {
+        "below": 30,
+        "said": "a couple dozen"
+      },
+      {
+        "below": 80,
+        "said": "a few dozen"
+      },
+      {
+        "below": null,
+        "said": "dozens and dozens"
+      }
+    ]
   }
 }

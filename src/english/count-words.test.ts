@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  crewSaid,
   lateSaid,
   lengthSaid,
   moneySaid,
@@ -41,5 +42,18 @@ describe("a length of time as people say it in talk", () => {
     expect(lengthSaid(34)).toBe("almost three years");
     expect(lengthSaid(26)).toBe("a little over two years");
     expect(lengthSaid(60)).toBe("five years");
+  });
+});
+
+// How many worked a campaign is said as a size, never a number (rule 101).
+describe("a campaign's crew as people say it", () => {
+  it("says a size and never a figure", () => {
+    expect(crewSaid(2)).toBe("a couple");
+    expect(crewSaid(6)).toBe("a handful");
+    expect(crewSaid(12)).toBe("about a dozen");
+    expect(crewSaid(40)).toBe("a few dozen");
+    expect(crewSaid(500)).toBe("dozens and dozens");
+    for (const size of [2, 7, 14, 29, 79, 400])
+      expect(crewSaid(size)).not.toMatch(/\d/);
   });
 });
