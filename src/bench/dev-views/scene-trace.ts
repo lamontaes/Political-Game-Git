@@ -24,6 +24,7 @@ import { SITUATION_LIBRARY } from "../../director/scheduling";
 import type { PersonId } from "../../core2/types";
 import type { PurposeType } from "../../director/scene-talk";
 import type { DevView } from "../dev-views";
+import type { DevMode } from "../dev-mode";
 import { forceElectionsScene } from "../dev-force-elections";
 import { forceCampaignsScene } from "../dev-force-campaigns";
 import forceMap from "./scene-force-map.json";
@@ -243,100 +244,115 @@ const view: DevView = {
     "GET scene-trace/line": ({ q }) => lineByKey(q("key")) ?? null,
     "POST scene-trace/force": ({ mode, input }) => {
       const typeKey = String(input.typeKey ?? "");
-      const way = FORCE[typeKey];
-      const own = mode.scenes().find((row) => row.key === typeKey);
-      const playerId = mode.core.playerId as PersonId | undefined;
-      if (
-        way?.how === "event" &&
-        way.kind &&
-        playerId &&
-        mode.director &&
-        !OWN_RECIPES.includes(own?.recipe ?? "")
-      ) {
-        // The cause as a record of its kind naming the player, entered through the core's one event
-        // entry; the director measures it at the day's end and stages it as it would any moment.
-        const book = mode.director.ledger.people.get(playerId);
-        const seen = book?.schedule.length ?? 0;
-        const eventId = `dev-force:${typeKey}:${mode.core.date}`;
-        const player = mode.core.people.get(playerId)!;
-        applyCoreEvent(mode.core, {
-          id: eventId,
-          date: mode.core.date,
-          kind: way.kind,
-          personIds: [playerId],
-          witnessIds: [],
-          placeId: player.placeId,
-          facts: { ...way.facts },
-          source: {
-            tag: "ESTIMATED",
-            citation: `Dev mode forced ${typeKey}`,
-            asOf: mode.core.date,
-          },
-        } as never);
-        mode.advance(addDays(makeIsoDate(mode.core.date), 1));
-        const staged = !!book?.schedule
-          .slice(seen)
-          .some((row) =>
-            row.bindings.some((bound) => bound.typeKey === typeKey),
-          );
-        return {
-          recipe: "event",
-          personId: playerId,
-          causeRecords: [eventId],
-          staged,
-          mark: mode.mark("scene-forced", [eventId], {
-            typeKey,
-            recipe: "event",
-            staged: String(staged),
-          }),
-        };
+      // A force goes past the director's pacing (the season cap, "nothing changed") for this one
+      // type while it runs (CTO, Nov 17, #9809: "force every scene to play"); the director's own day
+      // never sets this.
+      mode.director?.forceType(typeKey, true);
+      try {
+        return force(mode, input, typeKey);
+      } finally {
+        mode.director?.forceType(typeKey, false);
       }
-      if (way?.how === "campaigns") {
-        const forced = forceCampaignsScene(mode, typeKey);
-        return {
-          ...forced,
-          why: forced.refused ?? null,
-          mark: mode.mark(
-            "scene-forced",
-            [...forced.written, ...forced.causeRecords],
-            {
-              typeKey,
-              recipe: `campaigns:${forced.way}`,
-              staged: String(forced.staged),
-            },
-          ),
-        };
-      }
-      if (way?.how === "elections") {
-        const forced = forceElectionsScene(mode, typeKey);
-        return {
-          ...forced,
-          why: forced.refused ?? null,
-          mark: mode.mark(
-            "scene-forced",
-            [...forced.written, ...forced.causeRecords],
-            {
-              typeKey,
-              recipe: `elections:${forced.way}`,
-              staged: String(forced.staged),
-            },
-          ),
-        };
-      }
-      const forced = mode.forceScene({
-        typeKey,
-        ...(typeof input.forId === "string" ? { forId: input.forId } : {}),
-        ...(typeof input.where === "string" ? { where: input.where } : {}),
-      });
-      return {
-        ...forced,
-        mark: mode.mark("scene-forced", [], {
-          typeKey,
-          recipe: String(forced.recipe),
-        }),
-      };
     },
   },
 };
+
+/** Brings about one situation type's cause through the game's own code and says what was staged. */
+function force(
+  mode: DevMode,
+  input: Readonly<Record<string, unknown>>,
+  typeKey: string,
+) {
+  const way = FORCE[typeKey];
+  const own = mode.scenes().find((row) => row.key === typeKey);
+  const playerId = mode.core.playerId as PersonId | undefined;
+  if (
+    way?.how === "event" &&
+    way.kind &&
+    playerId &&
+    mode.director &&
+    !OWN_RECIPES.includes(own?.recipe ?? "")
+  ) {
+    // The cause as a record of its kind naming the player, entered through the core's one event
+    // entry; the director measures it at the day's end and stages it as it would any moment.
+    const book = mode.director.ledger.people.get(playerId);
+    const seen = book?.schedule.length ?? 0;
+    const eventId = `dev-force:${typeKey}:${mode.core.date}`;
+    const player = mode.core.people.get(playerId)!;
+    applyCoreEvent(mode.core, {
+      id: eventId,
+      date: mode.core.date,
+      kind: way.kind,
+      personIds: [playerId],
+      witnessIds: [],
+      placeId: player.placeId,
+      facts: { ...way.facts },
+      source: {
+        tag: "ESTIMATED",
+        citation: `Dev mode forced ${typeKey}`,
+        asOf: mode.core.date,
+      },
+    } as never);
+    mode.advance(addDays(makeIsoDate(mode.core.date), 1));
+    const staged = !!book?.schedule
+      .slice(seen)
+      .some((row) => row.bindings.some((bound) => bound.typeKey === typeKey));
+    return {
+      recipe: "event",
+      personId: playerId,
+      causeRecords: [eventId],
+      staged,
+      mark: mode.mark("scene-forced", [eventId], {
+        typeKey,
+        recipe: "event",
+        staged: String(staged),
+      }),
+    };
+  }
+  if (way?.how === "campaigns") {
+    const forced = forceCampaignsScene(mode, typeKey);
+    return {
+      ...forced,
+      why: forced.refused ?? null,
+      mark: mode.mark(
+        "scene-forced",
+        [...forced.written, ...forced.causeRecords],
+        {
+          typeKey,
+          recipe: `campaigns:${forced.way}`,
+          staged: String(forced.staged),
+        },
+      ),
+    };
+  }
+  if (way?.how === "elections") {
+    const forced = forceElectionsScene(mode, typeKey);
+    return {
+      ...forced,
+      why: forced.refused ?? null,
+      mark: mode.mark(
+        "scene-forced",
+        [...forced.written, ...forced.causeRecords],
+        {
+          typeKey,
+          recipe: `elections:${forced.way}`,
+          staged: String(forced.staged),
+        },
+      ),
+    };
+  }
+  const forced = mode.forceScene({
+    typeKey,
+    ...(typeof input.forId === "string" ? { forId: input.forId } : {}),
+    ...(typeof input.where === "string" ? { where: input.where } : {}),
+  });
+  return {
+    ...forced,
+    mark: mode.mark("scene-forced", [], {
+      typeKey,
+      recipe: String(forced.recipe),
+    }),
+  };
+}
 
 export default view;
