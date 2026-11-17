@@ -12,6 +12,13 @@ export type ModuleValue =
 export type ModuleRow = Readonly<{ id: string; [key: string]: unknown }>;
 
 export function moduleKey(value: string): string {
+  // The common key starts and ends with a visible ASCII character, which is
+  // never trimmed, so it is nonempty and already trimmed: no copy is made.
+  if (typeof value === "string" && value.length > 0) {
+    const first = value.charCodeAt(0),
+      last = value.charCodeAt(value.length - 1);
+    if (first > 32 && first < 127 && last > 32 && last < 127) return value;
+  }
   if (typeof value !== "string" || !value.trim() || value !== value.trim())
     throw new Error("Module keys must be nonempty, trimmed strings.");
   return value;
