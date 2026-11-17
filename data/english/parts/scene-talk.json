@@ -190612,10 +190612,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.days-at-employer-nights-on-office-and-child",
+      "key": "scene-talk.state-ask.days-at-employer-nights-on-the-campaign-and-child",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Days at {employer}, nights on {office}. And {child}?",
+      "text": "Days at {employer}, nights on the campaign. And {child}?",
       "uses": [
         {
           "subject": "scene",
@@ -190624,7 +190624,7 @@
           "step": "state",
           "move": "ask",
           "role": "asker",
-          "requiresFacts": ["stake-time", "office", "child", "employer"]
+          "requiresFacts": ["stake-time", "child", "employer"]
         }
       ],
       "bearing": "hurt",
