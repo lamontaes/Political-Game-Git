@@ -18,7 +18,7 @@ effort: medium
 source: Pins lane, Nov 17 (the CTO's calibration audit, family 32, on issue 9747; handed from Long game's 03:48Z list)
 ---
 
-**What.** `commuting-shares.test.ts` failed the LODES table when the national share of working residents who work in their own place left 0.2 to 0.5 ("ACS puts it near a third"). A band on a level, not a relationship.
+**What.** `commuting-shares.test.ts` failed the LODES table when the national share of working residents who work in their own place left 0.2 to 0.5 ("ACS puts it near a third"). That holds a level inside a published band, which the owner's rule forbids. The check should instead say how strongly one thing moves another in the data the game carries. Guards: the commuting table's order between places, read by the test at every sourced place.
 
 **Cause.** Found in code: src/core2/commuting-shares.test.ts (line 60) compares a national share with a fixed band.
 
@@ -26,9 +26,9 @@ source: Pins lane, Nov 17 (the CTO's calibration audit, family 32, on issue 9747
 
 **Time box.** 1 hour for this check.
 
-**Rules.** Calibration only: real data sets the strength of a relationship, never a count (owner, Nov 17, "Everything comes from the simulation"); sense checks stay.
+**Rules.** Everything comes from the simulation (owner, Nov 17): real data may set only the strength of a relationship, so this check asserts an order between places and never a national level or band. One rule, all 56 places: the check reads every sourced place in the table, never a named town.
 
-**Done when.** A second session runs `src/core2/commuting-shares.test.ts` and reads the correlation line; replacing each place's share with the national average makes it fail.
+**Done when.** A second session runs the test `src/core2/commuting-shares.test.ts`, reads the printed rank correlation over every sourced place, and confirms that replacing each place's share with the national average in `commuting-shares.ts` makes the test fail.
 
 **Waits on.** Nothing.
 
