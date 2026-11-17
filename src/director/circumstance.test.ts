@@ -278,20 +278,27 @@ function playYear(
       return undefined;
     }
   };
+  let lastStopKey = "";
   while (packet && packet.kind !== "complete") {
     if (packet.kind === "stop") {
       canvass();
       for (const stop of packet.stop.modules) {
         open(stop.recordId);
       }
-      // A sitting member's meeting stops the play with a hold; the player
-      // leaves it to the character, as the bench's checks do, or the stop
-      // comes back unchanged forever.
-      leaveHoldsToCharacter(core, personId);
-      // A state legislator's floor vote holds the clock too: left to the
-      // character, who votes their own position.
-      for (const billId of stateFloorHolds(coreAPI(core)))
-        voteOnStateFloor(coreAPI(core), personId, billId, "own");
+      // A hold the player has not answered brings the same stop back on
+      // resuming (a sitting member's meeting, a legislator's floor vote). Only
+      // then does the player leave it to the character, as the bench's checks
+      // do; a stop that moves on is left to play as it always did, so the
+      // meeting's own hearings and the hallway after it still happen.
+      const stopKey = packet.stop.modules
+        .map((stop) => stop.recordId)
+        .join("|");
+      if (stopKey === lastStopKey) {
+        leaveHoldsToCharacter(core, personId);
+        for (const billId of stateFloorHolds(coreAPI(core)))
+          voteOnStateFloor(coreAPI(core), personId, billId, "own");
+      }
+      lastStopKey = stopKey;
       packet = resume({ kind: "stop", pauseId: packet.pauseId });
     } else
       packet = resume({
