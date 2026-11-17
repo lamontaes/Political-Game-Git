@@ -1,58 +1,12 @@
 {
   "about": "Written by scripts/words/force-all-probe.mts --write-map, never by hand: how each situation type can be forced from dev mode's scene view, measured at one built world.",
   "types": {
-    "return": {
-      "how": "event",
-      "kind": "justice.released",
-      "facts": {}
-    },
     "news-arrives": {
       "how": "event",
       "kind": "housing.eviction",
       "facts": {}
     },
-    "letter": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "argument": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
     "apology": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "reach-out": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "becoming-friends": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "celebration": {
-      "how": "event",
-      "kind": "family.married",
-      "facts": {}
-    },
-    "diploma-home": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "no-diploma-home": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "gathering-missing": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "funeral": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "first-meeting": {
       "how": "writer",
       "reason": "circumstance"
     },
@@ -64,59 +18,11 @@
       "how": "writer",
       "reason": "circumstance"
     },
-    "date": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "proposal": {
-      "how": "event",
-      "kind": "family.engaged",
-      "facts": {}
-    },
-    "move-in": {
-      "how": "event",
-      "kind": "family.move-in-asked",
-      "facts": {}
-    },
-    "breakup": {
-      "how": "event",
-      "kind": "family.separated",
-      "facts": {}
-    },
-    "betrayal": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "rescue": {
-      "how": "event",
-      "kind": "health.rescued",
-      "facts": {}
-    },
-    "prison-visit": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "arrival": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "care": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
     "advice": {
       "how": "writer",
       "reason": "circumstance"
     },
     "accusation": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "warning": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "reconciliation": {
       "how": "writer",
       "reason": "circumstance"
     },
@@ -131,26 +37,9 @@
         "winnerId": "person_20db1acaeb2996b6"
       }
     },
-    "race-lost": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "appointment": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "recall": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
     "press-interview": {
       "how": "legislature",
       "recipe": "introduced"
-    },
-    "scandal": {
-      "how": "event",
-      "kind": "press.exposed",
-      "facts": {}
     },
     "constituent-stop": {
       "how": "writer",
@@ -170,10 +59,6 @@
     "filing": {
       "how": "writer",
       "reason": "no-event"
-    },
-    "layoff": {
-      "how": "writer",
-      "reason": "circumstance"
     },
     "vote-asked": {
       "how": "legislature",
@@ -217,111 +102,15 @@
       "how": "writer",
       "reason": "journal-line"
     },
-    "emergency-briefing": {
-      "how": "event",
-      "kind": "executive.emergency-offered",
-      "facts": {}
-    },
-    "party-recruit": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "party-welcome": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "office-hours": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
     "family-filing": {
       "how": "writer",
       "reason": "no-event"
-    },
-    "family-loss": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "family-absence": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "rally-opponent": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "desk-visit": {
-      "how": "legislature",
-      "recipe": "presented"
-    },
-    "section-bargain": {
-      "how": "writer",
-      "reason": "members-decide"
-    },
-    "bill-held-chair": {
-      "how": "writer",
-      "reason": "chair"
-    },
-    "hold-chair-sought": {
-      "how": "legislature",
-      "recipe": "held"
-    },
-    "new-baby": {
-      "how": "event",
-      "kind": "person-birth",
-      "facts": {
-        "motherId": "person_20db1acaeb2996b6"
-      }
     },
     "cause-invite": {
       "how": "writer",
       "reason": "circumstance"
     },
-    "action-confront": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "town-hall-question": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "rally-word": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "lobby-remembers": {
-      "how": "writer",
-      "reason": "lived"
-    },
     "bribe-pressed": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "office-doubt": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "floor-debate": {
-      "how": "writer",
-      "reason": "lived"
-    },
-    "hearing-witness": {
-      "how": "writer",
-      "reason": "lived"
-    },
-    "moving-goodbye": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "study-formed": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "study-reported": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "interview-invite": {
       "how": "writer",
       "reason": "journal-line"
     },
@@ -339,60 +128,13 @@
         "invitedId": "person_20db1acaeb2996b6"
       }
     },
-    "debate-invite": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
     "endorsement-ask": {
       "how": "writer",
       "reason": "journal-line"
     },
-    "volunteer-offer": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "manager-offer": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
     "job-offer": {
       "how": "writer",
       "reason": "journal-line"
-    },
-    "rival-word": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "petition-short": {
-      "how": "event",
-      "kind": "petition-short",
-      "facts": {
-        "invitedId": "person_20db1acaeb2996b6",
-        "tellerKind": "clerk"
-      }
-    },
-    "budget-cut": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "notice-home": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "home-damaged": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
-    "swearing-in": {
-      "how": "writer",
-      "reason": "journal-line"
-    },
-    "bill-sign-on": {
-      "how": "event",
-      "kind": "sign-on-asked",
-      "facts": {
-        "askerId": "person_20db1acaeb2996b6"
-      }
     }
   }
 }
