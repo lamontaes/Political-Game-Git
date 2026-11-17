@@ -40,8 +40,20 @@
       "kind": "event:life.death"
     },
     {
+      "life": "loss",
+      "what": "died",
+      "record": "family:parent-died",
+      "kind": "event:life.death"
+    },
+    {
       "life": "health",
       "what": "serious-illness",
+      "kind": "event:health.serious-illness"
+    },
+    {
+      "life": "health",
+      "what": "hospital-stay",
+      "record": "health.hospital-stay",
       "kind": "event:health.serious-illness"
     },
     {

@@ -3939,33 +3939,6 @@
       }
     },
     {
-      "key": "journal.memoir-join-later.span-on",
-      "move": "memoir-join-later",
-      "kind": "spoken",
-      "text": "{span} on.",
-      "uses": [
-        {
-          "move": "memoir-join-later",
-          "subject": "memoir",
-          "role": "joinLater",
-          "choice": "join-later",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinLater"
-            }
-          ],
-          "clause": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-meant-friend.that-made-me-glad",
       "move": "memoir-meant-friend",
       "kind": "spoken",
@@ -8439,110 +8412,6 @@
       }
     },
     {
-      "key": "journal.office-line-volunteer-shift.a-volunteer-knocked-doors-for-me",
-      "move": "office-line-volunteer-shift",
-      "kind": "spoken",
-      "text": "A volunteer knocked on {doors} doors for me.",
-      "uses": [
-        {
-          "move": "office-line-volunteer-shift",
-          "subject": "office",
-          "role": "line",
-          "choice": "a-volunteer-knocked-doors-for-me",
-          "journal": [
-            {
-              "kindPrefix": "event:volunteer-shift",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-volunteer-shift.someone-from-my-campaign-walked-doors",
-      "move": "office-line-volunteer-shift",
-      "kind": "spoken",
-      "text": "Someone from my campaign walked {doors} doors for me.",
-      "uses": [
-        {
-          "move": "office-line-volunteer-shift",
-          "subject": "office",
-          "role": "line",
-          "choice": "someone-from-my-campaign-walked-doors",
-          "journal": [
-            {
-              "kindPrefix": "event:volunteer-shift",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-volunteer-shift.other-walked-doors-for-me",
-      "move": "office-line-volunteer-shift",
-      "kind": "spoken",
-      "text": "{other} walked {doors} doors for me.",
-      "uses": [
-        {
-          "move": "office-line-volunteer-shift",
-          "subject": "office",
-          "role": "line",
-          "choice": "other-walked-doors-for-me",
-          "journal": [
-            {
-              "kindPrefix": "event:volunteer-shift",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-volunteer-shift.other-knocked-on-doors-for-me",
-      "move": "office-line-volunteer-shift",
-      "kind": "spoken",
-      "text": "{other} knocked on {doors} doors for me.",
-      "uses": [
-        {
-          "move": "office-line-volunteer-shift",
-          "subject": "office",
-          "role": "line",
-          "choice": "other-knocked-on-doors-for-me",
-          "journal": [
-            {
-              "kindPrefix": "event:volunteer-shift",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
-      "date": "2026-11-04",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.family-line-born.relation-was-born",
       "move": "family-line-born",
       "kind": "spoken",
@@ -8662,70 +8531,6 @@
       }
     },
     {
-      "key": "journal.memoir-again-pay.it-paid-wage-an-hour",
-      "move": "memoir-again-pay",
-      "kind": "spoken",
-      "text": "It paid {wage} an hour.",
-      "uses": [
-        {
-          "move": "memoir-again-pay",
-          "subject": "memoir",
-          "role": "again-pay",
-          "choice": "again-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "againPay"
-            },
-            {
-              "kindPrefix": "memoir:",
-              "field": "firstPay"
-            },
-            {
-              "kindPrefix": "memoir:",
-              "field": "movedPay"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-again-pay.the-pay-was-wage-an-hour",
-      "move": "memoir-again-pay",
-      "kind": "spoken",
-      "text": "The pay was {wage} an hour.",
-      "uses": [
-        {
-          "move": "memoir-again-pay",
-          "subject": "memoir",
-          "role": "again-pay",
-          "choice": "again-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "againPay"
-            },
-            {
-              "kindPrefix": "memoir:",
-              "field": "firstPay"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-again-felt.up-from-paid-more-than-it-was-a-relief",
       "move": "memoir-again-felt",
       "kind": "spoken",
@@ -8766,32 +8571,6 @@
             {
               "kindPrefix": "memoir:",
               "field": "againFelt"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-first-pay.i-earned-wage-an-hour",
-      "move": "memoir-first-pay",
-      "kind": "spoken",
-      "text": "I earned {wage} an hour.",
-      "uses": [
-        {
-          "move": "memoir-first-pay",
-          "subject": "memoir",
-          "role": "first-pay",
-          "choice": "first-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "firstPay"
             }
           ]
         }
@@ -8886,58 +8665,6 @@
       }
     },
     {
-      "key": "journal.memoir-let-go-pay.it-had-paid-wage-an-hour",
-      "move": "memoir-let-go-pay",
-      "kind": "spoken",
-      "text": "It had paid {wage} an hour.",
-      "uses": [
-        {
-          "move": "memoir-let-go-pay",
-          "subject": "memoir",
-          "role": "let-go-pay",
-          "choice": "let-go-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "letGoPay"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-let-go-pay.that-was-wage-an-hour-gone",
-      "move": "memoir-let-go-pay",
-      "kind": "spoken",
-      "text": "That was {wage} an hour I wouldn't have anymore.",
-      "uses": [
-        {
-          "move": "memoir-let-go-pay",
-          "subject": "memoir",
-          "role": "let-go-pay",
-          "choice": "let-go-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "letGoPay"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-moved-held.i-had-worked-at-employer-for-held",
       "move": "memoir-moved-held",
       "kind": "spoken",
@@ -8952,58 +8679,6 @@
             {
               "kindPrefix": "memoir:",
               "field": "movedHeld"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-moved-pay.it-paid-wage-an-hour-up-from-paid-more-than",
-      "move": "memoir-moved-pay",
-      "kind": "spoken",
-      "text": "It paid {wage} an hour, up from {paid_more_than}.",
-      "uses": [
-        {
-          "move": "memoir-moved-pay",
-          "subject": "memoir",
-          "role": "moved-pay",
-          "choice": "moved-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "movedPay"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal as stories)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-moved-pay.it-paid-wage-an-hour-down-from-paid-less-than",
-      "move": "memoir-moved-pay",
-      "kind": "spoken",
-      "text": "It paid {wage} an hour, down from {paid_less_than}.",
-      "uses": [
-        {
-          "move": "memoir-moved-pay",
-          "subject": "memoir",
-          "role": "moved-pay",
-          "choice": "moved-pay",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "movedPay"
             }
           ]
         }
@@ -9316,58 +8991,6 @@
             {
               "kindPrefix": "memoir:",
               "field": "birthFirst"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal stories of life events)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-together-for.we-have-been-together-together",
-      "move": "memoir-together-for",
-      "kind": "spoken",
-      "text": "We have been together {together}.",
-      "uses": [
-        {
-          "move": "memoir-together-for",
-          "subject": "memoir",
-          "role": "together-for",
-          "choice": "together-for",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "togetherFor"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal stories of life events)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-together-for.it-has-been-together-since-then",
-      "move": "memoir-together-for",
-      "kind": "spoken",
-      "text": "It has been {together} since then.",
-      "uses": [
-        {
-          "move": "memoir-together-for",
-          "subject": "memoir",
-          "role": "together-for",
-          "choice": "together-for",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "togetherFor"
             }
           ]
         }
@@ -10186,32 +9809,6 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-lost-the-race-for-office-in-a-landslide",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "I lost the race for {office} in a landslide.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-met.i-met-named-in-place",
       "move": "home-line-met",
       "kind": "spoken",
@@ -10233,259 +9830,6 @@
       "origin": "authored",
       "author": "Words lead",
       "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-town-hall.i-held-a-town-hall-in-place-as-office",
-      "move": "office-line-town-hall",
-      "kind": "spoken",
-      "text": "I held a town hall in {place} as {office}.",
-      "uses": [
-        {
-          "move": "office-line-town-hall",
-          "subject": "office",
-          "role": "line",
-          "choice": "i-held-a-town-hall-in-place-as-office",
-          "journal": [
-            {
-              "kindPrefix": "act:town-hall",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.office-line-town-hall.i-held-a-town-hall-in-place",
-      "move": "office-line-town-hall",
-      "kind": "spoken",
-      "text": "I held a town hall in {place}.",
-      "uses": [
-        {
-          "move": "office-line-town-hall",
-          "subject": "office",
-          "role": "line",
-          "choice": "i-held-a-town-hall-in-place",
-          "journal": [
-            {
-              "kindPrefix": "act:town-hall",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-lost.i-lost-my-job-at-employer",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "I lost my job at {employer}.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "i-lost-my-job-at-employer",
-          "journal": [
-            {
-              "kindPrefix": "job-ended",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-lost.my-job-at-employer-ended",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "My job at {employer} ended.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "my-job-at-employer-ended",
-          "journal": [
-            {
-              "kindPrefix": "job-ended",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-lost.i-lost-my-job-in-place",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "I lost my job in {place}.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "i-lost-my-job-in-place",
-          "journal": [
-            {
-              "kindPrefix": "job-ended",
-              "field": "line"
-            },
-            {
-              "kindPrefix": "job-ended:let-go",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.self-line-came-of-age.i-turned-eighteen-and-could-vote-in-plac",
-      "move": "self-line-came-of-age",
-      "kind": "spoken",
-      "text": "I turned eighteen and could vote in {place}.",
-      "uses": [
-        {
-          "move": "self-line-came-of-age",
-          "subject": "self",
-          "role": "line",
-          "choice": "i-turned-eighteen-and-could-vote-in-plac",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-run.i-worked-in-work-around-place-for-span",
-      "move": "memoir-work-run",
-      "kind": "spoken",
-      "text": "I worked in {work} around {place} for {span}",
-      "uses": [
-        {
-          "move": "memoir-work-run",
-          "subject": "memoir",
-          "role": "workRun",
-          "choice": "i-worked-in-work-around-place-for-span",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workRun"
-            }
-          ]
-        }
-      ],
-      "piece": {
-        "of": "journal.work-run",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-run.for-span-i-worked-in-work-around-place",
-      "move": "memoir-work-run",
-      "kind": "spoken",
-      "text": "For {span}, I worked in {work} around {place}",
-      "uses": [
-        {
-          "move": "memoir-work-run",
-          "subject": "memoir",
-          "role": "workRun",
-          "choice": "for-span-i-worked-in-work-around-place",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workRun"
-            }
-          ]
-        }
-      ],
-      "piece": {
-        "of": "journal.work-run",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-run.i-spent-span-working-in-work-around-plac",
-      "move": "memoir-work-run",
-      "kind": "spoken",
-      "text": "I spent {span} working in {work} around {place}",
-      "uses": [
-        {
-          "move": "memoir-work-run",
-          "subject": "memoir",
-          "role": "workRun",
-          "choice": "i-spent-span-working-in-work-around-plac",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workRun"
-            }
-          ]
-        }
-      ],
-      "piece": {
-        "of": "journal.work-run",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
       "tag": {
         "move": "tell"
       }
@@ -10760,32 +10104,6 @@
       }
     },
     {
-      "key": "journal.work-line-moved-on.i-left-my-job-in-place-for-another-one",
-      "move": "work-line-moved-on",
-      "kind": "spoken",
-      "text": "I left my job in {place} for another one.",
-      "uses": [
-        {
-          "move": "work-line-moved-on",
-          "subject": "work",
-          "role": "line",
-          "choice": "left-in-place",
-          "journal": [
-            {
-              "kindPrefix": "job-ended:moved-on",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-work-left.last-worked-at-employer",
       "move": "memoir-work-left",
       "kind": "spoken",
@@ -10848,32 +10166,6 @@
       }
     },
     {
-      "key": "journal.memoir-work-one-left.i-worked-at-employer-for-span",
-      "move": "memoir-work-one-left",
-      "kind": "spoken",
-      "text": "I worked at {employer} for {span}.",
-      "uses": [
-        {
-          "move": "memoir-work-one-left",
-          "subject": "memoir",
-          "role": "workOneLeft",
-          "choice": "i-worked-at-employer-for-span",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workOneLeft"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-work-one-left.i-spent-span-at-employer",
       "move": "memoir-work-one-left",
       "kind": "spoken",
@@ -10888,110 +10180,6 @@
             {
               "kindPrefix": "memoir:",
               "field": "workOneLeft"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-pay-up.my-pay-went-from-wage-from-to-wage-to-an",
-      "move": "memoir-work-pay-up",
-      "kind": "spoken",
-      "text": "My pay went from {wage_from} to {wage_to} an hour.",
-      "uses": [
-        {
-          "move": "memoir-work-pay-up",
-          "subject": "memoir",
-          "role": "workPayUp",
-          "choice": "my-pay-went-from-wage-from-to-wage-to-an",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workPayUp"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-pay-up.the-pay-climbed-from-wage-from-to-wage-t",
-      "move": "memoir-work-pay-up",
-      "kind": "spoken",
-      "text": "The pay climbed from {wage_from} to {wage_to} an hour.",
-      "uses": [
-        {
-          "move": "memoir-work-pay-up",
-          "subject": "memoir",
-          "role": "workPayUp",
-          "choice": "the-pay-climbed-from-wage-from-to-wage-t",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workPayUp"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-pay-down.my-pay-went-from-wage-from-down-to-wage-",
-      "move": "memoir-work-pay-down",
-      "kind": "spoken",
-      "text": "My pay went from {wage_from} down to {wage_to} an hour.",
-      "uses": [
-        {
-          "move": "memoir-work-pay-down",
-          "subject": "memoir",
-          "role": "workPayDown",
-          "choice": "my-pay-went-from-wage-from-down-to-wage-",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workPayDown"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-work-pay-down.the-pay-fell-from-wage-from-to-wage-to-a",
-      "move": "memoir-work-pay-down",
-      "kind": "spoken",
-      "text": "The pay fell from {wage_from} to {wage_to} an hour.",
-      "uses": [
-        {
-          "move": "memoir-work-pay-down",
-          "subject": "memoir",
-          "role": "workPayDown",
-          "choice": "the-pay-fell-from-wage-from-to-wage-to-a",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workPayDown"
             }
           ]
         }
@@ -11120,88 +10308,10 @@
       }
     },
     {
-      "key": "journal.home-line-children-together.our-children-came-between-first-and-last-names",
-      "move": "home-line-children-together",
-      "kind": "spoken",
-      "text": "Our children came between {first} and {last}: {names}.",
-      "uses": [
-        {
-          "move": "home-line-children-together",
-          "subject": "home",
-          "role": "children",
-          "choice": "children-together",
-          "journal": [
-            {
-              "kindPrefix": "household:children-together",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-children-together.our-family-grew-between-first-and-last-with-count-children-names",
-      "move": "home-line-children-together",
-      "kind": "spoken",
-      "text": "Our family grew between {first} and {last}, with {count} children: {names}.",
-      "uses": [
-        {
-          "move": "home-line-children-together",
-          "subject": "home",
-          "role": "children",
-          "choice": "children-together",
-          "journal": [
-            {
-              "kindPrefix": "household:children-together",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-children-together.i-had-count-children-between-first-and-last-names",
       "move": "home-line-children-together",
       "kind": "spoken",
       "text": "I had {count} children between {first} and {last}: {names}.",
-      "uses": [
-        {
-          "move": "home-line-children-together",
-          "subject": "home",
-          "role": "children",
-          "choice": "children-together",
-          "journal": [
-            {
-              "kindPrefix": "household:children-together",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-children-together.my-children-came-between-first-and-last-names",
-      "move": "home-line-children-together",
-      "kind": "spoken",
-      "text": "My children came between {first} and {last}: {names}.",
       "uses": [
         {
           "move": "home-line-children-together",
@@ -11375,6 +10485,110 @@
       "origin": "authored",
       "author": "Words lead (petition-short lines, Nov 15), placed by the record",
       "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.the-rules-on-topic-changed-what-i-pay",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "The rules on {topic} changed what I pay.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-learned-the-law-on-topic-changed-my-costs",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I learned the law on {topic} changed my costs.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.that-law-on-topic-is-behind-what-i-pay-now",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "That law on {topic} is behind what I pay now.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-together-for.we-have-been-together-together",
+      "move": "memoir-together-for",
+      "kind": "spoken",
+      "text": "We have been together {together}.",
+      "uses": [
+        {
+          "move": "memoir-together-for",
+          "subject": "memoir",
+          "role": "together-for",
+          "choice": "together-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "togetherFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
       "tag": {
         "move": "tell"
       }

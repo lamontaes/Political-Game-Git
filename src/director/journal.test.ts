@@ -662,9 +662,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       // A second relative of one relation is said by given name ("Olivia
       // moved away."); a young watcher's line is framed by their age ("When
       // I was 15 years old, my brother ... moved away.").
-      expect(line.plain ?? line.text).toMatch(
-        /^(?:When I was [^,]+, )?(?:[Mm]y \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
-      );
+      // The sentence may sit inside a paragraph, joined to the one before it
+      // (a fact with no time or reason of its own is not a paragraph).
+      for (const said of (line.plain ?? line.text)
+        .split(/(?<=\.)\s+/)
+        .filter((sentence) => /moved away/.test(sentence)))
+        expect(said).toMatch(
+          /^(?:When I was [^,]+, )?(?:[Mm]y \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
+        );
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     }
   });
@@ -783,8 +788,12 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(
       moved[0]!.match(/\b\d+\b(?= (?:years old|that year))/g)?.length ?? 0,
     ).toBeLessThanOrEqual(1);
+    // Under the heading that names the town and state, the town is its bare
+    // name (Story lead, Nov 17: the state is said once).
     expect(moved[0]).toContain(
-      corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
+      corePlaceByJurisdictionId(mover.placeId as never)!.displayName.split(
+        ", ",
+      )[0]!,
     );
     expect(named.some((line) => /^I /.test(line))).toBe(false);
     // A place with no name leaves nothing to say about the move (the

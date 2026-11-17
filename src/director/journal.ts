@@ -21,7 +21,11 @@ import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
 } from "../core2/modules/elections";
-import { jobTitleSaid, personWorkOf } from "../core2/person-work";
+import {
+  jobTitleSaid,
+  officeInSentence,
+  personWorkOf,
+} from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   votesOn,
@@ -1433,6 +1437,25 @@ export function composeJournal(
   const book = director.ledger.people.get(personId);
   if (!person || !book) return [];
   const kin = familyFactsOf(person);
+  // A parent who died before the start is kept as a dated fact on the person
+  // ("family:parent-died", with the relation and the name), and the parent
+  // may be no one in the world (a record of the opening run). The person
+  // still names them as the tie they were: "my mother".
+  const passedOn = new Map(
+    (person.pastFacts ?? [])
+      .filter((fact) => fact.kind === "family:parent-died")
+      .map((fact) => [fact.facts?.otherPersonId as PersonId, fact] as const),
+  );
+  for (const [id, fact] of passedOn) {
+    const held = kin.get(id);
+    if (held)
+      kin.set(id, {
+        ...held,
+        relation: ["mother", "father"].includes(String(fact.facts?.relation))
+          ? "parent"
+          : String(fact.facts?.relation ?? "parent"),
+      });
+  }
   const named = new Set<PersonId>();
   // Whose moment it is, when it is someone else's: a relative first, then
   // someone the person knows, else the first on record. A moment's people
@@ -1468,7 +1491,22 @@ export function composeJournal(
       ),
   );
   const other = (id: PersonId): Fact | undefined => {
-    const row = core.people.get(id);
+    const row =
+      core.people.get(id) ??
+      (passedOn.has(id)
+        ? ({
+            givenName: String(passedOn.get(id)!.facts?.givenName ?? ""),
+            familyName: String(passedOn.get(id)!.facts?.familyName ?? ""),
+            looks: {
+              gender:
+                passedOn.get(id)!.facts?.relation === "mother"
+                  ? "female"
+                  : passedOn.get(id)!.facts?.relation === "father"
+                    ? "male"
+                    : "other",
+            },
+          } as unknown as PersonState)
+        : undefined);
     if (!row) return undefined;
     const relation = kin.get(id);
     if (relation) {
@@ -1681,6 +1719,13 @@ export function composeJournal(
         };
       facts["age-then"] = ageThen(person.birthDate, person.id);
     }
+    // The person's own illness or hospital stay: how old they were, so the
+    // sentence has a time of its own ("When I was 34, I got sick.").
+    if (
+      moment.causeKind === "event:health.serious-illness" &&
+      !moment.counterpartIds.length
+    )
+      facts["age-then"] = ageThen(person.birthDate, person.id);
     // A child born to them: how old they were, and whether the first.
     if (moment.causeKind === "family:child") {
       facts["age-then"] = ageThen(person.birthDate, person.id);
@@ -1828,10 +1873,21 @@ export function composeJournal(
             : [moment.causeId, ...(law?.recordIds ?? [])],
       };
     }
-    // A filing names its seat as people say it, through the one seat reader
-    // (`seatSaid`): the body for a seat on a body, the district for a
-    // districted seat, the office in lower case otherwise, at every level.
-    if (moment.causeKind.startsWith("event:candidate-filed") && facts.office) {
+    // The person's own seat is said the way the You screen says it (Story
+    // lead, Nov 17: the Journal's "The Forest Board of Aldermen" beside "I
+    // filed to run for council member"): the office record's own title as
+    // people say it in a sentence (`officeInSentence`), for their filing, the
+    // race's result and the oath. Another person's filing keeps the seat
+    // reader below.
+    const ownSeat = (() => {
+      if (
+        !moment.selfNamed ||
+        !facts.office ||
+        !/^event:(?:candidate-filed|election-result|primary-result|took-office)/.test(
+          moment.causeKind,
+        )
+      )
+        return undefined;
       const contestId = logged?.facts?.contestId;
       const contest =
         typeof contestId === "string" && core.modules.has(ELECTIONS_MODULE_ID)
@@ -1840,28 +1896,63 @@ export function composeJournal(
               .table("contests")
               .get(contestId) as unknown as ContestRow | undefined)
           : undefined;
+      const officeId = contest?.officeId ?? logged?.facts?.officeId;
       const office =
-        contest && core.modules.has(OFFICES_MODULE_ID)
+        officeId && core.modules.has(OFFICES_MODULE_ID)
           ? (coreAPI(core as CoreState)
               .moduleState(OFFICES_MODULE_ID)
               .table("offices")
-              .get(contest.officeId) as unknown as
-              | { title?: string; seats?: number; bodyName?: string | null }
-              | undefined)
+              .get(officeId) as unknown as { title?: string } | undefined)
           : undefined;
-      facts.office = {
-        text: seatSaid({
-          title: contest?.title ?? facts.office.text,
-          ...(office?.seats !== undefined ? { seats: office.seats } : {}),
-          ...(office?.bodyName ? { bodyName: office.bodyName } : {}),
-          ...(contest?.district ? { district: contest.district } : {}),
-        }),
-        sourceRecordIds: [
-          ...facts.office.sourceRecordIds,
-          ...(contest ? [contest.id] : []),
-        ],
-      };
-    }
+      return office?.title
+        ? ({
+            text: officeInSentence(office.title),
+            sourceRecordIds: [
+              ...facts.office.sourceRecordIds,
+              ...(contest ? [contest.id] : []),
+            ],
+          } satisfies Fact)
+        : undefined;
+    })();
+    if (ownSeat) facts.office = ownSeat;
+    else
+      // A filing names its seat as people say it, through the one seat reader
+      // (`seatSaid`): the body for a seat on a body, the district for a
+      // districted seat, the office in lower case otherwise, at every level.
+      if (
+        moment.causeKind.startsWith("event:candidate-filed") &&
+        facts.office
+      ) {
+        const contestId = logged?.facts?.contestId;
+        const contest =
+          typeof contestId === "string" && core.modules.has(ELECTIONS_MODULE_ID)
+            ? (coreAPI(core as CoreState)
+                .moduleState(ELECTIONS_MODULE_ID)
+                .table("contests")
+                .get(contestId) as unknown as ContestRow | undefined)
+            : undefined;
+        const office =
+          contest && core.modules.has(OFFICES_MODULE_ID)
+            ? (coreAPI(core as CoreState)
+                .moduleState(OFFICES_MODULE_ID)
+                .table("offices")
+                .get(contest.officeId) as unknown as
+                | { title?: string; seats?: number; bodyName?: string | null }
+                | undefined)
+            : undefined;
+        facts.office = {
+          text: seatSaid({
+            title: contest?.title ?? facts.office.text,
+            ...(office?.seats !== undefined ? { seats: office.seats } : {}),
+            ...(office?.bodyName ? { bodyName: office.bodyName } : {}),
+            ...(contest?.district ? { district: contest.district } : {}),
+          }),
+          sourceRecordIds: [
+            ...facts.office.sourceRecordIds,
+            ...(contest ? [contest.id] : []),
+          ],
+        };
+      }
     // A law learned of is told by what it did to the person: the bill the
     // price engine's rule moved and about how much a month, from the
     // learned record's own facts. A record with no amount is not told
@@ -2050,6 +2141,20 @@ export function composeJournal(
 
   // Each line is the English engine's: the director says which line it is,
   // what the records give it and the stage they put it in.
+  // The town is said once, in the heading, with its state; after it the
+  // town is its bare name and the state is never said again (Story lead,
+  // Nov 17: "I was born in Ignacio, Colorado" under "Ignacio, Colorado").
+  const homeLabel = placeLabel(person.placeId);
+  const homeState = homeLabel?.includes(", ")
+    ? homeLabel.slice(homeLabel.indexOf(", ") + ", ".length)
+    : undefined;
+  const shortPlace = (fact: Fact): Fact => {
+    const text =
+      homeState && fact.text.endsWith(`, ${homeState}`)
+        ? fact.text.slice(zero, fact.text.length - `, ${homeState}`.length)
+        : fact.text;
+    return text === fact.text ? fact : { ...fact, text };
+  };
   const render = (
     move: JournalMove,
     facts: Facts,
@@ -2061,7 +2166,10 @@ export function composeJournal(
       seed: core.seed,
       personId,
       move,
-      facts,
+      facts:
+        move.part === "first-title" || !facts.place
+          ? facts
+          : { ...facts, place: shortPlace(facts.place) },
       momentKey,
       sourceIds,
       ...(stage !== undefined ? { stage } : {}),
@@ -2299,6 +2407,14 @@ export function composeJournal(
       continue;
     const facts = factsFor(moment);
     if (!facts) continue;
+    // Someone's work is told only for someone the person has a tie to: a
+    // person the records name with no tie is no one the writer would speak of
+    // ("Ryan Sweet has been at Walters's Market since I was 14").
+    if (
+      moment.causeKind.startsWith("household:livelihood") &&
+      !moment.counterpartIds.some((id) => kin.has(id))
+    )
+      continue;
     // An at-large race for several seats is one race: the count the clerk
     // keeps for each seat is the same loss or win, told once (Hope Valley,
     // Rhode Island, seed 224ba354-7613-4852-a48c-c2747306de10: five seats of
@@ -2551,7 +2667,11 @@ export function composeJournal(
       const names = all.map((unit) => unit.facts.name?.text ?? "");
       const first = yearOf(all[zero]!.moment.date);
       const last = yearOf(all.at(-one)!.moment.date);
-      const ids = all.flatMap((unit) => [unit.moment.causeId]);
+      // Each child's birth, by the record the person was made with.
+      const ids = all.flatMap((unit) => [
+        unit.moment.causeId,
+        ...(unit.moment.causeFactId ? [unit.moment.causeFactId] : []),
+      ]);
       const [partnerId, partnerFact] =
         [...kin.entries()].find(([, fact]) => fact.relation === "partner") ??
         [];
@@ -2694,11 +2814,29 @@ export function composeJournal(
     key: string,
     /** What the stretch has named already (an employer, a place), shared by its runs. */
     said: Set<string> = new Set<string>(),
+    /**
+     * Where the stretch's paragraphs begin, when it is told in paragraphs:
+     * a paragraph holds one time opener ("When I was 24", "Five months
+     * later"), so a record that carries its own opener after one begins a
+     * paragraph of its own (Story lead, Nov 17: openers chained, and a
+     * birth sat after six years of work as an afterthought). Each entry is
+     * the sentence and the unit where a paragraph starts.
+     */
+    starts?: { sentence: number; unit: number; alone?: true }[],
+    /** The sentences that open on a time ("When I was 24", "Five months later"). */
+    opened?: Set<number>,
   ): JournalWorded[] => {
     const sentences: JournalWorded[] = [];
+    let openers = zero;
+    let unitAt = -one;
     const remember = (text: string, facts: Facts) => {
       for (const [name, fact] of Object.entries(facts))
-        if (sayOnce.has(name) && text.includes(fact.text)) said.add(fact.text);
+        if (
+          sayOnce.has(name) &&
+          (text.includes(fact.text) ||
+            (name === "place" && text.includes(shortPlace(fact).text)))
+        )
+          said.add(fact.text);
     };
     let last: Unit | undefined;
     let lastTimed = false;
@@ -2707,6 +2845,7 @@ export function composeJournal(
     // last record's own line (rule 11: "later" needs its antecedent).
     let lastAt = -one;
     for (const unit of told) {
+      unitAt += one;
       const ids = [unit.moment.causeId];
       let event = unit.event;
       // A fact this paragraph has named already (an employer, a place) is
@@ -2736,8 +2875,28 @@ export function composeJournal(
               name === "place" || !repeated.some(([gone]) => gone === name),
           ),
         );
-        const again = unit.retell(fewer) ?? unit.retell(fewerButPlace);
+        const again = unit.retell(fewer);
         if (again) event = again;
+        else {
+          // A line that cannot be said without the place says it again only
+          // in a paragraph of its own: a place is named once in a paragraph.
+          const withPlace = unit.retell(fewerButPlace);
+          if (withPlace) {
+            event = withPlace;
+            if (
+              starts &&
+              sentences.length &&
+              repeated.some(([name]) => name === "place")
+            ) {
+              starts.push({
+                sentence: sentences.length,
+                unit: unitAt,
+                alone: true,
+              });
+              openers = zero;
+            }
+          }
+        }
       }
       // No "we" or "our" without a partner on record to stand behind it
       // (lead, Nov 12: "our" has nobody behind it): the record's line is
@@ -2771,6 +2930,10 @@ export function composeJournal(
           const bare = withoutAgeSaid(unit, event);
           event = framedByAge(frame, bare ?? event, unit.facts);
           aged = true;
+          if (starts && openers > zero && sentences.length)
+            starts.push({ sentence: sentences.length, unit: unitAt });
+          openers = one;
+          opened?.add(sentences.length);
         }
       } else if (last && !unit.framed && key !== "roots") {
         const days = daysBetween(
@@ -2780,7 +2943,8 @@ export function composeJournal(
         if (
           !lastTimed &&
           days >= monthSpan &&
-          lastAt === sentences.length - one
+          lastAt === sentences.length - one &&
+          (!starts || openers === zero || days >= monthSpan * P.two * P.two)
         ) {
           const frame = render(
             { part: "memoir", field: "joinLater" },
@@ -2796,6 +2960,10 @@ export function composeJournal(
           if (frame) {
             event = framedByAge(frame, event, unit.facts);
             timed = true;
+            if (starts && openers > zero)
+              starts.push({ sentence: sentences.length, unit: unitAt });
+            openers = one;
+            opened?.add(sentences.length);
             // The time just said is how long the job before lasted: it is
             // not said again as "I had been there ...".
             if (unit.facts.held?.text === spanSaid(days)) heldSaid = true;
@@ -2826,6 +2994,8 @@ export function composeJournal(
             unit.facts,
           );
           aged = true;
+          openers = one;
+          opened?.add(sentences.length);
         }
       }
       sentences.push(event);
@@ -3321,9 +3491,16 @@ export function composeJournal(
       ...new Set(sentences.flatMap((part) => part.sourceRecordIds)),
     ],
   });
+  /** What each entry of the chapter was told from, to join a later sentence to it. */
+  const toldAs = new Map<
+    string,
+    { told: readonly Unit[]; sentences: JournalWorded[] }
+  >();
   const push = (told: readonly Unit[], sentences: JournalWorded[]) => {
     if (!told.length || !sentences.length || !chapter) return;
-    chapter.lines.push(entryOf(told, sentences));
+    const entry = entryOf(told, sentences);
+    toldAs.set(entry.id, { told, sentences });
+    chapter.lines.push(entry);
     const lastDate = told.at(-one)!.moment.date;
     if (lastDate > chapter.through) chapter.through = lastDate;
   };
@@ -3462,9 +3639,10 @@ export function composeJournal(
       .filter((unit) => unit.paragraph !== "now")
       .sort(
         (a, b) =>
-          a.moment.date.localeCompare(b.moment.date) ||
+          // A life is told from its birth: the family it came into follows it.
           Number(b.moment.causeKind === "person.birth") -
-            Number(a.moment.causeKind === "person.birth"),
+            Number(a.moment.causeKind === "person.birth") ||
+          a.moment.date.localeCompare(b.moment.date),
       );
     const isWork = (unit: Unit) => unit.paragraph === "work";
     const grown = addDays(
@@ -3557,12 +3735,42 @@ export function composeJournal(
       const until = (stretches[at + one]?.[zero]?.moment.date ??
         core.startedAt) as IsoDate;
       const key = row[zero]!.moment.date < grownUp ? "roots" : "family";
-      const sentences: JournalWorded[] = [];
-      // What the stretch has named (a place, an employer), said once in it.
+      // A stretch is told in paragraphs: the work its own, each birth or
+      // move its own, other records after the one that opened the paragraph.
       const said = new Set<string>();
+      const paragraphs: {
+        told: Unit[];
+        sentences: JournalWorded[];
+        /** Whether a sentence of it opens on a time. */
+        timed: boolean;
+      }[] = [];
       let run: Unit[] = [];
       const flush = () => {
-        if (run.length) sentences.push(...tellParagraph(run, key, said));
+        if (!run.length) return;
+        const starts: { sentence: number; unit: number; alone?: true }[] = [];
+        const opened = new Set<number>();
+        const sentences = tellParagraph(run, key, said, starts, opened);
+        let from: { sentence: number; unit: number; alone?: true } = {
+          sentence: zero,
+          unit: zero,
+        };
+        for (const next of [
+          ...starts,
+          { sentence: sentences.length, unit: run.length },
+        ]) {
+          if (next.sentence > from.sentence)
+            paragraphs.push({
+              told: run.slice(from.unit, next.unit),
+              sentences: sentences.slice(from.sentence, next.sentence),
+              // A paragraph kept apart for the place it names is not joined back.
+              timed:
+                !!from.alone ||
+                [...opened].some(
+                  (at) => at >= from.sentence && at < next.sentence,
+                ),
+            });
+          from = next;
+        }
         run = [];
       };
       let workTold = false;
@@ -3591,10 +3799,16 @@ export function composeJournal(
           for (const name of sayOnce)
             if (
               unit.facts[name] &&
-              told.some((part) => part.text.includes(unit.facts[name]!.text))
+              told.some(
+                (part) =>
+                  part.text.includes(unit.facts[name]!.text) ||
+                  (name === "place" &&
+                    part.text.includes(shortPlace(unit.facts[name]!).text)),
+              )
             )
               said.add(unit.facts[name]!.text);
-        sentences.push(...told);
+        if (told.length)
+          paragraphs.push({ told: work, sentences: told, timed: true });
       }
       flush();
       for (const paragraph of ["roots", "work"])
@@ -3604,11 +3818,40 @@ export function composeJournal(
             (paragraph === "work" && at === lastWork))
         ) {
           viewsTold.add(paragraph);
-          sentences.push(...pastViewSentences(paragraph));
+          const views = pastViewSentences(paragraph);
+          if (views.length && paragraphs.length)
+            paragraphs.at(-one)!.sentences.push(...views);
+          else if (views.length)
+            paragraphs.push({ told: row, sentences: views });
         }
-      push(row, sentences);
+      // A paragraph of one sentence with no time to open it and no other
+      // reason of its own ("Aria moved away." or a law's effect on the
+      // person's costs) joins the one before it, and waits where there is
+      // none (Story lead, Nov 17).
+      for (let at = paragraphs.length - one; at > zero; at -= one) {
+        const here = paragraphs[at]!;
+        if (here.sentences.length === one && !here.timed) {
+          paragraphs[at - one]!.told.push(...here.told);
+          paragraphs[at - one]!.sentences.push(...here.sentences);
+          paragraphs.splice(at, one);
+        }
+      }
+      for (const paragraph of paragraphs)
+        push(paragraph.told, paragraph.sentences);
     });
-    if (now.length) push(now, tellParagraph(now, "now"));
+    // The household as it stands has no when of its own: it joins the
+    // paragraph before it, and waits when there is none.
+    if (now.length) {
+      const here = tellParagraph(now, "now");
+      const before = chapter?.lines.at(-one);
+      const kept = before ? toldAs.get(before.id) : undefined;
+      if (kept && here.length) {
+        const joined = [...kept.sentences, ...here];
+        const told = [...kept.told, ...now];
+        chapter!.lines.splice(-one, one, entryOf(told, joined));
+        toldAs.set(before!.id, { told, sentences: joined });
+      } else push(now, here);
+    }
   }
   // Play: what the player did and what happened to them since the start,
   // one paragraph per event, a race's records together, in more detail. A
@@ -3723,7 +3966,25 @@ export function composeJournal(
         ...part.flatMap(speakAfter),
         ...part.flatMap(recallAfter),
       ];
-      push(part, told);
+      // Another person's fact, or a law's effect on what the person pays,
+      // told in one sentence with no time or reason of its own joins the
+      // entry before it in the chapter (Story lead, Nov 17: bare lines).
+      const before = chapter?.lines.at(-one);
+      const kept = before ? toldAs.get(before.id) : undefined;
+      if (
+        kept &&
+        told.length === one &&
+        part.every(
+          (unit) =>
+            !unit.turn &&
+            (!unit.own || unit.moment.causeKind === "event:law.effect-learned"),
+        )
+      ) {
+        const joined = [...kept.sentences, ...told];
+        const were = [...kept.told, ...part];
+        chapter!.lines.splice(-one, one, entryOf(were, joined));
+        toldAs.set(before!.id, { told: were, sentences: joined });
+      } else push(part, told);
     }
   }
 
