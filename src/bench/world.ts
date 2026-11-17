@@ -29,7 +29,11 @@ import {
 import { openLaws } from "../core2/modules/laws";
 import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
-import { openElections } from "../core2/modules/elections";
+import {
+  openElections,
+  runCentury,
+  setHistoryMode,
+} from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
@@ -524,6 +528,8 @@ function* benchWorldStages(
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
+  // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
+  setHistoryMode(seed, settings.history ?? "century", startDate);
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
   const playerBirthDate =
@@ -732,6 +738,11 @@ function* benchWorldStages(
     ],
   });
   yield "government";
+  // The century before day one (owner, Nov 17, 2026: history simulated from 1925, a year at a
+  // step, during the loading screen): run here a year at a time, each year its own step so the
+  // loading screen keeps answering, before the offices seat whoever it elected.
+  const century = runCentury(seed, startDate);
+  while (!century.next().done) yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
