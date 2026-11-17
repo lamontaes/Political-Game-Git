@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Story builder (claude/story-addresses)
+pr: 9831
 after:
 blocked-on:
 lead: words
