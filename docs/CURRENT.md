@@ -45,6 +45,7 @@ Owner, Nov 11, 2026: "updates all documents so that nothing is pointing at anyth
 | The registered stopgaps | `src/core2/data/stopgaps` |
 | The daily register (what may run or be kept every day) | `docs/design/daily-register.md` |
 | The scene engine (the director) | `src/director/scene.ts` |
+| The director's board design (cards, strings, a few picks) | `docs/design/director-board.md` |
 | The talk engine | `src/director/conversation.ts` |
 | The English engine's composer | `src/english/english-composition.ts` |
 | The words banks | `data/english/parts` |

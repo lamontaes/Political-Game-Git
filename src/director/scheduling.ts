@@ -5,6 +5,7 @@
  * (board.ts). No type holds a sentence. A moment no type can stage writes a
  * coverage row with the reason. Nothing is drawn by chance.
  */
+import type { CardFields } from "./card-facts";
 import { SPEECH_OCCASION_KIND, familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -143,8 +144,10 @@ export function receives(
   return true;
 }
 
-export interface SituationType {
+export interface SituationType extends CardFields {
   key: string;
+  /** The purpose its talk plays (purpose-arcs.json); the family its reads are named for. */
+  purpose?: string;
   /** The role that comes, calls or asks. */
   asker?: string;
   /** Who may receive the scene; a cast that breaks it goes to the journal. */
@@ -238,6 +241,10 @@ export interface SituationLibrary {
     standingPace?: { office: number; filed: number; none: number };
     /** Record kinds that are a person's own act when they name them (board.ts ownCause). */
     ownActKinds?: { kinds: readonly string[] };
+    /** How many days an `ended:` fact holds after the scene's reply (card-facts.ts). */
+    endedDays?: { value: number };
+    /** Refusals of one scene by the same asker before the board excludes a further ask (card-facts.ts cardCut). */
+    noesBeforeExcluded?: { value: number };
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];

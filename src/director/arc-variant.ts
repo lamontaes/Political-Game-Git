@@ -227,7 +227,7 @@ type ReadKind =
       is: string;
     };
 
-interface Term {
+export interface Term {
   read: string;
   weight: number;
   /** Use one minus the read: a small bribe is a bribe that is not large. */
@@ -397,8 +397,8 @@ function fieldOf(row: unknown, path: string): number | undefined {
   return typeof at === "number" && Number.isFinite(at) ? at : undefined;
 }
 
-/** The mean of the asker's values on the facets a variant lists, between -1 and 1. */
-function pullOf(
+/** The mean of the asker's values on the facets a variant (or a card, card-facts.ts) lists, between -1 and 1. */
+export function pullOf(
   core: Readonly<CoreState>,
   askerId: PersonId,
   facets: readonly string[],
@@ -433,9 +433,10 @@ function yearOf(core: Readonly<CoreState>, personId: PersonId): number {
 
 /**
  * One read, between 0 and 1, with the record ids it came from. A record the
- * records do not hold reads as nothing (0), never as a guess.
+ * records do not hold reads as nothing (0), never as a guess. Shared with the
+ * director's board (card-facts.ts cardWeight): one grammar for every weight.
  */
-function readOf(
+export function readOf(
   core: Readonly<CoreState>,
   spec: ReadSpec,
   input: VariantInput,
@@ -747,6 +748,23 @@ const PLAIN_VARIANT = "plain";
  * Which variant of the scene's purpose the records give, or null when the
  * purpose has none (it plays its one arc).
  */
+/** A read by its name in arc-variants.json `reads`; an unknown name is an error. */
+export function readNamed(
+  core: Readonly<CoreState>,
+  name: string,
+  input: VariantInput,
+  recordIds: Set<string>,
+): number {
+  const spec = DATA.reads[name];
+  if (!spec) throw new Error(`Unknown read: ${name}`);
+  return readOf(core, spec, input, recordIds);
+}
+
+/** Whether a read of this name exists in arc-variants.json. */
+export function readExists(name: string): boolean {
+  return !!DATA.reads[name];
+}
+
 export function chooseVariant(
   core: Readonly<CoreState>,
   input: VariantInput,
@@ -771,7 +789,7 @@ export function chooseVariant(
   const recordIds = new Set<string>();
   const reads: Record<string, number> = {};
   const read = (name: string) =>
-    (reads[name] ??= readOf(core, DATA.reads[name]!, input, recordIds));
+    (reads[name] ??= readNamed(core, name, input, recordIds));
   // Every read the family names is read, whichever variants are open: the
   // scene's facts cite them (`read-...`), and a closed variant's records are
   // still true of the asker.

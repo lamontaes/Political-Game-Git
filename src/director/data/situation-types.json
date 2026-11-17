@@ -108,6 +108,17 @@
         "president.address"
       ]
     },
+    "endedDays": {
+      "value": 91,
+      "tag": "TUNABLE",
+      "spread": [30, 365],
+      "note": "How long an ended: fact holds after the scene's reply (card-facts.ts): a no to a party's ask keeps that ask away for the season, a quarter of a year (docs/design/director-board.md, section 2: 'excludes party-recruit from that party for the season')."
+    },
+    "noesBeforeExcluded": {
+      "value": 2,
+      "tag": "SOURCED",
+      "note": "The board's default exclusion (card-facts.ts cardCut): after this many refusals of the same scene by the person to the same asker, a further ask is not staged. Words lead ruling, Nov 15, class H (pool item director-two-noes-no-third-ask: 'All right. I won't ask a third time.')."
+    },
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,
@@ -3659,6 +3670,8 @@
     },
     {
       "key": "party-recruit",
+      "excludes": ["ended:party-recruit:not-this-time"],
+
       "holds": ["none", "filed", "office"],
       "receive": {
         "age": "any",
@@ -3978,6 +3991,7 @@
     },
     {
       "key": "family-absence",
+      "requires": ["stake:any"],
       "holds": ["none", "filed", "office"],
       "receive": {
         "age": "any",
@@ -4452,6 +4466,7 @@
     },
     {
       "key": "cause-invite",
+      "weights": [{ "read": "declined-party", "weight": 1 }],
       "holds": ["none", "filed", "office"],
       "receive": {
         "age": "any",

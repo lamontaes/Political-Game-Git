@@ -36,8 +36,10 @@ import {
   type ScheduleEntry,
   type SituationLibrary,
 } from "./scheduling";
+import { cardCut, cardWeight, type CardFields } from "./card-facts";
+import { CIRCUMSTANCES } from "./circumstance";
 import { holdsWord, playerStanding, type PlayerStanding } from "./standing";
-import type { Moment, PersonLedger } from "./types";
+import type { Ledger, Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
 const one = P.one;
@@ -70,7 +72,13 @@ export type BoardCut =
   | "nothing-said"
   | "skipping"
   | "no-room"
-  | "outscored";
+  | "outscored"
+  /** A fact the card requires does not hold (card-facts.ts). */
+  | "requires"
+  /** A fact the card excludes holds: a no on record (card-facts.ts). */
+  | "excludes"
+  /** The person told the one who comes no about this scene twice already. */
+  | "asked-twice";
 
 /** A scene from circumstance the producer offered and the board never stored. */
 export interface BoardOffer {
@@ -87,7 +95,9 @@ export interface EntryBoard {
   /** Each type the moment bound, with the first gate it failed (none: it staged). */
   cards: { typeKey: string; cut?: BoardCut }[];
   /** The amounts the score read: how strongly the moment was felt. */
-  reads: { impact: number };
+  reads: { impact: number } & Record<string, number>;
+  /** The records the card's weights read (card-facts.ts cardWeight), for the trace box. */
+  readIds?: string[];
   score: number;
   /** On the day's board, waiting for the day's pick. */
   pending?: true;
@@ -100,6 +110,35 @@ export interface EntryBoard {
   /** The day's scenes from circumstance weighed beside it and never stored. */
   offers?: BoardOffer[];
 }
+
+/**
+ * A card's own gates and weights: its situation type's row, joined with the
+ * row of the scene from circumstance that called it, where one did.
+ */
+export function cardFieldsOf(
+  library: SituationLibrary,
+  typeKey: string,
+  circumstanceRowId?: string,
+): CardFields {
+  const type = library.types.find((row) => row.key === typeKey);
+  const circ = circumstanceRowId
+    ? CIRCUMSTANCES.rows.find((row) => row.id === circumstanceRowId)
+    : undefined;
+  const join = <T>(a?: readonly T[], b?: readonly T[]) =>
+    a || b ? [...(a ?? []), ...(b ?? [])] : undefined;
+  const requires = join(type?.requires, circ?.requires);
+  const excludes = join(type?.excludes, circ?.excludes);
+  const weights = join(type?.weights, circ?.weights);
+  const pull = join(type?.pull, circ?.pull);
+  return {
+    ...(requires ? { requires } : {}),
+    ...(excludes ? { excludes } : {}),
+    ...(weights ? { weights } : {}),
+    ...(pull ? { pull } : {}),
+  };
+}
+
+const CIRCUMSTANCE_LABEL = "circumstance:";
 
 /**
  * Weighs one stored moment as it arrives: its cards through the gates, and
@@ -125,6 +164,8 @@ export function scheduleMoment(
      * kind), set by dev mode's force-scene; the type's own order follows.
      */
     preferredSettings?: ReadonlyMap<string, string>;
+    /** The ledger's reply index, for the cards' `ended:` facts and the two-noes exclusion. */
+    replies?: Ledger["repliesByPlayer"];
   },
   library: SituationLibrary = SITUATION_LIBRARY,
 ): ScheduleEntry {
@@ -307,22 +348,54 @@ export function scheduleMoment(
             ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
             : [],
   );
+  // The card's own gates and weights (card-facts.ts), read against the one
+  // who comes: the type's asker, else the first role the person is not in.
+  const circumstanceRow = moment.label.startsWith(CIRCUMSTANCE_LABEL)
+    ? moment.label.slice(CIRCUMSTANCE_LABEL.length)
+    : undefined;
+  const contextOf = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    const castId = (
+      type?.asker
+        ? row.roles.find((role) => role.role === type.asker)?.personIds
+        : row.roles.find((role) => !role.personIds.includes(moment.personId))
+            ?.personIds
+    )?.[zero];
+    return {
+      core,
+      replies: options.replies ?? new Map(),
+      personId: moment.personId,
+      ...(castId ? { castId } : {}),
+      causeId: moment.causeId,
+      typeKey: row.typeKey,
+      family: type?.purpose ?? row.typeKey,
+    };
+  };
+  const ownGate = (row: SceneBinding): BoardCut | undefined =>
+    cardCut(
+      cardFieldsOf(library, row.typeKey, circumstanceRow),
+      contextOf(row),
+      library,
+    );
   // Each card's first failed gate, in the order the gates are read.
-  const cardCut = (row: SceneBinding): BoardCut | undefined =>
+  const firstCut = (row: SceneBinding): BoardCut | undefined =>
     cuts.get(row.typeKey) ??
     (allowed && !allowed.has(row.typeKey)
       ? "not-allowed"
-      : (heldBack.find((held) => held.typeKey === row.typeKey)?.reason ??
+      : // A no on record, or a fact the card needs, is read before the
+        // repeat rules: it is why the scene is not staged.
+        (ownGate(row) ??
+        heldBack.find((held) => held.typeKey === row.typeKey)?.reason ??
         (!receivable(row)
           ? "not-received"
           : !eachCause(row) && sittingToday.has(castOf(row))
             ? "joined"
             : undefined)));
   const cards = found.map((row) => {
-    const cut = cardCut(row);
+    const cut = firstCut(row);
     return { typeKey: row.typeKey, ...(cut ? { cut } : {}) };
   });
-  const bindings = wanted.filter((row) => !cardCut(row));
+  const bindings = wanted.filter((row) => !firstCut(row));
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:
   // that scene has been played.
@@ -446,6 +519,20 @@ export function scheduleMoment(
         .map(([rule]) => rule)
     : [];
   const live = options.mode === "live";
+  // The card's weights move its score: the best of the bound cards.
+  const weighed = bindings
+    .map((row) =>
+      cardWeight(
+        cardFieldsOf(library, row.typeKey, circumstanceRow),
+        contextOf(row),
+      ),
+    )
+    .reduce(
+      (best, row) => (row.factor > best.factor ? row : best),
+      bindings.length
+        ? { factor: -one, reads: {}, recordIds: [] as string[] }
+        : { factor: one, reads: {}, recordIds: [] as string[] },
+    );
   // Bound and not stopped by a rule: the moment waits on the day's board.
   const pending = bindings.length > zero && !away && !stops;
   return {
@@ -463,8 +550,9 @@ export function scheduleMoment(
     ...(found.length ? {} : { coverage }),
     board: {
       cards,
-      reads: { impact: moment.impact },
-      score: moment.impact,
+      reads: { ...weighed.reads, impact: moment.impact },
+      ...(weighed.recordIds.length ? { readIds: weighed.recordIds } : {}),
+      score: moment.impact * weighed.factor,
       ...(pending ? { pending: true as const } : {}),
       ...(away ? { cut: "switched-off" as const } : {}),
     },
@@ -623,6 +711,8 @@ export function pickFromBoard(
     /** The moments weighed since the last pick that no stop rule staged. */
     pending: readonly ScheduleEntry[];
     offers: readonly BoardOfferInput[];
+    /** The ledger's reply index, for the cards' `ended:` facts and the two-noes exclusion. */
+    replies?: Ledger["repliesByPlayer"];
     /** Why the entry's scene cannot be worded (no one speaks, nothing past its opener), or nothing. */
     worded: (entry: ScheduleEntry) => "silent" | "nothing-said" | undefined;
   },
@@ -646,14 +736,41 @@ export function pickFromBoard(
       key: entry.momentId,
     });
   }
-  for (const offer of input.offers)
+  // An offer whose card's own gate fails is cut before it is weighed; the
+  // rest are weighed by their card's weights.
+  const offered: BoardOffer[] = [];
+  for (const offer of input.offers) {
+    const fields = cardFieldsOf(library, offer.typeKey, offer.rowId);
+    const type = library.types.find((row) => row.key === offer.typeKey);
+    const context = {
+      core,
+      replies: input.replies ?? new Map(),
+      personId: book.personId,
+      castId: offer.castId,
+      causeId: offer.causeId,
+      typeKey: offer.typeKey,
+      family: type?.purpose ?? offer.typeKey,
+    };
+    const cut = cardCut(fields, context, library);
+    if (cut) {
+      offered.push({
+        rowId: offer.rowId,
+        typeKey: offer.typeKey,
+        causeId: offer.causeId,
+        castId: offer.castId,
+        score: offer.score,
+        cut,
+      });
+      continue;
+    }
     candidates.push({
       offer,
       before: offer.before,
-      score: offer.score,
+      score: offer.score * cardWeight(fields, context).factor,
       own: ownCause(core, book.personId, offer.causeId, library),
       key: `${offer.rowId}|${offer.causeId}|${offer.castId}`,
     });
+  }
   if (!candidates.length) return { stops };
   const tie = (candidate: Candidate) =>
     stableHash(`${book.personId}:${input.date}:${candidate.key}`);
@@ -693,7 +810,6 @@ export function pickFromBoard(
     }
   }
   const metWhereYouAre = library.scheduling.metWhereYouAre ?? [];
-  const offered: BoardOffer[] = [];
   const passed: ScheduleEntry[] = [];
   let picked: ScheduleEntry | undefined;
   for (const candidate of candidates) {

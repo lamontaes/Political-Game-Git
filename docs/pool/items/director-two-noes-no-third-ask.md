@@ -35,3 +35,5 @@ checked: words builder A 2026-11-15
 **Waits on.** director-relation-passed-between (#9444).
 
 **Files.** src/director/arc-variant.ts, src/director/scheduling.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json
+
+**Notes.** Nov 17 (director-cards-require-and-weigh, claude/story-board-weights): the exclusion is built as the board's default (src/director/card-facts.ts `cardCut`, `scheduling.noesBeforeExcluded` 2), read with `passedBetween` from the reply index, and proved on a party's ask answered no twice (`src/director/board-cards.test.ts`, cut `asked-twice`). Left here: the closing line "All right. I won't ask a third time." placed by the count, a bank piece for the Story session; and the Sheridan, Wyoming pin in Done when, which the done-proof rule now draws instead.

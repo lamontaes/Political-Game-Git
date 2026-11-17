@@ -64,6 +64,9 @@ const view: DevView = {
       skipping: "Time is skipped, and only a scene met where you are stops it",
       "no-room": "The life has no room left in its year",
       outscored: "Another candidate was felt more",
+      requires: "Something it needs is not on record",
+      excludes: "An earlier answer on record rules it out",
+      "asked-twice": "The player already said no to this twice",
     },
   },
   routes: {
