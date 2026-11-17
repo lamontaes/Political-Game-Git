@@ -5,7 +5,13 @@
  */
 import { describe, expect, it } from "vitest";
 import bodies from "./data/offices/bodies.json" with { type: "json" };
-import { bodyRow, FEDERAL_HOUSE, FEDERAL_SENATE } from "./modules/legislature";
+import {
+  bodyOf,
+  bodyRow,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
+} from "./modules/legislature";
+import type { CoreAPI } from "./types";
 
 describe("lawmaking bodies are rows", () => {
   it("reads each body's level, legislature and first chamber from its row", () => {
@@ -49,5 +55,29 @@ describe("lawmaking bodies are rows", () => {
         (bodies.vetoHolder as Record<string, string>)[row.level],
         row.kindPrefix,
       ).toBeTruthy();
+  });
+
+  it("names each federal chamber its own name where the world seats no member of it (a territory's Senate)", () => {
+    // A territory's offices: a House delegate and no Senate row, as
+    // offices-state.ts opens Guam, the Virgin Islands and the rest.
+    const offices = [
+      {
+        id: "office:GU:us-house",
+        kind: "us-house-delegate",
+        jurisdiction: "GU",
+        governmentName: "United States House of Representatives",
+        bodyName: "United States House of Representatives",
+      },
+    ];
+    const api = {
+      moduleState: () => ({ table: () => ({ rows: () => offices }) }),
+    } as unknown as CoreAPI;
+    expect(bodyOf(api, FEDERAL_HOUSE)?.bodyName).toBe(
+      "United States House of Representatives",
+    );
+    expect(bodyOf(api, FEDERAL_SENATE)?.bodyName).toBe("United States Senate");
+    expect(bodyOf(api, FEDERAL_SENATE)?.governmentName).toBe(
+      "United States Senate",
+    );
   });
 });
