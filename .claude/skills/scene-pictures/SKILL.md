@@ -1,6 +1,12 @@
 ---
 name: scene-pictures
-description: How any session gives a scene or scene type its picture in Our Civic Duty - the one list (situationPlaces in src/bench/data/scene-places.json), how the lookup resolves (variant row, type row, school list, setting default), adding or swapping a row, running the gap report, adding a wanted-picture entry, and the rule that missing pictures never hold work back. Use when adding a scene type or arc variant, changing where a scene is drawn, or finding which picture a scene used. Not for painting or generating pictures, or for admitting art (asset-scene-admission).
+description: >
+  Gives a scene or scene type its picture: the one list (situationPlaces in
+  src/bench/data/scene-places.json), how the lookup resolves, adding or
+  swapping a row, the gap report and wanted-picture entries; a missing picture
+  never holds work back (owner, Nov 14). Use when adding a scene type or arc
+  variant, changing where a scene is drawn, or finding which picture a scene
+  used. Not for painting pictures or admitting art (asset-scene-admission).
 ---
 
 # Giving a scene its picture
