@@ -5565,6 +5565,8 @@ select.release-pick {
 }
 #returns.nation .night-cols .dotrow {
   break-inside: avoid;
+  white-space: nowrap;
+  font-size: var(--t-ui);
 }
 /* Election morning: the narrator's lines in italics, the choices numbered, in one dark box at
    the foot of the picture. */
