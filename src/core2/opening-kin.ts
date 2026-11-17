@@ -389,6 +389,9 @@ export function buildOpeningKin(
     deaths: [],
     birthplaces: new Map(),
   };
+  // Each kin household by id, as it is made: a person's home is found by id,
+  // not by searching every household made so far.
+  const homesById = new Map<string, OpeningKin["households"][number]>();
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("votingAge");
   const archiveDays = pastParameters.pastArchiveDays.value;
@@ -476,10 +479,11 @@ export function buildOpeningKin(
         memberIds: [] as PersonId[],
       };
       out.households.push(row);
+      homesById.set(row.id, row);
       return { row, ...(local && countyId ? { countyId } : {}) };
     };
     const homeOf = (person: KinPerson): Home => ({
-      row: out.households.find((row) => row.id === person.householdId)!,
+      row: homesById.get(person.householdId)!,
       ...(person.countyId ? { countyId: person.countyId } : {}),
     });
     const makePerson = (
