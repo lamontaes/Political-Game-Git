@@ -88,7 +88,7 @@ import {
   treasuryMonthsOf,
   treasuryMonthsPerYear,
   notePublicPay,
-  outsideAccountOf,
+  treasuryOutsideAccount,
   sameGovernment,
   landTaxChange,
 } from "../budgets-treasury";
@@ -99,7 +99,6 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
-import { openTownOutsideAccount } from "../opening-outside-market";
 
 export {
   budgetInForce,
@@ -681,9 +680,7 @@ function fundOpeningTreasury(
   const { id: governmentId, organizationId } = government;
   // The treasury's opening stock comes from outside the place; a place with no
   // payment across its edge yet opens its one outside account for it.
-  const outside =
-    outsideAccountOf(api) ??
-    openTownOutsideAccount(api, lawChain(api).townPlaceId);
+  const outside = treasuryOutsideAccount(api);
   api.stopgap(calibration.stopgapId);
   const offset = worldOffsetUnit(
     api.state.seed,
