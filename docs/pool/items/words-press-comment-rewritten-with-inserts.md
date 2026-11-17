@@ -36,4 +36,5 @@ Seen: a reporter stops the player after a vote in a drawn place and the talk say
 **Files.** data/english/parts/scene-talk.json, src/director/vote-stand-facts.ts, src/director/purpose-scene.ts, tests/guards/english/line-inserts-baseline.json, data/english/pulled.json
 
 **Notes.**
+
 - 2026-11-17 (Story lead): built on #9794. 614 pieces deleted, 70 kept, 159 new. Played through dev mode's Hold the vote at Riverdale, North Dakota (a no vote) and Enterprise, Oklahoma (a yes vote); 2,952 reply pairs judged by fresh reviewers, two bad. The scene-talk insert count stays at main's until #9757 (the recount) merges, because the excuse still hides these lines from the count on main.
