@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: claude/long-game-skill-yaml
-pr:
+pr: #9872
 after:
 blocked-on:
 source: the CTO's must-hold checks for Long game, item 2, on issue 9747 (Nov 17, 2026, 05:22Z)
