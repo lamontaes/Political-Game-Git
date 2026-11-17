@@ -680,6 +680,7 @@ function runPolicy(
         inForce,
         children,
         residents: facts.residents,
+        households: facts.households,
       });
       finish(
         api,
@@ -830,6 +831,7 @@ function runPolicy(
         inForce,
         children,
         residents: facts.residents,
+        households: facts.households,
       });
       finish(
         api,
@@ -993,8 +995,11 @@ function runBudgetLine(
       key,
       jobs,
       townDeltaMinor: service.deltaTownMinor,
-      compensationShare: reachParameter(def.payroll.compensationShare),
+      townBaseMinor: service.baseTownMinor,
       modeledShare: share,
+      onCompensationShare: (value) => {
+        terms.compensationShare = value;
+      },
     });
     for (const job of jobs) orgs.add(job.organizationId);
     terms.staffRerated = rates.size;
