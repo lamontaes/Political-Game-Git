@@ -105,7 +105,9 @@ export function bribeReads(
   }
   // Other bids on the contract the bribe asks for.
   if (crime && input.contractId) {
-    const award = awardsOn(api, crime.date).find(
+    // The award's id ends in the day it was made.
+    const awardedOn = input.contractId.split(":").pop() ?? "";
+    const award = awardsOn(api, awardedOn).find(
       (row) => row.id === input.contractId,
     );
     if (award && award.bids.length > P.one)
