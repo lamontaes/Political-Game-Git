@@ -162,6 +162,8 @@ jobs:
       pull-requests: read
     outputs:
       docs_only: ${{ steps.files.outputs.docs_only }}
+      unit_shards: ${{ steps.files.outputs.unit_shards }}
+      unit_shard_count: ${{ steps.files.outputs.unit_shard_count }}
     steps:
       - name: Detect docs-only pull request
         id: files
@@ -173,22 +175,36 @@ jobs:
         run: |
           set -euo pipefail
           docs_only=false
+          # A large change's test files are dealt out over up to six unit
+          # jobs, about ten files each, so the run finishes inside its limit.
+          shards=1
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
             files="$(gh api --paginate "repos/${{ github.repository }}/pulls/${PR_NUMBER}/files" --jq '.[].filename')"
             if [[ -n "$files" ]] && ! grep -qvE '^(docs/.*|[^/]*\.md)$' <<<"$files"; then
               docs_only=true
             fi
+            tests="$(grep -cE '\.test\.tsx?$' <<<"$files" || true)"
+            shards=$(( (tests + 9) / 10 ))
+            if (( shards < 1 )); then shards=1; fi
+            if (( shards > 6 )); then shards=6; fi
           fi
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "unit_shards=[$(seq -s, 1 "$shards")]" >> "$GITHUB_OUTPUT"
+          echo "unit_shard_count=$shards" >> "$GITHUB_OUTPUT"
 
   unit:
     name: unit
     needs: scope
     if: needs.scope.outputs.docs_only != 'true'
     runs-on: ubuntu-latest
-    # Owner rule (Oct 1, 2026): never run the full suite. Run only the test
-    # files this change adds or edits, the same rule the CTO's merge gate uses.
+    # Owner rule (Oct 1, 2026): never run the full suite here. Run only the
+    # test files this change adds or edits, the same rule the CTO's merge gate
+    # uses. The full suite is the heavy set (.github/workflows/heavy.yml).
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.scope.outputs.unit_shards) }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -210,6 +226,8 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_BEFORE: ${{ github.event.before }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ needs.scope.outputs.unit_shard_count }}
         shell: bash
         run: |
           set -euo pipefail
@@ -220,11 +238,15 @@ jobs:
           else
             base="$(git rev-parse HEAD~1)"
           fi
+          # The sorted list is dealt out one file per job in turn, so every
+          # changed test file runs in exactly one job.
           mapfile -t files < <(git diff --name-only --diff-filter=AMR "$base" HEAD \
             | grep -E '\.test\.tsx?$' \
-            | grep -vE '^(tests/e2e|tests/caller-proofs|desktop|art/authoring)/' || true)
+            | grep -vE '^(tests/e2e|tests/caller-proofs|desktop|art/authoring)/' \
+            | LC_ALL=C sort \
+            | awk -v shard="$SHARD" -v shards="$SHARDS" '(NR - 1) % shards == shard - 1' || true)
           if [[ ${#files[@]} -eq 0 ]]; then
-            echo "No changed test files; nothing to run."
+            echo "No changed test files for job $SHARD of $SHARDS; nothing to run."
             exit 0
           fi
           printf 'Running %s changed test file(s):\n' "${#files[@]}"
