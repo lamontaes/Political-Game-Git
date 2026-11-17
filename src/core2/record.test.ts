@@ -133,13 +133,14 @@ describe("M4-06 the record follows you", () => {
           )
           .map((s) => [s.seat.id, s.holder!.personId as string]),
       );
-      // The town's held seats up for election, by the day their filing
-      // window opens. Nobody can file before it does: at seed rec-probe-4 the
-      // November races opened on January 12, a week after the start, and the
-      // first race in table order was a 2027 one. So the test waits, playing
-      // the world on to the soonest window within WAIT_DAYS, and an incumbent
-      // who decides not to run leaves no record on the ballot to weigh: try
-      // the next race, then draw again.
+      // The town's held seats up for election, soonest election first, so a
+      // draw plays the fewest days to the race's last weeks. Nobody can file
+      // before a race's window opens: at seed rec-probe-4 the November races
+      // opened on January 12, a week after the start, and the first race in
+      // table order was a 2027 one. So the test waits, playing the world on
+      // to a window within WAIT_DAYS, and an incumbent who decides not to run
+      // leaves no record on the ballot to weigh: try the next race, then
+      // draw again.
       const races = (
         api
           .moduleState(ELECTIONS_MODULE_ID)
@@ -154,13 +155,14 @@ describe("M4-06 the record follows you", () => {
         )
         .sort(
           (a, b) =>
+            a.electionDate.localeCompare(b.electionDate) ||
             filingWindowOpens(a).localeCompare(filingWindowOpens(b)) ||
             a.id.localeCompare(b.id),
         );
       const waitUntil = addDays(makeIsoDate(START), WAIT_DAYS);
       for (const race of races) {
         const opens = filingWindowOpens(race);
-        if (opens > waitUntil) break;
+        if (opens > waitUntil) continue;
         if (opens > core.date) advanceCore(core, makeIsoDate(opens));
         // Who runs is candidacy's: the incumbent weighs standing again, and
         // whoever runs files when the window opens.
