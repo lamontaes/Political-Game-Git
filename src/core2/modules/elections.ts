@@ -356,6 +356,12 @@ interface ReadSide {
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
+  /**
+   * Where a family's row names an at-large office but the place elects its
+   * district seats under another family's row (the District of Columbia's
+   * ward seats on the Council), the family a district seat reads.
+   */
+  readonly districtSeatsRead?: OfficeFamily;
   readonly filedWith?: string;
   readonly party?: ReadSide;
   readonly independent?: ReadSide;
@@ -627,11 +633,13 @@ export function filingRulesFor(
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  const stateRules = filingRequirements(
-    town(api).stateKey,
-    contest.family,
-    side,
-  );
+  // A district seat reads the row its place's data points it to, where the
+  // family's own row is for the body's at-large seats.
+  const family =
+    (contest.district
+      ? readRequirements(town(api).stateKey, contest.family)?.districtSeatsRead
+      : undefined) ?? contest.family;
+  const stateRules = filingRequirements(town(api).stateKey, family, side);
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
   const federal = (
