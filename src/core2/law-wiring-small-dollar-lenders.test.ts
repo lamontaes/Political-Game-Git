@@ -107,7 +107,6 @@ type Row = Record<string, unknown>;
 function build(drawn: ReturnType<typeof drawPlace>, worldSeed = drawn.seed) {
   return buildBenchWorld(worldSeed, gameStartDate(), {
     twoLevel: true,
-    settings: { history: "today" },
     placeKey: drawn.key,
   }).core;
 }
@@ -348,7 +347,7 @@ const paidTo = (entries: Entry[], loanId: string, lender: string) =>
 
 describe("the consumer-loan cap reaches the small-dollar lender", () => {
   it(
-    `binds the lender's quote where the state lets payday lending operate (seed ${seed}) (just like today: needs the state's real small-loan rate cap)`,
+    `binds the lender's quote where the state lets payday lending operate (seed ${seed})`,
     { timeout: 3_600_000 },
     () => {
       const bookkeeping = setBookkeeping(false);
@@ -389,8 +388,13 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             expect(ratio, where).toBeGreaterThan(0.5);
             expect(ratio, where).toBeLessThan(2);
           }
+          // A world whose century already enacted the cap is passed over and named
+          // (skill drawn-place-tests): the case needs one that begins without it.
           const begins = lawInForce(coreAPI(lawWorld), CAP).value;
-          expect(begins, `${where}: begins without the cap`).toBe(0);
+          if (begins !== 0) {
+            passed.push(`${where}: its century enacted the cap`);
+            continue;
+          }
           // Each world is played and read in turn, then let go.
           const play = (
             core: CoreState,
@@ -732,7 +736,7 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
   );
 
   it(
-    `moves no dollar through the bank where the state began with the cap and repeals it (seed ${seed}) (just like today: needs the state's real small-loan rate cap)`,
+    `moves no dollar through the bank where the state began with the cap and repeals it (seed ${seed})`,
     { timeout: 1_800_000 },
     () => {
       const bookkeeping = setBookkeeping(false);
@@ -748,11 +752,9 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
           const control = build(drawn);
           const where = `${drawn.name}, ${drawn.state} (${drawn.key}, seed ${drawn.seed})`;
           const api = coreAPI(lawWorld);
-          // The place began with the cap: the twin that removes it is the one that moves.
-          expect(
-            lawInForce(api, CAP).value,
-            `${where}: begins with the cap`,
-          ).toBe(1);
+          // The place began with the cap: the twin that removes it is the one that moves. A
+          // world whose century left no cap is passed over (skill drawn-place-tests).
+          if (lawInForce(api, CAP).value !== 1) continue;
           flip(lawWorld, CAP, 0, "repeal");
           runTo(lawWorld, BAN_DAYS, { [CAP]: 0 });
           runTo(control, BAN_DAYS, { [CAP]: 1 });
