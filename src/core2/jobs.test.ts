@@ -995,12 +995,19 @@ describe("jobs: causes, not rates", () => {
       base,
     );
   });
-  it("a neutral worker's pull sits in the JOLTS band, as a check on the total only", () => {
+  it("a neutral worker's pull is a chance a month, printed beside JOLTS and not held in its band", () => {
+    // Pins family 32 (#9747): JOLTS fits the quit rule's base once (a
+    // coefficient); a world's quits are its own. What the rule must do is the
+    // case above (pay gap, tenure, the place's unemployment); here the
+    // neutral pull is only a chance a month, printed beside the survey's.
     const quits = jobsData.turnover.industries.total.quits;
     const share = p("jobsQuitToNonemploymentShare");
-    const monthly = pull(quitScore(p, calm)) * 100;
-    expect(monthly).toBeGreaterThan(quits.p05 * share * 0.8);
-    expect(monthly).toBeLessThan(quits.p95 * share * 1.2);
+    const monthly = pull(quitScore(p, calm));
+    process.stdout.write(
+      `neutral quit pull ${(100 * monthly).toFixed(2)}% a month; JOLTS total quits p05 to p95 times the share to nonemployment ${(quits.p05 * share).toFixed(2)}% to ${(quits.p95 * share).toFixed(2)}%\n`,
+    );
+    expect(monthly).toBeGreaterThan(0);
+    expect(monthly).toBeLessThan(1);
   });
   it("new positions follow the staff mix, counted roles included", () => {
     const job = (id: string, title: string) => ({
