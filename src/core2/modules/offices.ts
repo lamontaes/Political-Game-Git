@@ -75,6 +75,7 @@ export type { OfficeInput, SeatInput };
 import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import {
   centuryPresidency,
+  centuryRace,
   centurySeatParty,
   worldSeatParty,
 } from "./elections";
@@ -1036,16 +1037,37 @@ function pastTerms(
       office,
       shiftYears(start, -prior * years),
     );
+    // The election behind each term is the century's, whether or not the town's people vote
+    // for President (a territory's do not, so no past race of the town records it).
+    const electedIn = (from: string) => {
+      const year = Number(from.slice(0, 4)) - 1;
+      const race = centuryRace(worldSeed, opening, year);
+      return race
+        ? {
+            elected: {
+              date: novemberGeneralElectionDay(year),
+              share: race.winnerShare,
+            },
+          }
+        : {};
+    };
+    // One race per ticket (CTO line 6935893727): the President's term carries it.
+    const elected =
+      term.elected || office.kind !== "president" ? {} : electedIn(start);
     if (start <= opening)
       table(api, "terms").put({
         ...term,
+        ...elected,
         startDate: start > api.state.date ? api.state.date : start,
         serviceStart,
       } as unknown as ModuleRow);
+    else if ("elected" in elected)
+      table(api, "terms").put({ ...term, ...elected } as unknown as ModuleRow);
     for (let k = withPast ? prior : 0; k >= 1; k -= 1) {
       const from = termStartInYear(office, shiftYears(start, -k * years));
       table(api, "terms").put({
         ...term,
+        ...(office.kind === "president" ? electedIn(from) : {}),
         id: `${term.id}:past:${k}`,
         startDate: from,
         serviceStart,
