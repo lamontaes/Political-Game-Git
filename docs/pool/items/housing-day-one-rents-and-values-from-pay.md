@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/pins-housing-day-one
-pr:
+pr: 9888
 blocked-on:
 after:
 lead: world
