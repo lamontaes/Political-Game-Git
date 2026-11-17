@@ -155,6 +155,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `press-desk-reach`: which stories a town's outlets print, how a record's reach is weighed by its readers, and proving a desk change by story kind
 - `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
+- `relationship-checks`: turning a check that fails a world for leaving a real band into a check that a relationship has its real strength
 - `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them

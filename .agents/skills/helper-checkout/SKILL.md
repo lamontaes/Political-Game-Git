@@ -43,6 +43,7 @@ description: >
 - A copy is disposable once its branch is on the remote: delete it only after `git -C <dir> status --short` is empty and `git -C <dir> log origin/<branch>..HEAD` shows nothing unpushed. A clone copy is removed with `rm -rf <dir>`; a worktree copy (its `.git` is a one-line file) with `git worktree remove <dir>` from the main checkout.
 - When disk is short, reuse a finished copy for the next helper instead of making another. Check that `git -C <dir> status --short` is empty and that nothing is unpushed, then run `git -C <dir> checkout -B <new-branch> origin/main` (Nov 1, governing lead: ten copies of about 0.9 GB each on a 6 GB allowance).
 - Never run `git gc --prune=now` in the main checkout while a shared copy lives; the copies borrow its objects.
+- **Never check out, `checkout -B` or `reset` a branch another copy has checked out (Long game, Nov 17).** Worktree copies share one set of branch refs, so `git checkout -B <branch>` in a helper moved that branch under the main checkout, which then showed the merge backwards as uncommitted changes. Before reusing a copy for a branch, run `git worktree list`; if another copy holds the branch, work there or detach this one first. To recover, `git switch --detach <commit>` in the copy whose files already match that commit, which leaves its tree clean without a reset.
 - If `df -h /` shows little free space with low "Used", the session's allowance is spent: narrow every helper copy before deleting anything else.
 
 ## Stop condition
