@@ -176771,6 +176771,99 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-answers-the-door-on-your-second-knock",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} answers the door on your second knock.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["knocked-before"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-knock-again-name-opens-up-and-sees-it-s-you",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You knock again. {name} opens up and sees it's you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["knocked-before"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-knock-name-opens-the-door-and-waits-for-you-to-speak",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You knock. {name} opens the door and waits for you to speak.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "excludesFacts": ["knocked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-would-you-sign-my-petition",
       "move": "state-request",
       "kind": "spoken",
@@ -176975,6 +177068,110 @@
       "date": "2026-11-17",
       "tag": {
         "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-i-ll-put-my-name-down-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. I'll put my name down for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. Everybody should get a shot at {office}. Give me the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-where-do-i-sign-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. Where do I sign for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-came-back-okay-i-ll-sign-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You came back. Okay, I'll sign for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"],
+          "excludesFacts": ["would-not-sign"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
         "key": "door"
       }
     },
@@ -177306,10 +177503,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-haven-t-been-well-i-ll-vote-for-you-on-vote-day",
+      "key": "scene-talk.reply-agree.i-haven-t-been-well-but-i-ll-vote-for-you-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I haven't been well. I'll vote for you on {vote-day}.",
+      "text": "I haven't been well, but I'll vote for you on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -177331,6 +177528,84 @@
       }
     },
     {
+      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather keep my name off a petition for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not today, thanks. I don't know enough about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-ve-been-by-before-i-m-still-not-signing-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You've been by before. I'm still not signing for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["knocked-before", "office"],
+          "excludesFacts": ["signed", "door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.reply-decline.i-don-t-follow-the-race-for-office-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
@@ -177344,6 +177619,32 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["would-not-sign", "no-view", "office"],
+          "excludesFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not promising my vote for {office} yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -177436,10 +177737,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.we-re-in-the-same-party-i-m-still-not-promising-my-vote-for-office",
+      "key": "scene-talk.reply-decline.same-party-or-not-i-m-not-promising-my-vote-for-office-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "We're in the same party. I'm still not promising my vote for {office}.",
+      "text": "Same party or not, I'm not promising my vote for {office} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -177629,6 +177930,115 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Good luck in the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-get-back-inside-see-you-vote-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to get back inside. See you {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ask-me-again-before-vote-day-i-haven-t-decided",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Ask me again before {vote-day}. I haven't decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["vote-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll think about my vote for {office}. Come back later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.that-s-one-more-name-for-my-run-for-office-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -177667,6 +178077,31 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's one more before {due}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "glad",
@@ -178049,6 +178484,32 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["rival"],
+          "setsFacts": ["door-pressed"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-only-puts-me-on-the-ballot-for-office-you-d-still-vote-your-own-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It only puts me on the ballot for {office}. You'd still vote your own way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["office"],
           "setsFacts": ["door-pressed"]
         }
       ],
@@ -178510,6 +178971,74 @@
       }
     },
     {
+      "key": "scene-talk.follow-ask.what-s-been-hardest-since-employer-let-you-go",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What's been hardest since {employer} let you go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.since-is-a-long-time-how-are-you-holding-up",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "{since} is a long time. How are you holding up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.lost-job",
+          "key": "door",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["since"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support.lost-job",
+          "key": "door",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["since"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.follow-ask.what-s-the-hardest-part-of-taking-care-of-relative",
       "move": "follow-ask",
       "kind": "spoken",
@@ -178696,6 +179225,31 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.after-the-speech-name-comes-over-and-shakes-your-hand",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "After the speech, {name} comes over and shakes your hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-chairs-are-emptying-when-name-walks-over",
       "move": "narrate-narrate",
       "kind": "written",
@@ -178721,10 +179275,110 @@
       }
     },
     {
+      "key": "scene-talk.open-greet.thanks-for-coming-out-first-i-saw-you-listening",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for coming out, {first}. I saw you listening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.glad-you-made-it-out-to-hear-me-in-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Glad you made it out to hear me in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I meant what I said about {cause}. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.state-request.i-meant-every-word-on-cause-can-i-count-on-you",
       "move": "state-request",
       "kind": "spoken",
       "text": "I meant every word on {cause}. Can I count on you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.if-cause-matters-to-you-i-d-like-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If {cause} matters to you, I'd like your vote.",
       "uses": [
         {
           "subject": "scene",
@@ -179051,6 +179705,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get going. Thanks for the talk in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "On {cause}, I'd start in the first year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.follow-answer.i-d-start-with-cause-and-i-d-do-it-in-the-open",
       "move": "follow-answer",
       "kind": "spoken",
@@ -179102,6 +179806,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.thank-you-i-won-t-let-you-down-on-cause",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I won't let you down on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.that-means-a-lot-tell-a-friend-in-place",
       "move": "follow-thank",
       "kind": "spoken",
@@ -179131,6 +179860,31 @@
       "move": "follow-press",
       "kind": "spoken",
       "text": "What would it take on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Fair. What's holding you back on {cause}?",
       "uses": [
         {
           "subject": "scene",
@@ -179228,6 +179982,107 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.thank-you-first-see-you-at-the-polls",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. See you at the polls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-my-word-on-cause-you-ll-see",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep my word on {cause}. You'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-thanks-for-coming-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. Thanks for coming, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-respect-that-thanks-for-the-straight-answer-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I respect that. Thanks for the straight answer, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.close-warn.then-i-ll-earn-it-from-your-neighbors-in-place",
       "move": "close-warn",
       "kind": "spoken",
@@ -179249,6 +180104,56 @@
       "date": "2026-11-17",
       "tag": {
         "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-election-day-in-place-isn-t-far",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. Election day in {place} isn't far.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-a-few-days-i-ll-keep-working-for-place",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take a few days. I'll keep working for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
         "key": "vote-wanted"
       }
     }
