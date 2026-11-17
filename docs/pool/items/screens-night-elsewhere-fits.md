@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr:
+pr: 9880
 blocked-on:
 source: crew line item 4, the election night mock (pl-night, docs/mocks/2026-11-08-play), on the first-election path the CTO put first (Nov 17, 03:25Z); a repeat of the owner's Oct 27 audit
 after:
