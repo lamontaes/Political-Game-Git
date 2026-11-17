@@ -41,131 +41,77 @@
       "group": "street",
       "subject": "airport concourse",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "airport-terminal": {
       "group": "street",
       "subject": "airport terminal",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "apartment-basement-studio": {
       "group": "home-interior",
       "subject": "apartment basement studio",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-kitchen": {
       "group": "home-interior",
       "subject": "apartment kitchen",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-nice-living": {
       "group": "home-interior",
       "subject": "apartment nice living",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-older-walkup": {
       "group": "home-interior",
       "subject": "apartment older walkup",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-public-housing": {
       "group": "home-interior",
       "subject": "apartment public housing",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-rundown-living": {
       "group": "home-interior",
       "subject": "apartment rundown living",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-starter-living": {
       "group": "home-interior",
       "subject": "apartment starter living",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-student-shared": {
       "group": "home-interior",
       "subject": "apartment student shared",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "apartment-suburban-garden": {
       "group": "home-interior",
       "subject": "apartment suburban garden",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "appellate-courtroom": {
@@ -180,65 +126,35 @@
       "group": "local-business-or-service",
       "subject": "bank lobby",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "barbershop": {
       "group": "local-business-or-service",
       "subject": "barbershop",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "bedroom-plain": {
       "group": "home-interior",
       "subject": "bedroom plain",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "bedroom-teen": {
       "group": "home-interior",
       "subject": "bedroom teen",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "benefits-office": {
       "group": "local-business-or-service",
       "subject": "benefits office",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "big-city-elections-office": {
@@ -251,42 +167,42 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "blizzard-street": {
       "group": "street",
       "subject": "blizzard street",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "boardroom": {
       "group": "workplace",
       "subject": "boardroom",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "bus-stop": {
       "group": "street",
       "subject": "bus stop",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "campaign-office-storefront": {
       "group": "campaign-office",
       "subject": "campaign office storefront",
       "serves": ["venue", "workplace"],
-      "scenes": ["volunteer-offer", "manager-offer", "party-recruit"],
+      "scenes": [],
       "basis": "name"
     },
     "campaign-storefront": {
       "group": "campaign-office",
       "subject": "campaign storefront",
       "serves": ["venue", "workplace"],
-      "scenes": ["volunteer-offer", "manager-offer", "party-recruit"],
+      "scenes": [],
       "basis": "name"
     },
     "capitol-hallway": {
@@ -299,56 +215,49 @@
         "legislature-upper",
         "legislature-lower"
       ],
-      "scenes": [
-        "vote-asked",
-        "vote-sought",
-        "bill-carry",
-        "desk-visit",
-        "office-hours",
-        "section-bargain"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "bill-carry"],
       "basis": "name"
     },
     "cemetery-graveside": {
       "group": "faith-funeral",
       "subject": "cemetery graveside",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "central-bank-boardroom": {
       "group": "workplace",
       "subject": "central bank boardroom",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "central-bank-lobby": {
       "group": "workplace",
       "subject": "central bank lobby",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "church-exterior": {
       "group": "faith-funeral",
       "subject": "church exterior",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "church-sanctuary": {
       "group": "faith-funeral",
       "subject": "church sanctuary",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "church-supper-hall": {
       "group": "faith-funeral",
       "subject": "church supper hall",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "city-hall-exterior": {
@@ -356,7 +265,7 @@
       "subject": "city hall exterior",
       "serves": ["public", "venue", "seat"],
       "offices": ["mayor", "council"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "city-hall-hallway": {
@@ -364,30 +273,21 @@
       "subject": "city hall hallway",
       "serves": ["office", "venue"],
       "offices": ["mayor", "council"],
-      "scenes": ["vote-asked", "vote-sought", "desk-visit", "office-hours"],
+      "scenes": ["vote-asked", "vote-sought"],
       "basis": "image"
     },
     "city-hall-steps-event": {
       "group": "event-venue",
       "subject": "city hall steps event",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "classroom": {
       "group": "school",
       "subject": "classroom",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "clerk-back-office": {
@@ -400,7 +300,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "clerk-counter": {
@@ -413,34 +313,28 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "clinic-exam-room": {
       "group": "health-care",
       "subject": "clinic exam room",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "coffee-shop": {
       "group": "local-business-or-service",
       "subject": "coffee shop",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "college-quad": {
       "group": "school",
       "subject": "college quad",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "committee-hearing-room": {
@@ -453,34 +347,21 @@
         "legislature-upper",
         "legislature-lower"
       ],
-      "scenes": [
-        "vote-asked",
-        "vote-sought",
-        "bill-carry",
-        "desk-visit",
-        "office-hours",
-        "section-bargain"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "bill-carry"],
       "basis": "name"
     },
     "community-garden": {
       "group": "outdoors",
       "subject": "community garden",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "name"
     },
     "community-room": {
       "group": "local-business-or-service",
       "subject": "community room",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "congressional-office": {
@@ -493,37 +374,21 @@
         "legislature-upper",
         "legislature-lower"
       ],
-      "scenes": [
-        "vote-asked",
-        "vote-sought",
-        "bill-carry",
-        "desk-visit",
-        "office-hours",
-        "section-bargain"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "bill-carry"],
       "basis": "name"
     },
     "construction-site": {
       "group": "workplace",
       "subject": "construction site",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "convention-hall": {
       "group": "event-venue",
       "subject": "convention hall",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "council-chamber": {
@@ -540,15 +405,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "council-chamber-large": {
@@ -565,15 +422,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "council-chamber-small": {
@@ -590,15 +439,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "image"
     },
     "county-admin-lobby": {
@@ -611,7 +452,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "county-clerk-office-rural": {
@@ -624,7 +465,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-clerk-office-urban": {
@@ -637,7 +478,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-commission": {
@@ -654,15 +495,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "county-commission-rural": {
@@ -679,15 +512,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "county-courthouse": {
@@ -764,7 +589,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "county-elections-office": {
@@ -777,7 +602,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-emergency-operations": {
@@ -785,7 +610,7 @@
       "subject": "county emergency operations",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "image"
     },
     "county-extension-office": {
@@ -798,33 +623,21 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-fair-exhibit-hall": {
       "group": "local-business-or-service",
       "subject": "county fair exhibit hall",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "county-fairgrounds": {
       "group": "local-business-or-service",
       "subject": "county fairgrounds",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "county-health-department": {
@@ -837,7 +650,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-jail-booking": {
@@ -845,7 +658,7 @@
       "subject": "county jail booking",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "county-jail-exterior": {
@@ -853,7 +666,7 @@
       "subject": "county jail exterior",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "county-jail-visiting": {
@@ -861,7 +674,7 @@
       "subject": "county jail visiting",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "county-office-cramped": {
@@ -874,14 +687,14 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "county-party-office": {
       "group": "campaign-office",
       "subject": "county party office",
       "serves": ["venue", "workplace"],
-      "scenes": ["volunteer-offer", "manager-offer", "party-recruit"],
+      "scenes": [],
       "basis": "name"
     },
     "county-recorder-office": {
@@ -894,7 +707,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "county-road-garage": {
@@ -907,7 +720,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-sheriff-exterior": {
@@ -915,7 +728,7 @@
       "subject": "county sheriff exterior",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "county-sheriff-front-desk": {
@@ -923,7 +736,7 @@
       "subject": "county sheriff front desk",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "county-treasurer-office": {
@@ -936,7 +749,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "county-trial-courtroom": {
@@ -959,81 +772,42 @@
       "group": "event-venue",
       "subject": "courthouse square",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "courthouse-steps": {
       "group": "event-venue",
       "subject": "courthouse steps",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "daycare-room": {
       "group": "health-care",
       "subject": "daycare room",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "debate-stage": {
       "group": "event-venue",
       "subject": "debate stage",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "diner": {
       "group": "local-business-or-service",
       "subject": "diner",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "diner-counter": {
       "group": "local-business-or-service",
       "subject": "diner counter",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "disaster-shelter-gym": {
@@ -1041,20 +815,14 @@
       "subject": "disaster shelter gym",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "image"
     },
     "distillery-rickhouse": {
       "group": "local-business-or-service",
       "subject": "distillery rickhouse",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "district-attorney-office": {
@@ -1074,86 +842,77 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "doctor-exam-room": {
       "group": "health-care",
       "subject": "doctor exam room",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "door-knocking-rural": {
       "group": "door",
       "subject": "door knocking rural",
       "serves": ["other-home", "home"],
-      "scenes": ["door-ask", "door-signature", "return", "arrival"],
+      "scenes": ["door-ask", "door-signature"],
       "basis": "name"
     },
     "door-knocking-suburban": {
       "group": "door",
       "subject": "door knocking suburban",
       "serves": ["other-home", "home"],
-      "scenes": ["door-ask", "door-signature", "return", "arrival"],
+      "scenes": ["door-ask", "door-signature"],
       "basis": "image"
     },
     "door-knocking-urban": {
       "group": "door",
       "subject": "door knocking urban",
       "serves": ["other-home", "home"],
-      "scenes": ["door-ask", "door-signature", "return", "arrival"],
+      "scenes": ["door-ask", "door-signature"],
       "basis": "name"
     },
     "doorstep-entrance": {
       "group": "door",
       "subject": "doorstep entrance",
       "serves": ["other-home", "home"],
-      "scenes": ["door-ask", "door-signature", "return", "arrival"],
+      "scenes": ["door-ask", "door-signature"],
       "basis": "name"
     },
     "dorm-common-room": {
       "group": "school",
       "subject": "dorm common room",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "dorm-room": {
       "group": "school",
       "subject": "dorm room",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "dorm-room-double": {
       "group": "school",
       "subject": "dorm room double",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "downtown-sidewalk": {
       "group": "street",
       "subject": "downtown sidewalk",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "election-night-venue": {
       "group": "event-venue",
       "subject": "election night venue",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "election-office": {
@@ -1166,7 +925,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "election-office-warehouse": {
@@ -1179,14 +938,14 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "elementary-classroom": {
       "group": "school",
       "subject": "elementary classroom",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "emergency-shelter-gym": {
@@ -1194,21 +953,21 @@
       "subject": "emergency shelter gym",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "factory-exterior": {
       "group": "workplace",
       "subject": "factory exterior",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "factory-floor": {
       "group": "workplace",
       "subject": "factory floor",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "family-court": {
@@ -1223,27 +982,21 @@
       "group": "workplace",
       "subject": "farm field",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "farm-yard": {
       "group": "workplace",
       "subject": "farm yard",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "farmers-market": {
       "group": "local-business-or-service",
       "subject": "farmers market",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "federal-courtroom": {
@@ -1266,7 +1019,7 @@
       "group": "workplace",
       "subject": "federal reserve boardroom",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "fire-station": {
@@ -1274,82 +1027,70 @@
       "subject": "fire station",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "flooded-neighborhood": {
       "group": "street",
       "subject": "flooded neighborhood",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "image"
     },
     "flooded-street": {
       "group": "street",
       "subject": "flooded street",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "food-bank": {
       "group": "local-business-or-service",
       "subject": "food bank",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "funeral-chapel-small": {
       "group": "faith-funeral",
       "subject": "funeral chapel small",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "funeral-home-chapel": {
       "group": "faith-funeral",
       "subject": "funeral home chapel",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "funeral-home-viewing-room": {
       "group": "faith-funeral",
       "subject": "funeral home viewing room",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "name"
     },
     "gas-station": {
       "group": "street",
       "subject": "gas station",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "gas-station-store": {
       "group": "street",
       "subject": "gas station store",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "general-store": {
       "group": "local-business-or-service",
       "subject": "general store",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "governor-office": {
@@ -1357,7 +1098,7 @@
       "subject": "governor office",
       "serves": ["office", "seat"],
       "offices": ["governor", "mayor"],
-      "scenes": ["desk-visit", "vote-asked", "donor-ask"],
+      "scenes": ["vote-asked", "donor-ask"],
       "basis": "name"
     },
     "governor-residence-exterior": {
@@ -1371,26 +1112,14 @@
       "group": "local-business-or-service",
       "subject": "grocery store",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "hardware-store-interior": {
       "group": "local-business-or-service",
       "subject": "hardware store interior",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "hearing-room-paneled": {
@@ -1403,217 +1132,147 @@
         "legislature-upper",
         "legislature-lower"
       ],
-      "scenes": [
-        "vote-asked",
-        "vote-sought",
-        "bill-carry",
-        "desk-visit",
-        "office-hours",
-        "section-bargain"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "bill-carry"],
       "basis": "image"
     },
     "high-school-cafeteria": {
       "group": "school",
       "subject": "high school cafeteria",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "high-school-exterior": {
       "group": "school",
       "subject": "high school exterior",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "high-school-hallway": {
       "group": "school",
       "subject": "high school hallway",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "highway-interchange": {
       "group": "outdoors",
       "subject": "highway interchange",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "image"
     },
     "home-kitchen": {
       "group": "home-interior",
       "subject": "home kitchen",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "homeless-shelter": {
       "group": "local-business-or-service",
       "subject": "homeless shelter",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "hospital-emergency-waiting": {
       "group": "health-care",
       "subject": "hospital emergency waiting",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "hospital-hallway": {
       "group": "health-care",
       "subject": "hospital hallway",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "hospital-lobby": {
       "group": "health-care",
       "subject": "hospital lobby",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "hospital-patient-room": {
       "group": "health-care",
       "subject": "hospital patient room",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "hospital-waiting-room": {
       "group": "health-care",
       "subject": "hospital waiting room",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "hotel-ballroom": {
       "group": "event-venue",
       "subject": "hotel ballroom",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "house-bedroom": {
       "group": "home-interior",
       "subject": "house bedroom",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "house-gulf-coast-raised": {
       "group": "home-interior",
       "subject": "house gulf coast raised",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "house-new-england-colonial": {
       "group": "home-interior",
       "subject": "house new england colonial",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "house-northwest-craftsman": {
       "group": "home-interior",
       "subject": "house northwest craftsman",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "house-rural-kitchen": {
       "group": "home-interior",
       "subject": "house rural kitchen",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "house-southwest-adobe": {
       "group": "home-interior",
       "subject": "house southwest adobe",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "house-suburban-living": {
       "group": "home-interior",
       "subject": "house suburban living",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "hurricane-boarded-street": {
       "group": "street",
       "subject": "hurricane boarded street",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "jail-visiting-room": {
@@ -1621,7 +1280,7 @@
       "subject": "jail visiting room",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "jury-room": {
@@ -1636,20 +1295,14 @@
       "group": "home-interior",
       "subject": "large house",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "lecture-hall-tiered": {
       "group": "school",
       "subject": "lecture hall tiered",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "lincoln-memorial": {
@@ -1664,46 +1317,35 @@
       "group": "outdoors",
       "subject": "little league field",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "name"
     },
     "local-newspaper-office": {
       "group": "media",
       "subject": "local newspaper office",
       "serves": ["venue", "workplace"],
-      "scenes": [
-        "press-interview",
-        "interview-sitting",
-        "interview-invite",
-        "debate-sitting"
-      ],
+      "scenes": ["press-interview", "interview-sitting", "debate-sitting"],
       "basis": "image"
     },
     "lodge-hall": {
       "group": "local-business-or-service",
       "subject": "lodge hall",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "lying-in-state-rotunda": {
       "group": "faith-funeral",
       "subject": "lying in state rotunda",
       "serves": ["venue", "public"],
-      "scenes": ["funeral", "celebration"],
+      "scenes": [],
       "basis": "image"
     },
     "main-street": {
       "group": "street",
       "subject": "main street",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "mayor-office": {
@@ -1711,90 +1353,56 @@
       "subject": "mayor office",
       "serves": ["office", "seat"],
       "offices": ["governor", "mayor"],
-      "scenes": ["desk-visit", "vote-asked", "donor-ask"],
+      "scenes": ["vote-asked", "donor-ask"],
       "basis": "image"
     },
     "mobile-home": {
       "group": "home-interior",
       "subject": "mobile home",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "national-convention-floor": {
       "group": "event-venue",
       "subject": "national convention floor",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "national-convention-stage": {
       "group": "event-venue",
       "subject": "national convention stage",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "newspaper-newsroom": {
       "group": "media",
       "subject": "newspaper newsroom",
       "serves": ["venue", "workplace"],
-      "scenes": [
-        "press-interview",
-        "interview-sitting",
-        "interview-invite",
-        "debate-sitting"
-      ],
+      "scenes": ["press-interview", "interview-sitting", "debate-sitting"],
       "basis": "name"
     },
     "newsroom": {
       "group": "media",
       "subject": "newsroom",
       "serves": ["venue", "workplace"],
-      "scenes": [
-        "press-interview",
-        "interview-sitting",
-        "interview-invite",
-        "debate-sitting"
-      ],
+      "scenes": ["press-interview", "interview-sitting", "debate-sitting"],
       "basis": "name"
     },
     "nursing-home-commons": {
       "group": "health-care",
       "subject": "nursing home commons",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "office": {
       "group": "workplace",
       "subject": "office",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "oval-address-standard": {
@@ -1802,7 +1410,7 @@
       "subject": "oval address standard",
       "serves": ["office", "seat"],
       "offices": ["president"],
-      "scenes": ["desk-visit", "address", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "image"
     },
     "oval-office": {
@@ -1810,7 +1418,7 @@
       "subject": "oval office",
       "serves": ["office", "seat"],
       "offices": ["president"],
-      "scenes": ["desk-visit", "address", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "oval-office-standard": {
@@ -1818,21 +1426,21 @@
       "subject": "oval office standard",
       "serves": ["office", "seat"],
       "offices": ["president"],
-      "scenes": ["desk-visit", "address", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "park": {
       "group": "outdoors",
       "subject": "park",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "name"
     },
     "party-headquarters": {
       "group": "campaign-office",
       "subject": "party headquarters",
       "serves": ["venue", "workplace"],
-      "scenes": ["volunteer-offer", "manager-offer", "party-recruit"],
+      "scenes": [],
       "basis": "name"
     },
     "permit-office": {
@@ -1845,28 +1453,28 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "pharmacy-counter": {
       "group": "health-care",
       "subject": "pharmacy counter",
       "serves": ["venue", "workplace", "public"],
-      "scenes": ["care", "rescue"],
+      "scenes": [],
       "basis": "name"
     },
     "phone-bank-room": {
       "group": "campaign-office",
       "subject": "phone bank room",
       "serves": ["venue", "workplace"],
-      "scenes": ["volunteer-offer", "manager-offer", "party-recruit"],
+      "scenes": [],
       "basis": "name"
     },
     "playground": {
       "group": "outdoors",
       "subject": "playground",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "name"
     },
     "police-station": {
@@ -1874,7 +1482,7 @@
       "subject": "police station",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "police-station-lobby": {
@@ -1882,7 +1490,7 @@
       "subject": "police station lobby",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "polling-place": {
@@ -1903,20 +1511,14 @@
       "group": "local-business-or-service",
       "subject": "post office",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "power-plant": {
       "group": "workplace",
       "subject": "power plant",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "press-briefing-room": {
@@ -1924,7 +1526,7 @@
       "subject": "press briefing room",
       "serves": ["office", "seat"],
       "offices": ["president"],
-      "scenes": ["desk-visit", "address", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "prison-cellblock": {
@@ -1932,7 +1534,7 @@
       "subject": "prison cellblock",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "probate-family-court": {
@@ -1962,13 +1564,7 @@
       "group": "local-business-or-service",
       "subject": "public library",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "public-meeting-room": {
@@ -1985,15 +1581,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "public-works-garage": {
@@ -2006,154 +1594,77 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "radio-booth": {
       "group": "media",
       "subject": "radio booth",
       "serves": ["venue", "workplace"],
-      "scenes": [
-        "press-interview",
-        "interview-sitting",
-        "interview-invite",
-        "debate-sitting"
-      ],
+      "scenes": ["press-interview", "interview-sitting", "debate-sitting"],
       "basis": "image"
     },
     "rally-airport-hangar": {
       "group": "event-venue",
       "subject": "rally airport hangar",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-county-fairground": {
       "group": "event-venue",
       "subject": "rally county fairground",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-courthouse-square": {
       "group": "event-venue",
       "subject": "rally courthouse square",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-downtown-plaza": {
       "group": "event-venue",
       "subject": "rally downtown plaza",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-high-school-gym": {
       "group": "event-venue",
       "subject": "rally high school gym",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-stage": {
       "group": "event-venue",
       "subject": "rally stage",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-town-square": {
       "group": "event-venue",
       "subject": "rally town square",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rally-union-hall-parking-lot": {
       "group": "event-venue",
       "subject": "rally union hall parking lot",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "rec-center-pool": {
       "group": "outdoors",
       "subject": "rec center pool",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "name"
     },
     "registrar-of-voters-worn": {
@@ -2166,14 +1677,14 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "river-bridge": {
       "group": "outdoors",
       "subject": "river bridge",
       "serves": ["public", "venue"],
-      "scenes": ["date", "proposal", "becoming-friends"],
+      "scenes": [],
       "basis": "image"
     },
     "road-work": {
@@ -2186,40 +1697,28 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "rowhouse": {
       "group": "home-interior",
       "subject": "rowhouse",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "rural-farmhouse": {
       "group": "home-interior",
       "subject": "rural farmhouse",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "school-auditorium": {
       "group": "school",
       "subject": "school auditorium",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "school-board-room": {
@@ -2236,59 +1735,42 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "school-cafeteria": {
       "group": "school",
       "subject": "school cafeteria",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "school-exterior": {
       "group": "school",
       "subject": "school exterior",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "school-gym-town-hall": {
       "group": "event-venue",
       "subject": "school gym town hall",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "name"
     },
     "school-hallway": {
       "group": "school",
       "subject": "school hallway",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "school-library": {
       "group": "school",
       "subject": "school library",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "sheriff-office-lobby": {
@@ -2296,48 +1778,42 @@
       "subject": "sheriff office lobby",
       "serves": ["venue", "workplace"],
       "offices": ["county-sheriff"],
-      "scenes": ["prison-visit"],
+      "scenes": [],
       "basis": "name"
     },
     "sidewalk-downtown": {
       "group": "street",
       "subject": "sidewalk downtown",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "sidewalk-main-street": {
       "group": "street",
       "subject": "sidewalk main street",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "sidewalk-suburban": {
       "group": "street",
       "subject": "sidewalk suburban",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "small-apartment": {
       "group": "home-interior",
       "subject": "small apartment",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "solar-farm": {
       "group": "workplace",
       "subject": "solar farm",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "state-capitol-ak": {
@@ -2345,7 +1821,7 @@
       "subject": "state capitol ak",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-al": {
@@ -2353,7 +1829,7 @@
       "subject": "state capitol al",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ar": {
@@ -2361,7 +1837,7 @@
       "subject": "state capitol ar",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-as": {
@@ -2369,7 +1845,7 @@
       "subject": "state capitol as",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-az": {
@@ -2377,7 +1853,7 @@
       "subject": "state capitol az",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ca": {
@@ -2385,7 +1861,7 @@
       "subject": "state capitol ca",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-co": {
@@ -2393,7 +1869,7 @@
       "subject": "state capitol co",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ct": {
@@ -2401,7 +1877,7 @@
       "subject": "state capitol ct",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-dc": {
@@ -2409,7 +1885,7 @@
       "subject": "state capitol dc",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-de": {
@@ -2417,7 +1893,7 @@
       "subject": "state capitol de",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-dome": {
@@ -2425,7 +1901,7 @@
       "subject": "state capitol dome",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-fl": {
@@ -2433,7 +1909,7 @@
       "subject": "state capitol fl",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ga": {
@@ -2441,7 +1917,7 @@
       "subject": "state capitol ga",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-gu": {
@@ -2449,7 +1925,7 @@
       "subject": "state capitol gu",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-hi": {
@@ -2457,7 +1933,7 @@
       "subject": "state capitol hi",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ia": {
@@ -2465,7 +1941,7 @@
       "subject": "state capitol ia",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-id": {
@@ -2473,7 +1949,7 @@
       "subject": "state capitol id",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-il": {
@@ -2481,7 +1957,7 @@
       "subject": "state capitol il",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-in": {
@@ -2489,7 +1965,7 @@
       "subject": "state capitol in",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ks": {
@@ -2497,7 +1973,7 @@
       "subject": "state capitol ks",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ky": {
@@ -2505,7 +1981,7 @@
       "subject": "state capitol ky",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-la": {
@@ -2513,7 +1989,7 @@
       "subject": "state capitol la",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ma": {
@@ -2521,7 +1997,7 @@
       "subject": "state capitol ma",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-md": {
@@ -2529,7 +2005,7 @@
       "subject": "state capitol md",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-me": {
@@ -2537,7 +2013,7 @@
       "subject": "state capitol me",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-mi": {
@@ -2545,7 +2021,7 @@
       "subject": "state capitol mi",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-mn": {
@@ -2553,7 +2029,7 @@
       "subject": "state capitol mn",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-mo": {
@@ -2561,7 +2037,7 @@
       "subject": "state capitol mo",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-mp": {
@@ -2569,7 +2045,7 @@
       "subject": "state capitol mp",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ms": {
@@ -2577,7 +2053,7 @@
       "subject": "state capitol ms",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-mt": {
@@ -2585,7 +2061,7 @@
       "subject": "state capitol mt",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-nc": {
@@ -2593,7 +2069,7 @@
       "subject": "state capitol nc",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-nd": {
@@ -2601,7 +2077,7 @@
       "subject": "state capitol nd",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ne": {
@@ -2609,7 +2085,7 @@
       "subject": "state capitol ne",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-nh": {
@@ -2617,7 +2093,7 @@
       "subject": "state capitol nh",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-nj": {
@@ -2625,7 +2101,7 @@
       "subject": "state capitol nj",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-nm": {
@@ -2633,7 +2109,7 @@
       "subject": "state capitol nm",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-nv": {
@@ -2641,7 +2117,7 @@
       "subject": "state capitol nv",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ny": {
@@ -2649,7 +2125,7 @@
       "subject": "state capitol ny",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-oh": {
@@ -2657,7 +2133,7 @@
       "subject": "state capitol oh",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ok": {
@@ -2665,7 +2141,7 @@
       "subject": "state capitol ok",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-or": {
@@ -2673,7 +2149,7 @@
       "subject": "state capitol or",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-pa": {
@@ -2681,7 +2157,7 @@
       "subject": "state capitol pa",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-pr": {
@@ -2689,7 +2165,7 @@
       "subject": "state capitol pr",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ri": {
@@ -2697,7 +2173,7 @@
       "subject": "state capitol ri",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-sc": {
@@ -2705,7 +2181,7 @@
       "subject": "state capitol sc",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-sd": {
@@ -2713,7 +2189,7 @@
       "subject": "state capitol sd",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-tn": {
@@ -2721,7 +2197,7 @@
       "subject": "state capitol tn",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-tower": {
@@ -2729,7 +2205,7 @@
       "subject": "state capitol tower",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-tx": {
@@ -2737,7 +2213,7 @@
       "subject": "state capitol tx",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-ut": {
@@ -2745,7 +2221,7 @@
       "subject": "state capitol ut",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-va": {
@@ -2753,7 +2229,7 @@
       "subject": "state capitol va",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-vi": {
@@ -2761,7 +2237,7 @@
       "subject": "state capitol vi",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-vt": {
@@ -2769,7 +2245,7 @@
       "subject": "state capitol vt",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-wa": {
@@ -2777,7 +2253,7 @@
       "subject": "state capitol wa",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-wi": {
@@ -2785,7 +2261,7 @@
       "subject": "state capitol wi",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-wv": {
@@ -2793,7 +2269,7 @@
       "subject": "state capitol wv",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-capitol-wy": {
@@ -2801,7 +2277,7 @@
       "subject": "state capitol wy",
       "serves": ["seat", "public", "venue"],
       "offices": ["legislature-upper", "legislature-lower", "governor"],
-      "scenes": ["address", "swearing-in", "press-interview"],
+      "scenes": ["address", "press-interview"],
       "basis": "name"
     },
     "state-house-chamber": {
@@ -2818,15 +2294,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "state-legislative-chamber-bicameral": {
@@ -2843,15 +2311,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "state-legislative-chamber-unicameral": {
@@ -2868,15 +2328,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "state-supreme-courtroom": {
@@ -2891,53 +2343,35 @@
       "group": "local-business-or-service",
       "subject": "steakhouse private room",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "store": {
       "group": "local-business-or-service",
       "subject": "store",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "strip-mall-parking-lot": {
       "group": "street",
       "subject": "strip mall parking lot",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "image"
     },
     "student-union-lounge": {
       "group": "school",
       "subject": "student union lounge",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "suburban-house": {
       "group": "home-interior",
       "subject": "suburban house",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "image"
     },
     "supreme-court-exterior": {
@@ -2960,27 +2394,21 @@
       "group": "local-business-or-service",
       "subject": "tavern",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "tornado-aftermath": {
       "group": "street",
       "subject": "tornado aftermath",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "tornado-damage": {
       "group": "street",
       "subject": "tornado damage",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "image"
     },
     "township-board": {
@@ -2997,42 +2425,28 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "trailer-home-living": {
       "group": "home-interior",
       "subject": "trailer home living",
       "serves": ["home", "other-home"],
-      "scenes": [
-        "argument",
-        "breakup",
-        "new-baby",
-        "family-filing",
-        "news-arrives"
-      ],
+      "scenes": ["family-filing", "news-arrives"],
       "basis": "name"
     },
     "train-depot-platform": {
       "group": "street",
       "subject": "train depot platform",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "train-platform": {
       "group": "street",
       "subject": "train platform",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "treasurer-counter": {
@@ -3045,93 +2459,56 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "image"
     },
     "tv-debate-green-room": {
       "group": "event-venue",
       "subject": "tv debate green room",
       "serves": ["venue", "public"],
-      "scenes": [
-        "address",
-        "speech-afterward",
-        "celebration",
-        "race-won",
-        "race-lost",
-        "rally-opponent",
-        "town-hall-question",
-        "debate-sitting"
-      ],
+      "scenes": ["address", "speech-afterward", "race-won", "debate-sitting"],
       "basis": "image"
     },
     "tv-news-studio": {
       "group": "media",
       "subject": "tv news studio",
       "serves": ["venue", "workplace"],
-      "scenes": [
-        "press-interview",
-        "interview-sitting",
-        "interview-invite",
-        "debate-sitting"
-      ],
+      "scenes": ["press-interview", "interview-sitting", "debate-sitting"],
       "basis": "name"
     },
     "tv-studio": {
       "group": "media",
       "subject": "tv studio",
       "serves": ["venue", "workplace"],
-      "scenes": [
-        "press-interview",
-        "interview-sitting",
-        "interview-invite",
-        "debate-sitting"
-      ],
+      "scenes": ["press-interview", "interview-sitting", "debate-sitting"],
       "basis": "name"
     },
     "unemployment-office": {
       "group": "local-business-or-service",
       "subject": "unemployment office",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "union-hall": {
       "group": "local-business-or-service",
       "subject": "union hall",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "name"
     },
     "union-hall-interior": {
       "group": "local-business-or-service",
       "subject": "union hall interior",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "university-lecture-hall": {
       "group": "school",
       "subject": "university lecture hall",
       "serves": ["school", "workplace", "venue"],
-      "scenes": ["first-day", "last-day", "argument", "advice", "diploma-home"],
+      "scenes": ["first-day", "last-day", "advice"],
       "basis": "name"
     },
     "us-capitol-exterior": {
@@ -3156,15 +2533,7 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "us-senate-floor": {
@@ -3181,28 +2550,14 @@
         "us-senate",
         "us-house"
       ],
-      "scenes": [
-        "floor-debate",
-        "swearing-in",
-        "vote-asked",
-        "vote-sought",
-        "vote-confirmed",
-        "section-bargain",
-        "address"
-      ],
+      "scenes": ["vote-asked", "vote-sought", "vote-confirmed", "address"],
       "basis": "name"
     },
     "veterans-office": {
       "group": "local-business-or-service",
       "subject": "veterans office",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     },
     "water-treatment": {
@@ -3215,7 +2570,7 @@
         "county-assessor",
         "county-executive"
       ],
-      "scenes": ["filing", "office-hours"],
+      "scenes": ["filing"],
       "basis": "name"
     },
     "white-house-colonnade": {
@@ -3238,27 +2593,21 @@
       "group": "street",
       "subject": "wildfire smoke street",
       "serves": ["public"],
-      "scenes": ["constituent-stop", "argument", "accusation", "donor-ask"],
+      "scenes": ["constituent-stop", "accusation", "donor-ask"],
       "basis": "name"
     },
     "wind-farm": {
       "group": "workplace",
       "subject": "wind farm",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "workforce-center": {
       "group": "local-business-or-service",
       "subject": "workforce center",
       "serves": ["venue", "public", "workplace"],
-      "scenes": [
-        "first-meeting",
-        "date",
-        "becoming-friends",
-        "celebration",
-        "cause-invite"
-      ],
+      "scenes": ["cause-invite"],
       "basis": "image"
     }
   }

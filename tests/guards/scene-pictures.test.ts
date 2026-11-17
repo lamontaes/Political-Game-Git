@@ -6,6 +6,7 @@
  * mapped nor listed as wanted. Never fails on a gap that is already listed;
  * `npm run scene-pictures` writes the report and the pictures-wanted list.
  */
+import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { buildReport } from "../../scripts/scene-pictures/report";
 
@@ -16,6 +17,11 @@ it("no picture row names a type, setting or place that does not exist, and every
 
 it("the report covers every scene type and setting", () => {
   const report = buildReport();
-  expect(report.rows.length).toBeGreaterThan(100);
+  const types = (
+    JSON.parse(
+      readFileSync("src/director/data/situation-types.json", "utf8"),
+    ) as { types: { key: string }[] }
+  ).types.map((type) => type.key);
+  expect(new Set(report.rows.map((row) => row.type))).toEqual(new Set(types));
   expect(report.rows.every((row) => row.picture)).toBe(true);
 });

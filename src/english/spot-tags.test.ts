@@ -118,7 +118,7 @@ describe("who says a line, to whom and where", () => {
         step: "open",
         move: "greet",
         role: "asker",
-        purpose: "family-absence",
+        purpose: "family-filing",
       },
     ]);
     expect(use).toMatchObject({
@@ -130,7 +130,7 @@ describe("who says a line, to whom and where", () => {
       role: "asker",
     });
     expect(
-      spotTags({ purpose: "family-absence", role: "asker" }).speaker,
+      spotTags({ purpose: "family-filing", role: "asker" }).speaker,
     ).toEqual(["relative"]);
   });
 });

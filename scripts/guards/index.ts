@@ -194,9 +194,9 @@ export const GUARDS: readonly Guard[] = [
   },
   {
     id: "kept-scene-kinds",
-    rule: "The director stages only the scene kinds on the written list: every scene the English engine did not compose from the world's own records is deleted (owner, Nov 17).",
+    rule: "The director stages only the scene kinds on the written list: every scene the English engine did not compose from the world's own records is deleted.",
     readMore:
-      "src/director/data/kept-scene-kinds.json; docs/coordination/OWNER-DECISIONS.md, Nov 17",
+      "src/director/data/kept-scene-kinds.json (its about quotes the owner's ruling)",
     command: vitest("tests/guards/director/kept-scene-kinds.test.ts"),
   },
   {
