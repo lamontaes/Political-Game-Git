@@ -5245,7 +5245,8 @@ function hire(
   const { template, commitment: templateCommitment, calendar } = role;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
-    api.endJob(old.id, `jobs:quit:${api.state.date}`);
+    // A player who accepts mid-day, after the day's shift, leaves that job when the shift is over.
+    api.endJob(old.id, `jobs:quit:${api.state.date}`, workedToday(c, person));
     record(api, {
       personId: person.id,
       organizationId: old.organizationId,
