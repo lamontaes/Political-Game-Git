@@ -366,13 +366,15 @@ $("news-reader-close").addEventListener("click", () =>
  * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
  * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
  * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
- * clock closes the cards first.
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
  */
 function closeCards() {
   if (!$("person").hidden) closePerson();
   show("news-reader", false);
   show("tip", false);
-  if (openTab) closeSheet();
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
 }
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
