@@ -2,16 +2,8 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 33,
+  "judged": 29,
   "no": {
-    "050jxoy5cvo": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-one-of-your-donors-is-on-the-line",
-        "scene-talk.state-request.i-need-you-to-take-another-look-at-bill",
-        "scene-talk.reply-offer.let-me-put-you-on-the-calendar-for-a-real-meeting"
-      ],
-      "why": "The donor only asks you to 'take another look' at the bill; what they want changed and what rides on it for either side is never said."
-    },
     "0bspjln7yty": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
@@ -26,14 +18,6 @@
         "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me"
       ],
       "why": "'The things people here are worried about' names no issue and no consequence; nothing concrete is at stake."
-    },
-    "0u6uv16tj5b": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-stands-at-the-edge-of-the-room-holding-a-folded-flyer-from-your",
-        "scene-talk.state-request.put-me-down-to-speak-at-the-next-public-meeting-i-want-you-to-know-wh",
-        "scene-talk.reply-offer.my-scheduler-will-find-you-a-slot-give-her-your-number"
-      ],
-      "why": "They want a speaking slot and say 'I want you to know why', but the why is never given; nothing about what's at stake is said."
     },
     "0ztk18403e8": {
       "keys": [
@@ -71,14 +55,6 @@
       ],
       "why": "'Only a thank-you... remembered kindly' names nothing being traded or gained."
     },
-    "1ytlncgwc0o": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-has-known-you-for-years-and-has-a-favor-to-ask",
-        "scene-talk.state-request.can-i-ask-you-something-and-have-you-not-hear-it-as-the-donor-talking",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s"
-      ],
-      "why": "The friend's favor is never stated; nothing about what is wanted or what rides on it has been said."
-    },
     "2epzuxuqafj": {
       "keys": [
         "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
@@ -88,5 +64,5 @@
       "why": "'I have a question and I'd like a straight answer' names no subject or consequence."
     }
   },
-  "yesHash": "0raq9c1ywr2"
+  "yesHash": "1z48ufpiiza"
 }
