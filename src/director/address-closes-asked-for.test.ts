@@ -10,7 +10,7 @@ import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
  * (2350290), seed press-1117:4, at 2796f33f7d).
  */
 const FOR_A_NEW_LAW =
-  /\b(?:get it done|finish it|send (?:it to )?me|sign it|reaches my desk|votes for|needs votes)\b/i;
+  /\b(?:get it done|finish it|send (?:it to )?me|sign it|reaches my desk|votes for|needs votes|got the votes\. Let's go)\b/i;
 /** "Start with X" opens the close: the first thing to pass ("We start with X" names it only). */
 const STARTS = /^Start with\b/;
 

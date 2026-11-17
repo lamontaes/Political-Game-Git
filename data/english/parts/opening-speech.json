@@ -118342,7 +118342,8 @@
             "asked-holds-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         },
@@ -118356,7 +118357,8 @@
             "asked-holds-body",
             "body-word",
             "realm-bare",
-            "asked-about"
+            "asked-about",
+            "asked-for"
           ],
           "tie": "law"
         }
