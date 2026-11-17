@@ -73,7 +73,7 @@ const view: DevView = {
       "no-ballot":
         "Your petition came up short at the clerk's check, so there was no race for you to lose",
       "no-count":
-        "The count of your race did not come within two years of running the world",
+        "The count of your race did not come by its election day and the weeks a count may take after it",
       won: "You won the race, so there was no loss to tell: the voters decided it",
       "no-stake":
         "No one at home has anything of theirs at stake in the race, so there is no talk at home about it",

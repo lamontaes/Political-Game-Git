@@ -17,6 +17,7 @@
  */
 import {
   campaignDayChoices,
+  signaturesToGather,
   takeCampaignDayChoice,
 } from "../core2/modules/campaigns";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -62,8 +63,13 @@ export interface ElectionsForce {
   readonly refused?: ElectionsRefusal;
 }
 
-/** How long the world may run for a filing window or a count: two years of days. */
+/** How long the world may run for a filing window: two years of days. */
 const CAP = 730;
+/**
+ * The days after a race's election day the count may still come (a canvass or a recount): the
+ * world runs to the contest's own count day and this far past it, never a fixed budget from today.
+ */
+const COUNT_GRACE = 45;
 
 const filingsOf = (api: CoreAPI, personId: string) =>
   (
@@ -72,6 +78,14 @@ const filingsOf = (api: CoreAPI, personId: string) =>
       .table("filings")
       .rows() as unknown as FilingRow[]
   ).filter((row) => row.personId === personId);
+
+/**
+ * A race of the town's own governments: a statewide or federal race's petition is gathered across
+ * the state by paid circulators (`PetitionRow.needed`), which a town canvass cannot fill (Enola,
+ * Nov 17: a governor's petition, short at the check after every day's canvass).
+ */
+const isLocal = (contest: ContestRow | undefined) =>
+  !!contest && ["city", "township", "county"].includes(contest.level);
 
 const contestOf = (api: CoreAPI, contestId: string) =>
   api.moduleState(ELECTIONS_MODULE_ID).table("contests").get(contestId) as
@@ -85,11 +99,20 @@ export function fileSoonest(
   mode: DevMode,
   api: CoreAPI,
   playerId: string,
+  options: {
+    /** Only a race of the town's own governments (city, township or county), whose petition the player's doors can fill. */
+    readonly local?: boolean;
+    /** The last day the world may run to. */
+    readonly until?: string;
+  } = {},
 ): FilingRow | undefined {
   const filedFor = new Set(filingsOf(api, playerId).map((f) => f.contestId));
-  for (let day = 0; day <= CAP; day += 1) {
+  const until = options.until ?? addDays(makeIsoDate(mode.core.date), CAP);
+  while (mode.core.date <= until) {
     for (const contest of [...playerContests(api)]
-      .filter((row) => !filedFor.has(row.id))
+      .filter(
+        (row) => !filedFor.has(row.id) && (!options.local || isLocal(row)),
+      )
       .sort(
         (a, b) =>
           a.electionDate.localeCompare(b.electionDate) ||
@@ -115,12 +138,20 @@ export function fileSoonest(
   return undefined;
 }
 
-/** A filing of the player's whose count has not come: on the ballot, or with its petition still out. */
-export function waitingFiling(api: CoreAPI, playerId: string, today: string) {
+/** A filing of the player's whose count has not come: on the ballot, or with its petition still out (`local`: for a race of the town's own governments). */
+export function waitingFiling(
+  api: CoreAPI,
+  playerId: string,
+  today: string,
+  local = false,
+  tried: ReadonlySet<string> = new Set(),
+) {
   return filingsOf(api, playerId)
     .filter(
       (row) =>
+        !tried.has(row.id) &&
         ["petitioning", "on-ballot"].includes(row.status) &&
+        (!local || isLocal(contestOf(api, row.contestId))) &&
         (contestOf(api, row.contestId)?.electionDate ?? "") >= today,
     )
     .sort((a, b) =>
@@ -128,6 +159,112 @@ export function waitingFiling(api: CoreAPI, playerId: string, today: string) {
         contestOf(api, b.contestId)?.electionDate ?? "",
       ),
     )[0];
+}
+
+/**
+ * One race for the player, to its count: their waiting filing for the most local race (else a new
+ * filing, local races first), its petition gathered at the doors to the campaign's own cushion and
+ * checked by the clerk, then the world run to the contest's count day. The count's id and the
+ * schedule length before the day it was read, or why the race brought no loss.
+ */
+function runRace(
+  mode: DevMode,
+  api: CoreAPI,
+  playerId: string,
+  book: {
+    schedule: readonly { momentId: string }[];
+    momentsById: ReadonlyMap<string, { causeId: string }>;
+  },
+  written: string[],
+  until: string,
+  /** The filings whose races this force already ran to their count. */
+  tried: Set<string>,
+): { count: string; scheduled: number } | ElectionsRefusal {
+  const day = () => mode.advance(addDays(makeIsoDate(mode.core.date), 1));
+  const filing =
+    waitingFiling(api, playerId, mode.core.date, true, tried) ??
+    fileSoonest(mode, api, playerId, { local: true, until });
+  if (!filing) return "no-race";
+  tried.add(filing.id);
+  written.push(filing.id);
+  // The petition: the player canvasses on each day the campaign day offers it, until it holds the
+  // cushion a campaign gathers over the clerk's count (`signaturesToGather`: the count plus the
+  // names the clerk will strike as off the roll) or its time is up; the clerk checks it the day
+  // after it is due.
+  const short = () => {
+    const held = petitionOf(api, filing.id);
+    return (
+      !!held &&
+      petitionCirculating(api, filing.id) &&
+      held.signed < signaturesToGather(api, filing.id)
+    );
+  };
+  while (short()) {
+    if (
+      campaignDayChoices(api, filing.id).find((c) => c.kind === "canvass")
+        ?.available
+    )
+      takeCampaignDayChoice(api, filing.id, "canvass");
+    day();
+  }
+  const due = petitionOf(api, filing.id)?.due;
+  if (due && mode.core.date <= due) mode.advance(addDays(makeIsoDate(due), 1));
+  const status = (
+    api.moduleState(ELECTIONS_MODULE_ID).table("filings").get(filing.id) as
+      FilingRow | undefined
+  )?.status;
+  if (status !== "on-ballot") return "no-ballot";
+  // The world runs to the count that names the player in this race. A body that fills several seats
+  // at once counts them under one of its seats' contests, so the count is the player's where it
+  // names them and its contest is for the same office (Delaware City, Nov 17: a council seat's
+  // filing counted under another seat's contest of the same council).
+  const race = contestOf(api, filing.contestId);
+  const counted = () =>
+    ["election-result", "primary-result"].flatMap((kind) =>
+      [...(mode.core.logByKind.get(kind) ?? [])].filter((id) => {
+        const record = mode.core.durableLog.get(id);
+        const contestId = String(record?.facts?.contestId ?? "");
+        // A primary the player came through is not the end of their race: the count that ends it is
+        // the general's, or a primary's that puts them out.
+        return (
+          !!record &&
+          record.date >= filing.filedOn &&
+          record.personIds.includes(playerId) &&
+          (contestId === filing.contestId ||
+            contestOf(api, contestId)?.officeId === race?.officeId) &&
+          (kind === "election-result" ||
+            String(record.facts?.outIds ?? "").includes(playerId))
+        );
+      }),
+    );
+  // The contest's own count day, from its record, and the days a count may still come after it.
+  const lastDay = addDays(
+    makeIsoDate(race?.electionDate ?? mode.core.date),
+    COUNT_GRACE,
+  );
+  let scheduled = book.schedule.length;
+  while (!counted().length && mode.core.date <= lastDay) {
+    scheduled = book.schedule.length;
+    day();
+  }
+  const count = counted()[0];
+  if (!count) return "no-count";
+  written.push(count);
+  // The count is read on the day it is written: a day more, for a scene that comes the morning after.
+  if (
+    !book.schedule
+      .slice(scheduled)
+      .some((row) => book.momentsById.get(row.momentId)?.causeId === count)
+  )
+    day();
+  if (mode.core.durableLog.get(count)?.facts?.winnerId === playerId)
+    return "won";
+  // A count written before this race's run (the day another race of the player's was counted) was
+  // read on its own day: its moment is where the scene stages from.
+  const at = book.schedule.findIndex(
+    (row) => book.momentsById.get(row.momentId)?.causeId === count,
+  );
+  return { count, scheduled: at >= 0 ? Math.min(scheduled, at) : scheduled };
 }
 
 /** Forces one of the elections' situation types for the player through the elections' own writers. */
@@ -166,72 +303,23 @@ export function forceElectionsScene(
     written.push(filing.id, `candidate-filed:${filing.id}`);
     day();
   } else {
-    let filing = waitingFiling(api, playerId, mode.core.date);
-    if (!filing) {
-      filing = fileSoonest(mode, api, playerId);
-      if (!filing) return refuse("no-race");
+    // A race the voters gave the player is no loss: the player runs again for the next race that
+    // takes them, until a count goes against them or the world has run its two years.
+    const from = mode.core.date;
+    const until = addDays(makeIsoDate(from), CAP);
+    let last: ElectionsRefusal = "no-race";
+    const tried = new Set<string>();
+    for (;;) {
+      if (mode.core.date > until) return refuse(last);
+      const ran = runRace(mode, api, playerId, book, written, until, tried);
+      if (typeof ran === "string") {
+        if (ran === "no-race") return refuse(last === "no-race" ? ran : last);
+        last = ran;
+        continue;
+      }
+      scheduled = ran.scheduled;
+      break;
     }
-    written.push(filing.id);
-    // The petition: the player canvasses on each day the campaign day offers it, until it holds what
-    // the clerk counts or its time is up, and the clerk's check comes the day after it is due.
-    const short = () => {
-      const held = petitionOf(api, filing!.id);
-      return (
-        !!held &&
-        petitionCirculating(api, filing!.id) &&
-        held.signed < held.needed
-      );
-    };
-    for (let n = 0; short() && n <= CAP; n += 1) {
-      if (
-        campaignDayChoices(api, filing.id).find((c) => c.kind === "canvass")
-          ?.available
-      )
-        takeCampaignDayChoice(api, filing.id, "canvass");
-      day();
-    }
-    const due = petitionOf(api, filing.id)?.due;
-    if (due && mode.core.date <= due)
-      mode.advance(addDays(makeIsoDate(due), 1));
-    const status = (
-      api
-        .moduleState(ELECTIONS_MODULE_ID)
-        .table("filings")
-        .get(filing.id) as unknown as FilingRow | undefined
-    )?.status;
-    if (status !== "on-ballot") return refuse("no-ballot");
-    // The world runs to the count that names the player in this race.
-    const contestId = filing.contestId;
-    const counted = () =>
-      ["election-result", "primary-result"].flatMap((kind) =>
-        [...(mode.core.logByKind.get(kind) ?? [])].filter((id) => {
-          const record = mode.core.durableLog.get(id);
-          // A primary the player came through is not the end of their race: the count that ends it
-          // is the general's, or a primary's that puts them out.
-          return (
-            record?.facts?.contestId === contestId &&
-            record.personIds.includes(playerId) &&
-            (kind === "election-result" ||
-              String(record.facts?.outIds ?? "").includes(playerId))
-          );
-        }),
-      );
-    for (let n = 0; !counted().length && n <= CAP; n += 1) {
-      scheduled = book.schedule.length;
-      day();
-    }
-    const count = counted()[0];
-    if (!count) return refuse("no-count");
-    written.push(count);
-    // The count is read on the day it is written: a day more, for a scene that comes the morning after.
-    if (
-      !book.schedule
-        .slice(scheduled)
-        .some((row) => book.momentsById.get(row.momentId)?.causeId === count)
-    )
-      day();
-    if (mode.core.durableLog.get(count)?.facts?.winnerId === playerId)
-      return refuse("won");
   }
 
   const fresh = book.schedule.slice(scheduled);
