@@ -11,6 +11,7 @@
  * anchor dimension (see ANCHORED). This decides who a person is at the
  * opening, never what they do.
  */
+import { normalCdf } from "./kernel/normal";
 import traitTable from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { OPENING_KIN } from "./opening-kin";
 import { ageOnDate } from "./kernel/dates";
@@ -168,18 +169,6 @@ export function personalityLevelScore(value: number, at: number): number {
     else hi = mid;
   }
   return (lo + hi) / p("two");
-}
-
-/** Standard normal CDF (Abramowitz and Stegun 7.1.26 error function). */
-export function normalCdf(x: number, one: number, two: number): number {
-  const t = one / (one + 0.3275911 * (Math.abs(x) / Math.sqrt(two)));
-  const poly =
-    ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) *
-      t +
-      0.254829592) *
-    t;
-  const erf = one - poly * Math.exp((-x * x) / two);
-  return (one + (x < 0 ? -erf : erf)) / two;
 }
 
 function level(z: number): number {
