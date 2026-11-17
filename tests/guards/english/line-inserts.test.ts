@@ -531,7 +531,10 @@ describe("every bank line carries an insert from the world's records", () => {
  * both: eighteen such lines came in on Nov 12 to 14 (Words lead's reader,
  * Nov 14). The name is read here by itself: the listener's given name
  * (`{first}`, `{their-first}`, `{player-first}`) at the head of a sentence or
- * before its closing punctuation. The Words lead's rulings let it stay for a
+ * before its closing punctuation, and the player's name as the speaker calls
+ * them (`{you}`), which 112 home-talk answers carried on Nov 17 (Story lead;
+ * the owner's Nov 14 card holds for every slot that names the listener). The
+ * Words lead's rulings let it stay for a
  * thank-you, an apology, a plea (a line with thank, thanks, sorry, apolog or
  * please in it) and for a call across a room (a part of a greeting, an
  * `open-greet` move). A speaker's own name (`{self}`, "I'm {self}") is an
@@ -540,14 +543,15 @@ describe("every bank line carries an insert from the world's records", () => {
  * may only go down, and a bank the baseline does not name may hold none.
  */
 const VOCATIVE =
-  /(^\{(?:first|their-first|player-first)\}[,.!?] )|(, \{(?:first|their-first|player-first)\}(?=[,.!?]))/;
+  /(^\{(?:first|their-first|player-first|you)\}[,.!?] )|(, \{(?:first|their-first|player-first|you)\}(?=[,.!?]))/;
 const NAME_MAY_STAY = /\b(thank|thanks|sorry|apolog\w*|please|dear)\b/i;
 
 /** Whether a spoken line carries the listener's name as padding. */
 export function padsTheListenersName(part: BankPart): boolean {
   const text = part.text ?? "";
   if (!VOCATIVE.test(text) || NAME_MAY_STAY.test(text)) return false;
-  return !/\.open-greet\./.test(part.key ?? "");
+  // A greeting across a room and a first meeting (here-back: the name was just given) may say it.
+  return !/\.(?:open-greet|here-back)(?:-\w+)?\./.test(part.key ?? "");
 }
 
 /** For each bank, the keys of its lines that carry the listener's name as padding. */
@@ -608,5 +612,9 @@ describe("a listener's name is not tacked onto a line", () => {
     expect(pads("{self}. Good to meet you.")).toBe(false);
     expect(pads("I'm {self}, from {place}.")).toBe(false);
     expect(pads("I'm for it.")).toBe(false);
+    expect(pads("Just be here, {you}.")).toBe(true);
+    expect(
+      pads("{you}. Glad to know you.", "conversation.here-back-core.x"),
+    ).toBe(false);
   });
 });
