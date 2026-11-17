@@ -5112,6 +5112,7 @@
   },
   "driveRaceLostImpulse": {
     "value": 0.47,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Losing a public race, sized like losing a job: the Social Readjustment Rating Scale's 'Fired at work' is 47 life-change units (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218); it has no item for a lost election. Only the strength of the push is set here; whether a loser holds a grudge, takes up a cause or carries on is each person's own temperament.",
     "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.30 ('Foreclosure of mortgage or loan') to 0.47 ('Fired at work')"
