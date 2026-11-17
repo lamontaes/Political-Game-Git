@@ -13,8 +13,9 @@ import { drawPlace } from "../../scripts/core2-year/place.ts";
 import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 
 // Pinned: without EDAY_SEED the check plays the place the polling check plays
-// (Hampstead, Maryland), whose House race files straight onto the ballot, so
-// it never goes red by draw. EDAY_SEED draws up to six places from that seed.
+// (Hampstead, Maryland); the check files for the first race whose clerk asks no
+// signatures, so the player is a candidate on the ballot. EDAY_SEED draws up to
+// six places from that seed.
 const PINNED_SEED = "39ec0fdc-2c02-4e33-a7b7-e193551af953";
 const runSeed = process.env.EDAY_SEED ?? PINNED_SEED;
 const drawn = Boolean(process.env.EDAY_SEED);
@@ -67,7 +68,11 @@ try {
     assert.equal(opened.reason, "event", "no seat opened its filing window");
     filed = await page.evaluate(async () => {
       const gov = await (await fetch("/api/government")).json();
+      // The race a player can enter and be on the ballot for: the first by
+      // date whose clerk asks no signatures (the check never gathers any),
+      // read from the government view's own count.
       const contests = (gov.contests ?? [])
+        .filter((row) => row.signaturesAsked === 0)
         .map((row) => row.contest)
         .sort(
           (a, b) =>
@@ -80,11 +85,7 @@ try {
           { method: "POST" },
         );
         const body = await r.json().catch(() => ({}));
-        if (
-          r.ok &&
-          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-        )
-          return contest;
+        if (r.ok && body.filing?.status === "on-ballot") return contest;
       }
       return null;
     });
@@ -212,6 +213,12 @@ try {
   else {
     await page.getByRole("button", { name: "Go vote", exact: true }).click();
     await page.locator("#ballot:not([hidden])").waitFor();
+    // The player is a candidate: their own name is on the ballot.
+    assert.match(
+      await page.locator("#ballot").innerText(),
+      /Candidate/,
+      "the player is not on the ballot",
+    );
     await shot("eday-3-ballot");
   }
   // Mark each race for its first candidate, as a voter might; a race below
