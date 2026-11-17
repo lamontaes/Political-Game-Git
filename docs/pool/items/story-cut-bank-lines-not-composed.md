@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude-story-cut-bank-lines
-pr:
+pr: 9999
 after:
 blocked-on:
 lead: story
