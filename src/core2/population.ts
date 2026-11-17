@@ -628,7 +628,30 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // some housemates are a parent and grown child (opening-partnership.ts).
   // Then the household's children, minor and grown, are born months apart.
   const drawHousehold = (index: number, shape?: HouseholdShape) =>
-    spaceSiblings(drawAged(index, shape));
+    distinctHouseholdNames(spaceSiblings(drawAged(index, shape)));
+  // No two people in a household carry one full name (a father and his grown
+  // son both "Andrew Yarbrough"): a repeat takes another given name.
+  const distinctHouseholdNames = (drawn: ReturnType<typeof drawAged>) => {
+    const taken: string[] = [];
+    const seen = new Set<string>();
+    const people = drawn.people.map((person) => {
+      const key = `${person.givenName}|${person.familyName}`.toLowerCase();
+      const givenName = seen.has(key)
+        ? distinctSiblingGivenName(
+            seedWorld.seed,
+            person.stableKey,
+            { ...person, gender: person.identity?.gender },
+            [...taken, person.givenName],
+          )
+        : person.givenName;
+      taken.push(givenName);
+      seen.add(`${givenName}|${person.familyName}`.toLowerCase());
+      return givenName === person.givenName ? person : { ...person, givenName };
+    });
+    return people.every((person, n) => person === drawn.people[n])
+      ? drawn
+      : { ...drawn, people };
+  };
   const spaceSiblings = (drawn: ReturnType<typeof drawAged>) => {
     const siblings = drawn.skeleton.members.flatMap((member, n) =>
       member.role === "child" || drawn.grownChildren.includes(n) ? [n] : [],
