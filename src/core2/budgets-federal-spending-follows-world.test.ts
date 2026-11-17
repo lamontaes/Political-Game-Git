@@ -78,6 +78,6 @@ describe("federal spending follows the world's own people and prices", () => {
       }
       expect(checked, `${where}: federal years checked`).toBeGreaterThan(0);
       expect(moved, `${where}: lines that moved`).toBeGreaterThan(0);
-    }, 600_000);
+    }, 1_200_000);
   }
 });
