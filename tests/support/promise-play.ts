@@ -410,12 +410,18 @@ export function playPayOnTime(
   if (!broken.length) return { passed };
   const one = broken[0]!;
   const row = rowOf(one)!;
+  const ender = (missedBy.get(one.borrowerId) ?? []).find(
+    (event) => event.id === row.endedBy,
+  );
   // The one owed has something to say about it, the payment it was over is
   // named from the missed payment's loan, and the answers the borrower is
   // offered follow the kind (the talk itself is the player's scene, where the
   // borrower is the player: see the pool item for the player's borrowing).
   const subject = promiseSubject(core, director, one.owedId, one.borrowerId);
-  check(Boolean(subject), `${where}: ${row.id} gives the lender nothing to say`);
+  check(
+    Boolean(subject),
+    `${where}: ${row.id} gives the lender nothing to say (outcome ${row.outcome}, saidAt ${row.saidAt}, held by ${row.holderId} owed to ${row.otherId}, ended by ${row.endedBy} in the log ${Boolean(core.durableLog.get(row.endedBy ?? ""))}, its loan ${core.durableLog.get(row.endedBy ?? "")?.facts?.loanKind ?? ender?.facts?.loanKind}, asked as ${one.owedId} to ${one.borrowerId})`,
+  );
   const offered = promiseAnswers(core, subject!, one.borrowerId);
   check(
     offered.slice(0, 3).join() === "own-it,explain,deny",
@@ -426,9 +432,6 @@ export function playPayOnTime(
     `${where}: make-it-right offered ${offered.includes("make-it-right")}`,
   );
   check(paymentNamed(core, row), `${where}: ${row.id} names no payment`);
-  const ender = (missedBy.get(one.borrowerId) ?? []).find(
-    (event) => event.id === row.endedBy,
-  );
   return {
     passed,
     played: `${where}: ${row.id} is brought up by ${one.owedId} with ${offered.join(", ")} offered\n    the missed payment's loan ${ender?.facts?.loanKind} ${ender?.facts?.loanId} (${ender?.id})\n    the promise's own move: ${(moves.get(row.id) ?? []).join("; ") || "(none)"}\n    quarrel ${one.quarrel.id} over the earlier missed payment ${String(one.quarrel.facts?.missedId)}\n    ${row.id} owed to ${one.owedId}, ${row.outcome} by ${row.endedBy} on ${row.endedAt} at a cost of ${row.tieCost?.toFixed(4)} hours`,
