@@ -49,17 +49,30 @@ function peopleOf(core: CoreState, places: ReadonlySet<string>): number {
   return n;
 }
 
-/** The town's largest business by staff (full and counted), and its jobs. */
-function largestEmployer(core: CoreState) {
+/** The largest business in the played places by staff (full and counted), and its jobs. */
+function largestEmployer(core: CoreState, places: ReadonlySet<string>) {
   const api = coreAPI(core);
-  const town = townPlaceOf(core);
   let best: { id: string; name: string; jobs: string[] } | undefined;
-  for (const org of core.organizations.values()) {
-    if (org.placeId !== town || org.kind !== "business") continue;
-    const jobs = currentJobs(api, org.id).map((job) => job.id);
-    if (!best || jobs.length > best.jobs.length)
-      best = { id: org.id, name: org.name, jobs };
+  const kinds = new Map<string, number>();
+  // A business in the played places, else (named in the output) the largest
+  // employer whose staff live in them.
+  for (const pass of ["business", "any"] as const) {
+    for (const org of core.organizations.values()) {
+      kinds.set(org.kind, (kinds.get(org.kind) ?? 0) + 1);
+      if (pass === "business" && org.kind !== "business") continue;
+      if (pass === "business" && !places.has(org.placeId ?? "")) continue;
+      if (org.kind.includes("treasury") || org.id.includes("treasury"))
+        continue;
+      const jobs = currentJobs(api, org.id).map((job) => job.id);
+      if (jobs.length && (!best || jobs.length > best.jobs.length))
+        best = { id: org.id, name: `${org.name} [${org.kind}]`, jobs };
+    }
+    if (best) break;
   }
+  if (!best)
+    out(
+      `  no employer found; organization kinds ${JSON.stringify([...kinds])}`,
+    );
   return best;
 }
 
@@ -91,7 +104,7 @@ function year(placeSeed: string, key: string, layoff: boolean) {
     // engine's own layoff (dev mode's control); one who worked today goes
     // the next day.
     advanceCore(core, addDays(makeIsoDate(start), 1));
-    const employer = largestEmployer(core);
+    const employer = largestEmployer(core, places);
     let done = 0,
       jobs = employer?.jobs ?? [];
     for (let day = 0; day < 3 && jobs.length; day++) {
