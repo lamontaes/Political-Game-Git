@@ -12,6 +12,7 @@ import { restoreWorld, snapshotWorld } from "../../src/core2/snapshot";
 import { applyCoreEvent, coreAPI } from "../../src/core2/state";
 import type { CoreEventInput, CoreState, PersonId } from "../../src/core2/types";
 import { openConversation, say } from "../../src/director/conversation";
+import { paymentSaid } from "../../src/english/payment-words";
 import type { Director } from "../../src/director/ledger";
 import {
   paymentNamed,
@@ -364,12 +365,25 @@ export function playPayOnTime(
   // "why" of a person outside the player's circle a week (log-retention.json,
   // circleDecisionDetailDays), so the missed payment is read while it is kept.
   const said = new Map<string, string>();
+  const unnamed = new Set<string>();
   const readTalk = (one: Staged) => {
     const row = rowOf(one)!;
     const ender = (missedBy.get(one.borrowerId) ?? []).find(
       (event) => event.id === row.endedBy,
     );
     const subject = promiseSubject(core, director, one.owedId, one.borrowerId);
+    // A payment is said only for a loan kind the words name
+    // (data/english/payment-words.json, paymentNamed): for any other kind the
+    // lender says nothing, and that is the rule read here, not a failure.
+    if (paymentSaid(ender?.facts?.loanKind as string | undefined) === null) {
+      check(
+        subject === null,
+        `${where}: ${row.id} is said over a ${ender?.facts?.loanKind} loan the words do not name`,
+      );
+      unnamed.add(String(ender?.facts?.loanKind));
+      said.set(row.id, "");
+      return;
+    }
     check(
       Boolean(subject),
       `${where}: ${row.id} gives the lender nothing to say the day it breaks (ended by ${row.endedBy}, in the log ${Boolean(core.durableLog.get(row.endedBy ?? ""))}, its loan ${ender?.facts?.loanKind})`,
@@ -440,8 +454,13 @@ export function playPayOnTime(
     lines.push(`${row!.id} ${row!.outcome}`);
   }
   const passed = `${where}: ${staged.length} promise(s) to pay on time, ${broken.length} broken (${lines.join("; ")})`;
-  if (!broken.length) return { passed };
-  const one = broken[0]!;
+  const spoken = broken.filter((one) => said.get(rowOf(one)!.id));
+  const noWords = [...unnamed].join(", ");
+  if (!spoken.length)
+    return {
+      passed: `${passed}${noWords ? `; no words for the ${noWords} payment the broken promise was over (Story's payment words), so no lender says it` : ""}`,
+    };
+  const one = spoken[0]!;
   const row = rowOf(one)!;
   return {
     passed,
