@@ -190562,7 +190562,7 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "case-help",
+          "purpose": "constituent-help.sick",
           "step": "state",
           "move": "request",
           "role": "asker",
@@ -190591,7 +190591,7 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "case-help",
+          "purpose": "constituent-help.sick",
           "step": "state",
           "move": "request",
           "role": "asker",
@@ -190625,11 +190625,10 @@
       "uses": [
         {
           "subject": "scene",
-          "set": "case-help",
+          "purpose": "constituent-help.sick",
           "step": "state",
           "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-sick"]
+          "role": "asker"
         }
       ],
       "origin": "authored",
