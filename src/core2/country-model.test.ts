@@ -533,6 +533,98 @@ describe(`a played part that is more than its state: ${where}`, () => {
   });
 });
 
+describe(`a played part where nobody is on record looking: ${where}`, () => {
+  // The played town and its county are counted from their own records, and those can hold a
+  // different share looking than the state (Waimanalo, Hawaii, Nov 17: 503,863 at work and
+  // nobody looking, in a state at 3.3%). The rest of the state then holds every seeker. The
+  // month-1 fit used the whole state's share against the rest's people, hired three in four
+  // seekers a month from then on, and the state's rate fell 3.32, 0.23, 0.06, 0.02 toward zero.
+  const share = 0.3 + (0.5 * Number.parseInt(seed.slice(6, 10), 16)) / 0xffff;
+  const said = `${where}, a part of ${(100 * share).toFixed(1)}% of the state`;
+  const partOf = (state: CountryState): CountryPart => {
+    const byBand = (pick: (cell: CountryState["cells"][number]) => number) =>
+      COUNTRY_AGE_BANDS.map(
+        (_, band) =>
+          share *
+          sum(
+            state.cells
+              .filter((cell) => cell.band === band)
+              .map((cell) => pick(cell)),
+          ),
+      );
+    return {
+      people: byBand((cell) => cell.people),
+      workers: byBand((cell) => cell.workers),
+      seekers: COUNTRY_AGE_BANDS.map(() => 0),
+      children: share * state.children,
+      jobs: Object.fromEntries(
+        state.sectors.map((row) => [row.sector, share * row.jobs]),
+      ) as CountryPart["jobs"],
+      cash: 0,
+    };
+  };
+  const months = 120;
+  /** Ten years with the part out of the drawn state each month, and the state's rate after each month. */
+  const played = (jobsLost?: (month: number) => number) => {
+    const tier = openCountry(opening, lawOf(), rules);
+    const state = stateOf(tier, picked.usps);
+    const part = partOf(state);
+    const working = sum(part.workers);
+    /** The rest's own share looking: the state's seekers (the part holds none) over the rest's workers and them. */
+    const rest = () => {
+      const seekers = sum(state.cells.map((cell) => cell.seekers));
+      const workers = sum(state.cells.map((cell) => cell.workers)) - working;
+      return seekers / (seekers + workers);
+    };
+    const rates = [countryUnemployment(state)];
+    const rests = [rest()];
+    for (let month = 1; month <= months; month++) {
+      stepCountry(
+        tier,
+        {
+          law: lawOf(),
+          policyRate: RATE,
+          jobsLost: (row) =>
+            row.usps === picked.usps ? (jobsLost?.(month) ?? 0) : 0,
+          parts: (row) =>
+            row.usps === picked.usps ? { out: part, in: part } : undefined,
+        },
+        rules,
+      );
+      rates.push(countryUnemployment(state));
+      rests.push(rest());
+    }
+    return { tier, rates, rests };
+  };
+
+  it("fits the first month to the people it steps: as many of the rest find work as came to look", () => {
+    const { rests } = played();
+    // The fit's own meaning, for the people it is fitted on: the share looking is where it started.
+    expect(rests[1]! / rests[0]!, said).toBeCloseTo(1, 6);
+  });
+
+  it("over ten years a layoff in the state moves its rate, and nothing brings it back on a schedule", () => {
+    const base = played();
+    process.stderr.write(
+      `${said}: out of work, each January, ${base.rates
+        .filter((_, month) => month % 12 === 0)
+        .map((rate) => (100 * rate).toFixed(2))
+        .join(", ")}\n`,
+    );
+    // Its own jobs move it: a layoff in year five leaves more out of work a year later.
+    const lost = 0.05,
+      month = 60;
+    const twin = played((at) => (at === month ? lost : 0));
+    expect(twin.rates.slice(0, month), said).toEqual(
+      base.rates.slice(0, month),
+    );
+    expect(twin.rates[month]!, said).toBeGreaterThan(base.rates[month]!);
+    expect(twin.rates[month + 12]!, said).toBeGreaterThan(
+      base.rates[month + 12]!,
+    );
+  }, 240_000);
+});
+
 function sum(values: readonly number[]): number {
   return values.reduce((total, value) => total + value, 0);
 }

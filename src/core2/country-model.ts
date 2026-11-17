@@ -1557,6 +1557,15 @@ export function stepCountry(
   const jobsAtStart = tier.states.map((state) =>
     state.sectors.map((row) => row.jobs),
   );
+  // The share looking among the people the tier steps, as the month opens: with a part out, the
+  // rest's own share, which is not the whole state's when the part's people look more or less.
+  const lookingAtStart = tier.states.map((state) => countryUnemployment(state));
+  if (first)
+    // What "has been rising" is measured from is the same people's share, not the whole state's.
+    tier.states.forEach((state, index) => {
+      if (parts.has(state))
+        state.unemploymentMonths.fill(lookingAtStart[index]!);
+    });
   // The month opens with who moved, was born, aged and died; then the economy's month.
   const moved = moves(tier, law, rules);
   const lives = people(tier, rules, law);
@@ -1652,11 +1661,12 @@ export function stepCountry(
     const seekers = seekersBefore + ended;
     if (first) state.openings = seekersBefore * rules.openingsPerSeeker;
     // Fitted in the first month and fixed from then on: as many find work as came to look for it
-    // (those let go, moved in, come of age), so the share looking starts where the state has it.
+    // (those let go, moved in, come of age), so the share looking starts where these people
+    // have it. With a part out that is the rest's own share: the stock and the flows fitted
+    // together belong to the same people.
     const steadyHires = Math.max(
       0,
-      seekers -
-        state.unemploymentMonths.at(-1)! * (workersBefore - ended + seekers),
+      seekers - lookingAtStart[index]! * (workersBefore - ended + seekers),
     );
     state.openingsPerJobAdded ??=
       posted > 0
