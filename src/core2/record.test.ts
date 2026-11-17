@@ -56,6 +56,8 @@ import { setKeepEveryonesWhy } from "./why-kept";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
+/** How far before election day the rival's own turn is played. */
+const LAST_WEEKS_DAYS = 28;
 /** How long a draw waits for a held race's filing window to open. */
 const WAIT_DAYS = 120;
 const seed =
@@ -254,6 +256,15 @@ describe("M4-06 the record follows you", () => {
     if (byTurn) {
       // The rival's own campaign turn decides to show the record
       // (campaign-rival-ad-quotes-a-real-vote): no hand call of the ad.
+      // A campaign spends at an even pace to election day, so a turn months
+      // out has no money for a spot (rec-probe-3: $9 to $27 of attack money
+      // 295 days out). The world plays on to the race's last weeks, where a
+      // campaign's turn has money to show the record (CTO, Nov 17).
+      const lastWeeks = addDays(
+        makeIsoDate(contest!.electionDate),
+        -LAST_WEEKS_DAYS,
+      );
+      if (lastWeeks > core!.date) advanceCore(core!, lastWeeks);
       campaignTurn(api, rivalFiling.id, contest!.electionDate);
       const causes = (
         api
