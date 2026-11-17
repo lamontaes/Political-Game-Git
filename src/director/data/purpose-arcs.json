@@ -2252,7 +2252,7 @@
       "endings": [
         {
           "id": "help-anyway",
-          "label": "You'll run, with their help",
+          "label": "Your own way, with their help",
           "when": {
             "reply": ["disagree"],
             "asker": ["accept"]
