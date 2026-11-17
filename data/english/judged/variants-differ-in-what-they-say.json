@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1045,
+  "judged": 1044,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1956,13 +1956,6 @@
         "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position"
       ],
       "why": "All three lines are an apology for letting the friend down."
-    },
-    "11c5k7ipk78": {
-      "keys": [
-        "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
-        "scene-talk.reply-tell.ill-be-honest-with-you-that-worried-me-and-id-rather-you-didnt-do-it-a"
-      ],
-      "why": "Both lines ask the person not to try it again, with no fact to set them apart."
     },
     "11c5s73t7kh": {
       "keys": [

@@ -99717,54 +99717,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.ill-be-honest-with-you-that-worried-me-and-id-rather-you-didnt-do-it-a",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'll be honest with you. That worried me, and I'd rather you didn't do it again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "bribe-pressed.veiled",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I know you meant well. Please don't bring it up again, and we're fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "bribe-pressed.veiled",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
       "move": "narrate-narrate",
       "kind": "spoken",
