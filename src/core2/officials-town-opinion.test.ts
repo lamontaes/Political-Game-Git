@@ -4,8 +4,10 @@
  * review): the views engine keeps one opinion row a question, over the
  * played town's people alone, so moving it moves the reasons of one of the
  * town's own state legislators (the seat that covers the town) and leaves
- * those of a legislator of another state where they were, who reads their
- * district by its lean alone (SG-OFFICIALS-outside-opinion). In the same
+ * those of another state's official where they were, who reads their
+ * district by its lean alone (SG-OFFICIALS-outside-opinion): a legislator
+ * where the world seats one as a row, else another state's U.S. House
+ * member. Up to twelve places are drawn and those passed over named. In the same
  * world, a federal law set with no vote count on record (as dev mode sets
  * one) leaves Congress's consensus to the sitting members' leans rather than
  * an even split. A random place and seed each run, named in every message
@@ -41,10 +43,10 @@ it(
     setBookkeeping(false);
     try {
       // A town whose state has a legislature with a seat covering it and
-      // another state's legislators beside it; a place without is drawn
-      // again and named.
+      // another state's official beside it; a place without is drawn again
+      // and named.
       const passed: string[] = [];
-      for (let at = 0; ; at += 1) {
+      for (let at = 0; at < 12; at += 1) {
         const place = drawPlace(replay, `officials-town-opinion:${at}`);
         const where = `${place.name} (${place.key}), seed ${place.seed}, replay ${replay}`;
         const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -68,10 +70,17 @@ it(
             (seats.get(row.seatId) as unknown as { coversTown?: boolean })
               ?.coversTown === true,
         );
-        const outside = sitting.find((row) => row.stateKey !== town);
+        // Another state's legislator where the world seats one as a row;
+        // the century seats other states' chambers as counts, so else any
+        // other state's sitting official (its U.S. House members are rows).
+        const outside =
+          sitting.find((row) => row.stateKey !== town) ??
+          allOfficials(api)
+            .filter((row) => row.ended === null && row.stateKey !== town)
+            .sort((a, b) => a.id.localeCompare(b.id))[0];
         if (!own || !outside) {
           passed.push(
-            `${where}: no ${own ? "other state's" : "own"} legislator`,
+            `${where}: no ${own ? "other state's official" : "own legislator"}`,
           );
           continue;
         }
@@ -123,6 +132,9 @@ it(
         );
         return;
       }
+      expect.fail(
+        `no drawn place had a town legislator and another state's official: ${passed.join("; ")}`,
+      );
     } finally {
       setBookkeeping(true);
     }
