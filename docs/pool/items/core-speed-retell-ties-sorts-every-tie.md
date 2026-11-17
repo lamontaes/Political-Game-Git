@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/speed-retell-ties
-pr:
+pr: 9867
 after: speed-leadership-organizing-rates-each-pair-once
 blocked-on:
 lead: speed
