@@ -61,6 +61,7 @@ export function declarationText(
   const header = [`id: ${fields.id}`, `impact: ${fields.impact ?? "none"}`];
   if (fields.section) header.push(`section: ${fields.section}`);
   if (fields.title) header.push(`title: ${fields.title}`);
+  if (fields.area) header.push(`area: ${fields.area}`);
   return `---\n${header.join("\n")}\n---\n\n${fields.body ?? "An internal reason."}\n`;
 }
 
