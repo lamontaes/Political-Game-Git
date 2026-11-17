@@ -20,7 +20,7 @@ root: none
 
 **What.** The owner asked that every figure the game computes can be traced from dev mode: the figure, what it was computed from and how it changed. Dev mode's Trace box follows records, but no trace takes a figure, and the state unemployment rate keeps none of what it is out of. Lanes chasing a figure read code instead of the game. Seen: Politics, Metrics, dev mode's Figures list and its Trace box.
 
-**Cause.** Design: the CTO's line of Nov 17, 01:04Z on #9747, from the owner's words. Found in code: `traceNode` in src/bench/dev-trace.ts opens only record ids; the registry of figures (src/core2/data/output-numbers.json) has no history reader, and `stateMonthRow` in src/core2/modules/macro.ts keeps the state rate but not the workers and seekers it is out of.
+**Cause.** Found in code: `traceNode` in src/bench/dev-trace.ts opens only record ids; the registry of figures (src/core2/data/output-numbers.json) has no history reader, and `stateMonthRow` in src/core2/modules/macro.ts keeps the state rate but not the workers and seekers it is out of. The ask is the owner's, relayed by the CTO on #9747 on Nov 17 at 01:04Z.
 
 **Fix.** A `figure:<figure id>@<place id>` id opens in the one Trace box through a reader in src/bench/dev-views/figure-trace.ts: the value now and last year, the owning engine and source, the record it was read from, the named inputs and the history from the rows the owner keeps (`outputNumberHistory` in src/core2/output-number-readers.ts). The state month row keeps its workers and seekers. A test fails if a registered figure has no trace.
 
