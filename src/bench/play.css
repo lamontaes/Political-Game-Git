@@ -121,6 +121,9 @@
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
+  /* A bill page with dev mode's card under it: the bill's share of the height, and the card's. */
+  --bill-share: 58%;
+  --bill-dev-share: 42%;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -3054,6 +3057,23 @@ details.entry[open] {
   min-height: 0;
   display: flex;
   flex-direction: column;
+}
+/* Dev mode's card under a bill shares the page's height with it: the bill
+   keeps the larger share and each scrolls inside itself, so the bill's
+   sections are never squeezed to nothing (Laws and effects, Nov 16: "Where
+   it is", "The bill" and "What it would do" were cut off below their first
+   lines). */
+#sheet-body:has(> .bill-board + .dev-bill-card) > .bill-board,
+.roster-page:has(> .bill-board + .dev-bill-card) > .bill-board {
+  flex: 1 1 var(--bill-share);
+}
+#sheet-body > .bill-board + .dev-bill-card,
+.roster-page > .bill-board + .dev-bill-card {
+  flex: 0 1 var(--bill-dev-share);
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 #sheet-body .bill-board > .board-cols {
   flex: 1 1 auto;
