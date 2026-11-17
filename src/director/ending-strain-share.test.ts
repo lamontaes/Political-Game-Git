@@ -86,4 +86,4 @@ it("trust lost takes a share of the tie, so a close tie loses more hours than a 
   expect(strained(close.actorId, close.otherId)).toBe(
     strained(slight[0], slight[1]),
   );
-}, 10_000); // 4.7 s alone, 5.2 s beside promises.test.ts (Nov 16)
+}, 90_000); // 4.7 s alone, 5.2 s beside promises.test.ts; a loaded runner timed out at 10 s (Nov 17). Limit as its world-building neighbors carry (CTO, #9747 11:40Z).

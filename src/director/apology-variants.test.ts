@@ -192,4 +192,4 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${L
   } finally {
     setBookkeeping(true);
   }
-}, 150_000);
+}, 300_000); // 118 s locally for two files; 150 s timed out on a loaded runner (CTO, #9747 11:40Z).
