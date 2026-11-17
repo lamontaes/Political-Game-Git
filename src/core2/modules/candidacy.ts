@@ -102,8 +102,10 @@ export interface OpenContest {
   countywide?: boolean;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
-  /** How many have already decided to run for it. */
+  /** How many have already decided to run for it: in a partisan race, on the person's own side. */
   runners?: number;
+  /** The runners counted are the person's own side's (a party's primary), weighed at the primary field's weight. */
+  primary?: boolean;
   poolFacts?: ReadonlyMap<PersonId, PoolFacts>;
   wideScope?: RaceScope;
   /** The party asked them to run for it: the ask's record and the chair who made it. */
@@ -572,7 +574,13 @@ function reasonsFrom(
       ? -c(api, "candidacyJobRiskWeight") * (one - person.cashShare)
       : zero,
     // A crowded race: each person already running lowers the pull.
-    field: -c(api, "candidacyFieldWeight") * (contest.runners ?? zero),
+    field:
+      -c(
+        api,
+        contest.primary
+          ? "candidacyPrimaryFieldWeight"
+          : "candidacyFieldWeight",
+      ) * (contest.runners ?? zero),
     age:
       c(api, "candidacyAgeWeight") *
       (two * Math.exp(-distance * distance) - one),
@@ -1062,6 +1070,27 @@ export function weighContest(
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     livesWhereSeatServes(api, contest, p);
+  // A crowded race is the crowd a person would run against first: in a
+  // partisan race the runners on their own side (the primary they would
+  // enter), each weighed at the primary field's weight; for anyone without a
+  // party, or a seat without labels, everyone running. So one party's people
+  // filling the field never keeps the other party's out (Quinton, Oklahoma,
+  // Nov 17: seven Republicans ran for president, none of 438 Democrats).
+  const partisan = Boolean(seatParty(api, contest));
+  const sides = new Map<number, number>();
+  const sideOfRunner = (id: PersonId) =>
+    partisan ? partySide(partyOf(api, id)) : 0;
+  const ran = (id: PersonId) => {
+    running.push(id);
+    const side = sideOfRunner(id);
+    sides.set(side, (sides.get(side) ?? 0) + 1);
+  };
+  const crowdFor = (id: PersonId) => {
+    const side = sideOfRunner(id);
+    return side
+      ? { runners: (sides.get(side) ?? 0) + raceRunners, primary: true }
+      : { runners: running.length + raceRunners, primary: false };
+  };
   // The incumbent weighs standing again first: one who stands down leaves
   // the seat open, and everyone else weighs it as an open seat, citing the
   // decision that opened it.
@@ -1076,7 +1105,7 @@ export function weighContest(
     );
     if (decision) {
       asked.push(holder.id);
-      if (decision.run) running.push(holder.id);
+      if (decision.run) ran(holder.id);
       else field = openSeatOf(open, decision.id);
     }
   }
@@ -1107,10 +1136,10 @@ export function weighContest(
         CandidacyDecision | undefined;
       if (held) {
         asked.push(voter.id);
-        if (held.run) running.push(voter.id);
+        if (held.run) ran(voter.id);
         continue;
       }
-      const seat = { ...field, runners: running.length + raceRunners };
+      const seat = { ...field, ...crowdFor(voter.id) };
       const reasons = countedCandidacyReasons(api, voter, seat);
       let pull = api.parameter("zero");
       for (const value of Object.values(reasons)) pull += value;
@@ -1126,7 +1155,7 @@ export function weighContest(
         sourceIds: [...field.sourceIds, voter.id, voter.householdId],
       } as unknown as { id: string });
       asked.push(voter.id);
-      running.push(voter.id);
+      ran(voter.id);
     }
     // Filing opens: a counted adult who decided to run but whose pull no
     // longer clears the bar today (the field grew) is not drawn, so they
@@ -1155,7 +1184,7 @@ export function weighContest(
       for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
         const id = `${field.contestId}:${voter.id}`;
         const held = decisions.get(id) as unknown as CandidacyDecision;
-        const seat = { ...field, runners: running.length + raceRunners };
+        const seat = { ...field, ...crowdFor(voter.id) };
         const reasons = countedCandidacyReasons(api, voter, seat);
         let pull = api.parameter("zero");
         for (const value of Object.values(reasons)) pull += value;
@@ -1164,28 +1193,48 @@ export function weighContest(
           id: string;
         });
         asked.push(voter.id);
-        if (run) running.push(voter.id);
+        if (run) ran(voter.id);
       }
     }
   }
-  const people = [...api.state.people.values()]
-    .filter((p) => !asked.includes(p.id) && weighs(p))
-    .sort((a, b) => a.id.localeCompare(b.id));
-  for (const person of people) {
-    if (scope)
+  // The field limits itself for full people as it does for the counted ones:
+  // they weigh it strongest pull first (each one's reasons with no one yet
+  // running), so the people most drawn to the seat decide before the crowd
+  // they would make, whatever their party. Weighed in id order, one party's
+  // officials could fill a wide race's field before the other's were asked
+  // (Quinton, Oklahoma, Nov 17: seven Republicans ran for president and none
+  // of the 438 Democrats who weighed it).
+  const weighing = [...api.state.people.values()].filter(
+    (p) => !asked.includes(p.id) && weighs(p),
+  );
+  if (scope)
+    for (const person of weighing)
       facts.set(
         person.id,
         poolFactsFor(api, person, scope, pool.get(person.id)),
       );
+  const alone = { ...field, runners: api.parameter("zero") };
+  const pullOf = new Map(
+    weighing.map((person) => {
+      let pull = api.parameter("zero");
+      for (const value of Object.values(candidacyReasons(api, person, alone)))
+        pull += value;
+      return [person.id, pull] as const;
+    }),
+  );
+  const people = weighing.sort(
+    (a, b) => pullOf.get(b.id)! - pullOf.get(a.id)! || a.id.localeCompare(b.id),
+  );
+  for (const person of people) {
     const decision = decideToRun(
       api,
       person.id,
-      { ...field, runners: running.length + raceRunners },
+      { ...field, ...crowdFor(person.id) },
       reconsider,
     );
     if (!decision) continue;
     asked.push(person.id);
-    if (decision.run) running.push(person.id);
+    if (decision.run) ran(person.id);
   }
   const row: WeighedContest = {
     id: contest.id,

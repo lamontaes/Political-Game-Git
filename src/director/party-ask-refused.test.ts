@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -24,26 +25,26 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // A party's ask for a seat stops at the player, and the player's no or
 // not-now sends the party on to its next member while filing is open
 // (SG-P15-party-ask-after-player). A rare case, staged through the game's own
-// path: in each pinned place the first member the party would ask becomes the
+// path: in a drawn place the first member the party would ask becomes the
 // player, the ask arrives the day filing opens, the player turns it down in
 // the scene, and the party's next ask is a record for another member that
 // the member's decision cites.
-const SEED = "c29-party-ask-refused";
-// Old premise: Floydale and Denver, Pennsylvania, pinned inside a 600 s limit;
-// Denver spends over two minutes playing its first eight days. New premise:
-// two small named places, about 55 s each, limit 120 s each (Account lead,
-// Nov 15).
-// Pinned drawn places (one seed, fixed tags): "a" is Floydale, South
-// Carolina; "f" is Fox Chase, Kentucky. Both stage the ask at home the day
-// filing opens and run in under a minute. Denver, Pennsylvania (tag "d")
-// passes too but spends over two minutes playing its first days, so it is
-// not pinned; tags "c", "e", "g" and "h" have no ask left for the player
-// on the opening day, so they are not pinned either.
-const TAGS = ["a", "f"];
+// The seed is drawn each run (PARTY_ASK_SEED or GOLDEN_PATH_SEED replays one),
+// and places are drawn from it until one has a race whose filing opens with a
+// party's side empty and that party's ask left for the player; every place
+// passed over is named. (It was pinned to Floydale, South Carolina and Fox
+// Chase, Kentucky until Nov 17; the CTO's line that day took the pin off.)
+// Limit: about a minute a place, up to eight places.
+const SEED =
+  process.env.PARTY_ASK_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
+const DRAWS = 8;
 
-it.each(TAGS)(
-  "the party asks its next member after the player says no (%s)",
-  (tag) => {
+it(`the party asks its next member after the player says no (seed ${SEED})`, () => {
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw++) {
+    const tag = String(draw);
     setBookkeeping(false);
     const place = drawPlace(SEED, `party-ask-refused:${tag}`);
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
@@ -109,7 +110,15 @@ it.each(TAGS)(
       .rows() as unknown as { tie: string; personId: string }[])
       if (tie.tie === "party") core.focusPersonIds.add(tie.personId);
     advanceCore(core, addDays(makeIsoDate(opens), 1));
-    expect(ask, `${where}: no party asked the player`).toBeDefined();
+    // The ask is written inside the event handler, so read it through a call
+    // (a plain check would narrow it to never-assigned).
+    const asked = () => ask;
+    if (!asked()) {
+      passedOver.push(
+        `${where}: no party ask left for the player when filing opened on ${opens}`,
+      );
+      continue;
+    }
     const before = asks.length;
     // The party waits on the player: no other member of that party has been
     // asked for that seat since (one asked before the day's weighing said no
@@ -160,8 +169,11 @@ it.each(TAGS)(
     const decision = decisionOf(api, ask!.contestId, next!.askedId as PersonId);
     expect(decision?.sourceIds, where).toContain(next!.id);
     process.stdout.write(
-      `PARTY ASK REFUSED ${where}: ${ask!.id} refused (${replyId}); next ${next!.id}\n`,
+      `PARTY ASK REFUSED ${where}: ${ask!.id} refused (${replyId}); next ${next!.id}; passed over: ${passedOver.join("; ") || "none"}\n`,
     );
-  },
-  120_000,
-);
+    return;
+  }
+  throw new Error(
+    `No drawn place left a party's ask for the player (seed ${SEED}): ${passedOver.join("; ")}`,
+  );
+}, 900_000);
