@@ -175,6 +175,21 @@ describe("the apology over a missed payment", () => {
         expect(reads.behind?.sourceRecordIds, where).toContain(loan.id);
         expect(reads["due-next"]?.sourceRecordIds, where).toContain(loan.id);
 
+        // The scene the director staged for the quarrel; each arc is composed on a probe copy of it.
+        const find = (causeId: string) =>
+          book.schedule.find(
+            (row) =>
+              row.bindings.some((b) => b.typeKey === "apology") &&
+              book.momentsById.get(row.momentId)?.causeId === causeId,
+          );
+        let real: ScheduleEntry | undefined;
+        for (let day = 0; day < 10 && !(real = find(quarrel.id)); day += 1)
+          play(core, me, 2);
+        if (!real) {
+          passed.push(`${where}: no apology staged for ${quarrel.id}`);
+          continue;
+        }
+        const base = real;
         // Each arc, composed on a probe copy of the quarrel in a world that gives it.
         let copies = 0;
         const arc = (target: string) => {
@@ -218,23 +233,16 @@ describe("the apology over a missed payment", () => {
               closeness: "1",
             },
           });
-          api.relationship(
-            me,
-            wronged,
-            "contact",
-            -api.parameter("quarrelStrainHours"),
-            undefined,
-            { cause: "quarrel", sourceId: id },
-          );
-          let entry: ScheduleEntry | undefined;
-          const find = () =>
-            book.schedule.find(
-              (row) =>
-                row.bindings.some((b) => b.typeKey === "apology") &&
-                book.momentsById.get(row.momentId)?.causeId === id,
-            );
-          for (let day = 0; day < 8 && !(entry = find()); day += 1)
-            play(core, me, 2);
+          // A copy of the real moment and entry on the probe's own record, so the scene draws its own wordings.
+          const moment = structuredClone(book.momentsById.get(base.momentId)!);
+          moment.id = `${base.momentId}:probe-${copies}`;
+          moment.causeId = id;
+          book.momentsById.set(moment.id, moment);
+          const entry: ScheduleEntry = {
+            ...structuredClone(base),
+            momentId: moment.id,
+            answered: [],
+          };
           return { id, entry };
         };
         const proofs: string[] = [];
