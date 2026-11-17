@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-federal-surplus
-pr:
+pr: #9835
 after:
 blocked-on:
 root: none
