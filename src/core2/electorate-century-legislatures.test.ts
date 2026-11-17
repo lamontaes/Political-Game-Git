@@ -178,4 +178,58 @@ describe("the century elects day one's state legislatures", () => {
       ).toBeGreaterThan(all);
     }
   }, 120_000);
+  it("counts the territories' partisan chambers from their own delegate's place, at drawn worlds", () => {
+    // Guam's, the Virgin Islands' and the Northern Marianas' Senate are elected on the national
+    // sides; American Samoa's Fono (no party labels) and the Northern Marianas' House (mostly
+    // independents) keep what play reads.
+    const counted = ["US-GU:legislature", "US-VI:legislature", "US-MP:upper"];
+    const kept = ["US-AS:upper", "US-AS:lower", "US-MP:lower"];
+    const days: string[] = [];
+    const named: string[] = [];
+    for (let i = 0; i < 2; i += 1) {
+      const place = drawPlace(
+        `${RUN}:territories:${i}`,
+        "history-legislatures",
+      );
+      const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+      named.push(where);
+      setHistoryMode(place.seed, "century", gameStartDate(), place.state);
+      const seats = [
+        ...centuryLegislatures(place.seed, gameStartDate()).values(),
+      ];
+      const of = (chamber: string) =>
+        seats.filter((s) => `${s.stateKey}:${s.rosterChamber}` === chamber);
+      const sides: string[] = [];
+      for (const chamber of counted) {
+        const [stateKey, rosterChamber] = chamber.split(":") as [
+          string,
+          string,
+        ];
+        const members = PUBLISHED[stateKey]?.[rosterChamber]?.parties ?? {};
+        const published = Object.values(members).reduce((a, b) => a + b, 0);
+        expect(
+          published,
+          `${where}: ${chamber}'s published members`,
+        ).toBeGreaterThan(0);
+        expect(of(chamber).length, `${where}: ${chamber}'s seats`).toBe(
+          published,
+        );
+        // Each seat is raced through the century, not held from 1925.
+        for (const seat of of(chamber))
+          expect(seat.races.length, `${where}: ${seat.key}`).toBeGreaterThan(0);
+        sides.push(
+          of(chamber)
+            .map((s) => s.side)
+            .join(""),
+        );
+      }
+      for (const chamber of kept)
+        expect(of(chamber), `${where}: ${chamber}`).toHaveLength(0);
+      days.push(sides.join("|"));
+    }
+    expect(
+      new Set(days).size,
+      `the territories' chambers across ${named.join("; ")}`,
+    ).toBe(days.length);
+  }, 120_000);
 });

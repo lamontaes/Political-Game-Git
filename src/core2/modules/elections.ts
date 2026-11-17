@@ -99,8 +99,11 @@ export {
 /** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
 export {
   centuryCongressSeat,
+  centuryLaw,
   centuryLegislatures,
+  centuryParties,
   centuryOf,
+  centurySignedLean,
   centuryPresidency,
   centuryRace,
   centuryRecordVotes,
@@ -119,6 +122,7 @@ export {
   type CenturySeatRace,
   type HistoryMode,
 } from "../electorate-century";
+export { partyKeyIssues } from "../electorate-century-laws";
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;
