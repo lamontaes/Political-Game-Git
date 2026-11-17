@@ -1308,7 +1308,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 15"
       ],
-      "status": "sample",
+      "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
