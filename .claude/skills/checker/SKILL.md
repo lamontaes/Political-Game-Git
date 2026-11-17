@@ -180,3 +180,7 @@ A pass ends when every PR in your share is checked at its current head or sent b
 ## Lesson of Nov 11 (a merger on any tool)
 
 - **A merger started from `docs/pool/START-A-MERGER.md` gates the way this skill says and merges what passes.** Where a desk can gate and cannot merge, its `ready #N <full sha>` line is what the merger or the CTO merges from, pinned to that sha. Post the line the moment the gate passes; a result that is not posted is lost when a session ends.
+
+## Trap from the Nov 17 pass (Story lead)
+
+- **A new file under `src/bench` that imports a `src/core2` file outside its family's entry list fails the `families` guard** ("1 imports inside other families, 0 known"), and the guard's known list only shrinks, so the import cannot be added to it. Route it through the family's entry (`tests/guards/families.json` lists each family's `entry` files): add a one-line re-export to the entry, as `src/core2/modules/office-day.ts` and `src/core2/modules/business.ts` already do, and import the entry. Check for the cycle first: an entry that already imports the deep file (as office-day imports office-day-state) is safe. Two PRs of the same night (#9772, #9798) tripped it on the first bench file each added.
