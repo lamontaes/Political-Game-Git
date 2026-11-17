@@ -259,6 +259,8 @@ export interface BudgetRow {
   readonly revenueMinor: Readonly<Record<string, number>>;
   readonly spendingMinor: Readonly<Record<string, number>>;
   readonly source: string;
+  /** The residents the per-resident base lines were multiplied by when this budget was written (the world's own count that day). */
+  readonly residents?: number;
   /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
   readonly ledgerId?: string;
   /**
@@ -910,6 +912,7 @@ export function publishedBudgetFor(
     revenueMinor: revenue,
     spendingMinor: spending,
     source,
+    residents,
   };
 }
 
