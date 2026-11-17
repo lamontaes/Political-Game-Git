@@ -13,7 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
-import { metricsChange, metricsFigure } from "./ui/metrics-change.mjs";
+import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
@@ -4489,43 +4489,18 @@ const sheets = {
   // this year beside last, no charts. Every figure is the record's; the words are control names.
   async metrics() {
     const view = await api("/api/metrics");
-    const words = controls.metrics;
-    const figure = (row, value) => metricsFigure(row, value, words.percent);
-    const sections = view.sections.map((section, at) =>
-      stripSection(
-        at + 1,
-        // A section that shows one government's books is headed by that government's name.
-        section.name ?? words[section.key],
-        ...section.rows.map((row) => {
-          const change = metricsChange(row, words.points);
-          const direction =
-            change.direction === null ? "" : words[change.direction];
-          return typedRow(
-            words[row.key],
-            // A small town's count shows the people behind it ("13 of 86").
-            row.of === undefined
-              ? figure(row, row.now)
-              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
-            row.before === null
-              ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
-          );
-        }),
-      ),
-    );
-    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
-    const columns = [[], [], []];
-    sections.forEach((section, at) => columns[at % 3].push(section));
+    const screen = metricsScreen({
+      sections: view.sections,
+      words: controls.metrics,
+      title: controls.titles.metrics,
+    });
     // Views registered from their own files (ui/dev-views.mjs, slot "metrics"), under the board.
     const devViews = devModeOn()
       ? await devViewNodes("metrics", {
           refresh: () => openSheet("metrics"),
         })
       : [];
-    return [
-      stripBoard({ columns: columns.filter((c) => c.length) }),
-      ...(devViews.length ? [devPanelsRow(...devViews)] : []),
-    ];
+    return [...screen, ...(devViews.length ? [devPanelsRow(...devViews)] : [])];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -4974,9 +4949,7 @@ const sheets = {
           })(),
           groups: (r.groups ?? []).map((group) => ({
             heading: group.heading,
-            notes: group.notes.map((note) =>
-              [note.title, note.text].filter(Boolean).join(". "),
-            ),
+            notes: group.notes.map((note) => note.headline),
           })),
         })),
       }),
