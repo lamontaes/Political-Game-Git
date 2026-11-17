@@ -1,6 +1,13 @@
 ---
 name: play-walks
-description: How to play Our Civic Duty the way a player does, with scripts that start a new life on the bench, click what a player clicks (the people at home each day, the places Travel lists, the filing office, every menu) and write down every line on screen, so a lead or a second session reads the game and not only the tests. Use before a build goes to the owner, after a train of screen or words pull requests, when reading a words or screen pull request on screen, and when someone says the game says nothing or nothing happens. Not for one item's finish line (seen-in-game), not for proving a simulation change in a played year (played-world-proof), and not a check that passes or fails.
+description: >
+  Plays a new life the way a player does, with scripts that click what a
+  player clicks (the people at home, the places Travel lists, the filing
+  office, every menu) and write down every line on screen. Use before a build
+  goes to the owner, after a train of screen or words pull requests, when
+  reading a words or screen pull request on screen, or when someone says the
+  game says nothing. Not one item's finish line (seen-in-game), a played-year
+  proof (played-world-proof), or a pass-or-fail check.
 ---
 
 # Play walks
@@ -82,6 +89,10 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 - **Before and after screens, same script, same seed (Nov 15).** For a screen change, make the walk take the place key and world seed from the environment (`NEWS_PLACE_KEY`, `NEWS_SEED`) and a mode that records without asserting (`NEWS_BEFORE=1`), run it on the changed branch, then `git stash -u`, restart the bench (`pkill -f src/bench/`, `npm run bench`) and run it again on the train code, then `git stash pop`. The git-excluded `.walk/` and `src/bench/zz-*.mjs` files survive the stash. A copy of the script that the train lacks goes in `src/bench/zz-<name>.mjs` (add it to `.git/info/exclude`). The family a creator life draws depends on its identity, so a before and an after run draw different people: compare how the family relates to the player, not the same faces. ImageMagick `montage` turns per-card shots into one sheet.
 - **Wait for a picture to finish loading before the shot (Nov 15).** A story picture is a file fetched on show; the check read `naturalWidth` after 300 ms and called a loaded picture "did not load". Wait for `img.complete` first.
 - **A walk can start in a chosen place (Nov 15).** The new-life request takes `placeKey` (a place's key from `searchCorePlaces`, such as `1562600` for Pearl City, Hawaii), which a script adds with a `page.route` on `**/api/newlife*`, as `bill-amend.browser.mjs` does with `BENCH_PLACEKEY`. Use it to see one wording at named places (an own-named body, a state's reading, a new row) instead of waiting for a draw. A place takes about two minutes to build and open.
+
+## Opening a menu while a day runs (Blockers lane, Nov 17)
+
+The rail stays live while Day runs, so a walk that presses Day and then opens a menu reproduces what a player does when the day is slow. Until #9756, a scene that came due then was drawn under the menu, Day stayed held, and nothing could be pressed: the owner's "I think I'm stuck... I pressed escape". A browser check that must open the menu before the day lands holds the day's request with `page.route` on a gate made before Day is pressed (`gate = new Promise(...)` and the route awaits it), never a `release` function set inside the route handler: the day's request can reach the route after the menu shows, and then the release fires before the route waits for it and the check hangs.
 
 ## Replaying Visit or Call (Nov 15, Visit/Call thread)
 

@@ -426,21 +426,41 @@ export function buildBenchWorld(
  * A new game's drawn place where no player can be picked is passed over and
  * the draw taken again without it; a place asked for by key, or any other
  * error, is thrown.
+ *
+ * The golden-path runner's key is a draw too, not an ask: it draws one place
+ * per spec from every locality (tests/golden-path/place.ts) and hands the key
+ * to the command as GOLDEN_PATH_PLACE_KEY. A build at that key passes the
+ * place over as well and takes the same state's next place by key, the
+ * runner's own order, naming what it passed over.
  */
 function passOver(options: BuildOptions, error: unknown): BuildOptions {
-  if (
-    options.placeKey ||
-    !(error instanceof NoPlayerHereError) ||
-    !error.placeKey
-  )
-    throw error;
-  return {
-    ...options,
-    passedOver: [
-      ...(options.passedOver ?? []),
-      { key: error.placeKey, reason: error.message },
-    ],
-  };
+  if (!(error instanceof NoPlayerHereError) || !error.placeKey) throw error;
+  const passedOver = [
+    ...(options.passedOver ?? []),
+    { key: error.placeKey, reason: error.message },
+  ];
+  if (!options.placeKey) return { ...options, passedOver };
+  const drawn =
+    options.placeKey === process.env.GOLDEN_PATH_PLACE_KEY ||
+    options.passedOver?.some((passed) => passed.key !== options.placeKey);
+  const here = realLocalities().find((row) => row.key === options.placeKey);
+  if (!drawn || !here) throw error;
+  const state = realLocalities()
+    .filter((row) => row.stateJurisdictionKey === here.stateJurisdictionKey)
+    .sort((a, b) => a.key.localeCompare(b.key));
+  const from = state.findIndex((row) => row.key === here.key);
+  const next = state
+    .map((_, step) => state[(from + step) % state.length]!)
+    .find((row) => !passedOver.some((passed) => passed.key === row.key));
+  if (!next) throw error;
+  // A developer's message, written as an Error's so the line register
+  // (scripts/words/line-register.ts) reads it as one and not as a game line,
+  // as NoPlayerHereError's own is.
+  const said = new Error(
+    `Passed over ${here.displayName} (${here.key}): ${error.message} Building at ${next.displayName} (${next.key}), the same state's next place.`,
+  );
+  process.stdout.write(said.message + "\n");
+  return { ...options, placeKey: next.key, passedOver };
 }
 
 /**

@@ -68,6 +68,10 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* A week's row in the calendar's month: room for two things named on a day. */
+  --month-row: 96px;
+  /* A thing named on its day in the calendar's month. */
+  --t-cell: 12px;
   color-scheme: dark;
   /* The one menu panel (owner, Nov 5; MENU-LOOK.md): the approved texture, 78%
      solid, about #1C1A17 under it, with its slim brass edge and small corners
@@ -151,6 +155,8 @@
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
+  /* The person card's bust column. */
+  --card-bust: 440px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -1983,7 +1989,7 @@ body:not(.dev) .dev-only {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: auto;
-  grid-auto-rows: 74px;
+  grid-auto-rows: var(--month-row);
   gap: 0 8px;
   min-height: 0;
   max-height: 640px;
@@ -2006,7 +2012,7 @@ body:not(.dev) .dev-only {
   min-height: 0;
   height: auto;
   margin: 0;
-  padding: 5px 7px;
+  padding: 5px 5px;
   overflow: hidden;
   text-align: left;
   font-weight: 400;
@@ -2035,10 +2041,32 @@ body:not(.dev) .dev-only {
 .month .day::after {
   display: none;
 }
-.month .marks {
+/* A thing on its day: its icon, then its own line, cut to the cell's width. */
+#sheet-body .month .day {
+  justify-content: flex-start;
+}
+.month .mark {
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-start;
   gap: 3px;
+  min-width: 0;
+  font: 500 var(--t-cell) var(--ui);
+  line-height: 1.2;
+}
+.month .mark .what {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.month .mark .day-icon {
+  width: var(--t-cell);
+  height: var(--t-cell);
+  margin-top: 1px;
+}
+.month .mark.own .what {
+  color: var(--gold);
 }
 .month .day-icon,
 .calendar-entry .day-icon {
@@ -2801,7 +2829,60 @@ body:not(.dev) .dev-only {
   grid-template-columns: 1fr;
 }
 .roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: var(--card-bust) minmax(0, 1fr);
+}
+/* The approved person card (pl-people): the bust at the left, the name over
+   two columns of sections beside it, so no half of the card stands empty. */
+.strip-screen.name-beside .mx3cols {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.strip-screen.name-beside .mx3cols.one {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* The person card stands the panel's full height (owner on People, Nov 16:
+   "still lots of empty space"): each column's last section reaches the
+   panel's foot, and a long story scrolls inside its own section. */
+.roster-screen.people > .roster-page:has(.strip-screen.name-beside) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.roster-screen.people > .roster-page > .strip-screen.name-beside {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.strip-screen.name-beside .mx3left,
+.strip-screen.name-beside .mx3main,
+.strip-screen.name-beside .mx3col {
+  min-height: 0;
+}
+/* A column with more sections than the panel holds (dev mode adds several)
+   scrolls rather than being cut off. */
+.strip-screen.name-beside .mx3left,
+.strip-screen.name-beside .mx3col {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.strip-screen.name-beside .mx3cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.strip-screen.name-beside .mx3left > .sec:last-child,
+.strip-screen.name-beside .mx3col > .sec:last-child {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.strip-screen.name-beside .sec:last-child > .secbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {

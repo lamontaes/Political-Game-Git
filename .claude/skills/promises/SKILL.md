@@ -1,17 +1,17 @@
 ---
 name: promises
 description: >
-  How a promise made in a scene of Our Civic Duty is kept, settled and said:
-  the kind as a data row in src/director/data/promise-kinds.json, the record
-  that settles it (promises.ts), the tie it moves, and the next talk that says
-  it (promise-talk.ts), with the traps found building vote, pay-on-time,
-  show-around and attend. Use when a scene ending should hold someone to their
-  word, when adding a promise kind or its lines, or when a promise never
-  settles or is said wrong. Not for the scene's own lines (civic-prose) or for
-  bargaining reads of a broken promise (the bargaining thread's promiseToHold).
+  A promise made in a scene is kept, settled and said: the kind as a row in
+  src/director/data/promise-kinds.json, the record that settles it, the tie it
+  moves and the next talk that says it; promises are moving into an engine
+  module (owner, Nov 15). Use when a scene ending should hold someone to their
+  word, or a promise never settles or is said wrong. Not for the scene's own
+  lines (civic-prose) or bargaining reads of a broken promise (promiseToHold).
 ---
 
 # Promises
+
+**Promises move into the engine (owner, Nov 15, `docs/coordination/OWNER-DECISIONS.md`).** The promise record, its settlement and the tie it moves go from the director (`src/director/promises.ts`, `src/director/promise-talk.ts`) into an engine module as the first follow-up (item `core-promises-kept-and-settled-by-the-engine`). No new promise kind is added in the director until then; the traps below still hold for the kinds that exist.
 
 A promise is a kept fact the director holds for the one who promised, owed to
 the other. It ends kept or broken on the day the record that decides it lands,

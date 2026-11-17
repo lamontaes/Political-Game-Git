@@ -4620,13 +4620,9 @@ export const INTERVIEW_INVITED_EVENT = "interview-invited";
  * candidate's answers, said there, publish the interview (`answerInterview`).
  */
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
-/** The replies in an invitation's scene that accept it. */
-export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
-  "agree",
-  "relent",
-]);
-/** The replies in an invitation's scene that turn it down. */
-export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+// The replies that accept or turn down an ask live with every engine that reads them.
+import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+export { ACCEPTING_MOVES, REFUSING_MOVES };
 
 /**
  * The races an outlet takes up this week. Each week a race in its horizon
