@@ -2506,7 +2506,10 @@ export function planSpeech(
         ...(told ? {} : conditionFigure(country, topic)),
       },
       moves: told
-        ? [told, move("meaning", { topic })]
+        ? [
+            told,
+            ...(spanAgrees(topic, context) ? [move("meaning", { topic })] : []),
+          ]
         : [move("story-says", { topic })],
     };
   };
@@ -2735,12 +2738,15 @@ export function planSpeech(
               ? contextFacts(core, topic, country, speaker.serviceStart)
               : {};
           if (figuredFacts["context-years"]) yearsSaid = true;
+          // Trouble only where the year went the wrong way and the span's
+          // context says the same way: "a lot of folks got back to work" is
+          // never followed by "that's workers waking up with no job to go to".
+          const trouble =
+            !!topic &&
+            wrongBy(country, topic) > P.zero &&
+            spanAgrees(topic, figuredFacts);
           // A meaning line leads with the address's one tag (round 4).
-          if (
-            topic &&
-            (figuredFacts["context-years"] || !yearsSaid) &&
-            wrongBy(country, topic) > P.zero
-          )
+          if (topic && (figuredFacts["context-years"] || !yearsSaid) && trouble)
             tagSaid = true;
           const figureMoves =
             topic && (figuredFacts["context-years"] || !yearsSaid)
@@ -2748,7 +2754,7 @@ export function planSpeech(
                   move("context", { topic }),
                   // A figure is called trouble only where the records say it
                   // went the wrong way (rule 45); else it is stated plainly.
-                  ...(wrongBy(country, topic) > P.zero
+                  ...(trouble
                     ? [
                         move("meaning", { topic }),
                         // The year's claim, only by one who governed it.
@@ -3075,6 +3081,21 @@ function priorStateFacts(person: PersonState): Facts {
     ),
     "prior-state": fact(state, prior.id),
   };
+}
+
+/** The macro measures that are trouble when they rise, and those that are trouble when they fall. */
+const RISE_IS_BAD: ReadonlySet<string> = new Set([
+  "inflation",
+  "unemployment",
+  "mortgage",
+]);
+const FALL_IS_BAD: ReadonlySet<string> = new Set(["wages", "growth"]);
+
+/** Whether a context's span went the bad way for its measure, or says no way at all (an area of the term). */
+function spanAgrees(topic: string, facts: Facts): boolean {
+  if (RISE_IS_BAD.has(topic)) return !!facts["context-up"];
+  if (FALL_IS_BAD.has(topic)) return !!facts["context-down"];
+  return true;
 }
 
 /** The speaker's serving term by its id, with its end, from the offices engine. */
