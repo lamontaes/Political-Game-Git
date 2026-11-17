@@ -158,6 +158,8 @@ interface Pull {
   openingNet?: number;
   /** Months to go at the opening, before their own pace: the most pushed have the fewest. */
   openingMonths?: number;
+  /** The age band they were ranked in at the opening, whose own pace set their months to go. */
+  openingBand?: string;
 }
 
 function pullOf(api: CoreAPI, person: Readonly<PersonState>): Pull {
@@ -1305,6 +1307,7 @@ function openingPulls(
         };
         pull.openingNet = row.net;
         pull.openingMonths = (one - at) / meanGain;
+        pull.openingBand = row.band;
         savePull(api, pull);
       }
       start = end + one;

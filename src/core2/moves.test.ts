@@ -181,6 +181,7 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       reads: Record<string, readonly string[]>;
       openingNet?: number;
       openingMonths?: number;
+      openingBand?: string;
     }[];
     const opened = pulls.filter(
       (row) => row.causes.opening !== undefined && townIds.has(row.id),
@@ -190,13 +191,18 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(row.reads.opening?.length).toBeGreaterThan(0);
       expect(row.openingNet).toBeTypeOf("number");
     }
-    // Higher net push has fewer months to go at the opening: the first to
-    // leave are the ones their records push hardest.
-    const sorted = [...opened].sort((a, b) => a.openingNet! - b.openingNet!);
-    for (let i = 1; i < sorted.length; i += 1)
-      expect(sorted[i]!.openingMonths!).toBeLessThanOrEqual(
-        sorted[i - 1]!.openingMonths!,
-      );
+    // Within each age band, higher net push has fewer months to go at the
+    // opening: the first of a band to leave are the ones their records push
+    // hardest. Across bands the order follows each band's own rate.
+    for (const band of new Set(opened.map((row) => row.openingBand))) {
+      const sorted = opened
+        .filter((row) => row.openingBand === band)
+        .sort((a, b) => a.openingNet! - b.openingNet!);
+      for (let i = 1; i < sorted.length; i += 1)
+        expect(sorted[i]!.openingMonths!, `band ${band}`).toBeLessThanOrEqual(
+          sorted[i - 1]!.openingMonths!,
+        );
+    }
     for (const row of departures)
       for (const key of Object.keys(row.reasons).filter((k) =>
         k.startsWith("push:"),
