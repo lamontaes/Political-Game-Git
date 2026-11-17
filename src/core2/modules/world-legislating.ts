@@ -41,7 +41,7 @@ import {
   governmentOfJurisdiction,
   lineChangedInYear,
 } from "./budgets";
-import { revenueGivenUp } from "../budget-stakes";
+import { revenueGivenUp } from "../budgets-treasury";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { stateActEffectiveDate } from "./laws";

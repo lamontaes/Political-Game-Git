@@ -83,7 +83,7 @@ import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
-import { carriesRevenue, revenueGivenUp } from "../budget-stakes";
+import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
