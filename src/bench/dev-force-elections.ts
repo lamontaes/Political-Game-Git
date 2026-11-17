@@ -81,7 +81,7 @@ const contestOf = (api: CoreAPI, contestId: string) =>
  * The player files for the soonest race that takes their filing, the world running a day at a time
  * until one does (a race opens its filing on its own day, and some refuse a filer on their rules).
  */
-function fileSoonest(
+export function fileSoonest(
   mode: DevMode,
   api: CoreAPI,
   playerId: string,
@@ -116,7 +116,7 @@ function fileSoonest(
 }
 
 /** A filing of the player's whose count has not come: on the ballot, or with its petition still out. */
-function waitingFiling(api: CoreAPI, playerId: string, today: string) {
+export function waitingFiling(api: CoreAPI, playerId: string, today: string) {
   return filingsOf(api, playerId)
     .filter(
       (row) =>
@@ -206,9 +206,13 @@ export function forceElectionsScene(
       ["election-result", "primary-result"].flatMap((kind) =>
         [...(mode.core.logByKind.get(kind) ?? [])].filter((id) => {
           const record = mode.core.durableLog.get(id);
+          // A primary the player came through is not the end of their race: the count that ends it
+          // is the general's, or a primary's that puts them out.
           return (
             record?.facts?.contestId === contestId &&
-            record.personIds.includes(playerId)
+            record.personIds.includes(playerId) &&
+            (kind === "election-result" ||
+              String(record.facts?.outIds ?? "").includes(playerId))
           );
         }),
       );
