@@ -3,11 +3,11 @@
  * force-all dev control. Each type is tried in turn on one built world: its first cause's record
  * kind is written naming the player (facts from the cause's own `causeFacts`), a day passes, and
  * the player's new moments are read for a cause the type matches and a scene bound to the type.
- * The campaigns' types are forced last, through the campaigns engine's own writers
- * (src/bench/dev-force-campaigns.ts), since a recipe files the player and runs the campaign; the
- * ones no recipe can force keep their reason.
+ * The campaigns' and the legislature's types are forced last, through their engines' own writers
+ * (src/bench/dev-force-campaigns.ts, src/bench/dev-force-legislature.ts), since a recipe files or seats
+ * the player; the ones no recipe can force keep their reason.
  * Run: SEED=<seed> node --import tsx scripts/words/force-all-probe.mts
- * `--write-map` writes the map; with `--campaigns-only` only the campaigns' rows are measured and
+ * `--write-map` writes the map; with `--campaigns-only` or `--legislature-only` only that engine's rows are measured and
  * rewritten, and every other row stays as the last full run wrote it.
  */
 import { readFileSync, writeFileSync } from "node:fs";
@@ -23,6 +23,11 @@ import {
   CAMPAIGNS_SCENES,
   forceCampaignsScene,
 } from "../../src/bench/dev-force-campaigns";
+import {
+  forceLegislatureScene,
+  LEGISLATURE_REASONS,
+  LEGISLATURE_SCENES,
+} from "../../src/bench/dev-force-legislature";
 import { SITUATION_LIBRARY, causeMatches } from "../../src/director/scheduling";
 
 setBookkeeping(false);
@@ -42,7 +47,7 @@ const rows: string[] = [];
 const map: Record<
   string,
   {
-    how: "event" | "writer" | "campaigns";
+    how: "event" | "writer" | "campaigns" | "legislature";
     kind?: string;
     facts?: Record<string, string>;
     reason?: string;
@@ -58,13 +63,18 @@ const MAP_URL = new URL(
 );
 const campaignsOnly = process.argv.includes("--campaigns-only");
 if (campaignsOnly)
+  const legislatureOnly = process.argv.includes("--legislature-only");
+if (legislatureOnly)
   Object.assign(
     map,
     (JSON.parse(readFileSync(MAP_URL, "utf8")) as { types: typeof map }).types,
   );
-for (const type of campaignsOnly ? [] : SITUATION_LIBRARY.types) {
+for (const type of campaignsOnly || legislatureOnly
+  ? []
+  : SITUATION_LIBRARY.types) {
   n++;
   if (CAMPAIGNS_SCENES[type.key] || CAMPAIGNS_REASONS[type.key]) continue;
+  if (LEGISLATURE_SCENES[type.key] || LEGISLATURE_REASONS[type.key]) continue;
   const cause = type.causes.find((c) => c.causeRecord) ?? type.causes[0];
   if (!cause) {
     rows.push(`${type.key}\tno-cause`);
@@ -166,6 +176,20 @@ for (const [key, way] of Object.entries(CAMPAIGNS_SCENES)) {
   // The recipe stands whatever this one world allowed: a refusal (nobody offered, nobody gave) is
   // said by the force itself, in the world it runs in.
   map[key] = { how: "campaigns", recipe: way };
+}
+for (const [key, reason] of Object.entries(LEGISLATURE_REASONS)) {
+  rows.push(`${key}\tlegislature\treason=${reason}`);
+  map[key] = { how: "writer", reason };
+}
+for (const [key, way] of Object.entries(LEGISLATURE_SCENES)) {
+  const forced = forceLegislatureScene(mode, key);
+  if (forced.staged) staged++;
+  rows.push(
+    `${key}\tlegislature:${way}\tstaged=${forced.staged}\t${forced.outcome ?? ""}\t${forced.causeRecords.join(",")}${forced.refused ? `\trefused=${forced.refused}` : ""}`,
+  );
+  // The recipe stands whatever this one world allowed: a refusal (no sitting this late in the
+  // year, no seat in a territory's chamber) is said by the force itself, in the world it runs in.
+  map[key] = { how: "legislature", recipe: way };
 }
 console.log(rows.join("\n"));
 if (process.argv.includes("--write-map"))

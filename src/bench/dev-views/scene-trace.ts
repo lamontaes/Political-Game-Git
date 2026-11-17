@@ -11,10 +11,10 @@
  *    (`presentReasons`), the setting's record, the outcome and the types held back and why.
  *  - `lines`: every scene-talk line of a type's purpose, from the line register, with its tie class,
  *    the facts it needs, whether an engine reaches it and whether the grades or a rule hold it.
- *  - `force`: causes a type through the game's own code (`DevMode.forceScene`, or the elections
- *    engine's own writers for its scenes, dev-force-elections.ts, and the campaigns engine's for its,
- *    dev-force-campaigns.ts) and writes a dev-mode mark
- *    `scene-forced` on the record; a forced scene is never a played one for a Words stamp.
+ *  - `force`: causes a type through the game's own code (`DevMode.forceScene`, or an engine's own
+ *    writers for its scenes: dev-force-elections.ts, dev-force-campaigns.ts, dev-force-legislature.ts)
+ *    and writes a dev-mode mark `scene-forced` on the record; a forced scene is never a played one for
+ *    a Words stamp.
  * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
 import { lineByKey, linesForPurpose } from "../../english/line-register";
@@ -27,6 +27,7 @@ import type { DevView } from "../dev-views";
 import type { DevMode } from "../dev-mode";
 import { forceElectionsScene } from "../dev-force-elections";
 import { forceCampaignsScene } from "../dev-force-campaigns";
+import { forceLegislatureScene } from "../dev-force-legislature";
 import forceMap from "./scene-force-map.json";
 
 /** How each situation type can be forced, measured by scripts/words/force-all-probe.mts: a record of its cause kind that the director stages from, or the reason that takes its module's own writer. */
@@ -35,7 +36,7 @@ const FORCE = (
     types: Record<
       string,
       {
-        how: "event" | "writer" | "elections" | "campaigns";
+        how: "event" | "writer" | "elections" | "campaigns" | "legislature";
         kind?: string;
         facts?: Record<string, string>;
         reason?: string;
@@ -90,11 +91,26 @@ const view: DevView = {
       "no-gift": "No donor you called gave in two weeks of calls",
       "no-endorse-ask":
         "The campaign of the one close to you did not ask you to endorse them within two months",
+      chair:
+        "Its cause is a bill you hold as a committee's chair, and the chamber's leadership or seniority seats the chair: dev mode cannot make you one",
+      "members-decide":
+        "Its cause is a trade a member makes for their own section, which only that member's position decides: dev mode cannot make a member trade",
+      lived:
+        "Its cause is a word at your seat on a day you live: play the day after a sitting and it comes",
+      "no-seat":
+        "No seat in this place's legislature covers your town, so dev mode cannot seat you to bring it about",
+      "no-colleague": "Your body has no other living member to bring it about",
+      "no-question": "Your seat has no question it may pass to put in a bill",
+      "no-committee": "Your chamber has no committee to hold a bill",
+      "no-sitting":
+        "Your chamber does not sit again within the run, so no count comes before a roll: try again when it is in session",
     },
     campaigns:
       "Brought about through the campaigns' own writers: a campaign runs on a filing (yours, or for an ask to endorse, the one closest to you who may run), and the people in it act by their own reasons",
     elections:
       "Brought about through the elections' own writers: the world runs to a race that takes your filing, you file at the counter, and for a loss you canvass for your petition and the world runs to the count",
+    legislature:
+      "Brought about through the legislature's own writers; where you hold no seat, you take the town's seat in the state house first (the governorship, for the desk)",
     stagedNow: "Staged on the next day",
     notStagedNow:
       "Written, but the director did not stage it in this world: see the held-back reasons",
@@ -159,9 +175,11 @@ const view: DevView = {
           way?.how === "event" &&
           !OWN_RECIPES.includes(scene.recipe ?? "") &&
           scene.state !== "none";
-        // A type the elections' own writers bring about is forced at once too.
+        // A type an engine's own writers bring about is forced at once too.
         const byWriter =
-          (way?.how === "elections" || way?.how === "campaigns") &&
+          (way?.how === "elections" ||
+            way?.how === "campaigns" ||
+            way?.how === "legislature") &&
           scene.state !== "none";
         return {
           key: scene.key,
@@ -337,6 +355,23 @@ function force(
           typeKey,
           recipe: `elections:${forced.way}`,
           staged: String(forced.staged),
+        },
+      ),
+    };
+  }
+  if (way?.how === "legislature") {
+    const forced = forceLegislatureScene(mode, typeKey);
+    return {
+      ...forced,
+      why: forced.refused ?? null,
+      mark: mode.mark(
+        "scene-forced",
+        [...forced.written, ...forced.causeRecords],
+        {
+          typeKey,
+          recipe: `legislature:${forced.way}`,
+          staged: String(forced.staged),
+          ...(forced.seated ? { seated: forced.seated } : {}),
         },
       ),
     };

@@ -144,8 +144,8 @@
       "reason": "journal-line"
     },
     "press-interview": {
-      "how": "writer",
-      "reason": "journal-line"
+      "how": "legislature",
+      "recipe": "introduced"
     },
     "scandal": {
       "how": "event",
@@ -176,8 +176,8 @@
       "reason": "circumstance"
     },
     "vote-asked": {
-      "how": "writer",
-      "reason": "journal-line"
+      "how": "legislature",
+      "recipe": "count"
     },
     "door-ask": {
       "how": "writer",
@@ -203,11 +203,11 @@
     },
     "vote-confirmed": {
       "how": "writer",
-      "reason": "circumstance"
+      "reason": "members-decide"
     },
     "bill-carry": {
-      "how": "writer",
-      "reason": "circumstance"
+      "how": "legislature",
+      "recipe": "carry"
     },
     "donor-ask": {
       "how": "campaigns",
@@ -251,20 +251,20 @@
       "reason": "circumstance"
     },
     "desk-visit": {
-      "how": "writer",
-      "reason": "journal-line"
+      "how": "legislature",
+      "recipe": "presented"
     },
     "section-bargain": {
       "how": "writer",
-      "reason": "circumstance"
+      "reason": "members-decide"
     },
     "bill-held-chair": {
       "how": "writer",
-      "reason": "journal-line"
+      "reason": "chair"
     },
     "hold-chair-sought": {
-      "how": "writer",
-      "reason": "journal-line"
+      "how": "legislature",
+      "recipe": "held"
     },
     "new-baby": {
       "how": "event",
@@ -291,7 +291,7 @@
     },
     "lobby-remembers": {
       "how": "writer",
-      "reason": "circumstance"
+      "reason": "lived"
     },
     "bribe-pressed": {
       "how": "writer",
@@ -303,11 +303,11 @@
     },
     "floor-debate": {
       "how": "writer",
-      "reason": "circumstance"
+      "reason": "lived"
     },
     "hearing-witness": {
       "how": "writer",
-      "reason": "circumstance"
+      "reason": "lived"
     },
     "moving-goodbye": {
       "how": "writer",
