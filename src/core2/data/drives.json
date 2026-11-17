@@ -521,7 +521,8 @@
       "eventKind": "race.lost",
       "roles": ["subject"],
       "channels": ["injustice", "loss"],
-      "responses": ["hold-grudge", "prove-oneself", "take-up-cause", "carry-on"]
+      "responses": ["hold-grudge", "prove-oneself", "take-up-cause", "carry-on"],
+      "impulseParameter": "driveRaceLostImpulse"
     },
     {
       "id": "press-snubbed",
