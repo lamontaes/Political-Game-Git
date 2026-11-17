@@ -91,12 +91,12 @@ it("a small territory keeps its people within 1.5 percent a year (Futiga, Americ
   }
 }, 3_600_000);
 
-// A baseline inflow from abroad (owner research order, Nov 8): the ACS "moved
-// from abroad" line sets how many people a place takes in from outside the
-// country each year, in the survey's age mix, apart from arrivals from other
-// states. Washington, D.C. (1.30 percent of its people a year) is the place
-// where it shows most.
-it("a place takes in people from abroad at the ACS rate, as moves with their cause (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
+// A baseline inflow from abroad (owner research order, Nov 8): the country
+// tier's own month brings people from abroad to each state (Pins family 29:
+// no second rate of its own here), and the counted places take their part,
+// settling where work is open. Washington, D.C. is the place where it shows
+// most. Each arrival names the tier's month and the row it read.
+it("a place takes in people from abroad as the country tier's month brings them, as moves with their cause (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
   const seed =
     "03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e";
   setBookkeeping(false);
@@ -110,16 +110,16 @@ it("a place takes in people from abroad at the ACS rate, as moves with their cau
     (row) => row.direction === "in" && row.fromPlace === "abroad",
   );
   const arrived = abroad.reduce((n, row) => n + row.people, 0);
-  const expected = start * 0.013 * 2;
   expect(abroad.length, "moves in from abroad").toBeGreaterThan(0);
-  // Whole households arrive, and the survey's rate is a total over places, so
-  // the count is near the rate, not on it.
-  expect(
-    arrived,
-    `arrived ${arrived} of about ${Math.round(expected)}`,
-  ).toBeGreaterThan(expected * 0.4);
-  expect(arrived).toBeLessThan(expected * 2.5);
-  for (const row of abroad) expect(row.reasons.lifeStage).toBeGreaterThan(0);
+  // Whole households arrive; a place takes no more than its people over two
+  // years could hold, and some.
+  expect(arrived, `arrived ${arrived} of ${Math.round(start)}`).toBeLessThan(
+    start * 0.1,
+  );
+  for (const row of abroad) {
+    expect(row.reasons.fromAbroad).toBeGreaterThan(0);
+    expect(row.reads?.fromAbroad).toEqual(["country-state:US-DC"]);
+  }
 }, 3_600_000);
 
 // The federal question to admit more immigrants raises every state's arrivals
