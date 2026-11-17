@@ -42092,42 +42092,6 @@
       "date": "2026-11-17"
     },
     {
-      "key": "conversation.address-point-answer-agree.same-here-i-want-to-see-what-decider-writes-first",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Same here. I want to see what {decider} writes first.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["decider", "stand-unsure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.me-neither-ask-me-when-capital-has-a-bill-on-it",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Me neither. Ask me when {capital} has a bill on it.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["capital", "stand-unsure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17"
-    },
-    {
       "key": "conversation.address-point-answer-agree.can-t-tell-yet-either-let-s-see-what-it-costs-place",
       "move": "address-point-answer-agree",
       "kind": "spoken",
