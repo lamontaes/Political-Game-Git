@@ -84,6 +84,14 @@ it("word of the player's attack on an outlet reaches people who were not there, 
         );
       const told = rows.filter((row) => row.toIds.length);
       if (!told.length) continue;
+      // A hearer told by more than one keeps the last who told them.
+      const tellers = new Map<string, Set<string>>();
+      for (const row of told)
+        for (const hearer of row.toIds)
+          tellers.set(
+            hearer,
+            new Set([...(tellers.get(hearer) ?? []), row.listenerId]),
+          );
       let checked = 0;
       for (const row of told)
         for (const hearer of row.toIds) {
@@ -93,7 +101,10 @@ it("word of the player's attack on an outlet reaches people who were not there, 
           expect(audience.includes(hearer) || staff.has(hearer), said).toBe(
             false,
           );
-          expect(heardFrom(api, hearer, actId), said).toBe(row.listenerId);
+          expect(
+            tellers.get(hearer)!.has(heardFrom(api, hearer, actId) ?? ""),
+            `${said}; heard from ${String(heardFrom(api, hearer, actId))}`,
+          ).toBe(true);
           checked += 1;
         }
       const record = core.durableLog.get(

@@ -4583,6 +4583,8 @@ function snubbed(
   outletId: string,
   byId: string,
   sourceId: string,
+  /** Those in the room when it was said (an attack in a speech): they saw it, so nobody tells them of it. */
+  presentIds: readonly string[] = [],
 ): void {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
@@ -4598,6 +4600,16 @@ function snubbed(
     date: api.state.date,
     kind,
     personIds: staff,
+    ...(presentIds.length
+      ? {
+          witnessIds: presentIds.filter(
+            (id) =>
+              id !== byId &&
+              !staff.includes(id) &&
+              api.state.people.get(id)?.alive,
+          ),
+        }
+      : {}),
     placeId: outlet.placeId,
     // The one who snubbed or attacked them is the responsible party.
     topic: byId,
@@ -5057,7 +5069,14 @@ export function attackOutlet(
       audienceIds: input.audienceIds,
       occasion: { recordId: id, kind: "attack" },
     });
-  snubbed(api, "press.attacked", outlet.id, input.speakerId, id);
+  snubbed(
+    api,
+    "press.attacked",
+    outlet.id,
+    input.speakerId,
+    id,
+    input.audienceIds,
+  );
   followCache.delete(api.state);
   return id;
 }
