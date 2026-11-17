@@ -33,7 +33,7 @@ Seen: `src/core2/modules/officials.ts` `stateLeanOf` and `seatLean` read the 202
 
 **Rules.** No dice; replace, never layer: 2024 is read only under "today" and where the century has no count.
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Government, opens a state legislator, and sees their district's lean cited from the century's last count. At drawn worlds every official's state and district lean equals the century's, and src/core2/officials-century-leans.test.ts passes.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, opens Politics, Metrics, and sees "Where the town's districts lean on day one" cite each district seat's lean from the century's last count. At drawn worlds every official's state and district lean equals the century's, and src/core2/officials-century-leans.test.ts passes.
 
 **Waits on.** history-state-parties-from-the-century (#9962), which this branch is stacked on.
 
