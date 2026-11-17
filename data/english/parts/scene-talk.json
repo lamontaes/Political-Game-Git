@@ -63,6 +63,12 @@
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
     "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
+    "job": "A new hire's job title as people say it, from their job record (a first day at work).",
+    "boss": "The owner of the business a new hire starts at, by full name, from the business engine's owner record.",
+    "before-you": "The worker who held a new hire's job before them, by full name, from the opening the hire filled.",
+    "coworkers": "How many people work at the employer besides the new hire, as a count in words, from the jobs engine's staff.",
+    "longest-there": "How long the coworker showing a new hire around has held their own job there, as a span in words, from the day the records say they started it.",
+    "came-from": "The employer of a new hire's last job, as people say it, from that job's record.",
     "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
     "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
@@ -116,7 +122,7 @@
     "filed": "How many others have filed for the office so far, with their noun (\"two other candidates\"), from the elections engine's filings.",
     "clerk": "The clerk at the filing counter, by first name, from the cast record.",
     "seat": "The seat said short, after a screen has named it once (\"the council\", \"mayor\", \"the seat\"), from the office's record (seatSaid).",
-    "hours": "An opening's hours a week, from the job it was modeled on: 40.",
+    "hours": "An opening's hours a week, from the job it was modeled on: 40. In a first day at work, the usual working day on the new hire's calendar, as hours in words (\"nine hours\"), from the work calendar.",
     "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
     "replaced": "The full name of the person whose job an opening fills.",
     "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
@@ -28917,388 +28923,11 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.it-s-your-first-morning-at-office-name-who-s-been-there-longer-than-an",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "It's your first morning at {office}. {name}, who's been there longer than anyone, is waiting with a ring of keys.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-found-the-place-most-don-t-on-the-first-try",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You found the place. Most don't on the first try.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.whatever-nobody-else-wants-to-do-i-ll-start-there-and-learn-the-place-",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Whatever nobody else wants to do. I'll start there and learn the place from the bottom.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-had-this-job-before-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who had this job before me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.honestly-i-don-t-know-yet-walk-me-through-a-normal-day-and-i-ll-tell-y",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Honestly, I don't know yet. Walk me through a normal day, and I'll tell you after.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Is it true nobody lasts here past a year?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.careful-whatever-you-start-with-they-ll-hand-you-forever",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Careful. Whatever you start with, they'll hand you forever.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.somebody-who-left-in-a-hurry-you-ll-find-their-coffee-mug-in-the-drawe",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Somebody who left in a hurry. You'll find their coffee mug in the drawer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.who-had-this-job-before-me"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.a-normal-day-bring-coffee-it-s-a-long-one",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "A normal day. Bring coffee. It's a long one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "tell"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.some-don-t-the-ones-who-ask-that-on-day-one-usually-do",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Some don't. The ones who ask that on day one usually do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.then-hand-it-to-me-anyway-i-d-rather-know-the-worst-of-it-first",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Then hand it to me anyway. I'd rather know the worst of it first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "warn"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-everybody-else-avoid",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does everybody else avoid?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "warn"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.then-i-ll-be-the-one-who-lasts-what-do-i-need-to-know-first",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "Then I'll be the one who lasts. What do I need to know first?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-confront.some-don-t-the-ones-who-ask-that-on-day-one-usually-do"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "apologize",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.i-ll-ask-around-then",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "I'll ask around, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-confront.some-don-t-the-ones-who-ask-that-on-day-one-usually-do"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-put-my-things-down-first",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me put my things down first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.close-thank.welcome-aboard",
       "move": "close-thank",
       "kind": "spoken",
       "text": "Welcome aboard.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "outcome": "resolved"
-        },
         {
           "subject": "scene",
           "purpose": "offer-help",
@@ -31004,131 +30633,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.the-phones-before-nine-and-the-boss-after-four-learn-both-and-you-ll-b",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The phones before nine and the boss after four. Learn both, and you'll be fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-apologize.then-i-ll-be-the-one-who-lasts-what-do-i-need-to-know-first"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-inventory-it-s-in-the-back-and-it-hasn-t-been-counted-since-spring",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The inventory. It's in the back, and it hasn't been counted since spring.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.what-does-everybody-else-avoid"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.then-i-ll-count-it-show-me-the-back",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Then I'll count it. Show me the back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-answer.the-inventory-it-s-in-the-back-and-it-hasn-t-been-counted-since-spring"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.back-s-this-way-bring-a-pencil",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Back's this way. Bring a pencil.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-answer.then-i-ll-count-it-show-me-the-back"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Point me where to start. I'll find the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-m-sorry-i-mean-that-i-have-to-go",
       "move": "reply-leave",
       "kind": "spoken",
@@ -31758,329 +31262,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.before-it-gets-busy-have-you-done-this-kind-of-work-before",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Before it gets busy: have you done this kind of work before?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.not-here-but-close-enough-put-me-where-you-need-me",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Not here, but close enough. Put me where you need me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.no-you-ll-have-to-show-me-everything",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "No. You'll have to show me everything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.everybody-starts-there-watch-me-for-an-hour-then-you-do-it-and-i-watch",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Everybody starts there. Watch me for an hour, then you do it and I watch.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-tell.no-you-ll-have-to-show-me-everything"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.depends-who-you-ask-keep-your-head-down-the-first-month-and-don-t-let-",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Depends who you ask. Keep your head down the first month, and don't let anybody hand you their shifts.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-hands-off-their-shifts",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who hands off their shifts?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-warn.depends-who-you-ask-keep-your-head-down-the-first-month-and-don-t-let-"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.you-ll-know-by-friday-they-re-the-ones-who-are-suddenly-very-friendly",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "You'll know by Friday. They're the ones who are suddenly very friendly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.who-hands-off-their-shifts"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.good-to-know-thanks-for-the-warning",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Good to know. Thanks for the warning.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-answer.you-ll-know-by-friday-they-re-the-ones-who-are-suddenly-very-friendly"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.sounds-like-somebody-handed-you-theirs",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Sounds like somebody handed you theirs.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-warn.depends-who-you-ask-keep-your-head-down-the-first-month-and-don-t-let-"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.twice-this-month-don-t-be-the-third",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Twice this month. Don't be the third.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.sounds-like-somebody-handed-you-theirs"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-won-t-and-if-they-try-i-ll-send-them-to-you",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I won't. And if they try, I'll send them to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-confront.twice-this-month-don-t-be-the-third"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.now-we-re-friends",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Now we're friends.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-promise.i-won-t-and-if-they-try-i-ll-send-them-to-you"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.go-on-i-ll-find-you-when-it-gets-busy",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Go on. I'll find you when it gets busy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.it-s-your-last-day-your-office-is-packed-into-boxes-and-name-leans-in-",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -32652,70 +31833,11 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.anytime-now-come-on-let-s-get-you-started",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Anytime. Now come on, let's get you started.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.good-to-know-thanks-for-the-warning"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.good-to-know-thanks",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Good to know. Thanks.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.anytime",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Anytime.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.good-to-know-thanks"
-        },
         {
           "subject": "scene",
           "purpose": "rival-word",
@@ -32938,31 +32060,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.ask-away-you-ll-hear-the-same-thing-from-everybody",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Ask away. You'll hear the same thing from everybody.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.i-ll-ask-around-then"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.then-they-should-hear-what-it-would-have-cost-without-it",
       "move": "reply-confront",
       "kind": "spoken",
@@ -33010,56 +32107,6 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.sorry-first-day-nerves",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "Sorry. First-day nerves.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "apologize",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everybody-s-got-them-come-on-i-ll-show-you-around",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everybody's got them. Come on, I'll show you around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-apologize.sorry-first-day-nerves"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
       }
     },
     {
@@ -33160,106 +32207,6 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.then-why-are-you-still-here",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Then why are you still here?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-confront.twice-this-month-don-t-be-the-third"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.because-somebody-has-to-show-the-new-people-where-the-keys-go",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Because somebody has to show the new people where the keys go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.then-why-are-you-still-here"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.then-maybe-everybody-s-wrong",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Then maybe everybody's wrong.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-confront.ask-away-you-ll-hear-the-same-thing-from-everybody"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.maybe-find-me-in-a-year-and-tell-me",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Maybe. Find me in a year and tell me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.then-maybe-everybody-s-wrong"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
       }
     },
     {
@@ -36112,726 +35059,6 @@
       "tag": {
         "move": "thank",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-start-today-at-office-name-meets-you-at-the-door-with-a-visitor-ba",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You start today at {office}. {name} meets you at the door with a visitor badge and a mug that isn't yours yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["same-day"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-made-it-badge-goes-on-the-outside-of-the-jacket",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You made it. Badge goes on the outside of the jacket.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.quick-question-before-the-day-eats-us-did-anybody-tell-you-what-you-re",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Quick question before the day eats us: did anybody tell you what you're actually here to do?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.roughly-i-was-hoping-you-d-tell-me-the-rest",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Roughly. I was hoping you'd tell me the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.why-what-did-they-tell-you",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Why, what did they tell you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.not-really-i-m-good-at-learning-on-the-fly",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Not really. I'm good at learning on the fly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.that-sounds-like-a-warning",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "That sounds like a warning.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.honestly-i-just-need-this-to-work-out-it-s-been-a-long-few-months",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Honestly, I just need this to work out. It's been a long few months.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["asked_out_of_work"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-ll-make-sure-it-does-stick-with-me-this-week",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll make sure it does. Stick with me this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-tell.honestly-i-just-need-this-to-work-out-it-s-been-a-long-few-months"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.the-rest-is-mostly-phones-files-and-keeping-the-boss-off-your-back-i-l",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "The rest is mostly phones, files and keeping the boss off your back. I'll show you the first two.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-answer.roughly-i-was-hoping-you-d-tell-me-the-rest"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.that-they-d-hired-somebody-and-that-it-d-be-my-problem-to-train-you-so",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "That they'd hired somebody, and that it'd be my problem to train you. So here we are.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.why-what-did-they-tell-you"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.good-because-nobody-here-has-time-to-teach-slowly",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Good, because nobody here has time to teach slowly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-tell.not-really-i-m-good-at-learning-on-the-fly"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.little-bit-the-last-two-didn-t-make-it-to-spring",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Little bit. The last two didn't make it to spring.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.that-sounds-like-a-warning"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-s-the-boss-like-on-a-bad-day",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What's the boss like on a bad day?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thanks. I'll take all the help I can get.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me drop my bag, and I'm all yours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.quiet-that-s-how-you-know-loud-is-fine",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Quiet. That's how you know. Loud is fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.what-s-the-boss-like-on-a-bad-day"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-happened-to-them",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What happened to them?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.i-m-not-planning-on-being-the-third",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "I'm not planning on being the third.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.one-quit-one-got-moved-upstairs-neither-one-asked-questions-so-you-re-",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "One quit, one got moved upstairs. Neither one asked questions, so you're already ahead.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.what-happened-to-them"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.good-nobody-plans-on-it-come-on",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Good. Nobody plans on it. Come on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.where-do-you-want-me-first",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Where do you want me first?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "warn"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.then-don-t-i-ll-keep-up",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Then don't. I'll keep up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "warn"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.front-desk-answer-everything-promise-nothing",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Front desk. Answer everything, promise nothing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.where-do-you-want-me-first"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.we-ll-see-i-hope-so",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "We'll see. I hope so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.then-don-t-i-ll-keep-up"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.front-desk-got-it",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Front desk. Got it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-answer.front-desk-answer-everything-promise-nothing"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.coffee-s-in-the-back-don-t-touch-the-blue-mug",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Coffee's in the back. Don't touch the blue mug.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.you-ll-be-fine-probably",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "You'll be fine. Probably.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.suit-yourself-lunch-is-at-noon-if-you-want-company",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Suit yourself. Lunch is at noon if you want company.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "arrival"
       }
     },
     {
@@ -43140,354 +41367,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-watch-me-today-tomorrow-you-drive",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Good. Watch me today. Tomorrow you drive.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "tell"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.pace-yourself-nobody-gets-a-medal-for-the-first-week",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Pace yourself. Nobody gets a medal for the first week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "Sorry. I talk too much when I'm nervous.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "apologize",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Good. The quiet ones worry me more.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Be honest with me: is this a good place to work?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.depends-on-the-week-ask-me-friday",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Depends on the week. Ask me Friday.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.show-me-where-to-hang-my-coat-and-i-m-ready",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Show me where to hang my coat, and I'm ready.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll figure out the rest as I go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.that-s-useful-thank-you",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That's useful. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.don-t-mention-it-really-don-t-people-will-think-i-m-nice",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Don't mention it. Really, don't. People will think I'm nice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.that-s-useful-thank-you"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.nobody-plans-on-it",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Nobody plans on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.prove-it-by-lunch",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Prove it by lunch.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.then-don-t-i-ll-keep-up"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.phones-start-ringing-at-eight-sharp",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Phones start ringing at eight sharp.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.front-desk-got-it"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.you-ll-need-it-come-on",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "You'll need it. Come on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.then-run-hard-and-call-me-when-it-gets-ugly",
       "move": "follow-accept",
       "kind": "spoken",
@@ -44781,181 +42660,6 @@
       "tag": {
         "move": "leave",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.phones-start-ringing-at-eight-sharp-good-luck",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Phones start ringing at eight sharp. Good luck.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.front-desk-got-it"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.you-ll-get-it-come-on",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "You'll get it. Come on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "Fair. I'll keep my head down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "apologize",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.not-too-far-down-people-here-like-a-hello",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Not too far down. People here like a hello.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.so-the-job-s-half-babysitting-the-boss",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "So the job's half babysitting the boss.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.follow-accept.the-rest-is-mostly-phones-files-and-keeping-the-boss-off-your-back-i-l"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.more-like-a-third-don-t-tell-anyone-i-said-that",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "More like a third. Don't tell anyone I said that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.so-the-job-s-half-babysitting-the-boss"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-get-my-bearings-first",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me get my bearings first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
       }
     },
     {
@@ -46803,106 +44507,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Then I'll ask the boss myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.bold-let-me-know-how-that-goes",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Bold. Let me know how that goes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.okay-okay-point-taken",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "Okay, okay. Point taken.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "confront"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "apologize",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.good-now-let-s-get-you-a-desk",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Good. Now let's get you a desk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-apologize.okay-okay-point-taken"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-apologize.you-re-right-i-ll-leave-it-out",
       "move": "reply-apologize",
       "kind": "spoken",
@@ -47348,56 +44952,6 @@
       "tag": {
         "move": "press",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.that-sounds-like-two-jobs-for-one-paycheck",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "That sounds like two jobs for one paycheck.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "answer"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.welcome-to-public-service",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Welcome to public service.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.reply-confront.that-sounds-like-two-jobs-for-one-paycheck"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
       }
     },
     {
@@ -180384,6 +177938,3102 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-first-day-at-employer-name-meets-you-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your first day at {employer}. {name} meets you at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-expecting-you-at-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is expecting you at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-walk-into-employer-for-the-first-time-name-looks-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You walk into {employer} for the first time. {name} looks up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-first-day-at-employer-name-has-been-here-longest-there-and-has-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your first day at {employer}. {name} has been here {longest-there} and has the keys.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "longest-there"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-to-show-you-the-job-job-at-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting to show you the {job} job at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["job", "employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-first-job-at-employer-name-is-waiting-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A first job, at {employer}. {name} is waiting at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "first-job"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-night-shift-at-employer-name-is-waiting-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A night shift at {employer}. {name} is waiting at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "nights"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-start-today-at-employer-name-meets-you-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You start today at {employer}. {name} meets you at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "same-day"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-come-over-from-came-from-to-employer-name-meets-you-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've come over from {came-from} to {employer}. {name} meets you at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["came-from", "employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.welcome-to-employer-i-ll-show-you-around",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Welcome to {employer}. I'll show you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-this-is-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in. This is {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-job-at-employer-follow-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "First job at {employer}? Follow me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "first-job"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.over-from-came-from-welcome-to-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Over from {came-from}. Welcome to {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["came-from", "employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-re-on-nights-at-employer-coffee-s-over-there",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're on nights at {employer}. Coffee's over there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "nights"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-re-coworkers-here-not-counting-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We're {coworkers} here, not counting you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["coworkers"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-re-the-new-job-welcome-to-employer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're the new {job}. Welcome to {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["job", "employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.have-you-done-job-work-before",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Have you done {job} work before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.is-this-your-first-job-nobody-at-employer-minds-either-way",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Is this your first job? Nobody at {employer} minds either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "first-job"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.did-they-tell-you-the-day-is-hours",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did they tell you the day is {hours}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.did-anyone-at-employer-say-you-re-on-nights",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did anyone at {employer} say you're on nights?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "nights"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.how-did-they-do-it-at-came-from",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "How did they do it at {came-from}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["came-from"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.have-you-met-boss-yet",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Have you met {boss} yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["boss"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.has-anyone-shown-you-around-employer-yet",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Has anyone shown you around {employer} yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.show-me-how-employer-does-it-and-i-ll-pick-it-up",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Show me how {employer} does it, and I'll pick it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.have-you-done-job-work-before",
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["first-job"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.no-employer-is-my-first-job",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "No. {employer} is my first job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.have-you-done-job-work-before",
+          "requiresFacts": ["employer", "first-job"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.it-is-be-patient-with-me-here-at-employer",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "It is. Be patient with me here at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.is-this-your-first-job-nobody-at-employer-minds-either-way",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.they-did-hours-a-day",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "They did. {hours} a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.did-they-tell-you-the-day-is-hours",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.now-they-have-nights-at-employer-then",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Now they have. Nights at {employer}, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.did-anyone-at-employer-say-you-re-on-nights",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.differently-i-ll-see-how-employer-does-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Differently. I'll see how {employer} does it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.how-did-they-do-it-at-came-from",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.not-properly-yet-i-ll-say-hello-to-boss",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Not properly yet. I'll say hello to {boss}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.have-you-met-boss-yet",
+          "requiresFacts": ["boss"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.just-the-front-door-show-me-the-rest-of-employer",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Just the front door. Show me the rest of {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.has-anyone-shown-you-around-employer-yet",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.this-is-my-first-job-i-ll-need-employer-explained",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "This is my first job. I'll need {employer} explained.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "first-job"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-came-over-from-came-from-things-will-be-different-here",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I came over from {came-from}. Things will be different here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["came-from"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-glad-to-be-at-employer",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm glad to be at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.nights-are-fine-with-me-at-employer",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Nights are fine with me at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "nights"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-put-in-the-full-hours",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll put in the full {hours}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-do-i-find-boss",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where do I find {boss}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["boss"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-the-day-always-hours",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is the day always {hours}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-did-before-you-leave",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why did {before-you} leave?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["before-you"],
+          "excludesFacts": ["left-passed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.did-you-know-before-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did you know {before-you}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["before-you", "left-passed"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-i-meet-all-coworkers-of-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do I meet all {coworkers} of you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["coworkers"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-a-normal-day-on-the-job-job",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's a normal day on the {job} job?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-do-i-start-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where do I start at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-should-i-look-at-first-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What should I look at first at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.is-the-pay-always-this-low-at-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Is the pay always this low at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "pay-low"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.did-before-you-quit-over-the-work",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Did {before-you} quit over the work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["before-you", "left-quit"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.what-s-the-catch-at-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "What's the catch at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.nobody-told-me-much-about-employer-why-not",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Nobody told me much about {employer}. Why not?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.boss-owns-the-place-you-ll-meet-before-long",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{boss} owns the place. You'll meet before long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.where-do-i-find-boss",
+          "requiresFacts": ["boss"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.most-days-yes-hours-then-you-go-home",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Most days, yes. {hours}, then you go home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.is-the-day-always-hours",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.before-you-retired-good-for-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{before-you} retired. Good for them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.why-did-before-you-leave",
+          "requiresFacts": ["before-you", "left-retired"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.before-you-moved-away",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{before-you} moved away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.why-did-before-you-leave",
+          "requiresFacts": ["before-you", "left-moved"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.before-you-quit-that-s-all-i-know",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{before-you} quit. That's all I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.why-did-before-you-leave",
+          "requiresFacts": ["before-you", "left-quit"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.before-you-had-this-job-before-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{before-you} had this job before you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.why-did-before-you-leave",
+          "requiresFacts": ["before-you"],
+          "excludesFacts": [
+            "left-retired",
+            "left-moved",
+            "left-quit",
+            "left-passed"
+          ]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.before-you-passed-away-we-re-glad-to-have-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{before-you} passed away. We're glad to have you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.did-you-know-before-you",
+          "requiresFacts": ["before-you"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.coworkers-of-us-besides-you-you-ll-meet-them-in-turn",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{coworkers} of us besides you. You'll meet them in turn.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.do-i-meet-all-coworkers-of-you",
+          "requiresFacts": ["coworkers"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-job-job-is-what-it-sounds-like-and-then-some",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The {job} job is what it sounds like, and then some.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-s-a-normal-day-on-the-job-job",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-walk-you-through-employer-from-the-front",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll walk you through {employer} from the front.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.where-do-i-start-at-employer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-should-i-look-at-first-at-employer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-show-you-as-we-go-through-employer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll show you as we go through {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "apologize",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-me-as-we-walk-through-employer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask me as we walk through {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "apologize",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-come-on-i-ll-show-you-employer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. Come on, I'll show you {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "tell",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "thank",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-this-way-into-employer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. This way into {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "tell",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "thank",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.everyone-s-first-day-at-employer-is-this-one-it-passes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Everyone's first day at {employer} is this one. It passes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.no-employer-is-my-first-job",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.it-is-be-patient-with-me-here-at-employer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-tell.this-is-my-first-job-i-ll-need-employer-explained",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-hours-goes-quicker-with-company",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. {hours} goes quicker with company.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.they-did-hours-a-day",
+          "requiresFacts": ["hours"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-tell.i-ll-put-in-the-full-hours",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-you-ll-spot-what-employer-does-differently",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then you'll spot what {employer} does differently.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-tell.i-came-over-from-came-from-things-will-be-different-here",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.differently-i-ll-see-how-employer-does-it",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-we-ll-start-the-night-at-the-front-of-employer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. We'll start the night at the front of {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.now-they-have-nights-at-employer-then",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-tell.nights-are-fine-with-me-at-employer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-i-ll-take-you-over-when-boss-is-free",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. I'll take you over when {boss} is free.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.not-properly-yet-i-ll-say-hello-to-boss",
+          "requiresFacts": ["boss"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.anytime-come-on",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Anytime. Come on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.of-course-right-this-way-through-employer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Of course. Right this way through {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "thank",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.nights-at-employer-are-long-at-first",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Nights at {employer} are long at first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.now-they-have-nights-at-employer-then",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-tell.nights-are-fine-with-me-at-employer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.the-hours-go-faster-once-you-know-where-things-are",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "The {hours} go faster once you know where things are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-answer.they-did-hours-a-day",
+          "requiresFacts": ["hours"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-tell.i-ll-put-in-the-full-hours",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.the-others-in-your-job-at-employer-make-more-yes",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "The others in your job at {employer} make more, yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-confront.is-the-pay-always-this-low-at-employer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.before-you-quit-that-s-the-whole-story-as-far-as-i-know",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "{before-you} quit. That's the whole story, as far as I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-confront.did-before-you-quit-over-the-work",
+          "requiresFacts": ["before-you"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.take-a-day-to-watch-how-employer-runs",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Take a day to watch how {employer} runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.employer-isn-t-hard-it-s-just-new",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "{employer} isn't hard. It's just new.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.pay-is-what-employer-pays-i-don-t-set-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Pay is what {employer} pays. I don't set it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-confront.is-the-pay-always-this-low-at-employer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.ask-before-you-yourself-then",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Ask {before-you} yourself, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-confront.did-before-you-quit-over-the-work",
+          "requiresFacts": ["before-you"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.ask-anyone-at-employer-go-on",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Ask anyone at {employer}. Go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.there-s-no-catch-at-employer-just-the-work",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "There's no catch at {employer}. Just the work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-else-should-i-know-about-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What else should I know about {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.anything-else-about-employer-i-should-hear",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Anything else about {employer} I should hear?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.is-that-a-warning-about-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Is that a warning about {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.is-that-how-it-is-at-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Is that how it is at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.one-minute-please",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "One minute, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.just-a-second",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Just a second.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-that-helps",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. That helps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.good-to-know",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Good to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-i-m-still-finding-my-feet-at-employer",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry, I'm still finding my feet at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-that-came-out-wrong-at-employer",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry. That came out wrong at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.then-why-are-you-still-at-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then why are you still at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-not-much-of-a-welcome-to-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's not much of a welcome to {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.is-everyone-at-employer-this-touchy",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Is everyone at {employer} this touchy?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.are-you-trying-to-scare-me-about-employer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Are you trying to scare me about {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-do-things-run-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How do things run at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-nerves",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry. Nerves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.be-right-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Be right back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-a-lot",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks a lot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.think-what-you-like-about-employer",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Think what you like about {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.give-employer-a-few-days-before-you-decide",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Give {employer} a few days before you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.walk-with-me-through-employer-i-ll-point-things-out",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Walk with me through {employer}. I'll point things out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "apologize",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-let-s-start-at-the-front-of-employer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. Let's start at the front of {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "tell",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "thank",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-ahead-employer-isn-t-going-anywhere",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go ahead. {employer} isn't going anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "leave",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.fine-employer-runs-without-us-for-a-minute",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Fine. {employer} runs without us for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-s-the-tour-welcome-to-employer",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That's the tour. Welcome to {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-i-ll-find-you-once-you-re-settled-at-employer",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. I'll find you once you're settled at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "leave",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.take-your-time-employer-will-wait",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Take your time. {employer} will wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "leave",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.welcome-to-employer-find-me-if-you-re-stuck",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Welcome to {employer}. Find me if you're stuck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.your-hours-start-now-welcome-to-employer",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Your {hours} start now. Welcome to {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["hours", "employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.you-made-it-through-the-door-at-employer-the-hard-part-s-done",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "You made it through the door at {employer}. The hard part's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer", "first-job"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.fine-come-find-me-at-employer-when-you-re-ready",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Fine. Come find me at {employer} when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.all-right-i-ll-be-around-employer-if-you-want-me",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "All right. I'll be around {employer} if you want me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
       }
     }
   ]

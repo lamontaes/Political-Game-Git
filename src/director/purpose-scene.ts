@@ -83,6 +83,7 @@ import {
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { FIRST_DAY_TYPE, firstDayFacts } from "./first-day-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -1705,6 +1706,18 @@ function composeBinding(
       text: asker.givenName,
       sourceRecordIds: passed.refusedBefore,
     };
+  // A first day at a new job: the employer, the job, the hours, the owner,
+  // who held the job before, the crew and the newcomer's earlier work, each
+  // from the record it came from (first-day-facts.ts).
+  if (type.key === FIRST_DAY_TYPE)
+    Object.assign(
+      facts,
+      firstDayFacts(core, {
+        causeId: moment.causeId,
+        newcomerId: askedId,
+        authorityId: askerId,
+      }),
+    );
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.

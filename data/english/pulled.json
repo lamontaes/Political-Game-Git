@@ -61,6 +61,9 @@
     "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ],
+    "scene-talk.reply-apologize.sorry-i-m-still-finding-my-feet-at-employer": [
+      "plain-american-spelling-and-phrasing"
+    ],
     "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ]
@@ -119,6 +122,9 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
+    "scene-talk.close-warn.all-right-i-ll-be-around-employer-if-you-want-me": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.follow-accept.all-right-its-on-the-record-either-way": [
       "alright-in-dialogue"
     ],
@@ -172,6 +178,9 @@
     ],
     "scene-talk.reply-answer.i-hear-you-i-still-think-it-s-the-right-answer": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-answer.not-properly-yet-i-ll-say-hello-to-boss": [
+      "plain-american-reads-stiff"
     ],
     "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
       "alright-in-dialogue"

@@ -129,6 +129,8 @@ import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
+/** The kind of the stand-in organization for work out of town, read by the words that name an employer. */
+export { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -5791,3 +5793,85 @@ export {
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
 export { openingWorkStatus } from "../jobs-elsewhere";
+
+/** How a worker who left a job left it, as the words that tell it say. */
+export type LeftHow = "retired" | "moved" | "passed" | "quit";
+
+/**
+ * The opening a person's job was filled from (a first day's "who had this job
+ * before me"): the offer they accepted, else the opening their hire closed,
+ * at that employer. Names the worker the opening replaced, and their job, where
+ * it replaced one.
+ */
+export function openingFilledFor(
+  api: CoreAPI,
+  personId: string,
+  organizationId: string,
+):
+  | { id: string; replacesPersonId?: string; replacesJobId?: string }
+  | undefined {
+  const positions = store(api).table("positions");
+  const accepted = (
+    store(api)
+      .table("offers")
+      .query("byPerson", [personId, "accepted"]) as unknown as JobOfferRow[]
+  )
+    .filter((row) => row.organizationId === organizationId)
+    .sort((a, b) => (b.answeredAt ?? "").localeCompare(a.answeredAt ?? ""))[0];
+  const byOffer = accepted
+    ? (positions.get(accepted.positionId) as unknown as PositionRow | undefined)
+    : undefined;
+  const found =
+    byOffer ??
+    (positions.rows() as unknown as PositionRow[])
+      .filter(
+        (row) =>
+          row.status === "filled" &&
+          row.filledBy === personId &&
+          row.organizationId === organizationId,
+      )
+      .sort((a, b) => b.openedAt.localeCompare(a.openedAt))[0];
+  return found
+    ? {
+        id: found.id,
+        ...(found.replacesPersonId
+          ? { replacesPersonId: found.replacesPersonId }
+          : {}),
+        ...(found.replacesJobId ? { replacesJobId: found.replacesJobId } : {}),
+      }
+    : undefined;
+}
+
+/**
+ * How a worker left their job, from the jobs engine's own change record: a
+ * retirement, a move away, a death, or a quit (a worker who left work or took
+ * another job). A layoff or a closure is not a leaver and has none.
+ */
+export function howWorkerLeft(
+  api: CoreAPI,
+  personId: string,
+  jobId: string,
+): { how: LeftHow; id: string } | undefined {
+  const row = (
+    store(api).table("changes").query("byPerson", [personId]) as unknown as {
+      id: string;
+      jobId: string;
+      kind: string;
+      reasonKey: string;
+    }[]
+  ).find(
+    (change) =>
+      change.jobId === jobId &&
+      (change.kind === "quit" || change.kind === "left-work"),
+  );
+  if (!row) return undefined;
+  const how: LeftHow =
+    row.reasonKey === jobsData.reasons.retired
+      ? "retired"
+      : row.reasonKey === jobsData.reasons.movedAway
+        ? "moved"
+        : row.reasonKey === jobsData.reasons.died
+          ? "passed"
+          : "quit";
+  return { how, id: row.id };
+}

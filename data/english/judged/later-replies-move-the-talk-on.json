@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 916,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2706,19 +2706,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
     },
-    "1e7apq23s2w": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-answer.whatever-nobody-else-wants-to-do-i-ll-start-there-and-learn-the-place-",
-        "scene-talk.reply-ask.why-what-did-they-tell-you",
-        "scene-talk.reply-tell.not-really-i-m-good-at-learning-on-the-fly",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "'Is this a good place to work?' restates the who-lasts question and 'I'll find the rest' restates learning on the fly, so two of three rehash."
-    },
     "1e7km4pufan": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -3183,19 +3170,6 @@
         "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here"
       ],
       "why": "Most of the replies offered now repeat the first replies' apology, promise and push-back in new words, and only the walk-away line moves the talk on."
-    },
-    "1p42l7olixe": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-answer.whatever-nobody-else-wants-to-do-i-ll-start-there-and-learn-the-place-",
-        "scene-talk.reply-ask.why-what-did-they-tell-you",
-        "scene-talk.reply-tell.not-really-i-m-good-at-learning-on-the-fly",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "'Is this a good place to work?' restates 'does nobody last here past a year?' and 'I'll find the rest' restates 'good at learning on the fly', so two of three rehash."
     },
     "1p98mudn4jz": {
       "keys": [
@@ -4372,5 +4346,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "1ka7ajk1sqw"
 }

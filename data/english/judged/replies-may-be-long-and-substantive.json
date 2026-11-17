@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 991,
+  "judged": 933,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -500,15 +500,6 @@
       ],
       "why": "Making the call, waiting with a promise and stepping out carry no reason."
     },
-    "09dggn1u013": {
-      "keys": [
-        "scene-talk.follow-warn.depends-who-you-ask-keep-your-head-down-the-first-month-and-don-t-let-",
-        "scene-talk.reply-ask.who-hands-off-their-shifts",
-        "scene-talk.reply-confront.sounds-like-somebody-handed-you-theirs",
-        "scene-talk.reply-leave.show-me-where-to-hang-my-coat-and-i-m-ready"
-      ],
-      "why": "A question, a jab that somebody handed over their shifts and a ready line carry no reason."
-    },
     "09jpywlgfnw": {
       "keys": [
         "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
@@ -527,14 +518,6 @@
         "scene-talk.reply-confront.you-know-i-have-to-report-this"
       ],
       "why": "'Keep this between us', 'Pick that up and go' and 'You know I have to report this' give no reason."
-    },
-    "09w81e2x6kx": {
-      "keys": [
-        "scene-talk.follow-confront.ask-away-you-ll-hear-the-same-thing-from-everybody",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.then-maybe-everybody-s-wrong"
-      ],
-      "why": "\"Point taken\" and \"Then maybe everybody's wrong\" carry no reason for the claim."
     },
     "0ag3qunuf40": {
       "keys": [
@@ -836,14 +819,6 @@
       ],
       "why": "A challenge to do it in public and \"the call I thought was right\" carry no reason."
     },
-    "0gxe0irtuml": {
-      "keys": [
-        "scene-talk.follow-confront.welcome-to-public-service",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work"
-      ],
-      "why": "\"Point taken\" and a question about the workplace carry no reason."
-    },
     "0gy407qayrz": {
       "keys": [
         "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
@@ -853,15 +828,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "The replies offer to explain, apologize, challenge or say a two-word line, and none gives a reason."
-    },
-    "0h1lzn5vkoo": {
-      "keys": [
-        "scene-talk.follow-confront.welcome-to-public-service",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-leave.let-me-get-my-bearings-first"
-      ],
-      "why": "\"Point taken,\" a question and getting bearings carry no reason."
     },
     "0h3sndywdy7": {
       "keys": [
@@ -964,24 +930,6 @@
         "scene-talk.reply-leave.i-m-done-take-it-with-you"
       ],
       "why": "Answering 'No one else will see it' with 'my answer doesn't change', keeping it, reporting it or 'I'm done' gives no reason."
-    },
-    "0jfa07w3m53": {
-      "keys": [
-        "scene-talk.follow-warn.careful-whatever-you-start-with-they-ll-hand-you-forever",
-        "scene-talk.reply-ask.what-does-everybody-else-avoid",
-        "scene-talk.reply-confront.then-don-t-i-ll-keep-up",
-        "scene-talk.reply-leave.let-me-put-my-things-down-first"
-      ],
-      "why": "A question, a bare promise to keep up and a request to put things down carry no reason."
-    },
-    "0jghhmky3mu": {
-      "keys": [
-        "scene-talk.follow-confront.depends-on-the-week-ask-me-friday",
-        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
-        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
-        "scene-talk.reply-leave.let-me-get-my-bearings-first"
-      ],
-      "why": "Keeping my head down, asking the boss and getting bearings are bare plans with no reason given."
     },
     "0jk9fhhdo4f": {
       "keys": [
@@ -1121,15 +1069,6 @@
       ],
       "why": "\"I'll do it,\" \"I mean it\" and \"Time's up\" are promises and an exit with no argument."
     },
-    "0l70z3vlv1n": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "Thanks, a question about the workplace and a ready line carry no reason."
-    },
     "0m1lo96n355": {
       "keys": [
         "scene-talk.follow-plea.please-give-it-a-few-weeks-before-you-decide-i-ll-earn-my-place",
@@ -1254,23 +1193,6 @@
         "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "0o6rmie12nt": {
-      "keys": [
-        "scene-talk.follow-answer.not-too-far-down-people-here-like-a-hello",
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
-      ],
-      "why": "\"Good to know. Thanks.\" and dropping a bag are thanks and an exit with no reason."
-    },
-    "0o743fqwqo6": {
-      "keys": [
-        "scene-talk.follow-confront.prove-it-by-lunch",
-        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
-        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself",
-        "scene-talk.reply-leave.let-me-get-my-bearings-first"
-      ],
-      "why": "\"I'll keep my head down,\" going to the boss and getting bearings carry no reason."
     },
     "0oa5oouw0hp": {
       "keys": [
@@ -1824,14 +1746,6 @@
       ],
       "why": "\"I'm going to fix it\" and going to lie down carry no reason."
     },
-    "10h7trv0dup": {
-      "keys": [
-        "scene-talk.follow-answer.everybody-s-got-them-come-on-i-ll-show-you-around",
-        "scene-talk.reply-thank.that-s-useful-thank-you",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "A thank-you and \"Point me where to start\" carry no reason."
-    },
     "10j4fos03wx": {
       "keys": [
         "scene-talk.follow-confront.then-i-ll-speak-my-mind-thursday-instead",
@@ -1911,14 +1825,6 @@
       ],
       "why": "None of the hard-vote promise, the offer to listen or \"This isn't the place\" states a reason."
     },
-    "12lnqe156zm": {
-      "keys": [
-        "scene-talk.follow-answer.good-now-let-s-get-you-a-desk",
-        "scene-talk.reply-thank.that-s-useful-thank-you",
-        "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
-      ],
-      "why": "A thank-you and \"I'll figure out the rest as I go\" carry no reason."
-    },
     "12xb3sh8saj": {
       "keys": [
         "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
@@ -1946,15 +1852,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "A yes, neither yes nor no, avoiding the phone and a floor exit carry no reason."
-    },
-    "13vm6dg4yit": {
-      "keys": [
-        "scene-talk.follow-warn.pace-yourself-nobody-gets-a-medal-for-the-first-week",
-        "scene-talk.reply-ask.what-does-everybody-else-avoid",
-        "scene-talk.reply-confront.then-don-t-i-ll-keep-up",
-        "scene-talk.reply-leave.show-me-where-to-hang-my-coat-and-i-m-ready"
-      ],
-      "why": "A question, \"Then don't. I'll keep up\" and a ready line carry no reason."
     },
     "144fjbv1ptf": {
       "keys": [
@@ -2275,15 +2172,6 @@
       ],
       "why": "'I can't', 'I care about you, and I can't', accepting and leaving answer 'you'd say no?' without a reason."
     },
-    "1d8mb809r0b": {
-      "keys": [
-        "scene-talk.follow-warn.pace-yourself-nobody-gets-a-medal-for-the-first-week",
-        "scene-talk.reply-ask.what-does-everybody-else-avoid",
-        "scene-talk.reply-confront.then-don-t-i-ll-keep-up",
-        "scene-talk.reply-leave.let-me-put-my-things-down-first"
-      ],
-      "why": "A question, a retort and putting things down carry no reason."
-    },
     "1di7m60wyer": {
       "keys": [
         "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide",
@@ -2338,15 +2226,6 @@
         "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep"
       ],
       "why": "A promise, soup and coming back tomorrow carry no argument."
-    },
-    "1e8o7tfk46j": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-        "scene-talk.reply-confront.be-honest-with-me-is-this-a-good-place-to-work",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "Thanks, a question and a ready line carry no reason."
     },
     "1e9vmvyuh0n": {
       "keys": [
@@ -2432,15 +2311,6 @@
       ],
       "why": "A yes, a plan to start tomorrow and an unexplained \"more than I can do\" carry no reason."
     },
-    "1fcqh0spb7h": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "Thanks, a rumor question and a request for a starting point give no reason or argument."
-    },
     "1g9zybt3mjh": {
       "keys": [
         "scene-talk.follow-comfort.dont-be-so-hard-on-yourself",
@@ -2467,14 +2337,6 @@
         "scene-talk.reply-ask.would-you-like-to-hold-kid-you-can-wash-your-hands-in-the-kitchen-first"
       ],
       "why": "The replies share feelings or make requests about the dishes and holding {kid}, but none carries a reason or argument."
-    },
-    "1hgsx4t6r42": {
-      "keys": [
-        "scene-talk.follow-confront.welcome-to-public-service",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.that-sounds-like-a-warning"
-      ],
-      "why": "\"Point taken\" and \"That sounds like a warning\" carry no reason."
     },
     "1hrvuol09ho": {
       "keys": [
@@ -2510,15 +2372,6 @@
         "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental"
       ],
       "why": "\"Fine. Yes. I'm going to miss it\" and a sentimental exit are bare answers with no reason."
-    },
-    "1hzvgqy2ppz": {
-      "keys": [
-        "scene-talk.follow-confront.some-don-t-the-ones-who-ask-that-on-day-one-usually-do",
-        "scene-talk.reply-apologize.then-i-ll-be-the-one-who-lasts-what-do-i-need-to-know-first",
-        "scene-talk.reply-confront.i-ll-ask-around-then",
-        "scene-talk.reply-leave.let-me-get-my-bearings-first"
-      ],
-      "why": "\"Then I'll be the one who lasts\" is a stance and a question, and the others defer, with no reason given."
     },
     "1i736904bg2": {
       "keys": [
@@ -2640,14 +2493,6 @@
         "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
       ],
       "why": "Promising signatures, asking for help, asking who decided and heading out carry no reason."
-    },
-    "1jxzc0fd8mz": {
-      "keys": [
-        "scene-talk.follow-confront.little-bit-the-last-two-didn-t-make-it-to-spring",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
-      ],
-      "why": "\"Point taken\" and \"not planning on being the third\" are a concession and a bare stance with no reason."
     },
     "1jzixdbr8fs": {
       "keys": [
@@ -2804,14 +2649,6 @@
         "scene-talk.reply-leave.good-then-we-re-done"
       ],
       "why": "\"Put this down exactly as I say it\" announces an answer without content, and the other reply ends the talk."
-    },
-    "1q53az7yrhd": {
-      "keys": [
-        "scene-talk.follow-confront.some-don-t-the-ones-who-ask-that-on-day-one-usually-do",
-        "scene-talk.reply-apologize.then-i-ll-be-the-one-who-lasts-what-do-i-need-to-know-first",
-        "scene-talk.reply-confront.i-ll-ask-around-then"
-      ],
-      "why": "\"I'll be the one who lasts\" is a bare stance plus a question, and \"I'll ask around\" is an exit."
     },
     "1q58oas8vf4": {
       "keys": [
@@ -3023,14 +2860,6 @@
       ],
       "why": "A promised explanation, an apology and a pause give no actual reason."
     },
-    "1uiwgaens6n": {
-      "keys": [
-        "scene-talk.follow-answer.everybody-s-got-them-come-on-i-ll-show-you-around",
-        "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "A thank-you and a request to be pointed at the work carry no argument or reason."
-    },
     "1ul6gqd1hm2": {
       "keys": [
         "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
@@ -3077,15 +2906,6 @@
       ],
       "why": "A Sunday promise, 'I hate it too', 'Can we not' and going to bed carry no reason."
     },
-    "1va6ugzt29t": {
-      "keys": [
-        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
-        "scene-talk.reply-thank.that-s-useful-thank-you",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
-      ],
-      "why": "Thanks, a question and \"I'll figure out the rest\" carry no reason."
-    },
     "1vlu5lu3jiz": {
       "keys": [
         "scene-talk.follow-answer.i-ask-the-questions-they-come-from-what-people-in-place-send-in",
@@ -3121,14 +2941,6 @@
         "scene-talk.reply-leave.let-me-enjoy-it-for-one-day-first"
       ],
       "why": "\"Find a job, save something, then see\" is a plan with no reason, and the others defer."
-    },
-    "1vz0q6j319p": {
-      "keys": [
-        "scene-talk.follow-answer.the-phones-before-nine-and-the-boss-after-four-learn-both-and-you-ll-b",
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
-      ],
-      "why": "A thank-you and \"figure out the rest as I go\" carry no argument or reason."
     },
     "1w1mbg9et00": {
       "keys": [
@@ -3267,15 +3079,6 @@
       ],
       "why": "Gratitude, 'I can plan around that' and going to bed give no reason."
     },
-    "1z48o64jf2f": {
-      "keys": [
-        "scene-talk.follow-confront.welcome-to-public-service",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.that-sounds-like-a-warning",
-        "scene-talk.reply-leave.let-me-get-my-bearings-first"
-      ],
-      "why": "\"Point taken,\" \"That sounds like a warning\" and getting bearings carry no reason."
-    },
     "1z9ku92skn3": {
       "keys": [
         "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
@@ -3312,14 +3115,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "'I'll look at it again', the hearing promise and the floor exit say what the player will do but never why."
-    },
-    "200o78q20jt": {
-      "keys": [
-        "scene-talk.follow-answer.everybody-s-got-them-come-on-i-ll-show-you-around",
-        "scene-talk.reply-thank.that-s-useful-thank-you",
-        "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
-      ],
-      "why": "A thank-you and \"Let me drop my bag\" carry no reason."
     },
     "201xqzmxptv": {
       "keys": [
@@ -3704,14 +3499,6 @@
       ],
       "why": "A quick apology, \"we read the room differently\" and \"I have to go\" give no reason."
     },
-    "28yshhzqvg3": {
-      "keys": [
-        "scene-talk.follow-answer.not-too-far-down-people-here-like-a-hello",
-        "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get",
-        "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
-      ],
-      "why": "Thanks and an offer after dropping a bag are polite closers with no reason in them."
-    },
     "29bv0og2usg": {
       "keys": [
         "scene-talk.state-request.friend.would-you-tell-me-what-happened-first-i-can-t-take-the-complaint-back-but-i-can-listen",
@@ -3741,14 +3528,6 @@
       ],
       "why": "The replies are a flat denial, a dare and an exit, with no reason or argument."
     },
-    "29xpbfjbjx1": {
-      "keys": [
-        "scene-talk.follow-confront.nobody-plans-on-it",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
-      ],
-      "why": "Both replies, a concession and a plan to ask the boss, give no reason or argument of their own."
-    },
     "2a2p8r1ug2r": {
       "keys": [
         "scene-talk.follow-ask.so-where-do-you-think-the-votes-are",
@@ -3766,14 +3545,6 @@
         "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
       ],
       "why": "\"Then it'll look bad. I'll live\" is a stance, and the others are acceptance and exit, none with a reason."
-    },
-    "2adbmijzzu2": {
-      "keys": [
-        "scene-talk.follow-confront.little-bit-the-last-two-didn-t-make-it-to-spring",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
-      ],
-      "why": "\"Point taken\" and going to the boss carry no argument."
     },
     "2ah1nyms6lk": {
       "keys": [
@@ -3873,14 +3644,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "\"When you called my office\" is a bare date, and the refusal and \"We're done here\" add no reason."
-    },
-    "2cmmt6h5i4k": {
-      "keys": [
-        "scene-talk.follow-answer.good-now-let-s-get-you-a-desk",
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
-      ],
-      "why": "\"Good to know. Thanks\" and dropping the bag carry no reason."
     },
     "2cp9f03r4ue": {
       "keys": [
@@ -4013,15 +3776,6 @@
       ],
       "why": "An endorsement, a plan to call and a car exit are stances and closers without an argument."
     },
-    "2erb6mjxv42": {
-      "keys": [
-        "scene-talk.follow-confront.welcome-to-public-service",
-        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
-        "scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year",
-        "scene-talk.reply-leave.let-me-get-my-bearings-first"
-      ],
-      "why": "A head-down stance, a rumor question and a bearings request give no argument or reason."
-    },
     "2ezwobyd6vi": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -4084,5 +3838,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0qqmoti5m7i"
+  "yesHash": "1f6saqphcrz"
 }

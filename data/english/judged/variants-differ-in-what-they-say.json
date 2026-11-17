@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1121,
+  "judged": 1107,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -388,13 +388,6 @@
         "scene-talk.follow-threaten.the-other-guy-returns-my-calls"
       ],
       "why": "Both lines threaten to take the donor's support elsewhere, the same threat reworded."
-    },
-    "07c4hyw6b41": {
-      "keys": [
-        "scene-talk.reply-tell.honestly-i-don-t-know-yet-walk-me-through-a-normal-day-and-i-ll-tell-y",
-        "scene-talk.reply-tell.no-you-ll-have-to-show-me-everything"
-      ],
-      "why": "Both lines say the speaker does not know yet and wants to be shown, with nothing in the world to pick between them."
     },
     "07f1ufxrc0k": {
       "keys": [
@@ -2631,13 +2624,6 @@
       ],
       "why": "Both say the player will come and listen, a rewording."
     },
-    "19feqpkk3z8": {
-      "keys": [
-        "scene-talk.reply-thank.good-to-know-thanks",
-        "scene-talk.reply-thank.that-s-useful-thank-you"
-      ],
-      "why": "Both are plain thanks for useful information."
-    },
     "19hcvmumzph": {
       "keys": [
         "scene-talk.narrate-narrate.name-who-chairs-the-local-party-has-come-by-the-house",
@@ -2711,14 +2697,6 @@
         "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you"
       ],
       "why": "Both lines say the same thing, that the player will get back to them later."
-    },
-    "1asx9nm8m0e": {
-      "keys": [
-        "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go",
-        "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours",
-        "scene-talk.reply-leave.point-me-where-to-start-i-ll-find-the-rest"
-      ],
-      "why": "All three say the player will start somewhere and figure out the rest, the same line reworded."
     },
     "1b2gz5h4459": {
       "keys": [
@@ -3206,13 +3184,6 @@
       ],
       "why": "Both lines are generic relief with nothing in the world to choose between them."
     },
-    "1jeo7mbl72j": {
-      "keys": [
-        "scene-talk.follow-accept.you-ll-get-it-come-on",
-        "scene-talk.follow-accept.you-ll-need-it-come-on"
-      ],
-      "why": "The two lines differ by one word and say the same thing."
-    },
     "1jf84g88qdk": {
       "keys": [
         "scene-talk.reply-offer.come-to-the-meeting-thursday-i-ll-sit-next-to-you-while-you-say-it",
@@ -3233,15 +3204,6 @@
         "scene-talk.follow-ask.who-did-you-tell-exactly"
       ],
       "why": "Both ask who the player has told, the same question reworded."
-    },
-    "1jxteuw86oq": {
-      "keys": [
-        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
-        "scene-talk.reply-apologize.okay-okay-point-taken",
-        "scene-talk.reply-apologize.sorry-first-day-nerves",
-        "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous"
-      ],
-      "why": "All four are the same brief apology, two citing nerves."
     },
     "1k3009qccxs": {
       "keys": [
@@ -4118,13 +4080,6 @@
       ],
       "why": "All three lines say {source} is wrong, with nothing in the world to choose between them."
     },
-    "20zaf2ugj8i": {
-      "keys": [
-        "scene-talk.reply-leave.let-me-put-my-things-down-first",
-        "scene-talk.reply-leave.show-me-where-to-hang-my-coat-and-i-m-ready"
-      ],
-      "why": "Putting things down and hanging a coat both just ask for a moment to settle in, the same line reworded."
-    },
     "20zy0tp0vzu": {
       "keys": [
         "scene-talk.reply-answer.ask-me-anything-i-ll-answer-what-i-can-and-give-you-the-records-for-t",
@@ -4478,13 +4433,6 @@
         "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow"
       ],
       "why": "Both lines accept and promise a follow-up in other words."
-    },
-    "27su9yl4bna": {
-      "keys": [
-        "scene-talk.follow-accept.phones-start-ringing-at-eight-sharp",
-        "scene-talk.follow-accept.phones-start-ringing-at-eight-sharp-good-luck"
-      ],
-      "why": "The second line is the first with a good luck added."
     },
     "27x1l7vtwh8": {
       "keys": [
@@ -5016,5 +4964,5 @@
       "why": "Both lines hold to the speaker's view in other words."
     }
   },
-  "yesHash": "10budqxwtne"
+  "yesHash": "063okci5z5p"
 }
