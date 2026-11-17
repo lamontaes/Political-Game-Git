@@ -187,6 +187,8 @@ export function electionDay(
   const withName = withId ? nameOf(api, withId) : null;
   return {
     date,
+    /** Where the day is spent: the polling building where the player votes, else the town. */
+    where: building?.name ?? place ?? null,
     contestIds: moment.recordIds,
     lines,
     canvass:

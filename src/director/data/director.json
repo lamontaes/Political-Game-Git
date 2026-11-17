@@ -121,6 +121,48 @@
       "tag": "SOURCED",
       "citation": "Average Gregorian month: 146,097 days per 400 years divided by 4,800 months."
     },
+    "directorFirstDaySmallCrew": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "citation": "The most people at an employer, the newcomer among them, that someone showing a new hire around calls a count of \"us\" (\"there are eleven of us\") instead of saying nothing of the crew's size (Story lead, Nov 17, the first day at work; first-day-facts.ts). Said in words, never as a figure.",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 10,
+        "high": 50,
+        "unit": "people on the staff",
+        "citation": "Unverified estimate (Nov 17, 2026): the size of a workplace where everyone knows everyone, checked across drawn places against the staff counts of their employers; Census County Business Patterns bands establishments at 1-4, 5-9, 10-19, 20-49 and 50-99 employees."
+      }
+    },
+    "directorFirstDayLongestDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "citation": "The fewest days the coworker showing a new hire around must have held their own job there before a first-day line says how long they have been there, as the one who has the keys (Story lead, Nov 17, the first day at work; first-day-facts.ts). Said as a span in words, never as days.",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 180,
+        "high": 730,
+        "unit": "days in the job",
+        "citation": "Unverified estimate (Nov 17, 2026): about a year, the point past which a worker is called long-standing; BLS Employee Tenure (Sept. 2024) puts the median U.S. wage-and-salary worker's tenure at 3.9 years."
+      }
+    },
+    "directorFirstDayRecentDays": {
+      "value": 730,
+      "tag": "TUNABLE",
+      "citation": "How long after a job ended a new employer's first day still calls it where the newcomer \"came from\" (Story lead, Nov 17, the first day at work; first-day-facts.ts). Said as the employer's name, never as a span.",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 365,
+        "high": 1095,
+        "unit": "days since the last job ended",
+        "citation": "Unverified estimate (Nov 17, 2026): a recent previous job, checked across drawn places in a played year; no study fixes when a last job stops being the one a person is coming from."
+      }
+    },
     "directorTieParent": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -971,6 +1013,20 @@
         "unit": "lead over the runner-up, as a share of votes cast",
         "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
       }
+    },
+    "directorGiftRankDonors": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "citation": "The fewest other named donors a campaign needs before a gift reads as one of many (the biggest or one of the smallest checks the candidate has had); with fewer, a rank says nothing (Story lead, Nov 17, the donor's call; donor-ask-facts.ts `donorReads`).",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 1,
+        "high": 4,
+        "unit": "other donors",
+        "citation": "Unverified estimate (Nov 17, 2026): the range checked across drawn places in a played campaign; no study measures it. One other donor would make every gift the biggest or the smallest of two; four would hide a rank in a small race."
+      }
     }
   },
   "channels": [
@@ -1044,15 +1100,6 @@
       "producedBy": [],
       "producedByFact": [
         { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
-      ]
-    },
-    {
-      "id": "promise",
-      "endsOn": "settling-record",
-      "producedBy": [],
-      "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "promise" },
-        { "eventKind": "promise.answer", "fact": "promise" }
       ]
     }
   ],
