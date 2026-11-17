@@ -14,6 +14,7 @@ import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { ownUpkeep, reserveHours } from "../core2/free-block";
 import { homeUpkeep } from "../core2/closeness";
 import { PEOPLE_MODULE_ID } from "../core2/modules/people";
+import { heldDrivesOf } from "../core2/modules/drives";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -2515,6 +2516,8 @@ export class DevMode {
         case: healthCase(core, personId),
       },
       drives: [...person.drives.values()],
+      // Each drive's own half-life (a grudge's follows its holder's traits).
+      heldDrives: heldDrivesOf(this.api, personId),
       relationships: [...(core.relationshipsByPerson.get(personId) ?? [])]
         .map((id) => core.relationships.get(id))
         .filter((row) => row !== undefined),

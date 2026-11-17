@@ -1146,6 +1146,27 @@ function heldFor(api: CoreAPI, actorId: PersonId) {
   return runtimeFor(api.state).byPerson.get(actorId);
 }
 
+/**
+ * The drives a full person holds, each with its kind, target, strength's
+ * anchor and own half-life, for dev mode's person view and proofs. Reads only.
+ */
+export function heldDrivesOf(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly Pick<
+  HeldDrive,
+  "id" | "kind" | "targetId" | "formedAt" | "halfLifeDays" | "sourceEventId"
+>[] {
+  return [...(heldFor(api, personId)?.values() ?? [])].map((drive) => ({
+    id: drive.id,
+    kind: drive.kind,
+    ...(drive.targetId ? { targetId: drive.targetId } : {}),
+    formedAt: drive.formedAt,
+    halfLifeDays: drive.halfLifeDays,
+    sourceEventId: drive.sourceEventId,
+  }));
+}
+
 /** Drives whose goal kind the act row serves, strongest first, ties by id. */
 function servingDrives(
   api: CoreAPI,
