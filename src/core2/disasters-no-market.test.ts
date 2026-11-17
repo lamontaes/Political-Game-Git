@@ -152,7 +152,13 @@ it(`pays a disaster's repairs in the damaged town when the player has moved to a
       personIds: [player.id],
       placeId: town!,
       ...(countyId ? { countyId } : {}),
-      householdId: `${player.householdId}:moved:${player.id}:${core.date}`,
+      // Alone in the household by the eve (the others may have left or died): the household moves
+      // whole, under its own id; with others in it, the player leaves them behind under a new one.
+      householdId: (core.households.get(player.householdId)?.memberIds ?? [])
+        .filter((id) => core.people.get(id)?.alive)
+        .every((id) => id === player.id)
+        ? player.householdId
+        : `${player.householdId}:moved:${player.id}:${core.date}`,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
