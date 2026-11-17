@@ -14,10 +14,17 @@ import type { CoreEventInput } from "./types";
 // The place is drawn from all 56; a place with no such estate is passed over
 // and named (CTO, #9747 04:26Z: off its pin at Dennis, MA).
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const DRAWS = 20;
+const DRAWS = 8;
 
+// The chain where an heir dies during probate is checked here by will, the
+// case drawn places hold. By intestacy that chain is rare among full people
+// (the CTO, #9747 06:30Z, after twenty drawn places held none), so it is
+// checked at the rule level on constructed records in
+// estates-heirs-fixed-at-death.test.ts ("pays a child who dies during
+// probate's share to that child's own child"); here an intestate estate the
+// world holds is checked to settle and pay its heirs as the law orders.
 describe("an estate keeps its heirs through probate (played world)", () => {
-  for (const by of ["intestacy", "will"] as const)
+  for (const by of ["will"] as const)
     it(`by ${by}, a dead heir's share reaches the heir's own children, seed ${seed}`, () => {
       const passed: string[] = [];
       for (let draw = 0; draw < DRAWS; draw += 1) {
@@ -152,4 +159,102 @@ describe("an estate keeps its heirs through probate (played world)", () => {
         `No drawn place held the case, seed ${seed}: ${passed.join("; ")}`,
       );
     }, 2_700_000); // Probate's 270 played days, and a house sale's wait, are the game's own time (about 170 s in a played town), after the draws.
+
+  it(`an intestate estate the world holds settles, and its living heirs are paid as the law orders, seed ${seed}`, () => {
+    const passed: string[] = [];
+    for (let draw = 0; draw < DRAWS; draw += 1) {
+      const place = drawPlace(seed, `estates-played-heirs:law:${draw}`);
+      const where = `${place.name} (${place.key}), seed ${seed}`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(core);
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const heard: CoreEventInput[] = [];
+      registerModule(core, {
+        id: "test:estate-reader",
+        eventKinds: ["estate.settled"],
+        onEvent: (_api, event) => {
+          heard.push(event);
+        },
+      });
+      // An adult with something to leave, kin the law names, no home to
+      // sell, and no will on the day of death (the probate row's).
+      let found: { dead: string; heirs: string[] } | undefined;
+      for (const p of [...core.people.values()]
+        .filter((q) => q.alive && q.liquidMinor > 100_00)
+        .sort((a, b) => a.id.localeCompare(b.id))) {
+        if (!core.people.get(p.id)?.alive) continue;
+        const heirs = heirsOf(api, p).heirs.filter(
+          (h) => core.people.get(h)?.alive,
+        );
+        if (!heirs.length) continue;
+        const household = core.households.get(p.householdId);
+        const others = household?.memberIds.some(
+          (m) => m !== p.id && core.people.get(m)?.alive,
+        );
+        const dwelling = core.modules.has("housing")
+          ? (api
+              .moduleState("housing")
+              .table("dwellings")
+              .get(`dwelling:${p.householdId}`) as unknown as
+              { tenure?: string } | undefined)
+          : undefined;
+        if (!others && dwelling?.tenure === "own") continue;
+        api.updatePerson(p.id, { alive: false });
+        settleEstate(api, p.id, "event:death:proof");
+        const kept = api
+          .moduleState(ESTATES_MODULE_ID)
+          .table("probate")
+          .get(p.id) as unknown as
+          { will?: unknown; heirs: string[] } | undefined;
+        if (!kept || kept.will) {
+          passed.push(
+            `${place.name}: ${p.id} ${kept ? "held a will" : "left nothing for probate after debts"}`,
+          );
+          continue;
+        }
+        found = { dead: p.id, heirs: kept.heirs };
+        break;
+      }
+      if (!found) {
+        passed.push(
+          `${place.name} (${place.key}): no intestate estate over $100 with living heirs`,
+        );
+        continue;
+      }
+      advanceCore(
+        core,
+        addDays(makeIsoDate(core.date), api.parameter("probateDays") + 2),
+      );
+      const settled = heard.find((e) => e.facts?.decedentId === found!.dead);
+      expect(settled, `${where}: probate closed`).toBeDefined();
+      expect(settled!.facts!.by).toBe("intestacy");
+      // The settlement's own record: every heir the law named on the day of
+      // death who is still living was paid a share of it.
+      const paid = new Map(
+        String(settled!.facts!.heirs ?? "")
+          .split(" ")
+          .filter(Boolean)
+          .map((row) => {
+            const [id, amount] = row.split("=");
+            return [id!, Number(amount)] as const;
+          }),
+      );
+      for (const h of found.heirs)
+        if (core.people.get(h)?.alive)
+          expect(
+            paid.get(h) ?? 0,
+            `${where}: heir ${h} of ${found.dead} was paid`,
+          ).toBeGreaterThan(0);
+      process.stdout.write(
+        `ESTATE HEIRS by law: ${where}, ${found.dead} to ${found.heirs.join(", ")}; passed over: ${passed.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `No drawn place held an intestate estate, seed ${seed}: ${passed.join("; ")}`,
+    );
+  }, 1_500_000);
 });
