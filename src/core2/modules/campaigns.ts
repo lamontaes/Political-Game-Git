@@ -15,7 +15,7 @@
  */
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
-import { townOutsideOf } from "../opening-outside-market";
+import { outsideMarketAccount, townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
   countedResidents,
@@ -1961,17 +1961,21 @@ export function seller(api: CoreAPI, purchase: Purchase): string {
   return found ?? outsideSeller(api);
 }
 
-/** The town's outside account, where a campaign buys what no business in town sells (the postage always: the Postal Service is not in town). */
+/**
+ * The town's outside account, where a campaign buys what no business in town
+ * sells (the postage always: the Postal Service is not in town). A town whose
+ * households and firms have bought nothing beyond its edge yet has none; the
+ * campaign's purchase opens the place's one outside account
+ * (`outsideMarketAccount`), the same account every other purchase from
+ * outside the town is paid to.
+ */
 function outsideSeller(api: CoreAPI): string {
-  const outside = townOutsideOf(
-    api.state.organizations.values(),
-    townRow(api).townPlaceId,
-  );
-  if (!outside)
-    throw new Error(
-      "No outside market account: a campaign has nowhere to buy what the town does not sell.",
-    );
-  return outside.id;
+  const town = townRow(api).townPlaceId;
+  const outside = townOutsideOf(api.state.organizations.values(), town);
+  if (outside) return outside.id;
+  const account = outsideMarketAccount(town, api.state.date);
+  api.addOrganization(account);
+  return account.id;
 }
 
 function priceRow(kind: string) {
@@ -2079,7 +2083,8 @@ function minutesAtWork(
 
 /**
  * A rival's own filing in a campaign's race: the person's filing standing in
- * the same contest (on its ballot, or with its petition out) when they are
+ * the same contest, or another seat of the same at-large race (on its
+ * ballot, or with its petition out) when they are
  * not the campaign's candidate, else null. Someone running for a seat
  * campaigns for themselves, so a rival never volunteers for or runs another
  * candidate's campaign, hosts or comes to their donor meeting, or endorses
@@ -2092,9 +2097,18 @@ export function rivalFiling(
   personId: string,
 ): FilingRow | null {
   if (personId === campaign.candidateId) return null;
-  return (
-    ballot(api, campaign.contestId).find((f) => f.personId === personId) ?? null
-  );
+  // The at-large seats up that day are one race (`atLargeGroup`): a filing
+  // for any of its seats runs against every candidate in it.
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  const contestIds = contest
+    ? atLargeGroup(api, contest).map((row) => row.id)
+    : [campaign.contestId];
+  for (const contestId of contestIds) {
+    const own = ballot(api, contestId).find((f) => f.personId === personId);
+    if (own) return own;
+  }
+  return null;
 }
 
 /**
@@ -4171,6 +4185,10 @@ export function donationAnswer(
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return { givenMinor: 0, why: "no-spare" };
+  // Someone standing in the same race campaigns for themselves and funds no
+  // rival (`rivalFiling`): no reason to give, as for every other help.
+  if (rivalFiling(api, campaign, donorId))
+    return { givenMinor: 0, why: "not-warm" };
   const budget = giftBudget(api, donor);
   const reason = donorReason(api, filingId, donorId, budget);
   if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
@@ -4313,7 +4331,11 @@ export function askPlayerForMoney(
   return true;
 }
 
-/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+/**
+ * An ask is open while it waits on an answer, its candidate is still standing
+ * for a race not yet held, and the person asked has not filed against them in
+ * it (`rivalFiling`: a rival funds no rival).
+ */
 function askOpen(api: CoreAPI, row: AskRow): boolean {
   if (row.status !== "pending") return false;
   const filing = filingOf(api, row.campaignId);
@@ -4325,7 +4347,8 @@ function askOpen(api: CoreAPI, row: AskRow): boolean {
     !!filing &&
     standing(filing) &&
     !!contest &&
-    contest.electionDate >= api.state.date
+    contest.electionDate >= api.state.date &&
+    !rivalFiling(api, campaignFor(api, row.campaignId), row.donorId)
   );
 }
 

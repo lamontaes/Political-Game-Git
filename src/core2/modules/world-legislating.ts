@@ -76,6 +76,7 @@ import {
   lawNeedsChange,
   lawChain,
   LAWS_MODULE_ID,
+  labelOfAnotherAtLevel,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
@@ -177,9 +178,13 @@ function questionForLevel(
   const kind =
     JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
   const levels = QUESTION_SCOPES[question]?.levels ?? [];
-  return kind === "federal-district" && level !== "federal"
-    ? levels.some((own) => ["state", "county", "city"].includes(own))
-    : levels.includes(level);
+  const scoped =
+    kind === "federal-district" && level !== "federal"
+      ? levels.some((own) => ["state", "county", "city"].includes(own))
+      : levels.includes(level);
+  // One label per rule at a level: a question this level reads as another
+  // platform question's rule is that question's label here, not a decision.
+  return scoped && !labelOfAnotherAtLevel(question, level);
 }
 
 /**
@@ -1268,6 +1273,13 @@ const SITTING_CALENDAR = {
  */
 function townMeetingHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
   const out = new Map<string, OfficeTime>();
+  // The office-time readers are one list for every world in the process
+  // (work.ts): a small world with no laws or offices has no body to meet.
+  if (
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return out;
   const today = api.state.date;
   const county = lawChain(api).countyGeoids[0];
   const bodies = new Set(townSeats(api).map((row) => row.office.id));
