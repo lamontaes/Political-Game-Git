@@ -19,7 +19,7 @@ import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { councilChosenMayor, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   bodyReach,
   FEDERAL_HOUSE,
@@ -528,7 +528,17 @@ function organizeNow(
       votes: Record<string, number>;
       heldBy?: "majority-caucus" | "coalition";
     };
-    if (post.selection === "caucus-vote") {
+    // Where the council chooses the town's mayor from among its members, the
+    // mayor is the council's president: the one chair, not a second vote.
+    const mayorId =
+      post.key === "council-president"
+        ? councilChosenMayor(api, chamber)
+        : null;
+    const mayor = mayorId
+      ? open(all).find((t) => memberKey(t) === mayorId)
+      : undefined;
+    if (mayor) result = { winner: mayor, votes: {} };
+    else if (post.selection === "caucus-vote") {
       const caucus = post.key.startsWith("minority") ? minority : majority;
       result = elect(
         api,
