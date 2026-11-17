@@ -19,7 +19,7 @@ A feature counts as built only when the running game shows another part of the g
 ## The run
 
 1. Pick a seed you did not choose: `SEED=$(node -e "console.log(require('crypto').randomBytes(6).toString('hex'))")`. Name the seed and place in the PR body.
-2. Build the world: `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })` from `src/bench/world`, with every module installed. Advance one year with `DevMode` (see `scripts/trace/viewer.ts` for the exact calls). The world outside the town is the country tier: states kept as counts with a treasury and stepped monthly (`docs/design/country-tier.md`). A feature that reaches other states shows its record in that tier, not in a separate national table; time can also skip with results first, so prove a skipped stretch and a played day when the feature spans both.
+2. Build the world: `buildBenchWorld(seed, gameStartDate(), { twoLevel: true })` from `src/bench/world.ts`, with every module installed. Advance one year with `DevMode` (see `scripts/trace/viewer.ts` for the exact calls). The world outside the town is the country tier: states kept as counts with a treasury and stepped monthly (`docs/design/country-tier.md`). A feature that reaches other states shows its record in that tier, not in a separate national table; time can also skip with results first, so prove a skipped stretch and a played day when the feature spans both.
 3. Run the golden-path proof:
    `PLAYED_WORLD_SEED=<seed> node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts`
    Module coverage lives in `tests/golden-path/played-world-modules.node-test.ts`.
