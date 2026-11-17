@@ -2,9 +2,19 @@ import { createHash, randomBytes } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { benchRequest, benchWorld } from "../bench/handler";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { storyOfReadEvent } from "../core2/modules/news";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { storiesHeard, storyOfReadEvent } from "../core2/modules/news";
+import { deskContext, outletsHere } from "../core2/modules/press";
+import { printItem } from "../core2/press-desk";
+import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import { wordBringItUp } from "./bring-it-up";
+import { BRING_IT_UP_ROWS, wordBringItUp } from "./bring-it-up";
+import { openConversation } from "./conversation";
+import { strongestQuestion } from "./view-learned";
 
 // News someone brings up reaches the player only when the talk says it
 // (Account lead, Nov 15: bring-it-up wrote its "told" record before the talk
@@ -28,7 +38,7 @@ import { wordBringItUp } from "./bring-it-up";
 // news are named in the pass line.
 const BASE = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const WITNESSES = 2;
-const MAX_WORLDS = 4;
+const MAX_WORLDS = 6;
 const MAX_DAYS = 100;
 const PLAYER = {
   givenName: "Dana",
@@ -215,4 +225,146 @@ describe("news brought up at home", () => {
       `base ${BASE}: ${found.length} of ${WITNESSES} worlds had news a talk could tell; passed over: ${passed.join("; ")}`,
     ).toBe(WITNESSES);
   }, 1_500_000);
+
+  // The said half. No drawn world has yet had a talk that says news, so the
+  // story is staged through the engine's own writer (printStory, as
+  // outlet-ask-talk.test.ts does): a local outlet prints a story on a
+  // housemate's own question, the housemate hears it and the player does not,
+  // and the player talks to them. The player is on record as told the story
+  // exactly when the news line is said: absent before the talk, present and
+  // naming the story's id after. Drawn places, no pin; a drawn place with no
+  // housemate holding a stand or no local outlet is named and passed over.
+  it("tells the player the story when the talk says it", () => {
+    const passed: string[] = [];
+    const toldKeys = (
+      core: ReturnType<typeof benchWorld>["core"],
+      me: string,
+    ) =>
+      [...(core!.knowledgeByPerson.get(me as PersonId)?.keys() ?? [])].filter(
+        (key) => key.startsWith(`${BRING_IT_UP_ROWS.heardKey}:`),
+      );
+    for (let draw = 0; draw < 12; draw += 1) {
+      const place = drawPlace(`${BASE}:said:${draw}`, "told-when-said-staged");
+      const { core, director, playerId } = buildBenchWorld(
+        place.seed,
+        gameStartDate(),
+        { twoLevel: true, placeKey: place.key },
+      );
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const me = playerId as PersonId;
+      const api = coreAPI(core);
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      // A housemate (someone the player knows) who follows a local outlet and
+      // holds a stand on a question: who reads what an outlet prints is the
+      // press's own follower list.
+      const mates = [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.id !== me &&
+            p.householdId === core.people.get(me)!.householdId,
+        )
+        .sort((a, b) => a.id.localeCompare(b.id));
+      let outlet: ReturnType<typeof outletsHere>[number] | undefined;
+      let housemate: (typeof mates)[number] | undefined;
+      for (const o of outletsHere(api).filter((o) => o.tier !== "national")) {
+        const followers = deskContext(api).followers(o.id);
+        const found = mates.find(
+          (p) =>
+            followers.includes(p.id) &&
+            strongestQuestion(api, p.id as PersonId),
+        );
+        if (found) {
+          outlet = o;
+          housemate = found;
+          break;
+        }
+      }
+      if (!outlet || !housemate) {
+        passed.push(
+          `${where}: no housemate with a stand follows a local outlet`,
+        );
+        continue;
+      }
+      const id = housemate.id as PersonId;
+      const reporterId = (outlet.reporterIds ?? []).find(
+        (r) => core.people.get(r as PersonId)?.alive,
+      );
+      if (!reporterId) {
+        passed.push(`${where}: the outlet has no reporter living`);
+        continue;
+      }
+      // The press's own writer (printItem): the printed row the bring-it-up
+      // reads and the news engine's delivery, the housemate the story's one
+      // named subject (who hears it the day it runs).
+      const printed = printItem(
+        api,
+        deskContext(api),
+        outlet,
+        reporterId,
+        {
+          id: `fixture:told-when-said:${draw}`,
+          kind: "interview",
+          date: makeIsoDate(core.date),
+          level: "town",
+          topic: strongestQuestion(api, id)!.question,
+          desiredChange: "enact",
+          ending: false,
+          subjectIds: [id, me],
+        } as never,
+        null,
+        // The story names the player (a person of the story's record), the
+        // tie a story needs to be raised with them (subject-tie.ts).
+        { facts: { personId: me } },
+      );
+      const storyId = printed.id;
+      for (
+        let day = 0;
+        day < 7 && !storiesHeard(api, id).some((r) => r.id === storyId);
+        day += 1
+      )
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      if (!storiesHeard(api, id).some((r) => r.id === storyId)) {
+        passed.push(`${where}: housemate never heard the staged story`);
+        continue;
+      }
+      const before = toldKeys(core, me);
+      expect(
+        before.some(
+          (key) =>
+            storyOfReadEvent(key.slice(key.indexOf(":") + 1)) === storyId,
+        ),
+        `${where}: told before any talk`,
+      ).toBe(false);
+      const talk = openConversation(core, me, id, { director });
+      const line = talk.lines.find(
+        (l) => l.kind === "news" && l.speakerId === id,
+      );
+      if (!line) {
+        passed.push(
+          `${where}: the talk did not raise the story: ${talk.lines.map((l) => `${l.kind}: ${l.text}`).join(" | ")}`,
+        );
+        continue;
+      }
+      const toldNow = toldKeys(core, me).filter((key) => !before.includes(key));
+      const toldFor = toldNow.filter(
+        (key) => storyOfReadEvent(key.slice(key.indexOf(":") + 1)) === storyId,
+      );
+      expect(
+        toldFor.length,
+        `${where}: the line said ${JSON.stringify(line.text)} but no told record names ${storyId}; told ${JSON.stringify(toldNow)}`,
+      ).toBe(1);
+      const toldRecord = talk.recorded.find((rec) =>
+        rec.startsWith(`${BRING_IT_UP_ROWS.toldEvent}:`),
+      );
+      expect(toldRecord, `${where}: talk recorded no told event`).toBeTruthy();
+      process.stdout.write(
+        `bring-it-up-told-when-said (said): base ${BASE}, ${where}, draw ${draw}\n  story ${storyId}\n  said: ${talk.lines.map((l) => `${l.kind}/${l.speakerId === id ? "they" : "you"}: ${l.text}`).join(" | ")}\n  told record ${toldRecord}; told key ${toldFor[0]}\n  passed over: ${passed.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `base ${BASE}: no drawn place staged a said story; passed over: ${passed.join("; ")}`,
+    );
+  }, 600_000);
 });
