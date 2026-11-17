@@ -335,7 +335,8 @@ export function keptOutputHistory(
   if (!latest) return [];
   const points: { year: number; value: number }[] = [];
   for (let year = latest.year; year > latest.year - limit; year--) {
-    const row = table.get(yearRowId(placeId, year)) as OutputYearRow | undefined;
+    const row = table.get(yearRowId(placeId, year)) as
+      OutputYearRow | undefined;
     if (!row) break;
     const value = valueIn(row, number);
     if (value === null) break;

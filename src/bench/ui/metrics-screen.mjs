@@ -70,22 +70,22 @@ export function metricsScreen({ sections, words, title }) {
             })
           : null;
         const page = el(
+          "div",
+          { className: "metrics-page" },
+          el("div", { className: "pick-list metric-rows" }, ...measures),
+          el(
             "div",
-            { className: "metrics-page" },
-            el("div", { className: "pick-list metric-rows" }, ...measures),
-            el(
-              "div",
-              { className: "metric-timeline" },
-              ...(chosen
-                ? [
-                    el("h3", {
-                      className: "sechead",
-                      textContent: words[chosen.key],
-                    }),
-                  ]
-                : []),
-              ...(line ? [line] : []),
-            ),
+            { className: "metric-timeline" },
+            ...(chosen
+              ? [
+                  el("h3", {
+                    className: "sechead",
+                    textContent: words[chosen.key],
+                  }),
+                ]
+              : []),
+            ...(line ? [line] : []),
+          ),
         );
         // The page names the measure whose timeline it shows, for a reader to wait on.
         if (chosen) page.dataset.measure = chosen.key;
