@@ -55,6 +55,8 @@ import {
   type PlaceResult,
   type RacePlace,
   type SampleVoter,
+  countParties,
+  partyFieldEntries,
 } from "../electorate";
 import {
   applyElectionLaws,
@@ -133,6 +135,7 @@ import {
   contestsOnDate,
   checkEligibility,
   filingRulesFor,
+  filingSideFor,
   openNextContest,
   specialContestFor,
   ELECTIONS_MODULE_ID,
@@ -682,7 +685,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   const rule = filingRulesFor(
     api,
     contest,
-    filing.party ? "party" : "independent",
+    filingSideFor(api, contest, filing.party),
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
@@ -6465,13 +6468,12 @@ export function electoralCollege(
     let share = own;
     let resultId = own === null ? null : town!.resultId;
     if (share === null) {
-      const reasons = field.map((c) =>
-        candidateReasons(c, { ...conditions, raceVotes: votes }),
-      );
-      const counted = countPlaces(
+      const { reasons, counted } = countParties(
         sample,
         coarse(places, key === stateKey, change),
-        partyField(api, reasons, field),
+        field,
+        { ...conditions, raceVotes: votes },
+        townIncumbentLean(api),
       );
       // The state's popular vote is a count like any other: kept by the one
       // writer, its winner the side its electors go to.
@@ -7044,19 +7046,7 @@ export function partyField(
   reasons: readonly CandidateReasons[],
   field: readonly CandidateInputs[],
 ): readonly CountedFieldEntry[] {
-  return field.map((c, i) => ({
-    id: c.id,
-    side: c.side,
-    isIncumbent: c.incumbent,
-    // The holder's standing carries the average incumbency advantage, so each
-    // voter's own incumbent lean is read against the town's average, as the
-    // town's own races read it.
-    ...(c.incumbent ? { incumbentLeanCenter: townIncumbentLean(api) } : {}),
-    standing: appealOfShare(reasons[i]!.total),
-    localStanding: 0,
-    recognition: 0,
-    platform: [],
-  }));
+  return partyFieldEntries(reasons, field, townIncumbentLean(api));
 }
 
 /**
@@ -7162,11 +7152,12 @@ function decide(
       seatSide: side,
     }),
   );
-  const reasons = candidates.map((c) => candidateReasons(c, conditions));
-  const counted = countPlaces(
+  const { reasons, counted } = countParties(
     sampleFor(api, date),
     coarse(places, townsState, electorateChange(api)),
-    partyField(api, reasons, candidates),
+    candidates,
+    conditions,
+    townIncumbentLean(api),
   );
   const raceId = special
     ? `race:${race.seatId}:${date}:special`

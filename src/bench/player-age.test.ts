@@ -79,7 +79,13 @@ describe("a new game's player is 18 or older", () => {
       const pick = JSON.parse(
         core.placeMetadata.openingPlayerPick!,
       ) as EntrantPick;
-      expect(pick, where).toMatchObject({ how: "town-adult", age });
+      // With no birthday chosen the player is the default age (owner, Nov 16:
+      // "18, unless you pick another age"), picked as a chosen age of 18.
+      expect(pick, where).toMatchObject({
+        how: "chosen-age",
+        chosenAge: PLAYER_MIN_AGE,
+        age,
+      });
       familyFits(core, world.playerId!, where);
       // A town office with an 18-year-old minimum takes the player's filing on age.
       const api = coreAPI(core);
