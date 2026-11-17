@@ -191,6 +191,10 @@
       "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), the world's fine seeded unit keyed by the seat and the term's start, evenly inside the office kind's winner-share band (src/core2/data/offices/tenure.json, estimated)",
       "replace": "The past race's result from the election engine"
     },
+    "office.lastShareCentury": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts: the seat's own race in the century run from 1925, counted on the one path (electorate.ts countParties), its record id century:<seat>:<year>; written on the term by src/core2/modules/offices.ts electionBehind"
+    },
     "office.lastShareRecorded": {
       "made": "world-offset",
       "by": "src/core2/offices-past-results.ts recordedRaceShare: the race's real two-party share (data/source/electoral-calibration-2024/corpus.json: the 2024 House, the Senate class last elected, the presidency) moved by the world's drift (pastRealShareDrift)"

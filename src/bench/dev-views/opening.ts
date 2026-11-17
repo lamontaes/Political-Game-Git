@@ -36,6 +36,8 @@ import {
   centuryLegislatures,
   centuryOf,
   centuryPresidency,
+  centuryRace,
+  centurySeatRace,
   historyMode,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
@@ -477,6 +479,18 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
   const holder = held.holder;
   const elections = pastElections(api, seatId);
   const last = elections.at(-1);
+  // The race behind the term where the century ran it (electorate-century.ts): its record.
+  const year = last ? Number(last.date.slice(0, 4)) : 0;
+  const century = !last
+    ? undefined
+    : held.office.kind === "president" || held.office.kind === "vice-president"
+      ? centuryRace(core.seed, core.startedAt, year)
+      : centurySeatRace(
+          core.seed,
+          held.office,
+          { id: seatId, district: held.seat.district ?? null },
+          year,
+        );
   return [
     row(
       "office.office",
@@ -505,26 +519,35 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
         : "none",
     ),
     row("office.termsBefore", "Elections won before day one", elections.length),
-    // A race the research records reads its real result as this world
-    // drifts it; any other is drawn inside the office kind's band.
-    last &&
-    raceRecorded(held.office.jurisdiction, held.office.kind, seatId, last)
+    // A race the century ran is its record; under "today", a race the research records reads
+    // its real result as this world drifts it; any other is drawn inside the office kind's band.
+    last && century
       ? row(
-          "office.lastShareRecorded",
+          "office.lastShareCentury",
           "Share of the vote last time",
           `${percent(last.share)} in ${last.date.slice(0, 4)}`,
-          { drawKey: `${seatId}:${last.date}:share` },
+          { recordId: century.id },
         )
-      : row(
-          "office.lastShare",
-          "Share of the vote last time",
-          last ? `${percent(last.share)} in ${last.date.slice(0, 4)}` : "none",
-          {
-            drawKey: last
-              ? "<seat seed>:<election day>:winner-share"
-              : undefined,
-          },
-        ),
+      : last &&
+          raceRecorded(held.office.jurisdiction, held.office.kind, seatId, last)
+        ? row(
+            "office.lastShareRecorded",
+            "Share of the vote last time",
+            `${percent(last.share)} in ${last.date.slice(0, 4)}`,
+            { drawKey: `${seatId}:${last.date}:share` },
+          )
+        : row(
+            "office.lastShare",
+            "Share of the vote last time",
+            last
+              ? `${percent(last.share)} in ${last.date.slice(0, 4)}`
+              : "none",
+            {
+              drawKey: last
+                ? "<seat seed>:<election day>:winner-share"
+                : undefined,
+            },
+          ),
   ];
 }
 
