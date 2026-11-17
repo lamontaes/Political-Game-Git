@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3194,
+  "judged": 3179,
   "no": {
     "000jt3f972v": {
       "keys": [
@@ -59,13 +59,6 @@
         "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
       ],
       "why": "The reply disagrees with something the line before never claimed."
-    },
-    "01d9zvz4wto": {
-      "keys": [
-        "scene-talk.reply-agree.fine-you-have-it",
-        "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one"
-      ],
-      "why": "A has just given the vote (\"You have it\"), so asking for it again does not follow."
     },
     "01hfaqaqmup": {
       "keys": [
@@ -402,13 +395,6 @@
         "scene-talk.reply-deny.no-where-did-you-hear-that"
       ],
       "why": "A asks why vote; B asks where A heard something."
-    },
-    "0oooltm2mz9": {
-      "keys": [
-        "scene-talk.reply-agree.i-m-with-you-on-bill",
-        "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one"
-      ],
-      "why": "A has just said they're with B on the bill, so asking for the vote again does not follow."
     },
     "0pbgsafj3rf": {
       "keys": [
@@ -844,13 +830,6 @@
       ],
       "why": "A is accepting terms; a flat no does not follow it."
     },
-    "1glcw53ze67": {
-      "keys": [
-        "scene-talk.reply-agree.you-have-my-vote",
-        "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one"
-      ],
-      "why": "A has just given the vote, so asking for it again, with the favor as leverage, does not follow."
-    },
     "1glmf8fb2xp": {
       "keys": [
         "scene-talk.reply-leave.the-library-closes-soon-i-have-to-return-these-books",
@@ -927,13 +906,6 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A is making the first ask, so no answer has been given yet that could stay the same."
-    },
-    "1ijs2g9zi26": {
-      "keys": [
-        "scene-talk.follow-bargain.depends-on-the-favor",
-        "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
-      ],
-      "why": "A hedges on a favor as if A is the one being asked; B's vote refusal doesn't answer that."
     },
     "1ipj7ge565e": {
       "keys": [
@@ -1053,20 +1025,6 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A thanks B as if B said yes (\"You won't be sorry\"), so a firm refusal does not follow."
-    },
-    "1r8hp8e9rwc": {
-      "keys": [
-        "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy",
-        "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
-      ],
-      "why": "A thanks them for a hard yes; a flat no does not follow it."
-    },
-    "1rbzljfqodc": {
-      "keys": [
-        "scene-talk.follow-bargain.depends-on-the-favor",
-        "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet"
-      ],
-      "why": "A asks what the favor is (\"Depends on the favor\"), and B neither names it nor answers."
     },
     "1rum4q2twzc": {
       "keys": [
@@ -1447,5 +1405,5 @@
       "why": "A says they changed their mind; a no with no correction does not follow."
     }
   },
-  "yesHash": "1vw8wenouy1"
+  "yesHash": "17dzgugmizh"
 }

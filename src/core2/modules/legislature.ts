@@ -4086,6 +4086,40 @@ export function declinedAsks(
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
 }
 
+/**
+ * The asks to carry a bill this asker made of this member that are closed, carried or turned
+ * down (the table's rows, never one still waiting on the player), oldest first, and the bill
+ * each filed when it was carried. What the next ask from the same person can say they
+ * remember.
+ */
+export function closedCarryAsks(
+  api: CoreAPI,
+  askerId: string,
+  memberId: string,
+): readonly CarryRequest[] {
+  return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
+    .filter(
+      (r) =>
+        (r.kind ?? "carry") === "carry" &&
+        !r.awaitingPlayer &&
+        r.askerId === askerId &&
+        r.memberId === memberId,
+    )
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/** The member's own bills still before the body: in committee or on the calendar, newest first. */
+export function waitingBillsOf(api: CoreAPI, memberId: string): BillRow[] {
+  return (
+    table(api, "bills").query("bySponsor", [memberId]) as unknown as BillRow[]
+  )
+    .filter((bill) => bill.status === "drafted")
+    .sort(
+      (a, b) =>
+        b.introduced.localeCompare(a.introduced) || (a.id < b.id ? -1 : 1),
+    );
+}
+
 /** The asks waiting on the player's answer, oldest first. */
 export function carryAsksAwaiting(api: CoreAPI): readonly CarryRequest[] {
   return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
@@ -5918,6 +5952,9 @@ function recordPromises(api: CoreAPI, bill: BillRow, chamber: string): void {
         sponsorId: bill.sponsorId,
         officeId: seat.officeId,
         traded: deal.date,
+        // The side the member's committee trade promised: a yes (the promises
+        // engine reads a vote on this bill against it).
+        side: "yes",
       },
     });
   }

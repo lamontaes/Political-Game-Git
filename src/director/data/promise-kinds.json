@@ -21,6 +21,24 @@
       "causeKinds": ["vote-ahead"]
     },
     {
+      "purpose": "confirm-vote",
+      "ending": "vote-given",
+      "kind": "vote",
+      "causeKinds": ["vote-promise"]
+    },
+    {
+      "purpose": "confirm-vote",
+      "ending": "traded",
+      "kind": "vote",
+      "causeKinds": ["vote-promise"]
+    },
+    {
+      "purpose": "confirm-vote",
+      "ending": "false-yes",
+      "kind": "vote",
+      "causeKinds": ["vote-promise"]
+    },
+    {
       "purpose": "owed-apology",
       "ending": "promised-to-make-it-right",
       "kind": "pay-on-time",
@@ -46,7 +64,7 @@
   "kinds": [
     {
       "id": "vote",
-      "about": "A member's vote promised on a bill: settled by that member's vote at the bill's roll call, kept if it is the side asked, broken if not. The bill and the side come from the cause record (the sponsor's count, `vote-ahead`).",
+      "about": "A member's vote promised on a bill: settled by that member's vote at the bill's roll call, kept if it is the side asked, broken if not. The bill and the side come from the cause record (the sponsor's count, `vote-ahead`, or a committee trade come due on the floor, `vote-promise`, whose side is a yes).",
       "tie": {
         "billId": "billId",
         "side": "side"

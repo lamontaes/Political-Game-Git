@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 968,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -714,20 +714,6 @@
         "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
-    },
-    "0bljejzqwm2": {
-      "keys": [
-        "scene-talk.follow-plea.who-else-would-you-trust-with-it",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-can-t",
-        "scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes",
-        "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
-        "scene-talk.reply-lie.i-m-already-carrying-two-bills-i-don-t-have-room",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-do-that",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "'You win, I'm in', 'I can't do that' and 'send me what you've got' are the first yes, can't and send-the-draft options again."
     },
     "0c2fsw7ylzo": {
       "keys": [
@@ -4372,5 +4358,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "07h5wmnoont"
 }

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1172,
+  "judged": 1160,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1258,14 +1258,6 @@
         "scene-talk.reply-refuse.the-council-voted-i-can-t-un-vote-it-for-you"
       ],
       "why": "All three lines say the same thing, that the council set the budget and the player cannot change it."
-    },
-    "0ktsg7hw9u5": {
-      "keys": [
-        "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
-        "scene-talk.follow-thank.i-knew-i-could-count-on-you",
-        "scene-talk.follow-thank.thank-you-i-won-t-forget-it"
-      ],
-      "why": "Two of the three are generic thanks, so most reword the same line, with only one adding the file tonight."
     },
     "0kv3nw2182w": {
       "keys": [
@@ -3164,13 +3156,6 @@
       ],
       "why": "All three admit the player never meant it, in other words."
     },
-    "1fek1k6fk42": {
-      "keys": [
-        "scene-talk.reply-agree.i-ll-carry-it",
-        "scene-talk.reply-agree.yes-you-can-count-on-me"
-      ],
-      "why": "Both lines agree to carry the bill in other words."
-    },
     "1ffjxblzxj5": {
       "keys": [
         "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental",
@@ -3914,13 +3899,6 @@
       ],
       "why": "All three lines ask the player to just be honest, reworded with nothing to choose between them."
     },
-    "1u67hs6ilts": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-can-t-introduce-bill-without-a-member-to-sponsor-it-and-name-want",
-        "scene-talk.narrate-narrate.name-comes-in-with-a-folder-under-one-arm-it-s-bill-and-it-needs-a-spo"
-      ],
-      "why": "Both lines say {bill} needs a sponsor, and the carry-ask tag only rewords the same message."
-    },
     "1u6iq6obeos": {
       "keys": [
         "scene-talk.follow-ask.let-s-start-with-the-count-who-can-we-get",
@@ -4033,16 +4011,6 @@
         "scene-talk.reply-confront.ask-source-who-they-re-working-for"
       ],
       "why": "Both lines insinuate that {source} is compromised, the same jab reworded."
-    },
-    "1vrjti4wns2": {
-      "keys": [
-        "scene-talk.state-request.bill-needs-a-member-to-sponsor-it-and-you-re-the-one-i-want",
-        "scene-talk.state-request.bill-needs-a-sponsor-and-i-want-it-to-be-you",
-        "scene-talk.state-request.i-can-t-introduce-bill-myself-i-need-you-to-carry-it",
-        "scene-talk.state-request.i-want-you-to-carry-bill",
-        "scene-talk.state-request.would-you-put-your-name-on-bill"
-      ],
-      "why": "All five lines ask the player to sponsor {bill}, and the carry-ask tag does not change what is said."
     },
     "1vudrj1z6j6": {
       "keys": [
@@ -4330,13 +4298,6 @@
       ],
       "why": "Both lines say the same thing, that now is not a good time to talk."
     },
-    "20z13pe88z1": {
-      "keys": [
-        "scene-talk.reply-agree.i-m-with-you-on-bill",
-        "scene-talk.reply-agree.you-have-my-vote"
-      ],
-      "why": "Both lines just say the player has the asker's vote."
-    },
     "20z4rhacgit": {
       "keys": [
         "scene-talk.reply-lie.source-wasn-t-in-the-room",
@@ -4478,15 +4439,6 @@
         "scene-talk.follow-press.yes-or-no"
       ],
       "why": "Both lines demand a yes or no."
-    },
-    "22vov74pnc8": {
-      "keys": [
-        "scene-talk.reply-withdraw.i-gave-you-my-word-and-i-m-going-back-on-it-i-m-sorry",
-        "scene-talk.reply-withdraw.i-know-i-told-you-yes-but-i-can-t-this-time",
-        "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry",
-        "scene-talk.reply-withdraw.i-ve-thought-it-over-i-can-t-vote-for-bill-after-all"
-      ],
-      "why": "All four lines take back a promised yes in other words, with no fact to choose between them."
     },
     "22wcofpjatk": {
       "keys": [
@@ -5089,13 +5041,6 @@
       ],
       "why": "Both lines are the same request for a few minutes about the budget, reworded."
     },
-    "2cdq25238i2": {
-      "keys": [
-        "scene-talk.reply-lie.i-m-still-with-you",
-        "scene-talk.reply-lie.nothing-s-changed-you-have-my-vote"
-      ],
-      "why": "Both lines say the vote has not changed, the same claim reworded."
-    },
     "2cf0l586xnr": {
       "keys": [
         "scene-talk.close-warn.i-ll-write-that-you-walked-off",
@@ -5298,5 +5243,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0spyj8ykgf3"
+  "yesHash": "18zow87hrfp"
 }

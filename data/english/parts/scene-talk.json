@@ -171,7 +171,11 @@
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
     "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
-    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
+    "traded": "The section a committee trade added to the sponsor's bill for the member who traded their vote, as the bill catalog words its question (question-names), from the bill's accepted trade (carry-and-confirm-facts.ts).",
+    "earlier-ask": "The bill the asker last asked this member to carry, by its number if it was filed and else by its name, from the member's carry asks (closedCarryAsks).",
+    "vetoed-by": "The executive who vetoed the bill, by name and post, from the veto-override record.",
+    "your-bill": "The player's own bill still waiting before a committee or on a calendar, as people say its number, from the bills table (waitingBillsOf)."
   },
   "maxWords": 70,
   "parts": [
@@ -1667,30 +1671,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-close-and-name-wants-to-know-where-you-stand",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The vote on {bill} is close, and {name} wants to know where you stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.you-promised-name-your-vote-on-bill-name-is-at-your-door-to-make-sure",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -1713,54 +1693,6 @@
       "tag": {
         "move": "narrate",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-comes-in-with-a-folder-under-one-arm-it-s-bill-and-it-needs-a-spo",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} comes in with a folder under one arm. It's {bill}, and it needs a sponsor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-worked-on-bill-for-months-and-needs-someone-to-carry-it",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has worked on {bill} for months and needs someone to carry it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
       }
     },
     {
@@ -2123,24 +2055,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2187,24 +2103,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2251,24 +2151,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2307,24 +2191,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2363,24 +2231,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2419,24 +2271,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2475,24 +2311,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2531,24 +2351,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -2985,78 +2789,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.we-re-still-good-on-bill-right",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We're still good on {bill}, right?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.you-re-still-a-yes-on-bill",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "You're still a yes on {bill}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-told-the-others-i-had-your-vote-on-bill-do-i",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I told the others I had your vote on {bill}. Do I?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.state-request.i-want-you-to-carry-bill",
       "move": "state-request",
       "kind": "spoken",
@@ -3068,7 +2800,9 @@
           "move": "request",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["carry-ask", "introduced"]
         }
       ],
       "bearing": "hopeful",
@@ -3092,7 +2826,9 @@
           "move": "request",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["carry-ask", "introduced"]
         }
       ],
       "bearing": "hopeful",
@@ -3116,7 +2852,9 @@
           "move": "request",
           "role": "asker",
           "purpose": "carry-bill",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["carry-ask", "introduced"]
         }
       ],
       "bearing": "hopeful",
@@ -3618,70 +3356,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-have-my-vote",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You have my vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-m-with-you-on-bill",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm with you on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.count-me-in",
       "move": "reply-agree",
       "kind": "spoken",
@@ -3706,51 +3380,11 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-you-have-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Fine. You have it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.all-right-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
       "text": "All right. I'll do it.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -3780,39 +3414,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-carry-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll carry it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "carry-bill",
           "key": "favor-asked"
         }
       ],
@@ -3869,14 +3471,6 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -3904,14 +3498,6 @@
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "excludesFacts": ["asked-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
         },
         {
           "subject": "scene",
@@ -3951,14 +3537,6 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -3978,14 +3556,6 @@
       "kind": "spoken",
       "text": "I can't do that.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -4015,14 +3585,6 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
           "purpose": "donor-ask",
           "key": "favor-asked"
         }
@@ -4042,14 +3604,6 @@
       "kind": "spoken",
       "text": "I'm sorry. I just can't.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -4138,198 +3692,6 @@
       "tag": {
         "move": "refuse",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-withdraw.i-know-i-told-you-yes-but-i-can-t-this-time",
-      "move": "reply-withdraw",
-      "kind": "spoken",
-      "text": "I know I told you yes, but I can't this time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "withdraw",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "withdraw",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-withdraw.i-gave-you-my-word-and-i-m-going-back-on-it-i-m-sorry",
-      "move": "reply-withdraw",
-      "kind": "spoken",
-      "text": "I gave you my word, and I'm going back on it. I'm sorry.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "withdraw",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "withdraw",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-withdraw.i-ve-thought-it-over-i-can-t-vote-for-bill-after-all",
-      "move": "reply-withdraw",
-      "kind": "spoken",
-      "text": "I've thought it over. I can't vote for {bill} after all.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "withdraw",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "withdraw",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it",
-      "move": "reply-withdraw",
-      "kind": "spoken",
-      "text": "I'm really worried about this vote. I can't do it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "withdraw",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "withdraw",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-take-that-on-right-now",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't take that on right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-m-not-the-right-person-to-carry-it",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm not the right person to carry it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I wish I could, but I can't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "I'll carry it if you'll help me find the votes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "favor-asked"
       }
     },
     {
@@ -4447,24 +3809,8 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -4503,24 +3849,8 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -4546,14 +3876,6 @@
       "kind": "spoken",
       "text": "You've made your point. Count me in.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -4591,24 +3913,8 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -4732,26 +4038,8 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "threaten"
         },
         {
@@ -4801,26 +4089,8 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "threaten"
         },
         {
@@ -6406,24 +5676,8 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -6470,24 +5724,8 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -6534,24 +5772,8 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -6601,26 +5823,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "stall"
         },
         {
@@ -6663,26 +5867,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "stall"
         },
         {
@@ -6725,15 +5911,6 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "stall"
@@ -6769,46 +5946,12 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "stall"
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.you-told-me-yes-people-are-counting-on-that",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "You told me yes. People are counting on that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "withdraw"
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -6829,14 +5972,6 @@
           "move": "threaten",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted"
         },
         {
@@ -6924,24 +6059,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -6988,24 +6107,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -7078,24 +6181,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -7151,14 +6238,6 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -7178,15 +6257,6 @@
       "kind": "spoken",
       "text": "Deal.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "bargain"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -7226,26 +6296,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "bargain"
         },
         {
@@ -7287,26 +6339,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "bargain"
         },
         {
@@ -7339,14 +6373,6 @@
           "step": "follow",
           "move": "bargain",
           "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked"
         }
@@ -7366,14 +6392,6 @@
       "kind": "spoken",
       "text": "Meet me halfway, and we have a deal.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -7411,24 +6429,8 @@
           "step": "follow",
           "move": "refuse",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -7467,24 +6469,8 @@
           "step": "follow",
           "move": "refuse",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -8589,26 +7575,8 @@
           "step": "close",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "outcome": "open"
         },
         {
@@ -8658,26 +7626,8 @@
           "step": "close",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "outcome": "open"
         },
         {
@@ -8778,15 +7728,6 @@
           "step": "close",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "outcome": "open"
@@ -8813,14 +7754,6 @@
           "move": "warn",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted"
         },
         {
@@ -9494,14 +8427,6 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
         }
       ],
       "bearing": "calm",
@@ -9526,14 +8451,6 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
         }
       ],
       "bearing": "guarded",
@@ -9557,14 +8474,6 @@
           "move": "bargain",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
           "key": "vote-wanted"
         }
       ],
@@ -9598,26 +8507,8 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["promised-on-bill"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "requiresFacts": ["promised-on-bill"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "requiresFacts": ["promised-on-bill"]
         }
       ],
@@ -9651,26 +8542,8 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["primary-faced"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "requiresFacts": ["primary-faced"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "requiresFacts": ["primary-faced"]
         }
       ],
@@ -9703,24 +8576,8 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         }
       ],
       "bearing": "anxious",
@@ -9753,26 +8610,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "stall"
         },
         {
@@ -9815,26 +8654,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "stall"
         },
         {
@@ -9868,14 +8689,6 @@
           "move": "threaten",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted"
         },
         {
@@ -9990,24 +8803,8 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -10087,14 +8884,6 @@
           "move": "warn",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted"
         },
         {
@@ -10234,84 +9023,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.we-have-votes-we-need-needed",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "We have {votes}. We need {needed}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
-          "requiresFacts": ["votes", "needed", "votes-short"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.we-re-close-but-not-there-yet-we-need-needed",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "We're close, but not there yet. We need {needed}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
-          "requiresFacts": ["votes", "needed", "votes-short"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.we-have-votes-that-s-enough-to-pass-if-nobody-moves",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "We have {votes}. That's enough to pass, if nobody moves.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
-          "requiresFacts": ["votes", "needed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
         "key": "favor-asked"
       }
     },
@@ -11085,78 +9796,6 @@
       "tag": {
         "move": "lie",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-m-still-with-you",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I'm still with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "lie",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.nothing-s-changed-you-have-my-vote",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "Nothing's changed. You have my vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "lie",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-m-already-carrying-two-bills-i-don-t-have-room",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I'm already carrying two bills. I don't have room.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
       }
     },
     {
@@ -12584,154 +11223,11 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I know that wasn't easy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-relent.you-ve-made-your-point-count-me-in"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-relent.you-ve-made-your-point-count-me-in"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.done-you-ll-have-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Done. You'll have it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-refuse.i-can-t-promise-that-mine-s-a-different-fight",
-      "move": "follow-refuse",
-      "kind": "spoken",
-      "text": "I can't promise that. Mine's a different fight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "refuse",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.you-gave-me-your-word",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "You gave me your word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-wish-you-d-told-me-sooner",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I wish you'd told me sooner.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.what-changed",
       "move": "follow-press",
       "kind": "spoken",
       "text": "What changed?",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -12802,131 +11298,6 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-m-sorry-too-i-was-counting-on-you",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'm sorry, too. I was counting on you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.understood-i-won-t-ask-again",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Understood. I won't ask again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-relent.fine-i-ll-do-it-but-this-is-the-last-time"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.deal-i-ll-start-making-calls-tomorrow",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Deal. I'll start making calls tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.who-else-would-you-trust-with-it",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Who else would you trust with it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-refuse.i-m-sorry-i-just-can-t"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-understand-i-ll-ask-around",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I understand. I'll ask around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-refuse.i-m-sorry-i-just-can-t"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
       }
     },
     {
@@ -13010,15 +11381,6 @@
       "kind": "spoken",
       "text": "That's all I needed to hear.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-relent.okay-for-you-i-ll-do-it"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -13348,31 +11710,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.let-me-see-the-final-language-first",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Let me see the final language first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.ask-me-again-after-the-committee-vote",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -13384,15 +11721,6 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "confirm-vote",
           "key": "vote-wanted",
           "after": "press"
         }
@@ -15740,14 +14068,6 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -15826,15 +14146,6 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["ask-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "requiresFacts": ["ask-day"]
@@ -15864,15 +14175,6 @@
           "key": "vote-wanted",
           "after": "stall",
           "excludesFacts": ["asked-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
         },
         {
           "subject": "scene",
@@ -15922,15 +14224,6 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-stall.i-m-not-there-yet"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "scene-talk.reply-stall.i-m-not-there-yet"
@@ -15965,15 +14258,6 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "press"
@@ -16000,15 +14284,6 @@
           "move": "bargain",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
           "key": "vote-wanted",
           "after": "press"
         },
@@ -16173,15 +14448,6 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either"
@@ -16208,15 +14474,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted",
           "after": "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there"
         },
@@ -16258,14 +14515,6 @@
           "step": "follow",
           "move": "threaten",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -16294,14 +14543,6 @@
           "key": "vote-wanted",
           "excludesFacts": ["asked-before"],
           "onlyWhen": ["read-favor-given"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
         },
         {
           "subject": "scene",
@@ -16341,14 +14582,6 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -16381,14 +14614,6 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -16400,78 +14625,6 @@
       "tag": {
         "move": "thank",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Send me the draft. I'll read it tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.nobody-else-on-the-committee-will-touch-it",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Nobody else on the committee will touch it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. I'll get you the file tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
       }
     },
     {
@@ -17812,14 +15965,6 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -17853,14 +15998,6 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
         }
@@ -17888,14 +16025,6 @@
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "excludesFacts": ["asked-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
         },
         {
           "subject": "scene",
@@ -17936,15 +16065,6 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "stall"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "stall"
@@ -17971,15 +16091,6 @@
           "move": "refuse",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "refuse",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted",
           "after": "bargain"
         },
@@ -18022,15 +16133,6 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "plea"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
           "after": "plea"
@@ -18057,15 +16159,6 @@
           "move": "answer",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-confront.you-did-the-same-thing-on-the-budget"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "confirm-vote",
           "key": "vote-wanted",
           "after": "scene-talk.reply-confront.you-did-the-same-thing-on-the-budget"
         },
@@ -19630,65 +17723,6 @@
       "tag": {
         "move": "promise",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.depends-on-the-favor",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "Depends on the favor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "ask-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.read-the-funding-part-first-that-s-where-the-fight-is",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Read the funding part first. That's where the fight is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
       }
     },
     {
@@ -145395,34 +143429,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry",
-      "move": "reply-withdraw",
-      "kind": "spoken",
-      "text": "I know what I said, but circumstances have changed. I can't. I'm sorry.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "withdraw",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "owner-voice",
-      "author": "Owner (batch 2 voice note, Nov 9)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "withdraw",
-        "key": "vote-wanted"
-      },
-      "source": {
-        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
-        "date": "2026-11-09"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.how-could-i-say-no",
       "move": "reply-agree",
       "kind": "spoken",
@@ -192870,6 +190876,2472 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-draft-on-about-and-needs-a-sponsor",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a draft on {about} and needs a sponsor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["introduced", "carry-ask"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-just-filed-bill-and-wants-your-name-beside-theirs",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has just filed {bill} and wants your name beside theirs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["introduced", "bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-can-t-put-my-own-name-on-this-yours-would-carry-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I can't put my own name on this. Yours would carry it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carry-ask"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-carried-earlier-ask-for-me-hear-me-out-on-this-one",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You carried {earlier-ask} for me. Hear me out on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carried-for-them-before", "earlier-ask"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-you-passed-on-earlier-ask-hear-me-out-on-this-one",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know you passed on {earlier-ask}. Hear me out on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["declined-them-before", "earlier-ask"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.carry-about-for-me-it-s-drafted",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Carry {about} for me. It's drafted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["carry-ask", "introduced"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-filed-bill-put-your-name-beside-mine",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've filed {bill}. Put your name beside mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["introduced", "bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-for-about-put-my-name-on-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm for {about}. Put my name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "stand-for"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-haven-t-made-up-my-mind-on-about-i-ll-carry-it-so-it-gets-a-hearing",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I haven't made up my mind on {about}. I'll carry it so it gets a hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "no-stand"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-against-about-but-i-ll-carry-bill-so-it-gets-a-hearing",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm against {about}, but I'll carry {bill} so it gets a hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "stand-against", "bill"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-carried-earlier-ask-for-you-i-ll-carry-this-one",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I carried {earlier-ask} for you. I'll carry this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carried-for-them-before", "earlier-ask"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-carry-bill",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll carry {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["about"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-against-about-i-can-t-put-my-name-on-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm against {about}. I can't put my name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "stand-against"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-haven-t-made-up-my-mind-on-about-i-can-t-put-my-name-on-it-yet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I haven't made up my mind on {about}. I can't put my name on it yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "no-stand"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-for-about-but-i-can-t-be-the-one-to-carry-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm for {about}, but I can't be the one to carry it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "stand-for"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-turned-down-earlier-ask-i-can-t-take-this-one-on-either",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I turned down {earlier-ask}. I can't take this one on either.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["declined-them-before", "earlier-ask"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-take-bill-on",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take {bill} on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["about"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-against-about-that-doesn-t-change",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm against {about}. That doesn't change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about", "stand-against"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-i-can-t-be-its-sponsor-whatever-i-think-of-about",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. I can't be its sponsor, whatever I think of {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "excludesFacts": ["stand-against"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-i-can-t-put-my-name-on-bill",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. I can't put my name on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["about"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.put-my-name-on-bill-i-ll-carry-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Put my name on {bill}. I'll carry it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.put-my-name-on-it-people-should-hear-the-case-on-about",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Put my name on it. People should hear the case on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-carry-it-if-you-back-your-bill-when-it-comes-up",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll carry it if you back {your-bill} when it comes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["your-bill-waits", "your-bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-carry-bill-if-you-ll-help-me-find-the-votes",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll carry {bill} if you'll help me find the votes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-read-what-you-ve-drafted-on-about-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me read what you've drafted on {about} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-read-bill-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me read {bill} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-until-count-by",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me until {count-by}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["count-by"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["count-by"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-m-carrying-more-than-i-can-handle-i-don-t-have-room-for-bill",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I'm carrying more than I can handle. I don't have room for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-bill-will-carry-your-name",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {bill} will carry your name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes", "bill"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-couldn-t-have-introduced-bill-without-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I couldn't have introduced {bill} without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes", "carry-ask", "bill"]
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-hoped-you-d-be-for-about-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I hoped you'd be for {about}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes", "about", "stand-for"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.we-re-in-the-same-party-i-wouldn-t-ask-if-i-had-another-way-to-get-bil",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "We're in the same party. I wouldn't ask if I had another way to get {bill} heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-same-party", "bill"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.we-re-not-in-the-same-party-and-i-m-still-asking-you-to-carry-bill",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "We're not in the same party, and I'm still asking you to carry {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-other-party", "bill"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.you-carried-earlier-ask-for-me-carry-this-one",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "You carried {earlier-ask} for me. Carry this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carried-for-them-before", "earlier-ask"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-d-like-bill-to-have-a-sponsor-i-m-asking-you-again",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'd like {bill} to have a sponsor. I'm asking you again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-tell-people-it-s-a-yes-on-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I tell people it's a yes on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-said-you-d-know-by-count-by-is-it-a-yes",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You said you'd know by {count-by}. Is it a yes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["count-by"],
+          "after": "scene-talk.reply-stall.give-me-until-count-by"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-take-about-to-someone-else",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll take {about} to someone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-bill-waits-for-another-sponsor",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then {bill} waits for another sponsor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-i-ll-back-your-bill-when-it-comes-up",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. I'll back {your-bill} when it comes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["your-bill-waits", "your-bill"],
+          "after": "scene-talk.reply-bargain.i-ll-carry-it-if-you-back-your-bill-when-it-comes-up"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.deal-i-ll-start-making-calls-on-bill-tomorrow",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Deal. I'll start making calls on {bill} tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "after": "scene-talk.reply-bargain.i-ll-carry-bill-if-you-ll-help-me-find-the-votes"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-ll-speak-for-your-bill-if-you-take-bill",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'll speak for {your-bill} if you take {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["your-bill-waits", "your-bill", "bill"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-promise-anything-on-your-bill-mine-is-the-bill-that-needs-a-na",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't promise anything on {your-bill}. Mine is the bill that needs a name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["your-bill-waits", "your-bill"],
+          "after": "scene-talk.reply-bargain.i-ll-carry-it-if-you-back-your-bill-when-it-comes-up"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.read-through-bill-i-ll-ask-you-again",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Read through {bill}. I'll ask you again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-your-door-about-bill-name-put-traded-in-the-bill-for-your-y",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is at your door about {bill}. {name} put {traded} in the bill for your yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "traded"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-about-bill-vetoed-by-vetoed-it-and-the-override-fell-shor",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back about {bill}. {vetoed-by} vetoed it, and the override fell short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "vetoed-by"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-about-bill-which-the-override-could-not-carry",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back about {bill}, which the override could not carry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override"],
+          "excludesFacts": ["vetoed-by"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.the-roll-is-today-one-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The roll is today. One minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["vote-tonight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-counting-for-vote-on-have-you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm counting for {vote-on}. Have you got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "vote-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.override-fell-short-have-you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Override fell short. Have you got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-got-traded-i-m-here-for-the-yes",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You got {traded}. I'm here for the yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "traded"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-fell-one-vote-short-on-the-override-yours-could-be-the-one",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} fell one vote short on the override. Yours could be the one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "margin-one", "bill"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.vetoed-by-stopped-bill-will-you-help-me-bring-it-back",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{vetoed-by} stopped {bill}. Will you help me bring it back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "vetoed-by", "bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-bringing-bill-back-are-you-with-me-this-time",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm bringing {bill} back. Are you with me this time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-took-traded-you-have-the-vote",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I took {traded}. You have the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "traded"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.bring-bill-back-i-ll-vote-to-override",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Bring {bill} back. I'll vote to override.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-said-yes-on-bill-you-have-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I said yes on {bill}. You have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "bill"],
+          "excludesFacts": ["traded"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-traded-for-traded-and-i-still-can-t-vote-for-about",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I traded for {traded}, and I still can't vote for {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "stand-against", "about", "traded"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-told-you-yes-on-bill-i-m-against-about-and-i-can-t",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I told you yes on {bill}. I'm against {about}, and I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "stand-against", "about"],
+          "excludesFacts": ["traded"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-can-t-vote-to-override-bill",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I can't vote to override {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-m-against-about-i-won-t-vote-to-override-bill",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I'm against {about}. I won't vote to override {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "stand-against", "about", "bill"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-vote-for-about-my-answer-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't vote for {about}. My answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["about", "stand-against"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-vote-to-override-bill-my-answer-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't vote to override {bill}. My answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-answer-on-bill-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My answer on {bill} is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["about"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-be-for-about-i-ll-sit-this-one-out",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't be for {about}. I'll sit this one out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["about", "stand-against"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-vote-for-bill-if-you-vote-for-your-bill",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll vote for {bill} if you vote for {your-bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-bill-waits", "your-bill", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.ask-me-before-the-roll-on-vote-on",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Ask me before the roll on {vote-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["vote-on"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-ll-tell-you-before-the-roll-today",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'll tell you before the roll today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["vote-tonight"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-day-to-look-at-bill-again",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a day to look at {bill} again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-m-still-with-you-on-bill",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I'm still with you on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.traded-is-in-i-m-still-with-you",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "{traded} is in. I'm still with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["traded"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.put-me-down-for-bill-you-have-my-vote",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Put me down for {bill}. You have my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-kept-traded-in-the-bill-i-ll-keep-my-word",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You kept {traded} in the bill. I'll keep my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["traded"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.threats-won-t-change-how-i-vote-on-about",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Threats won't change how I vote on {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["about"],
+          "after": "threaten"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-threaten-me-over-bill",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't threaten me over {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"],
+          "after": "threaten"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "confront",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-s-the-vote-i-needed-on-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's the vote I needed on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["said-yes", "bill"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-the-one-vote-i-was-short-on-bill-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's the one vote I was short on {bill}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["said-yes", "margin-one", "bill"]
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-traded-stays-in-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {traded} stays in {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["said-yes", "your-promise", "traded", "bill"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-count-comes-down-to-you-on-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The count comes down to you on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["margin-one", "bill"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-roll-is-today-on-bill-i-need-to-know",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The roll is today on {bill}. I need to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["vote-tonight", "bill"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-roll-is-vote-on-where-are-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The roll is {vote-on}. Where are you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["vote-on"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-need-to-know-where-you-are-on-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I need to know where you are on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"],
+          "after": "stall"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-told-me-yes-on-bill-i-counted-you-in",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You told me yes on {bill}. I counted you in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "bill"],
+          "after": "withdraw"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-was-counting-on-you-to-help-bring-bill-back",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I was counting on you to help bring {bill} back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"],
+          "after": "withdraw"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.we-re-in-the-same-party-don-t-leave-me-alone-on-bill",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "We're in the same party. Don't leave me alone on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asker-same-party", "bill"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-gave-you-traded-that-s-what-the-trade-was-for",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I gave you {traded}. That's what the trade was for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "traded"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.a-veto-shouldn-t-be-the-last-word-on-bill",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "A veto shouldn't be the last word on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["override", "bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.you-re-in-my-party-people-will-see-how-you-voted-on-bill",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "You're in my party. People will see how you voted on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asker-same-party", "bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-put-traded-in-bill-for-you-vote-no-and-it-comes-out-next-session",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I put {traded} in {bill} for you. Vote no and it comes out next session.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise", "traded", "bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-count-bill-without-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll count {bill} without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["said-no", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-m-one-vote-short-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'm one vote short on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["said-no", "margin-one", "bill"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-stay-out-of-the-room-and-i-ll-count-bill-without-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then stay out of the room, and I'll count {bill} without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"],
+          "after": "scene-talk.reply-decline.i-can-t-be-for-about-i-ll-sit-this-one-out"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-i-ll-be-there-for-your-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. I'll be there for {your-bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-bill-waits", "your-bill"],
+          "after": "scene-talk.reply-bargain.i-ll-vote-for-bill-if-you-vote-for-your-bill"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-promise-a-vote-on-your-bill-mine-is-a-different-fight",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't promise a vote on {your-bill}. Mine is a different fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-bill-waits", "your-bill"],
+          "after": "scene-talk.reply-bargain.i-ll-vote-for-bill-if-you-vote-for-your-bill"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-you-again-before-bill-comes-back-up",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask you again before {bill} comes back up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"],
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-caucus-will-remember-how-you-handled-bill",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The caucus will remember how you handled {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asker-same-party", "bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
       }
     }
   ]

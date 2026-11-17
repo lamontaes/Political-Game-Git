@@ -282,8 +282,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.reply-deflect.i-was-going-to-tell-you-tonight",
   "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
   "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
-  "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
-  "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
   "scene-talk.reply-press.tonight-would-be-better",
   "scene-talk.follow-accept.tonight-then",
   "scene-talk.follow-promise.sign-at-the-bottom-and-i-ll-write-the-reference-myself-tonight",

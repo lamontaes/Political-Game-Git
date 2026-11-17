@@ -82,6 +82,7 @@ import {
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
+import { carryAndConfirmFacts } from "./carry-and-confirm-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
   causeTopicSaid,
@@ -745,6 +746,34 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
+  // The ask to carry a bill, and a sponsor's check on a promised vote or a failed
+  // override (carry-and-confirm-facts.ts): what the bill is about and where the
+  // player stands on it, the asker's party, an earlier ask, the player's own
+  // waiting bill, the section a committee trade added, the veto and how close
+  // the override fell.
+  if (
+    record &&
+    (record.kind === "carry-asked" ||
+      record.kind === "office.introduced" ||
+      record.kind === "vote-promise" ||
+      record.kind === "veto-override")
+  )
+    Object.assign(
+      facts,
+      carryAndConfirmFacts(
+        core,
+        moment.causeId,
+        record.kind,
+        said,
+        askerId,
+        askedId,
+        personLean,
+        (id) => {
+          const person = core.people.get(id as PersonId);
+          return person ? sayPerson(person) : null;
+        },
+      ),
+    );
   // The player's ask of a colleague to sign on to their bill (legislature.ts
   // askToSignOn): the bill said by what it does, the reason the colleague
   // would give for a no (never a deal, a lobby or a bribe), and whether the

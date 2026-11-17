@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 999,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -462,16 +462,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "'All right', the deferral without a hearing, 'not a conversation for today' and the floor exit give no reason for the position taken."
-    },
-    "08knvzuzdkf": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-have-it-on-your-desk-tomorrow",
-        "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
-        "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready",
-        "scene-talk.reply-press.tonight-would-be-better",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Calling tonight, sending it over, preferring tonight and an exit carry no argument."
     },
     "08tkfh69vb3": {
       "keys": [
@@ -2337,16 +2327,6 @@
       ],
       "why": "\"Thanks. Really.\" and sitting down carry no reason."
     },
-    "1dl0tqrvn98": {
-      "keys": [
-        "scene-talk.follow-press.read-the-funding-part-first-that-s-where-the-fight-is",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
-        "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided",
-        "scene-talk.reply-ask.where-are-we-now",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Giving in, a list request, a question and an exit carry no reason."
-    },
     "1dxxiwkwndu": {
       "keys": [
         "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
@@ -2884,16 +2864,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "Looking again, deferring until heard out and asking for things in writing are stances and exits with no reason given."
-    },
-    "1qhf5uwj7u3": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-keep-counting-you-keep-talking-to-them",
-        "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
-        "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready",
-        "scene-talk.reply-press.tonight-would-be-better",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Calling tonight, sending it over, preferring tonight and an exit carry no argument."
     },
     "1qxd3q9gzl8": {
       "keys": [
@@ -3437,16 +3407,6 @@
       ],
       "why": "\"It's the right call,\" \"you've got that wrong\" and \"we're done\" assert without a reason."
     },
-    "21929mb87h1": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-keep-counting-you-keep-talking-to-them",
-        "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
-        "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready",
-        "scene-talk.reply-press.tonight-would-be-better",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Calling tonight, sending it over, preferring tonight and a floor exit carry no reason."
-    },
     "21sslzbnxuz": {
       "keys": [
         "scene-talk.follow-press.eight-more-officers-and-the-south-lot-that-s-overtime-and-the-council-",
@@ -3557,15 +3517,6 @@
         "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "23lnuvp6mpf": {
-      "keys": [
-        "scene-talk.follow-plea.who-else-would-you-trust-with-it",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-do-that",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Giving in, \"I can't do that\" and an exit carry no reason."
     },
     "23o4uqfedyo": {
       "keys": [
@@ -3819,15 +3770,6 @@
         "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
       ],
       "why": "Both replies, a concession and a plan to ask the boss, give no reason or argument of their own."
-    },
-    "2a2p8r1ug2r": {
-      "keys": [
-        "scene-talk.follow-ask.so-where-do-you-think-the-votes-are",
-        "scene-talk.reply-ask.where-are-we-now",
-        "scene-talk.reply-offer.i-can-bring-the-members-from-my-side",
-        "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided"
-      ],
-      "why": "A question, an offer of members from my side and a list request carry no reason."
     },
     "2a2r7ognzvk": {
       "keys": [
@@ -4155,5 +4097,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "0ookhd707pp"
 }
