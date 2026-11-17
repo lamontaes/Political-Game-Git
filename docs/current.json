@@ -570,6 +570,300 @@
       "now": "desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f",
       "when": "2026-11-15",
       "why": "It tested saved-identity-proof.mjs, deleted with it."
+    },
+    {
+      "old": ".agents/skills/standing-rules-self-check",
+      "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
+      "when": "2026-11-16",
+      "why": "Most of it repeated AGENTS.md's standing rules; its eight lines and the Account lead's two moved word for word into done-proof, which runs at the same moment, before a pull request opens."
+    },
+    {
+      "old": ".claude/skills/standing-rules-self-check",
+      "now": ".claude/skills/done-proof (section 9, the standing rules one line each)",
+      "when": "2026-11-16",
+      "why": "The mirror of the skill above, removed with it."
+    },
+    {
+      "old": ".agents/rules/git-worktrees.md",
+      "now": ".agents/rules/storage-and-workspaces.md (section Branches and takeovers)",
+      "when": "2026-11-16",
+      "why": "Its branch, takeover and publishing lines moved word for word into the storage rules; its workspace line repeated that file and AGENTS.md."
+    },
+    {
+      "old": ".agents/skills/train-gate",
+      "now": ".agents/skills/merger/references/train-gate.md",
+      "when": "2026-11-17",
+      "why": "Merged into the merger skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/train-gate",
+      "now": ".claude/skills/merger/references/train-gate.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/checker",
+      "now": ".agents/skills/merger/references/checker.md",
+      "when": "2026-11-17",
+      "why": "Merged into the merger skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/checker",
+      "now": ".claude/skills/merger/references/checker.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/merge-trains",
+      "now": ".agents/skills/merger/references/merge-trains.md",
+      "when": "2026-11-17",
+      "why": "Merged into the merger skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/merge-trains",
+      "now": ".claude/skills/merger/references/merge-trains.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/pr-fixer",
+      "now": ".agents/skills/merger/references/pr-fixer.md",
+      "when": "2026-11-17",
+      "why": "Merged into the merger skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/pr-fixer",
+      "now": ".claude/skills/merger/references/pr-fixer.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/generated-file-merges",
+      "now": ".agents/skills/merger/references/generated-file-merges.md",
+      "when": "2026-11-17",
+      "why": "Merged into the merger skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/generated-file-merges",
+      "now": ".claude/skills/merger/references/generated-file-merges.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/merge-audit",
+      "now": ".agents/skills/merger/references/merge-audit.md",
+      "when": "2026-11-17",
+      "why": "Merged into the merger skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/merge-audit",
+      "now": ".claude/skills/merger/references/merge-audit.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/pinned-tests",
+      "now": ".agents/skills/drawn-place-tests/references/pinned-tests.md",
+      "when": "2026-11-17",
+      "why": "Merged into the drawn-place-tests skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/pinned-tests",
+      "now": ".claude/skills/drawn-place-tests/references/pinned-tests.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/relationship-checks",
+      "now": ".agents/skills/drawn-place-tests/references/relationship-checks.md",
+      "when": "2026-11-17",
+      "why": "Merged into the drawn-place-tests skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/relationship-checks",
+      "now": ".claude/skills/drawn-place-tests/references/relationship-checks.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/labor-market-proof",
+      "now": ".agents/skills/played-world-proof/references/labor-market-proof.md",
+      "when": "2026-11-17",
+      "why": "Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/labor-market-proof",
+      "now": ".claude/skills/played-world-proof/references/labor-market-proof.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/trace-audit",
+      "now": ".agents/skills/wiring-audit/references/trace-audit.md",
+      "when": "2026-11-17",
+      "why": "Merged into the wiring-audit skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/trace-audit",
+      "now": ".claude/skills/wiring-audit/references/trace-audit.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/scene-first-report",
+      "now": ".agents/skills/scene-standard/references/scene-first-report.md",
+      "when": "2026-11-17",
+      "why": "Merged into the scene-standard skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/scene-first-report",
+      "now": ".claude/skills/scene-standard/references/scene-first-report.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/speech-planner",
+      "now": ".agents/skills/words-engine/references/speech-planner.md",
+      "when": "2026-11-17",
+      "why": "Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/speech-planner",
+      "now": ".claude/skills/words-engine/references/speech-planner.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/term-read",
+      "now": ".agents/skills/words-engine/references/term-read.md",
+      "when": "2026-11-17",
+      "why": "Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/term-read",
+      "now": ".claude/skills/words-engine/references/term-read.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/owners-words-to-threads",
+      "now": ".agents/skills/crew-messages/references/owners-words-to-threads.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/owners-words-to-threads",
+      "now": ".claude/skills/crew-messages/references/owners-words-to-threads.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/heavy-runs",
+      "now": ".agents/skills/speed-work/references/heavy-runs.md",
+      "when": "2026-11-17",
+      "why": "Merged into the speed-work skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/heavy-runs",
+      "now": ".claude/skills/speed-work/references/heavy-runs.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/cadence-and-summaries",
+      "now": ".agents/skills/speed-work/references/cadence-and-summaries.md",
+      "when": "2026-11-17",
+      "why": "Merged into the speed-work skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/cadence-and-summaries",
+      "now": ".claude/skills/speed-work/references/cadence-and-summaries.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/century-history",
+      "now": ".agents/skills/day-one-in-motion/references/century-history.md",
+      "when": "2026-11-17",
+      "why": "Merged into the day-one-in-motion skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/century-history",
+      "now": ".claude/skills/day-one-in-motion/references/century-history.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/legislation-screens",
+      "now": ".agents/skills/screen-to-mock/references/legislation-screens.md",
+      "when": "2026-11-17",
+      "why": "Merged into the screen-to-mock skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/legislation-screens",
+      "now": ".claude/skills/screen-to-mock/references/legislation-screens.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/lead-session",
+      "now": ".agents/skills/crew-coordinator/references/lead-session.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-coordinator skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/lead-session",
+      "now": ".claude/skills/crew-coordinator/references/lead-session.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/slim-down",
+      "now": ".agents/skills/remove-a-stopgap/references/slim-down.md",
+      "when": "2026-11-17",
+      "why": "Merged into the remove-a-stopgap skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/slim-down",
+      "now": ".claude/skills/remove-a-stopgap/references/slim-down.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/file-a-pool-item",
+      "now": ".agents/skills/pool-notes/references/file-a-pool-item.md",
+      "when": "2026-11-17",
+      "why": "Merged into the pool-notes skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/file-a-pool-item",
+      "now": ".claude/skills/pool-notes/references/file-a-pool-item.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/people-pack",
+      "now": ".agents/skills/room-spots/references/people-pack.md",
+      "when": "2026-11-17",
+      "why": "Merged into the room-spots skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/people-pack",
+      "now": ".claude/skills/room-spots/references/people-pack.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/skill-lessons",
+      "now": ".agents/skills/done-proof/references/skill-lessons.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body and references moved word for word into that file."
+    },
+    {
+      "old": ".claude/skills/skill-lessons",
+      "now": ".claude/skills/done-proof/references/skill-lessons.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
     }
   ]
 }

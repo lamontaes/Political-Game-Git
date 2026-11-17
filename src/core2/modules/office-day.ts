@@ -2031,6 +2031,8 @@ export {
   actOn,
   appointGovernor,
   doEntry,
+  seatCoveringTown,
+  seatPlayerInStateOffice,
   stopKindOf,
   waitingEntries,
 } from "../office-day-state";
