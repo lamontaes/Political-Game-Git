@@ -1,12 +1,14 @@
 ---
 name: drawn-place-tests
 description: >
-  A test that needs a particular case in the world (a race open for filing, a
-  renter, a person a law covers) finds one by drawing places and waiting, and
-  says what it passed over, so it never passes or fails by the luck of the
-  draw. Use when writing or fixing a test that builds a played world, and when
-  a test is red by seed on main. Not for a played-year proof
-  (played-world-proof) or reading a red's log (red-main).
+  Writes and fixes tests that build a played world: a test finds its case by
+  drawing places and waiting and names what it passed over, a pinned place or
+  seed only with a CTO line for that pull request, and a check that fails a
+  world for leaving a real band becomes a check that a relationship has the
+  strength the research gives. Use when writing or fixing any played-world test,
+  moving a pinned test to drawn places, converting a band check, or when a test
+  is red by seed. Not for a played-year proof (played-world-proof) or reading a
+  red's log (red-main).
 ---
 
 # Tests that draw their place
@@ -28,7 +30,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 4. **Name every place passed over,** with the date reached and the reason (each refusal's rule, each count that was zero). A reader of the log must be able to tell a thin place from a defect.
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
-   The CTO reconciled this with the Account lead's pinned tests on Nov 16 (`done-proof`): a test draws its place, and a test pinned to a named place or seed, a labeled case included, is added only when a CTO line on the crew's thread approves that exact pull request. It is then written as `pinned-tests` says.
+   The CTO reconciled this with the Account lead's pinned tests on Nov 16 (`done-proof`): a test draws its place, and a test pinned to a named place or seed, a labeled case included, is added only when a CTO line on the crew's thread approves that exact pull request. It is then written as `drawn-place-tests` (pinned-tests part) says.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
@@ -81,3 +83,20 @@ A drawn place can name a business after a person, so a check that counts the pla
 ## A case the player never reaches (Handoff, Nov 17)
 
 When the case happens to townspeople and not to the player (a borrower who misses a payment: the player's home opens with cash and no loan, so ten drawn places and six birthdays found none), the test finds the person the engines name in the drawn place, as `findTownBorrower` does, and stages only that person's choice, labeled where it stands. It follows them from day one (the director watches, and `focusPersonIds` keeps their records), and it reads what a non-player's record says the day it happens, since the engine forgets a person outside the player's circle after a week (`circleDecisionDetailDays`). That the player cannot reach the case is a gap for the lane that owns the player's choices, posted as "for Blockers".
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 03:47Z (pay-on-time, apology-variants): a test pinned to one borrower in Ragland, Alabama went red when the world changed and she stopped missing payments. Cause: it was pinned to a town where the case need not happen. Draw places, advance until any borrower misses, and name the places passed over.
+- Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
+- Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
+- Nov 17, 02:21Z (national-events, disaster-aid): tests counted disasters in fixed windows tied to real dates. Cause: disasters now come from each world's own risks. Stage one through the world's own hazard, or play until one occurs, and fail on zero.
+- Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/pinned-tests.md`: only when a CTO line approves a pin for your pull request.
+- `references/relationship-checks.md`: when you turn a check that a world stays in a real band into a check of a relationship's strength.
