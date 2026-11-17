@@ -1,0 +1,307 @@
+<title>Menu Outline Options</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Fira+Sans:wght@400;500;600&family=Andada+Pro:wght@400;500&display=swap">
+<style>
+/* Layout: a control strip over the real 1440x900 menu, scaled to fit any width. One dark look, the game's own. */
+:root{
+  color-scheme:dark;
+  --page:#0f0e0c; --strip:#1a1815; --ink:#f4efe5; --muted:#c4bbab; --gold:#dcc48c; --brass:#9c8350;
+  --rail:rgba(6,6,7,.62); --railedge:rgba(156,131,80,.5);
+  --f-title:'Cinzel',Georgia,serif; --f-ui:'Fira Sans',system-ui,sans-serif; --f-num:'Andada Pro',Georgia,serif;
+}
+body{background:var(--page);color:var(--ink);font-family:var(--f-ui);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 28px}
+.wrap{max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.strip{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;background:var(--strip);border:1px solid rgba(156,131,80,.35);border-radius:3px;padding:12px 14px}
+.strip h1{font:800 18px var(--f-title);letter-spacing:.3px;color:#f2e6c9;margin:0;flex:1 1 220px}
+.group{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.group>span{font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold)}
+.seg{display:inline-flex;flex-wrap:wrap;gap:2px;padding:3px;background:var(--rail);box-shadow:inset 0 2px 5px rgba(0,0,0,.55),inset 0 0 0 1px var(--railedge);border-radius:2px}
+.seg button{font:500 14px var(--f-ui);color:#ddd6c8;background:none;border:0;padding:7px 12px;border-radius:2px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:linear-gradient(#4a4740,#2b2925);color:#f6dfae;box-shadow:0 1px 3px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px var(--brass)}
+.seg button:focus-visible,.check input:focus-visible{outline:2px solid #f3dba7;outline-offset:2px}
+.check{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:#ddd6c8;cursor:pointer}
+.check input{accent-color:#c9a85a;width:16px;height:16px}
+.note{font-size:14px;line-height:1.55;color:var(--muted);margin:0;max-width:75ch}
+.note b{color:var(--ink);font-weight:500}
+.viewport{position:relative;width:100%;aspect-ratio:1440/900;max-width:100%;overflow:hidden;border-radius:3px;box-shadow:0 0 0 1px rgba(156,131,80,.3)}
+.stage{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0;font-family:var(--f-ui)}
+.stage,.stage *,.stage *::before,.stage *::after{box-sizing:border-box}
+.stage h2,.stage p{margin:0}
+
+/* the game screen */
+.scene{position:absolute;inset:0;background:center/cover;filter:blur(2px) brightness(.86)}
+.rail{position:absolute;left:24px;top:296px;display:flex;flex-direction:column;gap:9px}
+.ring{width:57px;height:57px;border-radius:50%;background:center/cover}
+.frost{position:absolute;left:112px;top:22px;width:1296px;height:736px;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.panel{position:absolute;left:110px;top:20px;width:1300px;height:740px;padding:36px 46px;background:url(img/panel.png) center/100% 100%;color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.55)}
+.panel::before{content:'';position:absolute;inset:7px;background:rgba(14,13,11,0);transition:background .2s;pointer-events:none}
+.fix-dark .panel::before{background:rgba(14,13,11,.42)}
+.panel>*{position:relative}
+.ptitle{font:800 27px var(--f-title);letter-spacing:.3px;color:#f2e6c9;margin:0 0 14px}
+.x{position:absolute;right:40px;top:38px;width:22px;height:22px;color:#f2e6c9}
+.tabrail{display:inline-flex;gap:2px;padding:4px;background:var(--rail);box-shadow:inset 0 2px 5px rgba(0,0,0,.55),inset 0 0 0 1px var(--railedge);border-radius:2px;align-self:flex-start}
+.tabrail a{padding:8px 17px;font-size:15.5px;font-weight:500;color:#ddd6c8;border-radius:2px;white-space:nowrap}
+.tabrail a.on{background:linear-gradient(#4a4740,#2b2925);color:#f6dfae;box-shadow:0 1px 3px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px var(--brass),0 3px 7px -2px rgba(243,219,167,.7)}
+.rails2{display:flex;gap:14px}
+.rails2 .tabrail a{padding:6px 14px;font-size:14.5px}
+.cols{display:grid;grid-template-columns:640px 1fr;gap:40px;height:622px}
+.left,.right{display:flex;flex-direction:column;min-height:0}
+.left{gap:12px}
+.right{justify-content:space-between}
+.chamber{height:136px;position:relative;background:url(img/chamber.jpg) center 62%/cover;box-shadow:0 0 0 1px var(--brass);flex:none}
+.chamber::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.82))}
+.chamber div{position:absolute;left:16px;bottom:11px;z-index:1;color:#f7f1e3}
+.chamber b{font:700 18px var(--f-title);display:block;margin-bottom:3px;letter-spacing:.3px}
+.chamber span{font-size:13.5px;opacity:.92}
+.split{display:flex;height:26px;flex:none;font-size:13px;font-weight:500;color:#fff;text-shadow:none;gap:0}
+.split i{font-style:normal;display:flex;align-items:center;padding-left:10px}
+.d{background:#3f5f8f}.r{background:#8a3530}.ind{background:#6e665a}
+.fix-bars .split{gap:2px}
+.fix-bars .d{background:#5896dc;color:#14161a}.fix-bars .r{background:#de6c58;color:#14161a}.fix-bars .ind{background:#b9b0a2;color:#14161a}
+.members{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);column-gap:16px;flex:1;min-height:0;align-items:center}
+.pick{position:relative;border-radius:3px;cursor:pointer;transition:background-color 80ms,box-shadow 80ms}
+.pick:focus-visible{outline:2px solid #f3dba7;outline-offset:1px}
+.m{display:flex;align-items:center;gap:13px;padding:7px 10px;margin:0 -2px}
+.m img{width:74px;height:74px;object-fit:cover;object-position:50% 12%;border-radius:50%;background:#2a2926;box-shadow:0 0 0 1px var(--brass);flex:none}
+.m .who{flex:1;min-width:0}
+.m b{font-size:17px;font-weight:600;display:block;line-height:22px;color:#fbf6ea}
+.m span{font-size:13.5px;color:var(--muted);display:block;line-height:19px}
+.badge{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex:none;text-shadow:none}
+.fix-bars .badge.d,.fix-bars .badge.r,.fix-bars .badge.ind{color:#14161a}
+.label{font-size:12.5px;font-weight:600;letter-spacing:1.7px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.vote{padding:4px 8px;margin:0 -8px}
+.vote p{display:flex;justify-content:space-between;font-size:15px;margin:0 0 4px}
+.vote em{font-style:normal;color:var(--muted);font-size:13.5px}
+.bar{display:flex;height:21px;font-size:12.5px;font-weight:600;color:#fff;text-shadow:none}
+.bar i{font-style:normal;display:flex;align-items:center;padding:0 8px}
+.y{background:#4d6e3f}.n{background:#8a3530;justify-content:flex-end}
+.fix-bars .bar{gap:2px}
+.fix-bars .y{background:#c9a85a;color:#14161a}.fix-bars .n{background:#7d8794;color:#14161a}
+.c{display:flex;flex-direction:column;font-size:15px;line-height:24px}
+.row{display:grid;grid-template-columns:62px 1fr;padding:2px 8px;margin:0 -8px;border-radius:3px;cursor:pointer;transition:background-color 80ms,box-shadow 80ms;position:relative}
+.row b{color:#e6cd93;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr)}
+.stats b{display:block;font:500 27px var(--f-num);line-height:31px}
+.stats span{font-size:13px;color:var(--muted)}
+.mayor{display:flex;align-items:center;gap:13px;padding:6px 8px;margin:0 -8px}
+.mayor img{width:60px;height:60px;object-fit:cover;object-position:50% 12%;border-radius:50%;background:#2a2926;box-shadow:0 0 0 1px var(--brass)}
+.mayor b{font-size:16.5px;font-weight:600;display:block;color:#fbf6ea}
+.mayor span{font-size:13.5px;color:var(--muted)}
+.card{position:absolute;left:16px;bottom:16px;width:360px;height:112px;display:flex;align-items:center;gap:14px;padding:0 24px;background:url(img/panel.png) center/100% 100%;color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.55)}
+.card img{height:76px}
+.card b{font:700 16px var(--f-title);display:block;margin-bottom:3px}
+.card span{display:block;font-size:13px;line-height:18px;color:var(--muted)}
+.fix-type .m span,.fix-type .vote em,.fix-type .mayor span,.fix-type .stats span{font-size:15px;line-height:20px}
+.fix-type .label{font-size:14px}
+.fix-type .vote p,.fix-type .c{font-size:16px}
+.fix-type .m b{font-size:18px}
+.fix-type .m img{width:64px;height:64px}
+.fix-type .m{gap:11px}
+.fix-num .stats b{font-family:var(--f-ui);font-weight:500;font-variant-numeric:lining-nums tabular-nums}
+.stage .bar,.stage .split,.stage .vote em,.stage .row b{font-variant-numeric:tabular-nums}
+
+/* hover styles, one per option; every one keeps the soft fill. Selected is always a brass bar on the left plus brighter text */
+.pick::after,.row::after{content:'';position:absolute;inset:0;border-radius:3px;pointer-events:none;opacity:0;transition:opacity 140ms ease-out}
+.pick:hover::after,.row:hover::after{opacity:1}
+.pick:hover,.row:hover{background-color:rgba(255,248,230,.07)}
+/* 1. Halo: warm light around the row, no hard edge */
+.o-halo .pick::after,.o-halo .row::after{box-shadow:0 0 16px 1px rgba(232,196,120,.26),inset 0 0 18px rgba(232,196,120,.13);background:radial-gradient(120% 140% at 50% 50%,rgba(240,206,136,.07),transparent 70%)}
+/* 2. Lit edge: a line of light along the bottom that fades at both ends, glowing upward */
+.o-edge .pick::after,.o-edge .row::after{background:linear-gradient(90deg,transparent,rgba(246,214,148,.95) 30%,rgba(246,214,148,.95) 70%,transparent) bottom/100% 1px no-repeat,linear-gradient(0deg,rgba(236,198,120,.17),transparent 75%);filter:drop-shadow(0 0 5px rgba(236,198,120,.55))}
+/* 3. Fading frame: lines brightest mid-side, gone at the corners, softly glowing */
+.o-frame .pick::after,.o-frame .row::after{background:linear-gradient(90deg,transparent 4%,rgba(240,206,136,.85) 50%,transparent 96%) top/100% 1px no-repeat,linear-gradient(90deg,transparent 4%,rgba(240,206,136,.85) 50%,transparent 96%) bottom/100% 1px no-repeat,linear-gradient(180deg,transparent 10%,rgba(240,206,136,.55) 50%,transparent 90%) left/1px 100% no-repeat,linear-gradient(180deg,transparent 10%,rgba(240,206,136,.55) 50%,transparent 90%) right/1px 100% no-repeat;filter:drop-shadow(0 0 4px rgba(236,198,120,.7))}
+/* 4. Sheen: halo plus one slow sweep of light across the row as you arrive */
+.o-sheen .pick::after,.o-sheen .row::after{box-shadow:0 0 14px rgba(232,196,120,.2),inset 0 0 14px rgba(232,196,120,.1);background:linear-gradient(105deg,transparent 35%,rgba(255,236,190,.16) 50%,transparent 65%) 0 0/260% 100% no-repeat}
+.o-sheen .pick:hover::after,.o-sheen .row:hover::after{animation:sweep 900ms ease-out 1 both}
+@keyframes sweep{from{background-position:100% 0}to{background-position:0% 0}}
+/* 5. Fading frame with halo: the frame lines, plus warm light around and inside */
+.o-fh .pick::after,.o-fh .row::after{background:linear-gradient(90deg,transparent 4%,rgba(242,210,140,.9) 50%,transparent 96%) top/100% 1px no-repeat,linear-gradient(90deg,transparent 4%,rgba(242,210,140,.9) 50%,transparent 96%) bottom/100% 1px no-repeat,linear-gradient(180deg,transparent 10%,rgba(242,210,140,.6) 50%,transparent 90%) left/1px 100% no-repeat,linear-gradient(180deg,transparent 10%,rgba(242,210,140,.6) 50%,transparent 90%) right/1px 100% no-repeat,radial-gradient(120% 140% at 50% 50%,rgba(240,206,136,.07),transparent 70%);box-shadow:0 0 16px 1px rgba(232,196,120,.24),inset 0 0 18px rgba(232,196,120,.12)}
+/* buttons and tabs: today's corner mark versus a lit fill */
+.kbtn{font:500 15px var(--f-ui);color:#e9e2d4;padding:10px 22px;border:0;border-radius:2px;background:linear-gradient(#3a3833,#24221f);box-shadow:inset 0 0 0 1px rgba(156,131,80,.55),0 2px 4px rgba(0,0,0,.5);position:relative;cursor:pointer;transition:box-shadow 140ms,background 140ms}
+.kbtn:hover{box-shadow:inset 0 0 0 1px rgba(220,190,130,.75),0 0 14px rgba(232,196,120,.28),0 2px 4px rgba(0,0,0,.5)}
+.kbtn:focus-visible{outline:2px solid #f3dba7;outline-offset:2px}
+.mk-corner .kbtn.on,.mk-corner .tabrail a.on{position:relative}
+.mk-corner .kbtn.on::before,.mk-corner .tabrail a.on::before{content:'';position:absolute;left:-1px;top:-1px;width:13px;height:13px;background:var(--corner) 0 0/100% 100% no-repeat}
+.mk-lit .kbtn.on,.mk-lit .tabrail a.on{background:linear-gradient(#7a6338,#4a3b22);color:#fff3d6;box-shadow:inset 0 1px 0 rgba(255,236,190,.35),inset 0 0 0 1px rgba(240,206,136,.75),0 0 14px rgba(232,196,120,.35)}
+:root{--corner:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='b' x2='1' y2='1'%3E%3Cstop stop-color='%23f3dba7'/%3E%3Cstop offset='.55' stop-color='%23d6bd84'/%3E%3Cstop offset='1' stop-color='%239c7541'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M1 1h22L1 23Z' fill='url(%23b)' stroke='%23121212'/%3E%3C/svg%3E")}
+.demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+.dcard{background:var(--strip);border:1px solid rgba(156,131,80,.35);border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.dcard h2{font:700 15px var(--f-title);color:#f2e6c9;margin:0;letter-spacing:.3px}
+.dcard p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.5}
+.btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.dcard .tabrail a{padding:7px 14px;font-size:14.5px;font-weight:500;color:#ddd6c8;border-radius:2px}
+/* rail: round glass buttons, glow on hover, lit when its menu is open, name on hover */
+.rail2{position:absolute;left:22px;top:238px;display:flex;flex-direction:column;gap:8px;z-index:3}
+.rbtn{width:56px;height:56px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;position:relative;cursor:pointer;color:#dcc48c;background:radial-gradient(circle at 50% 32%,rgba(64,60,53,.94),rgba(20,19,17,.94));box-shadow:inset 0 0 0 1px rgba(156,131,80,.6),0 2px 6px rgba(0,0,0,.6);transition:box-shadow 140ms,color 140ms,background 140ms}
+.rbtn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.rbtn:hover{color:#f6dfae;box-shadow:inset 0 0 0 1px rgba(240,206,136,.9),0 0 16px 2px rgba(232,196,120,.34),inset 0 0 14px rgba(232,196,120,.14),0 2px 6px rgba(0,0,0,.6)}
+.rbtn.on{color:#fff3d6;background:radial-gradient(circle at 50% 32%,#8f7442,#4a3b22);box-shadow:inset 0 1px 0 rgba(255,236,190,.35),inset 0 0 0 1px rgba(240,206,136,.85),0 0 16px rgba(232,196,120,.38)}
+.rbtn:focus-visible{outline:2px solid #f3dba7;outline-offset:3px}
+.rbtn .tip{position:absolute;left:68px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:7px 13px;font:500 15px var(--f-ui);color:#f6efe0;background:rgba(18,17,15,.94);border-radius:2px;box-shadow:inset 0 0 0 1px rgba(240,206,136,.45),0 0 14px rgba(232,196,120,.22);opacity:0;pointer-events:none;transition:opacity 120ms ease-out 0ms}
+.rbtn:hover .tip,.rbtn:focus-visible .tip{opacity:1;transition-delay:250ms}
+.rbtn .dot{position:absolute;right:6px;top:6px;width:10px;height:10px;border-radius:50%;background:#f0c96a;box-shadow:0 0 0 2px rgba(20,19,17,.94),0 0 8px rgba(240,201,106,.85)}
+/* player card: same panel, portrait opens You, date with time under it, Day and Week */
+.pcard{position:absolute;left:16px;bottom:16px;width:400px;height:124px;display:flex;align-items:center;gap:14px;padding:0 18px 0 16px;background:url(img/panel.png) center/100% 100%;color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.55);z-index:3}
+.pcard::before{content:'';position:absolute;inset:6px;background:rgba(14,13,11,.42);pointer-events:none}
+.pcard>*{position:relative}
+.me{width:86px;height:86px;border-radius:50%;border:0;padding:0;overflow:hidden;cursor:pointer;flex:none;background:#2a2926;box-shadow:inset 0 0 0 1px rgba(156,131,80,.7),0 0 0 1px rgba(156,131,80,.7);transition:box-shadow 140ms}
+.me img{width:100%;height:100%;object-fit:cover;object-position:50% 10%}
+.me:hover{box-shadow:0 0 0 1px rgba(240,206,136,.95),0 0 16px 2px rgba(232,196,120,.36)}
+.me:focus-visible{outline:2px solid #f3dba7;outline-offset:3px}
+.pinfo{flex:1;min-width:0}
+.pinfo b{font:700 16.5px var(--f-title);display:block;letter-spacing:.3px;margin-bottom:2px}
+.pinfo span{display:block;font-size:15px;line-height:20px;color:var(--muted)}
+.pinfo .when{color:var(--ink)}
+.tbtns{display:flex;flex-direction:column;gap:6px;align-items:stretch;flex:none}
+.tbtns .scn{font-size:12.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);text-align:center;max-width:110px;line-height:16px}
+.tbtns .kbtn{padding:7px 16px;font-size:14.5px}
+.scene-on .tbtns .kbtn{opacity:.45;pointer-events:none}
+.pcard:not(.scene-on) .scn{display:none}
+/* for comparison: the plain line you didn't like */
+.o-both .pick::after,.o-both .row::after{box-shadow:inset 0 0 0 1px rgba(220,196,140,.5)}
+.pick.sel,.row.sel{background:linear-gradient(rgba(122,99,56,.46),rgba(74,59,34,.46));box-shadow:inset 0 1px 0 rgba(255,236,190,.2),0 0 12px rgba(232,196,120,.2)}
+.sel b{color:#fff3d6}
+/* ===== Nov 5, 3 p.m.: the same rules everywhere. Nothing hard-edged; portraits in warm light ===== */
+.m img,.mayor img,.me{border-radius:0;box-shadow:none;background:radial-gradient(closest-side,rgba(236,200,128,.34),rgba(236,200,128,.12) 55%,transparent 82%);-webkit-mask-image:radial-gradient(ellipse 58% 60% at 50% 46%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 58% 60% at 50% 46%,#000 60%,transparent 100%);transition:filter 140ms,background 140ms}
+.m img,.mayor img{object-fit:cover;object-position:50% 14%}
+.fix-type .m img{width:70px;height:70px}
+.me{width:96px;height:96px;overflow:visible}
+.me img{object-position:50% 12%}
+.pick:hover img,.me:hover{filter:brightness(1.08) drop-shadow(0 0 8px rgba(236,200,128,.35))}
+.me:hover{background:radial-gradient(closest-side,rgba(240,206,136,.46),rgba(240,206,136,.16) 55%,transparent 82%)}
+.chamber{box-shadow:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 100%);mask-composite:intersect}
+.tabrail{position:relative;background:linear-gradient(rgba(6,6,7,.66),rgba(10,10,10,.48));box-shadow:inset 0 2px 7px rgba(0,0,0,.62),inset 0 -1px 0 rgba(255,236,190,.05)}
+.tabrail::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(240,206,136,.34) 50%,transparent) top/100% 1px no-repeat,linear-gradient(90deg,transparent,rgba(240,206,136,.22) 50%,transparent) bottom/100% 1px no-repeat}
+.tabrail a{position:relative;z-index:1;cursor:pointer;transition:color 140ms,text-shadow 140ms,background 140ms}
+.tabrail a:not(.on):hover{color:#f6dfae;text-shadow:0 0 10px rgba(240,206,136,.55);background:rgba(255,248,230,.05)}
+.tabrail a.on{box-shadow:inset 0 1px 0 rgba(255,236,190,.32),0 0 12px rgba(232,196,120,.3)}
+.mk-lit .tabrail a.on{background:linear-gradient(#7a6338,#4a3b22);color:#fff3d6;box-shadow:inset 0 1px 0 rgba(255,236,190,.35),0 0 14px rgba(232,196,120,.35)}
+.kbtn{box-shadow:inset 0 1px 0 rgba(255,236,190,.16),0 2px 5px rgba(0,0,0,.55);background:linear-gradient(#3b3934,#22201d)}
+.kbtn::after{content:'';position:absolute;inset:0;border-radius:2px;pointer-events:none;background:linear-gradient(90deg,transparent 6%,rgba(240,206,136,.42) 50%,transparent 94%) top/100% 1px no-repeat,linear-gradient(90deg,transparent 6%,rgba(240,206,136,.42) 50%,transparent 94%) bottom/100% 1px no-repeat;transition:opacity 140ms}
+.kbtn:hover{box-shadow:inset 0 1px 0 rgba(255,236,190,.2),0 0 16px 1px rgba(232,196,120,.3),inset 0 0 14px rgba(232,196,120,.12),0 2px 5px rgba(0,0,0,.55)}
+.kbtn:hover::after{background:linear-gradient(90deg,transparent 4%,rgba(242,210,140,.92) 50%,transparent 96%) top/100% 1px no-repeat,linear-gradient(90deg,transparent 4%,rgba(242,210,140,.92) 50%,transparent 96%) bottom/100% 1px no-repeat,linear-gradient(180deg,transparent 10%,rgba(242,210,140,.6) 50%,transparent 90%) left/1px 100% no-repeat,linear-gradient(180deg,transparent 10%,rgba(242,210,140,.6) 50%,transparent 90%) right/1px 100% no-repeat}
+.mk-lit .kbtn.on::after{opacity:0}
+.rbtn{box-shadow:inset 0 1px 1px rgba(255,236,190,.36),inset 0 -2px 4px rgba(0,0,0,.6),0 2px 7px rgba(0,0,0,.6)}
+.rbtn:hover{box-shadow:inset 0 1px 1px rgba(255,236,190,.5),0 0 18px 3px rgba(232,196,120,.36),inset 0 0 14px rgba(232,196,120,.18),0 2px 7px rgba(0,0,0,.6)}
+.rbtn .tip{box-shadow:0 0 14px rgba(232,196,120,.24);background:linear-gradient(90deg,transparent 4%,rgba(242,210,140,.85) 50%,transparent 96%) top/100% 1px no-repeat,linear-gradient(90deg,transparent 4%,rgba(242,210,140,.85) 50%,transparent 96%) bottom/100% 1px no-repeat,rgba(18,17,15,.94)}
+.bar,.split{gap:2px}
+.bar i:first-child,.split i:first-child{border-radius:2px 0 0 2px}.bar i:last-child,.split i:last-child{border-radius:0 2px 2px 0}.bar i:only-child{border-radius:2px}
+@media (prefers-reduced-motion:reduce){.pick,.row,.panel::before,.pick::after,.row::after{transition:none;animation:none!important}}
+@media (max-width:700px){.strip h1{flex-basis:100%}}
+</style>
+
+<div class="wrap">
+  <div class="strip">
+    <h1>Menu outline options</h1>
+    <div class="group"><span>Hover style</span>
+      <div class="seg" id="opts" role="group" aria-label="Hover style">
+        <button type="button" id="o-fh" data-o="o-fh" aria-pressed="true">Fading frame with halo</button>
+        <button type="button" id="o-halo" data-o="o-halo">Halo</button>
+        <button type="button" id="o-edge" data-o="o-edge">Lit edge</button>
+        <button type="button" id="o-frame" data-o="o-frame">Fading frame</button>
+        <button type="button" id="o-sheen" data-o="o-sheen">Sheen</button>
+        <button type="button" id="o-both" data-o="o-both">Old: plain line</button>
+      </div>
+    </div>
+    <div class="group"><span>Locked in</span>
+      <label class="check"><input type="checkbox" id="fix-dark" checked> Darker panel</label>
+      <label class="check"><input type="checkbox" id="fix-type" checked> Larger small text</label>
+      <label class="check"><input type="checkbox" id="fix-num" checked> Even numbers</label>
+    </div>
+    <div class="group"><span>Game setting</span>
+      <label class="check"><input type="checkbox" id="fix-bars"> Color-blind mode</label>
+    </div>
+    <div class="group"><span>Player card</span>
+      <div class="seg" id="cardmode" role="group" aria-label="Player card state">
+        <button type="button" id="c-free" data-c="free" aria-pressed="true">Between scenes</button>
+        <button type="button" id="c-scene" data-c="scene">In a scene</button>
+      </div>
+    </div>
+    <div class="group"><span>Room</span>
+      <div class="seg" id="rooms" role="group" aria-label="Room behind the menu">
+        <button type="button" id="r-chamber" data-r="img/chamber.jpg" aria-pressed="true">Chamber</button>
+        <button type="button" id="r-diner" data-r="img/diner.jpg">Diner</button>
+      </div>
+    </div>
+  </div>
+  <p class="note"><b>Hover</b> over any member, vote, date or the mayor to see the hover style. <b>Click</b> one to see how a selected row looks: it lights up warm brass, the same as a pressed button, in every option. Tab or arrow keys show the keyboard focus ring. On a phone there's no hover, so tap to select. Bottom left, hover a round menu button to see its name; Politics is lit because it's the open menu, and the dot on News means unread news. Click your portrait to open You. The town, faces and numbers are sample data.</p>
+
+  <div class="viewport" id="viewport">
+    <div class="stage o-fh fix-dark fix-type fix-num mk-lit" id="stage">
+      <div class="scene" id="scene" style="background-image:url(img/chamber.jpg)"></div>
+      <nav class="rail2 mk-lit" id="rail2" aria-label="Menus"></nav>
+      <div class="frost"></div>
+      <div class="panel">
+        <h2 class="ptitle">Politics</h2>
+        <svg class="x" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 3l16 16M19 3L3 19"/></svg>
+        <div class="cols">
+          <div class="left">
+            <div class="tabrail"><a class="on">Government</a><a>Elections</a><a>Parties</a><a>Issues</a><a>Budgets</a><a>How it's doing</a></div>
+            <div class="rails2">
+              <div class="tabrail"><a class="on">Local</a><a>State</a><a>Federal</a></div>
+              <div class="tabrail"><a class="on">Legislative</a><a>Executive</a><a>Judicial</a></div>
+            </div>
+            <div class="chamber"><div><b>Latimer Board of Aldermen</b><span>Meets 1st and 3rd Tuesdays · City Hall · next election June 3, 2025</span></div></div>
+            <div class="split"><i class="d" style="flex:3">3 Democrats</i><i class="r" style="flex:2">2 Republicans</i><i class="ind" style="flex:1">1 Independent</i></div>
+            <div class="members" id="members"></div>
+          </div>
+          <div class="right">
+            <div><div class="label">Recent votes</div><div id="votes"></div></div>
+            <div><div class="label">Coming up</div><div id="coming"></div></div>
+            <div><div class="label">This year</div><div class="stats"><div><b>23</b><span>laws passed</span></div><div><b>6</b><span>failed</span></div><div><b>1</b><span>vetoed</span></div><div><b>22</b><span>meetings</span></div></div></div>
+            <div><div class="label">Mayor</div><div class="mayor pick" tabindex="0" role="button"><img src="img/bust-look-020.png" alt=""><div><b>Ida Banks</b><span>Democrat · since July 2021 · won 61% · signed 21, vetoed 1 this year</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard mk-lit" id="pcard">
+        <button class="me" type="button" aria-label="You"><img src="img/bust-look-004.png" alt=""></button>
+        <div class="pinfo"><b>John Spencer</b><span>Latimer, Mississippi</span><span class="when">Monday, January 20, 2025</span><span>8:30 PM</span></div>
+        <div class="tbtns"><div class="scn">At the clerk's office</div><button class="kbtn" type="button">Day</button><button class="kbtn" type="button">Week</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo">
+    <section class="dcard mk-lit">
+      <h2>Buttons and tabs</h2>
+      <p>No corner marks. A pressed button or selected tab lights up warm brass, the same light the hover uses. Hover any button to see the glow. The panel keeps its frame corners.</p>
+      <div class="btns"><button class="kbtn" type="button">Back</button><button class="kbtn" type="button">Skip scene</button><button class="kbtn on" type="button">Continue</button></div>
+      <div class="tabrail"><a class="on">Government</a><a>Elections</a><a>Parties</a></div>
+    </section>
+  </div>
+</div>
+
+<script>
+const MEMBERS=[["025","Marcus Hill","D","District 1","Won 58% in 2023","On the board since 2015"],["029","Daniel Cho","R","District 2","Won 54% in 2021","On the board since 2021"],["028","Angela Price","D","District 3","Won 71% in 2023","On the board since 2019"],["027","Walter Greer","R","District 4","Won 63% in 2021","On the board since 2009"],["034","Priya Nair","I","District 5","Won 49% in 2021","On the board since 2021"],["035","Otis Freeman","D","At large","Won 52% in 2023","On the board since 2017"]];
+const VOTES=[["Drainage bond, $1.2 million","Jan 21",4,2],["Water rate increase","Jan 6",2,4],["Pecan Street paving","Dec 17",6,0],["Homestead exemption","Nov 19",5,1]];
+const COMING=[["Feb 4","Budget amendment for the police department"],["Feb 18","Rezoning on Highway 8 for a dollar store"],["Mar 7","Filing deadline for all six seats"]];
+const cls=p=>p==="D"?"d":p==="R"?"r":"ind";
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+document.getElementById("members").innerHTML=MEMBERS.map(([f,n,p,w,won,up])=>`<div class="m pick" tabindex="0" role="button"><img src="img/bust-look-${f}.png" alt=""><div class="who"><b>${esc(n)}</b><span>${esc(w)} · ${esc(up.replace("On the board since","since"))}</span><span>${esc(won)}</span></div><div class="badge ${cls(p)}">${p}</div></div>`).join("");
+document.getElementById("votes").innerHTML=VOTES.map(([t,d,y,n])=>`<div class="vote pick" tabindex="0" role="button"><p>${esc(t)}<em>${d}</em></p><div class="bar"><i class="y" style="flex:${y}">${y} yes</i>${n?`<i class="n" style="flex:${n}">${n} no</i>`:""}</div></div>`).join("");
+document.getElementById("coming").innerHTML=`<div class="c">${COMING.map(([d,t])=>`<div class="row" tabindex="0" role="button"><b>${d}</b><span>${esc(t)}</span></div>`).join("")}</div>`;
+
+const stage=document.getElementById("stage"), vp=document.getElementById("viewport");
+function fit(){stage.style.transform=`scale(${vp.clientWidth/1440})`}
+new ResizeObserver(fit).observe(vp); fit(); addEventListener("load",fit); addEventListener("resize",fit);
+
+function press(group,btn){group.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)))}
+const opts=document.getElementById("opts");
+opts.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;["o-fh","o-halo","o-edge","o-frame","o-sheen","o-both"].forEach(c=>stage.classList.remove(c));stage.classList.add(b.dataset.o);press(opts,b)});
+const ICONS={journal:'<path d="M4 5h16v11H9l-5 4z"/>',calendar:'<rect x="3.5" y="5" width="17" height="15" rx="1.2"/><path d="M3.5 9.5h17M8 3v4M16 3v4M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 16.5h.01M12 16.5h.01M16.5 16.5h.01"/>',money:'<ellipse cx="12" cy="6.5" rx="6" ry="2.6"/><path d="M6 6.5v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6V6.5M6 10.1v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6M6 13.7v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6"/>',politics:'<path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8"/><path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z"/>',news:'<path d="M5 5h12v14H6.5A1.5 1.5 0 0 1 5 17.5zM17 9h2.5v8.5a1.5 1.5 0 0 1-3 0M8 9h6M8 12h6M8 15h6"/>',people:'<circle cx="12" cy="7.5" r="3.2"/><circle cx="5.8" cy="9.5" r="2.3"/><circle cx="18.2" cy="9.5" r="2.3"/><path d="M6.5 19c.5-3.6 2.6-5.4 5.5-5.4s5 1.8 5.5 5.4zM1.8 17c.3-2.4 1.7-3.8 4-4M22.2 17c-.3-2.4-1.7-3.8-4-4"/>',travel:'<path d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13"/>',guide:'<path d="M12 7c-1.7-1.5-4-2.2-7-2.2v13c3 0 5.3.7 7 2.2 1.7-1.5 4-2.2 7-2.2v-13c-3 0-5.3.7-7 2.2zM12 7v13"/>'};
+const RAIL=[["journal","Journal"],["calendar","Calendar"],["money","Money"],["politics","Politics"],["news","News"],["people","People"],["travel","Travel"],["guide","Guide"]];
+const rail2=document.getElementById("rail2");
+rail2.innerHTML=RAIL.map(([k,t])=>`<button type="button" class="rbtn${k==="politics"?" on":""}" aria-label="${t}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg><span class="tip">${t}</span>${k==="news"?'<span class="dot" aria-hidden="true"></span>':""}</button>`).join("");
+rail2.addEventListener("click",e=>{const b=e.target.closest(".rbtn");if(!b)return;rail2.querySelectorAll(".rbtn").forEach(x=>x.classList.toggle("on",x===b));const d=b.querySelector(".dot");if(d)d.remove()});
+const cardmode=document.getElementById("cardmode"),pcard=document.getElementById("pcard");
+cardmode.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;pcard.classList.toggle("scene-on",b.dataset.c==="scene");press(cardmode,b)});
+const rooms=document.getElementById("rooms");
+rooms.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.getElementById("scene").style.backgroundImage=`url(${b.dataset.r})`;press(rooms,b)});
+["fix-dark","fix-type","fix-num","fix-bars"].forEach(id=>document.getElementById(id).addEventListener("change",e=>stage.classList.toggle(id,e.target.checked)));
+
+const items=()=>[...stage.querySelectorAll(".pick,.row")];
+function select(el){items().forEach(i=>i.classList.toggle("sel",i===el&&!i.classList.contains("sel")))}
+stage.addEventListener("click",e=>{const el=e.target.closest(".pick,.row");if(el)select(el)});
+stage.addEventListener("keydown",e=>{const el=e.target.closest(".pick,.row");if(!el)return;if(e.key==="Enter"||e.key===" "){e.preventDefault();select(el)}
+  if(["ArrowDown","ArrowUp"].includes(e.key)){e.preventDefault();const list=items(),i=list.indexOf(el);const next=list[(i+(e.key==="ArrowDown"?1:list.length-1))%list.length];next.focus()}});
+</script>
