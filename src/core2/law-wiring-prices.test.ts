@@ -147,7 +147,7 @@ function months(core: CoreState): WebMonth[] {
 describe("price and sales-tax laws reach people and move money", () => {
   afterAll(() => setJournalTrace(null));
 
-  it("is followed to households, groups, sellers and treasuries", () => {
+  it("is followed to households, groups, sellers and treasuries (just like today: needs the state's real price laws)", () => {
     setBookkeeping(false);
     const tried: string[] = [];
     try {
@@ -190,6 +190,7 @@ function run(
   const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
   const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: drawn.key,
   });
   const api = coreAPI(core);
@@ -651,7 +652,7 @@ function run(
 describe("the ban on new gas hookups reaches a builder and the cost of its project", () => {
   afterAll(() => setJournalTrace(null));
 
-  it("is followed to the builder's applied row and its first payment", () => {
+  it("is followed to the builder's applied row and its first payment (just like today: needs the state's real price laws)", () => {
     setBookkeeping(false);
     const tried: string[] = [];
     try {
@@ -691,6 +692,7 @@ function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
   const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
   const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: drawn.key,
   });
   const api = coreAPI(core);

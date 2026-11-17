@@ -13,6 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { loadingLines } from "./ui/loading-lines.mjs";
 import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
@@ -5350,7 +5351,10 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // An announcement is not a filing: the race still offers its filing in the window.
+    const filedFor = new Set(
+      v.filings.filter((f) => f.status !== "announced").map((f) => f.contestId),
+    );
     // A filing for any seat of an at-large race is a filing for the race.
     const filed = {
       has: (contestId) =>
@@ -5416,6 +5420,44 @@ const sheets = {
       fileButton.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
+      // Run now, file on the date (owner, Nov 17): announce for a race whose
+      // filing opens later; the campaign starts today.
+      const announceButton = makeButton({
+        className: "action primary",
+        textContent: labels.announce,
+      });
+      announceButton.dataset.testid = "announce";
+      announceButton.addEventListener("click", async () => {
+        await post(
+          `/api/announce?${new URLSearchParams({ contestId: race.contestId })}`,
+        );
+        await refresh();
+        await openSheet("campaign");
+      });
+      // A race whose filing hasn't opened runs the world to that morning, as a
+      // calendar day does (owner, Nov 17: "so I don't have to figure out the
+      // filing thing"); what needs the player on the way stops it there.
+      const opensLater =
+        !race.filingClosed &&
+        !race.filingOpen &&
+        race.filingOpens &&
+        race.filingOpens > today();
+      const simButton = makeButton({
+        textContent: labels.simTo.replace(
+          "{date}",
+          dateWords(race.filingOpens, { month: "short", year: today() }),
+        ),
+      });
+      simButton.dataset.testid = "sim-to-filing";
+      simButton.addEventListener("click", () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
+      });
+      const tray = [
+        ...(mayFile && !cannotFile ? [fileButton] : []),
+        ...(race.mayAnnounce ? [announceButton] : []),
+        ...(opensLater ? [simButton] : []),
+      ];
       return [
         rosterTitle(
           race.title,
@@ -5495,10 +5537,14 @@ const sheets = {
                 },
               ]),
             ),
-            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(tray.length ? [buttonTray(...tray)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile && race.bar && labels.refusal[race.bar]
+              : !mayFile &&
+                  !race.mayAnnounce &&
+                  !race.announced &&
+                  race.bar &&
+                  labels.refusal[race.bar]
                 ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
@@ -5573,20 +5619,22 @@ const sheets = {
       // its page offers no filing, so its line must not either.
       aside: filed.has(race.contestId)
         ? status(race)
-        : own && race.cannotFile?.metOn
-          ? `${labels.filingOpens} ${dateWords(
-              race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                ? race.filingOpens
-                : race.cannotFile.metOn,
-              { year: today() },
-            )}`
-          : own && race.bar === "window-not-open" && race.filingOpens
-            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-            : own && race.playerMayFile && race.filingOpen
-              ? labels.fileForIt
-              : race.filers.length
-                ? status(race)
-                : "",
+        : race.announced
+          ? labels.youAnnounced
+          : own && race.cannotFile?.metOn
+            ? `${labels.filingOpens} ${dateWords(
+                race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                  ? race.filingOpens
+                  : race.cannotFile.metOn,
+                { year: today() },
+              )}`
+            : own && race.bar === "window-not-open" && race.filingOpens
+              ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+              : own && race.playerMayFile && race.filingOpen
+                ? labels.fileForIt
+                : race.filers.length
+                  ? status(race)
+                  : "",
       data: { contest: race.contestId },
       race,
     });
@@ -7001,6 +7049,8 @@ document.getElementById("front-close")?.addEventListener("click", () => {
   FRONT_OUT[here]?.();
 });
 show("front-close", false);
+// The game's name as the page first prints it; the loading card wears it until the world names a place.
+const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
   // The close X is on every front panel but the title menu itself.
@@ -7526,7 +7576,16 @@ function followBuild(bar, onStory) {
     const at =
       p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
-    $("front-status").textContent = controls.loading?.[p.stage] ?? "";
+    // Every step's line stays: each one the build has passed is listed in order, including any
+    // that finished between two polls, so the card reads as the loading messages, not one line.
+    const box = $("front-status");
+    const last = p.stage === "done" ? STEPS.length : at + 1;
+    box.replaceChildren(
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        p.stage === "done" ? -1 : last - 1,
+      ),
+    );
   }, 400);
   return {
     stop() {
@@ -7534,7 +7593,7 @@ function followBuild(bar, onStory) {
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";
-      $("front-status").textContent = "";
+      $("front-status").replaceChildren();
     },
   };
 }
@@ -7547,8 +7606,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   const chosenName = placeKey
     ? $("cr-place-summary-name").textContent.trim()
     : "";
-  if (chosenName)
-    document.querySelector("#front > .title").textContent = chosenName;
+  // Before the world names a place the card wears the game's name, never the last panel's.
+  document.querySelector("#front > .title").textContent =
+    chosenName || GAME_TITLE;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;
