@@ -405,13 +405,9 @@ function worldFacts(
   if (vice) facts["vice-president"] = vice;
   const speaker = named("US:us-house", (row) => row.leadership === "presiding");
   if (speaker) facts.speaker = speaker;
-  const past = (kindKey: string) =>
-    (president.pastFacts ?? []).find((row) => row.kind === kindKey);
-  // No home state: a speech names a place only where its section is about
-  // that place (owner, Nov 12: "Why Georgia?").
-  const prior = past(PRESIDENT_FACT.priorOffice);
-  if (prior?.facts?.title)
-    facts["prior-office"] = fact(prior.facts.title, prior.id);
+  // No home state and no past office here: a speech names a place or a past
+  // office only where its section is about it (owner, Nov 12: "Why
+  // Georgia?"; the turn to the states, priorStateFacts).
   // The year's subjects, the furthest moved first; a tie goes by name.
   const ranked = (claims: (topic: string) => readonly string[]) =>
     themeTopics
@@ -2453,7 +2449,22 @@ export function planSpeech(
               : {}),
           }
         : {}),
-      ...bodyHold,
+      // Whether the speaker's party holds the body, said with the ask where
+      // there is one (unit 4): a close that names what is in front of the
+      // body and whether the votes are there outranks one that says either
+      // alone, so the hold is keyed apart from the bare one.
+      ...(asks.length && questionAbout(first.question)
+        ? Object.fromEntries(
+            Object.entries(bodyHold).map(([key, row]) => [
+              key === "party-holds-body"
+                ? "asked-holds-body"
+                : key === "party-lacks-body"
+                  ? "asked-lacks-body"
+                  : key,
+              row,
+            ]),
+          )
+        : bodyHold),
       ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
         ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
         : {}),
@@ -2592,9 +2603,6 @@ export function planSpeech(
       },
     ],
     occasion: () => {
-      const prior = (person.pastFacts ?? []).find(
-        (past) => past.kind === PRESIDENT_FACT.priorOffice,
-      );
       return [
         {
           key: "occasion",
@@ -2602,9 +2610,6 @@ export function planSpeech(
           joins: true,
           facts: {
             ...themeFacts,
-            ...(prior?.facts?.title
-              ? { "prior-office": fact(prior.facts.title, prior.id) }
-              : {}),
             ...(federal
               ? {}
               : conditionFacts(
@@ -2857,11 +2862,15 @@ export function planSpeech(
         moves: [move("people")],
       },
     ],
+    // A past office is said only where it does work (unit 3; owner, Nov 16:
+    // "before I served the country at large, I served Delaware ... what was
+    // the point in that?"): in the turn to the states, by the state the
+    // speaker governed or served in the Senate, from the career record.
     states: () => [
       {
         key: "to-states",
         level: "states",
-        facts: {},
+        facts: priorStateFacts(person),
         moves: [move("to-states")],
       },
     ],
@@ -3048,6 +3057,25 @@ const SAYS_ASK_AGAIN: ReadonlySet<string> = new Set([
   "floor-speech",
   "campaign-speech",
 ]);
+
+/** A speaker's past office in a state, where the career record names one: governor or senator, and the state. */
+function priorStateFacts(person: PersonState): Facts {
+  const prior = (person.pastFacts ?? []).find(
+    (row) => row.kind === PRESIDENT_FACT.priorOffice,
+  );
+  const office = prior?.facts?.office;
+  const key = prior?.facts?.stateKey;
+  const state = key ? coreStateName(key.replace(/^US-/, "")) : null;
+  if (!prior || !state || (office !== "governor" && office !== "us-senate"))
+    return {};
+  return {
+    [office === "governor" ? "prior-governor" : "prior-senator"]: fact(
+      "yes",
+      prior.id,
+    ),
+    "prior-state": fact(state, prior.id),
+  };
+}
 
 /** The speaker's serving term by its id, with its end, from the offices engine. */
 function termOf(

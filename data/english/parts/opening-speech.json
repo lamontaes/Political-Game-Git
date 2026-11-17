@@ -4,7 +4,6 @@
   "description": "The President's opening address, authored to the shape of real inaugural and state-of-the-union addresses (an opening, a story of the country, named priorities each tied to a law, a close) and written for this game's Presidents: every law and priority is a slot or a required fact read from the world's records, and the address says no figure at all (owner, Oct 27: \"none of that real data in there\"; Nov 1: \"I don't like where this part of the speech where it just laces statistics\"). Each sentence has a polished and a plain version for the speaker's recorded manner. No real President's words.",
   "slots": {
     "home-state": "the President's identity record",
-    "prior-office": "the President's career record",
     "about": "the policy question's spoken noun phrase",
     "to": "the policy question's spoken verb phrase",
     "state-name": "the player's state, whose law the laws engine reads",
@@ -90,7 +89,8 @@
     "run-span": "how many years back the economy's run is read, in words ('four years'), from the macro months it compares (address-story.ts)",
     "term-left": "the years left in the speaker's term, in words ('four years'), from the offices engine's serving term",
     "story-disaster": "the year's disaster by its kind ('flood', 'severe storm'), from the national events or disasters engine's record",
-    "disaster-where": "the state the year's latest disaster struck, by name, from the national events engine's record"
+    "disaster-where": "the state the year's latest disaster struck, by name, from the national events engine's record",
+    "prior-state": "the state the President governed or served in the Senate before, by name, from the career record (said only in the turn to the states)"
   },
   "maxWords": 40,
   "mining": {
@@ -8825,41 +8825,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-occasion",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.occasion.polished-ina-sta-crisis-core-i-came-here-from-serving-as-prior-office-and",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I came here from serving as {prior-office}, and I come with one purpose: to steady a country going through a hard time.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "inaugural",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["prior-office"],
-          "tie": "record"
-        },
-        {
-          "move": "occasion",
-          "subject": "state-of-the-union",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["prior-office"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
       "addressKind": "crisis",
       "piece": {
         "of": "opening-occasion",
@@ -64164,40 +64129,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.occasion.plain-ina-sta-hopeful-core-i-ve-gone-from-prior-office-to-this-job",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I've gone from {prior-office} to this job, and I've never felt more hopeful.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "inaugural",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["prior-office"],
-          "tie": "record"
-        },
-        {
-          "move": "occasion",
-          "subject": "state-of-the-union",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["prior-office"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-occasion",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.unity.polished-ina-hopeful-core-vice-president-and-i-owe-the-same-service-to",
       "move": "unity",
       "kind": "spoken",
@@ -117829,6 +117760,882 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.polished-unit3-prior-governor-before-i-was-president-i-was-governor-of-prior",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "before I was President, I was governor of {prior-state}, and I know what a state can do when Washington stays out of its way.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.polished-unit3-prior-governor-i-governed-prior-state-so-i-know-where-the",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I governed {prior-state}, so I know where the work lands.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.polished-unit3-prior-governor-i-served-prior-state-as-governor-and-i-will",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I served {prior-state} as governor, and I will not forget what your job asks of you.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-governor-before-i-came-here-i-was-governor-of-prior",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "before I came here, I was governor of {prior-state}, so I know how much of the real work lands on you.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-governor-i-ran-prior-state-as-governor-i-know-what",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I ran {prior-state} as governor. I know what you're up against.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-governor-i-was-governor-of-prior-state-and-i-ll",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I was governor of {prior-state}, and I'll treat you the way I wanted to be treated.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-governor", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.polished-unit3-prior-senator-i-represented-prior-state-in-the-senate-and-i",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I represented {prior-state} in the Senate, and I heard every week what the rules from Washington cost a state.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.polished-unit3-prior-senator-i-served-prior-state-in-the-senate-so-your",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I served {prior-state} in the Senate, so your calls will get through.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.polished-unit3-prior-senator-before-this-i-spoke-for-prior-state-in-the",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "before this, I spoke for {prior-state} in the Senate, and I will keep listening to the states.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-senator-i-spent-my-senate-years-hearing-from-prior-state",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I spent my Senate years hearing from {prior-state}, so I know what you're up against.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-senator-i-represented-prior-state-in-the-senate-call-me",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I represented {prior-state} in the Senate. Call me.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-senator-i-served-prior-state-in-the-senate-and-i",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I served {prior-state} in the Senate, and I never forgot who did the real work back home.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-asked-holds-body-asked-about-is-in-front-of-the-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{asked-about} is in front of the {realm-bare} {body-word}, and we have the votes to settle it this year. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-asked-holds-body-we-have-the-votes-in-the-realm-bare-body",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We have the votes in the {realm-bare} {body-word} for {asked-about}, and I mean to use them. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-asked-holds-body-the-realm-bare-body-word-can-settle-asked-about",
+      "move": "close",
+      "kind": "spoken",
+      "text": "The {realm-bare} {body-word} can settle {asked-about} this year, and my party has the votes to do it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-asked-holds-body-we-ve-got-the-votes-in-the-realm-bare",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We've got the votes in the {realm-bare} {body-word}. Let's settle {asked-about} this year.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-asked-holds-body-asked-about-is-up-to-the-realm-bare-body",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{asked-about} is up to the {realm-bare} {body-word} now, and we've got the votes. Let's go.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-asked-holds-body-we-have-the-votes-for-asked-about-now-let",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We have the votes for {asked-about}. Now let's use them. Thanks, everybody.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-holds-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-asked-lacks-body-asked-about-needs-votes-in-the-realm-bare-body",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{asked-about} needs votes in the {realm-bare} {body-word} that my party does not have, so I will be asking across the aisle. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-asked-lacks-body-i-cannot-settle-asked-about-without-the-other-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I cannot settle {asked-about} without the other side of the {realm-bare} {body-word}, and I will ask them for their votes.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-unit4-asked-lacks-body-the-votes-for-asked-about-are-not-mine-to",
+      "move": "close",
+      "kind": "spoken",
+      "text": "The votes for {asked-about} are not mine to count on, so I will earn them. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-asked-lacks-body-i-don-t-have-the-votes-for-asked-about",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I don't have the votes for {asked-about} in the {realm-bare} {body-word}, so I'll go get them.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-asked-lacks-body-asked-about-needs-votes-my-party-doesn-t-have",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{asked-about} needs votes my party doesn't have. I'll go get them.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-unit4-asked-lacks-body-on-asked-about-i-need-the-other-side-of",
+      "move": "close",
+      "kind": "spoken",
+      "text": "On {asked-about}, I need the other side of the {realm-bare} {body-word}. I'm asking. Thanks, everybody.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "asked",
+            "asked-lacks-body",
+            "body-word",
+            "realm-bare",
+            "asked-about"
+          ],
           "tie": "law"
         }
       ],
