@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: pins
-pr:
+pr: 9881
 after:
 blocked-on:
 root: none
