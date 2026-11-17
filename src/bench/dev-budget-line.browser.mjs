@@ -79,6 +79,12 @@ try {
     return { ok: r.ok, body: await r.text() };
   }, billId);
   assert.ok(paper.ok, "the filed bill has a paper");
+  assert.ok(
+    JSON.parse(paper.body).sections.some(
+      (s) => s.key === `budget-line:${chosen}`,
+    ),
+    `the bill's paper has a section for the ${chosen} line`,
+  );
   console.log("PAPER:", paper.body.slice(0, 400));
   if (shots)
     await page.screenshot({ path: `${shots}/dev-budget-line-after.png` });
