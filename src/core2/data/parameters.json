@@ -821,6 +821,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "closenessTrustLostShare": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "The share of the hours a tie stands on today that trust lost takes (a lie found out, a promise broken): a close tie loses more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15). Read by the director's endingStrain trust-lost row and the promises engine's broken promise (people-broken-promise-costs-share-of-tie, Nov 16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "share of the tie",
+      "citation": "From memory: the spread the Account lead's ruling of Nov 15 checks it against; no study gives a share."
+    },
+    "role": "coefficient",
+    "estimatedFrom": "From memory, not measured: DePaulo and Kashy (1998) give the direction only (people lie less to those they are close to and are more uncomfortable doing it), and no study read gives the share of a tie that trust lost takes. A quarter is the middle of the spread the Account lead's ruling of Nov 15 checks it against. Sizing it from the record (what the lies and broken promises in played worlds actually do to ties) is item people-trust-lost-share-sized-from-the-record, the lying thread's."
+  },
   "circleRetentionShareOverSpan": {
     "value": 0.48,
     "tag": "SOURCED",
