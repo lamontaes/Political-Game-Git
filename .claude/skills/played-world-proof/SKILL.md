@@ -58,6 +58,7 @@ Name the few people it reached by record id. Most people are untouched; say so.
 - Every dollar balances; the golden-path suite must stay green.
 - **Run the with-and-without years for one change from one script** that swaps the changed file between runs (copy the base's file, run, copy the new one, run), twice each side, in the background with a Monitor on an ALLDONE line; two heavy runs at once get OOM-killed. Count printed stories by kind, not only the total (layoff thread, Nov 14).
 - Answer why for every number you report (see `ask-why`).
+- **A played proof with bookkeeping off skips the core's write checks (Nov 17, #9971).** Word spreading passed its played year, then crashed `jobs-record-bias` at seed aa11 with bookkeeping on: a hearer's drive named an act they never lived through. After the played proof, run the module's unit tests with bookkeeping on (the default) before calling it done.
 
 ## Native bench papers after a scripted route
 

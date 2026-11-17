@@ -1,0 +1,27 @@
+{
+  "screen": "Politics > Elections",
+  "today": "Monday, January 20, 2025",
+  "player": "Tracy Lucas, Grano, North Dakota",
+  "offices_you_can_run_for": [
+    {"office": "Council member", "filing_opens": "January 29, 2026"},
+    {"office": "Mayor", "filing_opens": "January 29, 2026"}
+  ],
+  "selected_race": {
+    "office": "Council member",
+    "election_day": "June 2, 2026",
+    "seats_to_fill": 3,
+    "whos_running": [],
+    "last_time": {"date": "May 1, 2022", "winner": "Shirley Pratt", "share_percent": 54},
+    "dates": [
+      {"date": "Jan 29, 2026", "what": "Filing opens"},
+      {"date": "Mar 30, 2026", "what": "Filing closes"},
+      {"date": "Jun 2, 2026", "what": "Election day"}
+    ],
+    "state": "Filing hasn't opened yet"
+  },
+  "actions_now": [
+    {"label": "Announce", "does": "Announce your run now: form a campaign committee, raise money and gather petition signatures before filing opens (owner's ruling, Nov 17)."},
+    {"label": "Sim to Jan 29", "does": "Run the world to the day filing opens and stop there."},
+    {"label": "File", "does": "Shown only once filing is open."}
+  ]
+}
