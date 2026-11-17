@@ -2,9 +2,11 @@
  * The tie rule: a Subject with no tie record to the speaker or the hearer is
  * refused whoever built it. Unit rows prove the one check (a builder the rule
  * has never seen is refused the same way); the played row proves every
- * subject a talk can raise in a built world carries one. Ridgeville, Alabama
- * (0164656), the draw "8341-pin"/"p6" the bench tests pin.
+ * subject a talk can raise in a built world carries one, at a place drawn
+ * from all 56 (CTO, Nov 17: tests draw their place; it was pinned to
+ * Ridgeville, Alabama). GOLDEN_PATH_SEED replays one.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -15,7 +17,8 @@ import { subjectsBetween, type Subject } from "./conversation";
 import { acceptSubjects, OWN_RECORD_KINDS, storyTie } from "./subject-tie";
 import type { Story } from "../core2/modules/news";
 
-const PINNED = { run: "8341-pin", purpose: "p6", key: "0164656" };
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const place = drawPlace(seed, "subject-tie");
 
 const row = (kind: string, extra: Partial<Subject> = {}): Subject => ({
   id: `${kind}:1`,
@@ -49,11 +52,9 @@ it("refuses a subject with no tie, whichever builder made it", () => {
   expect(OWN_RECORD_KINDS.has("weather-chat")).toBe(false);
 });
 
-it("every subject a built world's people can raise to the player carries its tie (Ridgeville AL)", () => {
+it(`every subject a built world's people can raise to the player carries its tie (seed ${seed})`, () => {
   setBookkeeping(false);
-  const place = drawPlace(PINNED.run, PINNED.purpose);
   const where = `${place.name} (${place.key}), world seed ${place.seed}`;
-  expect(place.key, `${where}: the pinned place moved`).toBe(PINNED.key);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -80,22 +81,35 @@ it("every subject a built world's people can raise to the player carries its tie
   expect(raised, `${where}: no subject was raised`).toBeGreaterThan(0);
 }, 60_000);
 
-it("a printed story that names the speaker as its winner, a loser, the appointee or who appointed them is tied to them (Ridgeville AL)", () => {
+it(`a printed story that names the speaker as its winner, a loser, the appointee or who appointed them is tied to them (seed ${seed})`, () => {
   setBookkeeping(false);
-  const place = drawPlace(PINNED.run, PINNED.purpose);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   });
   const { core } = world;
   const playerId = world.playerId as PersonId;
-  const [speaker, stranger] = [...core.people.values()].filter(
+  const player = core.people.get(playerId)!;
+  const others = [...core.people.values()].filter(
     (row) =>
       row.alive &&
       row.tier !== "husk" &&
       row.id !== playerId &&
-      row.householdId !== core.people.get(playerId)!.householdId,
+      row.householdId !== player.householdId &&
+      !player.familyIds.has(row.id),
   );
+  const speaker = others[0];
+  // The stranger shares no household or family with the speaker or the
+  // player: a story naming a speaker's own household member is rightly tied
+  // to them (at Ogema, Wisconsin the first two people drawn were one household).
+  const stranger = others.find(
+    (row) =>
+      row.id !== speaker!.id &&
+      row.householdId !== speaker!.householdId &&
+      !speaker!.familyIds.has(row.id) &&
+      !row.familyIds.has(speaker!.id),
+  );
+  expect(stranger, `${place.name}: a stranger to the speaker`).toBeDefined();
   const story = (facts: Record<string, string>): Story =>
     ({ id: "story:test", facts }) as unknown as Story;
   // The speaker's own record in the story: each way a story names a person.
