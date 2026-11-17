@@ -297,8 +297,10 @@ export function termStartAfter(year: number): string {
  * them as it does for the places a race counts from afar in play).
  */
 // stopgapId: SG-HIST-century-voters
-function centuryVoters(): readonly SampleVoter[] {
-  const size = Math.max(1, Math.round(centuryParameter("centuryVoters")));
+function centuryVoters(
+  count = centuryParameter("centuryVoters"),
+): readonly SampleVoter[] {
+  const size = Math.max(1, Math.round(count));
   const readiness = readinessOf({ duty: 0, reach: 0, habit: 0, cost: 0 });
   return Array.from({ length: size }, (_, i) => ({
     id: `century:voter:${i}`,
@@ -968,6 +970,8 @@ function congressElections(
   gap: number,
   voters: readonly SampleVoter[],
   results: YearResults,
+  /** The count for other states' chambers, counted as results (`centuryHiddenVoters`). */
+  hiddenVoters: readonly SampleVoter[] = voters,
 ): void {
   const cycle =
     year % 4 === 0 ? "presidential" : year % 2 === 0 ? "midterm" : "off-cycle";
@@ -1063,7 +1067,7 @@ function congressElections(
       presidentSide,
       gap,
       cycle,
-      voters,
+      hiddenVoters,
       results,
     );
 }
@@ -1396,6 +1400,7 @@ export function* runLegislatures(
     startDate,
   );
   const voters = centuryVoters();
+  const hiddenVoters = centuryVoters(centuryParameter("centuryHiddenVoters"));
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
     // The President sitting that November: the last one elected before it.
@@ -1412,6 +1417,7 @@ export function* runLegislatures(
       approvalGap(),
       voters,
       results,
+      hiddenVoters,
     );
     results.carry(districtLeans);
     yield { year, done: at + 1, total: years.length };
