@@ -10,6 +10,7 @@
 import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
+import { endorsementAskFacts } from "./endorsement-ask-facts";
 import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
@@ -1740,6 +1741,18 @@ function composeBinding(
       facts["asked-again"] = { text: "yes", sourceRecordIds: cited };
     if (said.contestId)
       Object.assign(facts, contestVoteDay(core, said.contestId));
+    // Why they ask now, each from the record that holds it (K1).
+    Object.assign(
+      facts,
+      endorsementAskFacts(
+        core,
+        binding.typeKey,
+        moment.causeId,
+        askerId,
+        askedId,
+        sayPerson,
+      ),
+    );
   }
   if (said.office)
     facts.office = {

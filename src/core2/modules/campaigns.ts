@@ -7277,9 +7277,10 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
  * reach to give their evenings (`askToVolunteer`, a few each turn, in turn)
  * and the people closest to the candidate to put their name behind them
  * (`askForEndorsement`, each asked once, the closest first). Each person
- * answers from their own record and traits; the controlled person is never
- * asked here. Volunteers join the campaign's reachable people and come to its
- * events; an endorsement reaches the endorser's circle as a cause on record.
+ * answers from their own record and traits; the controlled person is asked
+ * for an endorsement too, but answers for themselves in a scene
+ * (`askPlayerForEndorsement`), and is never asked to volunteer here.
+ * Volunteers join the campaign's reachable people and come to its events; an endorsement reaches the endorser's circle as a cause on record.
  */
 export function askForSupport(api: CoreAPI, filingId: string): void {
   const campaign = campaignFor(api, filingId);
