@@ -280,9 +280,7 @@ describe("relative days in scene narration", () => {
 // every line that names the evening is decided one way or the other.
 const EVENING_AHEAD = new Set([
   "scene-talk.reply-deflect.i-was-going-to-tell-you-tonight",
-  "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
   "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
-  "scene-talk.reply-press.tonight-would-be-better",
   "scene-talk.follow-accept.tonight-then",
   "scene-talk.follow-promise.sign-at-the-bottom-and-i-ll-write-the-reference-myself-tonight",
   "scene-talk.follow-press.monday-s-fine-tonight-though-give-the-room-one-line-it-can-cheer",
@@ -304,7 +302,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
   "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
-  // The bill's vote that evening, from its floor date (rule 22).
   "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
 describe("the time of day in scene talk", () => {
