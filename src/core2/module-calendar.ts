@@ -213,6 +213,18 @@ export function moduleCalendar(
 }
 /** O(current-date work), with no calendar scan on quiet days. Both clocks call this before module day hooks. */
 export function runModuleCalendar(core: CoreState, api: CoreAPI): void {
+  for (const step of runModuleCalendarSteps(core, api)) void step;
+}
+
+/**
+ * The day's dated work an entry at a time: each step says how much is done (0 to 1), so the opening's
+ * warm-up can report between entries on a busy day (owner, Nov 16: "It should continue to load."). The
+ * entries run in the same order, and the calendar stays marked as dispatching across the steps.
+ */
+export function* runModuleCalendarSteps(
+  core: CoreState,
+  api: CoreAPI,
+): Generator<number, void> {
   const c = calendars.get(core);
   if (!c) return;
   if (c.faulted)
@@ -224,7 +236,9 @@ export function runModuleCalendar(core: CoreState, api: CoreAPI): void {
   // Insertion order is the explicit producer order for same-day institutional dependencies.
   c.dispatching = true;
   try {
-    for (const entry of [...bucket]) {
+    const entries = [...bucket];
+    for (const [at, entry] of entries.entries()) {
+      if (at > 0) yield at / entries.length;
       if (!bucket.has(entry)) continue; // An earlier handler may cancel later work.
       if (
         owner(core, entry.row.moduleId) !== entry.module ||

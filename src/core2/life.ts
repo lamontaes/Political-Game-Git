@@ -1,4 +1,4 @@
-import { runModuleCalendar } from "./module-calendar";
+import { runModuleCalendar, runModuleCalendarSteps } from "./module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceDate, duePeople, planningDays } from "./calendar";
 import type { DuePerson } from "./calendar";
@@ -578,7 +578,8 @@ export function* runDaySteps(
   // The calendar, each module's day, the people due, each module's after-day.
   const total = core.modules.size * (one + one) + one + one;
   let done = parameter("zero", core.data.parameters);
-  runModuleCalendar(core, api);
+  for (const share of runModuleCalendarSteps(core, api))
+    yield (done + share) / total;
   yield ++done / total;
   for (const module of core.modules.values()) {
     const own = hooks.ownDay?.get(module.id);
