@@ -42266,32 +42266,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Honestly, I don't agree with you on this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["stand-apart", "meeting", "body"],
-          "setsFacts": ["said-no"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.okay-i-can-live-with-that",
       "move": "follow-accept",
       "kind": "spoken",
@@ -171437,32 +171411,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.whatever-s-on-the-agenda-we-want-people-in-the-room",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Whatever's on the agenda. We want people in the room.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["meeting", "body", "meeting-when"],
-          "after": "scene-talk.reply-ask.what-s-the-body-deciding-meeting-when"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-do-you-want-from-me-on-cause",
       "move": "reply-ask",
       "kind": "spoken",
@@ -171622,55 +171570,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.it-s-me-again-i-won-t-take-long",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "It's me again. I won't take long.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-before"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.excuse-me-have-you-got-a-minute",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Excuse me. Have you got a minute?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
         "key": "favor-asked"
       }
     },
@@ -174896,31 +174795,6 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-thanks-for-hearing-me-out",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Alright. Thanks for hearing me out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["said-no"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-ll-think-about-meeting-when-i-m-not-promising",
       "move": "reply-leave",
       "kind": "spoken",
@@ -174969,60 +174843,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.alright-i-ll-sit-in-the-back-and-listen",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Alright. I'll sit in the back and listen.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["meeting", "body", "meeting-when", "title"],
-          "after": "press",
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.then-i-ll-come-it-s-part-of-the-job",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then I'll come. It's part of the job.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["meeting", "body", "meeting-when", "title"],
-          "after": "answer",
-          "setsFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
         "key": "favor-asked"
       }
     },
@@ -175076,32 +174896,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.the-room-is-open-to-people-who-disagree-come-anyway",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "The room is open to people who disagree. Come anyway.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["stand-apart", "meeting", "body"],
-          "after": "decline"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
         "key": "favor-asked"
       }
     },
@@ -175180,38 +174974,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-it-matters-that-you-ll-be-there",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. It matters that you'll be there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": [
-            "meeting",
-            "body",
-            "meeting-when",
-            "title",
-            "said-yes"
-          ],
-          "after": "agree"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       }
     },
