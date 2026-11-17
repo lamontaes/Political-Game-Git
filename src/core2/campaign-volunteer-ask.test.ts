@@ -33,6 +33,7 @@ import {
   VOLUNTEER_JOINED_EVENT,
   askForSupport,
   campaignFor,
+  foldClosedRaceCauses,
   openCampaigns,
   reachablePeople,
 } from "./modules/campaigns";
@@ -161,6 +162,15 @@ describe("a campaign asks the player to volunteer", () => {
         .table("volunteerAsks")
         .get(String(ask.facts?.askId)) as unknown as { answer: string };
       expect(kept.answer, where).toBe("yes");
+      // The answer stands only for the race: it goes when the race is counted.
+      foldClosedRaceCauses(api, filing.contestId);
+      expect(
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("volunteerAsks")
+          .get(String(ask.facts?.askId)),
+        where,
+      ).toBeFalsy();
       console.log(
         `volunteer ask: ${where}; passed over: ${passedOver.join(" | ") || "none"}`,
       );

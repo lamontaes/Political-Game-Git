@@ -617,7 +617,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       steppedUp: { indexes: { byFiling: { fields: ["filingId"] } } },
       /**
        * Each time a campaign asked the player to give it evenings, one row per campaign: `asked` until the
-       * player answers in the scene it stages, then `yes` or `no`.
+       * player answers in the scene it stages, then `yes` or `no`. A race's rows go when it is counted
+       * (`foldClosedRaceCauses`).
        */
       volunteerAsks: { indexes: { byFiling: { fields: ["filingId"] } } },
       /** Each endorsement answer: a person asked, or a group's backing. */
@@ -7078,8 +7079,15 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
   if (!contestId || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
   const filings = elections(api, "filings").query("byContest", [
     contestId,
-  ]) as unknown as { personId: string }[];
+  ]) as unknown as { id: string; personId: string }[];
   foldCauses(api, new Set(filings.map((f) => f.personId)));
+  // The player's answers to this race's asks to volunteer stand only for the race: they go with it.
+  const asks = table(api, "volunteerAsks");
+  for (const filing of filings)
+    for (const ask of asks.query("byFiling", [filing.id]) as unknown as {
+      id: string;
+    }[])
+      asks.remove(ask.id);
 }
 
 /**

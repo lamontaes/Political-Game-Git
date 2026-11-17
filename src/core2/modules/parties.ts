@@ -97,7 +97,8 @@ export const PARTIES_MODULE: CoreModule = {
       /**
        * The player's answer to their party's invitation to a meeting, one row per meeting: `asked` until
        * they answer in the scene it stages, then `yes` or `no`. The meeting reads it for the player in
-       * place of a lean (`meetTheChair`): nothing decides for the player whether they go.
+       * place of a lean (`meetTheChair`): nothing decides for the player whether they go. A meeting's
+       * row goes at the next meeting.
        */
       playerAttends: {},
     },
@@ -1089,6 +1090,10 @@ export function tieBeforeFiling(api: CoreAPI, personId: string): void {
  */
 function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "party-meeting") return;
+  // The player's answers to meetings already held are spent: only the coming meetings' stay.
+  const attends = api.moduleState(PARTIES_MODULE_ID).table("playerAttends");
+  for (const row of attends.rows() as unknown as { id: string; date: string }[])
+    if (row.date < api.state.date) attends.remove(row.id);
   scheduleMeeting(api, api.state.date);
   const rule = townTieRule(api);
   if (!rule) return;
