@@ -80,6 +80,10 @@ A drawn place can name a business after a person, so a check that counts the pla
 - **Following whoever the case happens to, then replaying the town as that person, can fail by tier.** A townsperson who misses a loan payment opens with a loan and no cash; the same person as the player opens with cash and no loan, and never misses. Check that the case survives the rebuild before building a test on it, and file the tier difference when it does not.
 - **A build by the runner's drawn key is a draw.** A place where no player can live is passed over by the build itself when the key is the golden-path runner's (`passOver` in `src/bench/world.ts`); a test that draws its own key catches `NoPlayerHereError`, names the place and draws again, as `src/core2/past-votes-by-level.test.ts` does.
 
+## A case the player never reaches (Handoff, Nov 17)
+
+When the case happens to townspeople and not to the player (a borrower who misses a payment: the player's home opens with cash and no loan, so ten drawn places and six birthdays found none), the test finds the person the engines name in the drawn place, as `findTownBorrower` does, and stages only that person's choice, labeled where it stands. It follows them from day one (the director watches, and `focusPersonIds` keeps their records), and it reads what a non-player's record says the day it happens, since the engine forgets a person outside the player's circle after a week (`circleDecisionDetailDays`). That the player cannot reach the case is a gap for the lane that owns the player's choices, posted as "for Blockers".
+
 ## Gotchas (Nov 16 and 17)
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
@@ -88,6 +92,9 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
 - Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
 - Nov 17, 02:21Z (national-events, disaster-aid): tests counted disasters in fixed windows tied to real dates. Cause: disasters now come from each world's own risks. Stage one through the world's own hazard, or play until one occurs, and fail on zero.
+- Nov 17, 04:26Z (estates-played-heirs, Pins 31): once wills followed savings and family, the pinned Dennis test found an intestate decedent whose heirs were parents, and the law gives a dead parent's share to the surviving parent. Cause: a lifted pin moved which case the search found first. Narrow the search to the case the assertion is about (an heir among the children), say why in the test, and leave the assertion alone.
+- Nov 17, 05:20Z (estates-played-heirs, Pins 31): probate never closed in 270 days at two drawn places. Cause: a last owner's home holds probate open until it sells. Wait for the settlement itself, and pass over by name an estate with a home to sell when the test is about heirs.
+- Nov 17, 05:30Z (estates-played-heirs, Pins 31): a decedent picked as having no will closed probate by will. Cause: the search read the will before the death, and probate uses the will kept on the row at death. Classify each candidate by the record the engine keeps at the event, not by a reading taken before it.
 - Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
 
 ## More in this folder

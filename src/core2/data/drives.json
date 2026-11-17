@@ -13,7 +13,8 @@
     "donated": "cause.donated",
     "volunteered": "cause.volunteered",
     "soughtStanding": "standing.sought",
-    "strengthened": "drive.strengthened"
+    "strengthened": "drive.strengthened",
+    "wordRetold": "word.retold"
   },
   "civicActEvents": [
     {
@@ -47,7 +48,8 @@
     "countedSubject": "counted-subject",
     "countedPerceivers": "counted-perceivers",
     "countedSubjects": "counted-subjects",
-    "countedHousehold": "counted-household"
+    "countedHousehold": "counted-household",
+    "wordEvent": "wordEvent"
   },
   "driveKinds": [
     {
@@ -517,6 +519,45 @@
       "responses": ["hold-grudge", "carry-on"]
     },
     {
+      "id": "race-lost",
+      "eventKind": "race.lost",
+      "roles": ["subject"],
+      "channels": ["injustice", "loss"],
+      "responses": [
+        "hold-grudge",
+        "prove-oneself",
+        "take-up-cause",
+        "carry-on"
+      ],
+      "impulseParameter": "driveRaceLostImpulse"
+    },
+    {
+      "id": "bill-vetoed",
+      "eventKind": "bill.vetoed",
+      "roles": ["subject"],
+      "channels": ["injustice", "loss"],
+      "responses": [
+        "hold-grudge",
+        "prove-oneself",
+        "take-up-cause",
+        "carry-on"
+      ],
+      "impulseParameter": "driveBillVetoedImpulse"
+    },
+    {
+      "id": "campaign-attacked",
+      "eventKind": "campaign.attacked",
+      "roles": ["subject"],
+      "channels": ["injustice", "threat"],
+      "responses": [
+        "hold-grudge",
+        "prove-oneself",
+        "take-up-cause",
+        "carry-on"
+      ],
+      "impulseParameter": "driveAttackedImpulse"
+    },
+    {
       "id": "press-snubbed",
       "eventKind": "press.snubbed",
       "roles": ["subject"],
@@ -732,6 +773,9 @@
     "work.job-lost",
     "housing.eviction",
     "press.snubbed",
-    "press.attacked"
+    "press.attacked",
+    "race.lost",
+    "bill.vetoed",
+    "campaign.attacked"
   ]
 }

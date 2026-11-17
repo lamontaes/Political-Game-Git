@@ -67,9 +67,13 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     const questions = [...seat.questions].sort(
       (a, b) => marginOn(b) - marginOn(a) || a.localeCompare(b),
     );
+    // The most settled question the body may decide: a draft on a question
+    // outside the body's authority is blocked and never comes to a vote, and
+    // in most drawn towns the four most settled questions are a state's or
+    // the country's to decide, not a town board's.
     let bill = { id: "", status: "blocked" };
     let brought = "";
-    for (const question of questions.slice(0, 4)) {
+    for (const question of questions) {
       if (bill.status !== "blocked") break;
       brought = question;
       bill = seatAct(core, me, {
@@ -78,6 +82,12 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
         question,
         value: 1,
       }) as { id: string; status: string };
+    }
+    if (bill.status === "blocked") {
+      tried.push(
+        `${where}: ${body.officeId} may decide none of its ${questions.length} questions`,
+      );
+      continue;
     }
     if (!core.durableLog.has(`office.introduced:${bill.id}`)) {
       tried.push(`${where}: ${bill.status}, no introduction record`);
@@ -211,13 +221,38 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     // PROBE (hand-made): the national press. A reporter of a national outlet
     // plays national at any level; the bill's level alone, for a reporter of
     // the town's own outlet, is not enough.
+    // The national press, on the member's vote as cast. The engine adds
+    // every arc in one sum: hostile is its weight times the town's margin
+    // against the vote, national is the outlet's desk and the bill's reach,
+    // each times one plus the reporter's own pull. So the national reporter
+    // plays hostile exactly where that product is the larger (Chetopa,
+    // Kansas, seed 9e06037dac12a152:0: margin 0.69, hostile 1.38 against
+    // national 1.07), and national where it is not. The hostile case is
+    // checked here on its own; the national arc is checked below on a vote
+    // that makes it the larger product (CTO, Nov 17: the probe must not hope
+    // the national arc wins).
+    const scoreIn = (choice: ReturnType<typeof pick>, name: string) =>
+      choice.scores.find((s) => s.variant === name)!.score;
+    let nationalSeen = "";
     if (nationalId) {
-      const national = pick("probe-national", { level: "federal" }, nationalId);
-      expect(national.variant, JSON.stringify(national.reads)).toBe("national");
-      expect(national.reads["national-desk"]).toBe(1);
-      expect(national.recordIds.some((id) => id.startsWith("outlet:"))).toBe(
-        true,
+      const asCast = pick(
+        "probe-national-vote",
+        { level: "federal" },
+        nationalId,
       );
+      expect(asCast.reads["national-desk"], where).toBe(1);
+      expect(asCast.reads["town-against"], where).toBeCloseTo(expected, 10);
+      if (scoreIn(asCast, "hostile") > scoreIn(asCast, "national")) {
+        expect(asCast.variant, JSON.stringify(asCast.scores)).toBe("hostile");
+        expect(asCast.recordIds, where).toContain(vote!.id);
+      } else {
+        expect(asCast.variant, JSON.stringify(asCast.scores)).toBe("national");
+        expect(
+          asCast.recordIds.some((id) => id.startsWith("outlet:")),
+          where,
+        ).toBe(true);
+        nationalSeen = "on the vote as cast";
+      }
     }
     const federalLocal = pick("probe-federal-local", {
       level: "federal",
@@ -261,6 +296,34 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     const withTown = pick("probe-with", {});
     expect(withTown.reads["town-against"], where).toBe(0);
     expect(withTown.variant, where).not.toBe("hostile");
+    // The national arc, where the vote as cast gave hostile: the member's
+    // vote now stands with the town, so nothing is against it and the
+    // national arc is the larger product in the engine's own sum. A place
+    // whose national reporter still does not make it the largest (a pull of
+    // minus one zeroes the arc) is passed over by name.
+    if (nationalId && !nationalSeen) {
+      const withVote = pick(
+        "probe-national-with-town",
+        { level: "federal" },
+        nationalId,
+      );
+      expect(withVote.reads["town-against"], where).toBe(0);
+      expect(withVote.reads["national-desk"], where).toBe(1);
+      if (withVote.scores[0]!.variant !== "national") {
+        tried.push(
+          `${where}: the national arc is not the largest for ${nationalId} even with the town: ${withVote.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}`,
+        );
+        continue;
+      }
+      expect(withVote.variant, JSON.stringify(withVote.scores)).toBe(
+        "national",
+      );
+      expect(
+        withVote.recordIds.some((id) => id.startsWith("outlet:")),
+        where,
+      ).toBe(true);
+      nationalSeen = "on the vote re-recorded with the town";
+    }
 
     // PROBE (hand-made): five earlier talks the player answered on the record
     // to this reporter: the beat reporter who has covered them before.
@@ -287,6 +350,25 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     expect(friendly.recordIds).toEqual(
       expect.arrayContaining(["probe-reply-a", "probe-reply-e"]),
     );
+
+    // A scandal can outweigh a friendly history only for a reporter whose
+    // temper leans toward the scandal arc at least as far as the friendly one:
+    // the engine multiplies each arc by one plus the reporter's pull, clamped
+    // at -1 (`arc-variant.ts` `pullOf`). A town with no such reporter is
+    // passed over and named (seed de8bdcf4dca338f4:0, Bondurant, Wyoming: its
+    // three reporters' scandal pulls were -1.25, -0.25 and -0.5 against
+    // friendly pulls of -1.25, 0.25 and 0.75).
+    const leansScandal = [...new Set([probe, ...staff("local")])].filter(
+      (who) =>
+        pullFor(who, "scandal") > -1 &&
+        pullFor(who, "scandal") >= pullFor(who, "friendly"),
+    );
+    if (!leansScandal.length) {
+      tried.push(
+        `${where}: no local reporter leans toward the scandal arc over the friendly one`,
+      );
+      continue;
+    }
 
     // PROBE (hand-made): stories the press printed about the member's own
     // conduct, naming only them: a reporter chasing a scandal. The earlier
@@ -347,7 +429,10 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     expect(scandal.variant, deciding).toBe("scandal");
     expect(scandal.recordIds).toContain("probe-exposed-a");
     process.stdout.write(
-      `PRESS COMMENT PROBES ${where}: against margin ${margin.toFixed(2)} gave ${gap.variant}; friendly ${friendly.variant}; scandal ${scandal.variant}; national ${nationalId ? "national desk tried" : "no national reporter"}\n`,
+      `PRESS COMMENT PROBES ${where}: against margin ${margin.toFixed(2)} gave ${gap.variant}; friendly ${friendly.variant}; scandal ${scandal.variant}; national ${nationalId ? `played ${nationalSeen}` : "no national reporter"}\n`,
+    );
+    process.stdout.write(
+      `PRESS COMMENT passed over before ${where}: ${tried.join("; ") || "none"}\n`,
     );
     proven += 1;
   }
