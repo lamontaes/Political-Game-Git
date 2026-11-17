@@ -10,7 +10,8 @@
  *   party to it. A denial is then a lie, and the confession is offered.
  * - `complaint-of`: what the complaint went to the prosecutor about, as a
  *   thing a person says ("a payment on the road repair contract").
- * - `bill`, `contract`: the vote or the award the bribe asked for.
+ * - `bill`, `contract`, `wanted`: the vote or the award the bribe asked for,
+ *   and whichever of the two it is.
  * - `firm`, `firm-yours`: a firm on the award's bid list that the player owns.
  * - `source`: who told the accuser, from the corruption engine's
  *   `crime.told` record, when the complaint rests on being told; with
@@ -118,6 +119,7 @@ export function accusationReads(
   if (contract) facts.contract = fact(contract, [...cited, crime.subjectId]);
   // What the complaint is about, said the way the matter is named.
   const thing = bill ? input.billSaid : contract;
+  if (thing) facts.wanted = fact(thing, [...cited, crime.subjectId]);
   if (input.complaintId && thing)
     facts["complaint-of"] = fact(`a payment on ${thing}`, [
       ...cited,
