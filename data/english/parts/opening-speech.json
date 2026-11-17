@@ -116723,7 +116723,7 @@
       "key": "opening-speech.salutation.plain-hopeful-speaker-it-s-good-to-be-here-with-speaker-object",
       "move": "salutation",
       "kind": "spoken",
-      "text": "It's good to be here with {speaker-object} and all of you, and I'm hopeful.",
+      "text": "It's good to be here with {speaker-object} and all of you. I like our chances.",
       "uses": [
         {
           "move": "salutation",
@@ -116991,7 +116991,7 @@
       "key": "opening-speech.story-turn.polished-good-run-fed-i-intend-nothing-less-than-to-keep-it-going",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "I mean to keep it going for {term-left}, and to widen it.",
+      "text": "I mean to keep it going for {term-left}, and to spread it further.",
       "uses": [
         {
           "move": "story-turn",
@@ -117111,7 +117111,7 @@
       "key": "opening-speech.story-turn.polished-hard-run-fed-the-country-deserves-better-and-in-term-left-i",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "The country deserves better, and in {term-left} I mean to have it.",
+      "text": "The country deserves better, and in {term-left} you'll see it.",
       "uses": [
         {
           "move": "story-turn",
@@ -117195,6 +117195,1096 @@
       "topic": "hard-run",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-the-last-run-span-left-this-country-stronger-than",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} left this country stronger than they found it, and that is the ground we stand on tonight.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-over-the-last-run-span-working-people-carried-this",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, working people carried this country forward, and I did not come here to turn around.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-we-inherit-run-span-of-good-work-and-the",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "We inherit {run-span} of good work, and the task now is to make it last.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-good", "run-inherited", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-for-run-span-a-paycheck-has-bought-a-little",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "For {run-span}, a paycheck has bought a little more each year, and that is worth protecting.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-over-the-last-run-span-pay-has-kept-ahead",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, pay has kept ahead of prices, and I will not be the one who lets it slip.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-the-last-run-span-proved-that-wages-can-rise",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} proved that wages can rise faster than the cost of living, and we start from there.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-good-run-fed-for-run-span-families-have-ended-the-month-with",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "For {run-span}, families have ended the month with a little more than they started, and I mean to keep it so.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-pay-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-a-lot-more-folks-have-a-job-than-did",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "A lot more folks have a job than did {run-span} ago. That's the start we've got.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-over-the-last-run-span-people-went-back-to",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, people went back to work. My job is to keep them there.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-more-people-are-working-than-run-span-ago-i",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "More people are working than {run-span} ago. I'm not about to change what got us here.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-good-run-fed-the-last-run-span-put-folks-back-on-the",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} put folks back on the job. We build from that.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-good",
+            "run-inherited",
+            "run-jobs-gained",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "good-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-for-run-span-too-many-folks-watched-their-jobs",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "For {run-span}, too many folks watched their jobs go. That stops being normal now.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-over-the-last-run-span-more-people-lost-a",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, more people lost a job than found one. I heard you.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-for-run-span-this-country-has-lost-more-jobs",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "For {run-span}, this country has lost more jobs than it has made, and the people who lost them were asked to wait.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-over-the-last-run-span-work-left-too-many",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, work left too many towns and did not come back, and I did not take this office to accept that.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-jobs-lost",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-for-run-span-the-grocery-bill-went-up-faster",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "For {run-span}, the grocery bill went up faster than the paycheck. You don't need me to tell you.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-over-the-last-run-span-prices-got-ahead-of",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, prices got ahead of pay, and nobody up here fixed it. That's why I'm here.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-for-run-span-prices-have-risen-faster-than-wages",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "For {run-span}, prices have risen faster than wages, and the families who felt it most were told it was temporary.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-over-the-last-run-span-the-cost-of-living",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Over the last {run-span}, the cost of living outran the paycheck, and that is the first thing this administration will answer.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": [
+            "run-hard",
+            "run-inherited",
+            "run-prices-ahead",
+            "run-span"
+          ],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-i-m-not-going-to-dress-up-the-last",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "I'm not going to dress up the last {run-span}. They were hard, and some of that is on us.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-the-last-run-span-were-rough-and-i-know",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} were rough, and I know a lot of you are tired. I'm not done.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-you-lived-the-last-run-span-you-don-t",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "You lived the last {run-span}. You don't need a speech about them. You need them to get better.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-hard-run-fed-nobody-up-here-is-going-to-pretend-the-last",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Nobody up here is going to pretend the last {run-span} were easy. I won't start now.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-i-will-not-describe-the-last-run-span-as",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "I will not describe the last {run-span} as anything but hard, and I will not pretend the hardest part is behind us until it is.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-the-last-run-span-tested-this-country-and-i",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} tested this country, and I know they tested your household, and I am here to answer for them.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-i-asked-for-this-office-knowing-the-last-run",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "I asked for this office knowing the last {run-span} would be judged with it, and I accept that judgment.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-hard-run-fed-the-last-run-span-asked-more-of-working-families",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The last {run-span} asked more of working families than they should have, and this administration owes them better.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["run-hard", "run-own", "run-span"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "hard-run",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-scandal-twn-before-anything-else-the-bribe-a-member-of-body",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Before anything else, the bribe. A member of {body} took money this year, and I'm not going to walk past it.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "state-of-the-state",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "town-address",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "scandal",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.plain-scandal-twn-let-s-talk-about-body-first-one-of-its",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "Let's talk about {body} first. One of its members got caught taking money this year, and that's on all of us to fix.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "state-of-the-state",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "town-address",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "scandal",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-scandal-twn-i-will-begin-with-what-shamed-us-this-year",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "I will begin with what shamed us this year: a member of {body} took a bribe, and the public is right to be angry.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "state-of-the-state",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "town-address",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "scandal",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.story-open.polished-scandal-twn-this-year-a-member-of-body-was-caught-taking",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "This year a member of {body} was caught taking money, and no address to this body can begin anywhere else.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "state-of-the-state",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        },
+        {
+          "move": "story-open",
+          "subject": "town-address",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["story-scandal", "body"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "scandal",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
       "date": "2026-11-17"
     }
   ]
