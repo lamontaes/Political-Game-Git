@@ -95409,16 +95409,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "tender",
@@ -95515,16 +95505,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "tender",
@@ -95596,17 +95576,6 @@
           "requiresFacts": ["stake-gave"],
           "excludesFacts": ["daytime"],
           "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "excludesFacts": ["daytime"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "guarded",
@@ -95683,16 +95652,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "guarded",
@@ -95779,16 +95738,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "braced",
@@ -95875,16 +95824,6 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "calm",
@@ -194321,31 +194260,6 @@
       "move": "state-comfort",
       "kind": "spoken",
       "text": "You didn't spend much on it. I'm sorry you lost.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words lead (class F case 4, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "It didn't cost much. How are you holding up?",
       "uses": [
         {
           "subject": "scene",

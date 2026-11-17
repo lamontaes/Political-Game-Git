@@ -439,9 +439,6 @@
       "conflict-accuse.taken/ask"
     ],
     "scene-talk.reply-thank.thank-you": ["ask-to-serve/decline"],
-    "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up": [
-      "family-loss.small/deflect"
-    ],
     "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost": [
       "family-loss.small/deflect"
     ],
