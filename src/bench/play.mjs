@@ -7625,12 +7625,15 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     renderPacket(life.packet);
     await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
     const news = await nightsNews(life.personId);
-    // The scene the director staged for the evening (the address) plays first
-    // and sets the one backdrop the opening loads. The night's news pops up
-    // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
-    // "News pop-ups wait until the scene ends"). The evening at home is the
-    // director's own scene, which names the day when it opens; the opening
-    // says no line of its own (owner, Nov 17: the day line played twice).
+    // A scene the director staged for the evening plays first and sets the
+    // one backdrop the opening loads; the President's address is no longer
+    // one (owner, Nov 17: the opening address scene is deleted; the game
+    // opens at home, and the address stays a record for the news and the
+    // family). The night's news pops up after a staged scene ends (C5;
+    // owner, Nov 7: "News pop-ups wait until the scene ends"). The evening at
+    // home is the director's own scene, which names the day when it opens;
+    // the opening says no line of its own (owner, Nov 17: the day line played
+    // twice).
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     showNewsSurface(news);
   } catch (error) {
