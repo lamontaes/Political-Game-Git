@@ -545,6 +545,19 @@
       "impulseParameter": "driveBillVetoedImpulse"
     },
     {
+      "id": "campaign-attacked",
+      "eventKind": "campaign.attacked",
+      "roles": ["subject"],
+      "channels": ["injustice", "threat"],
+      "responses": [
+        "hold-grudge",
+        "prove-oneself",
+        "take-up-cause",
+        "carry-on"
+      ],
+      "impulseParameter": "driveAttackedImpulse"
+    },
+    {
       "id": "press-snubbed",
       "eventKind": "press.snubbed",
       "roles": ["subject"],
@@ -762,6 +775,7 @@
     "press.snubbed",
     "press.attacked",
     "race.lost",
-    "bill.vetoed"
+    "bill.vetoed",
+    "campaign.attacked"
   ]
 }
