@@ -1,8 +1,8 @@
 /**
  * Who is poor, from incomes: every household in a place (the named people's
  * and the counted residents', each counted record standing for its weight)
- * has a yearly cash income (pay, recorded awards and the welfare line's cash
- * assistance) and a Census poverty
+ * has a yearly cash income (pay, recorded awards, Social Security claimed in
+ * play and the welfare line's cash assistance) and a Census poverty
  * threshold for its size, its children and its eldest member. A person is
  * poor when their household's income is under its threshold. World-metrics
  * records the share monthly; the outcome web reads that record. Unemployment
@@ -16,6 +16,7 @@ import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
 import type { ClaimRow } from "./jobs-benefits";
 import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
+import { retirementClaims } from "./modules/retirement-claims";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -147,6 +148,21 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
       id,
       (awards.get(id) ?? 0) +
         (contract.amountMinor * 12) / Math.max(1, contract.periodMonths),
+    );
+  }
+  // A Social Security award claimed in play is paid by the payer's monthly
+  // obligation, not an income contract: each named claimant's open award
+  // counts at its amount today, which the federal line in force sets.
+  const accounts = coreAPI(core).accounts();
+  for (const [personId, claim] of retirementClaims(core)) {
+    if (claim.counted) continue;
+    const id = core.people.get(personId)?.householdId;
+    const obligation = accounts.obligation(claim.obligationId);
+    if (id === undefined || !obligation || obligation.endedAt) continue;
+    awards.set(
+      id,
+      (awards.get(id) ?? 0) +
+        obligation.amountMinor * reachParameter("monthsPerYear"),
     );
   }
   // The welfare line's cash assistance is public assistance, which the

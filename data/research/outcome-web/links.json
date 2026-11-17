@@ -3880,6 +3880,29 @@
       "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers. The jobs engine reads this link's factor in participationShift (src/core2/jobs-web.ts), on the retire, leave and enter choices of people from 62 to 66, weighted by jobsOlderWorkWebWeight."
     },
     {
+      "key": "earliest-claim-age-to-older-work",
+      "status": "built",
+      "unsupportedReason": null,
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.04,
+      "range": [0.03, 0.05],
+      "rangeSource": "Staubli and Zweimüller 2013 (Austria, a rise of about two years: +9.75 points for men) and Cribb, Emmerson and Tetlow 2016 (United Kingdom, women's age 60 to 62: +6.3 points at the old age), each per year of rise",
+      "per": "year the earliest claim age in force is above its opening value (percentage points of the employment rate of people at the ages the rise covers)",
+      "lagMonths": 0,
+      "group": "people at the ages between the old and the new earliest claim age",
+      "owner": "B",
+      "evidence": "provisional",
+      "anchor": "\"raising the ERA increased employment by 9.75 percentage points among affected men\"; \"women's employment rates at the old ERA increased by 6.3 percentage points\". No U.S. estimate of a rise in the age-62 floor was found; the anchor is foreign evidence, about 3 to 5 points per year of rise.",
+      "source": "Staubli and Zweimüller 2013, Does raising the early retirement age increase employment of older workers?, Journal of Public Economics 108, 17-32 (https://econpapers.repec.org/RePEc:eee:pubeco:v:108:y:2013:i:c:p:17-32), abstract; Cribb, Emmerson and Tetlow 2016, Signals matter? Large retirement responses to limited financial incentives, Labour Economics 42, 203-212 (https://econpapers.repec.org/RePEc:eee:labeco:v:42:y:2016:i:c:p:203-212), abstract; both read Nov 17, 2026",
+      "from": "law:social-security-earliest-claim-age",
+      "to": "labor.older-employment",
+      "carriedBy": "src/core2/modules/jobs.ts: retirementOnsetYears reads the earliest claim age in the law row in force (socialSecurityAges) each day, and the retire choice starts to pull on a worker only from that age; src/core2/modules/retirement-claims.ts holds every claim at or after it",
+      "notes": "Carried by the engine: the jobs engine's retire choice reads the age at the moment it decides, so a later earliest age keeps people at work longer, and the web does not also move the measure. The engine's response is its own choice score, not fitted to this size (SG-LABOR-participation-scale)."
+    },
+    {
       "key": "drug-negotiation-to-out-of-pocket",
       "status": "built",
       "unsupportedReason": null,
@@ -5128,7 +5151,7 @@
       "key": "retirement-age-to-poverty",
       "status": "built",
       "unsupportedReason": null,
-      "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
+      "from": "law:social-security-full-retirement-age",
       "to": "household.poverty-pct",
       "strength": "moderate",
       "shape": {
@@ -5144,7 +5167,49 @@
       "anchor": "A one-year rise cuts benefits 6.7% at any claiming age (5/9 of 1% a month); elderly poverty moves about one for one with benefits; people 65 and older were 6.1 million of the 35.9 million poor people in 2024 (17.0%), so each year of rise raises the poverty rate about 1.1% of itself",
       "source": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)",
       "notes": "Carried by the engine: the retirement-claims module reads the claim ages from the law row in force (social-security-law.ts), so a later full age delays or cuts each retiree's award, household income falls, and the poverty measure reads it. The web does not also move poverty.",
-      "carriedBy": "src/core2/modules/retirement-claims.ts reads the claim ages in the law row (src/core2/social-security-law.ts)"
+      "carriedBy": "src/core2/modules/retirement-claims.ts reads the full retirement age in the law row in force (socialSecurityAges, src/core2/social-security-law.ts) at each claim, so a later full age cuts each award at its claim age; src/core2/world-poverty.ts counts the award as the household's income"
+    },
+    {
+      "key": "social-security-line-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the federal Social Security line is above its base",
+      "lagMonths": 0,
+      "group": "households drawing Social Security, named and counted",
+      "owner": "F",
+      "anchor": "\"Our findings suggest that over all elderly families the elasticity of poverty to benefits is roughly unitary.\" A benefit the line raises is income dollar for dollar against the household's poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
+      "source": "Engelhardt and Gruber 2004, Social Security and the Evolution of Elderly Poverty, NBER Working Paper 10466 (https://www.nber.org/papers/w10466), abstract, read Nov 17, 2026; U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), whose list of the income poverty is computed from names Social Security",
+      "evidence": "researched",
+      "from": "budget.socialSecurity-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: the award contracts the opening wrote, the payer's monthly obligation for each named person who claimed in play (retirementClaims in src/core2/modules/retirement-claims.ts), and the counted households' retirement income (householdIncome in src/core2/modules/residents.ts); the federal line in force rerates all three (applySocialSecurityLevel in src/core2/budgets-treasury.ts); the poverty share the web reads is that record",
+      "why": [
+        "The federal Social Security line pays retirees their awards; the line in force over its base scales every award.",
+        "Social Security is money income in the official poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household lives mainly on Social Security, just under its threshold."
+        ],
+        "weakerWhen": [
+          "The household has pay well above its threshold, or no one drawing an award."
+        ],
+        "absentWhen": [
+          "The line is at its base, or no one in the place draws an award."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back lowers each award from the next payment; the household's income falls with it.",
+      "who": "Retirees and their households, named and counted, who draw an award.",
+      "lagWhy": "An award follows the line from its next payment and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried."
     },
     {
       "key": "immigration-to-crime",
