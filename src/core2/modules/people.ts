@@ -26,11 +26,14 @@ import {
 import {
   CLOSENESS,
   closenessBetween,
+  homeTogether,
+  homeUpkeep,
   knownThroughRecords,
   metThrough,
   openingClosenessHours,
   tieHoursLost,
 } from "../closeness";
+import type { ModuleRow } from "../module-data";
 import { careNeedOf } from "./health";
 import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
@@ -247,6 +250,8 @@ export { livesElsewhere } from "./moves";
 export { stateUnemployment } from "./counted-moves";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
+/** The people engine's weekly row of each household's time at home (dev mode's trace). */
+const HOME_TIME_TABLE = "home-time";
 const LOOKUP = {
   officeAffordance: "known-office",
   affordances: ["known-office", "public-meeting-place", "known-group"],
@@ -269,7 +274,8 @@ function shareHomeTime(api: CoreAPI): void {
   seeded.set(core as CoreState, true);
   api.stopgap(CLOSENESS.stopgapId);
   for (const household of core.households.values()) {
-    if (household.memberIds.length < p("two")) continue;
+    const rowId = `${HOME_TIME_TABLE}:${household.id}`;
+    const pairs: unknown[] = [];
     const members = household.memberIds
       .map((id) => core.people.get(id))
       .filter(
@@ -309,23 +315,41 @@ function shareHomeTime(api: CoreAPI): void {
             );
           continue;
         }
-        const minutes = p(
-          family
-            ? "householdFamilyMinutesPerDay"
-            : "householdOtherMinutesPerDay",
-        );
+        // The time two housemates share follows both their weeks: the
+        // shorter of their home days, by whether they are family.
+        const together = homeTogether(core as CoreState, a.id, b.id, family);
+        pairs.push({ a: a.id, b: b.id, family, ...together });
         api.relationship(
           a.id,
           b.id,
           (family
             ? CLOSENESS.familyKind
             : CLOSENESS.householdKind) as Relationship["kind"],
-          (minutes / p("minutesPerHour")) * week,
+          (together.minutesPerDay / p("minutesPerHour")) * week,
           undefined,
-          { cause: ENCOUNTERS.causes.homeTime, sourceId: household.id },
+          { cause: ENCOUNTERS.causes.homeTime, sourceId: rowId },
         );
       }
+    // The week's inputs, one row per household, for dev mode's trace: each
+    // pair's home minutes and the time they shared, and the home's upkeep.
+    if (!opening && members[0])
+      api
+        .moduleState(PEOPLE_MODULE_ID)
+        .table(HOME_TIME_TABLE)
+        .putOwned({
+          id: rowId,
+          householdId: household.id,
+          date: core.date,
+          ...homeUpkeep(core as CoreState, household.id),
+          pairs,
+        } as unknown as ModuleRow);
   }
+  // A household that has ended keeps no row.
+  if (opening) return;
+  const table = api.moduleState(PEOPLE_MODULE_ID).table(HOME_TIME_TABLE);
+  if (table.size > core.households.size)
+    for (const row of table.rows())
+      if (!core.households.has(String(row.householdId))) table.remove(row.id);
 }
 
 /**
@@ -782,6 +806,8 @@ export function openStartingCircle(core: CoreState): void {
 
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
+  // One row per household, replaced each week: what its time at home was made of.
+  state: { schemaVersion: 1, tables: { [HOME_TIME_TABLE]: {} } },
   preStart: { phase: "people", run: peopleHistory },
   // Someone filled in from the counts gets the working life the run would
   // have given them, read against the same economy and openings.

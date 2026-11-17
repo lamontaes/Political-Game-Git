@@ -224,31 +224,67 @@ function treasuryOf(api: CoreAPI, jurisdiction: string): string {
 }
 
 /**
- * Whether the person made a will, from their traits and age: the trait lean
- * toward planning ahead over leaving things be (the shared trait table, at
- * the decision's own weight), plus
- * how much older than `willAgeMidpointYears` they are. Their will leaves
- * their estate to their living family in shares by how close each is.
+ * Whether the person made a will, from their traits and their own stakes:
+ * the trait lean toward planning ahead over leaving things be (the shared
+ * trait table, at the decision's own weight), plus how much they had to
+ * leave, in months of their own living cost (`willStakeWeight` per e-fold),
+ * plus the partner and children they would provide for (`willHeirWeight`
+ * each), less the bother of making one (`willCostPull`). Age shows only
+ * through what a life has built: savings and family. Their will leaves their
+ * estate to their living family in shares by how close each is.
  */
 export function willOf(
   api: CoreAPI,
   person: Readonly<PersonState>,
 ): readonly { id: PersonId; weight: number }[] | null {
-  const p = (key: string) => api.parameter(key);
-  const age =
-    daysBetweenText(person.birthDate, api.state.date) / p("daysPerMeanYear");
   const made = leanedYes(
     api.state,
     person,
     "estates.will",
     "make-will",
     "leave-it",
-    (p("willAgeWeight") * (age - p("willAgeMidpointYears"))) /
-      p("willAgeMidpointYears"),
+    willReasons(api, person).pull,
   );
   if (!made) return null;
   return closenessShares(api, person);
 }
+
+/** The reasons behind `willOf`, kept on the probate row for dev mode's trace. */
+export function willReasons(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): {
+  estateMinor: number;
+  monthlyCostMinor: number;
+  heirs: number;
+  pull: number;
+} {
+  const p = (key: string) => api.parameter(key);
+  const accounts = api.accounts();
+  const estateMinor = Math.max(
+    p("zero"),
+    accounts.balance(accounts.main(person.id)),
+  );
+  const monthlyCostMinor =
+    (person.livingCostDailyMinor * p("daysPerMeanYear")) / p("monthsPerYear");
+  let heirs = p("zero");
+  for (const [id, relation] of relationsOf(person))
+    if (WILL_HEIRS.has(relation) && livingKin(api, id)) heirs += p("one");
+  const months =
+    monthlyCostMinor > p("zero") ? estateMinor / monthlyCostMinor : p("zero");
+  return {
+    estateMinor,
+    monthlyCostMinor,
+    heirs,
+    pull:
+      p("willStakeWeight") * Math.log(p("one") + months) +
+      p("willHeirWeight") * heirs -
+      p("willCostPull"),
+  };
+}
+
+/** The kin a will provides for first: a partner and children. */
+const WILL_HEIRS = new Set(["partner", "child"]);
 
 /** The living family who would take, each weighted by how close they were to the person. */
 function closenessShares(
@@ -444,6 +480,7 @@ export function settleEstate(
         share: probate.share,
         heirs: heirsOf(api, person).heirs,
         will: willOf(api, person),
+        willReasons: willReasons(api, person),
       } as unknown as ModuleRow);
     api.moduleCalendar(ESTATES_MODULE_ID).schedule({
       key: `${PROBATE_CLOSES}:${personId}`,

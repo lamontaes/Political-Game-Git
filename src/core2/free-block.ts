@@ -14,16 +14,15 @@
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
+  homeUpkeep,
   closenessAfter,
   halfLifeDays,
   hoursFromLevel,
   hoursLost,
 } from "./closeness";
 import { parameter } from "./parameters";
-import { worldRateFactor } from "./world-base-rates";
 import { plannedWorkMinutesOnDate } from "./modules/work";
 import freeBlockJson from "./data/free-block.json" with { type: "json" };
-import timeUse from "./data/time-use-reference.json" with { type: "json" };
 import { resolveOperation } from "./state";
 import type {
   ActOffer,
@@ -108,83 +107,25 @@ function freeHours(
   );
 }
 
-interface ReserveRow {
-  midAge: number;
-  hours: number;
-}
-
-const reserves = new WeakMap<object, ReserveRow[]>();
-
 /**
- * Hours a day of the activities the game does not model, by ATUS age group:
- * personal care beyond the sleep the schedule already reserves, meals,
- * household work, shopping and the rest. Each group stands at its middle age;
- * the open top group reaches as far past its start as the group below spans.
+ * The person's daily hours of what the game does not model as acts: their
+ * own upkeep (personal care beyond the sleep the schedule reserves, and
+ * meals, `ownUpkeepHoursPerDay`) and, for an adult, their share of their
+ * home's upkeep (`homeUpkeep`). School, work and care for the people at home
+ * are acts or commitments of their own, so they are not reserved here.
  */
-function reserveRows(api: CoreAPI): ReserveRow[] {
-  const cached = reserves.get(api.state.data);
-  if (cached) return cached;
-  const p = (key: string) => api.parameter(key);
-  const data = FREE_BLOCK_DATA.reserve;
-  const sleep = api.state.data.work
-    ? p(api.state.data.work.sleepReserveParameter)
-    : p("zero");
-  const rows: ReserveRow[] = [];
-  let previousSpan = p("zero");
-  for (const row of timeUse.rows) {
-    if (row.cohort === data.totalCohort) continue;
-    const [low, top] = (row.cohort.match(/\d+/g) ?? []).map(Number);
-    const high = top ?? low! + previousSpan;
-    previousSpan = high - low! + p("one");
-    const hours = row.hoursPerDiaryDay as Record<string, { value: number }>;
-    rows.push({
-      midAge: (low! + high + p("one")) / p("two"),
-      hours:
-        Math.max(p("zero"), hours[data.personalCareCategory]!.value - sleep) +
-        data.categories.reduce(
-          (sum, key) => sum + hours[key]!.value,
-          p("zero"),
-        ),
-    });
-  }
-  reserves.set(api.state.data, rows);
-  return rows;
-}
-
-/** The person's daily hours of unmodeled activities, smooth in age between groups. */
-function reserveHours(api: CoreAPI, actor: Readonly<PersonState>): number {
-  // This world's day: the published hours times its own time-use factor.
-  return (
-    publishedReserveHours(api, actor) *
-    worldRateFactor(api.state.seed, "timeUse")
-  );
-}
-
-function publishedReserveHours(
+export function reserveHours(
   api: CoreAPI,
   actor: Readonly<PersonState>,
 ): number {
-  const rows = reserveRows(api);
-  const age =
+  const own = api.parameter("ownUpkeepHoursPerDay");
+  const adult =
     daysBetweenText(actor.birthDate, api.state.date) /
-    api.parameter("daysPerMeanYear");
-  const [first] = rows;
-  if (age <= first!.midAge) return first!.hours;
-  for (
-    let index = api.parameter("one");
-    index < rows.length;
-    index += api.parameter("one")
-  ) {
-    const low = rows[index - api.parameter("one")]!,
-      high = rows[index]!;
-    if (age <= high.midAge)
-      return (
-        low.hours +
-        ((high.hours - low.hours) * (age - low.midAge)) /
-          (high.midAge - low.midAge)
-      );
-  }
-  return rows[rows.length - api.parameter("one")]!.hours;
+      api.parameter("daysPerMeanYear") >=
+    api.parameter("votingAge");
+  return adult
+    ? own + homeUpkeep(api.state, actor.householdId).upkeepHoursPerAdult
+    : own;
 }
 
 interface Projection {
@@ -420,8 +361,8 @@ export function planFreeTime(
       );
     }
   };
-  // The free block holds only the hours left after the activities the game
-  // does not model (ATUS), so acts compete for a real evening.
+  // The free block holds only the hours left after the person's own upkeep
+  // and their share of their home's, so acts compete for a real evening.
   const reserve = reserveHours(api, actor);
   let available = p("hoursPerDay");
   for (const row of scored)
