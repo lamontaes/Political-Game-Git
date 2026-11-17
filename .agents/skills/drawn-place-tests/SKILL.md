@@ -31,6 +31,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
    The CTO reconciled this with the Account lead's pinned tests on Nov 16 (`done-proof`): a test draws its place, and a test pinned to a named place or seed, a labeled case included, is added only when a CTO line on the crew's thread approves that exact pull request. It is then written as `pinned-tests` says.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
+   A change to the rules can move which case a search finds first (Nov 17, Pins 31: once wills followed savings and family, the pinned Dennis estates test found an intestate decedent whose heirs were parents, where the law gives a dead parent's share to the surviving parent, not down to that parent's children). Narrow the search to the case the assertion is about (there, an heir in the descendants' class), say why in the test, and leave the assertion alone.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
 ## Before you call a red a flake
