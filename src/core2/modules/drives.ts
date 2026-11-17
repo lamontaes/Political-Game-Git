@@ -1,3 +1,4 @@
+import type { ModuleRow } from "../module-data";
 import drivesJson from "../data/drives.json" with { type: "json" };
 import { daysBetweenText } from "../kernel/dates";
 import { chooseAct } from "../choice";
@@ -114,6 +115,7 @@ export interface DrivesData {
 }
 
 type EventKindKey =
+  | "wordRetold"
   | "formed"
   | "shared"
   | "confronted"
@@ -124,6 +126,7 @@ type EventKindKey =
   | "soughtStanding"
   | "strengthened";
 type FactKey =
+  | "wordEvent"
   | "responsible"
   | "decidedBy"
   | "drive"
@@ -233,6 +236,10 @@ interface Given {
   amount: number;
   date: string;
 }
+
+const DRIVES_MODULE_ID = "core2-drives-p10-v1";
+/** The drives engine's monthly row of each cause group's giving from the counted population. */
+const COUNTED_GIVING_TABLE = "counted-giving";
 
 interface DrivesRuntime {
   drives: Map<string, HeldDrive>;
@@ -1664,6 +1671,7 @@ function raiseFromCounted(
     if (!group?.topic || !row?.adults) continue;
     let adults = zero,
       members = zero,
+      fullGivers = zero,
       gifts = zero;
     for (const id of c.peopleByPlace.get(group.placeId) ?? []) {
       const person = c.people.get(id);
@@ -1681,11 +1689,19 @@ function raiseFromCounted(
       const drive = [...(heldFor(api, id)?.values() ?? [])].find(
         (held) => held.topic === group.topic,
       );
-      if (drive) gifts += giftOf(api, person, currentStrength(api, drive));
+      const gift = drive
+        ? giftOf(api, person, currentStrength(api, drive))
+        : zero;
+      if (gift > zero) fullGivers += api.parameter("one");
+      gifts += gift;
     }
     if (!members || !adults || !gifts) continue;
+    // One model, two tiers: the counted adults give as the full ones do.
+    // As many of them share the cause as the full adults' members, as many
+    // of those give as the full members who gave this month (their spare
+    // cash and how strongly they hold it), each the full givers' mean gift.
     const givers = Math.floor(
-      row.adults * (members / adults) * api.parameter("countedGivingShare"),
+      row.adults * (members / adults) * (fullGivers / members),
     );
     const pool = residentsAccountFor(c, group.placeId);
     const owner = pool ? c.cashJournal.accounts.get(pool)?.ownerId : undefined;
@@ -1698,7 +1714,24 @@ function raiseFromCounted(
       .filter((row) => row.balance > zero);
     const held = funds.reduce((n, row) => n + row.balance, zero);
     api.stopgap("SG-CORE-counted-giving-stand-in");
-    const amount = Math.min(Math.floor((gifts / members) * givers), held);
+    const amount = Math.min(Math.floor((gifts / fullGivers) * givers), held);
+    // The month's inputs, for dev mode's trace of the donation.
+    api
+      .moduleState(DRIVES_MODULE_ID)
+      .table(COUNTED_GIVING_TABLE)
+      .put({
+        id: `${COUNTED_GIVING_TABLE}:${groupId}`,
+        groupId,
+        placeId: group.placeId,
+        date: c.date,
+        fullAdults: adults,
+        fullMembers: members,
+        fullGivers,
+        fullGiftsMinor: gifts,
+        countedAdults: row.adults,
+        countedGivers: givers,
+        amountMinor: amount,
+      } as unknown as ModuleRow);
     if (amount <= zero) continue;
     // Each fund gives its share, never more than it holds; what rounding
     // leaves over comes from the funds with room, so no fund goes below zero.
@@ -1793,7 +1826,9 @@ export function createDrivesModule(
   data: DrivesData = DEFAULT_DRIVES_DATA,
 ): CoreModule {
   return {
-    id: "core2-drives-p10-v1",
+    id: DRIVES_MODULE_ID,
+    // One row per cause group, replaced each month: what its counted giving was made of.
+    state: { schemaVersion: 1, tables: { [COUNTED_GIVING_TABLE]: {} } },
     // A donation is paid through the cash journal from this module's own canonical record.
     journalSourceProviders: {
       [data.donationJournalSourceKind]: (api, reference) => {
@@ -1849,6 +1884,7 @@ export function createDrivesModule(
       ...new Set([
         ...data.eventRules.map((rule) => rule.eventKind),
         ...data.civicActEvents.map((row) => row.eventKind),
+        data.eventKinds.wordRetold,
       ]),
     ],
     onDay(api, _decide, refresh) {
@@ -1989,6 +2025,25 @@ export function createDrivesModule(
             "reconstructed",
           );
         }
+      }
+      // Word of an act, retold by one who saw it (speech.ts, spreadWord): each hearer who
+      // believed it perceives the act itself as a witness of it.
+      if (event.kind === data.eventKinds.wordRetold) {
+        const told = event.facts?.[data.factKeys.wordEvent];
+        const act = told ? (JSON.parse(told) as CoreEventInput) : undefined;
+        if (
+          !act ||
+          !data.eventRules.some((rule) => rule.eventKind === act.kind)
+        )
+          return;
+        for (const id of event.witnessIds ?? [])
+          respond(api, data, id, {
+            ...act,
+            date: event.date,
+            witnessIds: [id],
+            source: event.source,
+          });
+        return;
       }
       if (!data.eventRules.some((rule) => rule.eventKind === event.kind))
         return;

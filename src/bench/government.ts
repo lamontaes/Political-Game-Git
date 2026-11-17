@@ -33,6 +33,7 @@ import {
   filingRulesFor,
   filingWindowOpen,
   playerContests,
+  notYourOfficeWhy,
   playerFilingBar,
   seatIsAnotherDistrict,
   standing,
@@ -529,6 +530,9 @@ export function localRaces(core: CoreState) {
         // Why it is not offered, from the clerk's own check (null when it is);
         // a race of an office the player does not run for says so.
         bar,
+        // Which of the office rule's two causes closes it, and the home's own offices the player runs
+        // for instead, by title, so the page says why and where to run (crew list #9747, item 3a).
+        barWhy: whyNotYours(api, contest.id),
         // What kind of office it is, so the page names a county's offices as
         // the county's, and groups the player's own offices first.
         officeLevel: officeLevelOf(api, contest.officeId),
@@ -685,6 +689,22 @@ function nextOwnContests(
       .filter((c) => first.get(c.officeId) === c.electionDate)
       .map((c) => c.id),
   );
+}
+
+/** The office rule's cause for a closed office, with the titles of the home's offices the player runs for instead. */
+function whyNotYours(
+  api: CoreAPI,
+  contestId: string,
+): { why: string; instead: string[] } | null {
+  const why = notYourOfficeWhy(api, contestId);
+  if (!why) return null;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const titles = why.insteadIds.flatMap((id) => {
+    const title = (offices.get(id) as unknown as { title?: string } | undefined)
+      ?.title;
+    return title ? [title] : [];
+  });
+  return { why: why.why, instead: [...new Set(titles)] };
 }
 
 /** The level of the office a contest is for (city, county, township, state, federal). */

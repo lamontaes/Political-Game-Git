@@ -359,7 +359,26 @@ try {
   await returns.waitFor({ timeout: 300000 });
   console.log("RETURNS 1:", await page.locator("#returns").innerText());
   await shot("eday-4-returns-first");
+  // Every page of the night fits the window, its Next or Close with it (owner, Oct 27 audit:
+  // rows past the panel's foot could not be reached; the races elsewhere ran off the window).
+  const fits = async (page_) => {
+    const { height } = page.viewportSize();
+    const bottom = await page.evaluate(() =>
+      Math.round(
+        Math.max(
+          document.querySelector("#returns").getBoundingClientRect().bottom,
+          document.querySelector("#returns-next").getBoundingClientRect()
+            .bottom,
+        ),
+      ),
+    );
+    assert.ok(
+      bottom <= height,
+      `election night's page ${page_} runs ${bottom - height}px past the window`,
+    );
+  };
   for (let i = 0; i < 40; i += 1) {
+    await fits(i + 1);
     const label = await page.locator("#returns-next").innerText();
     if (label === "Close") break;
     // Each step of the count, as it reads at that point of the night.
