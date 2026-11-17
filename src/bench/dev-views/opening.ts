@@ -42,8 +42,7 @@ import {
   historyMode,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
-import { allOfficials } from "../../core2/modules/officials";
-import { partySide } from "../../core2/appointments";
+import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
   drawStage,
