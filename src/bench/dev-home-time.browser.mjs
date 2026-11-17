@@ -1,5 +1,5 @@
 /* global process, console, URL */
-// Pins family 31 (#9747): with dev mode on, a person's card shows the hours their day keeps back
+// Pins family 31 (#9747): with dev mode on, a person's card in People shows the hours their day keeps back
 // (their own upkeep and their share of their home's) and their home's week at home, and the
 // home-time id opens in the Trace: each pair's home minutes and the time they shared, from their own
 // work weeks, never a fixed figure.
@@ -40,42 +40,52 @@ try {
   await page.locator('[data-testid="dev-run"]').evaluate((e) => e.click());
   await ran;
   await page.locator("#sheet-close").click();
-  // The cards of the town's members of government, until one lives in a home the town keeps.
+  // The people the player knows, from People: the first whose home the
+  // town keeps shows its home-time row on their card.
   let found = false;
-  for (let i = 0; i < 8 && !found; i += 1) {
-    await page
-      .locator('#rings [data-tab="politics"]')
-      .first()
-      .evaluate((e) => e.click());
-    const cards = page.locator("#sheet-body .member-card");
-    if (i >= (await cards.count())) break;
-    await cards.nth(i).click();
-    await page.locator(".dev-records").waitFor();
-    await page.waitForTimeout(1000);
-    const link = page.locator(".dev-records .id", { hasText: "home-time:" });
-    if (!(await link.count())) {
-      await page.keyboard.press("Escape");
-      continue;
-    }
-    const records = await page.locator(".dev-records").innerText();
+  await page
+    .locator('#rings [data-tab="people"]')
+    .first()
+    .evaluate((e) => e.click());
+  const rows = page.locator(".roster-screen.people .roster-row");
+  await rows.first().waitFor();
+  const count = Math.min(12, await rows.count());
+  for (let i = 0; i < count && !found; i += 1) {
+    await rows.nth(i).click();
+    const card = page.locator(".roster-screen.people .roster-page");
+    await card.locator(".dev-records").waitFor();
+    await page.waitForTimeout(800);
+    const link = card.locator(".dev-records .id", { hasText: "home-time:" });
+    if (!(await link.count())) continue;
+    const records = await card.locator(".dev-records").innerText();
     assert.match(records, /reservedHours/, "no reserved hours on the card");
     const id = (await link.first().innerText()).trim();
+    // The row sits inside a folded section: open it, then the id.
+    await link.first().evaluate((e) => {
+      for (let p = e.parentElement; p; p = p.parentElement)
+        if (p.tagName === "DETAILS") p.open = true;
+    });
     await link.first().click();
     await page.waitForFunction(
       (want) =>
-        document.querySelector(".dev-trace h4")?.textContent?.includes(want),
+        [...document.querySelectorAll(".dev-trace h4")].some((h) =>
+          h.textContent.includes(want),
+        ),
       id,
     );
-    const trace = await page.locator(".dev-trace").innerText();
+    const trace = await card.locator(".dev-trace").first().innerText();
     assert.match(trace, /upkeepHoursPerAdult/, trace);
     console.log(`Trace of ${id}:\n${trace}`);
     if (shots) {
-      await page.locator(".dev-trace").scrollIntoViewIfNeeded();
+      await card.locator(".dev-trace").first().scrollIntoViewIfNeeded();
       await page.screenshot({ path: `${shots}/dev-home-time-1440x900.png` });
     }
     found = true;
   }
-  assert.ok(found, "no member of government's card showed a home-time row");
+  assert.ok(
+    found,
+    "no card among the first people in People showed a home-time row",
+  );
   assert.deepEqual(errors, []);
   console.log("PASS a card's home-time row opens its Trace with its inputs");
 } finally {
