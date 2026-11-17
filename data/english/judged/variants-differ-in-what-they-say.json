@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1109,
+  "judged": 1106,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -3003,13 +3003,6 @@
       ],
       "why": "Both lines accept a promise and say they'll hold the player to it, reworded."
     },
-    "1fnf0on6416": {
-      "keys": [
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Both lines are the same hurried exit."
-    },
     "1fud8w9rcay": {
       "keys": [
         "scene-talk.follow-press.i-appreciate-that-can-you-give-me-a-day-so-i-m-not-waiting-around",
@@ -3701,13 +3694,6 @@
         "scene-talk.follow-plea.say-it-plainly-i-can-take-it"
       ],
       "why": "All three lines ask the player to just be honest, reworded with nothing to choose between them."
-    },
-    "1u6iq6obeos": {
-      "keys": [
-        "scene-talk.follow-ask.let-s-start-with-the-count-who-can-we-get",
-        "scene-talk.follow-ask.so-where-do-you-think-the-votes-are"
-      ],
-      "why": "Both lines ask where the votes are in other words, with no fact to choose between them."
     },
     "1u72fczz7cx": {
       "keys": [
@@ -4961,5 +4947,5 @@
       "why": "Both lines hold to the speaker's view in other words."
     }
   },
-  "yesHash": "2evvaj76p6s"
+  "yesHash": "0v9mlxkgzd8"
 }

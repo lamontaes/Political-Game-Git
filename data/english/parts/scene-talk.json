@@ -8906,203 +8906,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.so-where-do-you-think-the-votes-are",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "So where do you think the votes are?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.let-s-start-with-the-count-who-can-we-get",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Let's start with the count. Who can we get?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.where-are-we-now",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Where are we now?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.i-can-bring-the-members-from-my-side",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "I can bring the members from my side.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided",
-      "move": "reply-request",
-      "kind": "spoken",
-      "text": "Give me a list of everyone who's undecided.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "request",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-what-i-wanted-to-hear",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's what I wanted to hear.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-promise.i-ll-get-you-the-rest"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-ll-have-the-list-on-your-desk-by-morning",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'll have the names of everyone still undecided on your desk by morning.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-start-there-and-i-ll-work-the-rest",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. Start there, and I'll work the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-offer.i-can-bring-the-members-from-my-side"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-share-what-you-raised-now-name-is-on-",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -10366,15 +10169,6 @@
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "after": "lie"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "lie"
         }
       ],
       "bearing": "glad",
@@ -10426,31 +10220,6 @@
       "tag": {
         "move": "thank",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-understand-maybe-next-session",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I understand. Maybe next session.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "lie"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
       }
     },
     {
@@ -10648,26 +10417,8 @@
           "step": "reply",
           "move": "deflect",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "confront"
         },
         {
@@ -10970,28 +10721,8 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "lie",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "lie",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "lie",
           "outcome": "open"
         },
@@ -11056,28 +10787,8 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "lie",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "lie",
-          "outcome": "open"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "lie",
           "outcome": "open"
         },
@@ -11460,31 +11171,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-have-it-on-your-desk-tomorrow",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll have it on your desk tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.i-knew-you-d-come-around",
       "move": "follow-thank",
       "kind": "spoken",
@@ -11733,81 +11419,6 @@
       "tag": {
         "move": "deflect",
         "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "That's not enough. We'll lose on the floor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-get-you-the-rest",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll get you the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.good-that-s-a-start",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Good. That's a start.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
       }
     },
     {
@@ -12330,82 +11941,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-keep-counting-you-keep-talking-to-them",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll keep counting. You keep talking to them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-thank.good-that-s-a-start"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.then-help-me-change-some-minds",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Then help me change some minds.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-deflect.we-have-time-the-vote-isn-t-until-next-month",
-      "move": "follow-deflect",
-      "kind": "spoken",
-      "text": "We have time. The vote isn't until next month.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "deflect",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor",
-          "requiresFacts": ["vote-next-month"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-deflect.we-have-time-the-vote-isn-t-until-vote-on",
       "move": "follow-deflect",
       "kind": "spoken",
@@ -12458,56 +11993,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Good. I'll start calling tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "Alright. Send it over when it's ready.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-deflect.let-s-not-make-this-personal",
       "move": "follow-deflect",
       "kind": "spoken",
@@ -12555,181 +12040,6 @@
       "tag": {
         "move": "accept",
         "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-be-at-your-door-first-thing",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll be at your door first thing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-thank.good-i-ll-start-calling-tonight"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.you-ll-have-it-by-morning",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "You'll have it by morning.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-accept.all-right-let-s-keep-counting",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "Alright. Let's keep counting.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.we-don-t-have-time-and-you-know-it",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "We don't have time, and you know it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-deflect.let-s-not-fight-each-other-let-s-fight-for-the-votes",
-      "move": "follow-deflect",
-      "kind": "spoken",
-      "text": "Let's not fight each other. Let's fight for the votes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "deflect",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "confront"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.you-re-right-i-ll-make-the-calls",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "You're right. I'll make the calls.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "confront"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.changing-minds-is-your-job-you-wrote-it",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "Changing minds is your job. You wrote it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "confront"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "favor-asked"
       }
     },
     {
@@ -13522,15 +12832,6 @@
           "step": "reply",
           "move": "confess",
           "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
           "purpose": "donor-ask",
           "key": "favor-asked",
           "after": "confront"
@@ -13574,26 +12875,8 @@
           "step": "reply",
           "move": "confess",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "confront"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "confront"
         },
         {
@@ -13644,26 +12927,8 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.follow-press.what-changed"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "scene-talk.follow-press.what-changed"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "scene-talk.follow-press.what-changed"
         },
         {
@@ -13714,26 +12979,8 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.follow-press.what-changed"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "scene-talk.follow-press.what-changed"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "scene-talk.follow-press.what-changed"
         },
         {
@@ -13784,26 +13031,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.follow-press.what-changed"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "scene-talk.follow-press.what-changed"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "scene-talk.follow-press.what-changed"
         },
         {
@@ -13904,26 +13133,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "answer"
         },
         {
@@ -13974,26 +13185,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "answer"
         },
         {
@@ -14097,15 +13290,6 @@
           "key": "vote-wanted",
           "requiresFacts": ["amendment-pending"],
           "excludesFacts": ["asked-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["amendment-pending"]
         },
         {
           "subject": "scene",
@@ -14327,26 +13511,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "press"
         },
         {
@@ -14388,26 +13554,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "press"
         },
         {
@@ -15842,26 +14990,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent"
         },
         {
@@ -16716,24 +15846,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -16759,14 +15873,6 @@
       "kind": "spoken",
       "text": "I have to go. Send me what you've got.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "step": "reply",
@@ -16863,31 +15969,6 @@
       "date": "2026-11-13",
       "tag": {
         "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-press.tonight-would-be-better",
-      "move": "reply-press",
-      "kind": "spoken",
-      "text": "Tonight would be better.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "press",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "promise"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
         "key": "favor-asked"
       }
     },
@@ -17455,31 +16536,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-call-you-every-night-with-the-number",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll call you every night with the number.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-accept.all-right-let-s-keep-counting"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-plea.i-was-at-your-kickoff-when-there-were-nine-people-in-the-room",
       "move": "follow-plea",
       "kind": "spoken",
@@ -17584,26 +16640,8 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.follow-ask.since-when"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "scene-talk.follow-ask.since-when"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "scene-talk.follow-ask.since-when"
         },
         {
@@ -17822,26 +16860,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "deflect"
         },
         {
@@ -17934,26 +16954,8 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
           "purpose": "section-bargain",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
           "after": "scene-talk.reply-deflect.people-say-a-lot-of-things"
         },
         {
@@ -60309,108 +59311,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Keep my section in, and you have my vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["your-promise"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "bargain",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.it-stays-in-you-have-my-word",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "It stays in. You have my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
-          "requiresFacts": ["your-promise"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.you-ll-see-when-the-roll-is-called",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "You'll see when the roll is called.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "after": "press",
-          "requiresFacts": ["your-promise"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.we-made-a-deal-in-committee-i-need-to-know-it-holds",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "We made a deal in committee. I need to know it holds.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["your-promise"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.the-cameras-are-off-name-walks-over-before-you-reach-the-door",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -60837,31 +59737,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.i-can-t-file-it-myself-you-re-the-one-i-d-trust-with-it",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "I can't file it myself. You're the one I'd trust with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "requiresFacts": ["carry-ask"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
         "key": "favor-asked"
       }
     },
@@ -178444,31 +177319,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-can-t-put-my-own-name-on-this-yours-would-carry-it",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I can't put my own name on this. Yours would carry it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "requiresFacts": ["carry-ask"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.you-carried-earlier-ask-for-me-hear-me-out-on-this-one",
       "move": "open-greet",
       "kind": "spoken",
@@ -179658,31 +178508,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.the-roll-is-today-one-minute",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "The roll is today. One minute.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["vote-tonight"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "vote-wanted"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.i-m-counting-for-vote-on-have-you-got-a-minute",
       "move": "open-greet",
       "kind": "spoken",
@@ -179699,31 +178524,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.override-fell-short-have-you-got-a-minute",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Override fell short. Have you got a minute?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["override"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Story lead's builder, Sonnet",
       "date": "2026-11-17",
@@ -180160,31 +178960,6 @@
           "purpose": "confirm-vote",
           "key": "vote-wanted",
           "requiresFacts": ["vote-on"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead's builder, Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "stall",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.i-ll-tell-you-before-the-roll-today",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I'll tell you before the roll today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "confirm-vote",
-          "key": "vote-wanted",
-          "requiresFacts": ["vote-tonight"]
         }
       ],
       "bearing": "guarded",
