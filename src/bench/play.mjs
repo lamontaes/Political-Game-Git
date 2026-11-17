@@ -1281,6 +1281,14 @@ function electionMorning(scene) {
         $("backdrop").src = scene.backdrop.url;
         drawHere(scene);
       }
+      // The mock's line under the picture: the day, where it is spent, the hour.
+      $("election-day-caption").textContent = [
+        controls.localRaces?.electionDay,
+        day.where,
+        timeWords(day.at.minuteOfDay),
+      ]
+        .filter(Boolean)
+        .join(" · ");
       $("election-day-lines").replaceChildren();
       say(day.lines);
       if (day.canvass)

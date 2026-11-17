@@ -2536,6 +2536,14 @@ body:not(.dev) .dev-only {
   max-width: none;
   letter-spacing: 0.06em;
 }
+#election-day-caption {
+  margin: 0 0 10px;
+  font-family: var(--ui);
+  font-size: var(--t-label);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+}
 #election-day-lines p,
 #returns-lines p {
   margin: 0 0 10px;
