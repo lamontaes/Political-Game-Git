@@ -64,6 +64,13 @@ describe(`parties stand nominees where their chance covers the cost (seed ${seed
         checked += 1;
         for (const race of counted) {
           const { republican, democratic } = race.votes!;
+          // A race whose ballot carries neither major party's label (a
+          // territory's delegate, a nonpartisan seat) has no major-party
+          // votes to read: it is named and passed over.
+          if (!republican && !democratic) {
+            passed.push(`${where}: ${race.id} has no major-party votes`);
+            continue;
+          }
           const right = partyFieldsNominee(api, 1, race.lean);
           const left = partyFieldsNominee(api, -1, race.lean);
           if (right || left) {
