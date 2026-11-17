@@ -1,15 +1,13 @@
 ---
 name: governing-measurement
 description: >
-  How the governing line measures the player's path and the world's elections
-  in drawn places: briefing the path-check runners, the re-election totals
-  script and its paired ablation, reading an ablation, knowing when a
-  measurement branch can show nothing new, running heavy commands on one
-  machine, and which campaign and voting records belong to a race or to a
-  person when someone asks who reads them. Use when measuring golden-path wins,
-  re-election totals or any calibration across drawn places, and when the speed
-  lead asks about a campaign or voting table. Not for proving one feature in a
-  played year (played-world-proof) or for timing a year (speed-work).
+  Measures the player's path and the world's elections in drawn places:
+  briefing path-check runners, the re-election totals script and its paired
+  ablation, reading an ablation, and which campaign and voting records belong
+  to a race or a person. Use when measuring golden-path wins, re-election
+  totals or a calibration across drawn places, or when the speed lead asks
+  about a campaign or voting table. Not for one feature's played-year proof
+  (played-world-proof) or timing (speed-work).
 ---
 
 # Governing measurement

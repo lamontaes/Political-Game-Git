@@ -1,13 +1,12 @@
 ---
 name: helper-checkout
 description: >
-  Gives a helper or sub-agent of Our Civic Duty a copy of the repository that
-  holds only what its task needs: a sparse copy that skips image files, shares
-  the main checkout's git objects and links node_modules, made or narrowed
-  with one command. Use whenever a session starts a helper, sub-agent or
-  worktree, and whenever it finds a full helper copy on disk. Not for the main
-  checkout itself, and not for the Mac's registered workspace
-  (storage-and-workspaces).
+  Gives a helper or sub-agent a copy of the repository with only what its task
+  needs: a sparse copy without image files, sharing the main checkout's git
+  objects and linking node_modules, made or narrowed with one command. Use
+  whenever a session starts a helper, sub-agent or worktree, or finds a full
+  helper copy on disk. Not for the main checkout or the Mac's registered
+  workspace (storage-and-workspaces).
 ---
 
 # Helper checkout

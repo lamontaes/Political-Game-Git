@@ -1,14 +1,12 @@
 ---
 name: cadence-and-summaries
 description: >
-  The rule that nothing in Our Civic Duty runs or is kept every day by default
-  (owner, Nov 10): how to pick an engine step's cadence (on an event, monthly,
-  yearly), how a table that grows with history folds into a summary, and how
-  to write an entry in the daily register (docs/design/daily-register.md) when
-  something truly must be daily, with the guard that checks it. Read it before
-  adding or changing any engine step (onDay, onAfterDay, a calendar entry) or
-  any kept table. Not for timing a year (speed-work) or running long saves
-  (heavy-runs).
+  Picks how often an engine step runs and how long a table is kept: on an
+  event, monthly or yearly, never daily by default (owner, Nov 10). Growing
+  tables fold into summaries; a step that truly must be daily goes in
+  docs/design/daily-register.md, which a guard checks. Use before adding or
+  changing onDay, onAfterDay, a calendar entry or a kept table. Not for timing
+  a year (speed-work) or long saves (heavy-runs).
 ---
 
 # Cadence and summaries

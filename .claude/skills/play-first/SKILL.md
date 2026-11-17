@@ -1,13 +1,12 @@
 ---
 name: play-first
 description: >
-  Works one item of Our Civic Duty's play-first lane, the one lane that makes
-  the game playable for the owner: take the next item in
-  docs/play-first/ORDER.md, build it inside its time box to its You-will-see
-  line, push constantly, and leave a handoff line so the next agent of any
-  model continues. Use when started with the play-first prompt or given a
-  play-stop-* or play-first-* item; not for other pool items (session-start)
-  or merging (merger).
+  Works one item of the play-first lane, the lane that makes the game playable
+  for the owner: take the next item in docs/play-first/ORDER.md, build it in
+  its time box to its You-will-see line, push constantly, and leave a handoff
+  line. Use when started with the play-first prompt or given a play-stop-* or
+  play-first-* item. Not for other pool items (session-start) or merging
+  (merger).
 ---
 
 # Play first

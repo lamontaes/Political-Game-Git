@@ -1,14 +1,12 @@
 ---
 name: current-pointers
 description: >
-  How Our Civic Duty keeps one place that says what is current
-  (`docs/current.json`, read as `docs/CURRENT.md`) and keeps every document,
-  rule, skill and code comment pointing at paths that exist (owner, Nov 11).
-  Use whenever you move, rename, replace or delete a file or folder, add
-  something at the top of the repository, clean pointers out of an area, or
-  see `tests/guards/current-pointers.test.ts` fail. Not for what may be
-  deleted (slim-down), and not for the owner's rulings and other records,
-  which keep what was said and are never rewritten.
+  Keeps one place that says what is current (docs/current.json, read as
+  docs/CURRENT.md; owner, Nov 11) and every doc, rule, skill and code comment
+  pointing at paths that exist. Use when you move, rename, replace or delete a
+  file or folder, add something at the top of the repository, or see
+  tests/guards/current-pointers.test.ts fail. Not for what may be deleted
+  (slim-down); rulings and other records are never rewritten.
 ---
 
 # Current pointers

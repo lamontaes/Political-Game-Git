@@ -1,14 +1,13 @@
 ---
 name: train-gate
 description: >
-  The gate a pull request passes before it is named for the train (draft PR
-  #9554 on `claude/project-thread-lhbwzt-train2`, and its successors) while the first account's merging is stopped: the
-  exact checks, why release:check needs a full clone, how to say where each
-  check ran, the known reds on a clean train, full 40-character shas, and who
-  posts which train-ready line. Use before marking a PR ready, before posting a
-  ready or train-ready line on #8928, and when reading a builder's claim that
-  the gate passed. Not for the merge itself (merger) or the checker role
-  (checker).
+  The gate a pull request passes before it is named for the train (draft #9554
+  and its successors) while the first account's merging is stopped: the exact
+  checks, why release:check needs a full clone, where each check ran, known
+  reds on a clean train, full 40-character shas, and who posts which ready
+  line. Use before marking a PR ready, before posting a ready or train-ready
+  line, and when reading a claim that the gate passed. Not for the merge
+  (merger) or the checker role (checker).
 ---
 
 # The train gate

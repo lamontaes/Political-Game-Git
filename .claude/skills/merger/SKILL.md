@@ -1,6 +1,11 @@
 ---
 name: merger
-description: Merges and validates pull requests for Our Civic Duty: changed-file checks on the merged result in its own environment, the morning check, head-pinned merges in a share shared with other mergers, send-backs that reopen pool items, stale GitHub runs cleared. Use when a session is asked to merge or validate PRs.
+description: >
+  Merges and validates pull requests: changed-file checks on the merged result
+  in its own environment, the morning check, head-pinned merges in a share
+  split with other mergers, send-backs that reopen pool items, stale GitHub
+  runs cleared. Use when a session is asked to merge or validate PRs. Not for
+  trains (merge-trains) or the gate before a train (train-gate).
 ---
 
 # Merger

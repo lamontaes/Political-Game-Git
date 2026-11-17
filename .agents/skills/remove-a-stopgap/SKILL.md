@@ -1,13 +1,12 @@
 ---
 name: remove-a-stopgap
 description: >
-  How to replace and unregister a stopgap row in Our Civic Duty: read the
-  register and the code first, look for open PRs and existing engines to
-  build on, add no new stopgap, and mark a row resolved only when the
-  replacement is real and the marker is gone. Use when a thread's job is to
-  clear a stopgap, when a PR says it resolves one, and when you read a
-  "resolved" row. Not for registering a new one (session-start) or for turning
-  a number into a sourced one (researcher).
+  Replaces and unregisters a stopgap row: read the register and the code
+  first, look for open PRs and existing engines to build on, add no new
+  stopgap, and mark a row resolved only when the replacement is real and the
+  marker is gone. Use when a job is to clear a stopgap, a PR says it resolves
+  one, or you read a resolved row. Not for registering one (session-start) or
+  sourcing a number (researcher).
 ---
 
 # Remove a stopgap

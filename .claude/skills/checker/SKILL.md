@@ -1,13 +1,11 @@
 ---
 name: checker
 description: >
-  Runs Our Civic Duty's checker role (owner, Oct 29): five Sonnet sessions
-  that take every pull request after its builder opens it, merge main in, run
-  the local gate (typecheck, eslint, prettier, release check, zero-dice, the
-  pool check, the changed tests on fresh draws), fix what is mechanical, send
-  the rest back to the builder, and hand a passed gate to the mergers. Use
-  when started as a checker or given a PR to check; not for building (the
-  builders), reviewing the done-when or merging (merger).
+  The checker role (owner, Oct 29): take a pull request after its builder
+  opens it, merge main in, run the local gate, fix what is mechanical, send
+  the rest back, and hand a passed gate to the mergers. Use when started as a
+  checker or given a PR to check. Not for building, reviewing the done-when or
+  merging (merger).
 ---
 
 # Checker

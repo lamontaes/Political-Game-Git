@@ -1,16 +1,13 @@
 ---
 name: pinned-tests
 description: >
-  How a test for Our Civic Duty pinned to named places with fixed seeds is
-  written once a CTO line approves the pin for that pull request (done-proof):
-  a run of about a minute, an explicit timeout near vitest's 30 second
-  default, a rare event staged through the game's own path instead of waited
-  for, a pin that fails on the old code, and never loosening a test to get
-  green. Its staging lessons hold for every test. Use when writing or fixing a
-  test that builds a played world, and when a builder proposes a pin, a
-  re-pin, a looser assertion or a retry over fresh seeds. Not for choosing
-  between a draw and a pin: a test draws its place (drawn-place-tests) unless
-  the CTO approves the pin.
+  Writes a test pinned to named places and fixed seeds once a CTO line
+  approves the pin for that pull request (done-proof): about a minute, an
+  explicit timeout, a rare event staged through the game's own path, a pin
+  that fails on the old code, never a loosened test. Its staging lessons hold
+  for every test. Use when writing or fixing a test that builds a played
+  world, or when a builder proposes a pin, re-pin, looser assertion or retry.
+  A test draws its place (drawn-place-tests) unless the CTO approves the pin.
 ---
 
 # Pinned tests

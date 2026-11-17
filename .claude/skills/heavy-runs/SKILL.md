@@ -1,14 +1,12 @@
 ---
 name: heavy-runs
 description: >
-  How to run Our Civic Duty's long, memory-heavy runs in a cloud container
-  (path-check, incumbency totals, speed:year over several years, the
-  every-place replay) so that a run is not lost to memory, a restart or a moved
-  branch: one heavy run at a time, the heap size, logs on stderr, the exit code
-  in a file, and a result line that names its commit. Use before starting any
-  run expected to take over ten minutes or 3 GB, and when a run seems to hang.
-  Not for making a year faster (speed-work) or for what a proof must show
-  (played-world-proof).
+  Runs long, memory-heavy jobs in a cloud container (path-check, incumbency
+  totals, multi-year speed:year, the every-place replay) so a run is not lost
+  to memory, a restart or a moved branch: one at a time, the heap size, logs
+  on stderr, the exit code in a file, a result line naming its commit. Use
+  before any run expected to take over ten minutes or 3 GB, and when a run
+  seems to hang. Not for making a year faster (speed-work).
 ---
 
 # Heavy runs

@@ -1,6 +1,11 @@
 ---
 name: press-desk-reach
-description: How the press desk (src/core2/press-desk.ts) decides which stories a town's outlets print, how to change what a kind of record weighs by who its readers are, and how to prove it: stories by kind before and after, per-outlet reach, and why several outlets print the same words. Use when a story kind never prints or prints at every outlet, or when a desk rule changes. Not for the words of a story (words-engine) or for timing (speed-work).
+description: >
+  How the press desk (src/core2/press-desk.ts) decides which stories a town's
+  outlets print, how a record's reach is weighed by its readers, and how to
+  prove a desk change by story kind and outlet. Use when a story kind never
+  prints or prints at every outlet, or a desk rule changes. Not for a story's
+  words (words-engine) or timing (speed-work).
 ---
 
 # Press desk reach

@@ -1,13 +1,11 @@
 ---
 name: file-a-pool-item
 description: >
-  How to add or change a pool item by hand in Our Civic Duty without
-  `npm run pool -- add`: the file under docs/pool/items, the Cause prefixes
-  the standard allows, the release declaration, and where the new file goes.
-  Use whenever you find something worth an item (a defect, a gap, a finding
-  from a measurement) while working a thread, and before writing an item's
-  Cause. Not for claiming or finishing an item (session-start) or for
-  pool-only bundles on main (pool-notes).
+  Adds or changes a pool item by hand, without npm run pool -- add: the file
+  under docs/pool/items, the Cause prefixes the standard allows, the release
+  declaration. Use whenever you find something worth an item while working,
+  and before writing an item's Cause. Not for claiming or finishing an item
+  (session-start) or pool-only bundles (pool-notes).
 ---
 
 # File a pool item by hand

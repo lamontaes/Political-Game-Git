@@ -1,14 +1,12 @@
 ---
 name: generated-file-merges
 description: >
-  How to merge main into a branch when the conflict is in a file a command
-  writes (the pulled-lines file, the pool index, coverage and counts files) or
-  in a bank or rules file keyed by piece or rule id, without hand-editing
-  conflict markers or dropping the other side's rows. Use whenever a merge of
-  main stops on data/english, docs/pool/INDEX.md or another generated file,
-  and when several pull requests touch the same rules file in a row. Not for
-  conflicts in code (pr-fixer) or for deciding the order pull requests merge
-  in (merger).
+  Merges main into a branch when the conflict is in a file a command writes
+  (the pulled-lines file, the pool index, counts files) or a bank or rules
+  file keyed by id, without hand-editing markers or dropping the other side's
+  rows. Use when a merge of main stops on data/english, docs/pool/INDEX.md or
+  another generated file. Not for code conflicts (pr-fixer) or merge order
+  (merger).
 ---
 
 # Merging files a command writes

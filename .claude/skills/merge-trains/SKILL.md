@@ -1,16 +1,14 @@
 ---
 name: merge-trains
 description: >
-  How Our Civic Duty's desks merge game pull requests in trains by area
-  (owner, Nov 11: "start like bundling them up, like related stuff ... sorting
-  them by pool area"): light checks per pull request, the heavy checks once on
-  a train branch that holds one area's passed pull requests, halving a red
-  train to find the one that broke it, and one comment that lists the train in
-  merge order for whoever holds the merge step. Use when you are a gate desk
-  or a merge desk and the CTO or the lead has called trains, and when you
-  hold the merge step and a train is posted. Not for reds on main, rules,
-  checks and skills, which merge one at a time at once (merger, checker), and
-  not for pool notes (pool-notes).
+  How desks merge game pull requests in trains by area (owner, Nov 11: "start
+  like bundling them up, like related stuff ... sorting them by pool area"):
+  light checks per pull request, the heavy checks once on a train branch,
+  halving a red train, and one comment listing the train in merge order. Use
+  when you are a gate or merge desk and trains are called, or you hold the
+  merge step and a train is posted. Not for reds on main or for rules, checks
+  and skills, which merge one at a time (merger, checker), or pool notes
+  (pool-notes).
 ---
 
 # Merge trains

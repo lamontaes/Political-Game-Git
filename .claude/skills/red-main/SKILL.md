@@ -1,12 +1,12 @@
 ---
 name: red-main
 description: >
-  How to take a red on Our Civic Duty's main from report to fix: read the
-  newest run of every workflow, name the failing test with its drawn place and
-  seed, find which engine and session owns it, reproduce it locally, bisect or
-  trace to the root, and ship one fix per branch. Use for the standing
-  red-main owner, for any session handed a red by another session, and for a
-  test that fails by seed. Not for a PR a merger sent back (pr-fixer).
+  Takes a red on main from report to fix: read the newest run of every
+  workflow, name the failing test with its drawn place and seed, find the
+  engine and session that own it, reproduce it, trace to the root, and ship
+  one fix per branch. Use for the standing red-main owner, any session handed
+  a red, and a test that fails by seed. Not for a PR a merger sent back
+  (pr-fixer).
 ---
 
 # Red main

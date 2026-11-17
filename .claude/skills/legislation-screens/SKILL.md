@@ -1,6 +1,12 @@
 ---
 name: legislation-screens
-description: How to build and prove a bill screen (writing, committee, floor, desk, override, following) for Our Civic Duty: read the one stage view, never count in a screen, prove it in the running game with dev mode's hold-vote route. Use when adding or changing anything under src/bench/ui/bill-*.mjs or the bill paper in play.mjs; not for the legislature engine's rules (lead-session) or for scenes around a bill (scene-producers).
+description: >
+  Builds and proves a bill screen (writing, committee, floor, desk, override,
+  following): read the one stage view, never count in a screen, prove it in
+  the running game with dev mode's hold-vote route. Use when changing
+  src/bench/ui/bill-*.mjs or the bill paper in play.mjs. Not for the
+  legislature engine's rules (lead-session) or scenes around a bill
+  (scene-producers).
 ---
 
 # Legislation screens

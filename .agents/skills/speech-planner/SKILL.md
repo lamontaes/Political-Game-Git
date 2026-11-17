@@ -1,6 +1,12 @@
 ---
 name: speech-planner
-description: How any speech in Our Civic Duty (a player's campaign or floor speech, an address, someone else's speech) is built from the one planner and played: planSpeech, the click rule, the by-day and evening facts, wording draws, and the checks a speech builder runs before sending a Words reader the played lines. Use when adding or changing a speech kind, outline row, speech part or the speech screen. Not for writing bank lines (words-engine, civic-prose).
+description: >
+  Builds and plays any speech (a campaign or floor speech, an address, someone
+  else's speech) from the one planner: planSpeech, the click rule, by-day and
+  evening facts, wording draws, and the checks before sending a Words reader
+  the played lines. Use when adding or changing a speech kind, outline row,
+  speech part or the speech screen. Not for writing bank lines (words-engine,
+  civic-prose).
 ---
 
 # Speeches go through one planner

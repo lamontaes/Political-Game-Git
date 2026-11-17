@@ -1,17 +1,13 @@
 ---
 name: seen-in-game
 description: >
-  The acceptance rule for Our Civic Duty (owner's ruling, Nov 3, ruling 1;
-  Fable audit, Nov 9, root cause 2): nothing is called done until a session
-  that did not build it has seen it working in the running game, in a place
-  and seed nobody chose, on main. Says what the second session does for each
-  kind of work (a law or budget line, a scene, words, a screen, a simulation
-  rule, a place fact, a speed change, a fix), how dev mode serves as the
-  check, the traps that give a false pass, and how the result is recorded
-  with `npm run pool -- seen`. Use when writing an item's Done when, before
-  reporting anything as done, and when taking a merged item to check. Not for
-  the builder's own proof (played-world-proof) or the merge gate (checker,
-  merger).
+  The acceptance rule (owner, Nov 3): nothing is done until a session that did
+  not build it has seen it working in the running game, in a place and seed
+  nobody chose, on main. What the second session does for each kind of work,
+  dev mode as the check, the traps that give a false pass, and recording with
+  npm run pool -- seen. Use when writing an item's Done when, before reporting
+  anything done, and when taking a merged item to check. Not for the builder's
+  proof (played-world-proof) or the merge gate (checker, merger).
 ---
 
 # Seen in the game

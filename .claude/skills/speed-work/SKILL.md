@@ -1,14 +1,12 @@
 ---
 name: speed-work
 description: >
-  How Our Civic Duty's speed work is done: timing a country's year with npm run
-  speed:year, proving a faster path changes nothing with dev mode's records
-  proof, finding exact cuts in a CPU profile of an election year, folding
-  tables that grow with history once their readers' windows are agreed, and
-  running long saves. Use for any core-speed-* or core-long-run-* item, any PR
-  that says a year runs faster, and any change that drops or summarizes old
-  records. Not for screen or browser speed, and not for the release
-  machinery's timings.
+  Times a country's year with npm run speed:year, proves a faster path changes
+  nothing with dev mode's records proof, finds exact cuts in an election
+  year's CPU profile, folds tables that grow with history, and runs long
+  saves. Use for any core-speed-* or core-long-run-* item, any PR that says a
+  year runs faster, and any change that drops or summarizes old records. Not
+  for screen or browser speed or the release machinery's timings.
 ---
 
 # Speed work

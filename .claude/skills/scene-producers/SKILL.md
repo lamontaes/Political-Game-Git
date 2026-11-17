@@ -1,12 +1,11 @@
 ---
 name: scene-producers
 description: >
-  Wires a director situation type's cause to a record an engine already keeps
-  (an awaitingProducer row, a type with no cause, a new scene), proves it fires
-  in a played world and deletes the twins it replaces. Use when a scene waits
-  on a producer or a type never fires in a played year. Not for writing the
-  lines themselves (scene-standard, civic-prose) or for building a missing
-  record in another area's engine (that area's pool item).
+  Wires a director situation type's cause to a record an engine already keeps,
+  proves it fires in a played world, and deletes the twins it replaces. Use
+  when a scene waits on a producer, a type never fires in a played year, or
+  one kind needs several arcs. Not for writing lines (scene-standard,
+  civic-prose) or building a missing record in another area's engine.
 ---
 
 # Scene producers: from an engine's record to a staged scene

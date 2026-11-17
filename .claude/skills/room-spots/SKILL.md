@@ -1,6 +1,12 @@
 ---
 name: room-spots
-description: How a room picture for Our Civic Duty is painted in the standard camera with spots where people may stand or sit, how each spot is measured (pose, angle, head, feet, desk edge, furniture in front, depth order), and how a filled room is checked by eye before anyone sees it. Use when painting or repainting a backdrop, adding spots, sizing people at a desk, couch or window, or judging whether people sit and stand in a room believably. Not for the pack's rows or the game's loader (people-pack) or for admitting a backdrop to the game (asset-scene-admission).
+description: >
+  Paints a room picture in the standard camera with spots where people may
+  stand or sit, measures each spot (pose, angle, head, feet, desk edge,
+  furniture in front, depth order), and checks a filled room by eye before
+  anyone sees it. Use when painting or repainting a backdrop, adding spots, or
+  judging whether people sit and stand believably. Not for the pack's rows
+  (people-pack) or admitting a backdrop (asset-scene-admission).
 ---
 
 # Rooms and their spots
