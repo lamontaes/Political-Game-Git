@@ -1035,6 +1035,19 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
+      "table": "core2-parties-v1.schedule",
+      "level": "town",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The local committees' next meeting day, set when the parties open."
+    },
+    {
+      "table": "core2-parties-v1.playerAttends",
+      "level": "town",
+      "call": "flow-only",
+      "reason": "The player's answer to a meeting invitation; it exists only once the player has joined a party."
+    },
+    {
       "table": "core2-parties-v1.chairs",
       "level": "town, state and federal",
       "call": "stock",
