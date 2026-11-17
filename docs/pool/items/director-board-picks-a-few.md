@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 1
 size: L
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/story-board-picks
+pr: 9841
 after:
 blocked-on:
 model: opus
