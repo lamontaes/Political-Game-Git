@@ -1680,7 +1680,6 @@ function composeBinding(
         causeId: moment.causeId,
         mentorId: askerId,
         askedId,
-        sayPerson,
       }),
     );
   // How the two stand, from the one reader (relation-facts.ts): the asked

@@ -7,7 +7,7 @@
  *
  * A party's mentor (`party-mentor`), from the `party-asked` record the
  * circumstance stands on and the party's mentors record:
- * - `chair`: the chair who asked, by the scene's way of saying a person.
+ * - `chair`: the chair who asked, by full name.
  * - `files-by`: the filing deadline the ask names, said as a day ahead.
  * - `seat-open` / `seat-held` / `seat-mine`: the seat's serving term, by the
  *   weighing's own incumbent read (`contestIncumbent`), `seat-mine` where the
@@ -78,8 +78,6 @@ export interface MentorAdviceInput {
   readonly mentorId: PersonId;
   /** The one who is advised: the player. */
   readonly askedId: PersonId;
-  /** The scene's way of saying a person (`sayPerson` in the packet). */
-  readonly sayPerson: (person: { id: string }) => string;
 }
 
 export function mentorAdviceFacts(
@@ -99,7 +97,7 @@ const fact = (text: string, ids: readonly string[]): Fact => ({
 
 function partyFacts(
   core: Readonly<CoreState>,
-  { causeId, mentorId, askedId, sayPerson }: MentorAdviceInput,
+  { causeId, mentorId, askedId }: MentorAdviceInput,
 ): Record<string, Fact> {
   const facts: Record<string, Fact> = {};
   const api = coreAPI(core as CoreState);
@@ -111,8 +109,14 @@ function partyFacts(
   const chair = said.chairId
     ? core.people.get(said.chairId as PersonId)
     : undefined;
+  // People are named plainly, by full name: a first mention would add who
+  // they are as an appositive ("Sandra Owens, who lives in Dyer,"), which a
+  // question that ends on the name cannot carry (the door's rival, Nov 17).
   if (chair && chair.id !== askedId)
-    facts.chair = fact(sayPerson(chair), [causeId, chair.id]);
+    facts.chair = fact(`${chair.givenName} ${chair.familyName}`, [
+      causeId,
+      chair.id,
+    ]);
   const filesBy = said.filingDeadline
     ? dayAhead(said.filingDeadline, core.date)
     : null;
@@ -151,7 +155,10 @@ function partyFacts(
         ? core.people.get(term.personId as PersonId)
         : undefined;
       if (holder && holder.id !== askedId)
-        facts.holder = fact(sayPerson(holder), [...termCited, holder.id]);
+        facts.holder = fact(`${holder.givenName} ${holder.familyName}`, [
+          ...termCited,
+          holder.id,
+        ]);
       if (term.party && said.party)
         facts[
           term.party.toLowerCase() === said.party.toLowerCase()
