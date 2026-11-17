@@ -252,6 +252,24 @@
     "scene-talk.follow-accept.then-your-amendment-goes-in-deal": [
       "ask-vote/refuse"
     ],
+    "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-if-you-want": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.there-are-sign-up-sheets-and-calls-and-speaking-only-if-you-re-up-for-it": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that": [
+      "join-cause/decline"
+    ],
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
       "conflict-accuse.hearsay/deny",
@@ -300,6 +318,15 @@
       "conflict-accuse/tell"
     ],
     "scene-talk.follow-defer.take-the-time-you-need": ["ask-vote/relent"],
+    "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
+      "join-cause/decline"
+    ],
     "scene-talk.follow-press.what-would-change-it": [
       "ask-vote.friend/relent",
       "ask-vote.trade/relent",
@@ -308,6 +335,9 @@
       "ask-vote/relent",
       "confirm-vote/relent",
       "section-bargain/relent"
+    ],
+    "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
+      "join-cause/decline"
     ],
     "scene-talk.follow-request.i-m-not-asking-for-a-yes-i-m-asking-you-to-sit-this-one-out": [
       "ask-vote.friend/stall",
@@ -350,8 +380,10 @@
       "ask-to-serve/decline"
     ],
     "scene-talk.follow-thank.that-s-a-relief": ["ask-vote/refuse"],
+    "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.fine-you-have-it": ["ask-vote/plea"],
     "scene-talk.reply-agree.i-m-with-you-on-bill": ["ask-vote/plea"],
+    "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.you-have-my-vote": ["ask-vote/plea"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"
@@ -419,6 +451,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11309
+    "reply-second-move-follows-the-first (pairs)": 9777
   }
 }

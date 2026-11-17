@@ -20,6 +20,8 @@ import {
 } from "../rules/laws/law-in-force";
 import { minimumWageSettingFromFacts } from "../rules/laws/minimum-wage-setting";
 import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
+import { lawChainForPlace, startingLawRows } from "./laws-starting";
+import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
 
 export type LawDoctrine = "floor" | "additive" | "single";
@@ -542,3 +544,28 @@ function round(value: number): number {
 
 // Re-exported so other engine families read the starting rows through this entry, not the file (families guard).
 export { startingLawRows, type LawRowInput } from "./laws-starting";
+
+/**
+ * The minimum wage the starting law sets where a place is, in dollars an
+ * hour, on a date: the higher of its state's and the federal floor, read from
+ * the law rows (local minimums are not modeled in pay). An opening, or a
+ * place built before the world runs, reads it; a world in play reads the law
+ * in force (`minimumHourlyAt`, wage-floor.ts).
+ */
+export function startingMinimumHourlyAt(
+  placeKey: string,
+  date: string,
+): number | null {
+  const chain = lawChainForPlace(placeKey);
+  const answer = resolveLawInForce({
+    series: "minimum-wage",
+    chain,
+    date,
+    rows: startingLawRows(chain).filter(
+      (row) =>
+        row.series === "minimum-wage" &&
+        (row.level === "federal" || row.level === "state"),
+    ),
+  });
+  return answer.value === null ? null : answer.value / p("minorPerDollar");
+}
