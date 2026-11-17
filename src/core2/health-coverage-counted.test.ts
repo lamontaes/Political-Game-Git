@@ -24,7 +24,6 @@ import { coreAPI, fillInPerson } from "./state";
 // the premiums read off the cash journal by record id, and households filled in
 // part way through the year.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "health-coverage-counted");
 
 interface Posting {
   /** The cash journal record, journal:<date>:<sequence>. */
@@ -406,39 +405,57 @@ it(`a counted household pays the premium a full household of its shape pays, and
 // One model, two tiers: ranking by an employer's size counts a counted job as
 // many jobs as the households its record stands for. A drawn place opened with
 // every counted household standing for three.
-it(`an employer's staff counts each counted job times its household's weight, in ${place.name} [${place.key}], seed ${seed}`, () => {
+it(`an employer's staff counts each counted job times its household's weight, in a place drawn from seed ${seed}`, () => {
   setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-    countScale: 3,
-  });
-  const api = coreAPI(core);
-  const rt = residentsRuntime(core)!;
-  const where = `${place.name} [${place.key}], seed ${seed}`;
-  const expected = new Map<string, number>();
-  const add = (id: string, n: number) =>
-    expected.set(id, (expected.get(id) ?? 0) + n);
-  for (const job of core.jobs.values())
-    if (job.endsAt === undefined) add(job.organizationId, 1);
-  let records = 0;
-  for (const h of rt.store.liveHouseholds())
-    for (const job of h.jobs)
-      if (job.endsAt === undefined && countedJob(core, job.id)) {
-        add(job.organizationId, rt.store.weightOf(h));
-        records++;
-      }
-  expect(records, `${where}: counted jobs`).toBeGreaterThan(0);
-  const staff = staffOf(api);
-  expect(staff.size, where).toBe(expected.size);
-  for (const [id, jobs] of expected)
-    expect(staff.get(id), `${where} ${id}`).toBeCloseTo(jobs, 6);
-  // Standing for three, the counted jobs are worth well over their records.
-  const total = [...staff.values()].reduce((n, v) => n + v, 0);
-  const fullJobs = [...core.jobs.values()].filter(
-    (job) => job.endsAt === undefined,
-  ).length;
-  expect(total - fullJobs, `${where}: counted jobs, weighted`).toBeGreaterThan(
-    records * 2,
-  );
+  // A place with no counted job has nothing to weigh: draw again, and say which
+  // places were passed over (a town this small can hold no counted worker).
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS_FOR_COUNTED_JOBS; draw += 1) {
+    const drawSeed = draw ? `${seed}:${draw}` : seed;
+    const place = drawPlace(drawSeed, "health-coverage-counted");
+    const where = `${place.name} [${place.key}], seed ${drawSeed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+      countScale: 3,
+    });
+    const api = coreAPI(core);
+    const rt = residentsRuntime(core)!;
+    const expected = new Map<string, number>();
+    const add = (id: string, n: number) =>
+      expected.set(id, (expected.get(id) ?? 0) + n);
+    for (const job of core.jobs.values())
+      if (job.endsAt === undefined) add(job.organizationId, 1);
+    let records = 0;
+    for (const h of rt.store.liveHouseholds())
+      for (const job of h.jobs)
+        if (job.endsAt === undefined && countedJob(core, job.id)) {
+          add(job.organizationId, rt.store.weightOf(h));
+          records++;
+        }
+    if (!records) {
+      passed.push(`${where} (no counted jobs)`);
+      continue;
+    }
+    if (passed.length)
+      process.stdout.write(`counted staff: passed over ${passed.join("; ")}\n`);
+    const staff = staffOf(api);
+    expect(staff.size, where).toBe(expected.size);
+    for (const [id, jobs] of expected)
+      expect(staff.get(id), `${where} ${id}`).toBeCloseTo(jobs, 6);
+    // Standing for three, the counted jobs are worth well over their records.
+    const total = [...staff.values()].reduce((n, v) => n + v, 0);
+    const fullJobs = [...core.jobs.values()].filter(
+      (job) => job.endsAt === undefined,
+    ).length;
+    expect(
+      total - fullJobs,
+      `${where}: counted jobs, weighted`,
+    ).toBeGreaterThan(records * 2);
+    return;
+  }
+  throw new Error(`No drawn place held a counted job: ${passed.join("; ")}`);
 }, 900_000);
+
+/** Places drawn, in turn, before one holds a counted job. */
+const DRAWS_FOR_COUNTED_JOBS = 6;
