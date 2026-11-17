@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/blockers-elections-day-one
-pr:
+pr: #9816
 after:
 blocked-on:
 lead: screens
