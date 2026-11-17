@@ -82,7 +82,7 @@ import {
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
-import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
 import { voteAskFacts } from "./vote-ask-facts";
 import {
   causeTopicSaid,
@@ -1671,6 +1671,22 @@ function composeBinding(
           : undefined,
         personLean,
       ),
+      // Where the gift ranks, where the bill is, whether the player votes on
+      // it and which side the player's own view puts them on, each from the
+      // record that holds it (donor-ask-facts.ts, `donorReads`).
+      donorReads(core, {
+        causeId: moment.causeId,
+        donorId: askerId,
+        playerId: askedId,
+        ...(said.filingId ? { filingId: said.filingId } : {}),
+        ...(record?.kind === "campaign-gift" &&
+        facts["donor-bill"] &&
+        said.billId
+          ? { billId: said.billId }
+          : {}),
+        sayPerson,
+        leanOf: personLean,
+      }),
     );
   // How the two stand, from the one reader (relation-facts.ts): the asked
   // person's family (`kin`), known people (`acquainted`, else `stranger`), and

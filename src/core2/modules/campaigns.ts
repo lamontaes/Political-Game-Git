@@ -3957,6 +3957,20 @@ export function giftOf(
 }
 
 /**
+ * Every donor's running total to one campaign, read off the gifts table's
+ * `byCampaign` rows: a donor's ask weighs their gift against the rest of what
+ * the campaign was given (donor-ask-facts.ts).
+ */
+export function giftsToCampaign(
+  api: CoreAPI,
+  filingId: string,
+): readonly GiftRow[] {
+  return table(api, "gifts").query("byCampaign", [
+    filingId,
+  ]) as unknown as GiftRow[];
+}
+
+/**
  * A donor's own reasons to give to a candidate: warmth, agreement with the
  * platform, party, how they stand with the candidate, what they have to
  * spare against a typical gift (`spareAgainstGift`, from `giftBudget`) and
