@@ -40,12 +40,12 @@
     "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
   },
   "familyStakes": {
-    "about": "Who at home has a stake in a filing (scenes-from-life, spouse-stake-after-filing). A relative reacts to a filing only when the household's records give them one; the strongest stake casts the relative and gives the scene its facts, and with none the scene is not staged. Read from the household's savings and costs, the filing's election date, and the children's birth dates; nothing is rolled.",
+    "about": "Who at home has a stake in a filing (scenes-from-life, spouse-stake-after-filing). A relative reacts to a filing only when the household's records give them one; the strongest stake casts the relative and gives the scene its facts, and with none the scene is not staged. Read from what the race costs the household (the campaign's gift row for the filer's own money, a job left since filing) against its savings and costs, the filing's election date, and the children's birth dates; nothing is rolled.",
     "runwayShortfall": {
       "value": 0.25,
       "tag": "TUNABLE",
       "spread": [0.1, 0.5],
-      "checkedAgainst": "The share of the race the household's savings fail to cover before a relative has money to say about it; at a quarter, savings cover three-quarters of the race. Checked against drawn bench places: household runways run from under two months to most of a year against a race 9 to 10 months away, so the gate admits some households and not others."
+      "checkedAgainst": "The share of the race the household's savings fail to cover, once the race's own cost (the filer's own money in the campaign, pay given up for it) is out of them, before a relative has money to say about it; at a quarter, savings cover three-quarters of the race. Read only when the race's cost is what crosses it: the same house without that cost stays under the gate (owner, Nov 17, on the scene list: the stock \"two weeks of savings\" said out of context). Checked against drawn bench places: household runways run from under two months to most of a year against a race 9 to 10 months away."
     },
     "youngChildAge": {
       "value": 13,
