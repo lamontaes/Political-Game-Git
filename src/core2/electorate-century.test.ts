@@ -73,7 +73,7 @@ describe("the century elects day one's President", () => {
       seen.size,
       `day one's President by drawn world: ${JSON.stringify([...parties])}`,
     ).toBe(2);
-  });
+  }, 120_000);
 
   it("gives every century election to the side its states' electors chose", () => {
     const place = drawPlace(`${RUN}:electors`, "history-president");

@@ -299,7 +299,10 @@ interface SeatCount {
 /**
  * One race in one place on the one path (electorate.ts `countParties`): the count, and the
  * place's result cleared of what was personal to the two candidates (their incumbency and
- * experience), which is what carries into where the place stands; the year's tide stays in it.
+ * experience) and of the year's national tide (the President's approval, the midterm swing, the
+ * party's time in the White House, the economy), which is what carries into where the place
+ * stands: how it moved against the nation, never the tide itself (CTO line 6936486748, Nov 17,
+ * 2026: "The national tide belongs to that year's race and no other").
  */
 function countSeat(
   voters: readonly SampleVoter[],
@@ -314,13 +317,16 @@ function countSeat(
     republican + democratic
       ? republican / (republican + democratic)
       : place.rightShare;
-  const personal = (side: number) => {
+  // What acted on this race alone: the candidates' own standing, and the year's national tide.
+  const notCarried = (side: number) => {
     const r = reasons.find((x) => x.side === side);
-    return r ? r.incumbency + r.experience : 0;
+    return r
+      ? r.incumbency + r.experience + r.economy + r.midterm + r.timeForChange
+      : 0;
   };
   return {
     share: { republican, democratic, republicanShare },
-    cleared: republicanShare - (personal(1) - personal(-1)),
+    cleared: republicanShare - (notCarried(1) - notCarried(-1)),
   };
 }
 
@@ -333,8 +339,9 @@ class YearResults {
     else this.byPlace.set(placeId, [cleared]);
   }
   /**
-   * Each place's lean moves to its own results' mean by the carry share (interim rule, to be
-   * replaced by World B's one writer, `carryLean`, when it lands: #9747, World B 02:24Z).
+   * Each place's lean moves to its own cleared results' mean by the carry share (interim rule,
+   * to be replaced by World B's one writer, `carryLean`, when it lands: #9747, World B 02:24Z;
+   * the clearing as the CTO ruled at 02:49Z).
    */
   carry(...leanTables: Record<string, number>[]): void {
     const carry = centuryParameter("centuryLeanCarryShare");

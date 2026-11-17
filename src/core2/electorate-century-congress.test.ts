@@ -105,6 +105,51 @@ describe("the century elects day one's Congress", () => {
     ).toBe(2);
   }, 120_000);
 
+  it("re-elects sitting Presidents for each world's own reasons: across 20 drawn worlds the rate is plausible, no world alternates every term, and worlds differ", () => {
+    // A relationship across many worlds, never a target for one world (CTO line 6936486748,
+    // Nov 17, 2026): in the record about 15 of the 21 sitting Presidents who ran since 1900 won;
+    // the century has no economy yet (SG-HIST-century-steady-economy), so the band is wide.
+    const rates: number[] = [];
+    let ran = 0,
+      kept = 0,
+      alternating = 0;
+    const named: string[] = [];
+    for (let i = 0; i < 20; i += 1) {
+      const place = drawPlace(`${RUN}:incumbents:${i}`, "history-congress");
+      named.push(`${place.name} (${place.key}), world seed ${place.seed}`);
+      const terms = centuryOf(place.seed, gameStartDate()).presidencies;
+      let r = 0,
+        k = 0;
+      for (let j = 1; j < terms.length; j += 1)
+        if (terms[j]!.incumbentRan) {
+          r += 1;
+          if (terms[j]!.winnerSide === terms[j - 1]!.winnerSide) k += 1;
+        }
+      ran += r;
+      kept += k;
+      rates.push(r ? k / r : 0);
+      const last = terms.slice(-8).map((row) => row.winnerSide);
+      if (last.every((side, j) => j === 0 || side !== last[j - 1]))
+        alternating += 1;
+    }
+    const where = `20 drawn worlds: ${named.join("; ")}`;
+    expect(
+      kept / ran,
+      `${where}: sitting Presidents re-elected`,
+    ).toBeGreaterThan(0.3);
+    expect(kept / ran, `${where}: sitting Presidents re-elected`).toBeLessThan(
+      0.85,
+    );
+    expect(
+      alternating,
+      `${where}: worlds whose last eight elections alternate`,
+    ).toBeLessThanOrEqual(4);
+    expect(
+      Math.max(...rates) - Math.min(...rates),
+      `${where}: rates by world`,
+    ).toBeGreaterThan(0.1);
+  }, 180_000);
+
   it("elects each Senate seat only in its class's years, and keeps a seat's last races", () => {
     const place = drawPlace(`${RUN}:classes`, "history-congress");
     const where = `${place.name} (${place.key}), world seed ${place.seed}`;
