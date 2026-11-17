@@ -14,7 +14,7 @@
  */
 import { spokenDate } from "../core2/kernel/dates";
 import { properName } from "../director/words";
-import { billTitleOf, spokenDesignation } from "./bill-names";
+import { billTitleOf, levelSaid, spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface PolicyWords {
@@ -70,6 +70,8 @@ export interface BillWordsInput {
   readonly id: string;
   readonly number: string;
   readonly form: { readonly kind: string; readonly enactingClause: string };
+  /** The level of the body the bill is before (`billReach`): the word a row's `{level}` slot says. */
+  readonly level?: string | null;
   /** Set on a government's annual budget bill (the bill's own record). */
   readonly budgetFor?: unknown;
   readonly provisions: readonly {
@@ -233,6 +235,8 @@ function wordsOf(
       };
     // The value the law had, in its own unit when the record gives one.
     const slotsAt = (places: number) => ({
+      // Kept for `composeBill`, which says the body's level once for the whole bill.
+      level: "{level}",
       // A section that names no unit takes the law row's, never a default percent.
       value: valueWords(p.value, p.unit ?? was?.unit ?? undefined, places),
       before: old != null ? valueWords(old, was?.unit ?? p.unit, places) : "",
@@ -290,7 +294,12 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   for (let i = 0; i < input.provisions.length; i++) {
     const w = wordsOf(input, form, i);
     if (!w) return null;
-    words.push(w);
+    words.push({
+      ...w,
+      subject: levelSaid(w.subject, input.level),
+      purpose: levelSaid(w.purpose, input.level),
+      clause: levelSaid(w.clause, input.level),
+    });
   }
   // Two sections on one law (a raise in dated steps) state its purpose once.
   // A repeal is worded from the repeal, never from the purpose of the law it
@@ -348,6 +357,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   const named = form.shortTitle
     ? billTitleOf({
         form: input.form,
+        level: input.level,
         provisions: input.provisions,
         budgetFor: input.budgetFor,
       })

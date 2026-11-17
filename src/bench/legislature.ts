@@ -33,6 +33,7 @@ import {
   whipCount,
   type BillRow,
   type Provision,
+  billReach,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import { townSeats, type TermRow } from "../core2/modules/offices";
@@ -491,6 +492,7 @@ export function seatAct(
   const text =
     composeBill({
       ...bill,
+      level: billReach(api, bill).level,
       effective: form.effectiveSection,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
@@ -625,13 +627,16 @@ export function billPaper(core: CoreState, billId: string) {
     .get(billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
   const form = billForm(api, bill);
+  const level = billReach(api, bill).level;
   const composed = composeBill({
     ...bill,
+    level,
     effective: form.effectiveSection,
     before: form.sections.map((section) => section.before),
   });
   const titled = billTitleOf({
     form: bill.form,
+    level,
     provisions: bill.provisions,
     budgetFor: bill.budgetFor,
   });

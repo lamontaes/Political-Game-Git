@@ -14,6 +14,7 @@
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {
   billOf,
+  billReach,
   LEGISLATURE_MODULE_ID,
   memberPosition,
   bodyReach,
@@ -115,7 +116,10 @@ export function floorDebateFacts(
   };
   // What the bill does, said as people say it: its short name and the one thing
   // it does, from the bill's own sections (the number stays in narration).
-  const named = billNameOf(bill as never);
+  const named = billNameOf({
+    ...(bill as never),
+    level: billReach(api, bill).level,
+  });
   if (named) {
     facts["bill-name"] = {
       text: billTitleSaid(named.title),

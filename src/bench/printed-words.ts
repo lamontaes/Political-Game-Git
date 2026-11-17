@@ -31,6 +31,7 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
+  billReach,
   bodyOf,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
@@ -569,7 +570,10 @@ class Reader {
     // A bill another chamber's engine keeps is named by the number its record carries.
     if (!bill)
       return number ? { designation: this.fact(number, id ?? "") } : {};
-    const named = billNameOf(bill);
+    const named = billNameOf({
+      ...bill,
+      level: billReach(this.api, bill).level,
+    });
     return {
       ...(named
         ? {
@@ -838,7 +842,7 @@ const lawTookEffect: Builder = (read, f) => {
       ["measure", "to"],
     );
   }
-  const named = billNameFor(series, form, ended);
+  const named = billNameFor(series, form, ended, undefined, f.level);
   if (!named) return rule(read, f, base);
   return story(
     "law",
@@ -964,7 +968,7 @@ export function archivedLawPassedFacts(
     );
   }
   const ended = Number(row.value) === 0;
-  const named = billNameFor(row.series, form, ended);
+  const named = billNameFor(row.series, form, ended, undefined, row.level);
   if (!named) return null;
   return story(
     "law-passed",

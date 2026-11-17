@@ -183,9 +183,9 @@
       "enact": "public employees shall have the right to bargain together over their pay and working conditions"
     },
     "labor-workforce.ban-the-box-public-hiring": {
-      "subject": "criminal records on state job applications",
-      "purpose": "bar state agencies from asking about criminal records on a first job application",
-      "enact": "a state agency shall not ask about an applicant's criminal record on a first job application"
+      "subject": "criminal records on {level} job applications",
+      "purpose": "bar {level} agencies from asking about criminal records on a first job application",
+      "enact": "a {level} agency shall not ask about an applicant's criminal record on a first job application"
     },
     "labor-workforce.right-to-work": {
       "subject": "workers who do not join a union",
@@ -480,20 +480,20 @@
   },
   "amounts": {
     "income-tax": {
-      "subject": "the local income tax rate",
-      "purpose": "set the rate of the local income tax",
-      "raise": "the local income tax rate shall be raised from {before} to {value}",
-      "lower": "the local income tax rate shall be lowered from {before} to {value}",
-      "raiseTo": "the local income tax rate shall be raised to {value}",
-      "lowerTo": "the local income tax rate shall be lowered to {value}"
+      "subject": "the {level} income tax rate",
+      "purpose": "set the rate of the {level} income tax",
+      "raise": "the {level} income tax rate shall be raised from {before} to {value}",
+      "lower": "the {level} income tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the {level} income tax rate shall be raised to {value}",
+      "lowerTo": "the {level} income tax rate shall be lowered to {value}"
     },
     "sales-tax": {
-      "subject": "the local sales tax rate",
-      "purpose": "set the rate of the local sales tax",
-      "raise": "the local sales tax rate shall be raised from {before} to {value}",
-      "lower": "the local sales tax rate shall be lowered from {before} to {value}",
-      "raiseTo": "the local sales tax rate shall be raised to {value}",
-      "lowerTo": "the local sales tax rate shall be lowered to {value}"
+      "subject": "the {level} sales tax rate",
+      "purpose": "set the rate of the {level} sales tax",
+      "raise": "the {level} sales tax rate shall be raised from {before} to {value}",
+      "lower": "the {level} sales tax rate shall be lowered from {before} to {value}",
+      "raiseTo": "the {level} sales tax rate shall be raised to {value}",
+      "lowerTo": "the {level} sales tax rate shall be lowered to {value}"
     },
     "minimum-wage": {
       "subject": "the minimum wage",

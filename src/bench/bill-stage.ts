@@ -211,6 +211,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     return (
       composeBill({
         ...copy,
+        level: billReach(api, copy).level,
         effective: form.effectiveSection,
         before: form.sections.map((section) => section.before),
       })?.sections[index] ?? null
@@ -626,6 +627,7 @@ export function staffRedraft(
     return (
       composeBill({
         ...copy,
+        level: billReach(api, copy).level,
         effective: form.effectiveSection,
         before: form.sections.map((row) => row.before),
       })?.sections[index] ?? null
@@ -773,6 +775,7 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
     return (
       composeBill({
         ...copy,
+        level: billReach(api, copy).level,
         effective: f.effectiveSection,
         before: f.sections.map((row) => row.before),
         standing,

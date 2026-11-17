@@ -41,6 +41,7 @@ import {
   type VetoReason,
   votesOn,
   type StudyRow,
+  billReach,
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
@@ -1512,7 +1513,12 @@ function composeBinding(
       };
     if (named?.sponsorId === askedId)
       facts["you-sponsor"] = { text: "yes", sourceRecordIds: [named.id] };
-    const does = named ? billNameOf(named)?.purpose : undefined;
+    const does = named
+      ? billNameOf({
+          ...named,
+          level: billReach(coreAPI(core as CoreState), named).level,
+        })?.purpose
+      : undefined;
     if (does)
       facts["bill-does"] = {
         text: does,
@@ -3117,7 +3123,7 @@ function deskFacts(
   if (!bill) return;
   // The bill as the visitor says it: by its name and what it does, never by
   // its number alone (the number sits on the desk's paper).
-  const title = billTitleOf(bill);
+  const title = billTitleOf({ ...bill, level: billReach(api, bill).level });
   if (title) {
     facts.bill = {
       text: billTitleSaid(title.title),
