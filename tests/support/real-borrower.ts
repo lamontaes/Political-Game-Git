@@ -31,7 +31,7 @@ import type {
 } from "../../src/core2/types";
 
 /** Days the player's clock may run in one place before it is passed over: the loan is written at a month's close and billed monthly. */
-const QUARREL_DAYS = 400;
+const QUARREL_DAYS = 200;
 /** Places drawn before the search fails by name. */
 const MAX_PLACES = 8;
 /** The seed a run draws its places from; a failed run is replayed with `GOLDEN_PATH_SEED`. */

@@ -16,7 +16,6 @@ import type {
   PersonId,
 } from "../../src/core2/types";
 import { openConversation, say } from "../../src/director/conversation";
-import { paymentSaid } from "../../src/english/payment-words";
 import type { Director } from "../../src/director/ledger";
 import {
   paymentNamed,
@@ -379,10 +378,10 @@ export function playPayOnTime(
     // A payment is said only for a loan kind the words name
     // (data/english/payment-words.json, paymentNamed): for any other kind the
     // lender says nothing, and that is the rule read here, not a failure.
-    if (paymentSaid(ender?.facts?.loanKind as string | undefined) === null) {
+    if (!paymentNamed(core, rowOf(one)!)) {
       check(
         subject === null,
-        `${where}: ${row.id} is said over a ${ender?.facts?.loanKind} loan the words do not name`,
+        `${where}: ${row.id} is said over a payment the words do not name (${ender?.facts?.loanKind})`,
       );
       unnamed.add(String(ender?.facts?.loanKind));
       said.set(row.id, "");
