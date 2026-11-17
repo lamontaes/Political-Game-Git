@@ -1,14 +1,12 @@
 ---
 name: cadence-and-summaries
 description: >
-  The rule that nothing in Our Civic Duty runs or is kept every day by default
-  (owner, Nov 10): how to pick an engine step's cadence (on an event, monthly,
-  yearly), how a table that grows with history folds into a summary, and how
-  to write an entry in the daily register (docs/design/daily-register.md) when
-  something truly must be daily, with the guard that checks it. Read it before
-  adding or changing any engine step (onDay, onAfterDay, a calendar entry) or
-  any kept table. Not for timing a year (speed-work) or running long saves
-  (heavy-runs).
+  Picks how often an engine step runs and how long a table is kept: on an
+  event, monthly or yearly, never daily by default (owner, Nov 10). Growing
+  tables fold into summaries; a step that truly must be daily goes in
+  docs/design/daily-register.md, which a guard checks. Use before adding or
+  changing onDay, onAfterDay, a calendar entry or a kept table. Not for timing
+  a year (speed-work) or long saves (heavy-runs).
 ---
 
 # Cadence and summaries
@@ -50,3 +48,4 @@ A speed cut that moves a step off the day, or folds a table, deletes or changes 
 - An inclusive profile share is not a saving (`speed-work`): time the cut with alternating pairs before you call it one.
 - A table that looks flat in January can hold November's rows that a three-month window has not yet dropped. Compare the same month across years.
 - **A level's monthly work goes on `onMonth` of its office-act kit (Account lead builder, Nov 14).** The office-day module calls each registered kit's `onMonth` on the payday branch (the first of the month), so a yearly act of the world's officials (a governor's address on the state's session date, put on the module calendar for its day) costs one pass a month and no `onDay`; the daily-register guard fails an unlisted `onDay`. Read the person list narrowly there: reading every serving term (230 people) when only the governors matter was the one real cost found.
+- **A new kept table needs its register row and a fold (Nov 16, world thread, `jobs.playerApplications`).** Add `| `<module>.<table>` | flat | a row per <thing>, dropped when <it is gone> | 0 / 0 / 0 / 0 | none needed |` under "Kept tables" and make the claim true: drop a row when the thing it holds is filled or withdrawn, in the pass that reads the table. `tests/guards/daily-register.test.ts` fails the `guards` job without the row.

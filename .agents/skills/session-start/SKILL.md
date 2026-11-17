@@ -1,12 +1,11 @@
 ---
 name: session-start
 description: >
-  What a building session of the game checks before it starts and before
-  it marks a pull request ready: the opening reads, the red-main rule and the
-  self-check. The loop itself (taking the next item, building, handing off) is
-  docs/pool/START-A-BUILDER.md. Use first in every building session, cloud or
-  local, Claude, Codex, Muse or any other agent; not for merging (merger),
-  checking (checker) or the play-first lane (play-first).
+  What a building session checks before it starts and before it marks a pull
+  request ready: the opening reads, the red-main rule and the self-check; the
+  loop itself is docs/pool/START-A-BUILDER.md. Use first in every building
+  session, cloud or local, on any agent. Not for merging (merger), checking
+  (checker) or the play-first lane (play-first).
 ---
 
 # Session start

@@ -1,13 +1,12 @@
 ---
 name: trusted-review-pass
 description: >
-  How to run and judge a review pass over many lines, rows or items for Our
-  Civic Duty (line banks, stopgap rows, pool items) so the result can be
-  trusted: chunks of about 150 rows, planted calibration rows, Opus at medium
-  effort, and throwing out a pass that says yes to everything. Use when
-  ordering or reading any bulk reviewer, grader or second-reader pass. Not
-  for the Words lead's own reads (words-reads) or for one PR's review
-  (checker).
+  Runs and judges a review pass over many lines, rows or items (line banks,
+  stopgap rows, pool items) so it can be trusted: chunks of about 150 rows,
+  planted calibration rows, Opus at medium effort, and throwing out a pass
+  that says yes to everything. Use when ordering or reading any bulk reviewer,
+  grader or second-reader pass. Not for a words reader's stamp
+  (words-stamp-read) or one PR's review (checker).
 ---
 
 # A review pass you can trust

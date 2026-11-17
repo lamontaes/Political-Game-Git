@@ -1,14 +1,12 @@
 ---
 name: heavy-runs
 description: >
-  How to run Our Civic Duty's long, memory-heavy runs in a cloud container
-  (path-check, incumbency totals, speed:year over several years, the
-  every-place replay) so that a run is not lost to memory, a restart or a moved
-  branch: one heavy run at a time, the heap size, logs on stderr, the exit code
-  in a file, and a result line that names its commit. Use before starting any
-  run expected to take over ten minutes or 3 GB, and when a run seems to hang.
-  Not for making a year faster (speed-work) or for what a proof must show
-  (played-world-proof).
+  Runs long, memory-heavy jobs in a cloud container (path-check, incumbency
+  totals, multi-year speed:year, the every-place replay) so a run is not lost
+  to memory, a restart or a moved branch: one at a time, the heap size, logs
+  on stderr, the exit code in a file, a result line naming its commit. Use
+  before any run expected to take over ten minutes or 3 GB, and when a run
+  seems to hang. Not for making a year faster (speed-work).
 ---
 
 # Heavy runs
@@ -25,6 +23,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 - **Two Montpelier-size worlds are the limit, with nothing beside them (Nov 9).** Two 5 to 7 GB worlds ran together; adding a `npm run typecheck` or one vitest file got one of them killed three times in a morning. Put every world through one queue (a folder of job scripts run in name order by one runner), and run tests or the typecheck only while at most one world runs.
 - **A test keeps one world in memory at a time.** A helper that returns a world (`api`, `core`) keeps it alive while the next one plays; return the values the caller reads instead. On Nov 1 the public-finance test held two worlds at once and ran past node's default heap on 5 of 7 seeds once the medical bills added rows.
 - **The nightly 20-year game (Nov 10).** `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run long-game -- --years 20` plays a place drawn from all 56 and prints a table row a year (seconds, heap after a collection, records kept, the sense checks); a failed check, a crash or the time limit ends it with one `FAILED place=… key=… world-seed=… year N: …` line. It is one heavy world (8,000 MB heap), so queue it like any other.
+- **A lifetime counter that "overflows" in a late year is two different faults (Nov 17).** Before making a counter wider, print each year's largest value of it (every outside owner's net, the debt, a treasury's totals) from the run's rows. If the largest is far under the limit the year before the crash, no drift reached it: one posting crossed at once, and widening the counter would hide that posting. Log the posting at the moment it crosses (its source record), and fix what sized it.
+- **A Claude session's background run stops at two hours (Nov 17).** The tool's `run_in_background` limit is at most 7,200,000 ms, and the run is killed there with no exit line. A 20-year game on a cloud container takes far longer (Inarajan, Guam reached year 11 in two hours). Split it: replay to the year before the fault with a probe that writes a row each played quarter or month, so a stop loses nothing, or run it on GitHub with `twenty-year-nightly.yml`'s `workflow_dispatch` and its place and world seed.
 - **Replay a red night by place and world seed:** `npm run long-game -- --place <key> --world-seed <seed> --years <the failing year>`, with both values from the `FAILED` line (the job summary shows them); the world seed there is `buildBenchWorld`'s own seed, not the run seed.
 - **Pull the branch before every row,** and put `git log --oneline -1` in each result line. Branches moved under a run three times on Oct 30 to 31.
 
@@ -34,6 +34,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 - **Log progress to stderr as it happens** (`LOG …` lines), with stdout and stderr in separate files per row. A run that dies with nothing printed tells you nothing.
 - **Silence is not a hang.** Before calling a run stuck, read its memory (RSS) and when stderr last changed. Ringwood, New Jersey's race 2 (Nov 1) was one call living 22 months (to a petition due date) while the heap climbed from 567 MB to the 8 GB cap and the collector thrashed. That's memory, not a loop.
 - **A container or worker restart kills every background run and its watcher.** After any restart, check `ps` and the `.done` files before starting anything new.
+- **Put the questions for one long replay into one run, and log a row a quarter (Long game, Nov 17).** A restart stopped a 70-minute replay before it wrote anything; the rerun carried two probes' questions (the Treasury's flows and its obligations) and logged a row each quarter on the way, so the months that mattered came in one pass and a stopped run still said where it was.
+- **A scratchpad script with top-level `await` must end in `.mts`.** Outside the project, `tsx` compiles a `.ts` as CommonJS and fails with "Top-level await is currently not supported with the "cjs" output format". A probe that imports one code root or another by a path argument (`await import(`${root}/src/...`)`) runs main and a branch side by side from two copies.
 - **Do not resume a world from a snapshot to reproduce a crash.** `snapshotWorld` after a few simulated months is over 100 MB, past a year it is over `JSON.stringify`'s string limit (`RangeError: Invalid string length`), and a restored world is not the same world: the first day after a restore failed with "A drive act requires the actor's recorded drive" (Nov 1, Superior, Colorado). To reproduce a crash in year 3, rerun from the start and expect restarts to cost you a run; start the run right after one.
 
 - **A memory gate checks only at the start.** A gate that waits for free memory before a run still lets the run grow beside another one. The container's memory limit then kills the biggest process: vitest says "Worker exited unexpectedly", a script exits 137, and `dmesg` shows an oom-kill. On Nov 1 a test file running two workers next to a 5 GB replay lost a worker, and a low-priority replay was killed twice in an evening while workflows tested. Rerun the killed file alone with `--maxWorkers=1`, and rerun long replays when the machine is quiet.
@@ -52,6 +54,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 - **A long run beside helpers is killed without a word.** A 20-year game that reaches 2 GB by its last years died at year 11 (exit 137) with five helpers running tests on the same 16 GB machine, after 15 minutes of work (Nov 10). Start the long run when the helpers are done, or tell each helper to check `free -m` and wait under 3.5 GB available, and write the run's exit code to its output file so a kill is not read as a hang.
 
 - **In a Claude cloud container, `free -g` does not show the limit that kills a run (Nov 12).** The limit that counts is the shared bash memory group, about 14.3 GB for every shell and helper together: read its use at `/sys/fs/cgroup/memory/process_api/*/claude-code-bash/memory.usage_in_bytes` and its limit at `memory.limit_in_bytes` beside it, and wait before a heavy run while less than 5 GB of that limit is free. A vitest worker that ends with "Worker exited unexpectedly" can have been killed for memory, but that message is generic (a SIGTERM or a crash prints it too): call it a memory kill only when `dmesg` shows a matching `oom-kill` line naming `oom_memcg=/process_api/.../claude-code-bash` at that time. Without that record, read the worker's exit and stderr and leave the failure unresolved. A confirmed memory kill is neither a test failure nor a pass: rerun the file alone when the group has room.
+
+- **A vitest `vi.mock` of a module inside an import cycle may not reach the module you test (Nov 17, Speed).** Mocking `modules/legislature` to count `members` counted 0 calls from `leadership.ts`, because loading the real module through the mock's `importOriginal` loaded leadership first, bound to the real export. Count with a small diagnostic export on the module (`membershipRebuilds` in `leadership.ts`), and show the check failing on the old code with only that count added.
 
 ## After the run
 

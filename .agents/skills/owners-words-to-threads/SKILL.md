@@ -1,14 +1,12 @@
 ---
 name: owners-words-to-threads
 description: >
-  How the owner's words and examples are handled in Our Civic Duty: his
-  messages go to threads verbatim, never summarized; an example he gives is
-  a generality, so the work is the system behind it; and the standing rules
-  for words (talk is dialogue only, people say how it feels and never the
-  figure, depth is a tree). Use whenever you pass something the owner said to
-  a thread, helper or reviewer, when you read an ask that names one case, and
-  before briefing a scene or story builder. Not for line wording itself
-  (civic-prose, words-engine).
+  The owner's words go to threads verbatim, never summarized; an example he
+  gives is a generality, so the work is the system behind it; and the standing
+  rules for words (talk is dialogue only, people say how it feels and never
+  the figure, depth is a tree). Use whenever you pass something the owner said
+  to a thread, helper or reviewer, read an ask that names one case, or brief a
+  scene or story builder. Not for line wording (civic-prose, words-engine).
 ---
 
 # The owner's words

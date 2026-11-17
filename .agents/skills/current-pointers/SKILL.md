@@ -1,14 +1,12 @@
 ---
 name: current-pointers
 description: >
-  How Our Civic Duty keeps one place that says what is current
-  (`docs/current.json`, read as `docs/CURRENT.md`) and keeps every document,
-  rule, skill and code comment pointing at paths that exist (owner, Nov 11).
-  Use whenever you move, rename, replace or delete a file or folder, add
-  something at the top of the repository, clean pointers out of an area, or
-  see `tests/guards/current-pointers.test.ts` fail. Not for what may be
-  deleted (slim-down), and not for the owner's rulings and other records,
-  which keep what was said and are never rewritten.
+  Keeps one place that says what is current (docs/current.json, read as
+  docs/CURRENT.md; owner, Nov 11) and every doc, rule, skill and code comment
+  pointing at paths that exist. Use when you move, rename, replace or delete a
+  file or folder, add something at the top of the repository, or see
+  tests/guards/current-pointers.test.ts fail. Not for what may be deleted
+  (slim-down); rulings and other records are never rewritten.
 ---
 
 # Current pointers
@@ -66,3 +64,4 @@ Add a `topLevel` row that says what it is. Think first whether it belongs inside
 - **A file whose name has spaces or special characters** is listed by git in quotes unless you ask for `-z`; the scanner does.
 - **Deleting a folder of old reports lowers its own area's count and can leave pointers to it elsewhere.** Search the whole repository for the folder's name before you open the pull request.
 - **A pull request written before a rule can break it on main.** The strip's pull request deleted five files and merged an hour after this guard did; four old documents still named them, and main went red. Whoever deletes a file runs the guard on main merged in, the same hour.
+- **A guard that is red on main in many areas at once (Handoff, Nov 16).** A fold of two branches' baselines can leave the baseline lower than the real count, so no file or date says which pointers are the new ones. Do not hunt for them: take the over-count in each area, pick that many dead paths (the ones named most often first), add each to the `replaced` list in `docs/current.json` with "removed; nothing replaces it", run `node --import tsx scripts/current/repoint.ts` (it marks every mention " (removed)", with a `:line` or trailing slash kept), then `node --import tsx scripts/current/write.ts` and `node --import tsx scripts/current/pointers.ts --write` to lower any count that went under. Read this skill before you start; on Nov 16 the same fix was first done by hand.
