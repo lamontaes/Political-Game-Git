@@ -1,5 +1,5 @@
 ---
-id: director-scene-tags-from-player-standing
+id: director-scene-tags-from-one-standing
 impact: none
 ---
 
