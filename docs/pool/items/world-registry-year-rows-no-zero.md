@@ -20,7 +20,7 @@ source: Screens finding, Nov 17, 2026 (comment 6933758202), seen at Waimanalo, H
 
 **What.** The registry's year rows for a town hold rent 0 for every year from 1977 to 2002 before the first value in 2003, and the same for home value where no home was owned. A year with no lease or home has no median, so the figure is unknown, not zero. Seen: Screens at Waimanalo, Hawaii, Nov 17.
 
-**Cause.** Found in code: `src/core2/housing-past.ts` wrote `median(renting.map(...))` into the year row for every December, and the median of an empty list is 0, so a year with no lease running read rent 0.
+**Cause.** Found in code: `src/core2/housing-past.ts` (the December loop in the pass that writes each place's year rows, `putPastYear` call near line 510) wrote `median(renting.map(...))` into the year row for every December, and the median of an empty list is 0, so a year with no lease running read rent 0.
 
 **Fix.** The pass writes a year's rent only when a lease was running and its home value only when a home was owned, through `putPastYear` in `src/core2/output-numbers.ts`, so the reader finds no figure and reports it unknown. The player sees the year as unknown on Metrics, never a zero rent.
 
