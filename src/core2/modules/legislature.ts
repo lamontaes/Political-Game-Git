@@ -6690,11 +6690,7 @@ function decideAtDesk(
       date: api.state.date,
       kind: "bill.vetoed",
       personIds: [bill.sponsorId],
-      // The sponsor's own place: a federal bill's sponsor lives elsewhere, and
-      // they learn of it where they are.
-      placeId:
-        api.state.people.get(bill.sponsorId)?.placeId ??
-        lawChain(api).townPlaceId,
+      placeId: lawChain(api).townPlaceId,
       publicRecord: false,
       topic: executive.personId,
       desiredChange: "bill.vetoed",
