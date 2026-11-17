@@ -23,7 +23,7 @@ import parameters from "../data/campaigns/parameters.json" with { type: "json" }
 import { partySide } from "../appointments";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { centuryParties, centuryStateVote } from "../electorate-century";
-import { stanceLean } from "../officials-roster";
+import { stanceLean } from "./officials";
 import { partyLean } from "../campaign-stances";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import type {

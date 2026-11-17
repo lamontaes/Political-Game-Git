@@ -40,12 +40,13 @@ import {
   centuryRace,
   centurySeatRace,
   historyMode,
+  PARTIES_MODULE_ID,
+  statePlaces,
+  stateRightShare,
+  type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
-import { allOfficials } from "../../core2/modules/officials";
-import { PARTIES_MODULE_ID, type TieRow } from "../../core2/modules/parties";
-import { statePlaces, stateRightShare } from "../../core2/electorate-places";
-import { partySide } from "../../core2/appointments";
+import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
   drawStage,
