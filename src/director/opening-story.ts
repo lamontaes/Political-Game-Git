@@ -671,7 +671,13 @@ export function composeBlocks(
           )
         )
           return [];
-        return timeTwice(said) ? [sayMove(bare, facts)] : [said];
+        // A lead-in and a core that both say a person's full name ("Speaker
+        // Robert Reeves, fellow citizens, ... Speaker Robert Reeves, members
+        // of Congress, ...") after every redraw: the core is said without
+        // its lead-in (Trenton, North Dakota (3879460), seed press-1117:2).
+        return timeTwice(said) || namesTwice(said)
+          ? [sayMove(bare, facts)]
+          : [said];
       });
       const result = tries.find((row) => row.kind === "rendered") ?? null;
       if (result?.kind === "rendered")
