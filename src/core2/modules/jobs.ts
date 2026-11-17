@@ -129,6 +129,8 @@ import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
+/** The kind of the stand-in organization for work out of town, read by the words that name an employer. */
+export { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
   Record<string, Parameter>

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 967,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -390,16 +390,6 @@
       ],
       "why": "Appreciation and a request for a minute carry no argument."
     },
-    "06z4gooky53": {
-      "keys": [
-        "scene-talk.follow-press.then-you-don-t-have-the-seat-either-not-yet",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.reply-disagree.you-sound-like-my-mother",
-        "scene-talk.reply-thank.okay-that-one-landed",
-        "scene-talk.reply-leave.i-ve-got-a-lot-to-think-about-thank-you"
-      ],
-      "why": "A question, a jab, a concession and thanks carry no argument."
-    },
     "076mavuucxv": {
       "keys": [
         "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
@@ -444,14 +434,6 @@
         "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "08b84yaqtcg": {
-      "keys": [
-        "scene-talk.follow-press.so-is-eight",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.reply-disagree.you-sound-like-my-mother"
-      ],
-      "why": "Turning the question back and \"You sound like my mother\" offer no reasoning."
     },
     "08e0tq94seu": {
       "keys": [
@@ -909,14 +891,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "0iivnph89ya": {
-      "keys": [
-        "scene-talk.follow-promise.somebody-told-me-once-i-m-returning-the-favor",
-        "scene-talk.reply-thank.i-d-like-that-thank-you",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "Saying \"I'd like that. Thank you\" or promising a call later is thanks and an exit with no reason in it."
-    },
     "0iugyev0fz0": {
       "keys": [
         "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
@@ -1147,14 +1121,6 @@
         "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "0m66o1rs6mj": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
-        "scene-talk.reply-thank.that-would-mean-a-lot",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "Gratitude and a promise to call carry no reason."
     },
     "0m76nkk509l": {
       "keys": [
@@ -1753,16 +1719,6 @@
       ],
       "why": "\"When you called my office. Not a day before\" states a time with no reason, and the others deflect or leave."
     },
-    "0yx5fpbnlbo": {
-      "keys": [
-        "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.reply-disagree.you-sound-like-my-mother",
-        "scene-talk.reply-thank.okay-that-one-landed",
-        "scene-talk.reply-leave.i-ve-got-a-lot-to-think-about-thank-you"
-      ],
-      "why": "A question, a jab, a concession and thanks carry no argument or reason."
-    },
     "0zarbxdmtho": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -2107,14 +2063,6 @@
       ],
       "why": "Believing them, a condition and \"I'll think about it\" give no reason of their own."
     },
-    "18b82vhovfe": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
-        "scene-talk.reply-thank.i-d-like-that-thank-you",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "The only replies are a thank-you and a promise to call later, neither carrying a reason."
-    },
     "18bu4mrn1x8": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -2130,14 +2078,6 @@
         "scene-talk.reply-tell.i-ll-explain-my-vote-to-anyone-who-asks-including-you"
       ],
       "why": "A taunt about tables and a promise to explain carry no reason."
-    },
-    "18rjgu3yx2k": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
-        "scene-talk.reply-thank.that-would-mean-a-lot",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "\"That would mean a lot\" and a promise to call are thanks and an exit."
     },
     "18z134nctdg": {
       "keys": [
@@ -2227,14 +2167,6 @@
         "scene-talk.reply-leave.i-have-to-go"
       ],
       "why": "A brief apology, ending the talk and leaving give no reason or argument."
-    },
-    "1b4062edwur": {
-      "keys": [
-        "scene-talk.follow-press.maybe-or-maybe-you-lose-and-spend-the-next-eight-years-explaining-it",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.reply-disagree.you-sound-like-my-mother"
-      ],
-      "why": "A question back and the quip \"You sound like my mother\" carry no argument or reason."
     },
     "1b7ixn5c0wt": {
       "keys": [
@@ -3660,14 +3592,6 @@
       ],
       "why": "The replies are a bare apology and a challenge to fight Tuesday at the mic, neither giving any reason."
     },
-    "26mjngwxzbw": {
-      "keys": [
-        "scene-talk.follow-ask.did-they-say-yes-to-winning-or-yes-to-the-trying",
-        "scene-talk.reply-answer.honestly-i-don-t-know-yet",
-        "scene-talk.reply-tell.both-i-think-i-didn-t-ask-twice"
-      ],
-      "why": "\"I don't know yet\" and \"I didn't ask twice\" admit uncertainty without offering any argument."
-    },
     "26otq4wootx": {
       "keys": [
         "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
@@ -3683,14 +3607,6 @@
         "scene-talk.reply-leave.i-m-going-to-go-lie-down-for-a-while"
       ],
       "why": "\"I mean it. Thank you\" and going to lie down carry no reason."
-    },
-    "272ezp4o3hw": {
-      "keys": [
-        "scene-talk.follow-press.nobody-does-it-s-how-you-stay-running",
-        "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-        "scene-talk.reply-disagree.you-sound-like-my-mother"
-      ],
-      "why": "Asking what the mentor would do and \"You sound like my mother\" give no reason at all."
     },
     "27bcpo0v9u0": {
       "keys": [
@@ -3920,14 +3836,6 @@
       ],
       "why": "A bare 'I'll do it', a deferral and the floor exit answer the dinner invitation without any reason."
     },
-    "2c8bzugspsl": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
-        "scene-talk.reply-thank.then-i-m-in-your-debt-again",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "Both replies, owing a debt again and promising to call once decided, are thanks and an exit with no reason given."
-    },
     "2cax6e2yqpx": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -3995,14 +3903,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "The replies offer to explain, challenge or exit, and none gives a reason."
-    },
-    "2e8zyr71p38": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
-        "scene-talk.reply-thank.then-i-m-in-your-debt-again",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "Being in the mentor's debt and promising to call are thanks and an exit without a reason."
     },
     "2eb1a5jujfh": {
       "keys": [
@@ -4145,15 +4045,7 @@
         "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
       ],
       "why": "\"It's the right call\" restates the stance, and the others deflect or leave, so none carries a reason."
-    },
-    "2g4toe0xq44": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
-        "scene-talk.reply-thank.i-d-like-that-thank-you",
-        "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
-      ],
-      "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "1ee77spd1l3"
 }

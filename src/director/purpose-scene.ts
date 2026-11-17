@@ -83,6 +83,7 @@ import {
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { MENTOR_ADVICE_TYPE, mentorAdviceFacts } from "./mentor-advice-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -1667,6 +1668,20 @@ function composeBinding(
           : undefined,
         personLean,
       ),
+    );
+  // A mentor's advice, by its cause: a party's ask (the seat, the chair, the
+  // player's answer and chance, the mentor's own seat and races) or a new hire
+  // at work (the employer, the job, the pay and the hours), each from the
+  // records it came from (mentor-advice-facts.ts).
+  if (type.key === MENTOR_ADVICE_TYPE)
+    Object.assign(
+      facts,
+      mentorAdviceFacts(core, {
+        causeId: moment.causeId,
+        mentorId: askerId,
+        askedId,
+        sayPerson,
+      }),
     );
   // How the two stand, from the one reader (relation-facts.ts): the asked
   // person's family (`kin`), known people (`acquainted`, else `stranger`), and

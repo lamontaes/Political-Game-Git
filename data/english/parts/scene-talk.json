@@ -48,7 +48,7 @@
     "child": "The youngest child at home, by name, from the household record.",
     "law": "A law, by its policy's name, from the law record.",
     "cost": "What a law in force costs a household each month, from the price record it moved.",
-    "chair": "The committee's chair, by name, from the committee's hold record.",
+    "chair": "The committee's chair, by name, from the committee's hold record. In a mentor's advice, the party chair who asked the player to run, from the party's ask record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
     "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
     "building": "The building a precinct votes in, the town government's own, from the voting engine's polling place record.",
@@ -171,7 +171,13 @@
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
     "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
-    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
+    "holder": "Whoever serves the seat a party asked the player to run for, by name, from the offices engine's serving term (a mentor's advice).",
+    "files-by": "The day filing closes for the seat a party asked the player to run for, as a day ahead, from the party's ask record.",
+    "mentor-office": "The seat a party's mentor serves now, as its holder is called (magistrate, mayor, state senator), from the offices engine's serving term and office record.",
+    "mentor-since": "How long a party's mentor has served their seat, as a span of time in words, from the serving term's start.",
+    "job": "A new hire's job title as people say it, from their job record (a mentor's advice at work).",
+    "mentor-years": "How long a coworker who took a new hire under their wing has held their own job there, as a span in words, from the day the records say they started it."
   },
   "maxWords": 70,
   "parts": [
@@ -27486,14 +27492,6 @@
           "role": "asked",
           "purpose": "*",
           "key": "news-received"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
         }
       ],
       "bearing": "calm",
@@ -30501,351 +30499,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.you-look-like-you-haven-t-slept",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You look like you haven't slept.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Here's what I'd do, and you won't like it. Wait a cycle. Run for {office} when you can win it, not when you want it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "If I wait, somebody else takes it, and I'm waiting another eight years.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That's what I was afraid you'd say. And probably right.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-ve-already-told-people-i-m-running-backing-out-now-costs-me-somethin",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I've already told people I'm running. Backing out now costs me something too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I ran too early and lost it close. Then I waited, and won it going away.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Maybe. Or you lose, and nobody remembers you in eight years either.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "disagree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll make some calls. If you wait, you wait with friends.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "thank"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.who-did-you-tell-exactly",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Who did you tell? Exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "tell"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.close-is-a-door-i-d-rather-knock-on-it-now",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "Close is a door. I'd rather knock on it now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Going away. Okay. That's what I needed to hear.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.my-family-my-staff-and-the-party-chair-in-that-order",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "My family, my staff, and the party chair. In that order.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.who-did-you-tell-exactly"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.whatever-you-decide-call-me-before-you-announce",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Whatever you decide, call me before you announce.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.finish-your-coffee-it-s-on-me",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Finish your coffee. It's on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.everybody-s-got-one-yours-was-a-good-one-to-have",
       "move": "follow-accept",
       "kind": "spoken",
@@ -30868,80 +30521,6 @@
       "tag": {
         "move": "accept",
         "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-you-ve-told-the-right-people-the-rest-can-wait-a-week",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then you've told the right people. The rest can wait a week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.my-family-my-staff-and-the-party-chair-in-that-order"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.i-d-like-that-thank-you",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "I'd like that. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-should-go-think",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I should go think.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
       }
     },
     {
@@ -31164,30 +30743,6 @@
           "role": "asked",
           "purpose": "owed-apology",
           "excludesFacts": ["read-about-money"],
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-sunday",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me sleep on it. I'll call you Sunday.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
           "key": "routine"
         }
       ],
@@ -32151,206 +31706,6 @@
       "tag": {
         "move": "thank",
         "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.were-you-ever-in-my-spot",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Were you ever in my spot?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.so-you-d-really-sit-it-out",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "So you'd really sit it out?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-d-sit-it-out-and-spend-the-year-raising-money-and-making-friends-the",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-ask.so-you-d-really-sit-it-out"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.then-help-me-win-it-now-i-ll-raise-the-money-while-i-run",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "Then help me win it now. I'll raise the money while I run.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.if-you-re-running-anyway-i-ll-help-i-m-just-telling-you-what-i-d-do",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "If you're running anyway, I'll help. I'm just telling you what I'd do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "disagree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.a-year-of-friends-okay-i-can-do-that",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "A year of friends. Okay. I can do that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-answer.i-d-sit-it-out-and-spend-the-year-raising-money-and-making-friends-the"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.a-year-is-a-long-time-to-be-patient-in-this-town",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "A year is a long time to be patient in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "requiresFacts": ["place"],
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-answer.i-d-sit-it-out-and-spend-the-year-raising-money-and-making-friends-the"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.so-is-eight",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "So is eight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.a-year-is-a-long-time-to-be-patient-in-this-town"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
       }
     },
     {
@@ -34339,30 +33694,6 @@
       "tag": {
         "move": "thank",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has held office for years, and has something to say about running for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
       }
     },
     {
@@ -37474,876 +36805,6 @@
       "tag": {
         "move": "thank",
         "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-picked-the-diner-and-the-back-booth-and-already-ordered-for-both-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} picked the diner, and the back booth, and already ordered for both of you. You came to ask about running for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.sit-the-pie-s-the-only-thing-worth-eating-here",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Sit. The pie's the only thing worth eating here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'll say it before you ask: not this year. You're one good year away from being hard to beat.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-one-good-year-look-like",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does one good year look like?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "Everybody says next year. Next year somebody else is already in the chair.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.you-might-be-the-only-person-who-d-tell-me-that-to-my-face",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "You might be the only person who'd tell me that to my face.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "My family's already said yes. That was the hard part.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-can-t-afford-to-wait-a-year-i-can-barely-afford-this-pie",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I can't afford to wait a year. I can barely afford this pie.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "requiresFacts": ["asked_short_on_money"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-you-really-can-t-afford-to-lose-campaigns-eat-money-first-and-peo",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then you really can't afford to lose. Campaigns eat money first and people second.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.i-can-t-afford-to-wait-a-year-i-can-barely-afford-this-pie"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.every-meeting-every-fish-fry-every-funeral-people-vote-for-the-face-th",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Every meeting, every fish fry, every funeral. People vote for the face they're used to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-ask.what-does-one-good-year-look-like"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-make-sure-the-person-in-the-chair-owes-you-something",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then make sure the person in the chair owes you something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-go-now-and-don-t-come-crying-to-me-in-november-i-ll-help-anyway",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then go now, and don't come crying to me in November. I'll help anyway.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-go-now-you-ll-have-my-help-win-or-lose",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then go now. You'll have my help, win or lose.",
-      "uses": [
-        {
-          "after": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha",
-          "key": "routine",
-          "move": "accept",
-          "purpose": "mentor-advice",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.all-right-if-you-re-going-go-all-the-way-i-ll-be-in-your-corner",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Alright. If you're going, go all the way. I'll be in your corner.",
-      "uses": [
-        {
-          "after": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha",
-          "key": "routine",
-          "move": "accept",
-          "purpose": "mentor-advice",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-go-i-ll-make-the-calls-i-can",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then go. I'll make the calls I can.",
-      "uses": [
-        {
-          "after": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha",
-          "key": "routine",
-          "move": "accept",
-          "purpose": "mentor-advice",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.somebody-told-me-once-i-m-returning-the-favor",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "Somebody told me once. I'm returning the favor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-thank.you-might-be-the-only-person-who-d-tell-me-that-to-my-face"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.did-they-say-yes-to-winning-or-yes-to-the-trying",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Did they say yes to winning, or yes to the trying?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Funerals. Alright. I own a black suit.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-don-t-have-a-year-of-fish-fries-in-me",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I don't have a year of fish fries in me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-chew-on-that",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me chew on that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.good-i-ll-tell-you-which-ones-matter",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "Good. I'll tell you which ones matter.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-you-don-t-have-a-campaign-in-you-either",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then you don't have a campaign in you either.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.i-don-t-have-a-year-of-fish-fries-in-me"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-would-owe-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who would owe me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-press.then-make-sure-the-person-in-the-chair-owes-you-something"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-m-not-running-to-collect-favors",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I'm not running to collect favors.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-press.then-make-sure-the-person-in-the-chair-owes-you-something"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.okay-that-one-landed",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Okay. That one landed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.whoever-needs-your-district-s-votes-on-the-next-budget-start-there",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Whoever needs your district's votes on the next budget. Start there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-ask.who-would-owe-me"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.nobody-does-it-s-how-you-stay-running",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Nobody does. It's how you stay running.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.i-m-not-running-to-collect-favors"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.both-my-partner-said-the-trying-part-twice",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Both. My partner said the trying part twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "ask",
-          "requiresFacts": ["asked_partner"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.to-the-trying-i-didn-t-ask-about-the-rest",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "To the trying. I didn't ask about the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.did-they-say-yes-to-winning-or-yes-to-the-trying"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-you-ve-got-the-only-vote-that-matters-at-home",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then you've got the only vote that matters at home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.both-my-partner-said-the-trying-part-twice"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.ask-about-the-rest-before-you-file-it-gets-ugly-in-october",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Ask about the rest before you file. It gets ugly in October.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.to-the-trying-i-didn-t-ask-about-the-rest"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.then-i-m-in-your-debt-again",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Then I'm in your debt. Again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.pie-s-on-me-the-advice-was-free",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Pie's on me. The advice was free.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.call-me-before-you-tell-anybody-else",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Call me before you tell anybody else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.suit-yourself-my-number-hasn-t-changed",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Suit yourself. My number hasn't changed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
-        "key": "routine"
       }
     },
     {
@@ -43487,355 +41948,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-run-hard-and-call-me-when-it-gets-ugly",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then run hard, and call me when it gets ugly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "disagree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.have-you-told-the-party-yet-or-just-the-people-who-love-you",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Have you told the party yet, or just the people who love you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "tell"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.maybe-or-maybe-you-lose-and-spend-the-next-eight-years-explaining-it",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Maybe. Or maybe you lose and spend the next eight years explaining it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "disagree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll make a few calls this week. Quietly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "thank"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.you-were-luckier-than-i-am-then",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "You were luckier than I am, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Luck had nothing to do with it. I waited.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.you-were-luckier-than-i-am-then"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-ve-already-asked-people-for-money-i-can-t-un-ask",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I've already asked people for money. I can't un-ask.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.how-much-did-they-give",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "How much did they give?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.i-ve-already-asked-people-for-money-i-can-t-un-ask"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.enough-that-i-d-be-embarrassed-to-give-it-back",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Enough that I'd be embarrassed to give it back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.how-much-did-they-give"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-you-re-running-let-s-make-it-count",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then you're running. Let's make it count.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.enough-that-i-d-be-embarrassed-to-give-it-back"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That's the most useful thing anyone's told me this month.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.that-would-mean-a-lot",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That would mean a lot.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.just-my-family-nobody-else-yet",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Just my family. Nobody else yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.have-you-told-the-party-yet-or-just-the-people-who-love-you"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-keep-it-that-way-until-you-re-sure",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. Keep it that way until you're sure.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.just-my-family-nobody-else-yet"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.good-say-their-names-slowly-they-ll-remember-it",
       "move": "follow-accept",
       "kind": "spoken",
@@ -46102,156 +44214,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.then-you-re-running-whatever-i-say-so-let-s-talk-about-how",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then you're running, whatever I say. So let's talk about how.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.enough-that-i-d-be-embarrassed-to-give-it-back"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-think-about-who-i-ve-told-before-i-answer-that",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me think about who I've told before I answer that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.have-you-told-the-party-yet-or-just-the-people-who-love-you"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ve-got-a-lot-to-think-about-thank-you",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I've got a lot to think about. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll call you once I've decided.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.i-don-t-have-the-patience-you-had",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "I don't have the patience you had.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-borrow-some-it-s-the-cheapest-thing-in-politics",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then borrow some. It's the cheapest thing in politics.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.i-don-t-have-the-patience-you-had"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-warn.then-own-it-just-don-t-do-it-twice",
       "move": "follow-warn",
       "kind": "spoken",
@@ -46599,56 +44561,6 @@
       "tag": {
         "move": "comfort",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.then-it-s-done-eat-your-pie",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "Then it's done. Eat your pie.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-thank.that-would-mean-a-lot"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.you-ll-pay-me-back-by-winning-eventually",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "You'll pay me back by winning. Eventually.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-thank.then-i-m-in-your-debt-again"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
       }
     },
     {
@@ -47300,56 +45212,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.that-s-a-year-i-don-t-have",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "That's a year I don't have.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-you-don-t-have-the-seat-either-not-yet",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then you don't have the seat either. Not yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.that-s-a-year-i-don-t-have"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.that-sounds-like-two-jobs-for-one-paycheck",
       "move": "reply-confront",
       "kind": "spoken",
@@ -47525,156 +45387,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.not-yet-you-re-the-first-person-i-ve-asked-outside-the-house",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Not yet. You're the first person I've asked outside the house.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.have-you-told-the-party-yet-or-just-the-people-who-love-you"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-i-m-honored-now-listen-to-me",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then I'm honored. Now listen to me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.not-yet-you-re-the-first-person-i-ve-asked-outside-the-house"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "So what would you do in my shoes, honestly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Exactly what I told you. Wait, and work.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.you-sound-like-my-mother",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "You sound like my mother.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.your-mother-sounds-like-a-smart-woman",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Your mother sounds like a smart woman.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.you-sound-like-my-mother"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
       "move": "follow-plea",
       "kind": "spoken",
@@ -47747,156 +45459,6 @@
       "tag": {
         "move": "confront",
         "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I hear you. I'm still leaning toward running.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I've got people counting on me to say yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.leaning-or-decided",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Leaning, or decided?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-disagree.decided-i-just-wanted-you-to-talk-me-out-of-it-first",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "Decided. I just wanted you to talk me out of it first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.leaning-or-decided"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-failed-good-let-s-win-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I failed. Good. Let's win it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-disagree.decided-i-just-wanted-you-to-talk-me-out-of-it-first"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.are-they-counting-on-you-to-win-or-to-run",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Are they counting on you to win, or to run?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
       }
     },
     {
@@ -48201,156 +45763,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.both-i-think-i-didn-t-ask-twice",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Both, I think. I didn't ask twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.did-they-say-yes-to-winning-or-yes-to-the-trying"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.ask-twice-the-second-answer-s-the-real-one",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Ask twice. The second answer's the real one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-tell.both-i-think-i-didn-t-ask-twice"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.to-run-mostly-winning-s-my-problem",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "To run, mostly. Winning's my problem.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.are-they-counting-on-you-to-win-or-to-run"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-make-it-your-problem-early-i-ll-help",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then make it your problem early. I'll help.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.to-run-mostly-winning-s-my-problem"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.leaning-hard",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Leaning. Hard.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.follow-ask.leaning-or-decided"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-lean-on-me-before-you-fall",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then lean on me before you fall.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.leaning-hard"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
       "move": "reply-decline",
       "kind": "spoken",
@@ -48423,81 +45835,6 @@
       "tag": {
         "move": "agree",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.honestly-i-don-t-know-yet",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Honestly? I don't know yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-that-s-the-right-answer-this-early",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. That's the right answer this early.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "scene-talk.reply-answer.honestly-i-don-t-know-yet"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-should-think-about-that-before-i-answer",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I should think about that before I answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "mentor-advice",
-          "key": "routine",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
       }
     },
     {
@@ -192870,6 +190207,3830 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-served-as-mentor-office-for-mentor-since-now-it-s-your-turn-t",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has served as {mentor-office} for {mentor-since}. Now it's your turn to be asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["mentor-office", "mentor-since"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-heard-that-chair-asked-you-to-run-for-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} heard that {chair} asked you to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-a-word-about-the-race-for-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants a word about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-you-told-chair-yes",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So you told {chair} yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.chair-tells-me-you-said-no",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{chair} tells me you said no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "said-no"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.chair-says-you-asked-for-some-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{chair} says you asked for some time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "said-not-now"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.chair-says-you-haven-t-answered-yet",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{chair} says you haven't answered yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "undecided"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-hear-the-party-wants-you-for-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I hear the party wants you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-seat-s-open-and-people-know-you-go",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The seat's open and people know you. Go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["seat-open", "chance-good"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.holder-is-ours-you-don-t-run-against-your-own",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{holder} is ours. You don't run against your own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["holder", "holder-same-party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.holder-is-hard-to-move-i-d-build-first",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{holder} is hard to move. I'd build first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["holder", "holder-other-party", "chance-thin"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.holder-can-be-beaten-people-know-you-now",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{holder} can be beaten. People know you now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["holder", "holder-other-party", "chance-good"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.not-yet-too-few-people-know-you-to-win-the-race-for-office",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Not yet. Too few people know you to win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chance-thin", "office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.people-know-you-you-could-win-the-race-for-office",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "People know you. You could win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chance-good", "office"],
+          "excludesFacts": ["holder-same-party", "seat-mine"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.an-open-seat-for-office-doesn-t-come-often-think-hard",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "An open seat for {office} doesn't come often. Think hard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["seat-open", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.beating-a-sitting-office-is-slow-work",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Beating a sitting {office} is slow work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["seat-held", "office"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-s-my-seat-chair-asked-you-about-we-should-talk",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That's my seat {chair} asked you about. We should talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["seat-mine", "chair"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-lost-a-race-once-run-for-office-only-when-you-can-win",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I lost a race once. Run for {office} only when you can win.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["mentor-lost-once", "office"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-do-about-holder",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you do about {holder}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["holder"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-you-served-as-mentor-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you served as {mentor-office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["mentor-office", "mentor-since"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-does-filing-close-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When does filing close for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["files-by", "office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.if-you-were-me-would-you-run-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "If you were me, would you run for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.if-i-wait-somebody-else-runs-for-office",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "If I wait, somebody else runs for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["seat-open", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ve-run-before-i-know-what-a-race-takes",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I've run before. I know what a race takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["ran-before"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.people-will-know-me-by-the-time-they-vote",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "People will know me by the time they vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chance-thin"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-think-i-can-win-the-race-for-office",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I think I can win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.holder-isn-t-owed-that-seat-forever",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "{holder} isn't owed that seat forever.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["holder", "holder-same-party"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-ll-think-hard-about-running-for-office",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll think hard about running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-being-straight-with-me-about-holder",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for being straight with me about {holder}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["holder"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-already-told-chair-yes",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I already told {chair} yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "said-yes"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-told-chair-no-i-m-not-sure-i-meant-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I told {chair} no. I'm not sure I meant it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "said-no"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-haven-t-given-chair-an-answer-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I haven't given {chair} an answer yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "undecided"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-asked-chair-for-time-to-think",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I asked {chair} for time to think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair", "said-not-now"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-won-a-race-before-i-can-do-it-again",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've won a race before. I can do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["won-before"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-lost-a-race-before-i-don-t-want-that-again",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've lost a race before. I don't want that again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["lost-before"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-mean-to-run-for-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I mean to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["said-no"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-leave-holder-alone-this-time-build-first",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd leave {holder} alone this time. Build first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.what-would-you-do-about-holder",
+          "requiresFacts": ["holder", "chance-thin"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-run-at-holder-people-know-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd run at {holder}. People know you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.what-would-you-do-about-holder",
+          "requiresFacts": ["holder", "holder-other-party", "chance-good"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.holder-is-ours-i-d-wait-for-that-seat-to-open",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{holder} is ours. I'd wait for that seat to open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.what-would-you-do-about-holder",
+          "requiresFacts": ["holder", "holder-same-party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-learn-what-holder-has-done-and-run-on-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd learn what {holder} has done, and run on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.what-would-you-do-about-holder",
+          "requiresFacts": ["holder"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mentor-since-some-days-it-still-feels-new",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{mentor-since}. Some days it still feels new.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.how-long-have-you-served-as-mentor-office",
+          "requiresFacts": ["mentor-since"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.filing-closes-files-by-decide-before-then",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Filing closes {files-by}. Decide before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.when-does-filing-close-for-office",
+          "requiresFacts": ["files-by"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-run-people-know-you-and-that-s-half-of-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd run. People know you, and that's half of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.if-you-were-me-would-you-run-for-office",
+          "requiresFacts": ["chance-good"],
+          "excludesFacts": ["holder-same-party", "seat-mine"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-this-time-too-few-people-know-you-yet",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not this time. Too few people know you yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.if-you-were-me-would-you-run-for-office",
+          "requiresFacts": ["chance-thin"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-run-for-office-and-i-d-start-knocking-today",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd run for {office}, and I'd start knocking today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.if-you-were-me-would-you-run-for-office",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.too-few-people-know-you-yet-that-s-the-whole-race",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Too few people know you yet. That's the whole race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["chance-thin"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.filing-closes-files-by-be-sure-before-then",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing closes {files-by}. Be sure before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["files-by"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.running-against-holder-splits-the-party",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Running against {holder} splits the party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["holder", "holder-same-party"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-be-sure-before-you-file-for-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then be sure before you file for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.you-told-chair-yes-i-m-with-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You told {chair} yes. I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["chair", "said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.it-s-your-race-for-office-i-ll-help-where-i-can",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It's your race for {office}. I'll help where I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.then-i-ll-make-the-calls-i-can-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Then I'll make the calls I can for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "thank",
+          "requiresFacts": ["said-yes", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.call-me-before-you-answer-chair-i-ll-pick-up",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Call me before you answer {chair}. I'll pick up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "thank",
+          "requiresFacts": ["chair", "undecided"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.call-me-before-you-decide-whether-to-run-for-office",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Call me before you decide whether to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "thank",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-made-you-say-yes-to-chair",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What made you say yes to {chair}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-already-told-chair-yes",
+          "requiresFacts": ["chair", "said-yes"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-made-you-tell-chair-no",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What made you tell {chair} no?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-told-chair-no-i-m-not-sure-i-meant-it",
+          "requiresFacts": ["chair", "said-no"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-s-holding-you-back-from-running-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What's holding you back from running for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-haven-t-given-chair-an-answer-yet",
+          "requiresFacts": ["office", "undecided"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-do-you-need-to-know-before-you-answer-chair",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What do you need to know before you answer {chair}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-asked-chair-for-time-to-think",
+          "requiresFacts": ["chair", "said-not-now"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-did-you-learn-winning-that-one",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What did you learn winning that one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-ve-won-a-race-before-i-can-do-it-again",
+          "requiresFacts": ["won-before"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-you-do-differently-this-time",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would you do differently this time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-ve-lost-a-race-before-i-don-t-want-that-again",
+          "requiresFacts": ["lost-before"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-draws-you-to-the-race-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What draws you to the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-tell.i-mean-to-run-for-office",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-make-you-sure-about-running-for-office",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would make you sure about running for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "tell",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-don-t-want-to-wait-to-run-for-office",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I don't want to wait to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-i-ll-weigh-that-before-i-decide",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll weigh that before I decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-still-mean-what-i-told-chair",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I still mean what I told {chair}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["chair", "said-yes"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-still-want-to-run-for-office",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I still want to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["said-no"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think-about-what-you-said",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think about what you said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-should-i-talk-to-before-files-by",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who should I talk to before {files-by}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "press",
+          "requiresFacts": ["files-by"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-change-your-mind-about-the-race-for-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would change your mind about the race for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ve-heard-you-i-still-want-to-run-for-office",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I've heard you. I still want to run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.fair-enough-thank-you-for-being-straight",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Fair enough. Thank you for being straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-sleep-on-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to sleep on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "press",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-chair-then-the-people-who-know-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with {chair}. Then the people who know you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.who-should-i-talk-to-before-files-by",
+          "requiresFacts": ["chair"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.more-people-who-know-your-name-that-s-all",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "More people who know your name. That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.what-would-change-your-mind-about-the-race-for-office",
+          "requiresFacts": ["chance-thin"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.seeing-you-knock-on-doors-for-office",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Seeing you knock on doors for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.reply-ask.what-would-change-your-mind-about-the-race-for-office",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.chair-asked-and-somebody-has-to-run",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "{chair} asked, and somebody has to run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-made-you-say-yes-to-chair",
+          "requiresFacts": ["chair"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-didn-t-think-i-could-win-the-race-for-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I didn't think I could win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-made-you-tell-chair-no",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-don-t-know-if-i-can-win-the-race-for-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I don't know if I can win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-s-holding-you-back-from-running-for-office",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.whether-i-can-win-the-race-for-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Whether I can win the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-do-you-need-to-know-before-you-answer-chair",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.knock-on-every-door-then-knock-again",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Knock on every door, then knock again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-did-you-learn-winning-that-one",
+          "requiresFacts": ["won-before"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.start-sooner-knock-on-more-doors",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Start sooner. Knock on more doors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-would-you-do-differently-this-time",
+          "requiresFacts": ["lost-before"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-think-i-d-do-right-by-place",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I think I'd do right by {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-draws-you-to-the-race-for-office",
+          "requiresFacts": ["office", "place"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.knowing-enough-people-would-vote-for-me-for-office",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Knowing enough people would vote for me for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "scene-talk.follow-ask.what-would-make-you-sure-about-running-for-office",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-haven-t-worked-that-out-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I haven't worked that out yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.with-respect-that-s-mine-to-work-out",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "With respect, that's mine to work out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think-before-i-answer-that",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think before I answer that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-d-like-that-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I'd like that. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "promise",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "promise",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll call you once I've decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "promise",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-you-know-more-than-most-who-run-for-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then you know more than most who run for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-go-meet-people-that-s-the-work",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then go meet people. That's the work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "answer",
+          "requiresFacts": ["chance-thin", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-run-hard-for-office-and-call-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. Run hard for {office}, and call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "disagree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.call-me-before-you-tell-anybody-besides-chair",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Call me before you tell anybody besides {chair}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["chair"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-around-call-me-about-the-race-for-office",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be around. Call me about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.whatever-you-decide-about-running-call-me-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Whatever you decide about running, call me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-let-files-by-sneak-up-on-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't let {files-by} sneak up on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["files-by"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-decide-about-running-for-office-alone",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't decide about running for {office} alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.filing-closes-files-by-don-t-wait-on-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Filing closes {files-by}. Don't wait on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["files-by"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-hard-about-running-for-office-then-call-me",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think hard about running for {office}, then call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.take-your-time-call-me-when-you-ve-decided",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Take your time. Call me when you've decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "party-mentor",
+          "after": "leave",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "party-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-worked-at-employer-for-mentor-years",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has worked at {employer} for {mentor-years}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer", "mentor-years"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-taken-you-under-a-wing-at-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has taken you under a wing at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.new-at-employer-come-find-me-when-it-gets-confusing",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "New at {employer}? Come find me when it gets confusing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-you-re-the-new-job",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So you're the new {job}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.sleep-before-a-night-shift-not-after",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Sleep before a night shift, not after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["nights"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.ask-about-the-pay-later-get-good-at-the-work-first",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Ask about the pay later. Get good at the work first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["pay-low"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.here-s-what-nobody-tells-a-new-job-ask-questions-early",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Here's what nobody tells a new {job}: ask questions early.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.employer-runs-better-when-you-ask-before-you-guess",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{employer} runs better when you ask before you guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-been-here-mentor-years-ask-me-anything-anytime",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've been here {mentor-years}. Ask me anything, anytime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["mentor-years"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-did-it-take-you-to-settle-in-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long did it take you to settle in at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-the-hardest-part-of-the-job-job",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's the hardest part of the {job} job?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-i-ll-take-any-help-i-can-get",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll take any help I can get.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-need-employer-to-work-out",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I need {employer} to work out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.night-shifts-are-new-to-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Night shifts are new to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["nights"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-can-t-wait-long-to-ask-about-pay",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I can't wait long to ask about pay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["pay-low"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-d-rather-figure-employer-out-on-my-own",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'd rather figure {employer} out on my own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.longer-than-you-d-think-i-ve-been-here-mentor-years-now",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Longer than you'd think. I've been here {mentor-years} now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-ask.how-long-did-it-take-you-to-settle-in-at-employer",
+          "requiresFacts": ["mentor-years"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-comes-give-it-some-time",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It comes. Give it some time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-ask.how-long-did-it-take-you-to-settle-in-at-employer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.learning-who-to-ask-after-that-it-s-just-work",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Learning who to ask. After that, it's just work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-ask.what-s-the-hardest-part-of-the-job-job",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.ask-too-soon-and-you-re-the-new-one-who-asked",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Ask too soon and you're the new one who asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-disagree.i-can-t-wait-long-to-ask-about-pay",
+          "requiresFacts": ["pay-low"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.suit-yourself-just-ask-before-you-guess",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Suit yourself. Just ask before you guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "disagree",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-my-door-s-open",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. My door's open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "disagree",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-walk-you-through-it-this-week",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll walk you through it this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "thank",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-would-make-this-one-stick-for-you",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What would make this one stick for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-tell.i-need-employer-to-work-out",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-are-you-sleeping-on-nights",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How are you sleeping on nights?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-tell.night-shifts-are-new-to-me",
+          "requiresFacts": ["nights"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-part-of-the-work-worries-you-most",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What part of the work worries you most?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-helps-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That helps. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-keep-that-in-mind",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll keep that in mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ll-find-my-own-way-i-think",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'll find my own way, I think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-back-to-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get back to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.fair-thanks-for-the-warning",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Fair. Thanks for the warning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "press",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-back-to-work",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get back to work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "press",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-should-i-ask-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who should I ask first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "press",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ll-take-my-chances",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'll take my chances.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "press",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.me-then-whoever-s-been-here-longest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Me. Then whoever's been here longest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.reply-ask.who-should-i-ask-first",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.steady-hours-and-fair-pay",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Steady hours and fair pay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.follow-ask.what-would-make-this-one-stick-for-you",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.not-well-yet-i-m-working-on-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Not well yet. I'm working on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.follow-ask.how-are-you-sleeping-on-nights",
+          "requiresFacts": ["nights"]
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.getting-something-wrong-in-front-of-everyone",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Getting something wrong in front of everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "scene-talk.follow-ask.what-part-of-the-work-worries-you-most",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-still-figuring-it-out",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm still figuring it out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-think-about-that",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me think about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-d-rather-keep-that-to-myself",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'd rather keep that to myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "disagree",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-find-you-after-my-shift",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll find you after my shift.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "promise",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-you-ll-do-fine-here",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You'll do fine here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "answer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-you-ll-learn-it-your-own-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. You'll learn it your own way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "disagree",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.find-me-if-anything-trips-you-up",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Find me if anything trips you up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-check-on-you-at-the-end-of-the-week",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll check on you at the end of the week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "promise",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.suit-yourself-you-know-where-i-am",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Suit yourself. You know where I am.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-guess-ask",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't guess. Ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.ask-before-you-guess",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Ask before you guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "work-mentor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-i-ll-see-you-on-shift",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. I'll see you on shift.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "work-mentor",
+          "after": "leave",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead's builder, Opus",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "work-mentor"
       }
     }
   ]

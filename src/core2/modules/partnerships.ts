@@ -56,6 +56,7 @@ import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { inGroupQuarters, livesElsewhere } from "./moves";
 import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
+export { WORK_MENTORSHIP } from "./mentorship";
 import { rescueOnset } from "./rescue";
 import { quarrelOverMoney } from "./quarrel";
 import {

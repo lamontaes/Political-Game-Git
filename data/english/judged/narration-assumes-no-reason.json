@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "narration-assumes-no-reason",
   "rubric": "Narration never gives the player a reason or a history they were not given (why they came, what forms they carry).",
-  "judged": 480,
+  "judged": 479,
   "no": {
     "04nu70cpu2j": {
       "keys": [
@@ -17,5 +17,5 @@
       "why": "Claims the player has things to settle with this person, an intent not given."
     }
   },
-  "yesHash": "28hx4iy9783"
+  "yesHash": "00eba8oskck"
 }

@@ -740,6 +740,97 @@ export function decisionOf(
   );
 }
 
+/**
+ * The term serving a contest's seat today, the incumbent the weighing reads:
+ * whoever serves the seat now, so a member seated by a special election after
+ * the contest was recorded is its incumbent; else the term the contest names,
+ * while it is still served. Undefined for an open seat.
+ */
+export function contestIncumbent(
+  api: CoreAPI,
+  contest: ContestRow,
+): TermRow | undefined {
+  const incumbent = seatTermOf(api, contest);
+  return incumbent?.status === "serving" ? incumbent : undefined;
+}
+
+/** Whoever serves a contest's seat today, else the term the contest names (served or not). */
+function seatTermOf(api: CoreAPI, contest: ContestRow): TermRow | undefined {
+  const termTable = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const incumbent =
+    (
+      termTable.query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+    )[0] ??
+    (contest.incumbentTermId
+      ? (termTable.get(contest.incumbentTermId) as unknown as
+          TermRow | undefined)
+      : undefined);
+  return incumbent;
+}
+
+/**
+ * A person's own read of their chance in a contest, 0 to 1, by the weighing's
+ * one rule (`reasonsFrom`'s `chance` before its weight): their standing against
+ * a sitting holder's, shared with those already running, plus the hope their
+ * ambition adds. Read for someone the weighing passes over (the player, whose
+ * choices are their own), so a scene can say how the race looks to them; null
+ * where the contest or the person is not on record, and for a state or
+ * federal race, whose standing the weighing reads from the state's pool.
+ */
+export function ownChanceIn(
+  api: CoreAPI,
+  personId: PersonId,
+  contestId: string,
+): number | null {
+  if (
+    !api.state.modules.has(ELECTIONS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return null;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  const person = api.state.people.get(personId);
+  // A state or federal race weighs standing from the state's whole pool
+  // (`weighContest`, `standingPool`), which this read does not build: no
+  // chance is read for one.
+  if (
+    !contest ||
+    !person ||
+    contest.level === "state" ||
+    contest.level === "federal"
+  )
+    return null;
+  const holderId = contestIncumbent(api, contest)?.personId as
+    PersonId | null | undefined;
+  const runners = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byContest", [contest.id]) as unknown as FilingRow[]
+  ).filter(
+    (row) =>
+      row.personId !== personId &&
+      row.status !== "withdrawn" &&
+      row.status !== "short",
+  ).length;
+  const reasons = candidacyReasons(api, person, {
+    contestId: contest.id,
+    officeName: contest.title,
+    filingDeadline: contest.filingDeadline,
+    ...(holderId && holderId !== personId ? { incumbentId: holderId } : {}),
+    runners,
+    sourceIds: [contest.id],
+  });
+  return (
+    (reasons.chance ?? api.parameter("zero")) / c(api, "candidacyChanceWeight")
+  );
+}
+
 /** A contest the town's adults weighed, who was asked, who ran and when they filed. */
 export interface WeighedContest {
   readonly id: string;
@@ -962,21 +1053,7 @@ export function weighContest(
   /** Those who stayed out weigh it again from today's record (filing opens). */
   reconsider = false,
 ): WeighedContest {
-  // Whoever serves the seat today, so a member seated by a special election
-  // after the contest was recorded is its incumbent; else the term the
-  // contest names.
-  const termTable = api.moduleState(OFFICES_MODULE_ID).table("terms");
-  const incumbent =
-    (
-      termTable.query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-    )[0] ??
-    (contest.incumbentTermId
-      ? (termTable.get(contest.incumbentTermId) as unknown as
-          TermRow | undefined)
-      : undefined);
+  const incumbent = seatTermOf(api, contest);
   const incumbentId =
     incumbent?.status === "serving"
       ? (incumbent.personId ?? undefined)
@@ -1885,6 +1962,41 @@ function askNextAfterRefusal(
   const rules = filingRulesFor(api, contest, "party");
   if (api.state.date > (rules.deadline ?? contest.filingDeadline)) return;
   askForCandidates(api, contest, String(ask.facts?.partyId ?? ""));
+}
+
+/**
+ * How a person answered a party's ask: by their decision where it stands on
+ * the ask ("yes" to run, else "no"), else by the reply in the ask's own scene,
+ * read with the moves the party reads (`answerPartyAsk`): "no" for a decline,
+ * "not-now" for a stall. Null where no answer is on record yet. With the
+ * record that holds it.
+ */
+export function partyAskAnswer(
+  api: CoreAPI,
+  askId: string,
+  personId: PersonId,
+): {
+  readonly answer: "yes" | "no" | "not-now";
+  readonly recordId: string;
+} | null {
+  const ask = api.state.durableLog.get(askId);
+  const contestId = String(ask?.facts?.contestId ?? "");
+  const decision = contestId ? decisionOf(api, contestId, personId) : null;
+  // A member the party's weighing decided for (`decideAsked`) answered by
+  // that decision; the player answers in the scene (`answerPartyAsk`).
+  if (decision?.sourceIds.includes(askId))
+    return { answer: decision.run ? "yes" : "no", recordId: decision.id };
+  // The reply the person gave in the ask's own scene, the latest one.
+  let said: { answer: "no" | "not-now"; recordId: string } | null = null;
+  for (const id of api.state.logByKind.get("scene.reply") ?? []) {
+    const reply = api.state.durableLog.get(id);
+    if (reply?.facts?.causeId !== askId || !reply.personIds.includes(personId))
+      continue;
+    const move = String(reply.facts?.move ?? "");
+    if (REFUSING_MOVES.has(move))
+      said = { answer: move === "stall" ? "not-now" : "no", recordId: id };
+  }
+  return said;
 }
 
 function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
