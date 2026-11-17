@@ -470,7 +470,14 @@ export function housingPast(
     const homes = owned.filter((row) => row.placeId === placeId);
     const latest = new Map<
       number,
-      { date: string; id: string; rent: number; value: number }
+      {
+        date: string;
+        id: string;
+        rent: number;
+        value: number;
+        renters: number;
+        owners: number;
+      }
     >();
     for (const date of [...dates].sort()) {
       const renting = rented.filter((row) => row.since <= date);
@@ -498,7 +505,14 @@ export function housingPast(
           "The middle rent of the leases running that day and the middle value of the homes owned then, among the households living in the town on day one.",
         ),
       });
-      latest.set(Number(date.slice(0, 4)), { date, id, rent, value });
+      latest.set(Number(date.slice(0, 4)), {
+        date,
+        id,
+        rent,
+        value,
+        renters: renting.length,
+        owners: owning.length,
+      });
     }
     // The year's last reading is its December (the registry's fold); the last day is day one's.
     for (const [year, row] of latest)
@@ -508,9 +522,11 @@ export function housingPast(
         date: row.date,
         closed: year < startYear,
         recordId: row.id,
+        // A year with no lease running, or no home owned, has no median: the
+        // figure is unknown, never zero.
         values: {
-          "housing.typical-rent": row.rent,
-          "housing.home-prices": row.value,
+          ...(row.renters > 0 ? { "housing.typical-rent": row.rent } : {}),
+          ...(row.owners > 0 ? { "housing.home-prices": row.value } : {}),
         },
       });
   }

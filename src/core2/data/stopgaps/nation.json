@@ -86,11 +86,11 @@
     "kind": "estimated-parameter",
     "file": "src/core2/data/climate/emissions.json",
     "line": 1,
-    "whatItFakes": "The rest of the world's fossil CO2 follows a straight line between three published points (38.1 Gt in 2025, 35 in 2035, 30 in 2050, held flat after) and does not respond to any other country's law, price or event; its spread (flat near 38 Gt under current policies) is not run.",
+    "whatItFakes": "The rest of the world's CO2 is a steady yearly trend each world draws from its seed within the scenarios' span; it does not respond to any country's law, price or event.",
     "why": "No year-by-year published scenario path was reachable; the IEA pages returned 403 and the points come from a search summary.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The IEA or IPCC scenario table by year, with other countries' own laws moving their share.",
+    "replacement": "Replaced Nov 17, 2026: the published scenario path is gone (pool item world-climate-rest-of-world-own-path). Other countries' own laws moving their share is the open part.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage (Nov 10, 2026)"

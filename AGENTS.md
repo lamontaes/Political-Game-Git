@@ -163,6 +163,16 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `words-engine`: the English engine and the director, speeches from the one planner, reading a term by policy area
 - `words-stamp-read`: how a words reader reads a pull request before it folds, and what a builder sends to get that read
 
+## Claude sessions
+
+CLAUDE.md is the one line `@AGENTS.md` (owner, Nov 17, as Anthropic recommends); these notes are for Claude sessions only.
+
+- **Project threads and cloud sessions do not load skills** (#9876). Anthropic's docs (Nov 17, 2026) say they load CLAUDE.md, and so this file, but not `.claude/skills`, hooks or settings. Before building, open these as files and read them: `.claude/skills/done-proof/SKILL.md` and the SKILL.md for your job, including its Gotchas section. Find the job's skill by its folder name in `.claude/skills/`.
+- **Skills load on demand** in local sessions. Skills live in `.agents/skills/` and are mirrored byte for byte in `.claude/skills/`; edit both, or `npm run test:skill-ops` fails. `civic-prose` is a development-time authoring process, never model calls in shipped play.
+- **Owner reports and PR bodies** follow `civic-reports`. Run `npm run report:check -- <file>` before sending one.
+- **Sub-agents** in `.claude/agents/` serve the prose and report skills. Give any other helper a bounded brief (see "Models, effort and helpers").
+- **Context.** Work one pool item at a time and write findings into the PR body, the item's Notes or the job's report, not only into the conversation. Skip ritual duplicate checks and whole-project rediscovery: read the item, its files and the rule it names.
+
 ## Implementation boundaries
 
 - Simulation code is pure TypeScript, independent of DOM and external APIs.

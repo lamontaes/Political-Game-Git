@@ -37,6 +37,13 @@
       "source": "Coverage, a party label and the ballot itself reach voters even for a candidate who spends nothing, so spending counts from a floor of this share of the typical race's spending. Checked against Jacobson's finding that challengers spending almost nothing still win about a third of the two-party vote in districts their party could compete in.",
       "spread": [0.01, 0.2]
     },
+    "timeForChangeShare": {
+      "value": 0.0543,
+      "tag": "SOURCED",
+      "role": "coefficient",
+      "source": "The two-party share a party loses when it seeks a third straight term or more in the White House, against one seeking its second (the time-for-change factor): -5.432 points of the major-party vote, standard error 2.092, over 18 presidential elections 1932 to 2004, with incumbency in the same model 0.613 and not significant (Abramowitz, 'Forecasting the 2008 Presidential Election with the Time-for-Change Model', PS: Political Science & Politics 41(4), 2008, pp. 691-695, doi 10.1017/S1049096508081249, Table 3). Read only in a race for President (electorate-inputs.ts candidateReasons, from partyTermsHeld).",
+      "spread": [0.0125, 0.096]
+    },
     "approvalVoteShare": {
       "value": 0.003,
       "tag": "ESTIMATED",

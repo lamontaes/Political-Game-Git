@@ -36,7 +36,7 @@ describe(`chair hears it: ${where}`, () => {
               bodyOfficeId: body.id,
               sponsorId: body.members[0]!.key,
               series: "minimum-wage",
-              value: 30 + n / 10,
+              value: 30 + n,
             }).bill;
           const first = make();
           if (first.status === "blocked") break;
