@@ -10,7 +10,7 @@
  * engine's; this engine records who heard it and what it did.
  *
  * Word of what someone did spreads the same way (CTO, Nov 17: "word of what you did spreads
- * from the people who saw it"). An act on the list people talk about (`data/speech/word-kinds.json`)
+ * from the people who saw it"). An act on the list people talk about (`src/core2/data/speech/word-kinds.json`)
  * is weighed by each of those who saw it with the same choice, from how hard it struck them;
  * a retelling reaches the same people, and each hearer who believes it learns who told them
  * (`word:<event>:heardFrom`) and is a witness of it at one remove (`word.retold`), which the

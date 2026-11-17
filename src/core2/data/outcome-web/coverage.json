@@ -493,7 +493,11 @@
     },
     "retirement-age-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "src/core2/modules/retirement-claims.ts reads the claim ages in the law row (src/core2/social-security-law.ts)"
+      "carriedBy": "src/core2/modules/retirement-claims.ts reads the full retirement age in the law row in force (socialSecurityAges, src/core2/social-security-law.ts) at each claim, so a later full age cuts each award at its claim age; src/core2/world-poverty.ts counts the award as the household's income"
+    },
+    "earliest-claim-age-to-older-work": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts: retirementOnsetYears reads the earliest claim age in the law row in force (socialSecurityAges) each day, and the retire choice starts to pull on a worker only from that age; src/core2/modules/retirement-claims.ts holds every claim at or after it"
     },
     "immigration-to-crime": {
       "waitingOn": ["crime.rate-index"]

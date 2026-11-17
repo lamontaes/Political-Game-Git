@@ -620,7 +620,8 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   it("every play reader of those tables reads the world's factor", () => {
     for (const file of [
       "births-counted.ts",
-      "modules/counted-moves.ts",
+      // counted-moves.ts reads no ACS mover table since Pins family 29: its
+      // rates are the country tier's, its arrivals from abroad the tier's month.
       "modules/health.ts",
       "modules/moves.ts",
       "school-outcomes.ts",
@@ -908,6 +909,20 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       const named = [...core.people.keys()].flatMap((id) =>
         schoolsAttended(core, id).filter((row) => row.name),
       );
+      // A town whose opening holds no school district of its own (its
+      // children went to another place's schools, which the world keeps no
+      // organization for: the Nov 10 ruling, "the estimate stays as the game's
+      // answer") has no school to name, so the claim is shown only where the
+      // world holds a district; the place is named when it is passed over.
+      const district = [...core.organizations.values()].some(
+        (org) => org.classification === "service:school",
+      );
+      if (!district) {
+        process.stdout.write(
+          `${where} row 37: no school district organization in this world; ${[...core.people.keys()].flatMap((id) => schoolsAttended(core, id)).length} school years are unnamed by the Nov 10 ruling\n`,
+        );
+        continue;
+      }
       expect(named.length, `${where} row 37: named schools`).toBeGreaterThan(0);
       for (const row of named)
         expect(
@@ -917,10 +932,11 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     const first = [...a.people.keys()]
       .flatMap((id) => schoolsAttended(a, id).filter((row) => row.name))
-      .at(0)!;
-    process.stdout.write(
-      `SCHOOLS ${where}: ${first.recordId} names ${first.name} (${first.schoolId})\n`,
-    );
+      .at(0);
+    if (first)
+      process.stdout.write(
+        `SCHOOLS ${where}: ${first.recordId} names ${first.name} (${first.schoolId})\n`,
+      );
   });
 
   it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {

@@ -10,7 +10,8 @@
  */
 import exempt from "./data/laws/minimum-wage-exempt.json" with { type: "json" };
 import { lawApplied } from "./law-reach/applied";
-import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
+import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./modules/laws";
+import { placeStateKey } from "./place-map";
 import { residentsRuntime } from "./modules/residents";
 import { countedJobHeads, rerateCountedJobs } from "./residents-economy";
 import type { LawRowInput } from "./laws-starting";
@@ -216,4 +217,29 @@ export function raiseOne(
     },
   });
   return true;
+}
+
+/**
+ * The minimum wage in force where a job is, in dollars an hour: the higher of
+ * the state's and the federal floor in force today (local minimums are not
+ * modeled in pay), so a minimum wage a body enacts moves what new hires
+ * anywhere in the state are offered. Null where the world keeps no laws.
+ */
+export function minimumHourlyAt(api: CoreAPI, placeId: string): number | null {
+  // A world with no laws engine keeps no law in force, so no floor (the offer
+  // is the market's, as before the law was read).
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return null;
+  const stateKey = placeStateKey(placeId);
+  const answer = stateKey
+    ? stateLawInForce(api, stateKey, "minimum-wage")
+    : lawInForce(api, "minimum-wage");
+  let floor: number | null = null;
+  for (const level of answer.levels)
+    if (
+      (level.level === "state" || level.level === "federal") &&
+      !level.setAside &&
+      typeof level.row?.value === "number"
+    )
+      floor = Math.max(floor ?? 0, level.row.value);
+  return floor === null ? null : floor / api.parameter("minorPerDollar");
 }
