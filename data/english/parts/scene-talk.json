@@ -190166,17 +190166,6 @@
           "key": "threat",
           "requiresFacts": ["wanted"],
           "excludesFacts": ["took-it", "owned"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deny",
-          "role": "asked",
-          "purpose": "conflict-accuse.hearsay",
-          "key": "threat",
-          "requiresFacts": ["wanted", "took-it"],
-          "excludesFacts": ["owned"],
-          "setsFacts": ["lied"]
         }
       ],
       "origin": "authored",
@@ -190202,6 +190191,32 @@
           "key": "threat",
           "requiresFacts": ["complaint-of"],
           "excludesFacts": ["took-it", "owned"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.no-nobody-paid-anyone-anything-on-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "No. Nobody paid anyone anything on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "requiresFacts": ["wanted", "took-it"],
+          "excludesFacts": ["owned"],
+          "setsFacts": ["lied"]
         }
       ],
       "origin": "authored",
@@ -191788,7 +191803,22 @@
           "key": "threat",
           "requiresFacts": ["wanted"],
           "excludesFacts": ["took-it", "owned"]
-        },
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "reply",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deny.it-isn-t-true-i-never-touched-money-for-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "It isn't true. I never touched money for {wanted}.",
+      "uses": [
         {
           "subject": "scene",
           "step": "reply",

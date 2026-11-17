@@ -354,13 +354,15 @@ let takenCrime: { id: string; offererId: string } | null = null;
   const reply = answer(playerId, causeId, "bribe-offer", "took-it");
   console.log(`   > the player's answer through the reply writer: ${reply}`);
   day(2);
+  // The engine reads the reply on its next sitting; wait a few days for it.
+  for (let n = 0; n < 8 && crimeRecord(api, record.id)?.pending; n += 1) day(1);
   const crime = crimeRecord(api, record.id)!;
   console.log(
     `   crime ${crime.id}: offered ${crime.offered}, taken ${crime.taken}, pending ${crime.pending ?? false}`,
   );
   // Colleagues are told: the closest friend first, the rest as they come.
   const told = colleagues.filter((id) => id !== offerer.id).slice(0, 6);
-  if (told[0]) befriend(told[0]);
+  for (const id of told.slice(0, 2)) befriend(id);
   for (const id of told) tellOf(crime.id, offerer.id, id);
   day(1);
   const ids = accusationsOf(crime.id);

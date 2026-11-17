@@ -47,6 +47,12 @@ const accuseUses = (part: Part) =>
   part.uses.filter((use) => String(use.purpose).startsWith("conflict-accuse"));
 
 /** Every line of a tree with the move of the player's last reply before it. */
+type WalkRow = {
+  text: string;
+  part: string;
+  step: string;
+  last: string | null;
+};
 function walk(
   node: TreeNode,
   last: string | null,
@@ -247,9 +253,11 @@ it(`a denial is a lie only where the bribe was taken, the confession needs the t
       const entry = book.schedule.find(
         (row) => book.momentsById.get(row.momentId)?.causeId === id,
       );
-      const result = entry
-        ? purposeScene(core, director, me, entry, { typeKey: "accusation" })
-        : null;
+      // A complaint from a seat held by someone outside the played town stages no scene.
+      if (!entry) continue;
+      const result = purposeScene(core, director, me, entry, {
+        typeKey: "accusation",
+      });
       expect(result?.kind, `${where}: ${id}`).toBe("composed");
       if (result?.kind !== "composed") continue;
       const facts = new Map(result.scene.facts.map((f) => [f.key, f]));
@@ -276,14 +284,22 @@ it(`a denial is a lie only where the bribe was taken, the confession needs the t
         (row) => row.step === "reply" && row.last === "deny",
       );
       for (const row of denials) {
-        const sets = accuseUses(BY_KEY.get(row.part)!).some((use) =>
-          use.setsFacts?.includes("lied"),
+        // The lie sets `lied`; a denial of only part of it comes after the player owned the taking.
+        const sets = accuseUses(BY_KEY.get(row.part)!).some(
+          (use) =>
+            use.setsFacts?.includes("lied") ||
+            use.requiresFacts?.includes("owned"),
         );
         expect(
           sets,
           `${where}: "${row.text}" is a truthful denial offered to a taker`,
         ).toBe(true);
-        lies += 1;
+        if (
+          accuseUses(BY_KEY.get(row.part)!).some((use) =>
+            use.setsFacts?.includes("lied"),
+          )
+        )
+          lies += 1;
       }
       const caught = (node: TreeNode): boolean =>
         node.replies.some(
@@ -313,6 +329,77 @@ it(`a denial is a lie only where the bribe was taken, the confession needs the t
         }
     }
     expect(lies, where).toBeGreaterThan(0);
+    // The player who offered a bribe that was refused: nothing was taken, so no one is
+    // offered the confession, and a denial of a payment is not a lie.
+    day(95);
+    core.people.get(me)!.liquidMinor = 5_000_000;
+    const official = sitting.find((id) => id !== me && id !== told[0])!;
+    const refused = dev.forceBribe({
+      offererId: me,
+      officialId: official,
+      subjectId: draft(),
+      stakeMinor: 2_000_000,
+      answer: "refuses",
+    }).record;
+    day(3);
+    for (const id of told.filter((id) => id !== official))
+      api.emit({
+        id: `${refused.id}:told:${official}:${id}:${core.date}`,
+        date: core.date,
+        kind: "crime.told",
+        personIds: [id],
+        witnessIds: [official as PersonId],
+        placeId: core.people.get(me)!.placeId,
+        facts: { [`crime:${refused.id}`]: "bribe-taken" },
+        source: {
+          tag: "SOURCED",
+          citation: "A party to a recorded bribe told someone.",
+          asOf: core.date,
+        },
+      });
+    day(1);
+    expect(crimeRecord(api, refused.id)?.taken, where).toBe(false);
+    let clean = 0;
+    for (const id of [...(core.logByKind.get("justice.accused") ?? [])].filter(
+      (row) => row.includes(`:${refused.id}:`),
+    )) {
+      const entry = book.schedule.find(
+        (row) => book.momentsById.get(row.momentId)?.causeId === id,
+      );
+      if (!entry) continue;
+      const result = purposeScene(core, director, me, entry, {
+        typeKey: "accusation",
+      });
+      if (result?.kind !== "composed") continue;
+      expect(
+        result.scene.facts.some((f) => f.key === "took-it"),
+        where,
+      ).toBe(false);
+      const rows: WalkRow[] = [];
+      walk(result.scene.talk.tree, null, rows);
+      for (const row of rows) {
+        expect(
+          row.text,
+          `${where}: a confession offered with nothing taken`,
+        ).not.toMatch(/\bI took it\b/);
+      }
+      // With nothing taken no reply is a lie, so the tree has no believed-or-caught branch.
+      const branched = (node: TreeNode): boolean =>
+        node.replies.some(
+          (reply) =>
+            !!reply.next &&
+            (!!reply.next.branches?.length || branched(reply.next)),
+        );
+      expect(
+        branched(result.scene.talk.tree),
+        `${where}: a denial of nothing taken is a lie`,
+      ).toBe(false);
+      clean += 1;
+    }
+    expect(
+      clean,
+      `${where}: no complaint on the refused offer`,
+    ).toBeGreaterThan(0);
     proven = true;
     process.stdout.write(
       `ACCUSATION READS ${where}: crime ${crime.id}; ${accusedIds.length} complaints; denials all lies and caught\n`,
