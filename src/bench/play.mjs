@@ -85,6 +85,7 @@ import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
 import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
+import { metricsBoard } from "./ui/metrics-board.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
@@ -4425,41 +4426,40 @@ const sheets = {
     const view = await api("/api/metrics");
     const words = controls.metrics;
     const figure = (row, value) => metricsFigure(row, value, words.percent);
-    const sections = view.sections.map((section, at) =>
-      stripSection(
-        at + 1,
+    // Layout A (owner, Nov 12): the areas at the left, the chosen one's figures,
+    // its years table, and a row's timeline. Every figure is the record's.
+    const board = metricsBoard({
+      title: words.title,
+      sections: view.sections.map((section) => ({
+        key: section.key,
         // A section that shows one government's books is headed by that government's name.
-        section.name ?? words[section.key],
-        ...section.rows.map((row) => {
-          const change = metricsChange(row, words.points);
-          const direction =
-            change.direction === null ? "" : words[change.direction];
-          return typedRow(
-            words[row.key],
-            // A small town's count shows the people behind it ("13 of 86").
-            row.of === undefined
-              ? figure(row, row.now)
-              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
-            row.before === null
-              ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
-          );
-        }),
-      ),
-    );
-    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
-    const columns = [[], [], []];
-    sections.forEach((section, at) => columns[at % 3].push(section));
+        title: section.name ?? words[section.key],
+        rows: section.rows.map((row) => ({
+          ...row,
+          // A small town's count shows the people behind it ("13 of 86").
+          label: words[row.key],
+          years: row.years ?? [],
+        })),
+      })),
+      figure: (row, value) =>
+        row.of === undefined || value !== row.now
+          ? figure(row, value)
+          : `${figure(row, value)} ${words.of} ${figure(row, row.of)}`,
+      change: (row) => {
+        const moved = metricsChange(row, words.points);
+        const direction =
+          moved.direction === null ? "" : words[moved.direction];
+        return [direction, moved.size].filter(Boolean).join(" ");
+      },
+      words: { lastYear: words.lastYear, close: words.close },
+    });
     // Views registered from their own files (ui/dev-views.mjs, slot "metrics"), under the board.
     const devViews = devModeOn()
       ? await devViewNodes("metrics", {
           refresh: () => openSheet("metrics"),
         })
       : [];
-    return [
-      stripBoard({ columns: columns.filter((c) => c.length) }),
-      ...(devViews.length ? [devPanelsRow(...devViews)] : []),
-    ];
+    return [...board, ...(devViews.length ? [devPanelsRow(...devViews)] : [])];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);

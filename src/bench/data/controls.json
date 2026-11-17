@@ -1254,7 +1254,9 @@
     "down": "down",
     "same": "no change",
     "points": "points",
-    "since": "since last year"
+    "since": "since last year",
+    "close": "Close",
+    "title": "Areas"
   },
   "titles": {
     "watch": "Watch",
