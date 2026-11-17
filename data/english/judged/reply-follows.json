@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3113,
+  "judged": 2787,
   "no": {
     "000jt3f972v": {
       "keys": [
@@ -81,13 +81,6 @@
       ],
       "why": "\"That means a lot\" treats a refusal as agreement."
     },
-    "029hlixc6bp": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment"
-      ],
-      "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
-    },
     "02ioaazjfux": {
       "keys": [
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
@@ -164,13 +157,6 @@
         "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
       ],
       "why": "\"The third\" has no referent in A."
-    },
-    "0bqh33eopjl": {
-      "keys": [
-        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
-      ],
-      "why": "A never said B brings up the past; B answers a claim not made."
     },
     "0brt2y5azoo": {
       "keys": [
@@ -305,13 +291,6 @@
       ],
       "why": "Repeating the opening ask ignores the no just given."
     },
-    "0jr9cjjfmfz": {
-      "keys": [
-        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
-        "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours"
-      ],
-      "why": "A agrees to apologize Tuesday; B's remark about paying for projects is unrelated."
-    },
     "0jutidahoca": {
       "keys": [
         "scene-talk.reply-leave.i-need-to-return-these-books-before-they-close",
@@ -339,13 +318,6 @@
         "scene-talk.state-request.can-i-count-on-you-for-bill"
       ],
       "why": "B asks whether they can count on A right after A said not to count them, as if A had not answered."
-    },
-    "0kiemnnltxn": {
-      "keys": [
-        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
-        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
-      ],
-      "why": "A agrees to apologize; B's complaint answers a refusal."
     },
     "0lctwmt3y20": {
       "keys": [
@@ -473,13 +445,6 @@
       ],
       "why": "\"I knew I could count on you\" ignores that A has just said not to count them."
     },
-    "0scxgz8krij": {
-      "keys": [
-        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
-        "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead"
-      ],
-      "why": "A agreed to apologize; B treats it as keeping score"
-    },
     "0tcjnpeoyd9": {
       "keys": [
         "scene-talk.follow-confront.i-will",
@@ -585,13 +550,6 @@
       ],
       "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
-    "0yz4qy6w1i1": {
-      "keys": [
-        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
-        "scene-talk.follow-press.money.sorry-is-easy-first-what-are-you-going-to-do-differently"
-      ],
-      "why": "A already gave the plan; B asks what they will do differently."
-    },
     "0z1z35dcrt3": {
       "keys": [
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
@@ -626,13 +584,6 @@
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet"
       ],
       "why": "A asks B to stay away from the vote, and B's reply about how they voted last time does not take that up."
-    },
-    "10z13s7t10k": {
-      "keys": [
-        "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
-        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me"
-      ],
-      "why": "A made no accusation; B excuses itself as if accused."
     },
     "11n04ca32jo": {
       "keys": [
@@ -738,13 +689,6 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A has already accepted the no and thanked B, so telling A to let it go does not follow."
-    },
-    "19362ljis5q": {
-      "keys": [
-        "scene-talk.reply-apologize.you-re-right-i-ll-stand-up-and-say-it-in-front-of-everyone",
-        "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside"
-      ],
-      "why": "A agreed to apologize in public; B treats it as a parking-lot apology."
     },
     "1af7w7ij4e6": {
       "keys": [
@@ -1138,13 +1082,6 @@
       ],
       "why": "A grants B's amendment and calls it a deal; B ignores the deal and repeats an old no."
     },
-    "1vs9mf7vf98": {
-      "keys": [
-        "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight",
-        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
-      ],
-      "why": "A never said B brings up the past; B answers a claim not made."
-    },
     "1vzwp3uhj7g": {
       "keys": [
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
@@ -1431,21 +1368,7 @@
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
       ],
       "why": "A says they changed their mind; a no with no correction does not follow."
-    },
-    "10jrh1fglio": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
-        "scene-talk.reply-agree.all-right-i-ll-do-it"
-      ],
-      "why": "A asks what would change their mind; B says 'I'll do it' as if asked to act."
-    },
-    "1c61qwtv5v6": {
-      "keys": [
-        "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in"
-      ],
-      "why": "A asks what changes; B agrees as if A made a case."
     }
   },
-  "yesHash": "0zqh6ukqlb5"
+  "yesHash": "1kt46xecdd3"
 }
