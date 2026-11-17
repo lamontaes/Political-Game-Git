@@ -245,7 +245,7 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         ? century.presidencies
             .map(
               (p) =>
-                `${p.year} ${p.winnerSide > 0 ? "R" : "D"}${p.incumbentRan ? " (sitting President ran)" : ""} ${pct(p.republicanShare)} R, electors ${p.electoral.republican}-${p.electoral.democratic}`,
+                `${p.year} ${p.winnerSide > 0 ? "R" : "D"}${p.incumbentRan ? " (sitting President ran)" : ""} ${pct(p.republicanShare)} R, electors ${p.electoral.republican}-${p.electoral.democratic}${p.timeForChange.side ? `, time for a change cost the ${p.timeForChange.side > 0 ? "R" : "D"} ticket ${pct(p.timeForChange.share)}` : ""}`,
             )
             .join("; ")
         : "none (today's real record)",

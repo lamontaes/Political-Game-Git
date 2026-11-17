@@ -110,6 +110,12 @@ export interface CenturyPresidency {
     readonly republican: number;
     readonly democratic: number;
   };
+  /**
+   * The time-for-change reason in this race: the side it weighed against (the party seeking a
+   * third straight term or more) and the share of the two-party vote it cost that side's ticket
+   * (0 and no side where no party had held the office two terms).
+   */
+  readonly timeForChange: { readonly side: number; readonly share: number };
   /** No ticket won a majority of the electors: the sitting party's side held the office. */
   readonly noMajority: boolean;
   /** The race's two-party votes cast. */
@@ -339,10 +345,30 @@ function presidentialElection(
     republicanShare,
     winnerShare: winnerSide > 0 ? republicanShare : 1 - republicanShare,
     electoral: { republican, democratic },
+    timeForChange: timeForChangeOf(field, gap),
     noMajority: majority === 0,
     votes: Math.round(total),
     states,
   };
+}
+
+/** What the time-for-change reason cost each ticket in a race, read from the one race rule. */
+function timeForChangeOf(
+  field: readonly CandidateInputs[],
+  gap: number,
+): { side: number; share: number } {
+  for (const candidate of field) {
+    const reason = candidateReasons(candidate, {
+      cycle: "presidential",
+      federal: true,
+      typicalSpendPerVote: 0,
+      raceVotes: 1,
+      approvalGapPoints: gap,
+      town: null,
+    }).timeForChange;
+    if (reason !== 0) return { side: candidate.side, share: -reason };
+  }
+  return { side: 0, share: 0 };
 }
 
 /** The first Tuesday after the first Monday of November. */
