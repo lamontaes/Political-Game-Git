@@ -99,19 +99,8 @@ if (member) {
   const found = holders.find((id) => {
     core.playerId = id;
     const facts = causeInviteFacts(core, "probe", {}, personLean);
-    const tied = [...(core.relationshipsByPerson.get(id) ?? [])].some((rid) => {
-      const row = core.relationships.get(rid)!;
-      const other = core.people.get(
-        (row.actorId === id ? row.otherId : row.actorId) as PersonId,
-      );
-      return (
-        other?.alive &&
-        other.id.startsWith("person_") &&
-        other.householdId !== core.people.get(id)!.householdId
-      );
-    });
     return anyOffice
-      ? Boolean(facts.meeting) && tied
+      ? Boolean(facts.meeting)
       : Boolean(facts["sitting-that-night"]);
   });
   if (!found) {
@@ -182,7 +171,7 @@ const printTree = (node: TreeNode, ind: string) => {
 };
 
 // The player's own ties, strongest first: the sharers.
-const ties = [...(core.relationshipsByPerson.get(me) ?? [])]
+const ties: PersonId[] = [...(core.relationshipsByPerson.get(me) ?? [])]
   .map((id) => core.relationships.get(id)!)
   .map((row) => (row.actorId === me ? row.otherId : row.actorId))
   .filter((id) => {
@@ -193,7 +182,7 @@ const ties = [...(core.relationshipsByPerson.get(me) ?? [])]
       p.householdId !== core.people.get(me)!.householdId
     );
   })
-  .sort();
+  .sort() as PersonId[];
 const lean = personLean(core.people, core.people.get(me)!, townLean(api));
 const view = (q: string) => viewOn(api, me, q, lean);
 const questions = allQuestions().sort((a, b) => view(b) - view(a));
@@ -225,6 +214,21 @@ const recipes = [
 console.log(
   `# TIES ${ties.length}; views ${recipes.map((r) => `${r.topic}=${view(r.topic).toFixed(2)}`).join(", ")}`,
 );
+if (anyOffice && !ties.length)
+  // A seated official's circle is thin in a new world: any other full resident shares the cause.
+  ties.push(
+    ...([...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.id.startsWith("person_") &&
+          p.id !== me &&
+          p.householdId !== core.people.get(me)!.householdId,
+      )
+      .map((p) => p.id)
+      .sort()
+      .slice(0, 6) as PersonId[]),
+  );
 if (!ties.length) {
   console.log("SKIP: the player has no tie outside the household");
   process.exit(0);

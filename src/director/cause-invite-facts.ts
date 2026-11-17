@@ -14,10 +14,13 @@
  * - `stand-with` or `stand-apart`: where the player stands on the cause's
  *   question or budget line, from their own views, against the way the cause
  *   wants it (`desiredChange`). An illness has no view to read;
+ * - `title`: the office the player holds, as the seat's own record names it
+ *   (the offices engine's town seats), for a line that addresses them by it.
  *
  * Read when the invitation is composed, never on a day tick.
  */
 import { townLean } from "../core2/modules/campaigns";
+import { townSeats } from "../core2/modules/offices";
 import { viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -59,6 +62,14 @@ export function causeInviteFacts(
   if (!playerId) return facts;
   Object.assign(facts, nextMeetingFacts(core));
   const api = coreAPI(core as CoreState);
+  const held = townSeats(coreAPI(core as CoreState)).find(
+    (row) => row.holder?.personId === playerId,
+  );
+  if (held)
+    facts.title = {
+      text: held.office.title,
+      sourceRecordIds: [held.office.id, playerId],
+    };
   const { topic, desiredChange } = said;
   if (
     topic &&

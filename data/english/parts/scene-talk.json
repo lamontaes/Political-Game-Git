@@ -56926,31 +56926,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-was-at-the-back-of-your-town-hall-now-name-is-at-your-office-door",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} was at the back of your town hall. Now {name} is at your office door with a clipboard about {cause}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["heard-you"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.title-have-you-got-a-minute",
       "move": "open-greet",
       "kind": "spoken",
@@ -56967,31 +56942,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.do-you-remember-me-from-the-town-hall",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Do you remember me? From the town hall?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["heard-you"]
-        }
-      ],
-      "bearing": "hopeful",
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -187417,10 +187367,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-re-bringing-cause-to-the-body-meeting-when-come-stand-with-us",
+      "key": "scene-talk.state-request.we-re-at-the-body-meeting-when-on-cause-come-stand-with-us",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We're bringing {cause} to the {body} {meeting-when}. Come stand with us.",
+      "text": "We're at the {body} {meeting-when} on {cause}. Come stand with us.",
       "uses": [
         {
           "subject": "scene",
@@ -187489,6 +187439,38 @@
         }
       ],
       "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.title-we-re-taking-cause-to-the-body-meeting-when-we-d-like-you-in-the",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{title}, we're taking {cause} to the {body} {meeting-when}. We'd like you in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "meeting",
+            "body",
+            "meeting-when",
+            "title",
+            "cause",
+            "cause-public"
+          ]
+        }
+      ],
+      "bearing": "eager",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -187658,6 +187640,32 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.i-ll-be-at-the-body-meeting-when-officials-should-show-up",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be at the {body} {meeting-when}. Officials should show up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "title"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.alright-i-ll-come-to-the-body-meeting-when",
       "move": "reply-agree",
       "kind": "spoken",
@@ -187733,6 +187741,32 @@
         }
       ],
       "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-hold-office-here-i-shouldn-t-lobby-the-body",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I hold office here. I shouldn't lobby the {body}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["title", "body"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -187870,6 +187904,38 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.thank-you-it-matters-that-you-ll-be-there",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It matters that you'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "meeting",
+            "body",
+            "meeting-when",
+            "title",
+            "said-yes"
+          ],
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.you-already-agree-on-cause-come-say-it-where-it-counts",
       "move": "follow-press",
       "kind": "spoken",
@@ -187974,10 +188040,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-we-disagree-on-cause-fair",
+      "key": "scene-talk.follow-accept.fair-enough-the-body-is-open-if-you-change-your-mind",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then we disagree on {cause}. Fair.",
+      "text": "Fair enough. The {body} is open if you change your mind.",
       "uses": [
         {
           "subject": "scene",
@@ -187986,32 +188052,7 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["stand-apart", "cause"],
-          "after": "decline"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-the-door-s-open-if-you-change-your-mind",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. The door's open if you change your mind.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body"],
           "after": "decline"
         }
       ],
@@ -188052,10 +188093,64 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-see-how-my-week-looks",
+      "key": "scene-talk.reply-agree.then-i-ll-come-it-s-part-of-the-job",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'll come. It's part of the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "title"],
+          "after": "answer",
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-sit-in-the-back-and-listen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll sit in the back and listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "title"],
+          "after": "press",
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-see-if-meeting-when-works",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me see how my week looks.",
+      "text": "Let me see if {meeting-when} works.",
       "uses": [
         {
           "subject": "scene",
@@ -188064,6 +188159,7 @@
           "role": "asked",
           "purpose": "join-cause",
           "key": "favor-asked",
+          "requiresFacts": ["meeting-when"],
           "after": "answer"
         }
       ],
@@ -188077,10 +188173,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-think-about-it-i-m-not-promising",
+      "key": "scene-talk.reply-leave.i-ll-think-about-meeting-when-i-m-not-promising",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll think about it. I'm not promising.",
+      "text": "I'll think about {meeting-when}. I'm not promising.",
       "uses": [
         {
           "subject": "scene",
@@ -188089,6 +188185,7 @@
           "role": "asked",
           "purpose": "join-cause",
           "key": "favor-asked",
+          "requiresFacts": ["meeting-when"],
           "after": "press"
         }
       ],
