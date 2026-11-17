@@ -42088,6 +42088,86 @@
       "origin": "authored",
       "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
       "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.other-work-reply-at.out-of-town-im-position",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "Out of town. I'm {position}.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.work-not-around-here",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "I'm {position}. The work's not around here.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.i-drive-out-for-it",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "I drive out of town for it. I'm {position}.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.other-work-reply-at.over-in-work-place",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "Over in {work_place}. I'm {position} there.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["work-out-of-town", "position", "work-place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
     }
   ]
 }
