@@ -2,8 +2,332 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1,
+  "judged": 65,
   "no": {
+    "00t15ub627r": {
+      "keys": [
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+        "scene-talk.follow-ask.what-s-been-hardest-since-employer-let-you-go"
+      ],
+      "why": "No reply carried a reason: 'Alright. I'll sign for county commissioner right here.' is a short commitment with no reason."
+    },
+    "01drw9fp4gq": {
+      "keys": [
+        "scene-talk.state-request.tell-me-you-re-a-yes-on-bill-and-i-can-stop-counting-you",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "01twp7ijl1g": {
+      "keys": [
+        "scene-talk.state-ask.your-amendment-is-in-bill-are-you-still-with-me",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-withdraw.i-ve-thought-it-over-i-can-t-vote-for-bill-after-all",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "032a5776kyj": {
+      "keys": [
+        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'What would you do first about a long illness?', is a question."
+    },
+    "03fqlqzhild": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "08tg4gysbpy": {
+      "keys": [
+        "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0aaf7o0rb76": {
+      "keys": [
+        "scene-talk.state-request.i-want-your-vote-on-bill-and-i-d-like-you-not-to-hate-me-while-you-decide",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0d008x2c23z": {
+      "keys": [
+        "scene-talk.state-request.i-m-counting-votes-on-bill-and-i-need-you",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0f4v7osuegz": {
+      "keys": [
+        "scene-talk.state-ask.who-is-with-child-on-the-nights-you-re-out",
+        "scene-talk.reply-tell.i-ve-thought-about-office-for-a-long-time-i-m-ready",
+        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+        "scene-talk.reply-comfort.we-ll-make-it-through-remaining-i-won-t-spend-what-we-need-to-live-on"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0g3taci9ub2": {
+      "keys": [
+        "scene-talk.state-tell.next-you-collect-signatures-signatures-and-i-need-them-by-due-have-you-done-this",
+        "scene-talk.reply-agree.i-know-the-drill-you-ll-have-them-in-time",
+        "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
+        "scene-talk.reply-confront.who-decided-it-takes-that-many",
+        "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0gii95186jo": {
+      "keys": [
+        "scene-talk.state-tell.next-you-collect-signatures-signatures-and-i-need-them-by-due-have-you-done-this",
+        "scene-talk.reply-agree.i-have-i-ll-have-them-back-before-then",
+        "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
+        "scene-talk.reply-confront.who-decided-it-takes-that-many",
+        "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0gzxclliljw": {
+      "keys": [
+        "scene-talk.state-request.i-need-your-vote-on-bill-i-wouldn-t-ask-if-there-were-another-way",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0jd8qpfd4b9": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "0jf9f901ax3": {
+      "keys": [
+        "scene-talk.state-ask.what-do-you-want-to-say-about-opponent-the-room-wants-blood-and-the-ca",
+        "scene-talk.reply-answer.im-honored",
+        "scene-talk.reply-tell.i-m-not-mentioning-opponent-at-all-tonight-s-about-the-volunteers",
+        "scene-talk.reply-ask.did-opponent-call-yet"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0k1fkkd85wh": {
+      "keys": [
+        "scene-talk.follow-answer.not-yet-if-opponent-calls-while-you-re-on-stage-i-ll-take-a-message",
+        "scene-talk.reply-answer.if-opponent-calls-i-want-to-know-the-second-it-happens",
+        "scene-talk.reply-tell.then-i-ll-wait-i-want-to-thank-opponent-before-i-thank-anybody-else"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'Did Dana Lee call yet?', is a short question."
+    },
+    "0ln4ba7vsng": {
+      "keys": [
+        "scene-talk.state-request.if-cause-matters-to-you-i-d-like-your-vote",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0nyn528br1c": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "0qke46zjfbg": {
+      "keys": [
+        "scene-talk.state-ask.what-should-someone-outside-place-know-about-where-you-stand",
+        "scene-talk.reply-answer.i-can-give-you-three-sentences-on-bill-after-that-call-the-clerk-for",
+        "scene-talk.reply-boast.tell-your-readers-place-did-the-hard-part-while-others-argued"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0vhblz06jq7": {
+      "keys": [
+        "scene-talk.state-request.i-m-self-i-need-names-by-due-to-run-for-office-would-you-sign",
+        "scene-talk.reply-agree.fine-i-ll-put-my-name-down-for-office",
+        "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-for-office"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0y615irqrqc": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-me-you-ve-got-my-vote",
+        "scene-talk.reply-decline.employer-cut-me-loose-i-m-not-voting-on-anybody-s-word",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "0z1lwogjf2v": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-ask.what-s-been-hardest-since-employer-let-you-go"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "13chbya4rgl": {
+      "keys": [
+        "scene-talk.state-ask.outlet-is-printing-this-either-way-your-side",
+        "scene-talk.reply-answer.i-read-all-of-bill-ask-me-about-any-page-and-i-ll-tell-you-what-i-thi",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "13ong5rsyik": {
+      "keys": [
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+        "scene-talk.follow-ask.is-there-anything-i-could-find-out-for-you-before-deadline"
+      ],
+      "why": "No reply carried a reason: 'Alright. I'll sign for county commissioner right here.' is a short commitment with no reason."
+    },
+    "15thfqqkqda": {
+      "keys": [
+        "scene-talk.state-request.i-m-self-full-we-haven-t-met-so-i-ll-be-plain",
+        "scene-talk.reply-agree.i-ve-thought-about-running-for-office-myself-doing-it-with-you-works-yes",
+        "scene-talk.reply-decline.the-people-who-elected-me-as-their-office-would-never-forgive-me-no"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "16qretd4yq3": {
+      "keys": [
+        "scene-talk.state-request.i-need-your-vote-on-bill",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "17fia20q0yw": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
+      ],
+      "why": "No reply carried a reason: 'I'm not sold on a long illness yet.' states a position but gives no reason."
+    },
+    "19ayzqqdem8": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "1a6hl5a9otm": {
+      "keys": [
+        "scene-talk.state-request.i-m-self-full-thank-you-for-seeing-me-i-m-running-for-race-office-and-i-d-like-you-to-run-with-me-for-office",
+        "scene-talk.reply-agree.i-ve-thought-about-running-for-office-myself-doing-it-with-you-works-yes",
+        "scene-talk.reply-decline.i-just-got-to-where-i-am-as-their-office-i-m-not-walking-away-from-it"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1aw0b97h1ym": {
+      "keys": [
+        "scene-talk.state-ask.i-m-writing-about-story-and-i-d-like-your-side-before-it-runs",
+        "scene-talk.reply-answer.i-support-it-it-s-good-for-place",
+        "scene-talk.reply-refuse.not-today"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1bceg0pu40y": {
+      "keys": [
+        "scene-talk.state-ask.i-want-this-for-you-i-need-to-know-who-has-child-when-you-re-not-home",
+        "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the",
+        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+        "scene-talk.reply-comfort.child-comes-first-if-a-night-has-to-go-the-night-goes"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1behkjnom4w": {
+      "keys": [
+        "scene-talk.state-request.i-meant-every-word-on-cause-can-i-count-on-you",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1cxzchdjov3": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1d447yoiepb": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-me-you-ve-got-my-vote",
+        "scene-talk.reply-decline.employer-let-me-go-i-m-not-promising-anybody-anything-right-now",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1dwg9y479rn": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'Let me think about a long illness first.', is a deferral."
+    },
+    "1fkvgbybana": {
+      "keys": [
+        "scene-talk.follow-ask.what-does-place-get-that-another-town-wouldn-t",
+        "scene-talk.reply-answer.i-support-it-it-s-good-for-place",
+        "scene-talk.reply-leave.we-re-done-here"
+      ],
+      "why": "No reply carried a reason: the only player reply offers three sentences and a redirect to the clerk, with no argument or reason."
+    },
+    "1gpctn5d8mc": {
+      "keys": [
+        "scene-talk.state-ask.bill-is-getting-attention-outside-place-where-do-you-stand-on-it-and",
+        "scene-talk.reply-answer.i-can-give-you-three-sentences-on-bill-after-that-call-the-clerk-for",
+        "scene-talk.reply-boast.tell-your-readers-place-did-the-hard-part-while-others-argued"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1j9brsbophf": {
+      "keys": [
+        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'What would you do first about a long illness?', is a question."
+    },
     "1jbucu4ftvs": {
       "keys": [
         "scene-talk.state-tell.you-ll-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due-have-y",
@@ -13,7 +337,201 @@
         "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors"
       ],
       "why": "Promising signatures, asking for help, asking who decided and heading out carry no reason."
+    },
+    "1jk8k9o7gnq": {
+      "keys": [
+        "scene-talk.state-request.i-need-your-vote-on-bill-i-wouldn-t-ask-if-there-were-another-way",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1mypt2175ae": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-on-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'Let me think about a long illness first.', is a deferral."
+    },
+    "1nw10ban6sc": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'Let me think about a long illness first.', is a deferral."
+    },
+    "1q5vekwt7l5": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-ask.is-there-anything-i-could-find-out-for-you-before-deadline"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "1qp08gw65xe": {
+      "keys": [
+        "scene-talk.state-request.i-need-your-vote-on-bill",
+        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
+        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
+        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
+        "scene-talk.reply-lie.consider-it-paid"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1sn407xw36p": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1v2pj7aqleg": {
+      "keys": [
+        "scene-talk.state-request.i-m-self-trying-to-get-on-the-ballot-for-office-would-you-sign",
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-for-office"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1z6gm2pspf0": {
+      "keys": [
+        "scene-talk.state-request.i-m-going-down-the-list-on-bill-where-do-i-put-you",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "1znwp46q2su": {
+      "keys": [
+        "scene-talk.state-request.i-need-your-vote-on-bill",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "20838h6l4r8": {
+      "keys": [
+        "scene-talk.state-ask.what-do-you-want-to-say-about-opponent-the-room-wants-blood-and-the-ca",
+        "scene-talk.reply-answer.im-honored",
+        "scene-talk.reply-tell.i-m-going-to-thank-the-people-who-knocked-doors-by-name-all-of-them-th",
+        "scene-talk.reply-ask.did-opponent-call-yet"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "20dvn8xw5m4": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-ask.what-s-the-hardest-part-of-taking-care-of-relative"
+      ],
+      "why": "No reply carried a reason: 'I'll think about my vote for county commissioner. Come back later.' is a deferral."
+    },
+    "20naa07ew9q": {
+      "keys": [
+        "scene-talk.state-request.i-m-counting-votes-on-bill-and-i-need-you",
+        "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
+        "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
+        "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
+        "scene-talk.reply-lie.consider-it-paid"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "23tewdzzvlc": {
+      "keys": [
+        "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+        "scene-talk.follow-thank.thank-you-i-hope-relative-feels-better",
+        "scene-talk.follow-ask.how-is-relative-doing-if-you-don-t-mind-me-asking"
+      ],
+      "why": "No reply carried a reason: 'Alright. I'll sign for county commissioner right here.' is a short commitment with no reason."
+    },
+    "257zjlex1kw": {
+      "keys": [
+        "scene-talk.state-ask.people-are-asking-about-story-would-you-like-to-respond",
+        "scene-talk.reply-answer.i-support-it-it-s-good-for-place",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "2631c1pwpuv": {
+      "keys": [
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office"
+      ],
+      "why": "No reply carried a reason: the deferral and 'My answer's the same. Good luck in the race for county commissioner.' give no reason."
+    },
+    "28h1ktq5nq9": {
+      "keys": [
+        "scene-talk.state-request.you-know-i-don-t-ask-you-for-much-bill",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "298c7bbdjyb": {
+      "keys": [
+        "scene-talk.state-ask.i-have-questions-about-bill-you-may-not-like-them",
+        "scene-talk.reply-answer.i-read-all-of-bill-ask-me-about-any-page-and-i-ll-tell-you-what-i-thi",
+        "scene-talk.reply-refuse.no-comment"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "2ck2ggf4xsu": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.i-ve-got-until-deadline-on-this-notice-you-looked-at-it-before-you-looked-at-me",
+        "scene-talk.reply-decline.i-don-t-even-know-where-i-ll-be-living-after-deadline-i-can-t-promise-you-a-vote",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "2dscrc542no": {
+      "keys": [
+        "scene-talk.state-ask.i-want-this-for-you-i-need-to-know-who-has-child-when-you-re-not-home",
+        "scene-talk.reply-tell.office-needs-someone-who-ll-show-up-i-think-that-s-me",
+        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+        "scene-talk.reply-comfort.i-won-t-miss-what-matters-to-child-you-ll-hear-it-from-me-first-if-i-do"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "2fs5l154d9c": {
+      "keys": [
+        "scene-talk.follow-answer.not-yet-if-opponent-calls-while-you-re-on-stage-i-ll-take-a-message",
+        "scene-talk.reply-answer.take-a-message-and-tell-opponent-i-ll-call-back-as-soon-as-i-m-off-the-stage",
+        "scene-talk.reply-tell.then-i-ll-wait-i-want-to-thank-opponent-before-i-thank-anybody-else"
+      ],
+      "why": "No reply carried a reason: the only player reply, 'Did Dana Lee call yet?', is a short question."
+    },
+    "2fuikn55o9o": {
+      "keys": [
+        "scene-talk.state-request.whichever-way-bill-goes-the-whole-town-will-know-how-you-voted-will-you-vote-wit",
+        "scene-talk.reply-agree.i-m-with-you-on-bill",
+        "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
+        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote",
+        "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
+    },
+    "2fw0mqcux45": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.i-ll-vote-for-you-i-ll-have-to-bring-relative-with-me-but-i-ll-vote",
+        "scene-talk.reply-decline.i-m-sorry-relative-is-all-i-can-think-about-right-now",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "No player reply appears in this path, so none carried a reason."
     }
   },
-  "yesHash": "0wvjl67o803"
+  "yesHash": "07jfbcy7qtr"
 }
