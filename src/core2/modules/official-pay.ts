@@ -144,7 +144,12 @@ function salaryLaw(
   const answer = stateKey
     ? stateLawInForce(api, stateKey, salarySeries(key), date)
     : lawInForce(api, salarySeries(key), date);
-  const row = answer.governing;
+  // Only the office's own level sets its pay: a state's act for its offices,
+  // the nation's for federal ones (an act of another level does not reach it).
+  const level = stateKey ? "state" : "federal";
+  const row = answer.levels.find(
+    (l) => l.level === level && !l.setAside && l.row,
+  )?.row;
   return row && typeof row.value === "number" && row.value > 0 ? row : null;
 }
 

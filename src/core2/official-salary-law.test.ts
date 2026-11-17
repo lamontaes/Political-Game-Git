@@ -6,7 +6,8 @@
  * taking effect on the 1st of next month. From the payday after that, the
  * state's legislators and the House members are paid the enacted salary, the
  * pay row and the office post's wage say so, and the law row the salary was
- * read from opens in dev mode's Trace box.
+ * read from opens in dev mode's Trace box. An act of the wrong level (Congress
+ * on a state's legislators) sets no one's pay.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -96,6 +97,23 @@ it(`an enacted pay act moves what officials are paid: ${place.name}, replay ${re
       (act) =>
         `law:${act.jurisdiction}:${act.level}:${act.series}:general:${effective}:${act.measureId}`,
     );
+    // A stray act of the wrong level: Congress on the state governor's salary,
+    // which no state act sets. A state's pay is set by its own law only.
+    const governor = officials.find(
+      (o) => o.officeKind === "governor" && o.stateKey === state && paid(o),
+    );
+    const governorBefore = governor ? paid(governor)!.annualMinor : 0;
+    enactLaw(api, {
+      jurisdiction: "US",
+      level: "federal",
+      series: salarySeries("governor"),
+      value: Math.round((governorBefore * 3) / 100) + 1000,
+      unit: "dollars/year",
+      effectiveDate: effective,
+      measureId: "H.R. 9008 (a governor's pay by Congress, test)",
+      citation: "Test: an act of the wrong level",
+      estimate: false,
+    });
     for (const act of acts)
       enactLaw(api, {
         jurisdiction: act.jurisdiction,
@@ -152,6 +170,11 @@ it(`an enacted pay act moves what officials are paid: ${place.name}, replay ${re
         "not-a-record",
       );
     }
+    // The governor's pay is still the state's: Congress's act reached no one.
+    if (governor && api.state.people.get(governor.id)?.alive)
+      expect(paid(governor)!.annualMinor, `${where}: ${governor.id}`).toBe(
+        governorBefore,
+      );
     process.stdout.write(
       `OFFICIAL PAY ${where}: from ${effective}, ${checked.join("; ")} (before ${before.legislator / 100} and ${before.house / 100}).\n`,
     );
