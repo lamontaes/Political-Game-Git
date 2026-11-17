@@ -193075,7 +193075,7 @@
       "key": "scene-talk.narrate-narrate.close.name-isn-t-angry-about-loan-just-hurt",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} isn't angry about {loan}. Just hurt.",
+      "text": "{name}, closest to you in the house, has the papers for {loan} out.",
       "uses": [
         {
           "subject": "scene",
@@ -193123,7 +193123,7 @@
       "key": "scene-talk.narrate-narrate.close.name-has-been-quiet-since-the-mail-came",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has the bills out and hasn't said a word.",
+      "text": "{name} has the bills for {loan} out on the table.",
       "uses": [
         {
           "subject": "scene",
