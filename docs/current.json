@@ -876,6 +876,12 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "src/core2/world-races-no-district.test.ts",
+      "now": "src/core2/town-in-every-district.test.ts",
+      "when": "2026-11-17",
+      "why": "Its premise (a town the district files place in no district) cannot arise: every town sits in a district of each chamber its state has. The new test proves that and fails on a fixture where a town is dropped from the join."
     }
   ]
 }
