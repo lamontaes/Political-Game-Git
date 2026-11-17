@@ -1,0 +1,301 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "becoming-friends",
+    "purpose": "friend-ask",
+    "title": "Becoming friends"
+  },
+  "world": {
+    "place": "Troutman, North Carolina",
+    "placeKey": "3768500",
+    "seed": "story-batch-4",
+    "date": "2025-04-21"
+  },
+  "player": {
+    "name": "Reese Schultz",
+    "standing": "mayor at Troutman, North Carolina"
+  },
+  "cause": {
+    "id": "person_1e3c83a67fa534e1:person_2b15bfa1809ef461",
+    "label": "tie:contact:contact"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_1e3c83a67fa534e1",
+      "name": "Mila Sheppard"
+    },
+    {
+      "role": "asked",
+      "id": "person_2b15bfa1809ef461",
+      "name": "Reese Schultz"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Mila has been around a lot lately, and has something to ask you.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-has-been-around-a-lot-lately-and-has-something-to-ask-you"
+      ],
+      "wordings": [],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Mila Sheppard",
+      "role": "asker",
+      "text": "I'm glad I found you. I've been meaning to ask you something.",
+      "move": "greet",
+      "pieces": [
+        "scene-talk.open-greet.i-m-glad-i-found-you-first-i-ve-been-meaning-to-ask-you-something"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.open-greet.hey-first-do-you-have-a-minute-i-wanted-to-ask-you-something",
+          "text": "Hey. Do you have a minute? I wanted to ask you something."
+        }
+      ],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Mila Sheppard",
+    "role": "asker",
+    "text": "Will you come to the Iredell County Board of Commissioners meeting with me tomorrow? I'd like the company.",
+    "move": "request",
+    "pieces": [
+      "scene-talk.state-request.will-you-come-to-the-body-meeting-with-me-meeting-when-id-like-the-company"
+    ],
+    "wordings": [
+      {
+        "key": "scene-talk.state-request.the-body-meets-meeting-when-im-going-do-you-want-to-come-with-me",
+        "text": "The {body} meets {meeting-when}. I'm going. Do you want to come with me?"
+      },
+      {
+        "key": "scene-talk.state-request.im-going-to-the-body-meeting-meeting-when-come-with-me",
+        "text": "I'm going to the {body} meeting {meeting-when}. Come with me?"
+      },
+      {
+        "key": "scene-talk.state-request.the-body-meets-meeting-when-id-rather-not-sit-through-it-alone-will-you-come",
+        "text": "The {body} meets {meeting-when}. I'd rather not sit through it alone. Will you come?"
+      }
+    ],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "Sure, you can count on me.",
+          "move": "agree",
+          "pieces": ["scene-talk.reply-agree.sure-you-can-count-on-me"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-agree.yes-i-d-be-glad-to",
+              "text": "Yes, I'd be glad to."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 7,
+              "speaker": "Mila Sheppard",
+              "role": "asker",
+              "text": "Good. That makes my week easier.",
+              "move": "accept",
+              "pieces": [
+                "scene-talk.follow-accept.good-that-makes-my-week-easier"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "said-yes-to-friend",
+              "label": "You said you would be there",
+              "keeps": "kept-in-scene"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "What made you think of me for it?",
+          "move": "ask",
+          "pieces": ["scene-talk.reply-ask.what-made-you-think-of-me-for-it"],
+          "wordings": [],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Mila Sheppard",
+              "role": "asker",
+              "text": "I thought of you because you're easy to be around.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
+                  "text": "I thought of you because I trust you."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 9,
+                "speaker": "You",
+                "role": "player",
+                "text": "Alright, that makes sense. I'll do it.",
+                "move": "agree",
+                "pieces": [
+                  "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 11,
+                    "speaker": "Mila Sheppard",
+                    "role": "asker",
+                    "text": "Good. That makes my week easier.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.good-that-makes-my-week-easier"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-yes-to-friend",
+                    "label": "You said you would be there",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'm sorry, but I still can't do it. I just don't have the time for it.",
+                "move": "decline",
+                "pieces": [
+                  "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-just-don-t-have-the-time-for-it"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 12,
+                    "speaker": "Mila Sheppard",
+                    "role": "asker",
+                    "text": "Alright, I understand. Thank you for telling me straight.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.alright-i-understand-thank-you-for-telling-me-straight"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "refused",
+                  "ending": {
+                    "id": "friend-asked-and-waited",
+                    "label": "Left it open",
+                    "keeps": "none"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'm sorry, but I can't make that work this time.",
+          "move": "decline",
+          "pieces": [
+            "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
+              "text": "I wish I could, but I don't have the time to do it right just now."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 13,
+              "speaker": "Mila Sheppard",
+              "role": "asker",
+              "text": "Alright, I understand. Thank you for telling me straight.",
+              "move": "accept",
+              "pieces": [
+                "scene-talk.follow-accept.alright-i-understand-thank-you-for-telling-me-straight"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "refused",
+            "ending": {
+              "id": "friend-asked-and-waited",
+              "label": "Left it open",
+              "keeps": "none"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "endings": {
+    "said-yes-to-friend": 2,
+    "friend-asked-and-waited": 2
+  },
+  "depth": 2,
+  "gaps": []
+}
