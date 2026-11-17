@@ -16,12 +16,10 @@ import type {
 import {
   cashJournalSignedLifetimeMinor,
   isCashJournalSignedLifetimeMinor,
+  type CashJournalPosting,
   type CashJournalSignedLifetimeMinor,
-} from "./journal";
-import type {
-  CashJournalPosting,
-  CashJournalSourceRef,
-  ResolvedCashJournalSource,
+  type CashJournalSourceRef,
+  type ResolvedCashJournalSource,
 } from "./journal";
 import type {
   CreditFacilityState,
