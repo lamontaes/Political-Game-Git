@@ -58,8 +58,15 @@ export interface HistoryWriter {
 
 export interface PreStartPass {
   phase: PreStartPhase;
-  /** Runs once; step through `coarseSteps(window)` and date every record. */
-  run(api: CoreAPI, window: PreStartWindow, history: HistoryWriter): void;
+  /**
+   * Runs once; step through `coarseSteps(window)` and date every record. A run may give its steps back,
+   * each the share of its own work done (0 to 1), so the loading screen moves while a long one runs.
+   */
+  run(
+    api: CoreAPI,
+    window: PreStartWindow,
+    history: HistoryWriter,
+  ): void | Iterable<number>;
   /** The same run for people filled in after it, written with `recordPreStartLater`. */
   later?(core: CoreState, people: readonly PersonState[]): void;
 }
@@ -475,7 +482,9 @@ export function preStartHistory(
  */
 export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
   const order: string[] = [];
-  for (const step of runPreStartSteps(core, window)) order.push(step.moduleId);
+  // A module that reports its own steps is named once, when it finishes.
+  for (const step of runPreStartSteps(core, window))
+    if (Number.isInteger(step.done)) order.push(step.moduleId);
   return order;
 }
 
@@ -488,6 +497,7 @@ export function* runPreStartSteps(
   core: CoreState,
   window: PreStartWindow,
 ): Generator<{ moduleId: string; done: number; total: number }, void> {
+  // `done` counts modules finished, with a share of the one running while it reports its own steps.
   if (ran.has(core)) throw new Error("The pre-start run already happened.");
   if (window.through >= core.date)
     throw new Error("The pre-start run must end before the start date.");
@@ -510,7 +520,11 @@ export function* runPreStartSteps(
       },
       read: (filter) => preStartHistory(core, filter),
     };
-    module.preStart!.run(api, window, writer);
+    const steps = module.preStart!.run(api, window, writer);
+    if (steps)
+      for (const share of steps)
+        if (share < 1)
+          yield { moduleId: module.id, done: at + share, total: runs.length };
     // The last step leaves the history sorted, as one block did.
     if (at === runs.length - 1) {
       rows.sort(historyOrder);
