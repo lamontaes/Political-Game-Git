@@ -47,6 +47,7 @@ import {
   partyAgreement,
   partyTie,
 } from "../core2/modules/parties";
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
 
@@ -532,7 +533,7 @@ export function localRaces(core: CoreState) {
         a.title.localeCompare(b.title) ||
         a.contestId.localeCompare(b.contestId),
     );
-  return { date, races };
+  return { date, races, nowYouCan: nowYouCan(core) };
 }
 
 /**
@@ -671,6 +672,75 @@ function nextOwnContests(
       .filter((c) => first.get(c.officeId) === c.electionDate)
       .map((c) => c.id),
   );
+}
+
+/**
+ * What the player can do in politics now, beside the races (owner, Nov 16: "Work for someone else's
+ * campaign, a party committee or an appointed board until a race opens"; crew list #9747, item 3a:
+ * "Elections offers something on day one"). Read from the records: each party here to join, or the
+ * player's own party with its committee's next meeting day; and each campaign that asked the player to
+ * help and was not turned down, with whether they help it now. Nothing is written.
+ */
+function nowYouCan(core: CoreState) {
+  const api = coreAPI(core);
+  const playerId = core.playerId;
+  if (!playerId) return { parties: [], campaigns: [] };
+  const parties = core.modules.has(PARTIES_MODULE_ID)
+    ? (() => {
+        const meets =
+          (
+            api
+              .moduleState(PARTIES_MODULE_ID)
+              .table("schedule")
+              .get("next") as unknown as { date: string } | undefined
+          )?.date ?? null;
+        const own = partyTie(api, playerId)?.partyId;
+        return partiesHere(api)
+          .filter((party) => !own || party.id === own)
+          .map((party) => ({
+            partyId: party.id,
+            name: party.name,
+            member: party.id === own,
+            meets,
+          }));
+      })()
+    : [];
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const campaigns = core.modules.has(CAMPAIGNS_MODULE_ID)
+    ? (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("volunteerAsks")
+          .rows() as unknown as {
+          filingId: string;
+          candidateId: string;
+          personId: string;
+          answer: "asked" | "yes" | "no";
+        }[]
+      )
+        .filter((ask) => ask.personId === playerId && ask.answer !== "no")
+        .flatMap((ask) => {
+          const candidate = core.people.get(ask.candidateId as never);
+          const filing = elections
+            .table("filings")
+            .get(ask.filingId) as unknown as FilingRow | undefined;
+          const contest = filing
+            ? (elections.table("contests").get(filing.contestId) as unknown as
+                ContestRow | undefined)
+            : undefined;
+          return candidate && contest
+            ? [
+                {
+                  filingId: ask.filingId,
+                  candidate: `${candidate.givenName} ${candidate.familyName}`,
+                  office: raceTitle(contest.title, contest.district),
+                  helping: ask.answer === "yes",
+                },
+              ]
+            : [];
+        })
+    : [];
+  return { parties, campaigns };
 }
 
 /** The level of the office a contest is for (city, county, township, state, federal). */

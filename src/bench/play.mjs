@@ -5312,6 +5312,38 @@ const sheets = {
       ];
     };
     const labels = controls.localRaces;
+    // One thing the player can do now: a party opens Parties, where joining is done; a campaign
+    // names its race and whether the player helps it.
+    const nowPage = ({ party, campaign }) => {
+      const words = labels.nowYouCan;
+      if (party)
+        return [
+          rosterTitle(party.name),
+          stripSection(
+            1,
+            words.title,
+            ...(party.meets
+              ? [row(words.meets, dateWords(party.meets, { year: today() }))]
+              : []),
+          ),
+          buttonRow(
+            makeButton({
+              className: "action",
+              textContent: controls.titles.parties,
+              onclick: () => openSheet("parties"),
+            }),
+          ),
+        ];
+      return [
+        rosterTitle(campaign.candidate),
+        stripSection(
+          1,
+          words.title,
+          row(words.race, campaign.office),
+          row(words.answer, campaign.helping ? words.helping : words.asked),
+        ),
+      ];
+    };
     const stance = voteWords();
     const filedFor = new Set(v.filings.map((f) => f.contestId));
     // A filing for any seat of an at-large race is a filing for the race.
@@ -5558,7 +5590,36 @@ const sheets = {
       day.push(race);
       byDate.set(race.electionDate, day);
     }
+    // What the player can do now beside the races: a party to join or their committee's next
+    // meeting, and the campaigns that asked for their help (crew list #9747, item 3a: "Elections
+    // offers something on day one"). The words are Story's (`localRaces.nowYouCan`).
+    const nowWords = labels.nowYouCan;
+    const now = ballot.nowYouCan ?? { parties: [], campaigns: [] };
+    const nowEntries = nowWords
+      ? [
+          ...now.parties.map((party) => ({
+            key: `party:${party.partyId}`,
+            label: party.name,
+            aside:
+              party.member && party.meets
+                ? `${nowWords.meets} ${dateWords(party.meets, { year: today() })}`
+                : party.member
+                  ? ""
+                  : nowWords.join,
+            now: { party },
+          })),
+          ...now.campaigns.map((campaign) => ({
+            key: `campaign:${campaign.filingId}`,
+            label: campaign.candidate,
+            aside: campaign.helping ? nowWords.helping : nowWords.asked,
+            now: { campaign },
+          })),
+        ]
+      : [];
     const groups = [
+      ...(nowEntries.length
+        ? [{ title: nowWords.title, entries: nowEntries }]
+        : []),
       ...(asked.asks.length
         ? [
             {
@@ -5596,15 +5657,17 @@ const sheets = {
       groups,
       className: "elections-screen",
       render: async (entry) =>
-        entry.ask
-          ? askPage(entry.ask)
-          : [
-              ...racePage(entry.race),
-              ...(filed.has(entry.race.contestId) ||
-              entry.race.lastTime?.winnerId === me.id
-                ? recordSection(await api(`/api/campaign/record?id=${me.id}`))
-                : []),
-            ],
+        entry.now
+          ? nowPage(entry.now)
+          : entry.ask
+            ? askPage(entry.ask)
+            : [
+                ...racePage(entry.race),
+                ...(filed.has(entry.race.contestId) ||
+                entry.race.lastTime?.winnerId === me.id
+                  ? recordSection(await api(`/api/campaign/record?id=${me.id}`))
+                  : []),
+              ],
     });
   },
   /**
