@@ -11,9 +11,10 @@
  *    (`presentReasons`), the setting's record, the outcome and the types held back and why.
  *  - `lines`: every scene-talk line of a type's purpose, from the line register, with its tie class,
  *    the facts it needs, whether an engine reaches it and whether the grades or a rule hold it.
- *  - `force`: causes a type through the game's own code (`DevMode.forceScene`, or the legislature's
- *    own writers for its scenes, dev-force-legislature.ts) and writes a dev-mode mark `scene-forced`
- *    on the record; a forced scene is never a played one for a Words stamp.
+ *  - `force`: causes a type through the game's own code (`DevMode.forceScene`, or an engine's own
+ *    writers for its scenes: dev-force-elections.ts, dev-force-campaigns.ts, dev-force-legislature.ts)
+ *    and writes a dev-mode mark `scene-forced` on the record; a forced scene is never a played one for
+ *    a Words stamp.
  * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
 import { lineByKey, linesForPurpose } from "../../english/line-register";
@@ -23,6 +24,9 @@ import { SITUATION_LIBRARY } from "../../director/scheduling";
 import type { PersonId } from "../../core2/types";
 import type { PurposeType } from "../../director/scene-talk";
 import type { DevView } from "../dev-views";
+import type { DevMode } from "../dev-mode";
+import { forceElectionsScene } from "../dev-force-elections";
+import { forceCampaignsScene } from "../dev-force-campaigns";
 import { forceLegislatureScene } from "../dev-force-legislature";
 import forceMap from "./scene-force-map.json";
 
@@ -32,7 +36,7 @@ const FORCE = (
     types: Record<
       string,
       {
-        how: "event" | "writer" | "legislature";
+        how: "event" | "writer" | "elections" | "campaigns" | "legislature";
         kind?: string;
         facts?: Record<string, string>;
         reason?: string;
@@ -66,6 +70,27 @@ const view: DevView = {
         "Its cause is a circumstance or a turn in a tie that the engines write over time: dev mode runs the world until it comes",
       "no-event":
         "A bare record of its cause is refused: forcing it takes its module's own writer",
+      "party-decides":
+        "Its cause is a party's chair asking the member the party's own list puts first: dev mode cannot pick who the party asks",
+      "no-race":
+        "No race you may enter took your filing within two years of running the world",
+      "no-ballot":
+        "Your petition came up short at the clerk's check, so there was no race for you to lose",
+      "no-count":
+        "The count of your race did not come by its election day and the weeks a count may take after it",
+      won: "You won the race, so there was no loss to tell: the voters decided it",
+      "no-stake":
+        "No one at home has anything of theirs at stake in the race, so there is no talk at home about it",
+      "no-player": "There is no player to bring it about for",
+      "no-runner":
+        "No one close to you could file for a race within two years of running the world",
+      "no-offer":
+        "No one you know offered to help in that role within two months: each weighs it by their own reasons",
+      "no-rival-word":
+        "No one brought you word of a rival within two months of the campaign",
+      "no-gift": "No donor you called gave in two weeks of calls",
+      "no-endorse-ask":
+        "The campaign of the one close to you did not ask you to endorse them within two months",
       chair:
         "Its cause is a bill you hold as a committee's chair, and the chamber's leadership or seniority seats the chair: dev mode cannot make you one",
       "members-decide":
@@ -79,8 +104,11 @@ const view: DevView = {
       "no-committee": "Your chamber has no committee to hold a bill",
       "no-sitting":
         "Your chamber does not sit again within the run, so no count comes before a roll: try again when it is in session",
-      "no-player": "There is no player to bring it about for",
     },
+    campaigns:
+      "Brought about through the campaigns' own writers: a campaign runs on a filing (yours, or for an ask to endorse, the one closest to you who may run), and the people in it act by their own reasons",
+    elections:
+      "Brought about through the elections' own writers: the world runs to a race that takes your filing, you file at the counter, and for a loss you canvass for your petition and the world runs to the count",
     legislature:
       "Brought about through the legislature's own writers; where you hold no seat, you take the town's seat in the state house first (the governorship, for the desk)",
     stagedNow: "Staged on the next day",
@@ -147,8 +175,12 @@ const view: DevView = {
           way?.how === "event" &&
           !OWN_RECIPES.includes(scene.recipe ?? "") &&
           scene.state !== "none";
-        // A type the legislature's own writers bring about is forced at once too.
-        const byWriter = way?.how === "legislature" && scene.state !== "none";
+        // A type an engine's own writers bring about is forced at once too.
+        const byWriter =
+          (way?.how === "elections" ||
+            way?.how === "campaigns" ||
+            way?.how === "legislature") &&
+          scene.state !== "none";
         return {
           key: scene.key,
           why:
@@ -160,7 +192,7 @@ const view: DevView = {
             SITUATION_LIBRARY.types.find((row) => row.key === scene.key)
               ?.setting ?? [],
           causeRecords: scene.causeRecords,
-          recipe: byEvent ? "event" : byWriter ? "legislature" : scene.recipe,
+          recipe: byEvent ? "event" : byWriter ? way!.how : scene.recipe,
           state: byEvent || byWriter ? "plays" : scene.state,
           forceable: scene.state !== "none",
           staged: staged.get(scene.key)?.count ?? 0,
@@ -230,85 +262,132 @@ const view: DevView = {
     "GET scene-trace/line": ({ q }) => lineByKey(q("key")) ?? null,
     "POST scene-trace/force": ({ mode, input }) => {
       const typeKey = String(input.typeKey ?? "");
-      const way = FORCE[typeKey];
-      const own = mode.scenes().find((row) => row.key === typeKey);
-      const playerId = mode.core.playerId as PersonId | undefined;
-      if (
-        way?.how === "event" &&
-        way.kind &&
-        playerId &&
-        mode.director &&
-        !OWN_RECIPES.includes(own?.recipe ?? "")
-      ) {
-        // The cause as a record of its kind naming the player, entered through the core's one event
-        // entry; the director measures it at the day's end and stages it as it would any moment.
-        const book = mode.director.ledger.people.get(playerId);
-        const seen = book?.schedule.length ?? 0;
-        const eventId = `dev-force:${typeKey}:${mode.core.date}`;
-        const player = mode.core.people.get(playerId)!;
-        applyCoreEvent(mode.core, {
-          id: eventId,
-          date: mode.core.date,
-          kind: way.kind,
-          personIds: [playerId],
-          witnessIds: [],
-          placeId: player.placeId,
-          facts: { ...way.facts },
-          source: {
-            tag: "ESTIMATED",
-            citation: `Dev mode forced ${typeKey}`,
-            asOf: mode.core.date,
-          },
-        } as never);
-        mode.advance(addDays(makeIsoDate(mode.core.date), 1));
-        const staged = !!book?.schedule
-          .slice(seen)
-          .some((row) =>
-            row.bindings.some((bound) => bound.typeKey === typeKey),
-          );
-        return {
-          recipe: "event",
-          personId: playerId,
-          causeRecords: [eventId],
-          staged,
-          mark: mode.mark("scene-forced", [eventId], {
-            typeKey,
-            recipe: "event",
-            staged: String(staged),
-          }),
-        };
+      // A force goes past the director's pacing (the season cap, "nothing changed") for this one
+      // type while it runs (CTO, Nov 17, #9809: "force every scene to play"); the director's own day
+      // never sets this.
+      mode.director?.forceType(typeKey, true);
+      try {
+        return force(mode, input, typeKey);
+      } finally {
+        mode.director?.forceType(typeKey, false);
       }
-      if (way?.how === "legislature") {
-        const forced = forceLegislatureScene(mode, typeKey);
-        return {
-          ...forced,
-          why: forced.refused ?? null,
-          mark: mode.mark(
-            "scene-forced",
-            [...forced.written, ...forced.causeRecords],
-            {
-              typeKey,
-              recipe: `legislature:${forced.way}`,
-              staged: String(forced.staged),
-              ...(forced.seated ? { seated: forced.seated } : {}),
-            },
-          ),
-        };
-      }
-      const forced = mode.forceScene({
-        typeKey,
-        ...(typeof input.forId === "string" ? { forId: input.forId } : {}),
-        ...(typeof input.where === "string" ? { where: input.where } : {}),
-      });
-      return {
-        ...forced,
-        mark: mode.mark("scene-forced", [], {
-          typeKey,
-          recipe: String(forced.recipe),
-        }),
-      };
     },
   },
 };
+
+/** Brings about one situation type's cause through the game's own code and says what was staged. */
+function force(
+  mode: DevMode,
+  input: Readonly<Record<string, unknown>>,
+  typeKey: string,
+) {
+  const way = FORCE[typeKey];
+  const own = mode.scenes().find((row) => row.key === typeKey);
+  const playerId = mode.core.playerId as PersonId | undefined;
+  if (
+    way?.how === "event" &&
+    way.kind &&
+    playerId &&
+    mode.director &&
+    !OWN_RECIPES.includes(own?.recipe ?? "")
+  ) {
+    // The cause as a record of its kind naming the player, entered through the core's one event
+    // entry; the director measures it at the day's end and stages it as it would any moment.
+    const book = mode.director.ledger.people.get(playerId);
+    const seen = book?.schedule.length ?? 0;
+    const eventId = `dev-force:${typeKey}:${mode.core.date}`;
+    const player = mode.core.people.get(playerId)!;
+    applyCoreEvent(mode.core, {
+      id: eventId,
+      date: mode.core.date,
+      kind: way.kind,
+      personIds: [playerId],
+      witnessIds: [],
+      placeId: player.placeId,
+      facts: { ...way.facts },
+      source: {
+        tag: "ESTIMATED",
+        citation: `Dev mode forced ${typeKey}`,
+        asOf: mode.core.date,
+      },
+    } as never);
+    mode.advance(addDays(makeIsoDate(mode.core.date), 1));
+    const staged = !!book?.schedule
+      .slice(seen)
+      .some((row) => row.bindings.some((bound) => bound.typeKey === typeKey));
+    return {
+      recipe: "event",
+      personId: playerId,
+      causeRecords: [eventId],
+      staged,
+      mark: mode.mark("scene-forced", [eventId], {
+        typeKey,
+        recipe: "event",
+        staged: String(staged),
+      }),
+    };
+  }
+  if (way?.how === "campaigns") {
+    const forced = forceCampaignsScene(mode, typeKey);
+    return {
+      ...forced,
+      why: forced.refused ?? null,
+      mark: mode.mark(
+        "scene-forced",
+        [...forced.written, ...forced.causeRecords],
+        {
+          typeKey,
+          recipe: `campaigns:${forced.way}`,
+          staged: String(forced.staged),
+        },
+      ),
+    };
+  }
+  if (way?.how === "elections") {
+    const forced = forceElectionsScene(mode, typeKey);
+    return {
+      ...forced,
+      why: forced.refused ?? null,
+      mark: mode.mark(
+        "scene-forced",
+        [...forced.written, ...forced.causeRecords],
+        {
+          typeKey,
+          recipe: `elections:${forced.way}`,
+          staged: String(forced.staged),
+        },
+      ),
+    };
+  }
+  if (way?.how === "legislature") {
+    const forced = forceLegislatureScene(mode, typeKey);
+    return {
+      ...forced,
+      why: forced.refused ?? null,
+      mark: mode.mark(
+        "scene-forced",
+        [...forced.written, ...forced.causeRecords],
+        {
+          typeKey,
+          recipe: `legislature:${forced.way}`,
+          staged: String(forced.staged),
+          ...(forced.seated ? { seated: forced.seated } : {}),
+        },
+      ),
+    };
+  }
+  const forced = mode.forceScene({
+    typeKey,
+    ...(typeof input.forId === "string" ? { forId: input.forId } : {}),
+    ...(typeof input.where === "string" ? { where: input.where } : {}),
+  });
+  return {
+    ...forced,
+    mark: mode.mark("scene-forced", [], {
+      typeKey,
+      recipe: String(forced.recipe),
+    }),
+  };
+}
 
 export default view;

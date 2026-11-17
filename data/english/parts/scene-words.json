@@ -2219,12 +2219,55 @@
           "move": "lead-rival-word-other",
           "subject": "lead",
           "role": "rival-word",
-          "choice": "other"
+          "choice": "other",
+          "requiresFacts": ["apart"]
         }
       ],
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-word-other.other-brings-up-the-race-over-dinner",
+      "move": "lead-rival-word-other",
+      "kind": "spoken",
+      "text": "{other} brings up the race over dinner.",
+      "uses": [
+        {
+          "move": "lead-rival-word-other",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "other",
+          "requiresFacts": ["lives-with"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rival-word-other.over-dinner-other-brings-up-what-rival-is-saying",
+      "move": "lead-rival-word-other",
+      "kind": "spoken",
+      "text": "Over dinner, {other} brings up what {rival} is saying.",
+      "uses": [
+        {
+          "move": "lead-rival-word-other",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "other",
+          "requiresFacts": ["lives-with"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
       "tag": {
         "move": "narrate"
       }

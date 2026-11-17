@@ -42,8 +42,7 @@ async function types({ labels, send }) {
       });
       item.append(" ", button);
       if (row.why) item.append(el("div", labels.reasons[row.why]));
-      if (row.recipe === "legislature")
-        item.append(el("div", labels.legislature));
+      if (labels[row.recipe]) item.append(el("div", labels[row.recipe]));
     } else item.append(` (${labels.unreachable})`);
     const more = el("details");
     more.append(el("summary", labels.lines));

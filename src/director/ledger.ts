@@ -173,6 +173,13 @@ export interface Director {
    */
   preferSetting(typeKey: string, kind: string | null): void;
   /**
+   * Dev mode's force-scene: while on, a situation type is staged past the
+   * season cap and past "nothing changed" (CTO, Nov 17, #9809). The force
+   * path turns it on for one force and off after; the director's own day
+   * never sets it. Not part of a save.
+   */
+  forceType(typeKey: string, on: boolean): void;
+  /**
    * A record the controlled person made by their own press (asking someone
    * to serve): rated now, so the press opens its own scene at once instead
    * of at the day's close. No stop is registered for it, since the press
@@ -282,6 +289,8 @@ export function createDirector(
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
   /** Dev mode's preferred kind of place per situation type (not saved). */
   const preferredSettings = new Map<string, string>();
+  /** The situation types dev mode is forcing right now (not saved). */
+  const forcedTypes = new Set<string>();
   const ledger: Ledger = {
     people: new Map(),
     broadEvents: new Map(),
@@ -1497,6 +1506,7 @@ export function createDirector(
       interruptImpact: param("directorInterruptImpact"),
       ...(filter ? { allowedKinds: new Set(filter.allowedKinds) } : {}),
       ...(preferredSettings.size ? { preferredSettings } : {}),
+      ...(forcedTypes.size ? { forcedTypes } : {}),
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
@@ -2338,6 +2348,10 @@ export function createDirector(
     preferSetting(typeKey, kind) {
       if (kind === null) preferredSettings.delete(typeKey);
       else preferredSettings.set(typeKey, kind);
+    },
+    forceType(typeKey, on) {
+      if (on) forcedTypes.add(typeKey);
+      else forcedTypes.delete(typeKey);
     },
     stageOwnPress(core, personId, causeId) {
       const book = ledger.people.get(personId);
