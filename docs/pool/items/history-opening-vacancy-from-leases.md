@@ -39,7 +39,7 @@ Seen: `src/core2/housing-construction.ts` `openStock` sets units = renters / (1 
 
 **Rules.** No dice; real rates set only strengths; one rule for all 56 places.
 
-**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, and reads the town's rental vacancy on day one with the leases it came from. At drawn worlds the vacancy equals the last year's leases × months ÷ 12, about a quarter of renters signed in the last year, and towns differ.
+**Done when.** A second session starts a new game at a drawn place it writes down with its seed, turns dev mode on, and reads the town's rental vacancy on day one with the leases it came from. At drawn worlds the vacancy equals the last year's leases × months ÷ 12 (the dev row shows both), and towns differ by their own renters' moves.
 
 **Files.** src/core2/housing-past.ts, src/core2/housing-construction.ts, src/core2/past-moves.ts, src/core2/opening-tenure.ts, src/bench/world.ts, src/core2/data/housing/parameters.json
 
