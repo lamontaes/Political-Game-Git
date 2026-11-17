@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude-world
-pr:
+pr: 9797
 blocked-on:
 after:
 lead: world
