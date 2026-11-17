@@ -819,14 +819,18 @@ export function runPastWork(
     // that place's, named from the place and the seed (an estimate), the
     // same every time they are opened.
     // The same when the town keeps no firm for that day (a first job before the
-    // town's oldest firm, or a town with none on record): the card names an
-    // employer for every spell, never one it cannot name.
+    // town's oldest firm, or a town with none on record). Where the place they
+    // lived in is one the naming does not know, the employer is named from
+    // the place they live in now: the card names an employer for every spell.
     if (!best)
-      return elsewhereEmployerId(
-        c,
-        run.plan.person,
-        livedIn,
-        run.spells.length,
+      return (
+        elsewhereEmployerId(c, run.plan.person, livedIn, run.spells.length) ??
+        elsewhereEmployerId(
+          c,
+          run.plan.person,
+          run.plan.person.placeId,
+          run.spells.length,
+        )
       );
     return best?.id;
   };
