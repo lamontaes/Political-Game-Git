@@ -59,7 +59,8 @@ it("records each congressional holder's last share from their own century race, 
       placeKey: place.key,
     });
     const offices = coreAPI(world.core).moduleState(OFFICES_MODULE_ID);
-    let raced = 0;
+    let raced = 0,
+      congressTerms = 0;
     for (const office of offices.table("offices").rows() as unknown as {
       id: string;
       kind: string;
@@ -79,6 +80,7 @@ it("records each congressional holder's last share from their own century race, 
             "serving",
           ]) as unknown as TermRow[]) {
           if (!term.elected) continue;
+          congressTerms += 1;
           const race = centurySeatRace(
             place.seed,
             office,
@@ -92,10 +94,15 @@ it("records each congressional holder's last share from their own century race, 
           );
         }
     }
+    // The town's state's members of Congress are seated as terms (two-level world), and every
+    // one of them holds a seat whose race the century kept.
+    expect(raced, `${where}: holders whose century race is kept`).toBe(
+      congressTerms,
+    );
     expect(
-      raced,
-      `${where}: holders whose century race is kept`,
-    ).toBeGreaterThan(400);
+      congressTerms,
+      `${where}: the state's members of Congress`,
+    ).toBeGreaterThan(2);
     // Dev mode cites the town's House seat's race by its century record.
     const ask = asker(world, where);
     const house = (await ask("subject=office")).choices.office.find((c) =>
