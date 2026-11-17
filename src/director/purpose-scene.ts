@@ -112,6 +112,7 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { doorReads } from "./door-facts";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence, workHeld } from "../core2/person-work";
@@ -2367,17 +2368,46 @@ function composeBinding(
     Object.assign(facts, contestVoteDay(core, door.contestId));
     if (door.filingId && core.modules.has(ELECTIONS_MODULE_ID)) {
       const petition = petitionOf(coreAPI(core as CoreState), door.filingId);
-      if (petition && door.knock.petition === "true")
+      if (petition && door.knock.petition === "true") {
         facts.due = {
           text: spokenDate(petition.due, core.date),
           sourceRecordIds: [petition.id],
         };
+        // The candidate filed at the clerk's counter, in that scene.
+        if (core.durableLog.has(counterFilingReplyId(petition.filingId)))
+          facts["filed-at-counter"] = {
+            text: "yes",
+            sourceRecordIds: [counterFilingReplyId(petition.filingId)],
+          };
+      }
     }
     // What matters to the resident, asked (ruling 72): their strongest
     // question from their own views, with their side and the reason from
     // their life on record. One who has taken up no question of their own
     // has no view strong enough to name.
-    Object.assign(facts, doorViewFacts(core, askerId, door.contestId));
+    const viewFacts = doorViewFacts(core, askerId, door.contestId);
+    Object.assign(facts, viewFacts);
+    // What the records add to the door (door-facts.ts): the petition's answer,
+    // the other candidate, the player's own stand on the resident's question
+    // and the resident's ballot in the last election of this office.
+    Object.assign(
+      facts,
+      doorReads(core, {
+        causeId: moment.causeId,
+        residentId: askerId,
+        playerId: askedId,
+        contestId: door.contestId,
+        ...(door.filingId ? { filingId: door.filingId } : {}),
+        signature: type.purpose === "ask-signature",
+        knock: door.knock,
+        ...(viewFacts["view-question"]
+          ? {
+              viewQuestion: viewFacts["view-question"].text,
+              viewSide: viewFacts["side-for"] ? "for" : "against",
+            }
+          : {}),
+      }),
+    );
     // A second knock: the two have met at this door, so the player does not
     // introduce themself as a stranger again.
     if (door.knock.first === "false")
