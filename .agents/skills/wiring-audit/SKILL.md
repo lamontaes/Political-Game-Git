@@ -83,6 +83,8 @@ Rerun the checker on main after the families merge. Put a before and after playe
 
 - **A trait reader that exports the wrong shape is silently never loaded** (Small fixes, Nov 8: `facet-affectionate.ts` exported a `TraitPack`, so `generate:trait-effects` skipped it and the trait changed nobody's answer). A reader must export `<name>Effects` as `readonly TraitEffectDeclaration[]`; after adding one, run `npm run generate:trait-effects` and look for the new line in `trait-effects/index.ts`.
 
+- **The matrix script writes unformatted files** (Laws and effects, Nov 17: #10025's `repository` check failed on prettier): after `matrix.ts` and `check.ts` write `docs/reports/law-wiring-matrix.json`, the table and a run file, run `npx prettier --write` on them before pushing. A run of only the rows a change moves (`--only`) added to the earlier runs is enough to move those rows; a full regrade is about 35 seconds a law.
+
 ## More in this folder
 
 Read each file here when its moment comes:
