@@ -16,7 +16,7 @@
  */
 import { townLean } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
-import { closenessBetween } from "../closeness";
+import { closenessBetween, feelingBetween } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type {
   CoreAPI,
@@ -237,7 +237,8 @@ export function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
   if (!memberId.startsWith("official:"))
     return servingTermsOf(api, memberId)[0];
   const minted = terms.get(memberId.slice("official:".length)) as unknown as
-    TermRow | undefined;
+    | TermRow
+    | undefined;
   if (!minted?.personId) return undefined;
   const serving = servingTermsOf(api, minted.personId);
   return (
@@ -485,7 +486,8 @@ export function openToRecall(api: CoreAPI, term: TermRow): boolean {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(term.officeId) as unknown as
-    (OfficeInput & { termYears?: number }) | undefined;
+    | (OfficeInput & { termYears?: number })
+    | undefined;
   const years = office?.termYears ?? undefined;
   const since =
     term.endDate && years
@@ -598,10 +600,10 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
         if (drive <= campaignParameter("recallOrganizerEffort")) continue;
         const account =
           (t.vote.memberId === bill.sponsorId ? 1 : 0) -
-          closenessBetween(api.state as CoreState, o.p.id, t.vote.memberId);
+          feelingBetween(api.state as CoreState, o.p.id, t.vote.memberId);
         const bestAccount = best
           ? (best.target.vote.memberId === bill.sponsorId ? 1 : 0) -
-            closenessBetween(
+            feelingBetween(
               api.state as CoreState,
               best.p.id,
               best.target.vote.memberId,
@@ -721,7 +723,7 @@ function misconductGrievance(
   }
   return (
     (heard.has(voter.id) ? weight : 0) -
-    closenessBetween(api.state as CoreState, voter.id, memberId) -
+    feelingBetween(api.state as CoreState, voter.id, memberId) -
     bar
   );
 }
@@ -1038,7 +1040,8 @@ function recount(api: CoreAPI, recall: RecallRow): RecallRow {
 function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "misconduct-check") return weighMisconduct(api, work);
   const held = table(api).get(work.sourceRecordIds[0]!) as unknown as
-    RecallRow | undefined;
+    | RecallRow
+    | undefined;
   if (!held) return;
   if (work.kind === "petition-due" && held.status === "circulating") {
     // Where the member answered the petition, the count reads the answer.

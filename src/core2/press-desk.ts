@@ -17,7 +17,7 @@ import { OUTCOME_MONTH_KIND } from "./outcome-news";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
-import { closenessBetween } from "./closeness";
+import { closenessBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
@@ -250,11 +250,7 @@ export function grudge(
   holderId: string,
   targetId: string,
 ): number {
-  const person = api.state.people.get(holderId);
-  if (!person) return 0;
-  // A grudge's id names its target (the drives engine's `kind:topic`).
-  const drive = person.drives.get(`grudge:grudge:${targetId}`);
-  return drive ? clamp(drive.strength, 0, 1) : 0;
+  return grudgeBetween(api.state as CoreState, holderId, targetId);
 }
 
 /**
@@ -690,11 +686,13 @@ export function holdsHighOffice(api: CoreAPI, id: string): boolean {
   const minted = offices
     .table("terms")
     .get(id.slice("official:".length)) as unknown as
-    { personId: string } | undefined;
+    | { personId: string }
+    | undefined;
   if (!minted) return false;
   return servingTermsOf(api, minted.personId).some((term) => {
     const office = offices.table("offices").get(term.officeId) as unknown as
-      { level?: string } | undefined;
+      | { level?: string }
+      | undefined;
     return office?.level === "federal" || office?.level === "state";
   });
 }
@@ -712,7 +710,8 @@ function servesLocally(api: CoreAPI, personId: string): boolean {
     if (term.status !== "serving") return false;
     const level = (
       offices.table("offices").get(term.officeId) as unknown as
-        { level?: string } | undefined
+        | { level?: string }
+        | undefined
     )?.level;
     return level !== undefined && level !== "federal" && level !== "state";
   });
@@ -817,7 +816,8 @@ export function runDesk(
   const bindsTown = (lawId: string): boolean => {
     if (!chainJurisdictions) return true;
     const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
-      { jurisdiction?: string } | undefined;
+      | { jurisdiction?: string }
+      | undefined;
     return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
   };
   // Who a count's result concerns: the named voters on its roll.
