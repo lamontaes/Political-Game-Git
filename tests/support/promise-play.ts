@@ -379,8 +379,10 @@ export function playPayOnTime(
     // (data/english/payment-words.json, paymentNamed): for any other kind the
     // lender says nothing, and that is the rule read here, not a failure.
     if (!paymentNamed(core, rowOf(one)!)) {
+      // The talk may bring up another promise between the two (a named one
+      // that broke on its own day); this one is the case that must not be said.
       check(
-        subject === null,
+        subject?.id !== row.id,
         `${where}: ${row.id} is said over a payment the words do not name (${ender?.facts?.loanKind})`,
       );
       unnamed.add(String(ender?.facts?.loanKind));
