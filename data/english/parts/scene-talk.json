@@ -191484,7 +191484,7 @@
       "key": "scene-talk.narrate-narrate.money.you-missed-loan-and-name-has-the-papers-out",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You missed {loan}, and {name} has the papers out.",
+      "text": "You missed a payment on {loan}, and {name} has the papers out.",
       "uses": [
         {
           "subject": "scene",
@@ -191540,7 +191540,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.money",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["loan"]
         }
       ],
       "origin": "authored",
@@ -191655,7 +191656,7 @@
       "key": "scene-talk.state-confront.money.you-missed-loan-and-i-want-to-know-why",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "You missed {loan}, and I want to know why.",
+      "text": "You missed a payment on {loan}, and I want to know why.",
       "uses": [
         {
           "subject": "scene",
@@ -191755,7 +191756,7 @@
       "key": "scene-talk.reply-apologize.money.you-re-right-i-missed-loan-and-that-s-on-me",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "You're right. I missed {loan}, and that's on me.",
+      "text": "You're right. I missed the payment on {loan}, and that's on me.",
       "uses": [
         {
           "subject": "scene",
@@ -193022,7 +193023,7 @@
       "key": "scene-talk.close-react.money.name-says-due-next-had-better-be-the-answer",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} says {due-next} had better be the answer.",
+      "text": "{name} says the payment had better be there by {due-next}.",
       "uses": [
         {
           "subject": "scene",
@@ -193048,7 +193049,7 @@
       "key": "scene-talk.close-react.money.name-lets-loan-drop-for-now-and-watches-you-go",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} lets {loan} drop for now, and watches you go.",
+      "text": "{name} lets the talk about {loan} drop for now, and watches you go.",
       "uses": [
         {
           "subject": "scene",
@@ -193122,7 +193123,7 @@
       "key": "scene-talk.narrate-narrate.close.name-has-been-quiet-since-the-mail-came",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has been quiet since the mail came.",
+      "text": "{name} has the bills out and hasn't said a word.",
       "uses": [
         {
           "subject": "scene",
@@ -193130,7 +193131,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology.close",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["loan"]
         }
       ],
       "origin": "authored",
@@ -194369,7 +194371,7 @@
       "key": "scene-talk.close-react.close.name-lets-loan-rest-and-turns-away",
       "move": "close-react",
       "kind": "spoken",
-      "text": "{name} lets {loan} rest, and turns away.",
+      "text": "{name} lets the talk about {loan} rest, and turns away.",
       "uses": [
         {
           "subject": "scene",
