@@ -1,4 +1,4 @@
-/* global process, URLSearchParams, console, document, fetch */
+/* global process, URLSearchParams, console, document, fetch, innerHeight */
 // Election day and night in the bench (npm run bench): a grown player in a
 // place drawn from all 56 files for the soonest race they may enter, jumps
 // the calendar to the week before, and plays Day by Day. Election morning
@@ -212,7 +212,67 @@ try {
   else {
     await page.getByRole("button", { name: "Go vote", exact: true }).click();
     await page.locator("#ballot:not([hidden])").waitFor();
+    // What I know about them comes from the player's own record a moment
+    // after the paper: the picture waits for its first candidate.
+    await page
+      .locator("#ballot .ballot-know .ballot-person")
+      .first()
+      .waitFor({ timeout: 15000 })
+      .catch(() => {});
     await shot("eday-3-ballot");
+    // The ballot fits the window (pl-ballot): a long one scrolls inside its
+    // paper, and "What I know about them" stays on screen beside it.
+    const fit = await page.evaluate(() => {
+      const box = (s) => document.querySelector(s)?.getBoundingClientRect();
+      const panel = box("#ballot");
+      const know = box(".ballot-know .sechead");
+      const leave = box("#ballot-leave");
+      return {
+        bottom: Math.round(panel.bottom),
+        leave: leave ? Math.round(leave.bottom) : null,
+        height: innerHeight,
+        know: know ? Math.round(know.top) : null,
+      };
+    });
+    console.log("BALLOT FIT:", JSON.stringify(fit));
+    assert.ok(
+      fit.bottom <= fit.height,
+      `the ballot runs ${fit.bottom - fit.height}px past the window`,
+    );
+    assert.ok(
+      fit.know !== null && fit.know >= 0 && fit.know < fit.height,
+      "What I know about them is not on screen beside the ballot",
+    );
+    assert.ok(
+      fit.leave !== null && fit.leave <= fit.height,
+      "Leave is not on screen under the ballot",
+    );
+    // A mark far down a long ballot keeps the paper where the voter was: the
+    // redraw never throws them back to the first race.
+    const long = await page.evaluate(() => {
+      const sheet = document.querySelector("#ballot .ballot-sheet");
+      if (!sheet || sheet.scrollHeight <= sheet.clientHeight) return false;
+      sheet.scrollTop = sheet.scrollHeight;
+      return true;
+    });
+    if (long) {
+      const before = await page.evaluate(
+        () => document.querySelector("#ballot .ballot-sheet").scrollTop,
+      );
+      await page
+        .locator("#ballot .ballot-choice:not([disabled])")
+        .last()
+        .click();
+      await page.waitForTimeout(1500);
+      const after = await page.evaluate(
+        () => document.querySelector("#ballot .ballot-sheet")?.scrollTop ?? 0,
+      );
+      console.log("BALLOT SCROLL:", before, after);
+      assert.ok(
+        after > before / 2,
+        `a mark threw the ballot back from ${before}px to ${after}px`,
+      );
+    }
   }
   // Mark each race for its first candidate, as a voter might; a race below
   // the panel's fold is marked the same way (the ballot scrolls).
