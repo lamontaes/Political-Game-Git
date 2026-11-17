@@ -209,13 +209,17 @@ function eligibleOf(seed: string, stateKey: string): number {
   );
 }
 
-/** The sitting President's standing with the country going into a race, in points from even. */
-function approvalGap(sitting: CenturyPresidency | undefined): number {
-  // The base a term opens at is the winner's share (national-opinion.ts, the first row of a
-  // term); with no economic cycle in the century yet (stopgap SG-HIST-century-steady-economy)
-  // nothing has moved it since.
-  // stopgapId: SG-HIST-century-steady-economy
-  return sitting ? sitting.winnerShare * 100 - 50 : 0;
+/**
+ * The sitting President's standing with the country going into a race, in points from even.
+ * The approval engine (national-opinion.ts) opens a term at the winner's share and moves it only
+ * by the economy's changes and other engines' pushes; the century has no economy yet, so nothing
+ * would move it for the whole term, and a President elected with a minority of the vote would
+ * weigh on their party for four years for no cause the world holds. Until the economy runs in the
+ * century, approval stands at the neutral point (stopgap SG-HIST-century-steady-economy).
+ */
+// stopgapId: SG-HIST-century-steady-economy
+function approvalGap(): number {
+  return 0;
 }
 
 /**
@@ -234,7 +238,7 @@ function presidentialElection(
   // stopgapId: SG-HIST-century-two-terms
   const incumbentRuns = Boolean(sitting && sitting.personTerms < 2);
   const partyTerms = sitting ? sitting.partyTerms : 1;
-  const gap = approvalGap(sitting);
+  const gap = approvalGap();
   const field: CandidateInputs[] = [-1, 1].map((side) => ({
     id: `party:${side > 0 ? "R" : "D"}`,
     party: nationalParty(side),
