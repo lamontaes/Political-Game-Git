@@ -104,6 +104,7 @@ function prove(
   const build = () =>
     buildBenchWorld(drawn.seed, gameStartDate(), {
       twoLevel: true,
+      settings: { history: "today" },
       placeKey: drawn.key,
     }).core;
   const worlds = { law: build(), twin: build() };
@@ -269,7 +270,7 @@ function prove(
 }
 
 describe("the social media age check reaches teens' resting stress", () => {
-  it("is an estimate from the nearest research, with its spread across zero", () => {
+  it("is an estimate from the nearest research, with its spread across zero (just like today: needs the state's real social media age check)", () => {
     const row = WEB_LINKS.find((link) => link.key === LINK)!;
     expect(row.from).toBe(`law:${QUESTION}`);
     expect(row.to).toBe(MEASURE);
@@ -281,7 +282,7 @@ describe("the social media age check reaches teens' resting stress", () => {
   });
 
   it(
-    `a place with the law in force reads lower teen distress than its twin, for full and counted teens (seed ${seed})`,
+    `a place with the law in force reads lower teen distress than its twin, for full and counted teens (seed ${seed}) (just like today: needs the state's real social media age check)`,
     { timeout: 1_800_000 },
     () => {
       const bookkeeping = setBookkeeping(false);
@@ -308,7 +309,7 @@ describe("the social media age check reaches teens' resting stress", () => {
   );
 
   it(
-    `a place that began with the law in force reads its repealed twin higher, by the same size (seed ${seed})`,
+    `a place that began with the law in force reads its repealed twin higher, by the same size (seed ${seed}) (just like today: needs the state's real social media age check)`,
     { timeout: 1_800_000 },
     () => {
       const bookkeeping = setBookkeeping(false);

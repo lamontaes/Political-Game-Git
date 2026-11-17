@@ -626,6 +626,8 @@ export function composeSceneTalk(
       kind: "skipped",
       reason: `${type.key} has no ${fallback ? `generic arc for the key ${key}` : "purpose arc"}`,
     };
+  /** The fact a line sets when it denies what the record shows. */
+  const LIED = "lied";
   const gapLabel = type.purpose ?? type.key;
   const asker = core.people.get(cast.askerId);
   const asked = core.people.get(cast.askedId);
@@ -2068,7 +2070,12 @@ export function composeSceneTalk(
         continue;
       }
       // A lie plays out as two nodes, believed and caught.
-      if (reply.move === "lie" && ARCS.lie && !path.caught) {
+      // A reply is a lie when it is the lie move, or when its line says it is
+      // (`setsFacts: ["lied"]`: a denial of what the record shows).
+      const lies =
+        reply.move === "lie" ||
+        factsSetBy(reply.parts.slice(zero, one), base).includes(LIED);
+      if (lies && ARCS.lie && !path.caught) {
         lieBranches(reply, next, childPath, round);
         continue;
       }

@@ -2679,16 +2679,19 @@
           ],
           "arc": {
             "state": "confront",
-            "replies": ["tell", "apologize", "deny", "leave"],
+            "replies": ["tell", "apologize", "deny", "confront"],
             "follow": {
               "tell": ["ask", "accept"],
               "apologize": ["accept", "press"],
               "deny": ["press"],
+              "confront": ["confront"],
               "leave": []
             },
             "again": {
               "ask": ["tell", "deny", "leave"],
-              "press": ["tell", "apologize", "leave"]
+              "press": ["tell", "apologize", "leave"],
+              "confront": ["apologize", "deny", "confront", "leave"],
+              "answer": ["tell", "apologize", "leave"]
             },
             "endings": [
               {
