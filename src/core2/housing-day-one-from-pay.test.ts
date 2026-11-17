@@ -15,12 +15,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
-import {
-  HOUSING_MODULE_ID,
-  levelFromPay,
-  withHousing,
-} from "./modules/housing";
-import { coreAPI } from "./state";
+import { levelFromPay, withHousing } from "./modules/housing";
 import { corePlaceByKey } from "./place-lookup";
 import type { CoreInput, Source } from "./types";
 
@@ -169,7 +164,6 @@ describe("day one's rents and values", () => {
           twoLevel: true,
           placeKey: place.key,
         });
-        const town = String(core.placeMetadata?.housingTown ?? "");
         const typical = core.placeMetadata?.housingTypical;
         // The opening keeps what the town's rents and values came from.
         expect(
@@ -191,23 +185,18 @@ describe("day one's rents and values", () => {
           `${where}: rent ${rent} against pay ${pay} a day`,
           // The kept pay is rounded to the cent: one cent of pay a day.
         ).toBeLessThanOrEqual((share * DAYS) / MONTHS + 1);
-        // The town's renters pay around it: their median is the typical rent.
+        // The town's renters, counted and full alike, pay around it: their
+        // median is the typical rent (the full households alone are a subset
+        // the world picked for who they are, not a sample of the town's renters).
         const rents = (
-          coreAPI(core)
-            .moduleState(HOUSING_MODULE_ID)
-            .table("dwellings")
-            .rows() as unknown as {
-            householdId: string;
-            tenure: string;
-            rentMinor?: number;
-          }[]
+          JSON.parse(String(core.placeMetadata?.housingDwellings ?? "[]")) as [
+            string,
+            "own" | "rent" | "group",
+            number,
+          ][]
         )
-          .filter(
-            (row) =>
-              row.tenure === "rent" &&
-              core.households.get(row.householdId)?.placeId === town,
-          )
-          .map((row) => row.rentMinor ?? 0);
+          .filter((row) => row[1] === "rent")
+          .map((row) => row[2]);
         if (rents.length >= 5) {
           const middle = [...rents].sort((a, b) => a - b)[
             Math.floor(rents.length / 2)
@@ -215,7 +204,7 @@ describe("day one's rents and values", () => {
           expect(
             Math.abs(middle / rent - 1),
             `${where}: renters' median ${middle} against the typical ${rent}`,
-          ).toBeLessThan(0.25);
+          ).toBeLessThan(0.01);
         }
         towns.push({ where, pay, rent });
       }
