@@ -4449,8 +4449,9 @@ export function answerDonationAsk(
  * town (governor, U.S. Senate, U.S. House, a legislative seat) draws on the
  * adults of its district or state, counted by place at the coarser level.
  * Each turn the campaign's lists reach another share of the adults who lean
- * its candidate's way (`outsideReachPerTurn`); of those, `outsideDonorShare`
- * give, each the savings share of the person rule (the cash a typical donor
+ * its candidate's way (`outsideReachPerTurn`); of those, the share a
+ * stranger's cold ask moves (`coldAskResponse`, by their means and how close
+ * their views are) give, each the savings share of the person rule (the cash a typical donor
  * holds times the share they give per unit of agreement), never past the
  * individual limit; the month's-income share a named donor also gives from
  * is not read here (stopgap SG-GOV-outside-donor-month-income). The gift is one record per place group, from the
@@ -4526,6 +4527,11 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       campaignParameter("outsideDonorIncomeUsd"),
       api.state.seed,
     ) * minorPerDollar;
+  // A stranger's means, in months of a typical donor's income: the cash they
+  // hold beyond a cushion over a month of that income.
+  const means =
+    spare /
+    ((campaignParameter("outsideDonorIncomeUsd") / 12) * minorPerDollar);
   let total = 0;
   for (const place of places) {
     // The share of the place's adults on the candidate's side of the lean
@@ -4538,9 +4544,12 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
           : shareValue("evenSplit");
     // Their reason to give is how much of the place stands with the candidate.
     const reason = aligned;
-    const donors = Math.floor(
-      place.eligible * aligned * step * campaignParameter("outsideDonorShare"),
-    );
+    // A cold ask reaches a stranger with no tie. Each answers by their own
+    // means and how close their views are to the candidate's: the chance
+    // of a gift slides up with both (`coldAskResponse`, fitted once).
+    const chance =
+      1 - Math.exp(-campaignParameter("coldAskResponse") * reason * means);
+    const donors = Math.floor(place.eligible * aligned * step * chance);
     if (donors <= 0) continue;
     // stopgapId: SG-GOV-outside-donor-month-income
     const each =
