@@ -387,7 +387,12 @@ export function patchNotesScreen({ builds, title }) {
         stripSection(
           Math.min(at + 2, 5),
           group.heading,
-          ...group.notes.map((note) => introText(note)),
+          // Short bullets under a heading, like a real patch note.
+          el(
+            "ul",
+            { className: "patch-list" },
+            ...group.notes.map((note) => el("li", { textContent: note })),
+          ),
         ),
       ),
   });
