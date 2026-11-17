@@ -187643,7 +187643,7 @@
       "key": "scene-talk.reply-agree.i-ll-be-at-the-body-meeting-when-officials-should-show-up",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll be at the {body} {meeting-when}. Officials should show up.",
+      "text": "I'll be at the {body} {meeting-when}, as an official should.",
       "uses": [
         {
           "subject": "scene",
