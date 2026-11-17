@@ -85,11 +85,23 @@ description: >
   - To find which one, patch `globalThis.WeakMap` in the probe before anything else is imported. Record where each map was made and which keys it set before the restore, clear chosen ones after, and halve the set. Clearing every map breaks the world, because module state and the cash host live in maps too.
   - When the split is a record that exists in only one world, wrap that world's Map `set` to print the stack that first writes the key.
 
+## A new game's build and the bench server (Nov 17, Speed)
+
+- **`ps` %CPU is a lifetime average, not what a process does now.** After a 45 s build that used 75 CPU-seconds, the bench server read 119% in `ps` falling to 76% over 30 s, while the server's live CPU from `/proc/<pid>/stat` deltas was 0% (Nov 17, item 1 on #9747: "the bench stays at 124% CPU" was this). Read live CPU as the change in `utime+stime` over two seconds, per thread from `/proc/<pid>/task/*/stat`, before calling something a leftover.
+- **A per-step profile of the build:** stop and restart the inspector in the build's progress callback only at the steps you want. Stopping and restarting it at every one of 11,168 reports hung the probe for ten minutes. Select a warm-up day by its ordinal (`stage === "warmup"` and `Math.floor(done)`), never by its printed label, whose fraction shifts between runs.
+- **A read that rebuilds a list only to confirm nothing changed is the first thing to count.** `organize` rebuilt a chamber's member list on every committee and leader look-up (66,461 calls in 30 days at Epping, New Hampshire, 0 reorganizations). Keep the last answer stamped with the date and the `writes` counts of the module stores the list reads (`api.moduleState(id).writes`); reread under `bookkeeping()` and check it agrees, and reread while `tableTraceOn()` so the trace sees every reader (#9824).
+- **A sort inside a per-member loop is quadratic in the body.** `knownThrough` sorted the whole 400-seat chamber once per member, with a date parse in every comparison (731 ms to 84 ms when the rank and keys were worked out once, #9836). An `Intl.Collator().compare` gives the same order as `localeCompare()` with no arguments.
+- **Run the base side of a proof from a second worktree on main,** not by copying the base file over yours: a swapped file shows as an uncommitted change for the whole run, and the stop hook asks to commit it.
+
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
 
 - **With and without in one script (Nov 15).** Save the changed file and its base version (`git show HEAD:<file>`) beside each other, then loop place by place and round by round, copying one over the working file before each `npm run speed:year -- --seed <s> --place <key> --years 1 --exclusive`, with the changed file restored at the end. Run it in the background and start nothing else while it runs (about 25 minutes for three places, two runs a side). The records line also shows what the change adds (a per-death row added 7 to 28 records a year).
+
+## A long build that must report as it goes (Blockers lane, Nov 17)
+
+The loading bar can only move between steps the server yields, so a long block holds it still. The pattern that worked for the warm-up, the pre-start history, the day loop, the opening population, the offices and the sitting sessions: give the function a stepwise twin (`function*` that yields its share done, 0 to 1, between its own parts) and make the old function walk the twin to the end (`for (const step of twin(...)) void step;`), so every other caller is unchanged and there is one body. Prove the world is the same by hashing what it wrote before and after on two seeds (the pre-start history and each person's place, job and household; the warm-up set back to its old length so only the stepping differs). To find the slow step, time the gaps between the build's reports (`buildBenchWorldInStages` with an `onStage` that records `Date.now()`), then profile just that step: start `node:inspector`'s Profiler when the step before it reports and stop it at the next, and list the time under one function's children. A fixed report point does not keep up with town size: a step that is short in a small town is seconds in a large one, so the cure there is making the step cheaper (`speed-work`), not more report points.
 
 ## Unattended-world changes: the speed table
 

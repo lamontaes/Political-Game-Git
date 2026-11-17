@@ -117,9 +117,11 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `ask-why`: every proof answers why, by record
 - `asset-scene-admission`: admitting art into the game
 - `cadence-and-summaries`: nothing runs or is kept every day by default; the daily register and its guard
+- `century-history`: the century before day one from 1925: adding an office or body, the one count path, the carry, the "today" setting and its checks
 - `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
+- `crew-coordinator`: running a builder crew from a crew line: lanes, the watcher, relays, reading checks, the hourly merge list
 - `crew-messages`: how sessions message each other, and processes as skills
 - `cto`: the CTO role
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
@@ -155,6 +157,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `press-desk-reach`: which stories a town's outlets print, how a record's reach is weighed by its readers, and proving a desk change by story kind
 - `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
+- `relationship-checks`: turning a check that fails a world for leaving a real band into a check that a relationship has its real strength
 - `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
