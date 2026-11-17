@@ -44,7 +44,10 @@ export function electionNight({ title, step, labels, last, onNext }) {
               dotRows(
                 step.places.map((place) => ({
                   label: place.name,
-                  value: place.votes
+                  // The two ahead there, as the mock shows, so a row stays on one line.
+                  value: [...place.votes]
+                    .sort((a, b) => b.votes - a.votes)
+                    .slice(0, 2)
                     .map((v) => `${v.name} ${v.votes.toLocaleString("en-US")}`)
                     .join(" · "),
                 })),
