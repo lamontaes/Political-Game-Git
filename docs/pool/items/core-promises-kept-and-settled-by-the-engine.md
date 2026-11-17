@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: L
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/promises-engine
+pr: 9568
 after:
 blocked-on:
 lead: governing
@@ -21,7 +21,7 @@ checked: fable 2026-11-15
 
 **What.** When someone gives their word in a scene (a vote, a rent paid on time, coming to a meeting, holding a position), the game remembers it, decides later whether it was kept or broken, and warms or cools the tie between the two people. Today the director does all of that by itself, and the simulation never holds the promise. The owner ruled on Nov 15 that the train merges as it is and this move is the first follow-up, and that no new promise kind is added in the director until it lands. Seen: nothing wrong on screen today; the fault shows the day another engine needs to know a promise was broken (a vote count, a bargain, a news story, a save), because only the director can answer.
 
-**Cause.** Found in code: src/director/promises.ts (new on the train, 630 lines) keeps every open promise on the director's ledger (`KeptFact.promise` in src/director/types.ts, indexed by `promisesBySettle` and `promisesDue`, created in src/director/ledger.ts `produceKeptFacts`). `settlePromisesOnEvent` in that file rules a promise kept or broken from the legislature's roll (`votesOn`), a meeting's record, a missed payment or the window's close, and `endPromise` then moves the tie through `api.relationship`. src/director/promise-talk.ts works out how much an apology wins back from the person's traits. The kinds and their windows are director data (src/director/data/promise-kinds.json). The only reader of an outcome is the director's own `promisesBetween`. The standing rule (owner, Oct 27 and 28) is that the simulation is the one layer that knows anything and a view that stores or decides its own version of a fact is a duplicate. The engine already keeps two promise records of its own that this does not read: the legislature's `vote-promise` rows (src/core2/modules/legislature.ts) and the campaigns module's `promises` table.
+**Cause.** Found in code: src/director/promises.ts (new on the train, 630 lines) keeps every open promise on the director's ledger (`KeptFact.promise` in src/director/types.ts, indexed by `promisesBySettle` and `promisesDue`, created in src/director/ledger.ts `produceKeptFacts`). `settlePromisesOnEvent` in that file rules a promise kept or broken from the legislature's roll (`votesOn`), a meeting's record, a missed payment or the window's close, and `endPromise` then moves the tie through `api.relationship`. src/director/promise-talk.ts works out how much an apology wins back from the person's traits. The kinds and their windows are director data (the director's own `promise-kinds.json`). The only reader of an outcome is the director's own `promisesBetween`. The standing rule (owner, Oct 27 and 28) is that the simulation is the one layer that knows anything and a view that stores or decides its own version of a fact is a duplicate. The engine already keeps two promise records of its own that this does not read: the legislature's `vote-promise` rows (src/core2/modules/legislature.ts) and the campaigns module's `promises` table.
 
 **Fix.** One engine module holds a promise: who gave it, to whom, its kind, the record that settles it, the day its window closes, and how it ended. Move the kinds table and its window parameters under src/core2/data, move the settlement (`settlePromisesOnEvent`, the window close, `endPromise` and the tie it moves) into that module on the same events it reads today, and fold the legislature's `vote-promise` and the campaign promise rows into it or read them through it, so there is one record of a promise. The scene reply that makes a promise calls the module; the director's ledger keeps no promise of its own and reads open and ended promises from the module for its talk lines (promise-talk.ts keeps only the wording and the choice of line). The apology's effect on the tie is the module's, with its trait weights as parameter rows. Delete the director's indexes and settlement in the same change and count what was removed. Nothing a player reads changes; no line is added.
 
@@ -33,6 +33,6 @@ checked: fable 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/director/promises.ts, src/director/promise-talk.ts, src/director/ledger.ts, src/director/types.ts, src/director/data/promise-kinds.json, src/core2/modules/legislature.ts, src/core2/modules/campaigns.ts, src/core2/modules/ (new module), .agents/skills/promises/SKILL.md
+**Files.** src/director/promises.ts, src/director/promise-talk.ts, src/director/ledger.ts, src/director/types.ts, src/director/data/promise-endings.json (new), src/core2/data/promises/promise-kinds.json (new), src/core2/modules/legislature.ts, src/core2/modules/campaigns.ts, src/core2/modules/ (new module), .agents/skills/promises/SKILL.md
 
 **Notes.** Nov 15, acting CTO: the same shape, smaller, was found beside it and belongs with this item's builder or a follow-up: the yes or no of an ask to serve is worked out in src/director/purpose-scene.ts and src/director/scene-talk.ts from the serve-asks engine's terms, and the engine takes the scene's ending as its verdict; the engine should return the verdict for each branch.

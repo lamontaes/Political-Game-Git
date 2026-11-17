@@ -24,6 +24,7 @@ import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
+import federalLines from "../data/country/federal-lines.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import openingCash from "../../../data/research/money/treasury-opening-cash.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
@@ -83,6 +84,8 @@ import {
   notifyTaxWithheld,
 } from "../tax-listeners";
 import {
+  type BudgetDrivers,
+  budgetDrivers,
   applySocialSecurityLevel,
   closeTreasuries,
   treasuryMonthsOf,
@@ -257,11 +260,18 @@ export interface BudgetRow {
   /** Another state's budget: the country tier's row whose ledger it is a view of (outside-budgets). */
   readonly ledgerId?: string;
   /**
-   * What a state's or county's receipts scaled its Census base lines by when this budget was written
-   * (`receiptsFactor`; absent means 1). Kept on the row because the factor reads the treasury months of the
-   * year before, which fill in after a budget is adopted: a line's zero is read with the factor it was adopted with.
+   * Every spending line as it stands with no budget bill and no act: last year's line carried forward at this year's
+   * cost, receipts or people. The one zero a bill's raise is read against (`lineExtra`); the next year starts from it.
+   * The opening row's is the published file's, the one place the file is read.
    */
-  readonly receiptsFactor?: number;
+  readonly baseSpendingMinor?: Readonly<Record<string, number>>;
+  /** The world's people, prices, debt and yield this row's carried lines were written at; next year's lines move by the ratio. */
+  readonly drivers?: BudgetDrivers;
+  /** The budget this row's lines were carried forward from, and the treasury months whose collections set its revenue plan: the records the Trace box opens behind it. */
+  readonly carriedFrom?: string;
+  readonly collectedMonths?: readonly string[];
+  /** The month ("2026-04") the revenue plan stands for: the opening's, or the middle of the year whose collections set it. */
+  readonly revenuePlanMonth?: string;
 }
 
 interface WithholdingRecord {
@@ -1035,11 +1045,22 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     const fy = fiscalYearOf(core.date, gov.fiscalYearStart);
     const stopgapId = baseRowsOf(chain.stateKey)[gov.base]?.stopgapId;
     if (stopgapId) api.stopgap(stopgapId);
-    table(api, "budgets").put(
-      budgetFor(api, gov, chain.stateKey, fy, `${fy}-${gov.fiscalYearStart}`, {
-        kind: "opening",
-      }) as unknown as ModuleRow,
+    const opening = budgetFor(
+      api,
+      gov,
+      chain.stateKey,
+      fy,
+      `${fy}-${gov.fiscalYearStart}`,
+      { kind: "opening" },
     );
+    table(api, "budgets").put({
+      ...opening,
+      baseSpendingMinor: opening.spendingMinor,
+      ...(gov.level === "federal" && budgetDrivers(api)
+        ? { drivers: budgetDrivers(api) }
+        : {}),
+      revenuePlanMonth: opening.startsOn.slice(0, 7),
+    } as unknown as ModuleRow);
     calendar.schedule({
       key: `adopt:${gov.id}:${fy + 1}`,
       date: `${fy + 1}-${gov.fiscalYearStart}`,
@@ -1490,22 +1511,19 @@ export function baseBudget(
  * budgeted revenue must move; `outside-budgets.ts` does the same for the other
  * states from the country tier's ledgers). Other governments hold 1.
  */
-function collectionsOverBase(
+function collectedLastYear(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-): number {
+): number | undefined {
   if (
     gov.level !== "federal" &&
     gov.level !== "state" &&
     gov.level !== "county"
   )
-    return 1;
+    return undefined;
   const from = `${fy - 1}-${gov.fiscalYearStart}`;
   const to = `${fy}-${gov.fiscalYearStart}`;
-  const expected = Object.values(
-    baseBudget(api, gov, fy - 1).revenueMinor,
-  ).reduce((a, v) => a + v, 0);
   let collected = 0;
   let months = 0;
   for (const m of treasuryMonthsOf(api, gov.id))
@@ -1513,20 +1531,114 @@ function collectionsOverBase(
       collected += m.collectedMinor - m.borrowedMinor;
       months += 1;
     }
-  return months === treasuryMonthsPerYear() && expected > 0
+  return months === treasuryMonthsPerYear() ? collected : undefined;
+}
+
+/** The treasury months of the fiscal year before `fy`, by id: the records a re-budgeted plan was set from. */
+function collectedMonthIds(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): string[] {
+  const from = `${fy - 1}-${gov.fiscalYearStart}`;
+  const to = `${fy}-${gov.fiscalYearStart}`;
+  return treasuryMonthsOf(api, gov.id)
+    .filter((m) => m.date >= from && m.date < to)
+    .map((m) => m.id);
+}
+
+function collectionsOverBase(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): number | undefined {
+  const collected = collectedLastYear(api, gov, fy);
+  const expected = Object.values(
+    baseBudget(api, gov, fy - 1).revenueMinor,
+  ).reduce((a, v) => a + v, 0);
+  return collected !== undefined && expected > 0
     ? collected / expected
-    : 1;
+    : undefined;
+}
+
+/** Where each federal spending line's dollars go: to households (benefits), or elsewhere (interest to bondholders, purchases). */
+const FEDERAL_DESTINATION = federalLines.lines as Readonly<
+  Record<string, string>
+>;
+
+/**
+ * How far a line's cost has moved since the budget it carries forward from was written. A federal line paid to
+ * households moves with the people the country's households hold and the world's prices; net interest with the
+ * debt owed and the yield on it; every other line with prices. A state's or county's lines move with what it
+ * collected last year over what its plan expected (a sliding scale, no threshold). Nothing here reads a
+ * published level: every ratio is between two moments of this world.
+ */
+function lineGrowth(
+  gov: GovernmentRow,
+  line: string,
+  prior: BudgetRow,
+  now: BudgetDrivers | undefined,
+  receipts: number,
+): number {
+  if (gov.level !== "federal") return receipts;
+  const then = prior.drivers;
+  if (!then || !now) return 1;
+  if (line === "netInterest")
+    return (now.debt / then.debt) * (now.yield / then.yield);
+  const prices = now.prices / then.prices;
+  return FEDERAL_DESTINATION[line] === "households"
+    ? (now.people / then.people) * prices
+    : prices;
 }
 
 /**
- * The factor a government's spending follows: what a state or county collected
- * last fiscal year over its Census base. The nation's spending is voted, not
- * read from receipts (SG-GOV-spending-vote-state-county), so it holds 1.
+ * The year's lines before any bill: last year's adopted lines carried forward at this year's cost (`lineGrowth`).
+ * The published file is read only where there is no earlier budget, for the opening year.
  */
-function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
-  if (gov.level !== "state" && gov.level !== "county") return 1;
-  api.stopgap("SG-GOV-spending-vote-state-county");
-  return collectionsOverBase(api, gov, fy);
+function carriedLines(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  published: BudgetRow,
+  own: BudgetRow | undefined,
+): {
+  spending: Record<string, number>;
+  drivers?: BudgetDrivers;
+  collected: number | undefined;
+  prior?: BudgetRow;
+} {
+  let prior: BudgetRow | undefined;
+  for (const b of budgetsOf(api, gov.id))
+    if (
+      b.fiscalYear < fy &&
+      b.baseSpendingMinor &&
+      (!prior || b.fiscalYear > prior.fiscalYear)
+    )
+      prior = b;
+  const collected = collectionsOverBase(api, gov, fy);
+  if (!prior) return { spending: { ...published.spendingMinor }, collected };
+  const drivers =
+    gov.level === "federal" ? (own?.drivers ?? budgetDrivers(api)) : undefined;
+  // A state's or county's lines follow what it collected over the plan it spent against.
+  const planned = Object.values(prior.revenueMinor).reduce((a, v) => a + v, 0);
+  const took = collectedLastYear(api, gov, fy);
+  const receipts =
+    (gov.level === "state" || gov.level === "county") &&
+    prior.fiscalYear === fy - 1 &&
+    took !== undefined &&
+    planned > 0
+      ? took / planned
+      : 1;
+  if (gov.level === "state" || gov.level === "county")
+    api.stopgap("SG-GOV-spending-vote-state-county");
+  const spending: Record<string, number> = {};
+  for (const [line, v] of Object.entries(prior.baseSpendingMinor!))
+    spending[line] = Math.round(
+      v * lineGrowth(gov, line, prior, drivers, receipts),
+    );
+  for (const [line, v] of Object.entries(published.spendingMinor))
+    if (!(line in spending)) spending[line] = v;
+  return { spending, drivers, collected, prior };
 }
 
 function legislatedBudget(
@@ -1544,33 +1656,50 @@ function legislatedBudget(
     api.state.date,
     adoptedBy,
   );
-  // A state or county spends in proportion to what it collected last fiscal
-  // year over what its plan expected (a sliding scale, no threshold).
-  const receipts = receiptsFactor(api, gov, fy);
+  const own = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  const {
+    spending: carried,
+    drivers,
+    collected,
+    prior,
+  } = carriedLines(api, gov, fy, base, own);
   // Revenue is re-budgeted every year from what the government collected under
   // the law in force, in the published mix of lines.
-  const collected = collectionsOverBase(api, gov, fy);
   const revenue = Object.fromEntries(
     Object.entries(base.revenueMinor).map(([line, v]) => [
       line,
-      Math.round(v * collected),
+      Math.round(v * (collected ?? 1)),
     ]),
   );
-  const spending = Object.fromEntries(
-    Object.entries(base.spendingMinor).map(([line, v]) => [
-      line,
-      Math.round(v * receipts),
-    ]),
-  );
+  const spending = { ...carried };
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  // A plan set from a year's collections stands at that year's middle; a plan that was not re-budgeted keeps its month.
+  const planMonth =
+    collected !== undefined
+      ? monthsBefore(base.startsOn, treasuryMonthsPerYear() / 2)
+      : (own?.revenuePlanMonth ??
+        prior?.revenuePlanMonth ??
+        base.startsOn.slice(0, 7));
   return {
     ...base,
     revenueMinor: revenue,
     spendingMinor: spending,
-    receiptsFactor: receipts,
+    baseSpendingMinor: carried,
+    ...(prior ? { carriedFrom: prior.id } : {}),
+    ...(collected !== undefined
+      ? { collectedMonths: collectedMonthIds(api, gov, fy) }
+      : {}),
+    ...(drivers ? { drivers } : {}),
+    revenuePlanMonth: planMonth,
   };
+}
+
+function monthsBefore(date: string, months: number): string {
+  const d = new Date(`${date.slice(0, 7)}-01T00:00:00Z`);
+  d.setUTCMonth(d.getUTCMonth() - months);
+  return d.toISOString().slice(0, 7);
 }
 
 /**
@@ -1692,10 +1821,9 @@ export function lineWithoutBills(
   fy: number,
   line: string,
 ): number {
-  // The row for the year carries the receipts factor it was written with, so the zero is the line as it was
-  // scaled then; today's factor reads treasury months that filled in after the budget was adopted.
+  // The row for the year keeps its own lines as they stood with no bill, so the zero is read from the row.
   const row = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
-  if (row?.receiptsFactor !== undefined) return lineBase(api, gov, row, line);
+  if (row?.baseSpendingMinor) return row.baseSpendingMinor[line] ?? 0;
   return Math.max(
     0,
     adoptedLine(api, gov, fy, line) -
@@ -1704,26 +1832,10 @@ export function lineWithoutBills(
 }
 
 /**
- * A line as the government's receipts scale its Census base, with no bill and no act: the zero a budget row's
- * line is read against. The factor is the one the row was written with, not today's (see `BudgetRow.receiptsFactor`).
- */
-function lineBase(
-  api: CoreAPI,
-  gov: GovernmentRow,
-  budget: BudgetRow,
-  line: string,
-): number {
-  return Math.round(
-    (baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0) *
-      (budget.receiptsFactor ?? 1),
-  );
-}
-
-/**
  * A line's spending above what it would be with no budget bill and no act: the budget row's line less
- * `lineBase`, so every bill the body enacted and every act that amended the line counts. The one reading of
+ * the row's own no-bill line, so every bill the body enacted and every act that amended the line counts. The one reading of
  * "how far a line stands above its base" (owner rule: one engine per mechanic). Subtracting `baseBudget`
- * from a line is wrong for a state or county, whose adopted lines are scaled by `receiptsFactor`, which
+ * from a line is wrong for every government, whose lines carry forward from last year's, which
  * `baseBudget` leaves out: a line no bill raised read as raised (Whitney, Nevada: 475,182,513 of a county's
  * housing line), and a factor below one hid a real raise (Fort Carson, Colorado). A guard
  * (tests/guards/line-extra.test.ts) fails when a reader subtracts it again.
