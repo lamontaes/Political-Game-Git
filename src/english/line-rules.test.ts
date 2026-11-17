@@ -795,8 +795,14 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
     ).toBe(false);
     // It flags nothing the bank holds now.
     expect(flagged("body-named-as-place-names-it", talk)).toEqual([]);
-    // The vote board's tally line is left alone.
-    const tally = talk.find((p) => /^The board shows every name/.test(p.text))!;
+    // The vote board's tally line is left alone (the bank line was deleted in
+    // the Nov 17 cut, so the case holds its words as a fixture).
+    const tally = {
+      ...clerk,
+      key: "fixture.tally",
+      text: "The board shows every name. Yours will be on it.",
+      uses: [{ subject: "scene", role: "asker", purpose: "ask-vote.watched" }],
+    } as RulePiece;
     expect(ruleFlags(rule, tally)).toBe(false);
     expect(rule.status).toBe("rewrite");
   });
