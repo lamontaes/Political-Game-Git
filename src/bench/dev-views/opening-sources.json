@@ -68,7 +68,7 @@
     },
     "town.century": {
       "made": "decision",
-      "by": "src/core2/electorate-century.ts runCentury: every presidential election from 1928, each state's 1925 lean one starting shift from the world's seed (world-draw.ts worldOffsetUnit, centuryStateLeanSpread) and carried from its own results since (centuryLeanCarryShare)"
+      "by": "src/core2/electorate-century.ts runCentury: every presidential election from 1928, each state's 1925 lean one starting shift from the world's seed (electorate-century.ts centuryShift, centuryStateLeanSpread) and carried from its own results since (centuryLeanCarryShare)"
     },
     "person.name": {
       "made": "generation",
@@ -828,6 +828,11 @@
     "src/english/grounded-english.ts#renderGroundedEnglish": {
       "made": "generation",
       "what": "Which wording a line uses (presentation)"
+    },
+    "src/core2/electorate-century.ts#centuryShift": {
+      "made": "generation",
+      "what": "One starting shift on the lean order in 1925 for the country and for each state, any size between -1 and 1 of its spread equally likely: where each stands when the century starts (CTO line 6935396694)",
+      "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
     },
     "src/core2/electorate-century.ts#centuryOpening": {
       "made": "generation",
