@@ -109,15 +109,16 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
     ),
   ).toBe(true);
 
-  // One line looked up by its key says where it lives, what it is tied to and whether it plays.
+  // One line looked up by its key says where it lives, what it is tied to and whether it plays
+  // (a short answer tied by its subject; "Oh, my." was deleted on Nov 16 as a reply that says nothing).
   const oh = (
     await ask(
       "GET",
-      "scene-trace/line?key=conversation.news-answer-react.oh-my",
+      "scene-trace/line?key=conversation.own-work-answer-plain.still-there",
     )
   ).value as { tie: string; bank: string };
   expect(oh).toMatchObject({ bank: "conversation", tie: "subject" });
-  expect(lineByKey("conversation.news-answer-react.oh-my")?.tie).toBe(
+  expect(lineByKey("conversation.own-work-answer-plain.still-there")?.tie).toBe(
     "subject",
   );
 
