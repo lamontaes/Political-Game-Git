@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/history-state-places
-pr:
+pr: "#9969"
 after: history-officials-drawn-around-century-parties
 blocked-on:
 lead: elections
