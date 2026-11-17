@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr:
+pr: 9879
 blocked-on:
 source: the first-election path the CTO put first (Nov 17, 03:25Z); found running election-day.browser.mjs twice on one bench
 after:
