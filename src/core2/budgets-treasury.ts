@@ -2182,11 +2182,17 @@ export function applySocialSecurityLevel(
   };
   const accounts = api.accounts();
   for (const [personId, claim] of retirementClaims(core)) {
-    if (claim.counted) continue;
     const obligation = accounts.obligation(claim.obligationId);
     if (!obligation || obligation.endedAt) continue;
     const want = target(claim.obligationId, claim.monthlyMinor);
-    reach(personId, "person", baseOf(claim.obligationId, 0), want);
+    // A claimant still in the counts is reached as a group of one, by the
+    // same rule as a full person (one model, two tiers).
+    reach(
+      personId,
+      claim.counted ? "group" : "person",
+      baseOf(claim.obligationId, 0),
+      want,
+    );
     if (want === obligation.amountMinor) continue;
     const from = obligation.amountMinor;
     accounts.setObligationAmount(claim.obligationId, want, {
@@ -2194,7 +2200,8 @@ export function applySocialSecurityLevel(
       citation: "Federal Social Security line in force against its base",
       asOf: api.state.date,
     });
-    landOn(api, personId, claim.obligationId, from, want, measureId);
+    if (!claim.counted)
+      landOn(api, personId, claim.obligationId, from, want, measureId);
   }
   // The awards the opening wrote for full people are recipient income
   // contracts: each takes its new amount from its next due date, and the
