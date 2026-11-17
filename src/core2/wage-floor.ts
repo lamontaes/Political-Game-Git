@@ -223,9 +223,12 @@ export function raiseOne(
  * The minimum wage in force where a job is, in dollars an hour: the higher of
  * the state's and the federal floor in force today (local minimums are not
  * modeled in pay), so a minimum wage a body enacts moves what new hires
- * anywhere in the state are offered.
+ * anywhere in the state are offered. Null where the world keeps no laws.
  */
 export function minimumHourlyAt(api: CoreAPI, placeId: string): number | null {
+  // A world with no laws engine keeps no law in force, so no floor (the offer
+  // is the market's, as before the law was read).
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return null;
   const stateKey = placeStateKey(placeId);
   const answer = stateKey
     ? stateLawInForce(api, stateKey, "minimum-wage")
