@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: claude/long-game-instruction-checks
-pr:
+pr: #9869
 after:
 blocked-on:
 source: the CTO's must-hold checks for Long game, items 1 and 3, on issue 9747 (Nov 17, 2026, 05:22Z)
