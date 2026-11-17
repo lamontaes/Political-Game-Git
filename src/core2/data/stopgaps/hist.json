@@ -158,7 +158,7 @@
     "id": "SG-HIST-century-steady-economy",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "The century has no economic cycle yet: a President's approval stays at the share they were elected with, so only incumbency, experience, the party's time in the White House and each state's carried lean move the century's races.",
+    "whatItFakes": "The century has no economic cycle yet, so a President's approval in the century stands at the neutral point: only incumbency, experience, the party's time in the White House, the midterm and each place's carried lean move the century's races. (The approval engine opens a term at the winner's share and moves it only by the economy, so without one the share would hold for four years: an Electoral College winner with a minority of the vote weighed on their party every term, and the carried leans walked toward the other party.)",
     "why": "The economy before day one is the published series plus one offset (macro-model.ts), which the owner's ruling of Nov 17 removes; the country tier is not yet run back from 1925.",
     "addedBy": "History lane (claude/history-presidency)",
     "addedAt": "2026-11-17",
