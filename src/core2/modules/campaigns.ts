@@ -5499,6 +5499,8 @@ export function adAudience(
   if (!outlet || outlet.contactPriceMinor <= 0) return null;
   // The money buys contacts at the outlet's own price.
   const contacts = Math.floor(amount / outlet.contactPriceMinor);
+  // Money that buys less than one contact buys nothing: no sale.
+  if (contacts < 1) return null;
   const full = outlet.followerIds
     .map((id) => api.state.people.get(id))
     .filter((p): p is PersonState => p !== undefined);
@@ -6016,14 +6018,20 @@ export function voterContactPriceMinor(api: CoreAPI): number {
  * The most a campaign can usefully put into each kind of reach in one turn,
  * in minor units of its own money: an ad buy that reaches every follower of
  * the town's outlet once at the outlet's price, a mailed piece to every
- * address in town, and what its event fund still lacks of one venue. A
+ * address in town, what its event fund still lacks of one venue, and what
+ * its poll fund still lacks of one poll. A
  * district campaign spends only the town's share of its money here
  * (`townShareOfRace`), so its room is that much larger.
  */
 function channelRoom(
   api: CoreAPI,
   campaign: CampaignRow,
-): { readonly ad: number; readonly mail: number; readonly event: number } {
+): {
+  readonly ad: number;
+  readonly mail: number;
+  readonly event: number;
+  readonly poll: number;
+} {
   const share = townShareOfRace(api, campaign.contestId);
   const outlet = adOutlet?.(api) ?? null;
   const audience = outlet
@@ -6037,6 +6045,13 @@ function channelRoom(
     event: Math.max(
       0,
       unitPrice(api, "event-venue") - (campaign.eventFundMinor ?? 0),
+    ),
+    // A poll is bought whole, at the fewest interviews that make one.
+    poll: Math.max(
+      0,
+      campaignParameter("pollMinimumInterviews") *
+        campaignParameter("pollCostPerInterviewMinor") -
+        (campaign.pollFundMinor ?? 0),
     ),
   };
 }
@@ -8332,14 +8347,15 @@ export function campaignTurn(
     Math.floor((budget * shares[k]) / total);
   // No kind of reach takes more than it can use this turn: an outlet sells
   // no more than its whole audience, the mail no more than a piece to every
-  // address, and one evening needs one venue. What an ad or the mail cannot
+  // address, one evening needs one venue and one poll its interviews. What
+  // an ad or the mail cannot
   // use goes to the other while it has room; the rest is kept for later.
   const room = channelRoom(api, campaign);
   const parts = {
     ad: Math.min(wanted("ad"), room.ad),
     mail: Math.min(wanted("mail"), room.mail),
     event: Math.min(wanted("event"), room.event),
-    poll: wanted("poll"),
+    poll: Math.min(wanted("poll"), room.poll),
   };
   const over = wanted("ad") - parts.ad + (wanted("mail") - parts.mail);
   if (over > 0 && shares.ad > 0 && parts.ad < room.ad)
