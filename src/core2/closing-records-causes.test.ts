@@ -59,7 +59,7 @@ describe(`Closings keep their causes (seed ${seed})`, () => {
         advanceCore(core, addDays(makeIsoDate(core.date), 365));
         const closures = (
           api
-            .moduleState("core2-business-v1")
+            .moduleState(BUSINESS_MODULE_ID)
             .table("closures")
             .rows() as unknown as {
             id: string;
