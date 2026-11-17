@@ -56,7 +56,14 @@ for (let draw = 0; draw < 3; draw += 1) {
     a.id.localeCompare(b.id),
   )) {
     if (laidOff >= 40) break;
-    if (!person.alive || !person.jobId || person.id === core.playerId) continue;
+    // Working adults who live in the town, as the player meets them.
+    if (
+      !person.alive ||
+      !person.jobId ||
+      person.id === core.playerId ||
+      person.placeId !== world.placeId
+    )
+      continue;
     try {
       dev.forceLayoff(person.id);
       laidOff += 1;
