@@ -102239,6 +102239,54 @@
       }
     },
     {
+      "key": "scene-talk.reply-tell.ill-be-honest-with-you-that-worried-me-and-id-rather-you-didnt-do-it-a",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll be honest with you. That worried me, and I'd rather you didn't do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I know you meant well. Please don't bring it up again, and we're fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -184659,10 +184707,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-sets-an-envelope-on-your-desk-and-keeps-a-hand-on-it-wanted-is-why",
+      "key": "scene-talk.narrate-narrate.name-sets-an-envelope-down-and-keeps-a-hand-on-it-wanted-is-why",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} sets an envelope on your desk and keeps a hand on it. {wanted} is why.",
+      "text": "{name} sets an envelope down and keeps a hand on it. {wanted} is why.",
       "uses": [
         {
           "subject": "scene",
@@ -184700,56 +184748,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.got-a-minute-about-contract-just-us",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Got a minute about {contract}? Just us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.can-we-close-the-door-this-is-about-wanted",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Can we close the door? This is about {wanted}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["wanted"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -184922,106 +184920,6 @@
           "purpose": "bribe-offer",
           "key": "favor-asked",
           "requiresFacts": ["favor-vote", "bill", "bribe-weight"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.it-comes-to-bribe-weight-in-here-all-i-need-is-contract",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "It comes to {bribe-weight}, in here. All I need is {contract}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract", "bribe-weight"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-know-you-re-your-side-bill-think-about-what-s-in-here",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I know you're {your-side} {bill}. Think about what's in here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill", "stand-apart", "your-side"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.you-re-already-your-side-bill-this-just-says-thank-you",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "You're already {your-side} {bill}. This just says thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill", "stand-with", "your-side"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.other-bids-are-in-on-contract-mine-should-be-the-one-you-read-first",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Other bids are in on {contract}. Mine should be the one you read first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract", "bidders"]
         }
       ],
       "bearing": "calm",
@@ -185271,7 +185169,7 @@
           "role": "asked",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"]
+          "requiresFacts": ["bribe-weight", "wanted"]
         }
       ],
       "bearing": "nervous",
@@ -185373,7 +185271,7 @@
           "role": "asked",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill"],
+          "requiresFacts": ["favor-vote", "bill", "bribe-weight"],
           "setsFacts": ["turned-down"]
         }
       ],
@@ -185430,32 +185328,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.that-s-bribe-weight-pick-it-up",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "That's {bribe-weight}. Pick it up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"],
-          "setsFacts": ["turned-down"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable), drafted by Sonnet",
       "date": "2026-11-17",
@@ -185556,60 +185428,6 @@
           "purpose": "bribe-offer.again",
           "key": "favor-asked",
           "requiresFacts": ["favor-contract", "contract"],
-          "setsFacts": ["turned-down"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.say-that-to-whoever-asks-then-bill-isn-t-for-sale",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "Say that to whoever asks, then. {bill} isn't for sale.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill"],
-          "after": "threaten",
-          "setsFacts": ["turned-down"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.you-can-t-scare-me-into-contract-take-it-back",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "You can't scare me into {contract}. Take it back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"],
-          "after": "threaten",
           "setsFacts": ["turned-down"]
         }
       ],
@@ -185740,7 +185558,7 @@
           "role": "asked",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"],
+          "requiresFacts": ["bribe-weight", "wanted"],
           "setsFacts": ["turned-down"]
         }
       ],
@@ -185766,7 +185584,7 @@
           "role": "asked",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill"]
+          "requiresFacts": ["favor-vote", "bill", "bribe-weight"]
         }
       ],
       "bearing": "guarded",
@@ -185879,31 +185697,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.i-m-with-you-on-bill-you-can-count-on-it",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I'm with you on {bill}. You can count on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill", "stand-apart", "your-side"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.that-s-kind-but-what-has-it-to-do-with-bill",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -185966,7 +185759,7 @@
           "role": "asked",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"]
+          "requiresFacts": ["bribe-weight", "wanted"]
         }
       ],
       "bearing": "braced",
@@ -186029,32 +185822,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-can-t-do-wanted-for-you-friend-or-not",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry. I can't do {wanted} for you, friend or not.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "bribe-offer.friend",
-          "key": "favor-asked",
-          "requiresFacts": ["wanted"],
-          "setsFacts": ["turned-down"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-apologize.i-m-sorry-bribe-weight-is-too-much-to-owe-a-friend",
       "move": "reply-apologize",
       "kind": "spoken",
@@ -186067,7 +185834,7 @@
           "role": "asked",
           "purpose": "bribe-offer.friend",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"],
+          "requiresFacts": ["bribe-weight", "wanted"],
           "setsFacts": ["turned-down"]
         }
       ],
@@ -186077,32 +185844,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.i-can-t-take-it-but-i-ll-hear-you-out-on-wanted",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "I can't take it. But I'll hear you out on {wanted}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "bribe-offer.desperate",
-          "key": "favor-asked",
-          "requiresFacts": ["wanted"],
-          "setsFacts": ["turned-down"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "comfort",
         "key": "favor-asked"
       }
     },
@@ -186119,7 +185860,7 @@
           "role": "asked",
           "purpose": "bribe-offer.desperate",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"],
+          "requiresFacts": ["bribe-weight", "wanted"],
           "setsFacts": ["turned-down"]
         }
       ],
@@ -186197,7 +185938,7 @@
           "role": "asker",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"],
+          "requiresFacts": ["bribe-weight", "wanted"],
           "after": "accept"
         }
       ],
@@ -186351,7 +186092,7 @@
           "role": "asker",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"]
+          "requiresFacts": ["bribe-weight", "wanted"]
         }
       ],
       "bearing": "anxious",
@@ -186389,31 +186130,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.everyone-who-bid-on-contract-knows-how-this-goes",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Everyone who bid on {contract} knows how this goes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract", "bidders"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.bribe-weight-is-fair-for-wanted-sleep-on-it",
       "move": "follow-press",
       "kind": "spoken",
@@ -186435,56 +186151,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-threaten.people-will-remember-how-you-treated-me-on-bill",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "People will remember how you treated me on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "threaten",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-threaten.you-ll-want-bidders-someday-remember-how-contract-went",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "You'll want bidders someday. Remember how {contract} went.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "threaten",
         "key": "favor-asked"
       }
     },
@@ -186551,7 +186217,7 @@
           "role": "asker",
           "purpose": "bribe-offer",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"]
+          "requiresFacts": ["bribe-weight", "wanted"]
         }
       ],
       "bearing": "guarded",
@@ -186626,7 +186292,7 @@
           "role": "asker",
           "purpose": "bribe-offer.small",
           "key": "favor-asked",
-          "requiresFacts": ["bribe-weight"]
+          "requiresFacts": ["bribe-weight", "wanted"]
         }
       ],
       "bearing": "warm",
@@ -186635,56 +186301,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-offer.it-s-only-a-thank-you-before-wanted-nobody-keeps-score",
-      "move": "follow-offer",
-      "kind": "spoken",
-      "text": "It's only a thank-you, before {wanted}. Nobody keeps score.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "offer",
-          "role": "asker",
-          "purpose": "bribe-offer.small",
-          "key": "favor-asked",
-          "requiresFacts": ["wanted"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.i-ll-double-what-s-in-the-envelope-all-i-want-is-wanted",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "I'll double what's in the envelope. All I want is {wanted}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "bribe-offer.large",
-          "key": "favor-asked",
-          "requiresFacts": ["wanted"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "bargain",
         "key": "favor-asked"
       }
     },
@@ -186710,139 +186326,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "bargain",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-bargain.what-would-it-take-on-contract-say-it-plain",
-      "move": "follow-bargain",
-      "kind": "spoken",
-      "text": "What would it take on {contract}? Say it plain.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "bargain",
-          "role": "asker",
-          "purpose": "bribe-offer.large",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "bargain",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-bill-is-in-good-hands",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you. {bill} is in good hands.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill"],
-          "excludesFacts": ["turned-down"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-contract-is-in-good-hands",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you. {contract} is in good hands.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"],
-          "excludesFacts": ["turned-down"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.you-won-t-hear-about-this-from-me-not-before-bill",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You won't hear about this from me. Not before {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-vote", "bill"],
-          "excludesFacts": ["turned-down"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-stay-quiet-about-contract-so-will-you",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll stay quiet about {contract}. So will you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"],
-          "excludesFacts": ["turned-down"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "promise",
         "key": "favor-asked"
       }
     },
@@ -186873,32 +186356,6 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-i-ll-find-another-way-on-contract",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Alright. I'll find another way on {contract}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"],
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-warn.bill-isn-t-over-and-neither-is-this",
       "move": "close-warn",
       "kind": "spoken",
@@ -186912,32 +186369,6 @@
           "purpose": "bribe-offer",
           "key": "favor-asked",
           "requiresFacts": ["favor-vote", "bill"],
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.somebody-wins-contract-i-won-t-forget-how-it-went",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Somebody wins {contract}. I won't forget how it went.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["favor-contract", "contract"],
           "outcome": "refused"
         }
       ],
@@ -187190,35 +186621,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-bill-again-and-does-not-look-ready-for-no",
+      "key": "scene-talk.narrate-narrate.name-is-back-about-contract-and-has-stopped-asking-nicely",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} wants to talk about {bill} again, and does not look ready for no.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "bribe-pressed",
-          "key": "threat",
-          "requiresFacts": ["favor-vote", "bill"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-back-about-contract-with-a-face-that-has-stopped-asking",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is back about {contract}, with a face that has stopped asking.",
+      "text": "{name} is back about {contract}, and has stopped asking nicely.",
       "uses": [
         {
           "subject": "scene",
@@ -187240,60 +186646,10 @@
       }
     },
     {
-      "key": "scene-talk.state-warn.i-only-mean-bill-gets-remembered-by-the-people-who-needed-it-most",
-      "move": "state-warn",
-      "kind": "spoken",
-      "text": "I only mean {bill} gets remembered, by the people who needed it most.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "bribe-pressed.veiled",
-          "key": "threat",
-          "requiresFacts": ["favor-vote", "bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "warn",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-warn.bribe-weight-was-a-gift-i-d-hate-for-it-to-look-like-anything-else",
-      "move": "state-warn",
-      "kind": "spoken",
-      "text": "{bribe-weight} was a gift. I'd hate for it to look like anything else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "bribe-pressed.veiled",
-          "key": "threat",
-          "requiresFacts": ["bribe-weight"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "warn",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-threaten.that-vote-on-bill-is-going-to-cost-me-and-i-ll-make-it-cost-you-more",
+      "key": "scene-talk.state-threaten.that-vote-on-bill-will-cost-me-i-ll-make-it-cost-you",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "That vote on {bill} is going to cost me, and I'll make it cost you more.",
+      "text": "That vote on {bill} will cost me. I'll make it cost you.",
       "uses": [
         {
           "subject": "scene",
@@ -187315,10 +186671,10 @@
       }
     },
     {
-      "key": "scene-talk.state-threaten.i-put-bribe-weight-in-front-of-you-and-you-made-me-look-small",
+      "key": "scene-talk.state-threaten.i-put-bribe-weight-in-front-of-you-you-made-me-look-small",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "I put {bribe-weight} in front of you, and you made me look small.",
+      "text": "I put {bribe-weight} in front of you. You made me look small.",
       "uses": [
         {
           "subject": "scene",
@@ -187327,7 +186683,7 @@
           "role": "asker",
           "purpose": "bribe-pressed.open",
           "key": "threat",
-          "requiresFacts": ["bribe-weight"]
+          "requiresFacts": ["bribe-weight", "wanted"]
         }
       ],
       "bearing": "braced",
@@ -187336,57 +186692,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "threaten",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-press.bill-is-still-coming-and-so-am-i-every-time",
-      "move": "state-press",
-      "kind": "spoken",
-      "text": "{bill} is still coming, and so am I. Every time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "press",
-          "role": "asker",
-          "purpose": "bribe-pressed.again",
-          "key": "threat",
-          "requiresFacts": ["favor-vote", "bill"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-told-you-no-on-bill-asking-again-changes-nothing",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I told you no on {bill}. Asking again changes nothing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "bribe-pressed",
-          "key": "threat",
-          "requiresFacts": ["favor-vote", "bill"],
-          "setsFacts": ["turned-down"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "refuse",
         "key": "threat"
       }
     },
@@ -187429,7 +186734,7 @@
           "role": "asked",
           "purpose": "bribe-pressed",
           "key": "threat",
-          "requiresFacts": ["bribe-weight"],
+          "requiresFacts": ["bribe-weight", "wanted"],
           "setsFacts": ["turned-down"]
         }
       ],
@@ -187647,56 +186952,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.here-s-where-i-stand-on-bill-your-side-nothing-you-say-moves-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Here's where I stand on {bill}: {your-side}. Nothing you say moves it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "bribe-pressed.veiled",
-          "key": "threat",
-          "requiresFacts": ["favor-vote", "bill", "your-side"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.here-s-the-truth-about-contract-it-goes-by-the-bids",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Here's the truth about {contract}: it goes by the bids.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "bribe-pressed.veiled",
-          "key": "threat",
-          "requiresFacts": ["favor-contract", "contract"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-comfort.i-m-sorry-about-wanted-i-can-t-do-it-and-i-hope-it-turns-around",
       "move": "reply-comfort",
       "kind": "spoken",
@@ -187897,31 +187152,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-threaten.think-about-who-you-ll-want-beside-you-after-bill",
-      "move": "follow-threaten",
-      "kind": "spoken",
-      "text": "Think about who you'll want beside you after {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "threaten",
-          "role": "asker",
-          "purpose": "bribe-pressed",
-          "key": "threat",
-          "requiresFacts": ["favor-vote", "bill"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "threaten",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.follow-threaten.someday-you-ll-want-someone-to-remember-how-contract-went",
       "move": "follow-threaten",
       "kind": "spoken",
@@ -187985,31 +187215,6 @@
           "purpose": "bribe-pressed.open",
           "key": "threat",
           "requiresFacts": ["favor-vote", "bill"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "warn",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.watch-yourself-people-remember-who-lost-contract",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Watch yourself. People remember who lost {contract}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "bribe-pressed.open",
-          "key": "threat",
-          "requiresFacts": ["favor-contract", "contract"]
         }
       ],
       "bearing": "braced",
