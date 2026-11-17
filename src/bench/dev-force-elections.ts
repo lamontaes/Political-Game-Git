@@ -18,7 +18,7 @@
 import {
   campaignDayChoices,
   takeCampaignDayChoice,
-} from "../core2/campaign-day";
+} from "../core2/modules/campaigns";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   ELECTIONS_MODULE_ID,
