@@ -8571,14 +8571,15 @@
     }
   },
   "willCostPull": {
-    "value": 2.5,
-    "tag": "TUNABLE",
-    "citation": "The bother and cost of making a will, against which a person's stakes and heirs weigh (estates.ts willReasons). Set so a person with about a year of living cost saved and a partner and child leans toward having one, and one with a month saved and no family does not; checked against Gallup's 44% of all adults (May 2016).",
+    "value": 1.25,
+    "tag": "ESTIMATED",
+    "citation": "The bother and cost of making a will, against which a person's stakes (willStakeWeight per e-fold of months of their own living cost saved) and their partner and children (willHeirWeight each) weigh, with the shared trait lean (estates.ts willReasons). Fitted once, Nov 17, over the adults of three drawn played worlds (Huntingdon TN, Hartford AL, Manzanita OR; 2,850 adults): at 1.25 about 44% lean toward having a will, Gallup's share of U.S. adults (May 2016, 'Majority in U.S. Do Not Have a Will'); the same fit gave 50% at 1.0 and 38% at 1.5. After the fit a world's share moves with its own people's savings and families.",
+    "estimatedFrom": "Gallup May 2016, 44% of U.S. adults have a will; fit table in PR #9852.",
     "spread": {
-      "low": 1.5,
-      "high": 3.5,
+      "low": 1.0,
+      "high": 1.5,
       "unit": "lean",
-      "citation": "Between half of adults and a third having a will at the same stakes."
+      "citation": "From half of adults to 38% at the same three worlds."
     }
   }
 }

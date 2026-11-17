@@ -1,5 +1,7 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { heirsOf, settleEstate, willOf } from "./estates";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -9,20 +11,18 @@ import type { CoreEventInput } from "./types";
 
 // Played-world proof: an estate whose heir dies while probate waits still
 // reaches that heir's own family, in a world built the way the game builds it.
-// Pinned to named places (found by a one-off search, nothing is drawn here).
-const PLACES = [
-  {
-    name: "Dennis, Massachusetts",
-    key: "2516740",
-    seed: "9b87fa9d713b54ecc27f071016da6e4ecd4f220b5f459bbd5c86bc14e9fc9f97",
-  },
-];
+// The place is drawn from all 56; a place with no such estate is passed over
+// and named (CTO, #9747 04:26Z: off its pin at Dennis, MA).
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const DRAWS = 8;
 
 describe("an estate keeps its heirs through probate (played world)", () => {
-  for (const place of PLACES)
-    for (const by of ["intestacy", "will"] as const)
-      it(`${place.name}: by ${by}, a dead heir's share reaches the heir's own children`, () => {
-        const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  for (const by of ["intestacy", "will"] as const)
+    it(`by ${by}, a dead heir's share reaches the heir's own children, seed ${seed}`, () => {
+      const passed: string[] = [];
+      for (let draw = 0; draw < DRAWS; draw += 1) {
+        const place = drawPlace(seed, `estates-played-heirs:${by}:${draw}`);
+        const where = `${place.name} (${place.key}), seed ${seed}`;
         const { core } = buildBenchWorld(place.seed, gameStartDate(), {
           twoLevel: true,
           placeKey: place.key,
@@ -58,9 +58,13 @@ describe("an estate keeps its heirs through probate (played world)", () => {
               )
               .map((h) => ({ dead: p.id, heir: h }));
           })[0];
-
-        expect(found, `${where}: an heir with a living child`).toBeDefined();
-        const { dead, heir } = found!;
+        if (!found) {
+          passed.push(
+            `${place.name} (${place.key}): no estate over $100 whose ${by === "will" ? "beneficiary" : "heir among the children"} has a living child`,
+          );
+          continue;
+        }
+        const { dead, heir } = found;
         const grandkids = kidsOf(heir);
         const before = grandkids.map((k) => core.people.get(k)!.liquidMinor);
         const heard: CoreEventInput[] = [];
@@ -86,5 +90,13 @@ describe("an estate keeps its heirs through probate (played world)", () => {
           after.some((v, i) => v > before[i]!),
           `${where}: a child of ${heir} was paid`,
         ).toBe(true);
-      }, 420_000); // Probate's 270 played days are the game's own time (about 170 s in a played town).
+        process.stdout.write(
+          `ESTATE HEIRS by ${by}: ${where}, ${dead} to ${heir}; passed over: ${passed.join("; ") || "none"}\n`,
+        );
+        return;
+      }
+      throw new Error(
+        `No drawn place held the case, seed ${seed}: ${passed.join("; ")}`,
+      );
+    }, 900_000); // Probate's 270 played days are the game's own time (about 170 s in a played town), after the draws.
 });

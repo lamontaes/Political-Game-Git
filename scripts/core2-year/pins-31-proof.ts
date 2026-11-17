@@ -16,6 +16,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { reserveHours } from "../../src/core2/free-block";
 import { willOf, willReasons } from "../../src/core2/estates";
+import { leanedScore } from "../../src/core2/trait-decisions";
 import { drawPlace } from "./place";
 
 setBookkeeping(false);
@@ -121,6 +122,7 @@ for (let draw = 0; draw < 3; draw += 1) {
   ] as const;
   const wills = bands.map(([label, low, high]) => {
     let n = 0,
+      lean = 0,
       yes = 0;
     const months: number[] = [];
     for (const person of core.people.values()) {
@@ -129,12 +131,26 @@ for (let draw = 0; draw < 3; draw += 1) {
         (Date.parse(core.date) - Date.parse(person.birthDate)) / 3.15576e10;
       if (age < low || age >= high) continue;
       n += 1;
+      // The rule's own lean (savings, partner and children, the bother),
+      // and whether the person also has living family on record to name.
+      const why0 = willReasons(api, person);
+      if (
+        leanedScore(
+          core,
+          person,
+          "estates.will",
+          "make-will",
+          "leave-it",
+          why0.pull,
+        ) > 0
+      )
+        lean += 1;
       if (willOf(api, person)) yes += 1;
       const why = willReasons(api, person);
       months.push(why.estateMinor / Math.max(1, why.monthlyCostMinor));
     }
     months.sort((a, b) => a - b);
-    return `${label}: ${f((100 * yes) / Math.max(1, n), 0)}% of ${n} (median ${f(months[Math.floor(months.length / 2)] ?? NaN, 1)} months saved)`;
+    return `${label}: ${f((100 * lean) / Math.max(1, n), 0)}% lean to a will, ${f((100 * yes) / Math.max(1, n), 0)}% with family on record to name, of ${n} (median ${f(months[Math.floor(months.length / 2)] ?? NaN, 1)} months saved)`;
   });
   out(`adults who would leave a will today: ${wills.join("; ")}`);
   const probate = api
