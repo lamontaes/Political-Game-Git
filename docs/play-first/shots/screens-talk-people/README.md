@@ -6,4 +6,6 @@ Place: Yuba, Wisconsin. Seed: edcea1f0-5b8a-4ed2-88f4-06804f9edc00. The bench dr
 - `one-speaker-before-after.png`: the address's last beat at home. On main one person got a band across the card; here the speaker is on the card and there is no band.
 - `oval-office-after.png`: the Oval Office beat at full size.
 
-The owner's speaker mock page could not be opened from this account, so there is no mock in these pictures. The layout follows his words on the crew line.
+The CTO put the owner's speaker mock on main on Nov 16 (`docs/mocks/2026-11-16-speaker/`).
+
+- `oval-office-beside-mock.png`: the speaker mock now on main (`docs/mocks/2026-11-16-speaker/index.html`, layout A) beside the game's Oval Office beat.
