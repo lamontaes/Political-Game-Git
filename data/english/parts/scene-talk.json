@@ -42445,7 +42445,7 @@
           "role": "asked",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["asked_against"]
+          "requiresFacts": ["stand-apart"]
         }
       ],
       "bearing": "braced",

@@ -82,6 +82,7 @@ import {
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
+import { CAUSE_INVITE_TYPE, causeInviteFacts } from "./cause-invite-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
   causeTopicSaid,
@@ -1665,6 +1666,19 @@ function composeBinding(
         record?.kind === "campaign-gift" && facts["donor-bill"]
           ? said.billId
           : undefined,
+        personLean,
+      ),
+    );
+  // A neighbor's invitation to a cause: the posted meeting it asks the player
+  // to, where the player stands on the cause and a seat of theirs that
+  // meets that night (cause-invite-facts.ts).
+  if (type.key === CAUSE_INVITE_TYPE)
+    Object.assign(
+      facts,
+      causeInviteFacts(
+        core,
+        moment.causeId,
+        { topic: record?.topic, desiredChange: record?.desiredChange },
         personLean,
       ),
     );
