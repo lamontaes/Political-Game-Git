@@ -933,6 +933,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       const [oa, ob] = [opinionsA.get(question), opinionsB.get(question)];
       expect(oa, `${where} row 48 ${question}`).toBeDefined();
       expect(ob, `${where} row 48 ${question}`).toBeDefined();
+      // The kept means are exact, so only two identical worlds tie.
       expect(oa!.mean, `${where} row 48 ${question}`).not.toBe(ob!.mean);
     }
     const first = opinionQuestions()[0]!;

@@ -26,7 +26,6 @@ import {
   LIFE_EVENT_KINDS,
   questionsReading,
   stakeShift,
-  type LifeFact,
 } from "../life-stake-rule";
 import {
   countedLifeStake,
@@ -34,6 +33,7 @@ import {
   fullLifeStake,
   lifeChangesOf,
   lifeReadPeople,
+  STAKE_REFERENCES_ID,
   stakeReferences,
 } from "../life-stakes";
 import type { ModuleRow } from "../module-data";
@@ -1249,35 +1249,19 @@ const LIFE_REVIEW = "views-life-review";
 
 /**
  * Keep this month's references every life term is measured against
- * (`stakeReferences`), for the trace: one row a world, rewritten each month
- * the life review runs.
+ * (`stakeReferences`, which keeps its one row the first time a month reads
+ * it, and every reader reads that row back), and this month's opinion of
+ * every question, once a month at the month's start.
  */
 function keepStakeReferences(api: CoreAPI): void {
   const refs = stakeReferences(api.state as CoreState);
-  const table = api.moduleState(VIEWS_MODULE_ID).table("stakeReferences");
-  const kept = table.get(STAKE_REFERENCES_ID) as unknown as
-    { month?: string } | undefined;
-  if (kept?.month === refs.month) return;
+  const first = opinionQuestions()[0];
+  if (first && worldOpinion(api, first)?.month === refs.month) return;
   keepOpinions(api, refs.month);
-  table.put({
-    id: STAKE_REFERENCES_ID,
-    month: refs.month,
-    people: Math.round(refs.people),
-    facts: Object.fromEntries(
-      Object.entries(refs.sums).map(([fact, { sum, of }]) => [
-        fact,
-        {
-          reference: Math.round(refs.reference[fact as LifeFact] * 1e4) / 1e4,
-          sum: Math.round(sum * 1e3) / 1e3,
-          of,
-        },
-      ]),
-    ),
-  } as unknown as ModuleRow);
 }
 
 /** The id of the views engine's one row of this month's life-term references. */
-export const STAKE_REFERENCES_ID = "stake-references";
+export { STAKE_REFERENCES_ID };
 
 /** What the world's people think of a question this month: the mean of their own stances, kept for the readers that ask how the public stands. */
 export interface WorldOpinion {
@@ -1377,16 +1361,16 @@ function keepOpinions(api: CoreAPI, month: string): void {
   }
   if (!people) return;
   const table = api.moduleState(VIEWS_MODULE_ID).table("opinions");
-  const round = (n: number) => Math.round(n * 1e4) / 1e4;
+  // Kept exact: a reader rounds only what it shows.
   questions.forEach((question, at) =>
     table.put({
       id: opinionId(question),
       question,
       month,
       people: Math.round(people),
-      mean: round(sum[at]! / people),
-      leanMean: round(leanSum[at]! / people),
-      share: round(sided[at]! ? yes[at]! / sided[at]! : v("zero")),
+      mean: sum[at]! / people,
+      leanMean: leanSum[at]! / people,
+      share: sided[at]! ? yes[at]! / sided[at]! : v("zero"),
     } as unknown as ModuleRow),
   );
 }
@@ -1425,7 +1409,7 @@ export const viewsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       people: {},
-      /** This month's references every life term is measured against: one row (`keepStakeReferences`). */
+      /** This month's references every life term is measured against: one row, kept by `stakeReferences` (life-stakes.ts). */
       stakeReferences: {},
       /** This month's opinion of each question: one row a question, rewritten (`keepOpinions`). */
       opinions: {},
@@ -1474,6 +1458,8 @@ export const viewsModule: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind !== LIFE_REVIEW) return;
+    // The month's references and opinion first, from the facts at its start.
+    keepStakeReferences(api);
     for (const id of lifeReadPeople(api.state as CoreState))
       tellLifeChange(api, id as PersonId);
     scheduleLifeReview(api);

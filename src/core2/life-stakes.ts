@@ -31,7 +31,9 @@ import publicPay from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { planReaders } from "./life-plan-readers";
 import type { CoreState, PersonState } from "./types";
+import type { ModuleRow } from "./module-data";
 import { coreAPI } from "./state";
+import { registerDerivedCache } from "./snapshot";
 import { isDemoted, type CountedHousehold } from "./counted-groups";
 
 /**
@@ -90,6 +92,8 @@ interface MonthIndex {
   readonly byPerson: Map<string, { date: string; stake: LifeStake }>;
 }
 const monthIndexes = new WeakMap<CoreState, MonthIndex>();
+// A world loaded from a save reads its own month again, not the build's.
+registerDerivedCache(monthIndexes);
 
 function monthIndex(core: CoreState): MonthIndex {
   const month = monthOf(core.date);
@@ -368,11 +372,91 @@ export interface StakeReferences {
   readonly sums: Readonly<Record<LifeFact, { sum: number; of: number }>>;
 }
 const references = new WeakMap<CoreState, StakeReferences>();
+registerDerivedCache(references);
 
+/** The views engine's module id and the one row of its `stakeReferences` table (modules/views.ts reads them by name). */
+const VIEWS_MODULE = "views";
+export const STAKE_REFERENCES_ID = "stake-references";
+
+/** The kept row: the month's exact sums every reader reads, and the rounded figures the trace shows. */
+interface KeptReferences {
+  readonly id: string;
+  readonly month: string;
+  /** The people counted, rounded, for the trace. */
+  readonly people: number;
+  /** Each fact's reference, sum (rounded) and count, for the trace. */
+  readonly facts: Readonly<
+    Record<string, { reference: number; sum: number; of: number }>
+  >;
+  /** The exact sums and people the references are read from. */
+  readonly exact: {
+    readonly people: number;
+    readonly sums: Readonly<Record<LifeFact, { sum: number; of: number }>>;
+  };
+}
+
+function fromSums(
+  month: string,
+  people: number,
+  sums: Readonly<Record<LifeFact, { sum: number; of: number }>>,
+): StakeReferences {
+  return {
+    month,
+    people,
+    reference: Object.fromEntries(
+      LIFE_FACTS.map((fact) => [
+        fact,
+        sums[fact].of ? sums[fact].sum / sums[fact].of : 0,
+      ]),
+    ) as unknown as StakeReference,
+    sums,
+  };
+}
+
+/**
+ * The world's references this month, as the views engine keeps them: read
+ * once at the month's start (the views engine's monthly pass, or the first
+ * reader of the month before it runs) from the facts that day, kept as one
+ * row, and read back from that row for the rest of the month, so a world
+ * saved and loaded mid-month measures against the same references.
+ */
 export function stakeReferences(core: CoreState): StakeReferences {
   const month = monthOf(core.date);
   const held = references.get(core);
   if (held?.month === month) return held;
+  const table = core.modules.has(VIEWS_MODULE)
+    ? coreAPI(core).moduleState(VIEWS_MODULE).table("stakeReferences")
+    : undefined;
+  const kept = table?.get(STAKE_REFERENCES_ID) as unknown as
+    KeptReferences | undefined;
+  let result: StakeReferences;
+  if (kept?.month === month && kept.exact)
+    result = fromSums(month, kept.exact.people, kept.exact.sums);
+  else {
+    result = readReferences(core, month);
+    table?.put({
+      id: STAKE_REFERENCES_ID,
+      month,
+      people: Math.round(result.people),
+      facts: Object.fromEntries(
+        LIFE_FACTS.map((fact) => [
+          fact,
+          {
+            reference: Math.round(result.reference[fact] * 1e4) / 1e4,
+            sum: Math.round(result.sums[fact].sum * 1e3) / 1e3,
+            of: result.sums[fact].of,
+          },
+        ]),
+      ),
+      exact: { people: result.people, sums: result.sums },
+    } satisfies KeptReferences as unknown as ModuleRow);
+  }
+  references.set(core, result);
+  return result;
+}
+
+/** The references read from the world's facts today. */
+function readReferences(core: CoreState, month: string): StakeReferences {
   const sums = Object.fromEntries(
     LIFE_FACTS.map((fact) => [fact, { sum: 0, of: 0 }]),
   ) as Record<LifeFact, { sum: number; of: number }>;
@@ -406,17 +490,5 @@ export function stakeReferences(core: CoreState): StakeReferences {
         if (facts) add(facts, weight);
       }
     }
-  const result: StakeReferences = {
-    month,
-    people,
-    reference: Object.fromEntries(
-      LIFE_FACTS.map((fact) => [
-        fact,
-        sums[fact].of ? sums[fact].sum / sums[fact].of : 0,
-      ]),
-    ) as unknown as StakeReference,
-    sums,
-  };
-  references.set(core, result);
-  return result;
+  return fromSums(month, people, sums);
 }
