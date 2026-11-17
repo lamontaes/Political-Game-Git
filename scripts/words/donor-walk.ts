@@ -44,7 +44,7 @@ import { lawChain } from "../../src/core2/modules/laws";
 import { coreAPI, applyCoreEvent } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
 import { purposeScene } from "../../src/director/purpose-scene";
-import { playedNode, type TreeNode } from "../../src/director/scene-talk";
+import { type TreeNode } from "../../src/director/scene-talk";
 import variantFile from "../../src/director/data/arc-variants.json" with { type: "json" };
 import bank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { drawPlace } from "../core2-year/place";

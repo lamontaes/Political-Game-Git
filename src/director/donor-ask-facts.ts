@@ -31,6 +31,13 @@ import { employerSaid } from "../english/journal-words";
 import { businessNameSaid } from "./words";
 
 /** The situation type that reads these facts. */
+/** How far left or right a person leans (the campaign views' `personLean`). */
+type LeanOf = (
+  people: CoreState["people"],
+  person: Readonly<PersonState>,
+  townLean: number,
+) => number;
+
 export const DONOR_ASK_TYPE = "donor-ask";
 
 /**
@@ -113,7 +120,7 @@ export interface DonorReadsInput {
   /** Said as the scene says a person, for a name the donor was told by. */
   readonly sayPerson: (person: { id: string }) => string;
   /** How far left or right a person leans (see `donorAskFacts`). */
-  readonly leanOf: Parameters<typeof donorAskFacts>[4];
+  readonly leanOf: LeanOf;
 }
 
 /**
@@ -164,7 +171,7 @@ export function donorReads(
         facts["gift-weight"] = fact(text, ids);
       };
       if (!others.length) say("gift-first", "the first check you've had");
-      else if (others.length >= 2) {
+      else if (others.some((_, at) => at > P.zero)) {
         if (others.every((row) => row.totalMinor < mine.totalMinor))
           say("gift-biggest", "the biggest check you've had");
         else if (others.every((row) => row.totalMinor > mine.totalMinor))
@@ -187,20 +194,23 @@ export function donorReads(
   const held = sat.find((row) => !row.heard);
   const stage =
     bill.status === "passed" || bill.status === "awaiting-signature"
-      ? (["bill-on-desk", "waiting to be signed"] as const)
+      ? ({ key: "bill-on-desk", text: "waiting to be signed" } as const)
       : bill.status !== "drafted"
         ? null
         : floor.some((row) => row.chamber && !row.override)
-          ? (["bill-one-house", "past one house"] as const)
+          ? ({ key: "bill-one-house", text: "past one house" } as const)
           : held
-            ? (["bill-held", "held up in committee"] as const)
+            ? ({ key: "bill-held", text: "held up in committee" } as const)
             : sat.length
-              ? (["bill-heard", "through its committee hearing"] as const)
-              : (["bill-filed", "filed and waiting"] as const);
+              ? ({
+                  key: "bill-heard",
+                  text: "through its committee hearing",
+                } as const)
+              : ({ key: "bill-filed", text: "filed and waiting" } as const);
   if (stage) {
     const ids = [...cited, ...sat.map((row) => row.id)];
-    facts[stage[0]] = fact("yes", ids);
-    facts["bill-stage"] = fact(stage[1], ids);
+    facts[stage.key] = fact("yes", ids);
+    facts["bill-stage"] = fact(stage.text, ids);
   }
   if (
     chambersOf(api, bill).some((chamber) =>
@@ -210,7 +220,7 @@ export function donorReads(
     facts["votes-on-it"] = fact("yes", [...cited, playerId]);
   // Someone who would know, when the bill has not moved: the lie that it has
   // can be shown false from their word.
-  if (stage && (stage[0] === "bill-filed" || stage[0] === "bill-held")) {
+  if (stage && (stage.key === "bill-filed" || stage.key === "bill-held")) {
     const knower = [bill.sponsorId, held?.chairId]
       .map((id) => (id ? core.people.get(id as PersonId) : undefined))
       .find(
