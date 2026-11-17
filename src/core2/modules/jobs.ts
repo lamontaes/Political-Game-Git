@@ -5720,3 +5720,6 @@ export {
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
 export { openingWorkStatus } from "../jobs-elsewhere";
+
+// The filing case every benefit's take-up reads (law reach, Pins family 27), for readers outside the family.
+export { filingDecision } from "../jobs-benefits";

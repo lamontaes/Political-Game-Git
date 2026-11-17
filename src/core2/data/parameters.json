@@ -8566,6 +8566,7 @@
   "benefitTakeUpBase": {
     "value": 0.8,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "citation": "How readily a household eligible for a program benefit (preschool, child care, energy aid, SSI, veterans' benefits) takes it up before the benefit's share of its income, its head's stress and traits are weighed (law-reach group-b-money.ts takesUp, through the unemployment filing case's other strengths). Fitted once so typical eligible households reproduce the programs' published take-up from the size of the benefit against their income alone: a preschool place (about $650 a month against an eligible family's $2,500) scores 0.8 + 0.5 ln(0.21) = 0.02, about half taking it up against NIEER's 0.7 of eligible children enrolled; home energy aid (about $25 a month against $1,500) scores 0.8 + 0.5 ln(0.016) = -1.27, few taking it up against the program's 0.16 served (CRS RL31865). After the fit each household's take-up follows its own income and the benefit's size; no program carries a take-up share.",
     "estimatedFrom": "NIEER 2024 preschool enrollment; CRS RL31865 LIHEAP share served; ASPE FY2022 CCDF receipt share; the replacement weight benefitsFileReplacementWeight.",
     "spread": {
@@ -8578,6 +8579,7 @@
   "benefitsFileReplacementWeight": {
     "value": 0.5,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "spread": {
       "low": 0.4,
       "high": 0.6,

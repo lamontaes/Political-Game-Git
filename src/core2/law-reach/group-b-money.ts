@@ -15,7 +15,7 @@ import {
   type AppliedTarget,
 } from "./applied";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { filingDecision } from "../jobs-benefits";
+import { filingDecision } from "../modules/jobs";
 import { coreAPI } from "../state";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
