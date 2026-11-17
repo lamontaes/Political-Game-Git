@@ -206,7 +206,9 @@ describe("check-changes: what a pull request may not add to its own checks", () 
         rules,
         () => null,
         britishSpellings,
-      ).map((f) => f.id);
+      )
+        .map((f) => f.id)
+        .filter((id) => id === "british-spelling");
     expect(
       ids(
         ".agents/skills/x/SKILL.md",
@@ -238,6 +240,28 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     ]);
   });
 
+  it("refuses a skill change that leaves its two copies different", () => {
+    const at = (tree: string) => `${tree}/skills/x/SKILL.md`;
+    const ids = (
+      changes: Parameters<typeof checkChanges>[0],
+      head: string | null,
+    ) => checkChanges(changes, rules, () => head).map((f) => f.id);
+    // Only one copy changed: the other, as the change leaves it, differs.
+    expect(
+      ids([{ path: at(".agents"), before: "a", after: "b" }], "a"),
+    ).toContain("skill-copies-differ");
+    // Both changed alike.
+    expect(
+      ids(
+        [
+          { path: at(".agents"), before: "a", after: "b" },
+          { path: at(".claude"), before: "a", after: "b" },
+        ],
+        null,
+      ),
+    ).toEqual([]);
+  });
+
   it("refuses a skill added without retiring one, and lets a swap pass", () => {
     const skill = (
       name: string,
@@ -249,7 +273,9 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       after,
     });
     const found = (changes: Parameters<typeof checkChanges>[0]) =>
-      checkChanges(changes, rules).map((f) => f.id);
+      checkChanges(changes, rules)
+        .map((f) => f.id)
+        .filter((id) => id === "skill-added");
     expect(found([skill("new-one", null, "x")])).toEqual(["skill-added"]);
     expect(
       found([skill("new-one", null, "x"), skill("old-one", "x", null)]),

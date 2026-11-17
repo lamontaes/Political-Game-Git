@@ -175,6 +175,26 @@ function wholeChangeFindings(changes, rules, readHead) {
         id: "skill-added",
         says: `adds a skill without retiring one (${added.length} added, ${retired} retired)`,
       });
+  // The two skill trees are one skill twice: a changed file under either
+  // must leave both copies the same.
+  const mirror = new RegExp(rules.skillMirror);
+  const seen = new Set();
+  for (const change of changes) {
+    const m = mirror.exec(change.path);
+    if (!m || seen.has(m[2])) continue;
+    seen.add(m[2]);
+    const read = (tree) => {
+      const file = `${tree}/skills/${m[2]}`;
+      const changed = changes.find((c) => c.path === file);
+      return changed ? changed.after : readHead(file);
+    };
+    if (read(".agents") !== read(".claude"))
+      findings.push({
+        path: change.path,
+        id: "skill-copies-differ",
+        says: `leaves .agents/skills/${m[2]} and .claude/skills/${m[2]} different`,
+      });
+  }
   const isGuard = new RegExp(rules.guardTests);
   const list =
     changes.find((c) => c.path === rules.guardList)?.after ??
