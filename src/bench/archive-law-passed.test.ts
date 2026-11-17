@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -13,24 +14,13 @@ import { wordArchiveStory } from "./archive-words";
 // Nov 1: "They need to vary"; the playtest check, C7): the amount it moves from
 // and to, or what the policy is for, with the day it starts, chosen by the
 // law's own row. A law whose row says too little keeps its name and date.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
-// every run. The fixed seed below draws Newburg, West Virginia (5458300) first
-// for "archive-law-passed".
-const seed = "pin-archive-law-passed";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 setBookkeeping(false);
 const place = drawPlace(`${seed}:0`, "archive-law-passed");
 const where = `${place.name} (${place.key}), seed ${seed}:0`;
 const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
   placeKey: place.key,
-});
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:0`, "archive-law-passed")).toMatchObject({
-    key: "5458300",
-    name: "Newburg, West Virginia",
-  });
 });
 
 describe(`laws enacted before day one, told for what they do (${where})`, () => {

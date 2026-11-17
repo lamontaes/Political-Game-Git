@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import bases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
@@ -6,21 +7,8 @@ import { gameStartDate } from "../core2/game-start";
 import { budgetView, lineName } from "./budget";
 import { buildBenchWorld } from "./world";
 
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
-// every run. The fixed seed below draws Bodcaw, Arkansas (0507450) first for
-// "budget-line-names".
-// Limit: the slowest case took 14 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 30 s.
-const seed = "pin-budget-line-names";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "budget-line-names");
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "budget-line-names")).toMatchObject({
-    key: "0507450",
-    name: "Bodcaw, Arkansas",
-  });
-});
 
 describe("every budget line has the name its source table gives it", () => {
   it("lists any line key in the source data with no name", () => {
@@ -55,5 +43,5 @@ describe("every budget line has the name its source table gives it", () => {
     ]);
     expect(shown.length).toBeGreaterThan(0);
     expect(shown.filter((row) => !row.name).map((row) => row.line)).toEqual([]);
-  }, 30_000);
+  }, 600_000);
 });

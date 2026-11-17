@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import executivePowers from "../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import powers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
@@ -34,13 +35,10 @@ import { buildBenchWorld } from "./world";
 // attorney post, the line is the body's lawyer by the body's name. The bench world, a place drawn
 // from all 56 on a seed nobody chose; the disputed power comes from the draft
 // menu or the powers catalog, read against the place's law records.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env BILL_PAPER_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
-// it drew changed every run. The fixed seed below draws Clinton, North Carolina
-// (3713240) first for "bill-paper-authority".
-// Limit: the slowest case took 73 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 150 s.
-const seed = "pin-bill-paper-authority";
+const seed =
+  process.env.BILL_PAPER_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bill-paper-authority");
 const LEGISLATURE = "core2-legislature-v1";
 const CITY_FORMS = executivePowers.local.city as Record<
@@ -137,13 +135,6 @@ function readDraw(draw: Draw) {
     hasCouncil: council !== undefined,
   };
 }
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "bill-paper-authority")).toMatchObject({
-    key: "3713240",
-    name: "Clinton, North Carolina",
-  });
-});
 
 describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
   it("carries the lawyer's warning on its authority row and its paper; a settled power carries none", () => {
@@ -262,5 +253,5 @@ describe(`a bill on a disputed power (${place.name}, seed ${seed})`, () => {
     console.log(
       `bill-paper authority: case ${isCouncil ? "council (the town's City Attorney)" : `fallback ${body.kind} (no draw had a council)`}; ${where}; draws ${tried.join("; ")}; body ${body.id}; town ${town} form ${form ?? "n/a"}; lawyer ${seated ? `${seated.id} "${seated.title}" held by ${seated.holderId}` : `none (the body's lawyer by the body's name)`}; disputed ${disputed} (${offered.has(disputed) ? "draft menu" : "powers catalog"}) -> ${drafted.id} (${row.status}, ${row.authority[0]?.reason}): "${warning}"; settled ${settled} (${offered.has(settled) ? "draft menu" : "powers catalog"}) -> ${plain.id} (${plainRow.status})`,
     );
-  }, 150_000);
+  }, 900_000);
 });

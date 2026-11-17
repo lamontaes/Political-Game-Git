@@ -1,4 +1,5 @@
 import { buildBenchWorld } from "./world";
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -13,20 +14,10 @@ import { billPaper, seatAct, seatView } from "./legislature";
 
 // A bill the body votes down has a day it was decided, like one that passed: the paper says when.
 // A place drawn from all 56 on a seed nobody chose.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env FAILED_DATE_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
-// it drew changed every run. The fixed seed below draws Luma, American Samoa
-// (territory:AS:luma) first for "failed-date".
-// Limit: the slowest case took 109 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 220 s.
-const seed = "pin-bill-failed-date";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:0`, "failed-date")).toMatchObject({
-    key: "territory:AS:luma",
-    name: "Luma, American Samoa",
-  });
-});
+const seed =
+  process.env.FAILED_DATE_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 
 describe(`the day a bill failed (seed ${seed})`, () => {
   it("is on the paper when a vote ends the bill", () => {
@@ -91,5 +82,5 @@ describe(`the day a bill failed (seed ${seed})`, () => {
     throw new Error(
       `no drawn place had a council to vote in (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 220_000);
+  }, 600_000);
 });

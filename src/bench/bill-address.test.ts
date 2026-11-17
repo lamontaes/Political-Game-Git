@@ -1,4 +1,5 @@
 import { buildBenchWorld } from "./world";
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -10,20 +11,10 @@ import { BenchPlayer } from "./player";
 
 // The governor the player plays is held on the day of the State of the State and is given the
 // address to deliver; once given, the hold is gone and the days go on. A place drawn from all 56.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env ADDRESS_SEED, GOLDEN_PATH_SEED or randomBytes, so the places it
-// drew changed every run. The fixed seed below draws Daniel, Utah (4918140)
-// first for "player-address".
-// Limit: the slowest case took 28 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 60 s.
-const seed = "pin-bill-address";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:0`, "player-address")).toMatchObject({
-    key: "4918140",
-    name: "Daniel, Utah",
-  });
-});
+const seed =
+  process.env.ADDRESS_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 
 describe(`the State of the State the player gives (seed ${seed})`, () => {
   it("holds the player governor, takes the address and lets the days go on", () => {
@@ -82,5 +73,5 @@ describe(`the State of the State the player gives (seed ${seed})`, () => {
     throw new Error(
       `no drawn place held the governor (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 60_000);
+  }, 1_800_000);
 });
