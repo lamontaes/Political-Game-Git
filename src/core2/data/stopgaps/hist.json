@@ -221,10 +221,54 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-century-district-sizes",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A district's eligible voters in the century are its chamber's typical moved by one seeded size per district, the same in every year, instead of the people who live there as they move and age.",
+    "why": "The century keeps no people by district; districts by law hold near equal people but not equal eligible voters, so each gets its own size within a tunable spread.",
+    "addedBy": "History lane (claude/history-states-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each district's eligible voters read from the places it covers as the century's population moves (family 5, the states' people), with the spread sourced from the Census Bureau's citizen voting-age population by district.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-term-limits-always",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Today's term limit on a governor, a statewide officer or a state legislator binds every century holder from 1925, though most legislative limits were adopted from 1990 on and many governors' at other times.",
+    "why": "The offices research records each office's limit in force now, not the year it was adopted; the laws in force through the century are a later unit.",
+    "addedBy": "History lane (claude/history-states-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "The laws in force through the century (History family 4): each term limit binding from the year its state adopted it, sourced from the state constitutions and NCSL's table of legislative term limits.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-law-sessions",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century-laws.ts",
+    "whatItFakes": "Each Congress and each state legislature the century elects sits one session after its November, and every policy question comes up in it: no bill is drafted, no committee or leader holds one back, and members stand at their party's typical position moved by their seat, not as people with their own records.",
+    "why": "The century runs a hundred years of every body before day one; the bill engine runs one played body's bills, and the century's members are results until someone opens them.",
+    "addedBy": "History lane (claude/history-laws)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century runs the bill engine for the played town's state (drafting, committee, floor, the governor's desk), with members filled in on open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-federal-mandates",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/laws.ts",
+    "whatItFakes": "In a century world no federal law reaches a state policy question: the century's Congress votes only the federal questions, so a state's own law stands alone on day one.",
+    "why": "Which federal statutes preempt a state's law on a question is the research's real record; the century's Congress has not yet been given those questions to vote.",
+    "addedBy": "History lane (claude/history-laws)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's Congress votes the state questions federal law can reach, by the question's preemption rule, and its enactments load beside each state's law.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-parties",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed.",
+    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed. A legislature most of whose published members belong to no national side (Nebraska's and American Samoa's, elected without party labels; the Northern Marianas' House, most of whose members are independents) is not counted by the century and keeps what play reads. Puerto Rico's chambers are counted under its own parties' labels for each side.",
     "why": "Party evolution is the History lane's PR 7, after Congress and the states, because a party's stances come from its coalition's people.",
     "addedBy": "History lane (claude/history-congress)",
     "addedAt": "2026-11-17",
@@ -284,6 +328,17 @@
     "addedBy": "History lane (claude/history-opening-vacancy)",
     "addedAt": "2026-11-17",
     "replacement": "The century's household past (family 21): each household's moves run through the moves engine before day one, so its tenure and its lease dates are its own.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-territory-opening-lean",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A place with no presidential vote (a territory, Puerto Rico) opens 1925 at the neutral point moved by its delegate seat's own shift; its legislative districts stand around that.",
+    "why": "The lean order is set from the states' presidential votes; a territory casts none, and its people are not counted yet.",
+    "addedBy": "History lane (claude/history-territory-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "The territory's people counted from its own population (the people engine's counts, family 5), so it opens where its people stand.",
     "status": "open"
   }
 ]

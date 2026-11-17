@@ -7,33 +7,19 @@
  *
  * (A played world outgrows node's default heap.)
  *
- * Plays each borrower in `PLAYED` from the New game creator's birthday
- * (`buildBenchWorld`'s playerBirthDate) on the player's own clock, through
- * tests/support/promise-play.ts, the same flow promises.test.ts asserts:
- * the loan the credit engine writes, the missed payment and the quarrel over
- * it, the apology answered with a promise, the promise's window, and the talk
- * that brings it up. Nothing is staged or set by hand; the only choices are
- * the birthday and how many days the player plays to the quarrel. The file
- * is headed with the commit it ran at, and stops on the first check that
- * fails.
+ * Draws places (`GOLDEN_PATH_SEED` replays a run) and plays the first where
+ * the credit engine's own missed payment and the partnerships engine's own
+ * quarrel name a borrower and a promise to pay on time is broken and said,
+ * through tests/support/promise-play.ts, the same flow promises.test.ts
+ * asserts. Only each borrower's choice to promise is staged, and labeled in
+ * that file. The file is headed with the commit it ran at, and stops on the
+ * first check that fails.
  */
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import {
-  type Check,
-  type PayBorrower,
-  playPayOnTime,
-} from "../../tests/support/promise-play";
-import { BANK_BORROWER } from "../../tests/support/real-borrower";
-
-/**
- * The borrower whose talk says the payment name (data/english/payment-words.json):
- * the bank personal loan of the pinned player (tests/support/real-borrower.ts),
- * broken by the next missed payment. No played borrower keeps it on the Train
- * (item world-loan-bill-before-first-payday-no-borrower-keeps).
- */
-const PLAYED: readonly PayBorrower[] = [BANK_BORROWER];
+import { type Check, playPayOnTime } from "../../tests/support/promise-play";
+import { LOAN_SEED, findTownBorrower } from "../../tests/support/real-borrower";
 
 const stop: Check = (holds, message) => {
   if (!holds) throw new Error(message);
@@ -45,15 +31,21 @@ function main(): void {
   if (!out) throw new Error("usage: --out <file.md>");
   const head = execFileSync("git", ["rev-parse", "HEAD"]).toString().trim();
   setBookkeeping(false);
-  const played: string[] = [];
-  for (const borrower of PLAYED) {
-    played.push(playPayOnTime(borrower, stop));
-    process.stderr.write(`played ${borrower.birth}\n`);
+  const passedOver: string[] = [];
+  let from = 0;
+  for (;;) {
+    const found = findTownBorrower(from, passedOver);
+    const result = playPayOnTime(found, stop);
+    if (result.played) {
+      writeFileSync(
+        out,
+        `# Pay-on-time promises played at ${head}\n\nWritten by scripts/words/pay-on-time-played.ts at ${head}, seed ${LOAN_SEED}. Each loan is one the credit engine wrote and each missed payment one it billed and was not paid; only each borrower's choice to promise is staged by hand. Places passed over: ${passedOver.join("; ") || "none"}.\n\n\`\`\`\nPAY ON TIME\n  ${result.passed}\n  ${result.played}\n\`\`\`\n`,
+      );
+      return;
+    }
+    passedOver.push(result.passed);
+    from = found.nextDraw;
   }
-  writeFileSync(
-    out,
-    `# Pay-on-time promises played at ${head}\n\nWritten by scripts/words/pay-on-time-played.ts at ${head}. Nothing is staged by hand: each loan is one the credit engine wrote, each missed payment one it billed and was not paid, on the player's own clock from the New game creator's birthday.\n\n\`\`\`\nPAY ON TIME\n  ${played.join("\n  ")}\n\`\`\`\n`,
-  );
 }
 
 main();
