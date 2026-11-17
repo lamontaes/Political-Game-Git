@@ -57,7 +57,8 @@
         "src/core2/campaign-data.ts",
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/serve-asks.ts",
-        "src/core2/filing-rule-office.ts"
+        "src/core2/filing-rule-office.ts",
+        "src/core2/voting-module-id.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -66,6 +67,7 @@
         "src/core2/modules/candidacy.ts",
         "src/core2/modules/filing-clerk.ts",
         "src/core2/filing-rule-office.ts",
+        "src/core2/voting-module-id.ts",
         "src/core2/modules/serve-asks.ts",
         "src/core2/recount-rules.ts",
         "src/core2/modules/ballot-measures.ts",
