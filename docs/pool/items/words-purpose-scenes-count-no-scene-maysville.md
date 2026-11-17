@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scenes.test.ts, `src/director/swearing-in.ts` (removed), src/director/purpose-scene.ts
+**Files.** src/director/purpose-scenes.test.ts, src/director/purpose-scene.ts (the swearing-in file that held the title helper was deleted with its scene kind on Nov 17)
 
 **Notes.** TODO
 
