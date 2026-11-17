@@ -54,13 +54,16 @@ export interface CardContext {
 
 /**
  * Whether a fact is one a card may name: `ended:<typeKey>:<ending>` (with
- * `:any` for any counterpart), or `stake:<any|money|time|worked|gave>`.
+ * `:any` for any counterpart), `refused:<typeKey>` (with `:any`: the person
+ * said no in such a scene), or `stake:<any|money|time|worked|gave>`.
  */
 export function knownFact(fact: string): boolean {
   const [family, first, second, scope, ...more] = fact.split(":");
   if (more.length) return false;
   if (family === "ended")
     return !!first && !!second && (scope === undefined || scope === "any");
+  if (family === "refused")
+    return !!first && (second === undefined || second === "any") && !scope;
   if (family === "stake")
     return (
       !!first &&
@@ -101,6 +104,40 @@ function ended(
   return false;
 }
 
+/**
+ * Whether the person said no in a scene of this type to the one who comes (or
+ * to anyone, with `:any`) within the library's `endedDays`: a reply whose move
+ * is a refusal (relation-facts.ts `passedBetween`), whichever ending the scene
+ * reached, or none where the other spoke again after it.
+ */
+function refused(
+  ctx: CardContext,
+  library: SituationLibrary,
+  typeKey: string,
+  anyone: boolean,
+): boolean {
+  const others = anyone
+    ? [...(ctx.replies.get(ctx.personId)?.keys() ?? [])]
+    : ctx.castId
+      ? [ctx.castId]
+      : [];
+  const days = library.scheduling.endedDays?.value ?? zero;
+  return others.some((otherId) =>
+    passedBetween(
+      { repliesByPlayer: ctx.replies },
+      ctx.core,
+      otherId,
+      ctx.personId,
+    ).refusedBefore.some((id) => {
+      const event = ctx.core.durableLog.get(id);
+      return (
+        event?.facts?.typeKey === typeKey &&
+        daysBetweenText(event.date, ctx.core.date) <= days
+      );
+    }),
+  );
+}
+
 /** Whether one fact holds for the card's person, cast and cause. */
 export function factHolds(
   fact: string,
@@ -109,13 +146,15 @@ export function factHolds(
 ): boolean {
   if (!knownFact(fact)) throw new Error(`Unknown card fact: ${fact}`);
   const [family, first, second, scope] = fact.split(":") as [
-    "ended" | "stake",
+    "ended" | "refused" | "stake",
     string,
     string?,
     string?,
   ];
   if (family === "ended")
     return ended(ctx, library, first, second!, scope === "any");
+  if (family === "refused")
+    return refused(ctx, library, first, second === "any");
   // The household's books or calendar give the one at home something to say
   // (family-stake.ts: the money against the race, a young child while the
   // person works, a race they worked or paid for).

@@ -43,6 +43,7 @@ import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { isRefusal } from "./relation-facts";
 import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
@@ -82,6 +83,8 @@ type ReadKind =
       exceptSameFact: string;
       /** Only records whose facts hold all of these values count (a scene reply that ended a donor's ask). */
       where?: Readonly<Record<string, string>>;
+      /** Only scene replies whose move is a refusal count (relation-facts.ts isRefusal): a no, whichever ending the scene reached. */
+      refused?: boolean;
       /** `asked`: a record that names only the asked person counts (a story printed about them); the default needs both people named. */
       named?: "both" | "asked";
       /** Only records this many days old or newer count: a story from last month is open, one from years ago is not. */
@@ -665,6 +668,7 @@ export function readOf(
           continue;
         if (own !== undefined && event.facts?.[spec.exceptSameFact] === own)
           continue;
+        if (spec.refused && !isRefusal(event.facts?.move)) continue;
         if (
           spec.within &&
           daysBetweenText(event.date, input.cause.date) > spec.within.value

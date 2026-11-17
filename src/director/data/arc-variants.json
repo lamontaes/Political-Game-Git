@@ -168,7 +168,8 @@
     "declined-party": {
       "kind": "history",
       "events": ["scene.reply"],
-      "where": { "typeKey": "party-recruit", "ending": "not-this-time" },
+      "where": { "typeKey": "party-recruit" },
+      "refused": true,
       "named": "asked",
       "within": {
         "value": 365,

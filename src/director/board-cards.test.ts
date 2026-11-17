@@ -30,6 +30,7 @@ import { knownFact } from "./card-facts";
 import { CIRCUMSTANCES } from "./circumstance";
 import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { isRefusal } from "./relation-facts";
 import { playedNode } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 
@@ -87,7 +88,7 @@ function entryFor(
   );
 }
 
-/** The player says no in the scene: the first reply whose move is a decline. */
+/** The player says no in the scene: the first reply whose move is a refusal. */
 function sayNo(
   core: CoreState,
   director: Director,
@@ -101,7 +102,7 @@ function sayNo(
   });
   if (result?.kind !== "composed") return null;
   const replies = playedNode(result.scene.talk.tree).replies;
-  const at = replies.findIndex((reply) => reply.line.move === "decline");
+  const at = replies.findIndex((reply) => isRefusal(reply.line.move));
   if (at < 0) return null;
   return replyInScene(core, director, playerId, entry, [at], {
     includeHeld: true,
@@ -218,9 +219,9 @@ it(`a no on record cuts the ask and weighs another door (seed ${seed})`, () => {
     ).toContain("party-recruit");
     const no1 = sayNo(core, director, playerId, firstEntry!, "party-recruit");
     expect(no1, `${where}: the player's no is recorded`).toBeTruthy();
-    expect(core.durableLog.get(no1!)?.facts?.ending, where).toBe(
-      "not-this-time",
-    );
+    // A no by its kind: the reply's move is a refusal, whichever ending (if
+    // any) the scene reached.
+    expect(isRefusal(core.durableLog.get(no1!)?.facts?.move), where).toBe(true);
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
 
     // The same chair asks again: cut on the board, the no on record.

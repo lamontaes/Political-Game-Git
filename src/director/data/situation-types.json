@@ -3670,7 +3670,7 @@
     },
     {
       "key": "party-recruit",
-      "excludes": ["ended:party-recruit:not-this-time"],
+      "excludes": ["refused:party-recruit"],
 
       "holds": ["none", "filed", "office"],
       "receive": {
