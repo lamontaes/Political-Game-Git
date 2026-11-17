@@ -42277,7 +42277,8 @@
           "role": "asked",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "requiresFacts": ["stand-apart"]
+          "requiresFacts": ["stand-apart", "meeting", "body"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "braced",
@@ -187311,6 +187312,865 @@
       "origin": "authored",
       "author": "Words lead (Nov 16, hold-chair-sought lines)",
       "date": "2026-11-16",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-outside-with-a-clipboard-it-s-about-cause",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you outside with a clipboard. It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause", "meeting", "body"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-outside-with-a-clipboard-and-a-flyer-for-the-body",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you outside with a clipboard and a flyer for the {body}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-have-you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me. Have you got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-me-again-i-won-t-take-long",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's me again. I won't take long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-bringing-cause-to-the-body-meeting-when-come-stand-with-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're bringing {cause} to the {body} {meeting-when}. Come stand with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "meeting",
+            "body",
+            "meeting-when",
+            "cause",
+            "cause-public"
+          ]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-ll-be-at-the-body-meeting-when-about-cause-will-you-come",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We'll be at the {body} {meeting-when} about {cause}. Will you come?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "cause"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-body-meets-meeting-when-we-d-like-more-faces-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {body} meets {meeting-when}. We'd like more faces there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-the-body-deciding-meeting-when",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's the {body} deciding {meeting-when}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-from-me-on-cause",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want from me on {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "cause"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-s-on-the-agenda-we-want-people-in-the-room",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever's on the agenda. We want people in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when"],
+          "after": "scene-talk.reply-ask.what-s-the-body-deciding-meeting-when"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.be-in-the-room-meeting-when-that-s-all-we-re-asking",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Be in the room {meeting-when}. That's all we're asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when"],
+          "after": "scene-talk.reply-ask.what-do-you-want-from-me-on-cause"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.stand-with-us-at-the-body-a-full-room-gets-noticed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Stand with us at the {body}. A full room gets noticed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when"],
+          "after": "scene-talk.reply-ask.what-do-you-want-from-me-on-cause"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-with-you-on-cause-i-ll-be-there-meeting-when",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm with you on {cause}. I'll be there {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "meeting",
+            "body",
+            "meeting-when",
+            "stand-with",
+            "cause"
+          ],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-come-to-the-body-meeting-when",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll come to the {body} {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "stand-with"],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-i-ll-be-there-meeting-when-for-cause",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in. I'll be there {meeting-when} for {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "meeting",
+            "body",
+            "meeting-when",
+            "stand-with",
+            "cause"
+          ],
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-the-other-way-on-cause-i-won-t-pretend-otherwise",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm the other way on {cause}. I won't pretend otherwise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["stand-apart", "cause", "meeting", "body"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-make-the-body-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't make the {body}. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body"],
+          "setsFacts": ["said-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-meeting-when-ask-me-about-the-next-one",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not {meeting-when}. Ask me about the next one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-think-about-cause-first",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me think about {cause} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.meeting-when-then-look-for-the-clipboard",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "{meeting-when}, then. Look for the clipboard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "said-yes"],
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-save-you-a-seat-at-the-body-meeting-when",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll save you a seat at the {body} {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "said-yes"],
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-already-agree-on-cause-come-say-it-where-it-counts",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You already agree on {cause}. Come say it where it counts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["stand-with", "cause", "meeting-when"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-s-one-night-at-the-body-just-come-and-listen",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's one night at the {body}. Just come and listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-come-to-the-next-body-we-ll-save-you-a-seat",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then come to the next {body}. We'll save you a seat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body"],
+          "after": "deflect"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-room-is-open-to-people-who-disagree-come-anyway",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The room is open to people who disagree. Come anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["stand-apart", "meeting", "body"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-disagree-on-cause-fair",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we disagree on {cause}. Fair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["stand-apart", "cause"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-the-door-s-open-if-you-change-your-mind",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The door's open if you change your mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-one-night-at-the-body-i-ll-be-there",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. One night at the {body}. I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting", "body", "meeting-when", "stand-with"],
+          "after": "press",
+          "setsFacts": ["said-yes"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-see-how-my-week-looks",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me see how my week looks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-think-about-it-i-m-not-promising",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll think about it. I'm not promising.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-thanks-for-hearing-me-out",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. Thanks for hearing me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-be-at-the-body-either-way",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll be at the {body} either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-before", "body"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-it-s-meeting-when",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. It's {meeting-when}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["meeting-when"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable), drafted by Sonnet",
+      "date": "2026-11-17",
       "tag": {
         "move": "press",
         "key": "favor-asked"

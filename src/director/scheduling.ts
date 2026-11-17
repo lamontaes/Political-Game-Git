@@ -27,10 +27,11 @@ import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
 import { LETTER_TYPE, letterFacts } from "./letter-facts";
+import { CAUSE_INVITE_TYPE } from "./cause-invite-facts";
 import { nextMeetingFacts } from "./meeting-facts";
 import { isPayrollOrganization } from "../english/journal-words";
 
-/** A tie that grew: the friend's ask (situation-types.json). */
+/** A tie that grew: the friend's ask (situation-types.json). The friend's ask and a neighbor's invitation to a cause are both for a posted meeting. */
 const FRIENDS_TYPE = "becoming-friends";
 
 const zero = P.zero;
@@ -1127,7 +1128,8 @@ export function scheduleMoment(
   // the next posted town meeting the player may come to. With none, the
   // scene is not staged rather than dropped at its request.
   const nothingToAsk = (row: SceneBinding) =>
-    row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
+    (row.typeKey === FRIENDS_TYPE || row.typeKey === CAUSE_INVITE_TYPE) &&
+    !nextMeetingFacts(core).meeting;
   const seasonFull = (row: SceneBinding) =>
     !pressedByPlayer(row) &&
     !library.types.find((type) => type.key === row.typeKey)?.openDecision &&

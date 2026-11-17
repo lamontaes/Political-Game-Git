@@ -41,6 +41,11 @@
       "purpose": "friend-ask",
       "ending": "said-yes-to-friend",
       "kind": "attend"
+    },
+    {
+      "purpose": "join-cause",
+      "ending": "joined",
+      "kind": "attend"
     }
   ],
   "kinds": [
