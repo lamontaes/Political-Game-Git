@@ -10,6 +10,9 @@ import { stripSection } from "./strips.mjs";
 import { idLink, recordTree, tableRows } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 
+/** A percent figure to one place. */
+const pct = (value) => `${value.toFixed(1)}%`;
+
 /** The business picked, kept across the sheet's redraws. */
 let picked = "";
 
@@ -87,6 +90,33 @@ async function devClosingPanel({ labels, refresh, send }) {
             { name: labels.people, value: (r) => r.people ?? "" },
             { name: labels.looking, value: (r) => r.residentsLooking ?? "" },
             { name: labels.claims, value: (r) => r.claimsOpen ?? "" },
+            {
+              name: labels.nation,
+              value: (r) =>
+                r.nationId
+                  ? idLink(r.nationId, open, pct(r.nationUnemploymentPct))
+                  : "",
+            },
+            {
+              name: labels.openingGap,
+              value: (r) =>
+                r.regionOpeningGapPct === null
+                  ? ""
+                  : pct(r.regionOpeningGapPct),
+            },
+            {
+              name: labels.leaving,
+              value: (r) =>
+                r.webId
+                  ? idLink(
+                      r.webId,
+                      open,
+                      `${r.leavingFactor.toFixed(2)} (${labels.fromJobless} ${(r.joblessLeavingEffect ?? 0).toFixed(2)})`,
+                    )
+                  : "",
+            },
+            { name: labels.movedOut, value: (r) => r.movedOutCounted },
+            { name: labels.movedOutNamed, value: (r) => r.movedOutNamed },
             {
               name: labels.sales,
               value: (r) =>

@@ -26,6 +26,8 @@ import {
 } from "../../core2/modules/people";
 import { MOVED_AWAY_EVENT } from "../../core2/moved-away-event";
 import { metricsPanel } from "../../core2/modules/world-panels";
+import { regionalLevel } from "../../core2/modules/regional";
+import { webReachInMonth } from "../../core2/modules/outcome-web";
 import type { CoreAPI, CoreState, PersonId } from "../../core2/types";
 import type { DevMode } from "../dev-mode";
 import type { DevView } from "../dev-views";
@@ -178,6 +180,36 @@ export function closeBusiness(dev: Devish, organizationId: string) {
   return {
     mark: dev.mark("close-business", [organizationId], { organizationId }),
     closure: `employer-closed:${core.date}:${organizationId}`,
+  };
+}
+
+/**
+ * How the town's jobless rate moved its leaving that month: the nation's rate
+ * (the country tier's kept month), the gap the town's region opened with, how
+ * far the town sat beyond the two, and the outcome web's factor on leaving and
+ * this link's part of it, on the web month row it stood on.
+ */
+function leavingRead(
+  api: CoreAPI,
+  town: string,
+  month: string,
+  openingGapPct: number | undefined,
+) {
+  const nation = api.state.modules.has("macro")
+    ? (api.moduleState("macro").table("months").get(`macro-month:${month}`) as
+        { id: string; unemploymentPct: number } | undefined)
+    : undefined;
+  const web = webReachInMonth(api, town, month, "population.out-migration");
+  const part = web?.reach.parts.find(
+    (row) => row.link === "unemployment-to-out-migration",
+  );
+  return {
+    nationId: nation?.id ?? null,
+    nationUnemploymentPct: nation?.unemploymentPct ?? null,
+    regionOpeningGapPct: openingGapPct ?? null,
+    webId: web?.reach.recordId ?? null,
+    leavingFactor: web?.reach.factor ?? null,
+    joblessLeavingEffect: part?.effect ?? null,
   };
 }
 
@@ -342,6 +374,25 @@ export function whatCameOf(
   const metrics = new Map(
     metricsPanel(api, town).map((row) => [String(row.date).slice(0, 7), row]),
   );
+  // Who moved out of town a month: counted households' people and named
+  // people, each by their records.
+  const outByMonth = new Map<string, { counted: number; named: number }>();
+  const bump = (date: string, key: "counted" | "named", n: number) => {
+    const month = date.slice(0, 7);
+    const row = outByMonth.get(month) ?? { counted: 0, named: 0 };
+    row[key] += n;
+    outByMonth.set(month, row);
+  };
+  if (has(core, COUNTED_MOVES_MODULE_ID))
+    for (const move of countedMoves(api))
+      if (move.direction === "out" && move.fromPlace === town)
+        bump(move.date, "counted", move.people);
+  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
+    const event = core.durableLog.get(id);
+    if (event && event.placeId === town)
+      bump(event.date, "named", event.personIds.length);
+  }
+  const region = has(core, "regional") ? regionalLevel(api, town) : undefined;
   const months = [...new Set([...byMonth.keys(), ...metrics.keys()])]
     .filter((month) => month >= from.slice(0, 7))
     .sort()
@@ -359,6 +410,9 @@ export function whatCameOf(
         claimsOpen: num("unemploymentClaimsOpen"),
         businessesClosed: num("businessesClosedThisMonth"),
         salesByIndustryMinor: byMonth.get(month) ?? {},
+        ...leavingRead(api, town, month, region?.openingGapPct),
+        movedOutCounted: outByMonth.get(month)?.counted ?? 0,
+        movedOutNamed: outByMonth.get(month)?.named ?? 0,
       };
     });
   return {
@@ -428,6 +482,12 @@ const view: DevView = {
     people: "People",
     looking: "Looking for work",
     claims: "Claims open",
+    nation: "Nation's unemployment",
+    openingGap: "Region's gap at the start",
+    leaving: "Leaving pace",
+    fromJobless: "jobless part",
+    movedOut: "Moved out",
+    movedOutNamed: "Named people moved out",
     sales: "Sales by industry",
     trading: "Its months",
   },

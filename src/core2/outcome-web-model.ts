@@ -29,6 +29,8 @@ export type Shape =
       readonly steeperExtraSize?: number | null;
     }
   | { readonly kind: "diminishing"; readonly scale: number }
+  /** A log-scale size: the factor is exp(size × change), for research given as a log change per unit. */
+  | { readonly kind: "exponential" }
   | { readonly kind: "exposure-years" }
   | { readonly kind: "acute-decay"; readonly halfLifeDays: number };
 
@@ -72,6 +74,14 @@ export interface WebLink {
   readonly sizeByPlace?: Readonly<Record<string, { readonly size: number }>>;
   readonly floor?: number;
   readonly ceiling?: number;
+  /**
+   * Where the cause is measured from when not the measure's own baseline
+   * (src/core2/modules/outcome-web.ts, LINK_BASELINES): "nation-gap-at-opening"
+   * reads the place against the nation's same month, beyond the gap its region's
+   * real figures opened with, so a gap already in the place's observed rates
+   * moves nothing and neither does a change the whole nation shares.
+   */
+  readonly baselineFrom?: "nation-gap-at-opening";
 }
 
 /** The circumstance a link's effect varies by: a field an engine knows about its subject. */
@@ -411,6 +421,8 @@ export function linkEffect(
     }
     case "diminishing":
       return (size * delta) / (1 + Math.abs(delta) / link.shape.scale);
+    case "exponential":
+      return Math.expm1(size * delta);
     case "exposure-years":
     case "acute-decay":
       return 0;
@@ -562,4 +574,17 @@ export function coverageTable(): typeof COVERAGE_DATA {
     ),
   );
   return { wired, waiting, measuresWanted };
+}
+
+/**
+ * The level a place's cause is measured from when it is read against the
+ * nation: the nation's level now plus the gap the place's real figures opened
+ * with. A place whose gap is what it opened with reads no change, whatever the
+ * nation does.
+ */
+export function nationGapBaseline(
+  nationNow: number,
+  openingGapPct: number,
+): number {
+  return nationNow + openingGapPct;
 }
