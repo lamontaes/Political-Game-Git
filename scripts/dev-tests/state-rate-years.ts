@@ -54,6 +54,15 @@ function row(): void {
         people: round(countryPeople(state)),
         partAtWork: round(own.workers),
         partLooking: round(own.seekers),
+        partAdults: round(sum(part.people)),
+        // The rest of the state, which the country tier steps: its own share looking.
+        restPct: +(
+          (100 * (sum(state.cells.map((c) => c.seekers)) - own.seekers)) /
+          (sum(state.cells.map((c) => c.seekers)) -
+            own.seekers +
+            sum(state.cells.map((c) => c.workers)) -
+            own.workers)
+        ).toFixed(3),
       }),
     );
   }

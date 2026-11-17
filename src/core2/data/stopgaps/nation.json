@@ -210,5 +210,17 @@
     "addedAt": "2026-11-10",
     "replacement": "The town's own treasuries' revenue and spending and its firms' sales and cash, read from their books each month and taken out of the state's ledger and sectors line by line.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-county-sample-no-government",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/macro.ts",
+    "line": 526,
+    "whatItFakes": "A sampled county's workers are sorted into sectors by Census County Business Patterns, a survey of private employers with no public one. When the country tier counts them inside their state, the share of them the state's own jobs hold in government is counted in government and the rest in the survey's sectors; no record says which of the county's workers work for a public employer.",
+    "why": "The county sample draws each worker's sector from County Business Patterns alone, so a played county held no government jobs and the rest of its state was left with all of them (Waimanalo, Hawaii, Nov 17: 133,719 government jobs against 60,443 needed in the rest, 11,000 ended a month).",
+    "addedBy": "World B",
+    "addedAt": "2026-11-17",
+    "replacement": "The county sample draws each worker's sector from the county's employment by ownership as well as industry (BLS QCEW by county), so a sampled worker carries a public or private employer of record.",
+    "status": "open"
   }
 ]

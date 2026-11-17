@@ -451,6 +451,40 @@ describe(`the country tier's month: ${where}`, () => {
   });
 });
 
+describe(`a part whose workers are sorted by a survey of private employers: ${where}`, () => {
+  it("counts the state's own government share of them in government, and every one of them once", () => {
+    const tier = openCountry(opening, lawOf(), rules);
+    const state = stateOf(tier, picked.usps);
+    const total = sum(state.sectors.map((row) => row.jobs));
+    const government = state.sectors.find(
+      (row) => row.sector === "government",
+    )!.jobs;
+    const zero = COUNTRY_AGE_BANDS.map(() => 0);
+    const surveyed = Object.fromEntries(
+      state.sectors
+        .filter((row) => row.sector !== "government")
+        .map((row) => [row.sector, 0.01 * row.jobs]),
+    );
+    const jobs = sum(Object.values(surveyed));
+    const part = resolveCountryPart(state, {
+      people: COUNTRY_AGE_BANDS.map(() => jobs),
+      workers: COUNTRY_AGE_BANDS.map(() => jobs / COUNTRY_AGE_BANDS.length),
+      seekers: zero,
+      children: 0,
+      jobs: {},
+      unsortedJobs: 0,
+      privateSurveyJobs: surveyed,
+      cash: 0,
+    });
+    expect(sum(Object.values(part.jobs)), where).toBeCloseTo(jobs, 6);
+    expect(part.jobs.government / jobs, where).toBeCloseTo(
+      government / total,
+      9,
+    );
+    expect(part.jobs.government, where).toBeGreaterThan(0);
+  });
+});
+
 describe(`a played part that is more than its state: ${where}`, () => {
   // A played town can count more people and jobs than the tier gives its whole
   // state (Washington, D.C., Nov 11: 378,048 jobs against the state's 324,579).
@@ -601,6 +635,64 @@ describe(`a played part where nobody is on record looking: ${where}`, () => {
     const { rests } = played();
     // The fit's own meaning, for the people it is fitted on: the share looking is where it started.
     expect(rests[1]! / rests[0]!, said).toBeCloseTo(1, 6);
+  });
+
+  it("opens the rest with no sector short of staff or over, whatever sectors the part's jobs are in", () => {
+    // A part's jobs are not in its state's proportions (Waimanalo, Hawaii, Nov 17: the rest
+    // was left with 24,389 jobs in education and health against 70,314 its people wanted
+    // staffed, and 133,719 in government against 60,443). The drawn sector goes almost whole
+    // to the part and the others by the part's share.
+    const drawnSector =
+      COUNTRY_SECTORS[
+        Number.parseInt(seed.slice(2, 6), 16) % COUNTRY_SECTORS.length
+      ]!;
+    const tier = openCountry(opening, lawOf(), rules);
+    const state = stateOf(tier, picked.usps);
+    const part = partOf(state);
+    const row = state.sectors.find((cell) => cell.sector === drawnSector)!;
+    const moved = 0.9 * row.jobs - part.jobs[drawnSector];
+    // The same jobs in all, so the part's workers still hold one each.
+    const others = sum(
+      COUNTRY_SECTORS.filter((sector) => sector !== drawnSector).map(
+        (sector) => part.jobs[sector],
+      ),
+    );
+    for (const sector of COUNTRY_SECTORS)
+      part.jobs[sector] =
+        sector === drawnSector
+          ? 0.9 * row.jobs
+          : part.jobs[sector] * (1 - moved / others);
+    const rest = state.sectors.map(
+      (cell) => cell.jobs - part.jobs[cell.sector],
+    );
+    stepCountry(
+      tier,
+      {
+        law: lawOf(),
+        policyRate: RATE,
+        parts: (at) =>
+          at.usps === picked.usps ? { out: part, in: part } : undefined,
+      },
+      rules,
+    );
+    // With what each sector is asked for level with what it sells, no sector is shorter of
+    // staff than another: every private sector ends the same share of its jobs (its spread of
+    // firms in a month when all are asked for the same), and the public sector ends none.
+    const cut = state.whatMoved.at(-1)!.jobsCut;
+    const shares = state.sectors.map((cell, at) => {
+      expect(rest[at]!, `${said}, ${cell.sector}`).toBeGreaterThan(0);
+      return cut[at]! / rest[at]!;
+    });
+    const first =
+      shares[state.sectors.findIndex((cell) => cell.sector !== "government")]!;
+    expect(first, said).toBeGreaterThan(0);
+    state.sectors.forEach((cell, at) => {
+      const where = `${said}, ${cell.sector} (${drawnSector} went to the part): ${cut[at]} of ${rest[at]} jobs ended in the first month`;
+      expect(shares[at]!, where).toBeCloseTo(
+        cell.sector === "government" ? 0 : first,
+        9,
+      );
+    });
   });
 
   it("over ten years a layoff in the state moves its rate, and nothing brings it back on a schedule", () => {
