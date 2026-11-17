@@ -10,6 +10,7 @@ import {
 } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
+import { placeStateKey } from "../core2/place-map";
 import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
@@ -32,6 +33,7 @@ import { openOffices } from "../core2/modules/offices";
 import {
   openElections,
   runCentury,
+  runLegislatures,
   setHistoryMode,
 } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -498,7 +500,12 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
-  setHistoryMode(seed, settings.history ?? "century", startDate);
+  setHistoryMode(
+    seed,
+    settings.history ?? "century",
+    startDate,
+    placeStateKey(place.key) ?? undefined,
+  );
   const minimumPeople = settings.population ?? options.minimumPeople;
   const built = buildPopulation({
     seed,
@@ -708,6 +715,9 @@ function* benchWorldStages(
   // loading screen keeps answering, before the offices seat whoever it elected.
   const century = runCentury(seed, startDate);
   while (!century.next().done) yield "government";
+  // The state legislatures' century, its own pass after the offices it does not feed.
+  const legislatures = runLegislatures(seed, startDate);
+  while (!legislatures.next().done) yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);

@@ -33,6 +33,7 @@ import {
   presidentElection,
 } from "../../core2/modules/national-opinion";
 import {
+  centuryLegislatures,
   centuryOf,
   centuryPresidency,
   historyMode,
@@ -276,6 +277,44 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             return `${r} R, ${governors.length - r} D, elected through the century`;
           })()
         : "today's real record (the world chose it)",
+    ),
+    row(
+      "town.legislature",
+      "The state legislature on day one",
+      historyMode(core.seed) === "century"
+        ? (() => {
+            // The town's state's chambers, counted seat by seat; every other state's chambers
+            // as results (electorate-century.ts congressElections).
+            const chambers = new Map<string, { r: number; d: number }>();
+            const control = { r: 0, d: 0 };
+            const all = new Map<string, { r: number; d: number }>();
+            for (const seat of centuryLegislatures(
+              core.seed,
+              core.startedAt,
+            ).values()) {
+              const key = `${seat.stateKey}:${seat.rosterChamber}`;
+              const count = all.get(key) ?? { r: 0, d: 0 };
+              if (seat.side > 0) count.r += 1;
+              else count.d += 1;
+              all.set(key, count);
+              if (seat.hidden) continue;
+              chambers.set(seat.rosterChamber ?? "legislature", count);
+            }
+            for (const count of all.values())
+              if (count.r > count.d) control.r += 1;
+              else if (count.d > count.r) control.d += 1;
+            const name = (chamber: string) =>
+              chamber === "upper"
+                ? "upper chamber"
+                : chamber === "lower"
+                  ? "lower chamber"
+                  : "one chamber";
+            const mine = [...chambers]
+              .map(([chamber, c]) => `${name(chamber)} ${c.r} R, ${c.d} D`)
+              .join("; ");
+            return `${mine || "not counted by the century (its members are not elected on the two national sides)"}; across the country the Republicans hold ${control.r} chambers and the Democrats ${control.d}, elected seat by seat through the century`;
+          })()
+        : "today's real roster (the world chose it)",
     ),
     row(
       "town.congresses",

@@ -65,6 +65,13 @@
       "role": "law",
       "source": "U.S. Const. art. I, sec. 3: senators are divided into three classes, one elected every second year for six-year terms. Class 1 was elected in 2024, class 2 in 2026's cycle (2020), class 3 in 2028's (2022); data/research/offices/senate-classes-2026.json names each state's classes."
     },
+    "centuryDistrictSizeSpread": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "role": "opening",
+      "source": "How far a district's eligible voters stand from its chamber's typical (the state's eligible over its districts), as a share either side: each district's multiple is 1 + spread x (2u - 1) for its own seeded unit. Districts hold near equal people by law (Wesberry v. Sanders, 376 U.S. 1 (1964); Reynolds v. Sims, 377 U.S. 533 (1964); a state legislative plan under 10 percent total deviation is presumed valid, Brown v. Thomson, 462 U.S. 835 (1983)), but not equal citizens of voting age, who differ with age and citizenship by district. Generation of who lives where, never an outcome. Not yet sourced: the spread of citizen voting-age population across districts in the Census Bureau's CVAP special tabulation (research item history-district-size-spread).",
+      "spread": [0.05, 0.3]
+    },
     "centuryCampaignMeansLogSpread": {
       "value": 1.0,
       "tag": "TUNABLE",
