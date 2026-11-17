@@ -319,6 +319,15 @@ export function composeScene(
           const facts: Record<string, Fact> = { ...fromRecord() };
           const other = talkToId ? who(talkToId) : null;
           if (other) facts.other = other;
+          // Whether the one who talks lives with the player, from the
+          // household: a housemate is home and brings it up (`lives-with`); a
+          // visitor has come by (`apart`). A lead line is placed by one.
+          if (talkToId) {
+            const home = core.people.get(personId)?.householdId;
+            facts[
+              livesWith(core, personId, talkToId) ? "lives-with" : "apart"
+            ] = { text: "yes", sourceRecordIds: home ? [home] : [talkToId] };
+          }
           const about = aboutId ? who(aboutId) : null;
           if (about) facts.about = about;
           // The school or workplace the scene is set at, by its record.

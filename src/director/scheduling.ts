@@ -328,11 +328,15 @@ export interface ScheduleEntry {
    * season was full (`season-cap`), or a letter would have asked the same with
    * nothing on record since (`nothing-changed`), or a friend has nothing
    * to ask that the game can settle (`nothing-to-ask`: no town meeting
-   * posted that the player may come to). The journal tells these.
+   * posted that the player may come to), or the type's receive rule refused
+   * the cast (`not-received`: the one who would come lives with the person,
+   * or a seat's scene reached someone holding no office). The journal tells
+   * these, and dev mode's scene trace shows the reason.
    */
   heldBack?: {
     typeKey: string;
-    reason: "season-cap" | "nothing-changed" | "nothing-to-ask";
+    reason:
+      "season-cap" | "nothing-changed" | "nothing-to-ask" | "not-received";
   }[];
   /**
    * The bound scenes with a purpose the player has answered, by type: a
@@ -1134,13 +1138,15 @@ export function scheduleMoment(
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
-      seasonFull(row)
-        ? [{ typeKey: row.typeKey, reason: "season-cap" }]
-        : sameLetter(row) || sameRecordAgain(row)
-          ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
-          : nothingToAsk(row)
-            ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
-            : [],
+      !receivable(row)
+        ? [{ typeKey: row.typeKey, reason: "not-received" }]
+        : seasonFull(row)
+          ? [{ typeKey: row.typeKey, reason: "season-cap" }]
+          : sameLetter(row) || sameRecordAgain(row)
+            ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
+            : nothingToAsk(row)
+              ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
+              : [],
   );
   const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(
