@@ -311,11 +311,11 @@
     "kind": "missing-hook",
     "file": "src/director/purpose-scene.ts",
     "line": 1,
-    "whatItFakes": "A scene ending that keeps a promise or a favor is kept by the director and settled only where data/promise-kinds.json names its kind and the record that settles it: a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
+    "whatItFakes": "A scene ending that keeps a promise or a favor is kept and settled only where data/promise-endings.json names its kind (src/core2/data/promises/promise-kinds.json names the record that settles it): a member's vote (the roll), paying on time after a money quarrel (the payments), showing a new coworker around (a talk). Every other ending that keeps a promise (a campaign pledge said at a scene, a constituent's call, a fix promised at the desk, a visit promised at a goodbye, and the rest) or a favor is kept as a fact and moves the tie by the talk's time only; nothing settles it.",
     "why": "Each kind needs the record that settles it named; some have one in another engine (a filing, a hire, a vote by question in record.ts) and some have no player act yet (reaching a relative or friend, going to a doctor: design-player-reaches-a-relative-or-friend, design-player-goes-to-a-doctor).",
     "addedBy": "Words and director session",
     "addedAt": "2026-10-28",
-    "replacement": "One row per ending in data/promise-kinds.json, each with the record that settles it, read by src/director/promises.ts; a favor-owed ending is a view of the legislature's obligations row.",
+    "replacement": "One row per ending in data/promise-endings.json, its kind naming the record that settles it, kept by the promises engine (src/core2/modules/promises.ts); a favor-owed ending is a view of the legislature's obligations row.",
     "status": "open"
   },
   {

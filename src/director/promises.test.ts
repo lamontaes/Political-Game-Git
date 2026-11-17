@@ -2,15 +2,21 @@
  * Promises kept, broken and remembered (Words lead brief T, Nov 14 2026).
  * A scene ending that keeps a promise is kept by the director as a fact held
  * by the one who promised and owed to the other, and it ends kept or broken
- * on the day the record that settles it lands (a missed payment, a vote at
- * the roll) or when its window closes; the tie moves once, citing it.
+ * on the day the record that settles it lands (a missed payment, a talk
+ * between the two) or when its window closes; the tie moves once, citing it.
  *
- * Pinned places: each test draws places from all 56 on a fixed seed (named
- * here and in each line it prints) and plays the first that has the case,
- * printing what it passed over. The pay-on-time test plays a pinned
- * borrower (`BANK_BORROWER`) whose loan and missed payments are the credit
- * engine's own. The scene, the reply, the record that settles the promise
- * and the tie are the engines' own.
+ * Drawn places: each test draws places from all 56 (named in each line it
+ * prints) and plays the first that has the case, printing what it passed
+ * over. The pay-on-time test advances a drawn place until any borrower the
+ * credit engine bills misses a payment and the partnerships engine writes the
+ * quarrel over it (`findTownBorrower`, tests/support/real-borrower.ts): the
+ * promise engine is one rule for every person (CTO, Nov 17), so the case is
+ * whoever the engines name, and the loan and missed payments are the credit
+ * engine's own. HAND-STAGED, labeled where they stand: the borrower's choice
+ * to promise to pay on time (the reply record, as the apology scene writes
+ * it), the hire that brings the new coworker (as meeting-scene.test.ts) and the townsperson met for
+ * the meeting ask. From there the scene, the reply, the record that settles
+ * the promise and the tie are the engines' own.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -30,10 +36,9 @@ import {
   votesOn,
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
-
-import { promisesBetween } from "./promises";
+import { promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
-import { LOAN_SEED, BANK_BORROWER } from "../../tests/support/real-borrower";
+import { LOAN_SEED, findTownBorrower } from "../../tests/support/real-borrower";
 import {
   type Check,
   pathTo,
@@ -47,7 +52,8 @@ const ok: Check = (holds, message) => expect(holds, message).toBe(true);
 /** The fixed seed the places are drawn on. */
 const SEED = "promises-kept-and-broken-1";
 const ATTEMPTS = 4;
-const TIMEOUT = 600_000;
+/** The vote case: 187.0 s alone and 181.0 s beside the other promise and scene tests (Nov 16, fe04fc42), so about twice the slower. */
+const VOTE_TIMEOUT = 375_000;
 
 function world(attempt: number, label: string) {
   const place = drawPlace(SEED, `${label}:${attempt}`);
@@ -76,22 +82,37 @@ function world(attempt: number, label: string) {
  * and comes back when that item lands.
  */
 const PAY_TIMEOUT = 270_000;
+
 it(
-  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one (seed ${LOAN_SEED})`,
+  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one, felt by the one owed (seed ${LOAN_SEED})`,
   () => {
     setBookkeeping(false);
     try {
-      const done = [playPayOnTime(BANK_BORROWER, ok)];
-      process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
+      // Advance drawn places until a promise to pay on time is broken by the
+      // town's own missed payments; a place where every borrower paid on time
+      // is named and passed over.
+      const passedOver: string[] = [];
+      let from = 0;
+      let played: string | undefined;
+      while (!played) {
+        const found = findTownBorrower(from, passedOver);
+        const result = playPayOnTime(found, ok);
+        if (result.played) {
+          played = result.played;
+          process.stdout.write(
+            `PAY ON TIME (places passed over: ${passedOver.join("; ") || "none"})\n  ${result.passed}\n  ${played}\n`,
+          );
+        } else {
+          passedOver.push(result.passed);
+          from = found.nextDraw;
+        }
+      }
     } finally {
       setBookkeeping(true);
     }
   },
   PAY_TIMEOUT,
 );
-
-/** Days played in a place at most, one at a time, so the evening before a roll is caught. */
-const VOTE_DAYS = 120;
 
 it(
   `a member's vote promised the evening before the roll is kept or broken by their vote at it (seed ${SEED})`,
@@ -216,7 +237,7 @@ it(
           expect(reply.facts?.["promise-billId"], where).toBe(billId);
           const factId = `promise:${replyId}`;
           const find = () =>
-            promisesBetween(director.ledger, askerId, colleagueId).find(
+            promisesBetween(coreAPI(core), askerId, colleagueId).find(
               (row) => row.id === factId,
             )!;
           expect(find().holderId, where).toBe(colleagueId);
@@ -267,5 +288,5 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  VOTE_TIMEOUT,
 );

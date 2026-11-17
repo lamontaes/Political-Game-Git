@@ -11,6 +11,8 @@
 export interface PatchNote {
   readonly title?: string;
   readonly text: string;
+  /** The one short line the screen lists: the bold lead, or the text's first sentence. */
+  readonly headline: string;
 }
 
 export interface PatchNoteGroup {
@@ -42,11 +44,18 @@ function plain(text: string): string {
 /** A bullet as a change: its bold lead, without a closing period, heads it. */
 function note(text: string): PatchNote {
   const lead = /^\*\*([^*]+)\*\*\s*/.exec(text);
-  if (!lead) return { text: plain(text) };
-  return {
-    title: plain(lead[1] ?? "").replace(/[.:]$/, ""),
-    text: plain(text.slice(lead[0].length)),
-  };
+  if (!lead) {
+    const body = plain(text);
+    return { text: body, headline: firstSentence(body) };
+  }
+  const title = plain(lead[1] ?? "").replace(/[.:]$/, "");
+  return { title, text: plain(text.slice(lead[0].length)), headline: title };
+}
+
+/** A line's first sentence, without its closing period. */
+function firstSentence(text: string): string {
+  const end = /[.!?](\s|$)/.exec(text);
+  return (end ? text.slice(0, end.index) : text).trim();
 }
 
 function sentenceCase(heading: string): string {
@@ -118,7 +127,7 @@ export function patchNoteReleases(text: string): PatchNoteRelease[] {
       continue;
     }
     if (bullet) bullet.push(line.trim());
-    else if (group) group.notes.push({ text: plain(line) });
+    else if (group) group.notes.push(note(line));
   }
   closeRelease();
   return releases;

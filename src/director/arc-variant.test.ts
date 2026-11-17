@@ -92,13 +92,28 @@ const generic: Record<string, Fact> = {
 };
 
 // What a donor's gift hands the scene (purpose-scene.ts, campaign-gift): the
-// amount, and the bill the donor holds the strongest view on.
+// amount, the bill the donor holds the strongest view on and what the donor's
+// reads add (donor-ask-facts.ts): where they work, the question the bill
+// answers and the side each of them is on, where the bill is and that the
+// player votes on it. A player's agree plays only where their own stand
+// matches the donor's, so the fixture hands a matching one.
 const donorFacts: Record<string, Fact> = {
   ...generic,
   money: fact("$2,500"),
   gift: fact("$2,500"),
   bill: fact("Bill 14"),
   "donor-bill": fact("Bill 14"),
+  employer: fact("the hospital"),
+  about: fact("free fares on public transit"),
+  "side-for": fact("for"),
+  "your-side": fact("for"),
+  "stand-with": fact("yes"),
+  "votes-on-it": fact("yes"),
+  "bill-filed": fact("yes"),
+  "bill-stage": fact("filed and waiting"),
+  "gift-biggest": fact("yes"),
+  "gift-weight": fact("the biggest check you've had"),
+  "asked-before": fact("yes"),
 };
 // What a reporter's call hands the scene (purpose-scene.ts, press-interview):
 // the bill, the outlet, and the facts the variant's reads add to the scene
