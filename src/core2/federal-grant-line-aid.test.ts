@@ -116,3 +116,92 @@ it(`a raise in federal transportation reaches the state's and the town's treasur
     setBookkeeping(true);
   }
 }, 300_000);
+
+it(`a cut in federal transportation takes aid away, and putting it back restores it: ${place.name}, replay ${replay}`, () => {
+  setBookkeeping(false);
+  try {
+    const cut = world();
+    const alone = world();
+    const federal = governments(cut.api).find((g) => g.level === "federal")!;
+    const budget = [...budgetsOf(cut.api, federal.id)].sort(
+      (a, b) => b.fiscalYear - a.fiscalYear,
+    )[0]!;
+    const delta = Math.round(budget.spendingMinor[LINE]! / 5);
+    const CUT = "H.R. 9003 (federal transportation cut, test)";
+    const BACK = "H.R. 9004 (federal transportation restored, test)";
+    expect(
+      amendBudget(cut.api, {
+        governmentId: federal.id,
+        line: LINE,
+        deltaMinor: -delta,
+        measureId: CUT,
+        carry: true,
+      }),
+    ).not.toBeNull();
+    const cutUntil = addDays(makeIsoDate(cut.api.state.date), 40);
+    advanceCore(cut.w.core, cutUntil);
+    advanceCore(alone.w.core, cutUntil);
+    const lower = governments(cut.api).filter(
+      (g) =>
+        g.level !== "federal" &&
+        treasuryMonthsOf(alone.api, g.id).some((m) => m.aidReceivedMinor > 0),
+    );
+    const received = (api: typeof cut.api, id: string, from = ""): number =>
+      treasuryMonthsOf(api, id)
+        .filter((m) => m.date > from)
+        .reduce((n, m) => n + m.aidReceivedMinor, 0);
+    expect(lower.some((g) => g.level === "state")).toBe(true);
+    for (const g of lower)
+      expect(received(cut.api, g.id)).toBeLessThan(received(alone.api, g.id));
+    // The cut's own reach names each government, with the aid it no longer sends.
+    const cutRows = appliedOn(cut.api, `budget-line:${LINE}`).filter(
+      (r) => r.lawId === CUT && r.target === "government",
+    );
+    expect(cutRows.map((r) => r.targetId).sort()).toEqual(
+      lower.map((g) => g.id).sort(),
+    );
+    for (const r of cutRows) expect(r.amountMinor).toBeLessThan(0);
+    // Putting the line back: from the next close on, each government
+    // receives what the world left alone does, and the cut's reach ends.
+    expect(
+      amendBudget(cut.api, {
+        governmentId: federal.id,
+        line: LINE,
+        deltaMinor: delta,
+        measureId: BACK,
+        carry: true,
+      }),
+    ).not.toBeNull();
+    const backOn = cut.w.core.date;
+    const backUntil = addDays(makeIsoDate(backOn), 40);
+    advanceCore(cut.w.core, backUntil);
+    advanceCore(alone.w.core, backUntil);
+    for (const g of lower)
+      expect(received(cut.api, g.id, backOn)).toBe(
+        received(alone.api, g.id, backOn),
+      );
+    for (const r of appliedOn(cut.api, `budget-line:${LINE}`).filter(
+      (row) => row.lawId === CUT && row.target === "government",
+    ))
+      expect(r.endedOn).not.toBeNull();
+    console.log(
+      JSON.stringify({
+        place: place.name,
+        placeKey: place.key,
+        replay,
+        worldSeed: place.seed,
+        cutMinor: -delta,
+        governments: lower.map((g) => ({
+          government: g.id,
+          cutPeriodAid:
+            received(cut.api, g.id) - received(cut.api, g.id, cutUntil),
+          alonePeriodAid:
+            received(alone.api, g.id) - received(alone.api, g.id, cutUntil),
+        })),
+        cutRows: cutRows.map((r) => [r.targetId, r.amountMinor]),
+      }),
+    );
+  } finally {
+    setBookkeeping(true);
+  }
+}, 300_000);

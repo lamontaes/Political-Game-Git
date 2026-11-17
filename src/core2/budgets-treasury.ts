@@ -504,12 +504,15 @@ function grantLineChanges(
   if (baseTotal <= 0) return { added, cut };
   for (const { line, base } of bases) {
     if (base <= 0) continue;
-    const level = (budget.spendingMinor[line] ?? 0) / base;
-    if (level === 1) continue;
-    const laws = lineLaws(api, gov, line, budget.spendingMinor[line] ?? 0);
+    // What the bills in force added to (or cut from) the line, in dollars.
+    const inForce = budget.spendingMinor[line] ?? 0;
+    const byBills = inForce - base;
+    if (byBills === 0) continue;
+    const laws = lineLaws(api, gov, line, inForce);
     for (const a of aid) {
       if (a.from) continue;
-      const change = Math.round(a.minor * (base / baseTotal) * (level - 1));
+      // Each grant's part of those dollars, by its share of the lines' base.
+      const change = Math.round((a.minor * byBills) / baseTotal);
       if (change === 0) continue;
       if (change > 0) {
         let left = change;
