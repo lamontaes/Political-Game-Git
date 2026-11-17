@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr:
+pr: 9830
 blocked-on:
 source: crew line item 4, the remaining approved mocks
 after:
