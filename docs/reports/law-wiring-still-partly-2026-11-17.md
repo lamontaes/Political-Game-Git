@@ -1,45 +1,45 @@
-# Laws that are still only partly working (Nov 17, 2026)
+# Laws that are still only partly working (November 17, 2026)
 
-Of the game's 191 laws, 153 now show their whole effect in dev mode: who the law reached, the money that moved, what it changed for people and prices, and what repeal undoes. Today six more joined them: the Medicare line, both Social Security claim ages, the Social Security line and the veterans line. SSI, child care and energy help are now paid at the treasury's own monthly close. 38 laws still stop short, and the reasons fall into five groups below. One is waiting only on the next step in the budget work.
+What you can do now: in dev mode, enact any of the game's laws and open its bill card to see who it reached, the money that moved, and what repeal undoes. 153 of the table's 191 law rows now show all of that. Six rows joined them on November 17: the Medicare spending line, the earliest and full-retirement Social Security claim ages, the Social Security spending line, and the veterans' spending line. SSI, child care help and energy help are now paid on the day the treasury pays each month's bills. 38 rows still stop short, in five groups below. A row is one law at one level, so a law can have two rows.
 
-## Spending lines with no researched link to what they change (13)
+## Spending lines with no researched link to what they change (13 rows)
 
 These lines move money and people today. What is missing is a researched link from the line to a result in a town.
 
-- Federal transportation, health, education, community and regional development, agriculture, defense and international affairs. A raise to a federal grant line reaches states and towns only as aid money, so the receiver's own highway, school and hospital lines never rise. The fix is written up and now unblocked: a pool item named `laws-federal-grant-line-raise-reaches-receivers-matching-line`.
-- Income security (SSI), child care's income limit, SSI's rate and energy help's income limit. SSI's link to poverty is built and waiting to fold (pull request 9877).
-- The delayed Social Security credit age: no source says what a later cutoff changes, and your Nov 10 ruling stops research that only adds precision.
-- National data privacy: no researched link yet.
+- Federal transportation, health, education, community and regional development, agriculture, defense and international affairs. A raise to a federal grant line reaches states and towns only as extra aid money, so the receiver's own highway, school and hospital lines never rise. The fix is written up in `docs/pool/items/laws-federal-grant-line-raise-reaches-receivers-matching-line.md`; the budget work it waited on has now landed, so it can be built.
+- Income security (SSI), child care's income limit, SSI's rate and energy help's income limit. The link from SSI to poverty is built; it is waiting for its pull request (number 9877) to be added to the shared build.
+- The delayed Social Security credit age. No source says what a later cutoff changes, and your November 10, 2026 ruling stops research that only adds precision.
+- National data privacy. No researched link yet.
 
-## Laws that nothing records who they bind (11)
+## Laws that nothing records who they bind (11 rows)
 
 The law is passed and read, but no record names the people or groups it applies to, so nothing can be traced.
 
-- Forgive student loans, pay for a higher debt limit, vouchers for every eligible family, states share disaster costs, federal campaign limits, congressional stock trading, statehood for D.C., admit more immigrants, raise tariffs, and limit power plant carbon.
-- Ban the box for public hiring is fixed in pull request 9963 and waits on its checks. It now records the public employers the law binds.
+- Forgive student loans, pay for a higher debt limit, vouchers for every eligible family, states share disaster costs, federal campaign limits, congressional stock trading, statehood for D.C., admit more immigrants, raise tariffs, and limit power plant carbon (ten rows).
+- Ban the box for public hiring at the state level (one row). This is fixed in pull request 9963, which is waiting on its checks: it now records the public employers the law binds.
 
-## Laws with no starting value in some places (11)
+## Rows with no starting value in some places (11 rows)
 
-- Fees for parks, sewer and trash, hospitals and schools at the town level: most states have no starting row.
-- Campaign contribution limits for governor, state senate, state house and local office: about a dozen states have no starting row.
-- Governor term limit: D.C. has no starting row.
-- Ban the box and retail electric choice as a state's grant of power to its towns: no state has a starting row.
+- Town-level fees for parks, sewer and trash, hospitals and schools (four rows): most states have no starting value.
+- Campaign contribution limits for governor, state senate, state house and local office (four rows): about a dozen states have no starting value.
+- Governor term limit (one row): D.C. has no starting value.
+- The town-level rows for ban the box and for retail electric choice (two rows): no state has a starting value. The state-level ban the box row is in the group above, and the state-level retail electric choice row is in the next one.
 
-## Two laws only the legislature reads (2)
+## Two rows only the legislature reads (2 rows)
 
-- State retail electric choice and meeting notice hours. Nothing but the lawmaking engine reads them, which the check does not count as a reader.
+- State retail electric choice, and meeting notice hours. Only the lawmaking engine reads them (`src/core2/modules/legislature.ts`), and the check does not count lawmaking as something that carries a law's effect out.
 
-## One law whose money nobody pays (1)
+## One row whose money nobody pays (1 row)
 
-- Reducing federal mandatory minimums shortens sentences and lowers the federal prison count, but no engine pays the Bureau of Prisons, so the savings are not a dollar anywhere.
+- Reducing federal mandatory minimums shortens sentences and lowers the federal prison count, but nothing pays the Bureau of Prisons, so the savings are not a dollar anywhere.
 
 ## What I would do next
 
-1. Build the federal grant line pass-through: one change in the budget engine and three rows.
-2. Fold the SSI poverty link (9877) and the ban the box record (9963).
-3. Give the ten laws with no record of who they bind one, a law at a time.
+1. Build the federal grant line change: one change in the budget engine and three rows.
+2. Add the SSI poverty link (9877) and the ban the box record (9963) to the shared build.
+3. Give the ten other laws with no record of who they bind one, a law at a time.
 4. The starting values for fees and contribution limits are research items: each needs a sourced value per place.
 
 ## How this was graded
 
-The regrade ran on the Nov 17 train at one drawn place, Brookhaven, West Virginia (place key 5410420), for the nine rows today's work moved, and was merged with the earlier runs. Rows not re-run keep the grade from their last run, between Nov 14 and 17. The table read 147 of 187 before; it now reads 153 of 191.
+Counts come from `docs/reports/law-wiring-matrix.json`: 191 rows, of which 153 are wired, 37 partly and 1 has a stopgap (a placeholder). The table counted 187 rows on November 14, 2026; it now counts four more. The nine rows this work changed were graded again on the November 17, 2026 build at one drawn place, Brookhaven, West Virginia (place key 5410420). Every other row keeps its grade from its last run, between November 14 and 17, 2026.
