@@ -37,6 +37,7 @@ import {
 } from "../legislature-committees";
 import { OFFICIALS_MODULE_ID, officialOf } from "./officials";
 import { bookkeeping } from "../bookkeeping";
+import { tableTraceOn } from "../module-state";
 import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-data";
 
@@ -404,6 +405,12 @@ function knownSignature(api: CoreAPI, chamber: string): string | undefined {
     ? kept.signature
     : undefined;
 }
+/** How many times a world's chamber member lists were rebuilt to check their membership. */
+const rebuilds = new WeakMap<object, number>();
+/** The count of member-list rebuilds in a world: a diagnostic for its speed check. */
+export function membershipRebuilds(core: CoreState): number {
+  return rebuilds.get(core) ?? 0;
+}
 function keepSignature(api: CoreAPI, chamber: string, signature: string) {
   let byChamber = keptMembership.get(api.state);
   if (!byChamber) keptMembership.set(api.state, (byChamber = new Map()));
@@ -426,11 +433,17 @@ export function organize(api: CoreAPI, body: string): readonly PostRow[] {
   // member list reads (the date, and the offices, officials and voting
   // engines' records) is as it was, so its signature is too.
   const known = knownSignature(api, chamber);
-  if (known !== undefined && done?.signature === known && !bookkeeping())
+  if (
+    known !== undefined &&
+    done?.signature === known &&
+    !bookkeeping() &&
+    !tableTraceOn()
+  )
     return table(api, "posts").query("byChamber", [
       chamber,
     ]) as unknown as PostRow[];
   const all = members(api, chamber);
+  rebuilds.set(api.state, (rebuilds.get(api.state) ?? 0) + 1);
   const signature = all.map(memberKey).sort().join("|");
   // Under bookkeeping (tests) the kept signature is checked against the list.
   if (known !== undefined && known !== signature)

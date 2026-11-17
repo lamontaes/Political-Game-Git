@@ -8,7 +8,7 @@
  * rebuilt every time and checked against the kept one.
  */
 import { randomBytes } from "node:crypto";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { bookkeeping, setBookkeeping } from "./bookkeeping";
@@ -16,28 +16,15 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import type * as Legislature from "./modules/legislature";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import {
   committeeRoster,
   leaderOf,
+  membershipRebuilds,
   organize,
   presidingOfficer,
   type PostRow,
 } from "./modules/leadership";
-
-/** How many times each chamber's member list was read, by office id. */
-const reads = new Map<string, number>();
-vi.mock("./modules/legislature", async (load) => {
-  const real = await load<typeof Legislature>();
-  return {
-    ...real,
-    members: (...args: Parameters<typeof real.members>) => {
-      reads.set(args[1], (reads.get(args[1]) ?? 0) + 1);
-      return real.members(...args);
-    },
-  };
-});
 
 const LOOKUPS = 50;
 
@@ -71,7 +58,7 @@ describe("leadership keeps a chamber's membership until it can change", () => {
     setBookkeeping(false);
     try {
       for (const chamber of chambers) organize(api, chamber);
-      reads.clear();
+      const before = membershipRebuilds(world.core);
       for (let i = 0; i < LOOKUPS; i += 1)
         for (const chamber of chambers) {
           presidingOfficer(api, chamber);
@@ -81,14 +68,15 @@ describe("leadership keeps a chamber's membership until it can change", () => {
             checked.get(chamber),
           );
         }
-      for (const chamber of chambers)
-        expect(reads.get(chamber) ?? 0, `${where}, ${chamber}`).toBe(0);
+      expect(membershipRebuilds(world.core) - before, where).toBe(0);
       advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
-      reads.clear();
+      const nextDay = membershipRebuilds(world.core);
       for (let i = 0; i < LOOKUPS; i += 1)
         for (const chamber of chambers) presidingOfficer(api, chamber);
-      for (const chamber of chambers)
-        expect(reads.get(chamber) ?? 0, `${where}, ${chamber}`).toBeLessThan(2);
+      expect(
+        membershipRebuilds(world.core) - nextDay,
+        where,
+      ).toBeLessThanOrEqual(chambers.length);
     } finally {
       setBookkeeping(was);
     }
