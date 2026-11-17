@@ -57,6 +57,7 @@ import {
   setColorBlind,
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { campaignPage } from "./ui/campaign-head.mjs";
 import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox, statusLine } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
@@ -116,7 +117,6 @@ import {
   patchNotesScreen,
   seatNumbers,
   voteRows,
-  moneyFigure,
   deskBill,
   deskTitle,
   deskList,
@@ -2355,7 +2355,10 @@ async function campaignParts() {
     const labelsC = controls.campaignBoard ?? {};
     const out = makeButton({ textContent: labelsC.trail });
     out.addEventListener("click", () => trailView(part));
-    part.tab = stripBoard({
+    // The race across the top (the 2026-11-04 campaign board mock): its
+    // office, the day it is decided and the money raised, so the board says
+    // which race it is before anything else.
+    const board = stripBoard({
       className: "campaign-board",
       columns: [
         [
@@ -2370,12 +2373,8 @@ async function campaignParts() {
           stripSection(
             2,
             labelsC.money,
-            moneyFigure(moneyWords(campaign.raisedMinor)),
             dotRows([
-              {
-                label: labelsC.raised,
-                value: moneyWords(campaign.raisedMinor),
-              },
+              // Raised stands in the header strip, large.
               { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
@@ -2441,6 +2440,20 @@ async function campaignParts() {
           buttonTray(out),
         ],
       ],
+    });
+    part.tab = campaignPage({
+      title: contest?.title ?? "",
+      facts: contest?.electionDate
+        ? [
+            row(
+              controls.localRaces.electionDay,
+              dateWords(contest.electionDate),
+            ),
+          ]
+        : [],
+      raisedLabel: labelsC.raised,
+      raised: moneyWords(campaign.raisedMinor),
+      board,
     });
     parts.push(part);
   }

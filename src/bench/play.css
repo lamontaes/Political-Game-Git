@@ -68,6 +68,9 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* The campaign board's header strip and the space around it. */
+  --campaign-gap: 14px;
+  --campaign-head-pad: 0 4px 12px;
   color-scheme: dark;
   --glass-top: rgba(42, 42, 44, 0.72);
   --glass-bottom: rgba(22, 22, 24, 0.82);
@@ -5214,6 +5217,42 @@ select.release-pick {
 .strip-board.campaign-board .dotlabel,
 .strip-board.campaign-board .dotvalue {
   white-space: nowrap;
+}
+/* The race across the top (2026-11-04 mock): the office and its day at the
+   left, the money raised at the right, on one strip over the columns. */
+.campaign-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--campaign-gap);
+}
+.campaign-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--campaign-gap);
+  padding: var(--campaign-head-pad);
+  border-bottom: 1px solid var(--brass-lo);
+}
+.campaign-head h2 {
+  margin: 0 0 4px;
+  font:
+    600 var(--t-name)/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  color: var(--cream);
+}
+.campaign-raised {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: var(--gold);
+  font: 600 var(--t-label) var(--ui);
+}
+#sheet-body .campaign-raised .money-figure {
+  margin: 0;
+  font: 600 var(--t-name)/1.05 var(--ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--cream);
 }
 
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */

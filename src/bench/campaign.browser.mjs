@@ -4,6 +4,7 @@ import { chromium } from "playwright";
 import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
+const port = process.env.BENCH_PORT ?? 3000;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -13,7 +14,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${port}/play`);
   await ready;
   // A grown resident (born 1980), so the records let them file for the town's offices.
   const person = JSON.stringify({
@@ -25,10 +26,10 @@ try {
     birthDay: 15,
   });
   const seed = (
-    await (await page.request.get("http://localhost:3000/api/seed")).json()
+    await (await page.request.get(`http://localhost:${port}/api/seed`)).json()
   ).seed;
   const made = await page.request.post(
-    `http://localhost:3000/api/newlife?${new URLSearchParams({ seed, date: "2026-10-12", person })}`,
+    `http://localhost:${port}/api/newlife?${new URLSearchParams({ seed, date: "2026-10-12", person })}`,
     { timeout: 300000 },
   );
   assert.equal(made.status(), 200);
@@ -55,6 +56,15 @@ try {
     .click();
   await page.locator(".campaign-board").first().waitFor();
   const body = await page.locator("#sheet-body").innerText();
+  // The race across the top (the 2026-11-04 mock): its office and the day it
+  // is decided, before anything else on the board.
+  const head = await page.evaluate(() => ({
+    title: document.querySelector(".campaign-head h2")?.textContent.trim(),
+    rows: document.querySelector(".campaign-head")?.innerText ?? "",
+  }));
+  assert.ok(head.title, "the campaign board does not name its race");
+  assert.match(head.rows, /Election day/i, "the board does not say its day");
+  console.log("Board head:", head.title, "|", head.rows.replace(/\n/g, " "));
   assert.ok(!body.includes("undefined"));
   // The Campaign tab shows standing and results only: its one button goes out onto the trail.
   assert.equal(
@@ -118,6 +128,8 @@ try {
     await page.screenshot({
       path: `docs/reports/campaign-controls-2026-10-20/${result.kind}.png`,
     });
+    // An act moves the clock, and a scene that comes due plays first (the
+    // clerk's, after a filing): openCampaignTrail plays it, then goes back out.
     await openCampaignTrail(page);
   }
   assert.deepEqual(errors, []);

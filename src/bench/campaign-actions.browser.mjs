@@ -10,6 +10,7 @@ import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
+const port = process.env.BENCH_PORT ?? 3000;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -20,7 +21,7 @@ page.on("pageerror", (e) => errors.push(e.message));
 const shots = process.env.CAMPAIGN_SHOTS;
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${port}/play`);
   await ready;
   const person = JSON.stringify({
     givenName: "Pat",
@@ -32,10 +33,10 @@ try {
   });
   // A seed the game draws, a date a grown resident can file from (as campaign.browser.mjs does).
   const seed = (
-    await (await page.request.get("http://localhost:3000/api/seed")).json()
+    await (await page.request.get(`http://localhost:${port}/api/seed`)).json()
   ).seed;
   const made = await page.request.post(
-    `http://localhost:3000/api/newlife?${new URLSearchParams({ seed, date: "2026-10-12", person })}`,
+    `http://localhost:${port}/api/newlife?${new URLSearchParams({ seed, date: "2026-10-12", person })}`,
     { timeout: 300000 },
   );
   assert.equal(made.status(), 200);
@@ -56,7 +57,7 @@ try {
   assert.ok(contestId, "the player could file for nothing in this town");
   console.log("Filed for:", contestId);
   const results = [];
-  const base = "http://localhost:3000";
+  const base = `http://localhost:${port}`;
   const me = (await (await page.request.get(`${base}/api/title`)).json()).life
     .personId;
   // Give a speech: the card's own steps (begin, pick a line at each stage, give at a venue).
