@@ -103,6 +103,20 @@ export function findTownBorrower(
           );
       }
     }
+    // HAND-STAGED: a borrower who misses a payment is followed from then on,
+    // with their household, as the player's own is (state.ts keeps the durable
+    // record of a followed person's days), so the next missed payment that
+    // breaks a promise is kept as a record the lender's talk can read.
+    coreAPI(core).subscribeEvents(
+      "town-borrower-follow",
+      ["credit.payment-missed"],
+      (_, event) => {
+        const person = core.people.get(event.personIds[0]!);
+        for (const id of core.households.get(person?.householdId ?? "")
+          ?.memberIds ?? [])
+          (core.focusPersonIds as unknown as Set<PersonId>).add(id as PersonId);
+      },
+    );
     const found: CoreEventInput[] = [];
     const missedBy = new Map<string, CoreEventInput>();
     coreAPI(core).subscribeEvents(
