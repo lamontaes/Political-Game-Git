@@ -223,14 +223,26 @@ export function publishedCitizenShareOf(
  * This world's swing in a state's Republican two-party share from 2024: the
  * world's national swing and the state's own, each drawn once from the seed
  * (realistic, not real; owner, Oct 27). Positive toward the Republicans.
+ *
+ * Each draw keeps its floor away from zero, and so does their sum: where the
+ * state's own draw would cancel the national one to within its own floor, it
+ * moves with the national swing instead, so no state opens on its published
+ * share (CTO, Nov 17; Agugulu, American Samoa, seed 108d24aa2670d324 drew a
+ * New Hampshire swing of 9e-10). History's century shares replace this path.
  */
 export function worldSwing(seed: string, usps: string): number {
-  return (
+  const national =
     worldOffsetUnit(seed, "politics:national-swing") *
-      parameter("worldNationalSwingSpreadShare") +
+    parameter("worldNationalSwingSpreadShare");
+  const own =
     worldOffsetUnit(seed, `politics:state-swing:${usps}`) *
-      parameter("worldStateSwingSpreadShare")
-  );
+    parameter("worldStateSwingSpreadShare");
+  const floor =
+    parameter("worldDrawOffsetFloorShare") *
+    parameter("worldStateSwingSpreadShare");
+  return Math.abs(national + own) < floor
+    ? national + Math.sign(national) * Math.abs(own)
+    : national + own;
 }
 
 /** This world's votes cast, as a share of the published, in a state's 2024 races. */
