@@ -29,8 +29,10 @@ import type { EntityId } from "./kernel/brands";
 import natality2023 from "../../data/research/renewal/natality-2023.json" with { type: "json" };
 import natality2024 from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
-import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
-import stateMortality from "./data/state-mortality.json" with { type: "json" };
+import {
+  SSA_2023_MAX_AGE,
+  ssa2023AnnualProbability,
+} from "./health-mortality-table";
 import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { weighUnplanned } from "./births-unplanned";
@@ -187,41 +189,30 @@ function birthRates(stateName: string): Map<[number, number], number> {
   return rates;
 }
 
-/** SSA cohort qx: the chance of dying within the year at this age, by sex and birth year. */
-export function cohortDeathChance(
-  gender: string | undefined,
-  birthYear: number,
-  age: number,
-) {
-  const table = (
-    gender === "male" ? lifeTables.male : lifeTables.female
-  ) as Record<string, readonly number[]>;
-  const cohorts = lifeTables.cohorts;
-  const year = Math.min(cohorts.at(-1)!, Math.max(cohorts[0]!, birthYear));
-  const below = [...cohorts].reverse().find((cohort) => cohort <= year)!;
-  const above = cohorts.find((cohort) => cohort >= year)!;
-  const share = above === below ? 0 : (year - below) / (above - below);
-  const at = (rows: readonly number[]) => rows[Math.min(age, rows.length - 1)]!;
-  const low = at(table[String(below)]!),
-    high = at(table[String(above)]!);
-  return Math.min(1, low + (high - low) * share);
-}
-
-const deathChances = new Map<string, number>();
-/** Cached by sex, birth year and age: the table is fixed. */
-function deathChance(
-  gender: string | undefined,
-  birthYear: number,
-  age: number,
-) {
-  const key = `${gender === "male" ? "m" : "f"}${birthYear}:${age}`;
-  let chance = deathChances.get(key);
+/**
+ * The chance of dying within the year at this age, by sex: the one hazard
+ * function a full person's strain is built on (the SSA 2023 period table),
+ * so a counted person and a full person of the same age and sex start from
+ * the same curve. What differs between worlds is the people's own
+ * conditions, care, coverage and housing, which scale it below.
+ */
+export function periodDeathChance(gender: string | undefined, age: number) {
+  const key = gender === "male" ? "m" : "f";
+  const at = `${key}:${age}`;
+  let chance = deathChances.get(at);
   if (chance === undefined) {
-    chance = cohortDeathChance(gender, birthYear, age);
-    deathChances.set(key, chance);
+    chance = Number(
+      ssa2023AnnualProbability(
+        Math.min(age, SSA_2023_MAX_AGE),
+        gender === "male" ? "male" : "female",
+      ),
+    );
+    deathChances.set(at, chance);
   }
   return chance;
 }
+
+const deathChances = new Map<string, number>();
 
 /** Plain code-unit order: stable across machines, unlike locale order. */
 const compare = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
@@ -588,11 +579,6 @@ export function applyCountedFlows(
     // illness goes to the cohort owed the most (largest remainder), so
     // illnesses fall on cohorts in proportion to their hazard and not only
     // on the oldest, and the fraction owed is carried forward. No dice.
-    // The state's age-adjusted death rate against the nation's (NCHS) scales
-    // everyone there alike, so it sets how many fall ill and die, not who; a
-    // territory the dataset lacks takes the national rate.
-    const mortality =
-      (stateMortality.ratioByState as Record<string, number>)[state.key] ?? 1;
     const lead = (person: PersonInput, on: string) =>
       countedCourseDays(ageOf(person, on));
     const byId = new Map(people.map((person) => [person.id, person]));
@@ -755,13 +741,7 @@ export function applyCountedFlows(
             chance = monthlyShare(
               Math.min(
                 1,
-                deathChance(
-                  member.looks?.gender,
-                  Number(member.birthDate.slice(0, 4)),
-                  age,
-                ) *
-                  mortality *
-                  worldRateFactor(api.state.seed, "mortality") *
+                periodDeathChance(member.looks?.gender, age) *
                   webDeaths(member, on) *
                   housing.factor,
               ),
