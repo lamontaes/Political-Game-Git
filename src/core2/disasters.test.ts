@@ -9,6 +9,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   causeDamagingDisaster,
+  causeDisaster,
   damagedHomesOf,
   disasterAssistancePaid,
   disasterRepairsPaid,
@@ -62,7 +63,11 @@ function worldWithFirstYearDisaster() {
     end.setUTCDate(end.getUTCDate() - 1);
     yearEnd = end.toISOString().slice(0, 10);
     // The county's own exposure makes its disasters; cause the next one that damages the town.
-    causeDamagingDisaster(coreAPI(core));
+    // The disaster that damages the town if the county has one recorded, else the next flood, storm or wildfire.
+    const api = coreAPI(core);
+    if (!causeDamagingDisaster(api))
+      for (const hazard of ["flood", "storm", "wildfire"] as const)
+        if (causeDisaster(api, hazard)) break;
     due = townDisasters(coreAPI(core)).filter(
       (row) => row.begins > opened && row.begins <= yearEnd,
     );
@@ -107,11 +112,13 @@ describe(`disasters from the record (seed ${seed})`, () => {
       string,
       Record<string, [number, number, number]>
     >;
+    // A made disaster's figures are its recorded template's, under a number of its own.
+    const recorded = (disaster: number) => disaster % 1_000_000;
     const most = (disaster: number, at: 0 | 1) =>
       Math.max(
         0,
         ...Object.entries(homes)
-          .filter(([key]) => key.endsWith(`|${disaster}`))
+          .filter(([key]) => key.endsWith(`|${recorded(disaster)}`))
           .flatMap(([, towns]) => Object.values(towns).map((row) => row[at])),
       );
     for (const row of disasterAssistancePaid(api)) {
@@ -127,7 +134,7 @@ describe(`disasters from the record (seed ${seed})`, () => {
         continue;
       }
       const county = Object.entries(rows).find(([key]) =>
-        key.endsWith(`|${row.disaster}`),
+        key.endsWith(`|${recorded(row.disaster)}`),
       );
       expect(county).toBeDefined();
       const cap =
