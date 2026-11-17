@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: laws-and-effects (builder crew, Nov 17)
-pr:
+pr: #9887
 after:
 blocked-on:
 lead: laws-effects
