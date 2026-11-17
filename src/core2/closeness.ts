@@ -467,12 +467,115 @@ function meanVisitsPerYear(p: Lookup, row: readonly number[]): number {
 }
 
 /**
+ * A household's upkeep: its housework and shopping, which grow with the
+ * people it keeps (`homeUpkeepHoursPerMember` a day for each) and are shared
+ * by its adults. A parent alone with three children carries far more of it
+ * than one of two adults with none. Children keep no share.
+ */
+export function homeUpkeep(
+  core: Pick<CoreState, "data" | "date" | "people" | "households">,
+  householdId: string,
+): { members: number; adults: number; upkeepHoursPerAdult: number } {
+  const p = lookup(core);
+  let members = p("zero"),
+    adults = p("zero");
+  for (const id of core.households.get(householdId)?.memberIds ?? []) {
+    const person = core.people.get(id);
+    if (!person?.alive) continue;
+    members += p("one");
+    if (
+      daysBetweenText(person.birthDate, core.date) / p("daysPerMeanYear") >=
+      p("votingAge")
+    )
+      adults += p("one");
+  }
+  return {
+    members,
+    adults,
+    upkeepHoursPerAdult: adults
+      ? (p("homeUpkeepHoursPerMember") * members) / adults
+      : p("zero"),
+  };
+}
+
+/**
+ * The work commitments that keep a person from home today: their current
+ * job's, in force on this date. Their ids are what a home-time row cites.
+ */
+export function homeWorkIds(
+  core: Pick<CoreState, "date" | "people" | "work">,
+  personId: PersonId,
+): string[] {
+  const person = core.people.get(personId);
+  const ids: string[] = [];
+  for (const id of core.work.commitmentsByPerson.get(personId) ?? []) {
+    const row = core.work.commitments.get(id);
+    if (!row || row.jobId !== person?.jobId) continue;
+    if (row.startsAt > core.date || (row.endsAt && row.endsAt < core.date))
+      continue;
+    ids.push(id);
+  }
+  return ids;
+}
+
+/**
+ * The minutes a day one person is home and awake: the waking day less the
+ * work their current job schedules, averaged over its week
+ * (`expectedWeeklyMinutes` on each running commitment of that job). Someone
+ * with no job is home the whole waking day.
+ */
+export function homeMinutesPerDay(
+  core: Pick<CoreState, "data" | "date" | "people" | "work">,
+  personId: PersonId,
+): number {
+  const p = lookup(core);
+  const sleep = core.data.work
+    ? p(core.data.work.sleepReserveParameter)
+    : p("zero");
+  let weekly = p("zero");
+  for (const id of homeWorkIds(core, personId))
+    weekly += core.work.commitments.get(id)!.expectedWeeklyMinutes;
+  return Math.max(
+    p("zero"),
+    (p("hoursPerDay") - sleep) * p("minutesPerHour") -
+      weekly / p("daysPerWeek"),
+  );
+}
+
+/**
+ * The minutes a day two housemates spend in each other's company: the
+ * waking time both are home (the shorter of their two home days), times the
+ * share of shared home time people spend together, by whether they are family
+ * (`homePresenceFamilyShare`, `homePresenceOtherShare`, fitted once so ATUS
+ * work hours give ATUS's minutes with household family and with others). A
+ * pair where one works doubles or both work long weeks spends less; a retired
+ * couple more. The inputs are returned with the minutes for the trace.
+ */
+export function homeTogether(
+  core: Pick<CoreState, "data" | "date" | "people" | "work">,
+  aId: PersonId,
+  bId: PersonId,
+  family: boolean,
+): { homeA: number; homeB: number; minutesPerDay: number } {
+  const p = lookup(core);
+  const homeA = homeMinutesPerDay(core, aId),
+    homeB = homeMinutesPerDay(core, bId);
+  return {
+    homeA,
+    homeB,
+    minutesPerDay:
+      Math.min(homeA, homeB) *
+      p(family ? "homePresenceFamilyShare" : "homePresenceOtherShare"),
+  };
+}
+
+/**
  * Opening closeness, in hours of time together, between two people at the
  * start of the world: the steady state of how often their kind of tie meets,
  * plus the childhood they shared at home, faded since one of them left.
  */
 export function openingClosenessHours(
-  core: Pick<CoreState, "data" | "date" | "people" | "husks">,
+  core: Pick<CoreState, "data" | "date" | "people" | "husks" | "work">,
   actorId: PersonId,
   otherId: PersonId,
 ): number {
@@ -482,11 +585,13 @@ export function openingClosenessHours(
   const other = core.people.get(otherId) ?? core.husks.get(otherId)!;
   const family = actor.familyIds.has(otherId);
   const kind = family ? data.familyKind : data.householdKind;
-  const householdRate =
-    p(family ? "householdFamilyMinutesPerDay" : "householdOtherMinutesPerDay") /
-    p("minutesPerHour");
   if ("householdId" in other && actor.householdId === other.householdId)
-    return steadyHours(p, householdRate, kind);
+    return steadyHours(
+      p,
+      homeTogether(core, actorId, otherId, family).minutesPerDay /
+        p("minutesPerHour"),
+      kind,
+    );
 
   const fact = actor.pastFacts?.find(
     (row) => row.id === `${actorId}${data.kinFactMarker}${otherId}`,
@@ -537,7 +642,19 @@ export function openingClosenessHours(
       apart = ages[p("zero")]! - adultDays;
     }
   }
-  const atParting = towardSteady(p, p("zero"), householdRate, together, kind);
+  // Growing up at home together: the family's share of the hours both were
+  // home, each as their own job allows now (a child and a relative kept only
+  // by name have the whole waking day).
+  const childhoodRate =
+    (Math.min(
+      homeMinutesPerDay(core, actorId),
+      core.people.has(otherId)
+        ? homeMinutesPerDay(core, otherId)
+        : Number.POSITIVE_INFINITY,
+    ) *
+      p("homePresenceFamilyShare")) /
+    p("minutesPerHour");
+  const atParting = towardSteady(p, p("zero"), childhoodRate, together, kind);
   return together > p("zero")
     ? towardSteady(p, atParting, rate, apart, kind)
     : steadyHours(p, rate, kind);
