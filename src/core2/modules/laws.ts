@@ -28,6 +28,8 @@ import {
   policySeriesAtLevel,
 } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
+export { minimumHourlyAt } from "../wage-floor";
+export { PAID_LEAVE_PREMIUM } from "../paid-leave";
 import {
   holdPublicPay,
   holdTeacherPay,

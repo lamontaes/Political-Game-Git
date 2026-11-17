@@ -44,7 +44,12 @@ import {
   recordRanking,
   recordHiredUnderBan as recordHiredWithRecordUnderBan,
 } from "../jobs-record-bias";
-import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawInForce,
+  socialSecurityAges,
+  minimumHourlyAt,
+} from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
@@ -128,7 +133,6 @@ import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
-import { minimumHourlyAt } from "../wage-floor";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<

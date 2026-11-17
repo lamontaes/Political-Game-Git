@@ -38,8 +38,8 @@ import payFacts from "../../../data/source/official-office-pay/facts.json" with 
 import { outsideGovernment } from "../outside-governments";
 import { placeStateKey } from "../place-map";
 import { keepsWhy } from "../why-kept";
-import { lawInForce, stateLawInForce } from "./laws";
-import type { LawRowInput } from "../laws-starting";
+import { lawInForce, stateLawInForce, type LawRowInput } from "./laws";
+import { lawApplied, lawNoLongerApplies } from "../law-reach/applied";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
 
@@ -113,8 +113,9 @@ export interface OfficialSalary {
   /** For an estimate: how far, in percent, the figure may be from the true one. */
   readonly spreadPct?: number;
   readonly estimatedFrom?: string;
-  /** The law row in force the salary was read from, when a body has set it. */
+  /** The law row in force the salary was read from, when a body has set it, and its series. */
   readonly lawId?: string;
+  readonly lawSeries?: string;
 }
 
 /**
@@ -123,6 +124,15 @@ export interface OfficialSalary {
  * state office (a legislature's pay act or a governor's salary statute).
  */
 export const salarySeries = (key: string) => `official-salary:${key}`;
+
+/** Every office salary law series, federal and state: what dev mode and a body can set. */
+export const SALARY_SERIES: readonly string[] = [
+  ...new Set([
+    ...Object.values(FEDERAL_KEYS),
+    ...Object.values(STATE_KEYS),
+    "legislatorAnnual",
+  ]),
+].map(salarySeries);
 
 /** The salary row a body enacted for an office, in force on the date. */
 function salaryLaw(
@@ -143,6 +153,7 @@ const fromLaw = (row: LawRowInput, via = ""): OfficialSalary => ({
   citation: `${row.series}${via}: the law in force, ${row.id}`,
   tag: "SOURCED",
   lawId: row.id,
+  lawSeries: row.series,
 });
 
 /**
@@ -426,6 +437,22 @@ function resalaried(api: CoreAPI, row: PayRow): PayRow {
   const official = officialOf(api, row.id);
   if (!official) return row;
   const salary = officialSalary(official, api, row.paidFrom);
+  // The pay act reaches the official it pays, by name, with what it changed
+  // from the opening salary; an official it no longer pays leaves it.
+  if (salary?.lawId && salary.lawSeries)
+    lawApplied(api, {
+      key: salary.lawSeries,
+      lawId: salary.lawId,
+      targetId: row.personId,
+      target: "person",
+      engine: OFFICIAL_PAY_MODULE_ID,
+      what: "salary-set-by-law",
+      amountMinor:
+        salary.annualMinor - (officialSalary(official)?.annualMinor ?? 0),
+    });
+  for (const series of SALARY_SERIES)
+    if (series !== salary?.lawSeries)
+      lawNoLongerApplies(api, series, row.personId);
   if (!salary || salary.annualMinor === row.annualMinor) return row;
   const source = salarySource(salary, api.state.date);
   const next: PayRow = {

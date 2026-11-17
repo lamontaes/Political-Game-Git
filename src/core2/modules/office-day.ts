@@ -33,6 +33,8 @@ import { remarksOn, signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
+export { SALARY_SERIES } from "./official-pay";
+export { LOCAL_SEAT_PAY_SERIES } from "../office-day-pay";
 import { startPublicJob } from "../public-payroll";
 import { chargeOfficeHours } from "./work";
 import { campaignParameter } from "../campaign-data";
