@@ -91,12 +91,14 @@ it("a small territory keeps its people within 1.5 percent a year (Futiga, Americ
   }
 }, 3_600_000);
 
-// A baseline inflow from abroad (owner research order, Nov 8): the ACS "moved
-// from abroad" line sets how many people a place takes in from outside the
-// country each year, in the survey's age mix, apart from arrivals from other
-// states. Washington, D.C. (1.30 percent of its people a year) is the place
-// where it shows most.
-it("a place takes in people from abroad at the ACS rate, as moves with their cause (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
+// An inflow from abroad (owner research order, Nov 8), apart from arrivals
+// from other states, written as moves with their cause. How many arrive is the
+// world's: no band holds it to the survey's rate (owner, Nov 17: "Everything
+// comes from the simulation"). The one relationship there is, the federal
+// admissions law raising arrivals, is the twin-world case below. The rate
+// itself is still read from the survey (counted-moves.ts abroadRate, World's
+// family 29 on #9747); its cause-driven replacement brings its own check.
+it("a place takes in people from abroad as moves with their cause (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
   const seed =
     "03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e";
   setBookkeeping(false);
@@ -110,15 +112,10 @@ it("a place takes in people from abroad at the ACS rate, as moves with their cau
     (row) => row.direction === "in" && row.fromPlace === "abroad",
   );
   const arrived = abroad.reduce((n, row) => n + row.people, 0);
-  const expected = start * 0.013 * 2;
   expect(abroad.length, "moves in from abroad").toBeGreaterThan(0);
-  // Whole households arrive, and the survey's rate is a total over places, so
-  // the count is near the rate, not on it.
-  expect(
-    arrived,
-    `arrived ${arrived} of about ${Math.round(expected)}`,
-  ).toBeGreaterThan(expected * 0.4);
-  expect(arrived).toBeLessThan(expected * 2.5);
+  process.stdout.write(
+    `abroad: Washington, D.C.: ${Math.round(arrived)} arrived from abroad in two years, ${Math.round(start)} people at the start\n`,
+  );
   for (const row of abroad) expect(row.reasons.lifeStage).toBeGreaterThan(0);
 }, 3_600_000);
 

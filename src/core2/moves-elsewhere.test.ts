@@ -76,13 +76,6 @@ const cash = () =>
   );
 const openingCash = cash();
 const MONTHS = 6;
-// Adults (of age where they live) living elsewhere, at their ACS rate.
-const expected =
-  (elsewhere
-    .filter((row) => ageOnDate(makeIsoDate(row.birthDate), opening) >= 18)
-    .reduce((sum, row) => sum + rateFor(row.placeId, row.birthDate), 0) *
-    MONTHS) /
-  12;
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCMonth(end.getUTCMonth() + MONTHS);
 advanceCore(core, end.toISOString().slice(0, 10));
@@ -97,16 +90,37 @@ describe(`lives elsewhere over half a year in ${input.placeMetadata?.placeName} 
     for (const row of elsewhere) expect(row.placeId).not.toBe(town);
   });
 
-  it("moves relatives living elsewhere at about the rate people their age in their state leave a county", () => {
-    // Three standard deviations of a count with this mean, as for the
-    // town's departures (src/core2/moves.test.ts).
+  it("moves relatives living elsewhere by age at the strength the research gives, wherever the count lands", () => {
+    // The same check as the town's departures (src/core2/moves.test.ts): the
+    // ACS rate for a relative's age in their state sets how fast their pull
+    // builds, so the mean rate among those who moved is E[r²]/E[r] of the
+    // rates of everyone at risk, above their mean; the count is the world's.
     const movers = moves
       .flatMap((row) => row.withIds)
       .filter((id) => elsewhereIds.has(id));
-    const spread = 3 * Math.sqrt(expected);
     expect(movers.length).toBeGreaterThan(0);
-    expect(movers.length).toBeGreaterThanOrEqual(0.7 * expected - spread);
-    expect(movers.length).toBeLessThanOrEqual(1.3 * expected + spread);
+    const adults = elsewhere.filter(
+      (row) => ageOnDate(makeIsoDate(row.birthDate), opening) >= 18,
+    );
+    const rateOf = new Map(
+      adults.map((row) => [row.id, rateFor(row.placeId, row.birthDate)]),
+    );
+    const moved = movers
+      .map((id) => rateOf.get(id))
+      .filter((r): r is number => r !== undefined);
+    const atRisk = [...rateOf.values()];
+    const mean = (xs: readonly number[]) =>
+      xs.reduce((sum, x) => sum + x, 0) / xs.length;
+    const m1 = mean(atRisk);
+    const m2 = mean(atRisk.map((r) => r * r));
+    const m3 = mean(atRisk.map((r) => r * r * r));
+    const predicted = m2 / m1;
+    const error = Math.sqrt((m3 / m1 - predicted * predicted) / moved.length);
+    const observed = mean(moved);
+    const line = `${input.placeMetadata?.placeName} (seed ${seed}): ${moved.length} of ${adults.length} adults elsewhere moved; their mean age rate ${observed.toFixed(4)}, everyone's ${m1.toFixed(4)}, in proportion ${predicted.toFixed(4)} ± ${error.toFixed(4)}`;
+    process.stdout.write(`moves elsewhere by age: ${line}\n`);
+    expect(Math.abs(observed - predicted), line).toBeLessThanOrEqual(4 * error);
+    expect(observed, line).toBeGreaterThan(m1);
   });
 
   it("writes each move as the dated record a leaver writes, with its reasons, never into the town", () => {

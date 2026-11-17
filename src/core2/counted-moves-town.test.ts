@@ -37,14 +37,21 @@ function trial(draw: number) {
     if (!corePlaceByJurisdictionId(h.placeId as never))
       unknown.add(store.groups[h.group]!.id);
   if (!unknown.size) return undefined;
-  const people = [...store.liveHouseholds()]
-    .filter((h) => unknown.has(store.groups[h.group]!.id))
-    .reduce((n, h) => n + store.weightedCount(h), 0);
+  const peopleIn = (inGroup: (id: string) => boolean) =>
+    [...store.liveHouseholds()]
+      .filter((h) => inGroup(store.groups[h.group]!.id))
+      .reduce((n, h) => n + store.weightedCount(h), 0);
+  const people = peopleIn((id) => unknown.has(id));
+  const others = peopleIn((id) => !unknown.has(id));
   advanceCore(core, addDays(makeIsoDate(core.date), 150));
-  const out = countedMoves(coreAPI(core)).filter(
-    (row) => row.direction === "out" && unknown.has(row.groupId),
+  const moves = countedMoves(coreAPI(core)).filter(
+    (row) => row.direction === "out",
   );
-  return { where, groups: unknown.size, people, out };
+  const out = moves.filter((row) => unknown.has(row.groupId));
+  const othersOut = moves
+    .filter((row) => !unknown.has(row.groupId))
+    .reduce((n, row) => n + row.people, 0);
+  return { where, groups: unknown.size, people, out, others, othersOut };
 }
 
 it("counted households of the governing town move, from groups the place lookup does not know", () => {
@@ -57,15 +64,21 @@ it("counted households of the governing town move, from groups the place lookup 
       t.out.length,
       `${t.where}: a household of the town left`,
     ).toBeGreaterThan(0);
-    // Five months of a year's ACS rate (about 4 percent of the people in a year) is the order of what left.
-    expect(movers, `${t.where}: ${movers} of ${t.people} left`).toBeLessThan(
-      t.people * 0.1,
-    );
-    proof = `${t.where}: ${t.groups} groups of ${Math.round(t.people)} people the lookup does not know; ${t.out.length} households (${movers} people) left in 150 days, e.g. ${t.out[0]!.id}`;
+    // They leave by the same rule as the rest of the town's counted people,
+    // so their share who left is the same order as everyone else's in the
+    // same months: a comparison inside the world, never a published rate
+    // (owner, Nov 17: "Everything comes from the simulation").
+    const share = movers / t.people;
+    const othersShare = t.othersOut / Math.max(1, t.others);
+    const line = `${t.where}: ${movers} of ${Math.round(t.people)} left (${(100 * share).toFixed(2)}%), the rest of the town ${Math.round(t.othersOut)} of ${Math.round(t.others)} (${(100 * othersShare).toFixed(2)}%)`;
+    expect(othersShare, line).toBeGreaterThan(0);
+    expect(share / othersShare, line).toBeGreaterThan(1 / 3);
+    expect(share / othersShare, line).toBeLessThan(3);
+    proof = `${line}; ${t.groups} groups the lookup does not know; ${t.out.length} households left in 150 days, e.g. ${t.out[0]!.id}`;
   }
   expect(
     proof,
     `none of ${DRAWS} drawn places (seed ${seed}) had counted groups the place lookup does not know`,
   ).toBeDefined();
-  console.log(`MOVES ${proof}`);
+  process.stdout.write(`MOVES ${proof}\n`);
 }, 3_600_000);

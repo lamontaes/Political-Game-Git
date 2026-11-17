@@ -10,11 +10,7 @@ import { currentCloseness } from "../closeness";
 import { gameStartDate } from "../game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { advanceCore } from "../life";
-import { parameter } from "../parameters";
-import {
-  CIRCLE_STUDY as research,
-  circleRetentionRange,
-} from "../circle-turnover-check";
+import research from "../../../data/research/people/mollenhorst-2014-network-turnover.json" with { type: "json" };
 
 // M0-07, over years: the share of a circle still in it after a span matches
 // a sourced study. Mollenhorst, Volker and Flap (2014): 48% of the discussion
@@ -91,33 +87,26 @@ const playerCircle = playerStart;
 const playerNow = new Set(closest(core.playerId!).slice(0, CIRCLE_SIZE));
 const playerKept = playerCircle?.filter((id) => playerNow.has(id)).length;
 
-const p = (key: string) => parameter(key, core.data.parameters);
-const study = research.stillInNetworkShare;
-const spanYears = p("circleRetentionSpanYears");
-// Constant yearly retention: the study's share to the power years / span.
-const range = circleRetentionRange(YEARS);
+// The study's share, scaled to these years by constant yearly retention, is
+// printed beside the world's own for comparison; it never fails a world
+// (owner, Nov 17: "Everything comes from the simulation"). The study gives
+// levels only (how many ties were still there, and that a network's size
+// barely changes), no strength of one thing moving another, so the check
+// keeps the sense checks: some ties turn over, and not all of them.
+const studyShare = Math.pow(
+  research.stillInNetworkShare,
+  YEARS / research.spanYears,
+);
 
 const failures: string[] = [];
-const spread = core.data.parameters.circleRetentionShareOverSpan?.spread as
-  { low: number; high: number } | undefined;
-if (p("circleRetentionShareOverSpan") !== study)
-  failures.push("the parameter table's share is not the study's");
-if (
-  spread?.low !== research.derivedRange.low ||
-  spread?.high !== research.derivedRange.high
-)
-  failures.push("the parameter table's range is not the study's");
-if (spanYears !== research.spanYears)
-  failures.push("the parameter table's span is not the study's");
 if (people < 100)
   failures.push(`only ${people} adult circles to total over (need 100)`);
 if (playerCircle.length !== CIRCLE_SIZE)
   failures.push(`the player's circle has ${playerCircle.length} ties`);
 const retained = kept / Math.max(1, members);
-if (retained < range.low || retained > range.high)
-  failures.push(
-    `${(100 * retained).toFixed(1)}% of circles kept after ${YEARS} years, outside the study's ${(100 * range.low).toFixed(1)}% to ${(100 * range.high).toFixed(1)}%`,
-  );
+if (retained >= 1)
+  failures.push(`every circle tie was kept for ${YEARS} years: no turnover`);
+if (retained <= 0) failures.push(`no circle tie was kept for ${YEARS} years`);
 const where = `${placeName} (${place.key}), seed ${place.seed}`;
 console.log(
   JSON.stringify({
@@ -127,7 +116,7 @@ console.log(
     people,
     members,
     retained: +retained.toFixed(3),
-    range: [+range.low.toFixed(3), +range.high.toFixed(3)],
+    studyShare: +studyShare.toFixed(3),
     playerKept: `${playerKept}/${CIRCLE_SIZE}`,
   }),
 );
