@@ -9,7 +9,7 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
-import { treasuryMonthsOf } from "./budgets-treasury";
+import { aidRevenueLines, treasuryMonthsOf } from "./budgets-treasury";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -51,12 +51,13 @@ it("votes a state's or county's spending from the receipts it collected the year
           (m) => m.date >= from && m.date < to,
         );
         if (months.length !== 12) continue;
+        // Its own receipts: what other governments' budgets paid it is not its collections.
         const collected = months.reduce(
-          (n, m) => n + m.collectedMinor - m.borrowedMinor,
+          (n, m) => n + m.collectedMinor - m.borrowedMinor - m.aidReceivedMinor,
           0,
         );
-        const expected = Object.values(prior.revenueMinor).reduce(
-          (n, v) => n + v,
+        const expected = Object.entries(prior.revenueMinor).reduce(
+          (n, [line, v]) => (aidRevenueLines().has(line) ? n : n + v),
           0,
         );
         const factor = collected / expected;

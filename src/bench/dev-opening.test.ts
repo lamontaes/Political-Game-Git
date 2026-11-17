@@ -114,13 +114,18 @@ it("shows how the town, the player, their household, a business and an office op
   expect(person.rows.find((r) => r.label === "Name")?.recordId).toBe(
     world.core.playerId,
   );
-  // The player's age when the life began, and how the opening set it (no birthday chosen here).
+  // The player's age when the life began, and how the opening set it: no
+  // age is chosen here, so the owner's default of 18 is the chosen age
+  // (Nov 16: "18, unless you pick another age"), decided from that record,
+  // not drawn among the town's adults (CTO, category c, as on #9950).
   const age = person.rows.find((r) => r.label === "Age when the life began");
-  expect(age?.made, where).toBe(SOURCES.kinds.generation);
-  expect(Number(age?.value), where).toBeGreaterThanOrEqual(18);
-  expect(age?.drawKey, where).toMatch(
-    /^opening-player:\S+: 0\.\d{3}, one of [\d,]+ adults in id order$/,
-  );
+  expect(age?.made, where).toBe(SOURCES.kinds.decision);
+  expect(String(age?.value), where).toMatch(/^\d+ \(chosen 18\b/);
+  expect(
+    Number(String(age?.value).split(" ")[0]),
+    where,
+  ).toBeGreaterThanOrEqual(18);
+  expect(age?.drawKey, where).toBeUndefined();
 
   const household = await ask("subject=household");
   expect(household.rows[0]!.value, where).not.toBe("0");

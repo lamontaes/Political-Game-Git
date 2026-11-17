@@ -423,6 +423,37 @@ ol {
 .bust-strip .busts-person.quiet .busts-name {
   color: var(--muted);
 }
+/* A speech on television: the speaker's bust on a set, top right over the room, gone with the talk. */
+#tv {
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter);
+  z-index: 3;
+  padding: 10px 14px 0;
+  background: rgba(24, 22, 20, 0.78);
+  border: 2px solid var(--gold);
+  border-radius: var(--control-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+#tv .bust-strip {
+  --bust: 120px;
+}
+#tv .busts-glass {
+  display: none;
+}
+#tv .tv-live {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font: var(--group-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+#game:has(#talk[hidden]) #tv,
+#game:has(#person:not([hidden])) #tv {
+  display: none;
+}
 /* Who is here: along the foot of the room, clear of the player card. */
 #here {
   position: absolute;
@@ -680,9 +711,9 @@ select:focus-visible {
   font-weight: 500;
 }
 /* Tabs sit on a rail (owner, Oct 29: buttons need "a railing to sit on, or something,
-   and something to delineate that that's the one that's selected"): a recessed bar with
-   a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
-   plate, lit, with a gold bar where it meets what it shows. */
+   and something to delineate that that's the one that's selected"); no boxes (owner, Nov 5 and
+   Nov 16): a tab at rest is plain type, hover a soft fill, and the chosen one a lit brass
+   fill, with no bar, edge or rule around or under any of them. */
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -691,14 +722,7 @@ select:focus-visible {
   width: fit-content;
   max-width: 100%;
   margin: 14px 0 16px;
-  padding: 4px;
-  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.3));
-  border: 1px solid rgba(156, 131, 80, 0.5);
-  border-radius: 3px;
-  box-shadow:
-    inset 0 2px 6px rgba(0, 0, 0, 0.75),
-    inset 0 -1px 0 rgba(255, 240, 199, 0.05),
-    0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 0;
 }
 .tab-rail:empty {
   display: none;
@@ -729,33 +753,10 @@ select:focus-visible {
 #sheet-body .tab.on:hover,
 #person .tab.on,
 #person .tab.on:hover {
-  color: var(--gold);
-  background:
-    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
-    var(--raised);
-  border-color: rgba(214, 189, 132, 0.55);
-  box-shadow:
-    0 2px 0 rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 0 12px rgba(214, 189, 132, 0.16);
-}
-.tab.on::after {
-  content: "";
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: -5px;
-  height: 2px;
-  border-radius: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(214, 189, 132, 0),
-    var(--gold) 25%,
-    var(--brass-hi) 50%,
-    var(--gold) 75%,
-    rgba(214, 189, 132, 0)
-  );
-  box-shadow: 0 0 6px rgba(214, 189, 132, 0.7);
+  color: var(--brass-hi);
+  background: rgba(214, 189, 132, 0.2);
+  border-color: transparent;
+  box-shadow: none;
 }
 /* Icons: gold line icons on round glass keys, a column over the player card. */
 .ring {
@@ -1329,6 +1330,14 @@ input[type="range"]::-moz-range-thumb {
 #front-status:empty {
   display: none;
 }
+/* The loading messages: every step the build has passed, the current one lit. */
+#front-status span {
+  display: block;
+  opacity: 0.55;
+}
+#front-status span.now {
+  opacity: 1;
+}
 /* One header treatment for every title-side panel: the gold name, a thin
    gold rule, then room before the first control. */
 #front .title {
@@ -1384,15 +1393,40 @@ input[type="range"]::-moz-range-thumb {
 #front:has(#cr-screen:not([hidden])) {
   width: min(1180px, calc(var(--vw) * 0.94));
 }
+/* Before a gender is picked there is no person and no look: the creator is its one column,
+   and a second column opens beside it with the person once a gender is picked (owner, Nov 17). */
+#front:has(#cr-screen.no-gender:not([hidden])) {
+  width: min(560px, calc(var(--vw) * 0.94));
+}
 #cr-screen {
-  grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: 22px;
+  align-items: start;
+}
+#cr-screen.no-gender {
+  grid-template-columns: minmax(0, 1fr);
+}
+#cr-look-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+#cr-look-col[hidden] {
+  display: none;
 }
 #cr-figure {
   align-items: center;
 }
 #cr-figure .strip-name {
   text-align: center;
+}
+/* One row of buttons under both columns: Random draws the whole character, Begin starts the life. */
+#cr-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
 }
 #cr-screen .secbody {
   padding-bottom: 8px;
@@ -1510,11 +1544,10 @@ input[type="range"]::-moz-range-thumb {
   justify-content: center;
 }
 .swatch-row {
-  grid-template-columns: 110px 1fr;
-  row-gap: 2px;
+  grid-template-columns: 110px auto 1fr;
 }
 .swatch-row .look-value {
-  grid-column: 2;
+  grid-column: 3;
   justify-content: flex-start;
   color: var(--text-2);
   font: 500 var(--t-label) var(--ui);
@@ -1540,6 +1573,53 @@ input[type="range"]::-moz-range-thumb {
 .swatch-button:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 2px;
+}
+.swatch-button.none {
+  background: linear-gradient(
+    135deg,
+    transparent 44%,
+    var(--text-2) 44% 56%,
+    transparent 56%
+  );
+}
+/* A row of pictures (hairstyle, facial hair, top): frameless crops that light when chosen. */
+.picture-row {
+  grid-template-columns: 110px auto 1fr;
+}
+.picture-row .look-value {
+  grid-column: 3;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 var(--t-label) var(--ui);
+}
+.pictures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pick-picture {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--control-radius);
+  background: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.pick-picture:hover:not(:disabled) {
+  background: var(--pick-hover);
+  box-shadow: var(--pick-hover-glow);
+}
+.pick-picture[aria-pressed="true"] {
+  background: var(--pick-on);
+}
+.crop {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
 }
 .swatch {
   width: 12px;
@@ -2019,10 +2099,9 @@ body:not(.dev) .dev-only {
   overflow: hidden;
   text-align: left;
   font-weight: 400;
-  /* The month is a ruled sheet, not a grid of boxes (fr and pl-calendar mocks). */
+  /* The month is days set by spacing and type: no grid lines, no boxes (owner, Nov 16). */
   background: none;
   border: 0;
-  border-top: 1px solid rgba(214, 189, 132, 0.2);
   border-radius: 0;
   box-shadow: none;
 }
@@ -2034,12 +2113,11 @@ body:not(.dev) .dev-only {
 }
 .month .day.today {
   color: var(--gold);
-  border-top-color: var(--gold);
   background: rgba(214, 189, 132, 0.1);
 }
 .month .day.selected {
-  outline: 2px solid var(--gold);
-  outline-offset: -2px;
+  background: rgba(214, 189, 132, 0.2);
+  outline: 0;
 }
 .month .day::after {
   display: none;
@@ -2139,7 +2217,7 @@ body:not(.dev) .dev-only {
   padding: 4px 8px;
   text-align: left;
   font: var(--t-label)/1.25 var(--ui);
-  background: rgba(255, 255, 255, 0.04);
+  background: none;
   box-shadow: none;
   border: 0;
   overflow: hidden;
@@ -3412,7 +3490,6 @@ details.entry[open] {
   object-fit: cover;
   object-position: center 20%;
   margin: 6px 0 12px;
-  border: 1px solid var(--paper-rule);
 }
 .story-body {
   columns: 2 240px;
@@ -3696,11 +3773,14 @@ details.entry[open] {
   height: 152px;
   margin: 0;
   background: var(--iron) center 58% / cover no-repeat;
-  border: 1px solid var(--brass);
-  border-radius: var(--control-radius);
-  box-shadow:
-    inset 0 0 0 1px var(--iron),
-    0 3px 0 rgba(0, 0, 0, 0.55);
+  /* A picture fades into the panel at its edges, never a frame (owner, Nov 5). */
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
   overflow: hidden;
 }
 .chamber::after {
@@ -3716,8 +3796,8 @@ details.entry[open] {
 }
 .chamber-caption {
   position: absolute;
-  left: 16px;
-  right: 16px;
+  left: 44px;
+  right: 44px;
   bottom: 11px;
   z-index: 1;
   display: flex;
@@ -3750,12 +3830,10 @@ details.entry[open] {
   padding: 8px 12px 8px 9px;
   text-align: left;
   color: var(--text);
-  background: linear-gradient(#2b2b2e, #1c1c1f);
-  border: 1px solid rgba(156, 131, 80, 0.3);
+  background: none;
+  border: 0;
   border-radius: var(--control-radius);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 2px 0 rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   cursor: pointer;
 }
 #sheet-body .member-card:hover:not(:disabled) {
@@ -3771,8 +3849,11 @@ details.entry[open] {
 .member-card .member-face {
   width: 46px;
   height: 46px;
-  border-width: 2px;
-  border-color: var(--party, var(--brass));
+  /* A portrait is a crop in a soft pool of light, never inside a circle or box (owner, Nov 5). */
+  border: 0;
+  border-radius: 0;
+  background: none;
+  mask-image: radial-gradient(closest-side, black 72%, transparent);
 }
 .member-text {
   min-width: 0;
@@ -3965,26 +4046,17 @@ details.entry[open] {
   border-color: var(--gold);
 }
 
-/* ---- Framed plates and trays (owner, Oct 29, 22:45) ----
-   Content never sits on the bare panel: every group sits on a framed plate (a soft
-   gradient, a thin brass edge, an inner shadow, small brass corners). A plate inside a
-   plate is a plain group, so the frame is one deep. Buttons sit in a recessed tray. */
+/* ---- Plates: a group, never a box (owner, Nov 5 and Nov 16: "no boxes"; this replaces the
+   Oct 29 framed plate). A plate is spacing and type around its content: no surface, edge,
+   shadow or corner. */
 .plate {
   position: relative;
   margin: 0 0 14px;
   padding: 13px 16px 15px;
-  /* A plate is a soft inset surface: no brass corners and no hard edge (owner, Nov 5 and
-     Nov 7: the panel's corners are the only corner ornaments anywhere). */
-  background:
-    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
-    linear-gradient(172deg, rgba(72, 66, 58, 0.3), rgba(26, 25, 24, 0.5) 72%);
+  background: none;
   border: 0;
-  border-radius: 3px;
-  box-shadow:
-    inset 0 0 28px rgba(0, 0, 0, 0.42),
-    0 2px 8px rgba(0, 0, 0, 0.22);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+  border-radius: 0;
+  box-shadow: none;
 }
 .plate .plate:not(.fact-plate) {
   margin: 12px 0 0;
@@ -4518,7 +4590,7 @@ select.release-pick {
 
 /* ---- The approved strip screens (owner, Nov 7, 2026; docs/mocks/2026-11-07-approved/):
    You, the person card, Government and Budgets. Section header strips of their own depth
-   under a broken gold outline ("middles + fades down"), a bust that ends in a soft fade,
+   with spacing and type and no box (owner, Nov 5 and Nov 16), a bust that ends in a soft fade,
    a name in Playfair Display, small gold tags. All from ui/strips.mjs. ---- */
 .strip-screen {
   width: 100%;
@@ -4580,92 +4652,13 @@ select.release-pick {
 }
 .strip-screen .sechead {
   margin: 0;
-  padding: 7px 14px;
-  border-radius: var(--control-radius);
+  padding: 2px 14px 0;
   font: 700 var(--t-ui) var(--f-title);
   letter-spacing: 0.6px;
-  color: var(--cream);
+  color: var(--gold);
 }
 .strip-screen .secbody {
-  padding: 10px 14px 4px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.16), transparent 85%);
-}
-.strip-screen .sec.dp1 .sechead {
-  background: linear-gradient(
-    90deg,
-    rgba(138, 112, 62, 0.42),
-    rgba(92, 74, 42, 0.18) 75%,
-    rgba(60, 48, 28, 0.04)
-  );
-}
-.strip-screen .sec.dp2 .sechead {
-  background: linear-gradient(
-    90deg,
-    rgba(104, 84, 48, 0.42),
-    rgba(70, 56, 32, 0.17) 75%,
-    rgba(50, 40, 24, 0.04)
-  );
-}
-.strip-screen .sec.dp3 .sechead {
-  background: linear-gradient(
-    90deg,
-    rgba(78, 64, 40, 0.46),
-    rgba(52, 42, 26, 0.2) 75%,
-    rgba(40, 32, 20, 0.05)
-  );
-}
-.strip-screen .sec.dp4 .sechead {
-  background: linear-gradient(
-    90deg,
-    rgba(60, 50, 34, 0.5),
-    rgba(40, 33, 22, 0.2) 75%,
-    rgba(30, 25, 16, 0.05)
-  );
-}
-.strip-screen .sec.dp5 .sechead {
-  background: linear-gradient(
-    90deg,
-    rgba(92, 76, 46, 0.42),
-    rgba(62, 50, 30, 0.17) 75%,
-    rgba(44, 36, 22, 0.04)
-  );
-}
-/* The broken gold outline: top faint and peaking at the middle, sides fading in below the corners and out going down, a short line under the middle. Nothing touches a corner. */
-.strip-screen .sec::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: var(--control-radius);
-  background:
-    linear-gradient(
-        90deg,
-        transparent 10%,
-        rgba(226, 191, 110, 0.42) 50%,
-        transparent 90%
-      )
-      top/100% 1px no-repeat,
-    linear-gradient(
-        180deg,
-        transparent 3%,
-        rgba(226, 191, 110, 0.8) 22%,
-        transparent 78%
-      )
-      left/1px 100% no-repeat,
-    linear-gradient(
-        180deg,
-        transparent 3%,
-        rgba(226, 191, 110, 0.8) 22%,
-        transparent 78%
-      )
-      right/1px 100% no-repeat,
-    linear-gradient(
-        90deg,
-        transparent 22%,
-        rgba(226, 191, 110, 0.5) 50%,
-        transparent 78%
-      )
-      bottom/100% 1px no-repeat;
+  padding: 8px 14px 4px;
 }
 .strip-screen .intro {
   margin: 0;
@@ -5339,7 +5332,6 @@ select.release-pick {
   gap: 16px;
   margin: 12px 0 10px;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(226, 191, 110, 0.3);
 }
 .news-masthead h2 {
   margin: 0;
@@ -5355,40 +5347,26 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--muted);
 }
-.news-headline {
+.news-headline.lead {
   margin: 0 0 6px;
   font:
     700 var(--t-h2)/1.15 "Old Standard TT",
     Georgia,
     serif;
   color: #f6efe0;
-  cursor: pointer;
 }
-.news-headline.side {
-  font-size: var(--t-h3);
-}
-/* A brief with a body: its headline opens it, set smaller than a front story's. */
 .news-dateline {
   display: block;
   font-size: var(--t-ui);
   opacity: 0.7;
   margin-bottom: 2px;
 }
-.news-headline.brief {
-  font-size: var(--t-ui);
-  margin-bottom: 2px;
-}
 .news-text .intro {
   margin: 0 0 10px;
 }
-.news-story .news-text {
-  column-gap: 26px;
-}
-.strip-board .board-cols:has(.news-story) {
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(220px, 0.7fr);
-}
 .news-story.lead .news-text {
   column-count: 2;
+  column-gap: 26px;
 }
 /* The lead's front-page photo sits between its headline and its text, cut to a fixed band. */
 .news-story.lead .story-image {
@@ -5402,6 +5380,50 @@ select.release-pick {
 /* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
 .news-story.lead .news-text > * {
   break-inside: avoid;
+}
+/* The list of headlines beside the opened story; each scrolls inside its own column, never the
+   menu as a page. */
+#sheet-body:has(.news-board) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.news-board {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.news-screen {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.6fr);
+  gap: 26px;
+}
+.news-list,
+.news-page {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pick-list .news-row,
+#sheet-body .pick-list .news-row {
+  flex: none;
+  height: auto;
+  align-items: flex-start;
+}
+.news-list .news-row b {
+  font:
+    600 var(--t-read)/1.25 "Old Standard TT",
+    Georgia,
+    serif;
 }
 
 /* The roster screens (Elections, to pl-elections): a titled list grouped under small
@@ -5431,8 +5453,8 @@ select.release-pick {
   font: var(--head-font);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--cream);
-  background: var(--head-wash);
+  color: var(--gold);
+  background: none;
 }
 /* A group heading set straight in the list (not in a paged box) keeps air above it. */
 .pick-list > .pick-group {
@@ -5833,7 +5855,13 @@ body.color-blind .meeting-member.vote-abstain {
   height: 92px;
   margin-bottom: 14px;
   overflow: hidden;
-  border: 1px solid var(--brass-lo);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
 }
 .bill-band img {
   width: 100%;
@@ -5915,4 +5943,79 @@ body.color-blind .meeting-member.vote-abstain {
 }
 .split-main:has(.dev-panels) .chamber {
   display: none;
+}
+
+/* Metrics (owner, Nov 12 and Nov 17): the areas at the left, the area's measures beside them and
+   the chosen measure's timeline; it fills the panel and never scrolls as a page, and a long list
+   of measures scrolls inside its own column. */
+#sheet-body:has(.roster-screen.metrics) {
+  display: flex;
+  overflow: hidden;
+}
+.roster-screen.metrics {
+  flex: 1;
+  width: auto;
+  min-height: 0;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.roster-screen.metrics > .roster-page {
+  min-height: 0;
+  overflow: hidden;
+}
+.metrics-page {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.3fr);
+  gap: 26px;
+  height: 100%;
+  min-height: 0;
+}
+.metric-rows,
+.metric-timeline {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.metric-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pick-list .metric-row,
+#sheet-body .pick-list .metric-row {
+  flex-wrap: wrap;
+  height: auto;
+}
+.metric-row small {
+  flex: 1 0 100%;
+  font: 400 var(--t-label) var(--ui);
+  color: var(--text-2);
+}
+.trend-value,
+.trend-year {
+  font: 500 var(--t-label) var(--ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  fill: var(--cream);
+}
+.trend-year {
+  fill: var(--text-2);
+}
+.metric-timeline .trend-line {
+  max-width: none;
+  margin: 14px 0 0;
+}
+
+/* Patch notes: headed sections of short bullets (owner, Nov 16: "like real patch notes"). */
+.patch-list {
+  margin: 4px 0 6px;
+  padding: 0 0 0 20px;
+  list-style: disc;
+  color: var(--gold);
+}
+.patch-list li {
+  margin: 0 0 6px;
+  font: 400 var(--t-read)/1.4 var(--ui);
+  color: var(--cream);
 }

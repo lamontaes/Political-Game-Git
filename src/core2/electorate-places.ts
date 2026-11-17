@@ -38,6 +38,7 @@ import { worldOffsetUnit, worldRate } from "./world-draw";
 import {
   centuryCongressRoster,
   centuryDistrictLean,
+  centuryStateShare,
   centuryLegislatureRoster,
   historyMode,
 } from "./electorate-century";
@@ -223,14 +224,26 @@ export function publishedCitizenShareOf(
  * This world's swing in a state's Republican two-party share from 2024: the
  * world's national swing and the state's own, each drawn once from the seed
  * (realistic, not real; owner, Oct 27). Positive toward the Republicans.
+ *
+ * Each draw keeps its floor away from zero, and so does their sum: where the
+ * state's own draw would cancel the national one to within its own floor, it
+ * moves with the national swing instead, so no state opens on its published
+ * share (CTO, Nov 17; Agugulu, American Samoa, seed 108d24aa2670d324 drew a
+ * New Hampshire swing of 9e-10). History's century shares replace this path.
  */
 export function worldSwing(seed: string, usps: string): number {
-  return (
+  const national =
     worldOffsetUnit(seed, "politics:national-swing") *
-      parameter("worldNationalSwingSpreadShare") +
+    parameter("worldNationalSwingSpreadShare");
+  const own =
     worldOffsetUnit(seed, `politics:state-swing:${usps}`) *
-      parameter("worldStateSwingSpreadShare")
-  );
+    parameter("worldStateSwingSpreadShare");
+  const floor =
+    parameter("worldDrawOffsetFloorShare") *
+    parameter("worldStateSwingSpreadShare");
+  return Math.abs(national + own) < floor
+    ? national + Math.sign(national) * Math.abs(own)
+    : national + own;
 }
 
 /** This world's votes cast, as a share of the published, in a state's 2024 races. */
@@ -335,6 +348,51 @@ const statePlaceCache = new Map<string, readonly ElectoratePlace[]>();
  * (its eligible voters).
  */
 export function statePlaces(
+  usps: string,
+  seed: string,
+  territoryEligible?: number,
+): readonly ElectoratePlace[] {
+  const published = publishedStatePlaces(usps, seed, territoryEligible);
+  // In a world whose day one is the century's, the state stands where the century's last count
+  // left it: every place moves by one shift, keeping how its places differ from each other.
+  const target =
+    historyMode(seed) === "century" ? centuryStateShare(seed, usps) : undefined;
+  if (target === undefined || !published.length) return published;
+  const key = `${seed}|${usps}|${territoryEligible ?? ""}`;
+  const hit = centuryPlaceCache.get(key);
+  if (hit) return hit;
+  const votes = published.reduce((sum, p) => sum + p.votes2024, 0);
+  const weight = (p: ElectoratePlace) =>
+    votes > 0 ? p.votes2024 : 1 / published.length;
+  const total = votes > 0 ? votes : 1;
+  const at = (shift: number, p: ElectoratePlace) =>
+    Math.max(0, Math.min(1, p.rightShare + shift));
+  const meanAt = (shift: number) =>
+    published.reduce((sum, p) => sum + weight(p) * at(shift, p), 0) / total;
+  // The one shift that puts the state's mean on the century's share (the mean rises with it).
+  let low = -1,
+    high = 1;
+  for (let i = 0; i < 60; i += 1) {
+    const mid = (low + high) / 2;
+    if (meanAt(mid) < target) low = mid;
+    else high = mid;
+  }
+  const shift = (low + high) / 2;
+  const places = published.map((p) => ({
+    ...p,
+    rightShare: at(shift, p),
+    source: `${p.source}; where its state stands: the century's last count (src/core2/electorate-century.ts)`,
+  }));
+  centuryPlaceCache.set(key, places);
+  return places;
+}
+const centuryPlaceCache = new Map<string, readonly ElectoratePlace[]>();
+
+/**
+ * A state's places as published (its counties' 2024 presidential vote), before a world's history
+ * moves them: the century sizes each state's voters from these while it runs.
+ */
+export function publishedStatePlaces(
   usps: string,
   seed: string,
   territoryEligible?: number,
