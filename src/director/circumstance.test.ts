@@ -131,18 +131,22 @@ function playYear(
     const row = CIRCUMSTANCES.rows.find(
       (item) => `circumstance:${item.id}` === moment.label,
     )!;
-    if (result)
-      expect(
-        addDays(makeIsoDate(result.date), row.afterDays ?? 0),
-        moment.id,
-      ).toBe(moment.date);
+    // A row lands its days after the record; one whose news keeps
+    // (`keepsDays`) may land on any day of its window, where the day it was due
+    // went to another scene: the engine's own rule (ledger.ts, laterDays).
+    const window = (date: string) =>
+      Array.from(
+        {
+          length:
+            (row.keepsDays ?? row.afterDays ?? 0) - (row.afterDays ?? 0) + 1,
+        },
+        (_, step) => addDays(makeIsoDate(date), (row.afterDays ?? 0) + step),
+      );
+    if (result) expect(window(result.date), moment.id).toContain(moment.date);
     if (record) {
       // Its record is the day's own, or a row's days after it (the morning
-      // after the count).
-      expect(
-        addDays(makeIsoDate(record.date), row.afterDays ?? 0),
-        moment.id,
-      ).toBe(moment.date);
+      // after the count), within the row's window.
+      expect(window(record.date), moment.id).toContain(moment.date);
       if (!row.playerNamed)
         expect(record.personIds, moment.id).not.toContain(personId);
     }
