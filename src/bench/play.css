@@ -2564,6 +2564,14 @@ body:not(.dev) .dev-only {
   gap: 6px;
   margin-top: 12px;
 }
+#election-day-caption {
+  margin: 0 0 10px;
+  font-family: var(--ui);
+  font-size: var(--t-label);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+}
 #election-day-lines p {
   margin: 0 0 10px;
 }
