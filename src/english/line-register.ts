@@ -13,7 +13,6 @@ import {
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
 import { playable } from "./bank-parts";
-import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import billPaperJson from "../../data/english/parts/bill-paper.json" with { type: "json" };
 import bringItUpJson from "../../data/english/parts/bring-it-up.json" with { type: "json" };
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
@@ -21,11 +20,8 @@ import campaignStandingJson from "../../data/english/parts/campaign-standing.jso
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
 import conversationJson from "../../data/english/parts/conversation.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
-import hearingJson from "../../data/english/parts/hearing.json" with { type: "json" };
 import journalJson from "../../data/english/parts/journal.json" with { type: "json" };
-import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
-import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
 import newsJson from "../../data/english/parts/news.json" with { type: "json" };
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import noticeJson from "../../data/english/parts/notice.json" with { type: "json" };
@@ -39,10 +35,6 @@ const BANKS: Record<
   string,
   { parts: RawPiece[]; slots?: Record<string, string> }
 > = {
-  address: addressJson as unknown as {
-    parts: RawPiece[];
-    slots?: Record<string, string>;
-  },
   "bill-paper": billPaperJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
@@ -71,23 +63,11 @@ const BANKS: Record<
     parts: RawPiece[];
     slots?: Record<string, string>;
   },
-  hearing: hearingJson as unknown as {
-    parts: RawPiece[];
-    slots?: Record<string, string>;
-  },
   journal: journalJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },
-  legislation: legislationJson as unknown as {
-    parts: RawPiece[];
-    slots?: Record<string, string>;
-  },
   meeting: meetingJson as unknown as {
-    parts: RawPiece[];
-    slots?: Record<string, string>;
-  },
-  minutes: minutesJson as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },

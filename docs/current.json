@@ -894,6 +894,30 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "data/english/parts/address.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held the chair's \"The motion carries.\" and its kin, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "data/english/parts/hearing.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held a witness's thanks to the chair, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "data/english/parts/legislation.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held short titles, long titles and repeal clauses, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
+    },
+    {
+      "old": "data/english/parts/minutes.json",
+      "now": "deleted; the engine that reads such a record words it from the record when one exists",
+      "when": "2026-11-17",
+      "why": "It held four lines of a meeting's minutes, lines no engine read, deleted with every bank line written before Nov 15 (owner, Nov 17: delete everything the engine did not write)."
     }
   ]
 }

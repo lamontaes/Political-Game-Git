@@ -34,4 +34,3 @@ claimed-at: 2026-10-16T02:27:42.380Z
 - **Committee seats for every member and a floor agenda:** open, `office-committee-assignments-and-hearings-as-stops-and` and `office-stopgap-office-day-federal-missing-core-api` (SG-OFFICE-FED-floor-agenda).
 - **National outlets print none of a sitting president's acts:** in a PR (`gov-president-not-newsworthy`, #4410).
 - **The journal shows nothing of taking office:** open, `people-journal-bill-names` and the Words line cover journal lines; no item names taking office, filed as `people-journal-taking-office`.
-

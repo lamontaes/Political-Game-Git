@@ -441,8 +441,10 @@
     "why": "No live scene has a chair who calls a vote aloud (floor debate recognizes members; the bill paper words a result in writing). The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "A council or floor scene whose chair announces the result of a vote from the vote's record, worded from this piece; pool item words-chair-announces-the-vote.",
-    "status": "open"
+    "replacement": "Deleted Nov 17, 2026 with the bank (owner, Nov 17: delete everything the engine did not write; start from nothing). Was: A council or floor scene whose chair announces the result of a vote from the vote's record, worded from this piece; pool item words-chair-announces-the-vote.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-17",
+    "resolvedBy": "the Story lead"
   },
   {
     "id": "SG-WORDS-hearing-no-reader",
@@ -453,8 +455,10 @@
     "why": "The hearing-testify scene carries no chair title or gender fact, so a title line would say Chairman to any chair, and the chair asks no yes-or-no question. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "A chair-title fact on the hearing scene and a chair question that a yes answers, reading these pieces; pool item words-hearing-chair-title-and-yes.",
-    "status": "open"
+    "replacement": "Deleted Nov 17, 2026 with the bank (owner, Nov 17: delete everything the engine did not write; start from nothing). Was: A chair-title fact on the hearing scene and a chair question that a yes answers, reading these pieces; pool item words-hearing-chair-title-and-yes.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-17",
+    "resolvedBy": "the Story lead"
   },
   {
     "id": "SG-WORDS-legislation-no-reader",
@@ -465,8 +469,10 @@
     "why": "The bill text engine (src/english/bill-sections.ts, data/english/bill-sections.json) words every bill in its own local forms and has no short-title, long-title or repeal-clause form. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "Forms in the bill-sections schema that read right for a local bill, taken from these pieces (the federal short-title form only for a federal bill); pool item laws-bill-short-and-long-title-forms.",
-    "status": "open"
+    "replacement": "Deleted Nov 17, 2026 with the bank (owner, Nov 17: delete everything the engine did not write; start from nothing). Was: Forms in the bill-sections schema that read right for a local bill, taken from these pieces (the federal short-title form only for a federal bill); pool item laws-bill-short-and-long-title-forms.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-17",
+    "resolvedBy": "the Story lead"
   },
   {
     "id": "SG-WORDS-minutes-no-reader",
