@@ -9,7 +9,7 @@
 import { makeIsoDate } from "./kernel/dates";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
-import type { CoreInput, OrganizationInput, Source } from "./types";
+import type { CoreAPI, CoreInput, OrganizationInput, Source } from "./types";
 
 export interface OutsideMarketShare {
   value: number;
@@ -98,6 +98,23 @@ export function outsideMarketAccount(
       estimatedFrom: "src/core2/data/outside-market.json",
     },
   };
+}
+
+/**
+ * The town's one outside account, opened the first time something is paid
+ * across the town's edge. A place whose households and firms have bought
+ * nothing outside yet has none: a campaign's first purchase from outside
+ * (campaigns.ts) or the opening treasury's funding from outside the place
+ * (budgets.ts) opens it here, the same account every later payment uses.
+ * At Putnamville, Indiana (1862406), no opening household or business had a
+ * payment outside the town, so the federal treasury had nowhere to be funded from.
+ */
+export function openTownOutsideAccount(api: CoreAPI, placeId: string): string {
+  const held = townOutsideOf(api.state.organizations.values(), placeId);
+  if (held) return held.id;
+  const account = outsideMarketAccount(placeId, api.state.date);
+  api.addOrganization(account);
+  return account.id;
 }
 
 export function addOutsideMarket(

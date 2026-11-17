@@ -99,6 +99,7 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
+import { openTownOutsideAccount } from "../opening-outside-market";
 
 export {
   budgetInForce,
@@ -678,9 +679,11 @@ function fundOpeningTreasury(
   if (!calibration)
     throw new Error(`No opening cash calibration for ${profile}`);
   const { id: governmentId, organizationId } = government;
-  const outside = outsideAccountOf(api);
-  if (!outside)
-    throw new Error(`No outside account for opening treasury ${governmentId}`);
+  // The treasury's opening stock comes from outside the place; a place with no
+  // payment across its edge yet opens its one outside account for it.
+  const outside =
+    outsideAccountOf(api) ??
+    openTownOutsideAccount(api, lawChain(api).townPlaceId);
   api.stopgap(calibration.stopgapId);
   const offset = worldOffsetUnit(
     api.state.seed,
