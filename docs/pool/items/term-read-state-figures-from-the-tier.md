@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr: (next PR)
+pr: 9796
 after: metrics-state-figures-one-owner
 blocked-on:
 lead: nation
