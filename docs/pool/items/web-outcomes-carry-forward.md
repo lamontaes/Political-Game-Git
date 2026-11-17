@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: World B (session_01S4WSHrsirzMADEiASwJ6rk)
-pr:
+pr: 9886
 after:
 blocked-on:
 lead: money
