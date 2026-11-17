@@ -1486,6 +1486,9 @@ export function partyProspects(
         (person): person is PersonState =>
           !!person?.alive &&
           person.id !== chairId &&
+          // The chair recruits from outside their own home: someone who lives
+          // with the chair is not visited, so the ask would stage no scene.
+          person.householdId !== api.state.people.get(chairId)?.householdId &&
           person.placeId === town.townPlaceId &&
           !asked.has(person.id) &&
           ageOnDate(person.birthDate, date) >= rules.minimumAge &&

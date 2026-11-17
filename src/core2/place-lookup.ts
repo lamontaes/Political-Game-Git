@@ -291,6 +291,17 @@ function synthesizeNationwidePlace(
   };
 }
 
+const localityPlaces = new Map<string, CorePlace>();
+/** A locality's place, made once: the same row gives the same place every time, and the counties and territories are kept the same way. */
+function localityPlace(row: NationwideRow): CorePlace {
+  let place = localityPlaces.get(row[0]);
+  if (!place) {
+    place = synthesizeNationwidePlace(row);
+    localityPlaces.set(row[0], place);
+  }
+  return place;
+}
+
 function synthesizeTerritoryPlace(row: TerritoryRow): CorePlace {
   const [key, displayName, usps, , censusGeoid] = row;
   const territory = STATE_CLOCKS[usps];
@@ -403,7 +414,7 @@ export function corePlaceByKey(key: string): CorePlace | null {
   if (key.startsWith("county:")) return nationwideCounties().get(key) ?? null;
   if (key.startsWith("territory:")) return territoryIndex().get(key) ?? null;
   const row = nationwideIndex().get(key);
-  return row ? synthesizeNationwidePlace(row) : null;
+  return row ? localityPlace(row) : null;
 }
 
 /** A place's name as a sentence says it ("Havre", not "Havre, Montana"), or null when the place is unknown. */
@@ -426,7 +437,7 @@ export function corePlaceByJurisdictionId(
   const geoid = nationwideGeoids().get(jurisdictionId);
   if (geoid === undefined) return null;
   const row = nationwideIndex().get(geoid);
-  return row ? synthesizeNationwidePlace(row) : null;
+  return row ? localityPlace(row) : null;
 }
 
 /** A state's or territory's name by its USPS code (`KY`); null when unknown. */
