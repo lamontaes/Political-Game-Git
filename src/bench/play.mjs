@@ -2037,13 +2037,6 @@ async function campaignParts() {
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
-        // How many signed at the doors, a day of none included (owner, Nov 14:
-        // "Tab total and each outing"), outside the dialogue.
-        result.signed === null || result.signed === undefined
-          ? ""
-          : result.signed === 0
-            ? controls.campaignResults.signedNone
-            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.reached &&
         (result.votesAsked === null ||
           result.votesAsked === undefined ||
@@ -2171,22 +2164,9 @@ async function campaignParts() {
               ? [why]
               : choice.outing === "doors" && petition?.gatherTarget
                 ? [
-                    (petition.asksAtDoors
+                    petition.asksAtDoors
                       ? T.askingWhySignatures
-                      : T.askingWhyVotes
-                    )
-                      .replace(
-                        "{signed}",
-                        petition.signed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{needed}",
-                        petition.needed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{target}",
-                        petition.gatherTarget.toLocaleString("en-US"),
-                      ),
+                      : T.askingWhyVotes,
                   ]
                 : [],
           }),
@@ -2389,10 +2369,7 @@ async function campaignParts() {
                       value: (petition.signed >= petition.needed
                         ? labelsC.signaturesEnough
                         : labelsC.signaturesHeld
-                      )
-                        .replace("{signed}", String(petition.signed))
-                        .replace("{needed}", String(petition.needed))
-                        .replace("{date}", dateWords(petition.due)),
+                      ).replace("{date}", dateWords(petition.due)),
                     },
                   ]
                 : []),

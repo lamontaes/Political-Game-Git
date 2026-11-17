@@ -44,7 +44,7 @@
     "retold": "retold"
   },
   "campaignGatherers": {
-    "hired": "{cost} set aside to pay people to gather signatures until {due}. {signed} signed so far.",
+    "hired": "{cost} set aside to pay people to gather signatures until {due}.",
     "noMoneyYet": "The campaign has no money to pay anyone yet.",
     "noMoney": "The campaign has no money left to pay anyone. All {raised} is spent or set aside."
   },
@@ -1144,8 +1144,6 @@
     "doors": "{n} doors",
     "reached": "{n} reached",
     "answered": "{n} answered",
-    "signed": "{n} signed",
-    "signedNone": "No one signed",
     "raised": "{amount} raised",
     "spent": "{amount} spent"
   },
@@ -1389,13 +1387,13 @@
     "inboxOpen": "Answer",
     "doors": "Doors knocked",
     "signatures": "Signatures",
-    "signaturesHeld": "{signed} of {needed}, due {date}",
-    "signaturesEnough": "{signed} of {needed}, enough for the ballot",
+    "signaturesHeld": "Due {date}",
+    "signaturesEnough": "Enough for the ballot",
     "asking": "Asking for",
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
-    "askingWhySignatures": "Your petition holds {signed} of the {needed} the clerk asks for. You keep asking for signatures until it holds {target}. After that you ask for the vote.",
-    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for. That is enough, so from here you ask for the vote.",
+    "askingWhySignatures": "Your petition is short of what the clerk asks for. You keep asking for signatures until it holds enough. After that you ask for the vote.",
+    "askingWhyVotes": "Your petition holds what the clerk asks for. From here you ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
