@@ -30,16 +30,19 @@ async function types({ labels, send }) {
         button.disabled = true;
         try {
           const done = await send("scene-trace/force", { typeKey: row.key });
-          button.textContent =
-            done.staged === undefined
+          // A recipe that could not run here says why; a staged scene names the record it came from.
+          button.textContent = done.why
+            ? labels.reasons[done.why]
+            : done.staged === undefined
               ? labels.forced
-              : `${labels.forced}; ${done.staged ? labels.stagedNow : labels.notStagedNow}`;
+              : `${labels.forced}; ${done.staged ? labels.stagedNow : labels.notStagedNow}${done.staged && done.causeRecords?.length ? `; ${labels.cause} ${done.causeRecords.join(", ")}` : ""}`;
         } catch (error) {
           button.textContent = error.message;
         }
       });
       item.append(" ", button);
       if (row.why) item.append(el("div", labels.reasons[row.why]));
+      if (labels[row.recipe]) item.append(el("div", labels[row.recipe]));
     } else item.append(` (${labels.unreachable})`);
     const more = el("details");
     more.append(el("summary", labels.lines));
