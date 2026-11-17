@@ -1,4 +1,4 @@
-/* global process, console, document, URL */
+/* global process, console, document, URL, innerHeight, innerWidth */
 // A talk's people (owner, Nov 16: "There's one person, shorten the strip", "She
 // should be smaller since she isn't talking", and his Desk answer on the
 // speaker). Plays a new life's opening, the President's address, and reads
@@ -72,6 +72,10 @@ try {
           quietFace: Math.max(0, ...quiet.map(face)),
           quietCells: quiet.reduce((sum, c) => sum + wide(c), 0),
           strip: wide(strip),
+          stripTop: strip?.getBoundingClientRect().top ?? 0,
+          stripRight: strip?.getBoundingClientRect().right ?? 0,
+          screenHeight: innerHeight,
+          screenWidth: innerWidth,
           talk: wide(document.getElementById("talk")),
         };
       }),
@@ -117,6 +121,13 @@ try {
       assert.ok(
         b.strip <= b.quietCells + 8 * (b.quiet - 1) + 60,
         `${where}: a band ${Math.round(b.strip)} wide for ${b.quiet} people ${Math.round(b.quietCells)} wide`,
+      );
+      // In the screen's top corner, as in the mock's C (owner: "the people
+      // in the top tight like c"), not on the card's edge.
+      assert.ok(
+        b.stripTop < b.screenHeight * 0.15 &&
+          b.stripRight > b.screenWidth * 0.85,
+        `${where}: the quiet people sit at ${Math.round(b.stripTop)} down and ${Math.round(b.stripRight)} across, not in the screen's top corner`,
       );
       if (b.quiet <= 2)
         assert.ok(
