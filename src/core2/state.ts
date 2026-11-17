@@ -1701,7 +1701,26 @@ export function coreAPI(core: CoreState): CoreAPI {
         siblings.map((row) => row.birthDate),
         [identity.birthDate],
       );
-      const siblingNames = [given];
+      // Nobody else in the player's family carries the chosen full name: the
+      // household and relatives who took the family name keep their given
+      // names, and the brothers and sisters are renamed around them.
+      const siblingIds = new Set(siblings.map((row) => row.id));
+      const siblingNames = [
+        given,
+        ...[
+          ...(core.households.get(actor.householdId)?.memberIds ?? []),
+          ...actor.familyIds,
+        ].flatMap((id) => {
+          const other = core.people.get(id);
+          return other &&
+            id !== actor.id &&
+            !siblingIds.has(id) &&
+            other.alive &&
+            other.familyName.toLowerCase() === family.toLowerCase()
+            ? [other.givenName]
+            : [];
+        }),
+      ];
       siblings.forEach((row, i) => {
         row.birthDate = births[i]!;
         // A brother or sister living elsewhere carries the family name too (C27).

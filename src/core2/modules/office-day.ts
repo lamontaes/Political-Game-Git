@@ -26,17 +26,19 @@ import { registerWorldMapPart } from "../snapshot";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { lawChain } from "./laws";
+import { lawChain, lawInForce } from "./laws";
 import { federalParameter } from "../office-day-federal";
 import { closenessBetween } from "../closeness";
 import { remarksOn, signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
+export { SALARY_SERIES } from "./official-pay";
+export { LOCAL_SEAT_PAY_SERIES } from "../office-day-pay";
 import { startPublicJob } from "../public-payroll";
 import { chargeOfficeHours } from "./work";
 import { campaignParameter } from "../campaign-data";
-import { seatPay } from "../office-day-pay";
+import { seatPay, localSeatPaySeries, seatPayRow } from "../office-day-pay";
 import {
   localOfficeKit,
   type OfficeActHost,
@@ -1779,6 +1781,34 @@ export interface OfficeJobRow {
 
 const COUNTY_KINDS = new Set(["county-board", "county-executive"]);
 
+/**
+ * The pay ordinance the town or county has in force for a local seat on a
+ * date, by the seat's pay row; none before a body enacts one, when the seat
+ * is paid its band's opening estimate.
+ * stopgapId: SG-LAWS-local-seat-pay-opening-band
+ */
+function enactedSeatPay(
+  api: CoreAPI,
+  officeKind: string,
+  date: string,
+): { annualMinor: number; citation: string } | null {
+  const row = seatPayRow(officeKind);
+  if (!row) return null;
+  const level = COUNTY_KINDS.has(officeKind) ? "county" : "city";
+  const law = lawInForce(api, localSeatPaySeries(row), date).levels.find(
+    (l) =>
+      l.level === level && typeof l.row?.value === "number" && l.row.value >= 0,
+  )?.row;
+  if (!law) {
+    api.stopgap("SG-LAWS-local-seat-pay-opening-band");
+    return null;
+  }
+  return {
+    annualMinor: Math.round(law.value! * 100),
+    citation: `${law.series}: the law in force, ${law.id}`,
+  };
+}
+
 /** Seat new local holders in their office job; end the job of a term that ended. */
 export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
@@ -1819,13 +1849,18 @@ export function reviewOfficeJobs(api: CoreAPI): void {
     const county = COUNTY_KINDS.has(office.kind);
     const payer = govs.find((g) => g.level === (county ? "county" : "city"));
     if (!payer) continue;
-    const pay = seatPay({
+    const band = seatPay({
       officeKind: office.kind,
       officeId: office.id,
       population: bodyPopulation(api, office.kind, countyGeoid),
       worldSeed: seed,
     });
-    if (!pay) continue;
+    if (!band) continue;
+    // The seat's pay ordinance in force, where the body has enacted one.
+    const pay = {
+      ...band,
+      ...(enactedSeatPay(api, office.kind, api.state.date) ?? {}),
+    };
     // A full-time seat is the holder's job, paid on the payroll like any
     // public post; a part-time holder keeps their own job.
     const jobId = pay.fullTime
@@ -1864,8 +1899,16 @@ export function reviewOfficeJobs(api: CoreAPI): void {
 function payStipends(api: CoreAPI): void {
   const today = api.state.date;
   for (const raw of table(api, "officeJobs").rows()) {
-    const row = raw as unknown as OfficeJobRow;
+    let row = raw as unknown as OfficeJobRow;
     if (row.jobId) continue;
+    // The stipend is the pay ordinance in force on the first day it pays for.
+    const kind = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").get(row.officeId) as
+        { kind?: string } | undefined
+    )?.kind;
+    const law = kind ? enactedSeatPay(api, kind, row.paidFrom) : null;
+    if (law && law.annualMinor !== row.annualMinor)
+      row = { ...row, annualMinor: law.annualMinor, citation: law.citation };
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
     const days = Math.round(
       (Date.parse(`${through}T00:00:00Z`) -

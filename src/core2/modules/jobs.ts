@@ -44,7 +44,12 @@ import {
   recordRanking,
   recordHiredUnderBan as recordHiredWithRecordUnderBan,
 } from "../jobs-record-bias";
-import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawInForce,
+  socialSecurityAges,
+  minimumHourlyAt,
+} from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
@@ -1085,6 +1090,14 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
     unemploymentReads.set(c, (cache = { date: c.date, byPlace: new Map() }));
   const known = cache.byPlace.get(placeId);
   if (known !== undefined) return known;
+  const gap = readUnemploymentGap(api, placeId);
+  cache.byPlace.set(placeId, gap);
+  return gap;
+}
+
+/** The gap read fresh from the macro engine's latest month row. */
+export function readUnemploymentGap(api: CoreAPI, placeId: string): number {
+  const c = core(api);
   let gap = 0;
   const macro = c.modules.has("macro")
     ? (api.moduleState("macro").table("state").get("macro:state") as
@@ -1094,19 +1107,19 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
     const regional = c.modules.has("regional")
       ? regionalMonth(api, placeId, macro.latestMonth)
       : undefined;
-    const rate =
-      regional?.unemploymentPct ??
-      (
-        api
-          .moduleState("macro")
-          .table("months")
-          .get(`macro-month:${macro.latestMonth}`) as
-          { unemploymentPct: number } | undefined
-      )?.unemploymentPct;
+    const month = api
+      .moduleState("macro")
+      .table("months")
+      .get(`macro-month:${macro.latestMonth}`) as
+      { unemploymentPct: number; naturalUnemploymentPct?: number } | undefined;
+    const rate = regional?.unemploymentPct ?? month?.unemploymentPct;
+    // Against the world's own normal rate, which drifts with the unemployment it has lived at (the macro engine's month row), never a published 4.5%.
     if (rate !== undefined)
-      gap = rate - api.parameter("macroNaturalUnemploymentPct");
+      gap =
+        rate -
+        (month?.naturalUnemploymentPct ??
+          api.parameter("macroNaturalUnemploymentPct"));
   }
-  cache.byPlace.set(placeId, gap);
   return gap;
 }
 
@@ -1988,23 +2001,54 @@ function wageFloor(api: CoreAPI): number {
 /** Years a worker has held their job: a counted worker by their counted record, a full person by their work commitment (or the job they held before a fill-in). */
 export function tenureYears(api: CoreAPI, job: JobInput): number {
   if (isCounted(api, job.personId)) return countedTenureYears(api, job);
+  const since = jobHeldSince(api, job) ?? api.state.startedAt;
+  return (
+    daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
+  );
+}
+
+/**
+ * The day a full worker took the job, from the same records `tenureYears` reads: the pay record's
+ * `since` (a counted worker's hire here dates their job, as it did before they were filled in), else
+ * the work commitment's `heldSince` or `startsAt`. Undefined where none is kept.
+ */
+export function jobHeldSince(api: CoreAPI, job: JobInput): string | undefined {
   const commitment = [
     ...(core(api).work.commitmentsByPerson.get(job.personId) ?? []),
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
-  // A counted worker's hire here dates their job, as it did before they were
-  // filled in (countedTenureYears); a full hire keeps no such date.
-  const since =
+  return (
     (store(api).table("pay").get(job.id) as { since?: string } | undefined)
       ?.since ??
     commitment?.heldSince ??
-    commitment?.startsAt ??
-    api.state.startedAt;
-  return (
-    daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
+    commitment?.startsAt
   );
 }
+
+/**
+ * How a worker's own leaving of a job was written (a `quit` when hired elsewhere, a `left-work`
+ * otherwise), read from the change `leaveWork` or `hire` recorded the day the job ended (or the day
+ * before it, for a leaving after the day's shift). Undefined for a job that did not end by the
+ * worker's choice.
+ */
+export function jobLeaveRecord(
+  api: CoreAPI,
+  job: JobInput,
+): { id: string; kind: "quit" | "left-work"; reasonKey: string } | undefined {
+  if (!job.endsAt) return undefined;
+  const changes = store(api).table("changes");
+  for (const date of [job.endsAt, addDays(makeIsoDate(job.endsAt), -1)])
+    for (const kind of ["quit", "left-work"] as const) {
+      const row = changes.get(`job-change:${date}:${job.id}:${kind}`) as
+        { id: string; reasonKey: string } | undefined;
+      if (row) return { id: row.id, kind, reasonKey: row.reasonKey };
+    }
+  return undefined;
+}
+
+/** The reasons the jobs engine writes on a worker's own leaving, as data keys (`better-offer`, `other-offer`, `retired`, `left-work`). */
+export const JOB_LEAVE_REASONS = jobsData.reasons;
 
 /** The full worker who runs a firm with no recorded owner: the best paid of those staying, ties by id. */
 function managerOf(
@@ -2975,7 +3019,7 @@ function hireRegional(
         occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
-        undefined,
+        minimumHourlyAt(api, seeker.placeId),
         c.seed,
       )
     : null;

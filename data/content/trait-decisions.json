@@ -1798,6 +1798,7 @@
       "owner": "lives lead",
       "route": "formula",
       "traitWeightParameter": "traitWeightPeoplePart",
+      "hardshipWeightParameter": "hardshipWeightPeoplePart",
       "options": [
         {
           "id": "stay-together",

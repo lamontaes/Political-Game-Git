@@ -351,6 +351,25 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
       expect.arrayContaining(["probe-reply-a", "probe-reply-e"]),
     );
 
+    // A scandal can outweigh a friendly history only for a reporter whose
+    // temper leans toward the scandal arc at least as far as the friendly one:
+    // the engine multiplies each arc by one plus the reporter's pull, clamped
+    // at -1 (`arc-variant.ts` `pullOf`). A town with no such reporter is
+    // passed over and named (seed de8bdcf4dca338f4:0, Bondurant, Wyoming: its
+    // three reporters' scandal pulls were -1.25, -0.25 and -0.5 against
+    // friendly pulls of -1.25, 0.25 and 0.75).
+    const leansScandal = [...new Set([probe, ...staff("local")])].filter(
+      (who) =>
+        pullFor(who, "scandal") > -1 &&
+        pullFor(who, "scandal") >= pullFor(who, "friendly"),
+    );
+    if (!leansScandal.length) {
+      tried.push(
+        `${where}: no local reporter leans toward the scandal arc over the friendly one`,
+      );
+      continue;
+    }
+
     // PROBE (hand-made): stories the press printed about the member's own
     // conduct, naming only them: a reporter chasing a scandal. The earlier
     // talks stay, so the scandal has to outweigh a friendly history.

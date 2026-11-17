@@ -156,7 +156,6 @@
       "alright-in-dialogue"
     ],
     "scene-talk.open-greet.well-look-who-it-is": ["no-filler"],
-    "scene-talk.open-greet.well-that-s-the-year": ["no-filler"],
     "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one": [
       "alright-in-dialogue"
     ],
@@ -172,9 +171,6 @@
     ],
     "scene-talk.reply-answer.i-hear-you-i-still-think-it-s-the-right-answer": [
       "no-stock-phrases"
-    ],
-    "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
-      "alright-in-dialogue"
     ],
     "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really": [
       "alright-in-dialogue"
@@ -196,9 +192,6 @@
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
-    ],
-    "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end": [
-      "reply-second-move-follows-the-first"
     ],
     "scene-talk.state-ask.you-settling-in-all-right": ["alright-in-dialogue"],
     "scene-talk.state-confront.you-can-t-win-this-you-know": ["no-filler"],
@@ -451,6 +444,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11431
+    "reply-second-move-follows-the-first (pairs)": 9763
   }
 }

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 926,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -3433,20 +3433,6 @@
       ],
       "why": "Two of three replies restate first options: the offer to tell everything and the denial."
     },
-    "1vg7fgttf6e": {
-      "keys": [
-        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over it together, hearing him as a friend but not voting as one and 'I can't' replay the first read, can't-promise and sorry options."
-    },
     "1vgglsc4st0": {
       "keys": [
         "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
@@ -3801,20 +3787,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "23zf7yfafi1": {
-      "keys": [
-        "scene-talk.follow-press.until-you-tell-me-otherwise-i-ll-assume-i-have-your-support",
-        "scene-talk.reply-agree.i-ll-look-again-i-won-t-tell-you-the-answer-before-i-ve-looked",
-        "scene-talk.reply-bargain.tell-me-what-the-change-is-and-who-it-costs-and-i-ll-tell-you-what-i",
-        "scene-talk.reply-decline.i-took-your-money-and-i-ll-take-your-call-i-won-t-take-instructions",
-        "scene-talk.reply-stall.give-me-until-the-committee-meets-i-ll-know-more-then",
-        "scene-talk.reply-agree.i-ll-go-back-through-it-tonight-and-you-ll-hear-from-me-before-the-vo",
-        "scene-talk.reply-decline.i-can-t-tie-a-vote-to-a-check-not-yours-not-anyone-s",
-        "scene-talk.reply-bargain.i-ll-listen-i-d-like-your-people-at-the-budget-hearing-in-return",
-        "scene-talk.reply-leave.i-ll-let-you-know"
-      ],
-      "why": "Going back through it tonight, refusing to tie a vote to a check and 'I'll let you know' restate the first look-again, no-instructions and wait-for-committee options."
-    },
     "240t43z5u6s": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -3959,20 +3931,6 @@
         "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning"
       ],
       "why": "\"I'll call {relative}\" repeats the first yes and \"staying here a while longer first\" repeats \"get you better first,\" so two of three rehash."
-    },
-    "27co3eh1boo": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first",
-        "scene-talk.reply-agree.for-you-i-ll-read-every-page-bring-it-over-this-weekend",
-        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s",
-        "scene-talk.reply-decline.you-know-i-can-t-promise-that-and-you-wouldn-t-want-me-to",
-        "scene-talk.reply-apologize.i-m-sorry-i-d-help-if-it-were-anything-else",
-        "scene-talk.reply-agree.sit-down-and-tell-me-all-of-it-i-ll-go-over-it-with-you",
-        "scene-talk.reply-decline.i-ll-hear-you-out-as-your-friend-i-can-t-vote-as-one",
-        "scene-talk.reply-apologize.i-wish-you-hadn-t-had-to-ask-me-this-i-can-t",
-        "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
-      ],
-      "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
     },
     "27v6j0srigs": {
       "keys": [
@@ -4372,5 +4330,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "0svpgu7oo5x"
 }
