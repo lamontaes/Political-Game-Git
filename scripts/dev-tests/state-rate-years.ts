@@ -1,6 +1,7 @@
 // A drawn place's state, year by year: the share out of work beside the state's own jobs and
 // people, with the played part (the town and its county) shown apart from the rest.
-// tsx state-rate-years.ts <seed> [years]
+// tsx state-rate-years.ts <seed> [years]            a place drawn from all 56 by the seed
+// tsx state-rate-years.ts <seed> [years] <placeKey> a named place, the seed as its world seed
 import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -17,8 +18,10 @@ import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 
 setBookkeeping(false);
-const [seed = "state-rate", yearsArg = "10"] = process.argv.slice(2);
-const place = drawPlace(seed, "state-rate-years");
+const [seed = "state-rate", yearsArg = "10", placeKey] = process.argv.slice(2);
+const place = placeKey
+  ? { name: placeKey, key: placeKey, seed }
+  : drawPlace(seed, "state-rate-years");
 const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
   placeKey: place.key,
