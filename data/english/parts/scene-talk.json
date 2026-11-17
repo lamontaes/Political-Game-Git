@@ -177551,10 +177551,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.bill-came-to-a-vote-and-you-weren-t-on-either-side-name-of-outlet-noti",
+      "key": "scene-talk.narrate-narrate.bill-came-to-a-vote-without-you-name-of-outlet-noticed",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{bill} came to a vote, and you weren't on either side. {name} of {outlet} noticed.",
+      "text": "{bill} came to a vote without you. {name} of {outlet} noticed.",
       "uses": [
         {
           "subject": "scene",
@@ -179170,10 +179170,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.place-doesn-t-want-it-i-voted-with-place",
+      "key": "scene-talk.reply-answer.place-doesn-t-want-it-i-voted-with-the-people-here",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "{place} doesn't want it. I voted with {place}.",
+      "text": "{place} doesn't want it. I voted with the people here.",
       "uses": [
         {
           "subject": "scene",
@@ -179250,10 +179250,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.sponsor-wrote-it-and-sponsor-s-word-is-good-with-me",
+      "key": "scene-talk.reply-answer.sponsor-wrote-it-and-their-word-is-good-with-me",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "{sponsor} wrote it, and {sponsor}'s word is good with me.",
+      "text": "{sponsor} wrote it, and their word is good with me.",
       "uses": [
         {
           "subject": "scene",
@@ -179768,10 +179768,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-won-t-sign-bill-purpose-i-vetoed-it",
+      "key": "scene-talk.reply-answer.i-vetoed-it-bill-purpose-is-not-something-i-ll-put-my-name-t",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I won't sign {bill-purpose}. I vetoed it.",
+      "text": "I vetoed it. {bill-purpose} is not something I'll put my name to.",
       "uses": [
         {
           "subject": "scene",
