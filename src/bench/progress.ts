@@ -80,6 +80,14 @@ export function benchProgress(
       ageOnDate(makeIsoDate(b.birthDate), makeIsoDate(core.date)) -
       ageOnDate(makeIsoDate(a.birthDate), makeIsoDate(core.date)),
   );
+  // A played life enters as its player, at the age the opening gave them
+  // (owner, Nov 16: "18, unless you pick another age"; in a town with nobody
+  // that age the nearest stands in, world.ts `entrantChoice`). Without a
+  // player, the town's own 17- and 18-year-olds are searched.
+  const player = playerId ? core.people.get(playerId) : undefined;
+  if (player?.alive) {
+    entrants.splice(0, entrants.length, player);
+  }
   let entrant = entrants[0];
   let contact: ReturnType<typeof availableActs>[number] | undefined;
   for (const person of entrants) {

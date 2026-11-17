@@ -328,8 +328,14 @@ const specs: Record<string, () => string> = {
 
   /** The golden path and world panel for a fresh life. */
   "M0-05"() {
-    const w = world(),
-      progress = benchProgress(w.core, w.placeId);
+    // A fresh life, built as the game builds one: with its player, who is
+    // the life that turns 18 (step 1) and meets people (step 2).
+    const w = buildBenchWorld(seed, OPENING_DATE, {
+        ...(placeKey ? { placeKey } : {}),
+        minimumPeople: CHECK_PEOPLE,
+        twoLevel: true,
+      }),
+      progress = benchProgress(w.core, w.placeId, w.core.playerId);
     for (const row of progress.steps.slice(0, 2))
       check(
         row.status === "reachable now",
