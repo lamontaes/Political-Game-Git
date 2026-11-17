@@ -6473,6 +6473,9 @@ const sheets = {
         choices,
         state: issueFilter,
         draw,
+        // How many laws the Level and In force bars leave in a subject.
+        countOf: (subject) =>
+          filterLaws(v.law, { ...issueFilter, subject }, groupOf).length,
       }),
     ];
   },
