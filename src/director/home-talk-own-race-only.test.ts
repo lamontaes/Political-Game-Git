@@ -11,6 +11,8 @@
  * own filing (`fileForOffice`) and then plays the same days still hears their
  * own race.
  */
+import { campaignDayOpen, takeCampaignDayChoice } from "../core2/campaign-day";
+import { PETITION_SHORT_EVENT } from "../core2/modules/campaigns";
 import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { fileForOffice, governmentView } from "../bench/government";
@@ -55,10 +57,33 @@ function liveThrough(
     },
   });
   while (packet.kind !== "complete") {
+    if (packet.kind === "stop") canvassWhenShort(world);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
         : resumePlayerV1(core, { kind: "own-choice", pauseId: packet.pauseId });
+  }
+}
+
+/**
+ * A player who is told their petition is short goes out for names, as a
+ * player does from the Campaign tab (the canvass day, the same choice the
+ * scene's yes took before it was deleted with the unwritten kinds, owner,
+ * Nov 17): the engine offers and the player decides (OWNER-DECISIONS Oct 14).
+ */
+const toldShort = new Set<string>();
+function canvassWhenShort(world: World): void {
+  const api = coreAPI(world.core);
+  for (const record of world.core.durableLog.values()) {
+    if (record.kind !== PETITION_SHORT_EVENT || toldShort.has(record.id))
+      continue;
+    toldShort.add(record.id);
+    const filingId = String(record.facts?.filingId ?? "");
+    if (
+      campaignDayOpen(api, filingId).find((c) => c.kind === "canvass")
+        ?.available
+    )
+      takeCampaignDayChoice(api, filingId, "canvass");
   }
 }
 
