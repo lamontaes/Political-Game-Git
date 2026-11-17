@@ -45,6 +45,8 @@ description: >
 - Never run `git gc --prune=now` in the main checkout while a shared copy lives; the copies borrow its objects.
 - If `df -h /` shows little free space with low "Used", the session's allowance is spent: narrow every helper copy before deleting anything else.
 
+- **One heavy run per machine, not per helper (Nov 17, Story lead).** Five helpers each running "one heavy command at a time" put eleven node processes and 11 GB on a 15 GB machine; a 6 GB scene-samples run and a 12-seed trace were killed (exit 137). The lead's brief sets the ceiling: name which helpers may run a world build at the same time, give trace scripts `--max-old-space-size=4096`, and check `free -g` before starting a run of your own. A run killed this way prints nothing; look for "Killed" in the task output.
+
 ## Stop condition
 
 The skill ends when every helper's copy is sparse, outside the main checkout and on its own branch. Anything it cannot narrow (a copy another session owns) goes to that session or the CTO.
