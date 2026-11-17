@@ -1,14 +1,12 @@
 ---
 name: gap-trace
 description: >
-  How to trace a problem seen in the game (a screen, a line, a Journal, a
-  history or a list that shows wrong, thin or repeated records) to its cause,
-  to an existing fix and to the owner's ruling, and how to hand the lead a
-  decision-ready row for it: A, the code; B, GitHub and the pool; C, the
-  rulings. Use when a builder, reviewer or the owner reports a gap in play and
-  the question is what, where, why and who fixes it. Not for building the fix
-  (session-start), for a red on main (red-main) or for a question that no
-  reading has been done for (look-first).
+  Traces a problem seen in play (a screen, line, Journal, history or list
+  showing wrong, thin or repeated records) to its cause, its existing fix and
+  the owner's ruling, and hands the lead a decision-ready row: the code,
+  GitHub and the pool, the rulings. Use when a builder, reviewer or the owner
+  reports a gap in play. Not for building the fix (session-start), a red on
+  main (red-main) or an unread question (look-first).
 ---
 
 # Gap trace
