@@ -1,4 +1,4 @@
-/* global process, console, document, window */
+/* global process, console, document, window, getComputedStyle */
 // Patch notes read like real patch notes (crew line, Nov 16: "This is not
 // structured like a real patch note."): the newest build's notes by area,
 // one short line each, across the sheet's full width, with nothing that
