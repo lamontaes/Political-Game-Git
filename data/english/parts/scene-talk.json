@@ -190637,10 +190637,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-want-office-badly-enough-to-spend-on-it",
+      "key": "scene-talk.reply-tell.i-want-to-be-office-it-s-worth-spending-on",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I want {office} badly enough to spend on it.",
+      "text": "I want to be {office}. It's worth spending on.",
       "uses": [
         {
           "subject": "scene",
@@ -190687,10 +190687,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-put-money-in-because-i-mean-to-win-office",
+      "key": "scene-talk.reply-tell.i-put-money-in-because-i-mean-to-be-office",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I put money in because I mean to win {office}.",
+      "text": "I put money in because I mean to be {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -191291,10 +191291,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.no-more-of-our-money-goes-into-office",
+      "key": "scene-talk.reply-promise.no-more-of-our-money-goes-into-the-race",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "No more of our money goes into {office}.",
+      "text": "No more of our money goes into the race.",
       "uses": [
         {
           "subject": "scene",
@@ -191303,7 +191303,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money", "gave-own", "office"]
+          "requiresFacts": ["stake-money", "gave-own"]
         }
       ],
       "bearing": "contrite",
@@ -192855,10 +192855,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-make-calls-for-office-and-i-ll-watch-the-money",
+      "key": "scene-talk.follow-promise.i-ll-make-calls-for-you-and-i-ll-watch-the-money",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll make calls for {office}. And I'll watch the money.",
+      "text": "I'll make calls for you. And I'll watch the money.",
       "uses": [
         {
           "subject": "scene",
@@ -192867,7 +192867,7 @@
           "step": "follow",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["stake-money", "office"]
+          "requiresFacts": ["stake-money"]
         }
       ],
       "bearing": "calm",
@@ -192930,10 +192930,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-do-phones-for-office-you-stop-spending-our-savings",
+      "key": "scene-talk.follow-promise.i-ll-do-phones-for-you-you-stop-spending-our-savings",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll do phones for {office}. You stop spending our savings.",
+      "text": "I'll do phones for you. You stop spending our savings.",
       "uses": [
         {
           "subject": "scene",
@@ -192942,7 +192942,7 @@
           "step": "follow",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["stake-money", "gave-own", "office"]
+          "requiresFacts": ["stake-money", "gave-own"]
         }
       ],
       "bearing": "guarded",
@@ -193975,10 +193975,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.we-talk-about-the-money-for-office-now",
+      "key": "scene-talk.follow-press.no-we-talk-about-the-money-now",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "We talk about the money for {office} now.",
+      "text": "No. We talk about the money now.",
       "uses": [
         {
           "subject": "scene",
@@ -193987,7 +193987,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["stake-money", "office"],
+          "requiresFacts": ["stake-money"],
           "after": "deflect"
         }
       ],
