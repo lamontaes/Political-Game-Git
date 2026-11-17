@@ -7390,9 +7390,12 @@ function enact(
         level,
         series: provision.series,
         value: provision.value,
+        // A bill sets the law's amount, never its unit: a section that names
+        // no unit amends the law in the law's own unit.
         unit:
           shaped?.unit ??
           provision.unit ??
+          current?.unit ??
           (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
         effectiveDate,
         measureId: bill.number,
