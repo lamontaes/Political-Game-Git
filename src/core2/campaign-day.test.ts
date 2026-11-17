@@ -37,7 +37,6 @@ import {
 } from "./modules/campaigns";
 import {
   MEETINGS_MODULE_ID,
-  meetingParameter,
   openMeetings,
   townHallDrives,
   type TownHallRow,
@@ -675,10 +674,7 @@ describe("a campaign day", () => {
     // The player's platform holds the room's commonest question, at the
     // opposite of their own view (so an answer from their views would show),
     // and leaves out at least one other the room asks.
-    const room = townHallDrives(api, playerId).slice(
-      0,
-      meetingParameter("townHallSize"),
-    );
+    const room = townHallDrives(api, playerId);
     const counts = new Map<string, number>();
     for (const r of room)
       if (r.question) counts.set(r.question, (counts.get(r.question) ?? 0) + 1);

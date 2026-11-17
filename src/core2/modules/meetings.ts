@@ -59,8 +59,10 @@ import {
 } from "./campaigns";
 import { OFFICES_MODULE_ID, servingTermsOf } from "./offices";
 import {
+  agendaOf,
   billOf,
   billReach,
+  sittingDayHours,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
@@ -193,40 +195,43 @@ function driveOf(
 }
 
 /**
- * The meeting's time takes the `room` most driven of `rows`. The audit's
- * probe (off in play) sees, for each of them, whether they took part, and
- * whether they would have with temperament left out (the room filled by
- * feeling alone), so the matrix shows who took part by thirds of lean. A room
- * that holds everyone driven turns no one away, so temperament decides
- * nothing there and the probe sees none of it.
+ * Who takes part in a meeting: of every resident weighed (`rows`), those whose
+ * drive beats what the evening costs them, the `room` most driven of them.
+ * The audit's probe (off in play) sees, for each resident weighed, whether
+ * they took part, and whether they would have with temperament left out
+ * (feeling alone against the same cost), so the matrix shows who took part
+ * by thirds of lean.
  */
 function takePart<
   T extends {
     p: Readonly<Pick<PersonState, "id" | "traits">>;
     base: number;
     drive: number;
+    cost: number;
     lean: number;
   },
 >(rows: readonly T[], room: number): readonly T[] {
-  const chosen = rows.slice(0, room);
+  const margin = (r: T, of: "drive" | "base") => r[of] - r.cost;
+  const pick = (of: "drive" | "base") =>
+    rows
+      .filter((r) => margin(r, of) > 0)
+      .sort(
+        (a, b) => margin(b, of) - margin(a, of) || a.p.id.localeCompare(b.p.id),
+      )
+      .slice(0, room);
+  const chosen = pick("drive");
   const taken = new Set(chosen.map((row) => row.p.id));
   let flat: Set<string> | undefined;
   const takenFlat = () =>
-    (flat ??= new Set(
-      [...rows]
-        .sort((a, b) => b.base - a.base || a.p.id.localeCompare(b.p.id))
-        .slice(0, room)
-        .map((row) => row.p.id),
-    ));
-  if (rows.length > room)
-    for (const row of rows)
-      reportOutcome(
-        "meetings.take-part",
-        row.p.id,
-        row.lean,
-        "probability",
-        (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
-      );
+    (flat ??= new Set(pick("base").map((row) => row.p.id)));
+  for (const row of rows)
+    reportOutcome(
+      "meetings.take-part",
+      row.p.id,
+      row.lean,
+      "probability",
+      (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
+    );
   return chosen;
 }
 
@@ -374,9 +379,10 @@ export function standUpDrive(
 }
 
 /**
- * The residents who would stand up at a bill's public comment, most driven
- * first: how strongly they feel about its question, times their civic
- * temperament, the meeting's time (publicCommentSpeakers) decides how many speak.
+ * The residents weighed for a bill's public comment: how strongly each feels
+ * about its question, times their civic temperament, and what the evening
+ * costs them. `takePart` seats those whose drive beats the cost, up to the
+ * meeting's time (`commentRoom`).
  */
 export function commentSpeakers(
   api: CoreAPI,
@@ -391,6 +397,8 @@ export function commentSpeakers(
   view: number;
   base: number;
   drive: number;
+  /** What the evening costs them, in the units of the drive. */
+  cost: number;
   lean: number;
 }[] {
   // The body's own members vote on the bill; public comment is the public's.
@@ -415,8 +423,23 @@ export function commentSpeakers(
       (p) => !already.has(p.id) && !seated.has(p.id) && p.id !== core.playerId,
     )
     .map((p) => ({ p, ...standUpDrive(api, p, stance) }))
-    .filter((s) => s.view !== 0)
-    .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
+    .map((s) => ({ ...s, cost: eveningCost(core, s.p as PersonState) }))
+    .filter((s) => s.view !== 0);
+}
+
+/**
+ * How many may speak on one bill: the meeting's own length over the podium
+ * time each speaker takes, shared by the bills on the body's agenda (the
+ * bill's own among them). A long agenda leaves each item a short comment
+ * period; a quiet one a long one.
+ */
+export function commentRoom(api: CoreAPI, bill: BillRow): number {
+  const items = Math.max(1, agendaOf(api, bill.bodyOfficeId).length);
+  return Math.floor(
+    sittingDayHours(api, bill.bodyOfficeId) /
+      meetingParameter("publicCommentHours") /
+      items,
+  );
 }
 
 /**
@@ -431,7 +454,7 @@ function publicComment(api: CoreAPI, billId: string): void {
   if (!stance || !local(bill)) return;
   const speakers = takePart(
     commentSpeakers(api, bill, stance),
-    meetingParameter("publicCommentSpeakers"),
+    commentRoom(api, bill),
   );
   for (const s of speakers) {
     // A resident from the wider population speaks on the record by their id and their counted
@@ -742,6 +765,20 @@ export function townHallDrives(
   api: CoreAPI,
   hostId: string,
   filingId?: string,
+) {
+  return townHallWeighed(api, hostId, filingId)
+    .filter((row) => row.drive - row.cost > 0)
+    .sort(
+      (a, b) =>
+        b.drive - b.cost - (a.drive - a.cost) || a.p.id.localeCompare(b.p.id),
+    );
+}
+
+/** Every adult weighed for a town hall's room, with what the evening costs them. */
+function townHallWeighed(
+  api: CoreAPI,
+  hostId: string,
+  filingId?: string,
 ): readonly {
   p: PersonState;
   question: string | undefined;
@@ -806,12 +843,7 @@ export function townHallDrives(
         cost: eveningCost(api.state as CoreState, p),
         lean: temperament,
       };
-    })
-    .filter((row) => row.drive - row.cost > 0)
-    .sort(
-      (a, b) =>
-        b.drive - b.cost - (a.drive - a.cost) || a.p.id.localeCompare(b.p.id),
-    );
+    });
 }
 
 /**
@@ -862,9 +894,10 @@ export function holdTownHall(
     readonly calledFor?: TownHallRow["calledFor"];
   },
 ): TownHallRow {
+  // Everyone whose own drive beats the evening's cost comes (`townHallDrives`).
   const drives = takePart(
-    townHallDrives(api, input.hostId, input.filingId),
-    meetingParameter("townHallSize"),
+    townHallWeighed(api, input.hostId, input.filingId),
+    Infinity,
   );
   const attendees = drives.map((row) => row.p);
   const asked = drives.flatMap((row) =>
