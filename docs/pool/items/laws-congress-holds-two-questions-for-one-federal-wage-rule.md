@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-mark-federal-wage-labels
-pr:
+pr: #9828
 after:
 blocked-on:
 lead: laws
