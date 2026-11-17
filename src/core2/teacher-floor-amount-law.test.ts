@@ -71,11 +71,17 @@ it(`an enacted teacher minimum raises covered teachers to its amount (replay ${r
       const floorDaily = (dollars * 100) / 365;
       const now = teachers();
       expect(now.length, where).toBeGreaterThan(0);
-      for (const job of now)
+      // Every covered teacher was under the amount, so the act raised each one
+      // to it: at the amount, not above it (an opening figure would miss it).
+      for (const job of now) {
         expect(
           job.wageDailyMinor,
           `${where}: ${job.id}`,
         ).toBeGreaterThanOrEqual(Math.floor(floorDaily) - 1);
+        expect(job.wageDailyMinor, `${where}: ${job.id}`).toBeLessThanOrEqual(
+          floorDaily * 1.01,
+        );
+      }
       // The minimum's reach names the amount's law row.
       const reached = appliedOn(api, TEACHER_FLOOR);
       expect(reached.length, where).toBeGreaterThan(0);
