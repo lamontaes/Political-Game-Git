@@ -301,6 +301,47 @@
           },
           "opener": "bearer",
           "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:election-result",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "election-result",
+          "bind": {
+            "bearer": "subject",
+            "receiver": "household",
+            "about": "subject"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [
+              {
+                "key": "outIds",
+                "includes": "subject"
+              }
+            ]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
+          "bind": {
+            "bearer": "subject",
+            "receiver": "household",
+            "about": "subject"
+          },
+          "opener": "bearer",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2142,7 +2183,11 @@
     },
     {
       "key": "endorsement-ask",
-      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
+      "receive": {
+        "age": "any",
+        "counterpart": "apart",
+        "seat": "any"
+      },
       "note": "A candidate's campaign asks the player, one of the people closest to the candidate, to endorse them, or calls in a favor the player owes from a deal in office (the campaigns engine's endorsement-asked record: the endorsement row says `asked` until the player answers). The player's reply writes the row's yes or no. A put-off comes back after the offer spacing days as a second asking until the race is decided; the second asking offers no put-off. The asker gives one reason, the strongest the record holds; only a favor names a deal (owner, Oct 6: endorsements are not trades by default).",
       "roles": [
         {
@@ -2169,11 +2214,19 @@
           "match": {
             "label": "cause:event:endorsement-asked",
             "selfNamed": true,
-            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "endorsement-asked",
-          "bind": { "candidate": "counterpart", "you": "subject" },
+          "bind": {
+            "candidate": "counterpart",
+            "you": "subject"
+          },
           "opener": "candidate",
           "opening": "request"
         }

@@ -56,8 +56,11 @@ function liveThrough(
       minuteOfDay,
     },
   });
+  // The petition's short word is a record now, not a scene that stops the
+  // day (the petition-short kind went with the unwritten kinds, Nov 17), so
+  // the player reads it from the Campaign tab each day.
+  canvassWhenShort(world);
   while (packet.kind !== "complete") {
-    if (packet.kind === "stop") canvassWhenShort(world);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
