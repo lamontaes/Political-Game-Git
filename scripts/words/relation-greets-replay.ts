@@ -29,7 +29,7 @@ import {
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
-import { relationFacts } from "../../src/director/relation-facts";
+import { passedBetween } from "../../src/director/relation-facts";
 import rules from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
 import type { TreeNode } from "../../src/director/scene-talk";
@@ -169,7 +169,7 @@ function main(): void {
                   )?.status,
                 }
               : null,
-          )}; relationFacts(${scene.scene.askerId}, ${scene.scene.askedId}).passed=${JSON.stringify(relationFacts(core, scene.scene.askerId, scene.scene.askedId).passed)}; in logByKind ${core.logByKind.get("scene.reply")?.has(earlier.recordId)}`,
+          )}; passedBetween(${scene.scene.askerId}, ${scene.scene.askedId})=${JSON.stringify(passedBetween(dir.ledger, core, scene.scene.askerId, scene.scene.askedId))}; in logByKind ${core.logByKind.get("scene.reply")?.has(earlier.recordId)}`,
         );
         continue;
       }

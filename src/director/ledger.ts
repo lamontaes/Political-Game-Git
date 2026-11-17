@@ -46,7 +46,6 @@ import {
   circumstanceLabel,
   circumstancePicks,
   queuedOf,
-  rowsByKind,
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
@@ -54,6 +53,8 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
+import { cardsByString, rowsOnRecord } from "./strings";
+import { SCENE_REPLY, indexReply } from "./relation-facts";
 import { saidOf } from "./address-render";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
@@ -290,19 +291,22 @@ export function createDirector(
     liesByLearner: new Map(),
     promisesBySettle: new Map(),
     promisesDue: new Map(),
+    repliesByPlayer: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
     circumstanceLast: new Map(),
   };
+  /** The cards on each string (strings.ts): a record's circumstance rows by its kind. */
+  const strings = cardsByString(SITUATION_LIBRARY);
   /** Today's records some circumstance could stage, as they are recorded. */
-  const circumstanceRows = rowsByKind();
   const circumstanceQueue: QueuedRecord[] = [];
   /** Records held for rows that come days after them (the morning after), by the day they come. */
   const circumstanceLater = new Map<string, QueuedRecord[]>();
   /** For each record kind, the days after it that some row waits. */
   const laterDays = new Map<string, number[]>();
-  for (const [kind, rows] of circumstanceRows) {
+  for (const [key, rows] of strings.rows) {
+    const kind = key.slice("record:".length);
     const days = [
       ...new Set(
         rows.flatMap((row) =>
@@ -1629,7 +1633,7 @@ export function createDirector(
         !records.some(
           (record) =>
             record.later ||
-            circumstanceRows.get(record.kind)?.some((row) => row.lived),
+            rowsOnRecord(strings, record.kind).some((row) => row.lived),
         )
       )
         continue;
@@ -1680,7 +1684,7 @@ export function createDirector(
             !ledger.circumstanceLast.has(
               `${book.personId}|cast|${id}|${record.id}`,
             ),
-          byKind: circumstanceRows,
+          strings,
         },
       ).sort(
         (a, b) =>
@@ -2232,7 +2236,8 @@ export function createDirector(
     onEvent(api, event, learnedBy) {
       if (!started) return;
       settlePromisesOnEvent(api, ledger, event, promiseParam);
-      if (circumstanceRows.has(event.kind)) {
+      if (event.kind === SCENE_REPLY) indexReply(ledger, event);
+      if (rowsOnRecord(strings, event.kind).length) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
         for (const days of laterDays.get(event.kind) ?? []) {
@@ -2390,6 +2395,7 @@ export function createDirector(
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
       refill(ledger.promisesBySettle, fromLedger.promisesBySettle ?? new Map());
       refill(ledger.promisesDue, fromLedger.promisesDue ?? new Map());
+      refill(ledger.repliesByPlayer, fromLedger.repliesByPlayer);
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);

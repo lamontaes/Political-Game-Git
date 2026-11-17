@@ -35,6 +35,7 @@ import {
   playerStanding,
   type PlayerStanding,
 } from "./standing";
+import { cardsByString, causesOnMoment } from "./strings";
 
 /** A tie that grew: the friend's ask (situation-types.json). */
 const FRIENDS_TYPE = "becoming-friends";
@@ -904,6 +905,84 @@ function bindType(
   return failure ?? { failure: "no-place", detail: settings.join(",") };
 }
 
+/** A moment's bound cards before any outcome is decided (bindMoment). */
+export interface BoundMoment {
+  /** Every type a cause on the moment's strings bound, in library order. */
+  found: SceneBinding[];
+  /** Those still staged once a type yields to another and a race has passed. */
+  staged: SceneBinding[];
+  /** The first type that matched and could not bind, with why. */
+  coverage?: CoverageRow;
+  standing: PlayerStanding;
+}
+
+/**
+ * The cards a moment binds, with their cause and cast, and no outcome: only
+ * the causes on the moment's own strings are tried (strings.ts), each for a
+ * type the person's standing holds.
+ */
+export function bindMoment(
+  core: Readonly<CoreState>,
+  book: PersonLedger,
+  moment: Moment,
+  options: { preferredSettings?: ReadonlyMap<string, string> },
+  library: SituationLibrary = SITUATION_LIBRARY,
+): BoundMoment {
+  const found: SceneBinding[] = [];
+  let coverage: CoverageRow | undefined;
+  const standing = playerStanding(core, book.personId, book);
+  for (const { type, cause } of causesOnMoment(
+    cardsByString(library),
+    moment,
+  )) {
+    // A scene for someone else's standing never binds (a state legislator's
+    // floor scenes reach no council member).
+    if (!holdsAny(type.holds, standing)) continue;
+    if (!causeMatches(cause, book, moment, core)) continue;
+    const bound = bindType(
+      type,
+      cause,
+      core,
+      book,
+      moment,
+      library,
+      options.preferredSettings?.get(type.key),
+    );
+    if ("failure" in bound)
+      coverage ??= {
+        momentId: moment.id,
+        personId: moment.personId,
+        label: moment.label,
+        impact: moment.impact,
+        reason: bound.failure,
+        typeKey: type.key,
+        detail: bound.detail,
+      };
+    else if (!found.some((row) => row.typeKey === bound.typeKey))
+      found.push(bound);
+  }
+  // One cause stages one scene: a type that yields to another bound for this
+  // moment is dropped (what the player allows is decided after).
+  const staged = found.filter((row) => {
+    if (
+      library.types.find((type) => type.key === row.typeKey)?.liveWhile ===
+        "contest-open" &&
+      core.modules.has(ELECTIONS_MODULE_ID)
+    ) {
+      const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+      if (
+        typeof contestId === "string" &&
+        contestPassed(coreAPI(core as CoreState), contestId)
+      )
+        return false;
+    }
+    const yields =
+      library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
+    return !found.some((other) => yields.includes(other.typeKey));
+  });
+  return { found, staged, ...(coverage ? { coverage } : {}), standing };
+}
+
 /**
  * Decides one stored moment's outcome. Pure over the core and the ledger;
  * the caller stores the entry.
@@ -933,57 +1012,14 @@ export function scheduleMoment(
   if (!person) throw new Error(`Scheduled moment has no person: ${moment.id}`);
   const pace = paceOf(library, person.birthDate, moment.date);
   const rank = paceRank(library, book, moment);
-  const found: SceneBinding[] = [];
-  let coverage: CoverageRow | undefined;
-  const standing = playerStanding(core, book.personId, book);
-  for (const type of library.types) {
-    // A scene for someone else's standing never binds (a state legislator's
-    // floor scenes reach no council member).
-    if (!holdsAny(type.holds, standing)) continue;
-    for (const cause of type.causes) {
-      if (!causeMatches(cause, book, moment, core)) continue;
-      const bound = bindType(
-        type,
-        cause,
-        core,
-        book,
-        moment,
-        library,
-        options.preferredSettings?.get(type.key),
-      );
-      if ("failure" in bound)
-        coverage ??= {
-          momentId: moment.id,
-          personId: moment.personId,
-          label: moment.label,
-          impact: moment.impact,
-          reason: bound.failure,
-          typeKey: type.key,
-          detail: bound.detail,
-        };
-      else if (!found.some((row) => row.typeKey === bound.typeKey))
-        found.push(bound);
-    }
-  }
-  // One cause stages one scene: a type that yields to another bound for this
-  // moment is dropped (what the player allows is decided after, below).
-  const staged = found.filter((row) => {
-    if (
-      library.types.find((type) => type.key === row.typeKey)?.liveWhile ===
-        "contest-open" &&
-      core.modules.has(ELECTIONS_MODULE_ID)
-    ) {
-      const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
-      if (
-        typeof contestId === "string" &&
-        contestPassed(coreAPI(core as CoreState), contestId)
-      )
-        return false;
-    }
-    const yields =
-      library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
-    return !found.some((other) => yields.includes(other.typeKey));
-  });
+  const { found, staged, standing, ...bound } = bindMoment(
+    core,
+    book,
+    moment,
+    options,
+    library,
+  );
+  let coverage = bound.coverage;
   // The player's filter: only the scene kinds they allow stage or interrupt.
   const allowed = options.allowedKinds;
   // One sitting covers a day: a scene of the same kind with the same people
