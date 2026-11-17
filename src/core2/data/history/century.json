@@ -8,17 +8,17 @@
       "source": "The owner's ruling, Nov 17, 2026 (CTO line 6935086070 on #9747): \"Oh, 1925? Okay. I didn't know if I could be that ambitious, but sure. Absolutely.\""
     },
     "centuryStateLeanSpread": {
-      "value": 0.142,
+      "value": 0.19,
       "tag": "ESTIMATED",
       "role": "opening",
-      "source": "How far apart the states stand when the century opens, as a spread for each state's one starting shift (world-draw.ts worldOffsetUnit, whose size falls between 0.34 and 1 of the spread, so its mean size is 0.67 of it). Sized so the mean distance of a state from the nation is the 2024 map's: across the 51 presidential electorates the mean absolute gap of a state's Republican two-party share from the vote-weighted national share is 0.0951 (data/source/electoral-calibration-2024/corpus.json, presidentialByState; 0.0951 / 0.67 = 0.142). The spread calibrates how much states differ; which state stands where is the world's.",
-      "spread": [0.08, 0.2]
+      "source": "How far apart the states stand when the century opens, as a spread for each state's one starting shift (electorate-century.ts centuryShift, any size between -1 and 1 of the spread equally likely, so its mean size is half of it). Sized so the mean distance of a state from the nation is the 2024 map's: across the 51 presidential electorates the mean absolute gap of a state's Republican two-party share from the vote-weighted national share is 0.0951 (data/source/electoral-calibration-2024/corpus.json, presidentialByState; 0.0951 / 0.5 = 0.19). The spread calibrates how much states differ; which state stands where is the world's.",
+      "spread": [0.11, 0.27]
     },
     "centuryNationalLeanSpread": {
       "value": 0.03,
       "tag": "TUNABLE",
       "role": "opening",
-      "source": "The spread of the whole country's one starting shift on the lean order in 1925, on top of each state's own. Checked against the 2024 national Republican two-party share's distance from even (0.507, the same corpus): a few points either way.",
+      "source": "The spread of the whole country's one starting shift on the lean order in 1925, on top of each state's own. Checked against the 2024 national Republican two-party share's distance from even (0.507, the same corpus): up to a few points either way, any size equally likely (centuryShift).",
       "spread": [0.01, 0.06]
     },
     "centuryLeanCarryShare": {
@@ -53,11 +53,11 @@
       "source": "U.S. Const. amend. XXII, § 1 (ratified February 27, 1951): no person shall be elected to the office of the President more than twice. The first election it governed was 1952."
     },
     "centuryDistrictLeanSpread": {
-      "value": 0.155,
+      "value": 0.208,
       "tag": "ESTIMATED",
       "role": "opening",
-      "source": "How far a House district stands from its state when the century opens, as the spread of each district's one starting shift (world-draw.ts worldOffsetUnit, mean size 0.67 of the spread). Sized so the mean distance is the 2024 map's: across 397 contested House districts the mean absolute gap of a district's Republican two-party share from its state's presidential share is 0.1038 (data/source/electoral-calibration-2024/corpus.json, house and presidentialByState; 0.1038 / 0.67 = 0.155). Calibration of how much districts differ; which district stands where is the world's.",
-      "spread": [0.09, 0.22]
+      "source": "How far a House district stands from its state when the century opens, as the spread of each district's one starting shift (electorate-century.ts centuryShift, any size between -1 and 1 of the spread equally likely, so its mean size is half of it). Sized so the mean distance is the 2024 map's: across 397 contested House districts the mean absolute gap of a district's Republican two-party share from its state's presidential share is 0.1038 (data/source/electoral-calibration-2024/corpus.json, house and presidentialByState; 0.1038 / 0.5 = 0.208). Calibration of how much districts differ; which district stands where is the world's.",
+      "spread": [0.12, 0.3]
     },
     "senateClassOneYear": {
       "value": 2024,
