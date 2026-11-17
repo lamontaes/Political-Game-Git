@@ -114,13 +114,19 @@ it(`a played year's separations name their firm's books, seed ${seed}`, () => {
     // Dev mode's Trace opens the separation and shows the firm and what its review read.
     const traced = traceNode(core, director, reviewed[0]!.id);
     expect(traced.engine, `${where}: Trace finds ${reviewed[0]!.id}`).toBe(
-      "jobs",
+      "jobs.changes",
     );
     const shown = traced.record as Change;
     expect(shown.organizationId, where).toBe(reviewed[0]!.organizationId);
     expect(shown.values?.staffOver, where).toBe(reviewed[0]!.values!.staffOver);
+    const mean = (rows: number[]) =>
+      rows.reduce((sum, n) => sum + n, 0) / Math.max(1, rows.length);
+    const overOfLetGo = mean(reviewed.map((row) => row.values!.staffOver!));
+    const overOfAll = mean(
+      turnoverJobs(api).map((job) => letGoReasons(api, job).staffOver),
+    );
     process.stdout.write(
-      `KEEP REVIEW ${where}: ${reviewed.length} let go by their employer's review of ${townLayoffs.length} town layoffs, e.g. ${reviewed[0]!.id} at ${reviewed[0]!.organizationId} (staff over ${reviewed[0]!.values!.staffOver!.toFixed(3)}, loss months ${reviewed[0]!.values!.lossMonths}, value ${reviewed[0]!.values!.valueYears!.toFixed(2)} years); ${scores.size} staffing positions among the town's jobs; passed over: ${passed.join("; ") || "none"}\n`,
+      `KEEP REVIEW ${where}: ${reviewed.length} let go by their employer's review of ${townLayoffs.length} town layoffs, e.g. ${reviewed[0]!.id} at ${reviewed[0]!.organizationId} (staff over ${reviewed[0]!.values!.staffOver!.toFixed(3)}, loss months ${reviewed[0]!.values!.lossMonths}, value ${reviewed[0]!.values!.valueYears!.toFixed(2)} years); ${scores.size} staffing positions among the town's jobs; the let-go workers' firms stood ${overOfLetGo.toFixed(3)} over their sales on average, the town's jobs at the year's end ${overOfAll.toFixed(3)}; passed over: ${passed.join("; ") || "none"}\n`,
     );
     return;
   }

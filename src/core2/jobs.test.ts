@@ -507,7 +507,11 @@ describe("jobs", () => {
     }
   });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
-    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+    // The staffing decision alone: a firm this far over its sales is also shedding through its keep review (employer-keep-review.test.ts).
+    const core = createLifeCore(input(), {
+        data: noTurnoverData,
+        modules: [JOBS_MODULE],
+      }),
       api = coreAPI(core),
       total = money(core);
     withBooks(core, 0.25);
