@@ -124,7 +124,9 @@
   /* A talk's people: the speaker's bust on the card, the quiet ones small on its top edge. */
   --talk-speaker-bust: 190px;
   --talk-speaker-left: 10px;
-  --talk-quiet-bust: 88px;
+  --talk-quiet-bust: 105px;
+  /* The talk card's width (the speaker mock, layout A). */
+  --talk-width: 840px;
   --talk-strip-inset: 14px;
   --talk-quiet-gap: 8px;
   /* A television's frame around a speaker heard on one. */
@@ -1690,7 +1692,7 @@ body:not(.dev) .dev-only {
   left: 50%;
   transform: translateX(-50%);
   bottom: var(--chat-bottom, 26px);
-  width: min(680px, calc(var(--vw) - 2 * var(--gutter)));
+  width: min(var(--talk-width), calc(var(--vw) - 2 * var(--gutter)));
   padding: 13px 18px 12px;
 }
 .who {
