@@ -2,6 +2,18 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 17, 2026, afternoon: menus, the Desk, announcing (owner, verbatim; recorded by the CTO)
+
+- **Menu test round 1 rejected** (about 2:25 p.m.): "Okay, I don't really like any of these, to be honest. They still have a ton of empty space in the menus. Or, yeah, in the screens. Like, it's just a transparent screen with stuff pasted on it. It's been the problem the entire time. I mean, I guess it's better with not looking like Excel, but still." The CTO's brief had required one see-through panel over the room. That rule produced this look, and it is dropped for menu mock-ups.
+- **What fills a good menu** (inline): "The menu is the picture, Small and tight, Same size, more in it". He was "worried about a bunch of slop getting in there", so every word on a mock comes from data the game exports (#10035), and the CTO checks every line against it.
+- **Round 2 pick** (Desk, about 3:50 p.m.): "The menu is the picture, version 2" (Sol's painted ballot-box Elections page, #10036). His note: "I would like to see this in the game's natural colors and a few other colors and a few other screens as well. This is barely taking any usage so you can have them do the entire screens or whatever or the entire menus but probably without people in them so I don't wanna have white or Black people." He clarified: no people in the painted art; the game's busts still show where a screen is about a person. Round 3 is #10038.
+- **Desk layout** (inline): updates are a short summary, then a headline list with one tagged line per change (tap a line for its picture), with the rest folded. Questions are a one-line ask with lettered choices, each carrying its picture.
+- **Announcing a run** (about 4:10 p.m.): "it should not open with money raised, spent, volunteers, indoors, unless it starts at 0... other people should be able to announce. Now, a lot of times, people won't get a lot of coverage, but, maybe the paper can announce, Shively Johnson and 3 others file for mayoral race or something like that, Of course, other people should be able to do it early."
+  - A new campaign starts at zero (#10013 already does).
+  - Other candidates announce early, each deciding from their own record (Elections, #9995).
+  - The paper covers announcements and filings modestly, often as a roundup that grows with the race's importance (Story, #9750).
+- **Faster checks** (about 3:20 p.m.): "whichever one's faster." Heavy test jobs move off pull requests to the train-to-main PR (Long game, #9752).
+
 ## Nov 17, 2026, midday: after playing v0.113.0 (owner, verbatim; recorded by the CTO)
 
 - **Delete what the engine didn't write** (about 11:45 a.m.): "STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING." Read back to him, he confirmed "Yes, that's it. Go.": every scene and line the English engine didn't compose from the world's own records is deleted, including stock lines picked whole from a bank and lines whose only insert is a padded name. A scene kind with nothing engine-written stops playing and is removed with its lines and tests, and a check keeps them out. Fewer scenes play until the engine writes them. Menus are not in this ruling.
