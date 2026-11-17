@@ -165,6 +165,7 @@ it(`a donor's ask reads the donor's side, the player's side, the bill's stage, t
       (term) => memberKey(term) === candidateId,
     );
     let checked = 0;
+    const held = new Set<string>();
     for (const gift of gifts) {
       const here = `${where}: ${gift.id}`;
       const entry = book.schedule.find(
@@ -287,9 +288,22 @@ it(`a donor's ask reads the donor's side, the player's side, the bill's stage, t
             ),
         );
       }
+      scene.facts.forEach((row) => held.add(row.key));
       checked += 1;
     }
     expect(checked, where).toBeGreaterThan(0);
+    process.stdout.write(
+      `DONOR READS ${where}: player ${candidateId} ${seated ? "sits on the body" : "does not sit on it"}; ${checked} gifts checked, passed over: ${passed.join("; ") || "none"}; facts held: ${[
+        ...held,
+      ]
+        .filter((key) =>
+          /^(stand|your-side|bill-|gift-|votes-on-it|knows-truth|source|side-)/.test(
+            key,
+          ),
+        )
+        .sort()
+        .join(", ")}\n`,
+    );
     return;
   }
   expect.fail(`seed ${seed}: ${passed.join("; ")}`);
