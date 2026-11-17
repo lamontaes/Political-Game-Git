@@ -104,7 +104,6 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 
 Read each file here when its moment comes:
 
-<<<<<<< HEAD
 ## Lessons of Nov 11, third batch (the Journal note, and five riders held off a train)
 
 - **Say the government, not the office that pays.** "My brother Darius is a chief administrative officer at the Village of Athens treasury." Nobody works at a treasury; the treasury is the record that pays him. When an employer is a government's paying office, the one "said as" reader gives the government ("for the Village of Athens"), read from the record's government facts, never from a word in its name.
@@ -187,7 +186,7 @@ A composed rule reads whole texts a player met, never one bank line: its row's t
 - **A test cannot write an earlier day:** events enter on the current date, so a test that needs "before" writes the record, then `advanceCore`s a day.
 - **A talk with no line is no talk:** the bench handler opens nothing when `openConversation` returns no lines (owner, Nov 1), so an empty talk in a test is by rule; a test that opens the same person twice in a day depends on a repeated introduction and must open each person once.
 - **Bisecting a red across folds:** `git bisect start <bad> <good>` then `git bisect run` on one test works, but a merge-graph can name a commit that touches nothing the test reads (the celebration-ask count named an opening-landing commit); read the named commit's files before believing it, and file the item with the next step if they do not fit.
-  \=======
+  \
 
 ## Playing a relative's news for a words pull request (S3, Nov 15)
 
@@ -234,7 +233,7 @@ When a line fits as well as another and still never plays, log the weights and t
 - **Play the tree after the pairs are judged; the review reads pairs, not paths.** At Riverdale, North Dakota and Enterprise, Oklahoma the thank-you close followed a refusal, "runs without your side" followed an answer, and a believed lie closed on "you declined to talk": every pair read fine alone. The fix is a fact the path sets: the answer replies carry `setsFacts: ["answered"]`, the thank-you closes and the accept follow require it, the refusal closes and "you declined" exclude it, and the believed lie has its own `follow-accept` with `after: "lie"`. A closing or follow line that depends on what the player did on the path needs such a fact; `after` alone reads only the last move.
 - **A scene that waits for a rare record is proved through dev mode's own route.** 240 played days as a legislator staged no reporter's call; `DevMode.decideAt` (Hold the vote) on a colleague's bill, found by the seat's body office id from `seatView`, staged it the next day at the first drawn place. Draw the place; take the bill from `seatView(core, me).bodies[0].officeId`, not the seat's own office id.
 - **A hostile variant falls back to the base purpose's pieces, and its gaps name the base's holes.** `press-comment.hostile/mirror/confront` meant the base had no reporter line to throw back after the player's confront; the reporter got three, the player three confront replies.
-=======
+  \=======
 - `references/words-machine.md`: before you add, change or test a line rule, turn an owner note into a rule, or run `npm run words:rules`.
 - `references/banks-and-grading.md`: before you write a bank piece, and before you turn a voice note or an in-play grade into grades.
 - `references/news.md`: before you add or change a news story, a headline, a brief or an outlet's paper.
@@ -245,4 +244,3 @@ When a line fits as well as another and still never plays, log the weights and t
 - `references/prompt.md`: when you start or hand over the Story session.
 - `references/speech-planner.md`: when you add or change a speech, an address or a speech's wording.
 - `references/term-read.md`: when you read a term by policy area, an address's kind, or a town's strikes, protests and rallies.
->>>>>>> origin/main
