@@ -103,8 +103,8 @@ export function drawBirthday(seed: string, draw: number) {
  * key ("US-TX"), in midday light: what the loading screen shows behind the
  * world being built (owner, Nov 16: loading shows the player's state).
  */
-export function stateCapitolPicture(jurisdictionKey: string): string {
-  const usps = jurisdictionKey.startsWith("US-")
+export function stateCapitolPicture(jurisdictionKey: string | null): string {
+  const usps = jurisdictionKey?.startsWith("US-")
     ? jurisdictionKey.slice(3)
     : null;
   return backdropFile(capitolPlaceFor(usps), NOON).url;
