@@ -82,11 +82,19 @@ try {
         ),
       id,
     );
-    const trace = await card.locator(".dev-trace").first().innerText();
+    // The Trace box that opened for this id (a card can hold more than one).
+    const box = page
+      .locator(".dev-trace", { has: page.locator("h4", { hasText: id }) })
+      .first();
+    const trace = (await box.textContent()) ?? "";
     assert.match(trace, /upkeepHoursPerAdult/, trace);
     console.log(`Trace of ${id}:\n${trace}`);
     if (shots) {
-      await card.locator(".dev-trace").first().scrollIntoViewIfNeeded();
+      await box.evaluate((e) => {
+        for (let p = e.parentElement; p; p = p.parentElement)
+          if (p.tagName === "DETAILS") p.open = true;
+      });
+      await box.scrollIntoViewIfNeeded();
       await page.screenshot({ path: `${shots}/dev-home-time-1440x900.png` });
     }
     found = true;
