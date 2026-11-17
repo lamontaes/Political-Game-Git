@@ -12,9 +12,7 @@
  * - a campaign's money follows what a dollar reaches in this town today and
  *   what the campaign does not know, never fixed shares;
  * - what goes on a rival's record follows that record and the campaign's
- *   own poll, never a fixed share;
- * - donors outside the town give as like-minded strangers in town would,
- *   never a fixed 2% at a published donor's balance.
+ *   own poll, never a fixed share.
  *
  * Each case fails on the code before the change: the old constants gave one
  * answer in every world. Set GOLDEN_PATH_SEED to reproduce a run.
@@ -47,7 +45,6 @@ import {
   contributeOwnMoney,
   openCampaigns,
   spareAgainstGift,
-  townGivingSample,
   voterContactPriceMinor,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
@@ -161,7 +158,7 @@ function drawn() {
 }
 
 const found = drawn();
-const { api, core, where, pair } = found;
+const { api, where, pair } = found;
 console.log(`campaign-money-own-actors: ${where}`);
 
 describe(`campaign money comes from the race's own actors (${where})`, () => {
@@ -294,20 +291,5 @@ describe(`campaign money comes from the race's own actors (${where})`, () => {
         campaignFor(api, pair.rival.id),
       ),
     ).toBe(0);
-  });
-
-  it("the outside donors' rule reads the town's own like-minded strangers", () => {
-    const sample = townGivingSample(api, pair.you.id);
-    expect(
-      sample.asked,
-      `${where}: like-minded adults it has not reached`,
-    ).toBeGreaterThan(0);
-    expect(sample.givers).toBeLessThanOrEqual(sample.asked);
-    // The mean gift is whole money the givers hold, and the same month
-    // reads the same sample.
-    if (sample.givers) expect(sample.eachMinor).toBeGreaterThan(0);
-    else expect(sample.eachMinor).toBe(0);
-    expect(townGivingSample(api, pair.you.id)).toBe(sample);
-    void core;
   });
 });

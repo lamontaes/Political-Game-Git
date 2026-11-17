@@ -69,6 +69,7 @@ import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { notifySalesReceipt } from "./finance";
 import { filingClerkFor } from "./filing-clerk";
+import { medianTransactionBalance } from "../starting-cash";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
@@ -307,16 +308,6 @@ export interface GiftRow {
    * read per person (total over donors).
    */
   readonly donors?: number;
-  /**
-   * For an `outside:` row, the town's own like-minded adults its last gift
-   * was read from (`townGivingSample`): how many, how many of them would
-   * give, and their mean gift. For dev mode's trace.
-   */
-  readonly sample?: {
-    readonly asked: number;
-    readonly givers: number;
-    readonly eachMinor: number;
-  };
 }
 
 export interface ImpressionRow {
@@ -4261,8 +4252,7 @@ export function donationAnswer(
  * What a donor with a reason to give would give in all, before the law's
  * limit and what they have already given: a share of the month's spare and a
  * share of their savings beyond their cushion, each sliding with the reason
- * (the one amount rule, read by `donationAnswer` and by the outside donors'
- * sample, `townGivingSample`).
+ * (the one amount rule, read by `donationAnswer`).
  */
 function wantedGiftMinor(
   reason: number,
@@ -4433,11 +4423,11 @@ export function answerDonationAsk(
  * town (governor, U.S. Senate, U.S. House, a legislative seat) draws on the
  * adults of its district or state, counted by place at the coarser level.
  * Each turn the campaign's lists reach another share of the adults who lean
- * its candidate's way (`outsideReachPerTurn`). Who among them gives, and how
- * much, is read by the person rule from the town's own like-minded adults
- * the campaign has not reached (`townGivingSample`): the same share give,
- * each the mean of what those would give, the law's limit included.
- * The gift is one record per place group, from the
+ * its candidate's way (`outsideReachPerTurn`); of those, `outsideDonorShare`
+ * give, each the savings share of the person rule (the cash a typical donor
+ * holds times the share they give per unit of agreement), never past the
+ * individual limit; the month's-income share a named donor also gives from
+ * is not read here (stopgap SG-GOV-outside-donor-month-income). The gift is one record per place group, from the
  * outside account to the campaign's, so the dollars balance on the journal.
  * Returns the minor units raised.
  */
@@ -4484,89 +4474,6 @@ export function contributeOwnMoney(
   return amount;
 }
 
-/**
- * How a like-minded stranger gives to this campaign, read by the person
- * rule from the town's own adults: of the full adults in town who lean the
- * candidate's way and whom the campaign has not reached (no one in its
- * circle, its party's ties or the people who have heard of it; never the
- * controlled person, whose money is theirs to move), how many have a reason
- * to give and something to give from (`donorReason`, `giftBudget`), what
- * each would give in all (`wantedGiftMinor`, never past what they hold), and
- * how far the law's limit holds those gifts down. The outside donors' rule
- * reads it: the like-minded adults a district campaign's lists reach outside
- * the town are strangers to it too, and give as these do. Read once a
- * calendar month for each campaign.
- */
-export function townGivingSample(
-  api: CoreAPI,
-  filingId: string,
-): {
-  readonly asked: number;
-  readonly givers: number;
-  /** The mean gift of those who give, after the law's limit, in minor units. */
-  readonly eachMinor: number;
-  /** The mean the law's limit took off each giver's gift, in minor units. */
-  readonly heldMinor: number;
-} {
-  const month = api.state.date.slice(0, 7);
-  const held = givingSamples.get(api.state)?.get(filingId);
-  if (held?.month === month) return held.sample;
-  const campaign = campaignFor(api, filingId);
-  const core = api.state as CoreState;
-  const adultAge = api.parameter("votingAge");
-  const town = townRow(api).townPlaceId;
-  const limit = contributionLimit(api, campaign.contestId).minor;
-  const side = partySide(filingOf(api, filingId)?.party ?? null);
-  const reached = new Set(reachablePeople(api, campaign));
-  let asked = 0;
-  let givers = 0;
-  let given = 0;
-  let heldBack = 0;
-  for (const id of core.peopleByPlace.get(town) ?? []) {
-    if (id === core.playerId || id === campaign.candidateId) continue;
-    if (reached.has(id)) continue;
-    const donor = core.people.get(id);
-    if (!donor?.alive) continue;
-    if (ageOn(donor, api.state.date) < adultAge) continue;
-    // A candidate with a party draws on the adults on its side of the lean
-    // order; one with none, on all of them.
-    if (
-      side !== 0 &&
-      Math.sign(personLean(core.people, donor, townRow(api).lean)) !== side
-    )
-      continue;
-    asked += 1;
-    const budget = giftBudget(api, donor);
-    const reason = donorReason(api, filingId, id, budget);
-    if (reason <= 0) continue;
-    const already = giftOf(api, filingId, id)?.totalMinor ?? 0;
-    // What they have given came out of what they hold now.
-    const wanted = Math.min(
-      wantedGiftMinor(reason, budget),
-      Math.max(0, donor.liquidMinor) + already,
-    );
-    const gift = limit === null ? wanted : Math.min(wanted, limit);
-    if (gift < api.parameter("minorPerDollar")) continue;
-    givers += 1;
-    given += gift;
-    heldBack += wanted - gift;
-  }
-  const sample = {
-    asked,
-    givers,
-    eachMinor: givers ? given / givers : 0,
-    heldMinor: givers ? heldBack / givers : 0,
-  };
-  const byFiling = givingSamples.get(api.state) ?? new Map();
-  givingSamples.set(api.state, byFiling);
-  byFiling.set(filingId, { month, sample });
-  return sample;
-}
-const givingSamples = new WeakMap<
-  object,
-  Map<string, { month: string; sample: ReturnType<typeof townGivingSample> }>
->();
-
 export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const campaign = campaignFor(api, filingId);
   const reached = campaign.outsideReached ?? 0;
@@ -4584,17 +4491,15 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     townRow(api).townPlaceId,
   );
   if (!outside) return 0;
-  // Who gives outside the town, and how much, is how a like-minded stranger
-  // in town would give. Where none would, the lists outside raise nothing
-  // and are not spent.
-  const sample = townGivingSample(api, filingId);
-  if (!sample.asked || !sample.givers) return 0;
-  const givingShare = sample.givers / sample.asked;
   const side = partySide(filing.party ?? null);
   const step = Math.min(1 - reached, campaignParameter("outsideReachPerTurn"));
   const limit = contributionLimit(api, campaign.contestId);
   const minorPerDollar = api.parameter("minorPerDollar");
-  const each = Math.floor(sample.eachMinor / minorPerDollar) * minorPerDollar;
+  const spare =
+    medianTransactionBalance(
+      campaignParameter("outsideDonorIncomeUsd"),
+      api.state.seed,
+    ) * minorPerDollar;
   let total = 0;
   for (const place of places) {
     // The share of the place's adults on the candidate's side of the lean
@@ -4605,14 +4510,28 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
         : side < 0
           ? 1 - place.rightShare
           : shareValue("evenSplit");
-    const donors = Math.floor(place.eligible * aligned * step * givingShare);
+    // Their reason to give is how much of the place stands with the candidate.
+    const reason = aligned;
+    const donors = Math.floor(
+      place.eligible * aligned * step * campaignParameter("outsideDonorShare"),
+    );
     if (donors <= 0) continue;
+    // stopgapId: SG-GOV-outside-donor-month-income
+    const each =
+      Math.floor(
+        Math.min(
+          spare * reason * campaignParameter("donationShareOfCashPerWarmth"),
+          limit.minor ?? Infinity,
+        ) / minorPerDollar,
+      ) * minorPerDollar;
     const amount = donors * each;
     if (amount <= 0) continue;
     const donorId = `outside:${place.id}`;
     // The law reached this place's donors when it held each gift below what
     // they would have given.
-    if (limit.law && limit.minor !== null && sample.heldMinor > 0)
+    const wouldGive =
+      spare * reason * campaignParameter("donationShareOfCashPerWarmth");
+    if (limit.law && limit.minor !== null && limit.minor < wouldGive)
       lawApplied(api, {
         key: limit.law.key,
         lawId: limit.law.id,
@@ -4621,7 +4540,7 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
         engine: CAMPAIGNS_MODULE_ID,
         what: "gift-held-to-the-limit",
         count: donors,
-        amountMinor: -Math.round(donors * sample.heldMinor),
+        amountMinor: -Math.round(donors * (wouldGive - limit.minor)),
       });
     const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
     // The outside account pays the campaign's account through the accounts
@@ -4635,8 +4554,9 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       {
         tag: "ESTIMATED",
         asOf: api.state.date,
-        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule, giving as ${sample.givers} of the town's ${sample.asked} like-minded adults the campaign has not reached would`,
-        estimatedFrom: "the town's own like-minded adults (townGivingSample)",
+        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule`,
+        estimatedFrom:
+          "Pew Research Center, 5 facts about U.S. political donations (2017)",
       },
     );
     if (paid <= 0) continue;
@@ -4647,11 +4567,6 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       totalMinor: given + paid,
       lastDate: api.state.date,
       donors: (giftOf(api, filingId, donorId)?.donors ?? 0) + donors,
-      sample: {
-        asked: sample.asked,
-        givers: sample.givers,
-        eachMinor: Math.round(sample.eachMinor),
-      },
     } satisfies GiftRow as unknown as ModuleRow);
     total += paid;
   }
