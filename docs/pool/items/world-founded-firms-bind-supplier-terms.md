@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 standard: 2
-after: world-size-towns-by-kind
+after:
 pr: 0
 blocked-on:
 model: opus
