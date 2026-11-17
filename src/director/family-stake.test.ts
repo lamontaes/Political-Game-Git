@@ -180,7 +180,7 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
             ? "time"
             : !child &&
                 gap > 0 &&
-                liquid / gap < raceDays * (1 - gate) - 2 &&
+                liquid / gap < raceDays * (1 - gate) * 0.8 &&
                 want("short")
               ? "short"
               : !child &&
