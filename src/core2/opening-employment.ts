@@ -555,7 +555,7 @@ export function openingEmploymentFromRecordedRoles(
         definition.occupation,
         town,
         townPayPercentile(p("zero"), seed),
-        minimumHourly,
+        minimumHourly ?? null,
         seed,
       );
       const nationalAnnual = nationalMedianAnnualWage(
@@ -669,7 +669,7 @@ export function openingEmploymentFromRecordedRoles(
       selected.definition.occupation,
       town,
       percentile,
-      minimumHourly,
+      minimumHourly ?? null,
       seed,
     );
     const nationalAnnual = nationalMedianAnnualWage(

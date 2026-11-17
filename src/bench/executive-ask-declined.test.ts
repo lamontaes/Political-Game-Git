@@ -19,13 +19,14 @@ import {
 import { buildBenchWorld } from "./world";
 import { seatAsk, seatView } from "./legislature";
 
-it("a declined ask is kept with its cause and date, the plate says the public reason, and the same member can be asked again (the governor of Ridgeville, Alabama's state)", () => {
+it("a declined ask is kept with its cause and date, the plate says the public reason, and the same member can be asked again (the governor of Ridgeville, Alabama's state) (just like today: needs the state's real laws)", () => {
   setBookkeeping(false);
   const place = drawPlace("8341-pin", "p6");
   const where = `${place.name} (${place.key}), world seed ${place.seed}`;
   expect(place.key, `${where}: the pinned place moved`).toBe("0164656");
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: place.key,
   });
   const api = coreAPI(core);
@@ -87,7 +88,7 @@ it("a declined ask is kept with its cause and date, the plate says the public re
   ).toHaveLength(2);
 }, 180_000);
 
-it("a cause a member would not say aloud is given as a public reason and stays on the record", () => {
+it("a cause a member would not say aloud is given as a public reason and stays on the record (just like today: needs the state's real laws)", () => {
   const position = (over: Record<string, number>) =>
     ({
       views: 0,

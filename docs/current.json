@@ -362,6 +362,18 @@
   ],
   "replaced": [
     {
+      "old": "src/core2/data/moves/destinations.json",
+      "now": "src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor)",
+      "when": "2026-11-17",
+      "why": "Pins family 29: a leaver's destination comes from the simulation's own weighing, not the IRS county most movers went to."
+    },
+    {
+      "old": "data/research/renewal/derive-destinations.py",
+      "now": "nothing stands in its place: it wrote src/core2/data/moves/destinations.json, deleted with it",
+      "when": "2026-11-17",
+      "why": "Pins family 29: the file it derived is gone."
+    },
+    {
       "old": "src/core2/fast-forward.ts",
       "now": "src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6",
       "when": "2026-11-12",
@@ -570,6 +582,12 @@
       "now": "desktop/tests/play-api-host-save.test.mjs (the app keeps its life through src/core2/saves.ts); restore it from commit 564a4329146f5095816bd584a66f710b43603d1f",
       "when": "2026-11-15",
       "why": "It tested saved-identity-proof.mjs, deleted with it."
+    },
+    {
+      "old": "src/director/data/promise-kinds.json",
+      "now": "src/core2/data/promises/promise-kinds.json (the kinds, windows, answers and parameters) and src/director/data/promise-endings.json (which scene endings keep a promise)",
+      "when": "2026-11-15",
+      "why": "The promise record, its settlement and the tie it moves moved into the promises engine (core2-promises-v1); the director only words it."
     },
     {
       "old": ".agents/skills/standing-rules-self-check",
@@ -862,6 +880,18 @@
     {
       "old": ".claude/skills/skill-lessons",
       "now": ".claude/skills/done-proof/references/skill-lessons.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/play-walks",
+      "now": ".agents/skills/verify/references/play-walks.md",
+      "when": "2026-11-17",
+      "why": "Merged into the verify skill, which drives the running game from a script, when the CTO capped the skills (owner, Nov 16: \"Let's go ahead\"); its body moved word for word."
+    },
+    {
+      "old": ".claude/skills/play-walks",
+      "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
     }
