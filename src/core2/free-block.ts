@@ -22,6 +22,7 @@ import {
 } from "./closeness";
 import { parameter } from "./parameters";
 import { plannedWorkMinutesOnDate } from "./modules/work";
+import { careNeedOf } from "./modules/health";
 import freeBlockJson from "./data/free-block.json" with { type: "json" };
 import { resolveOperation } from "./state";
 import type {
@@ -108,17 +109,46 @@ function freeHours(
 }
 
 /**
+ * A person's own upkeep a day (personal care beyond the sleep the schedule
+ * reserves, and meals), from their own record: a base, more for each year
+ * past adulthood, and more as their own health asks for care (`careNeedOf`,
+ * the health engine's read). ATUS fits only how strongly age and health count,
+ * so the average adult lands near the survey's day; two people of different
+ * age or health differ (CTO, #9747 05:40Z). The parts are returned for dev
+ * mode's trace.
+ */
+export function ownUpkeep(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+): { base: number; age: number; careNeed: number; hours: number } {
+  const p = (key: string) => api.parameter(key);
+  const years =
+    daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
+  const yearsGrown = Math.max(p("zero"), years - p("votingAge"));
+  const careNeed = careNeedOf(api.state, actor.id);
+  const base = p("ownUpkeepBaseHours");
+  return {
+    base,
+    age: years,
+    careNeed,
+    hours:
+      base +
+      p("ownUpkeepHoursPerYear") * yearsGrown +
+      p("ownUpkeepCareHours") * careNeed,
+  };
+}
+
+/**
  * The person's daily hours of what the game does not model as acts: their
- * own upkeep (personal care beyond the sleep the schedule reserves, and
- * meals, `ownUpkeepHoursPerDay`) and, for an adult, their share of their
- * home's upkeep (`homeUpkeep`). School, work and care for the people at home
- * are acts or commitments of their own, so they are not reserved here.
+ * own upkeep (`ownUpkeep`) and, for an adult, their share of their home's
+ * upkeep (`homeUpkeep`). School, work and care for the people at home are
+ * acts or commitments of their own, so they are not reserved here.
  */
 export function reserveHours(
   api: CoreAPI,
   actor: Readonly<PersonState>,
 ): number {
-  const own = api.parameter("ownUpkeepHoursPerDay");
+  const own = ownUpkeep(api, actor).hours;
   const adult =
     daysBetweenText(actor.birthDate, api.state.date) /
       api.parameter("daysPerMeanYear") >=

@@ -10,7 +10,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { openingClosenessHours } from "./closeness";
-import { reserveHours } from "./free-block";
+import { ownUpkeep, reserveHours } from "./free-block";
 import { willOf } from "./estates";
 import type { CoreInput, CoreState, PersonInput } from "./types";
 
@@ -108,9 +108,17 @@ describe("the day's small shares come from each person's own life", () => {
     const reserve = (id: string) => reserveHours(api, core.people.get(id)!);
     // A parent alone with three children keeps four people's home.
     expect(reserve("parent")).toBeGreaterThan(reserve("alone"));
-    // On main the reserve is ATUS's hours for the age group.
-    expect(reserve("young")).toBeCloseTo(reserve("old"), 9);
-    expect(reserve("alone")).toBeCloseTo(reserve("old"), 9);
+    // Own upkeep moves with the person's own age (CTO, #9747 05:40Z), smoothly:
+    // the 76-year-old reserves more than the 22-year-old, by the age strength
+    // alone (neither has a health record asking for care here).
+    const own = (id: string) => ownUpkeep(api, core.people.get(id)!);
+    expect(own("old").hours).toBeGreaterThan(own("young").hours);
+    expect(own("old").careNeed).toBe(0);
+    expect(own("old").hours - own("young").hours).toBeCloseTo(
+      api.parameter("ownUpkeepHoursPerYear") *
+        (own("old").age - own("young").age),
+      6,
+    );
   });
 
   it("housemates' time together follows their own work weeks", () => {

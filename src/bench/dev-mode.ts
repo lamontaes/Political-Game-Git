@@ -11,7 +11,8 @@
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
-import { reserveHours } from "../core2/free-block";
+import { ownUpkeep, reserveHours } from "../core2/free-block";
+import { homeUpkeep } from "../core2/closeness";
 import { PEOPLE_MODULE_ID } from "../core2/modules/people";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
@@ -2491,7 +2492,11 @@ export class DevMode {
       laws: this.lawsOn(personId, person.householdId),
       // What the person's day keeps back before their free time, and their
       // home's week together: each from their own home and job (Pins 31).
-      reservedHours: reserveHours(this.api, person),
+      reservedHours: {
+        hours: reserveHours(this.api, person),
+        ownUpkeep: ownUpkeep(this.api, person),
+        home: homeUpkeep(this.core, person.householdId),
+      },
       homeTime: core.modules.get(PEOPLE_MODULE_ID)?.state
         ? (this.api
             .moduleState(PEOPLE_MODULE_ID)

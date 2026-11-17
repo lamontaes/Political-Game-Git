@@ -8499,18 +8499,6 @@
       "citation": "The spread of traitWeightVotingStandAgain."
     }
   },
-  "ownUpkeepHoursPerDay": {
-    "value": 2.31,
-    "tag": "ESTIMATED",
-    "citation": "The hours a day each person spends on their own upkeep beyond the sleep the work schedule reserves: personal care 9.80 hours less workSleepReserveHours 8.7, plus eating and drinking 1.21 (BLS American Time Use Survey 2025, Table 3, all persons 15 and over, https://www.bls.gov/news.release/atus.t03.htm). A cost every body pays, the same for everyone; how much of the rest of the day a person has follows their own job and home.",
-    "estimatedFrom": "ATUS 2025 Table 3 all-ages row (src/core2/data/time-use-reference.json).",
-    "spread": {
-      "low": 2.0,
-      "high": 2.7,
-      "unit": "hours a day",
-      "citation": "The age groups' personal care and meals, less the same sleep reserve, run from about 2.0 (ages 35 to 44) to 2.7 (75 and over) in the same table."
-    }
-  },
   "homeUpkeepHoursPerMember": {
     "value": 2.04,
     "tag": "ESTIMATED",
@@ -8580,6 +8568,40 @@
       "high": 1.5,
       "unit": "lean",
       "citation": "From half of adults to 38% at the same three worlds."
+    }
+  },
+  "ownUpkeepBaseHours": {
+    "value": 2.05,
+    "tag": "ESTIMATED",
+    "citation": "A grown person's own upkeep a day at adulthood in good health: personal care beyond the sleep the work schedule reserves (workSleepReserveHours 8.7), and meals (free-block.ts ownUpkeep). Fitted once with ownUpkeepHoursPerYear so the ATUS 2025 Table 3 age groups are met at their middles: personal care less 8.7 plus eating and drinking runs about 2.0 to 2.3 hours from ages 25 to 64 and 2.2 to 2.7 past 65; the average adult lands near 2.3. After the fit, a person's upkeep moves with their own age and health.",
+    "estimatedFrom": "BLS ATUS 2025 Table 3 by age (src/core2/data/time-use-reference.json).",
+    "spread": {
+      "low": 1.8,
+      "high": 2.3,
+      "unit": "hours a day",
+      "citation": "The ages 25 to 54 groups' personal care beyond sleep plus meals."
+    }
+  },
+  "ownUpkeepCareHours": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How many more hours a day a person's own upkeep takes at full care need (the health engine's careNeedOf, 0 to 1, from their own conditions and hazard): dressing, washing and eating take longer when health fails. Checked so the oldest ATUS group's extra personal care is within reach of people whose health asks for care. A strength; who needs care comes from each person's own health.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "hours a day at full care need",
+      "citation": "From a little help to most of a morning."
+    }
+  },
+  "ownUpkeepHoursPerYear": {
+    "value": 0.008,
+    "tag": "ESTIMATED",
+    "citation": "How much more of a day a person's own upkeep takes for each year past adulthood (free-block.ts ownUpkeep): ATUS 2025 Table 3's personal care beyond sleep plus meals rises about 0.4 hours from ages 25-34 to 75 and over, about 0.008 a year. A strength, fitted once; how old a person is comes from their own record.",
+    "spread": {
+      "low": 0.003,
+      "high": 0.015,
+      "unit": "hours a day per year of age",
+      "citation": "From a flat profile to the 75-and-over group's rise alone."
     }
   }
 }
