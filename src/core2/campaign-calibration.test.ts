@@ -34,6 +34,7 @@ import {
   openCampaigns,
 } from "./modules/campaigns";
 import { personStance } from "./campaign-views";
+import { closenessBetween } from "./closeness";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -110,9 +111,12 @@ describe("campaign calibration on totals", () => {
       const known = [...(core.people.get(player.id)?.knownIds ?? [])].filter(
         (id) => core.people.has(id),
       );
-      const volunteers = known.filter((id) =>
-        askToVolunteer(api, filing!.id, id),
-      ).length;
+      const said = known.map((id) => ({
+        id,
+        yes: askToVolunteer(api, filing!.id, id),
+        tie: closenessBetween(core, id, player.id),
+      }));
+      const volunteers = said.filter((s) => s.yes).length;
       // A question few people care about: the weakest left-right split.
       const niche = [...PLATFORM_QUESTIONS].sort(
         (a, b) =>
@@ -125,6 +129,21 @@ describe("campaign calibration on totals", () => {
         statements: [{ question: niche, position: 1 }],
       });
       const moved = heard.filter(
+        (c) => Math.abs(c.warmthAfter - c.warmthBefore) > 0.05,
+      );
+      // The question the town splits on most, said the same way: it should
+      // move more of its listeners than the niche one.
+      const salient = [...PLATFORM_QUESTIONS].sort(
+        (a, b) =>
+          Math.abs(personStance(1, b)) - Math.abs(personStance(1, a)) ||
+          a.localeCompare(b),
+      )[0]!;
+      const heardSalient = giveSpeech(api, {
+        filingId: filing.id,
+        venue: "town-hall",
+        statements: [{ question: salient, position: 1 }],
+      });
+      const movedSalient = heardSalient.filter(
         (c) => Math.abs(c.warmthAfter - c.warmthBefore) > 0.05,
       );
       // A poll: paid per completed interview from the campaign's money,
@@ -167,21 +186,40 @@ describe("campaign calibration on totals", () => {
       process.stdout.write(
         `doors in ${state} ${key}, seed ${seed}: ${met.length} of ${knocked} knocked opened, contact ${contact.toFixed(3)}, field band about 0.25 to 0.33 (a quarter to a third)\n`,
       );
-      // The top of the measured range across places (31% of acquaintances,
-      // volunteerThreshold) plus two standard errors of a sample this size:
-      // a dozen acquaintances can't tell 31% from 45% apart by chance.
+      // Pins family 32 (#9747): no band on how many volunteer or how many a
+      // speech moves; the checks are the relationships each stands for.
+      // Volunteers are closer to the candidate than those who decline
+      // (volunteerClosenessWeight), and the niche question moves fewer of its
+      // listeners than the one the town splits on most.
+      const yes = said.filter((s) => s.yes);
+      const no = said.filter((s) => !s.yes);
+      const meanTie = (rows: typeof said) =>
+        rows.reduce((t, s) => t + s.tie, 0) / Math.max(1, rows.length);
+      process.stdout.write(
+        `volunteers in ${state} ${key}, seed ${seed}: ${yes.length} of ${known.length}, mean closeness ${meanTie(yes).toFixed(2)} against ${meanTie(no).toFixed(2)} for those who declined; speeches moved ${moved.length} of ${heard.length} (niche) and ${movedSalient.length} of ${heardSalient.length} (most split)\n`,
+      );
+      // It can't pass on nothing: with a dozen or more asked, some say yes
+      // and some say no.
       if (known.length >= 10) {
-        const top = 0.31;
         expect(
-          volunteers / known.length,
-          `${state} ${key} ${seed} volunteers (${volunteers} of ${known.length})`,
-        ).toBeLessThan(top + 2 * Math.sqrt((top * (1 - top)) / known.length));
+          yes.length,
+          `${state} ${key} ${seed}: no one volunteered`,
+        ).toBeGreaterThan(0);
+        expect(
+          no.length,
+          `${state} ${key} ${seed}: everyone volunteered`,
+        ).toBeGreaterThan(0);
       }
-      if (heard.length >= 10)
+      if (yes.length && no.length)
+        expect(
+          meanTie(yes),
+          `${state} ${key} ${seed}: volunteers' closeness to the candidate`,
+        ).toBeGreaterThan(meanTie(no));
+      if (heard.length >= 10 && heardSalient.length >= 10)
         expect(
           moved.length / heard.length,
-          `${state} ${key} niche speech`,
-        ).toBeLessThan(0.5);
+          `${state} ${key} niche speech against the most split`,
+        ).toBeLessThan(movedSalient.length / heardSalient.length);
     }
     expect(report, "no town to campaign in").not.toBeNull();
     govReport("campaign-calibration", JSON.stringify(report));
