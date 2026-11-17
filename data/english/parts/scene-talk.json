@@ -190140,7 +190140,7 @@
       "key": "scene-talk.narrate-narrate.you-left-employer-to-run-for-office",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "You left {employer} to run for {office}.",
+      "text": "You left {employer} after you filed for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -191269,7 +191269,7 @@
       "key": "scene-talk.reply-apologize.i-m-sorry-those-savings-are-yours-too",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. Those savings are yours too.",
+      "text": "I'm sorry about the savings. They're yours too.",
       "uses": [
         {
           "subject": "scene",

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 996,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -646,15 +646,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "Looking again, a hearing promise, avoiding the phone and an exit carry no reason."
-    },
-    "0dc6y92gooi": {
-      "keys": [
-        "scene-talk.follow-ask.and-if-it-doesn-t-last-the-remaining",
-        "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the",
-        "scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first",
-        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends"
-      ],
-      "why": "A dinner promise, an apology and asking for help with {child} answer 'if it doesn't last?' without a reason."
     },
     "0diidpv4o4j": {
       "keys": [
@@ -2073,15 +2064,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "17p18xwwr9y": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-work-the-phones-i-won-t-touch-the-money",
-        "scene-talk.reply-thank.thank-you-i-mean-it",
-        "scene-talk.reply-accept.that-s-fair-let-s-try-it",
-        "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
-      ],
-      "why": "Thanks, 'That's fair' and stepping out carry no reason."
-    },
     "17txsq8g0p4": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -2156,15 +2138,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "193hwe1rh4l": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.thank-you-i-mean-it",
-        "scene-talk.reply-accept.that-s-fair-let-s-try-it",
-        "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
-      ],
-      "why": "Thanks, 'That's fair. Let's try it' and stepping out for air carry no reason."
     },
     "19bvc409afc": {
       "keys": [
@@ -2685,15 +2658,6 @@
       ],
       "why": "\"Point taken\" and \"not planning on being the third\" are a concession and a bare stance with no reason."
     },
-    "1jzixdbr8fs": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.that-makes-it-easier-thank-you",
-        "scene-talk.follow-accept.that-s-all-i-m-asking",
-        "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
-      ],
-      "why": "'That makes it easier. Thank you', 'That's all I'm asking' and stepping out are thanks and exits."
-    },
     "1kmyu17m21v": {
       "keys": [
         "scene-talk.state-congratulate.so-the-diploma-s-done-what-s-the-plan",
@@ -2730,15 +2694,6 @@
         "scene-talk.reply-leave.i-have-a-meeting-waiting-write-to-my-office"
       ],
       "why": "A meeting offer, a request for their argument, a deferral and an exit state no reason."
-    },
-    "1mfq2dc8qcx": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.thank-you-i-mean-it",
-        "scene-talk.follow-accept.that-s-all-i-m-asking",
-        "scene-talk.reply-leave.let-s-talk-about-it-tomorrow-once-we-ve-both-cooled-off"
-      ],
-      "why": "Thanks, 'That's all I'm asking' and putting it off until tomorrow give no reason."
     },
     "1mj9sajbx3y": {
       "keys": [
@@ -3320,15 +3275,6 @@
         "scene-talk.reply-leave.i-m-going-to-go-lie-down-for-a-while"
       ],
       "why": "\"I mean it. Thank you\" and lying down carry no reason."
-    },
-    "1z3opqxsjy4": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.i-appreciate-that-more-than-you-know",
-        "scene-talk.reply-accept.good-i-can-plan-around-that",
-        "scene-talk.reply-leave.i-m-going-to-bed-we-ll-talk-in-the-morning"
-      ],
-      "why": "Gratitude, 'I can plan around that' and going to bed give no reason."
     },
     "1z48o64jf2f": {
       "keys": [
@@ -4155,5 +4101,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "0kia4g8v1e4"
 }
