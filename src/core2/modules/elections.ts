@@ -92,6 +92,7 @@ export function isLocalFamily(family: OfficeFamily): boolean {
 export {
   publishedSenateSeats,
   senateSides,
+  stateRightShare,
   worldRoster,
   worldSeatParty,
   worldSwing,
