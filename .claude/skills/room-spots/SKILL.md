@@ -1,12 +1,13 @@
 ---
 name: room-spots
 description: >
-  Paints a room picture in the standard camera with spots where people may
-  stand or sit, measures each spot (pose, angle, head, feet, desk edge,
-  furniture in front, depth order), and checks a filled room by eye before
-  anyone sees it. Use when painting or repainting a backdrop, adding spots, or
-  judging whether people sit and stand believably. Not for the pack's rows
-  (people-pack) or admitting a backdrop (asset-scene-admission).
+  Paints a room picture in the standard camera with spots where people may stand
+  or sit, measures each spot (pose, angle, head, feet, desk edge, furniture in
+  front, depth order), and checks a filled room by eye before anyone sees it;
+  also the people pack on mannequin plates, which full-body scenes use. Use when
+  painting or repainting a backdrop, adding spots, judging whether people sit
+  and stand believably, or touching the pack. Not for admitting a backdrop
+  (asset-scene-admission).
 ---
 
 # Rooms and their spots
@@ -17,7 +18,7 @@ Owner, Oct 29: "5 angles per pose and have those 5 angles be able to be used thr
 
 The tools and the worked Oval Office are on the art branch, in the `standard` folder under `art/people-rooms/` (`tools/`, `PLAN.md`); that folder is not on main, so fetch the art branch before using them, and if it is gone say so on the item's pull request.
 
-**Busts are coming (owner, Nov 10, about 8:40 a.m.):** "I'm not necessarily worried about the staging code now because you're going to be making busts. I haven't decided how they're going to display yet." Do not file or reopen full-body staging defects (who stands where, people blocking each other) and do not paint new full-body room sets for them until he rules on how busts are shown; check `docs/coordination/OWNER-DECISIONS.md` for that ruling first. The plate rules below stay true for the rooms that already have plates (`people-pack`).
+**Busts are coming (owner, Nov 10, about 8:40 a.m.):** "I'm not necessarily worried about the staging code now because you're going to be making busts. I haven't decided how they're going to display yet." Do not file or reopen full-body staging defects (who stands where, people blocking each other) and do not paint new full-body room sets for them until he rules on how busts are shown; check `docs/coordination/OWNER-DECISIONS.md` for that ruling first. The plate rules below stay true for the rooms that already have plates (`room-spots` (people-pack part)).
 
 ## The standard camera
 
@@ -62,3 +63,9 @@ Fill the room from pack figures on its spots and look at every person at full si
 - List another light in `backdrops` only after an edge correlation with the midday painting scores 0.9 or more at 418 by 235 (the lights of one painting score 0.92 to 0.99; a different painting scored 0.03); the general store's morning and rain are other paintings and get no plate.
 - Check the filled room in the running game, not in a test: visit the room at noon and look at feet, scale and overlaps. `people-pack.test.ts` may not load on main.
 - Trap: moving new plate files with `mv *.mannequins.json` moves the existing plates too, and `git add -A` then commits their deletion. Copy files by name and `git add` them by name.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/people-pack.md`: when you add people, clothes, colors or poses to the pack, or fix a plate.

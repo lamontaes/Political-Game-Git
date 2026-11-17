@@ -6,7 +6,7 @@ description: >
   planted calibration rows, Opus at medium effort, and throwing out a pass
   that says yes to everything. Use when ordering or reading any bulk reviewer,
   grader or second-reader pass. Not for a words reader's stamp
-  (words-stamp-read) or one PR's review (checker).
+  (words-stamp-read) or one PR's review (merger).
 ---
 
 # A review pass you can trust

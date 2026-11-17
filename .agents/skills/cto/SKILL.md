@@ -6,6 +6,7 @@ description: >
   moving, recording the owner's rulings, ruling what a standing rule answers,
   sizing jobs, and reporting to the owner. Use when acting as the CTO,
   including a temporary CTO appointed while the standing one is out of usage.
+disable-model-invocation: true
 ---
 
 # CTO
@@ -34,14 +35,14 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] The channel `docs/coordination/LEADS-2026-10-24.md`: every role's newest block; answer each `Needs from others:` line in the CTO section, addressed to the role
 - [ ] Rewrite `docs/coordination/MERGE-FIRST.md`: lane PRs first, then what unblocks the most
 - [ ] Clock (`date`) and weekly usage; above ~75% go lean
-- [ ] Merges in the last hours; none means a merger died: find which; audit a sample (`merge-audit`)
+- [ ] Merges in the last hours; none means a merger died: find which; audit a sample (`merger` (merge-audit part))
 - [ ] Mergers alive, each in its share (PR number modulo the number running; `CREW.md` lists them)
 - [ ] Leads: laws, traits, speed, m0-m2, effects (Opus, at most two Sonnet helpers each); their matrices and open PRs (`wiring-audit`); Words (Opus medium)
-- [ ] Every area the owner is complaining about has a running lead with a channel block in the last 4 hours. On Oct 26 words, scenes and the shared screen system had none while the owner named them the biggest problem. A role silent 4 hours is not running: give its sent-back PRs to a `pr-fixer` and propose a replacement to the owner
+- [ ] Every area the owner is complaining about has a running lead with a channel block in the last 4 hours. On Oct 26 words, scenes and the shared screen system had none while the owner named them the biggest problem. A role silent 4 hours is not running: give its sent-back PRs to a `merger` (pr-fixer part) and propose a replacement to the owner
 - [ ] `docs/coordination/playtest/`: the owner's newest sitting block. Turn its stops into assignments unless the block reserves them ("drafts only", "Fable decides"); record its rulings first
 - [ ] `MERGE-FIRST.md` older than 4 hours is rewritten; the owner's repeated complaints go first
 - [ ] Pool: INDEX counts; open items that are `checked: fable` must never hit 0 while builders run; the written order is `docs/pool/order.json` (landing with the builder page); every item carries `lead:`; lane items carry `milestone: play-first`
-- [ ] Stuck work: send-backs nobody answers (give to a `pr-fixer`), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release); in-pr items whose PR is closed, merged elsewhere, or a draft with no push in 72 hours go back to open (Oct 26: 59 of 97 in-pr items sat on four idle drafts)
+- [ ] Stuck work: send-backs nobody answers (give to a `merger` (pr-fixer part)), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release); in-pr items whose PR is closed, merged elsewhere, or a draft with no push in 72 hours go back to open (Oct 26: 59 of 97 in-pr items sat on four idle drafts)
 - [ ] **Lessons loop (owner, Oct 27: "update skills, make new skills; that's how this is supposed to work").** Any send-back reason that appears twice in a day, any cause of a red main, any question a session asked that a ruling already answered, and any gap the owner names in a sitting becomes a line in the skill that should have prevented it (or a new skill) in the same pass, mirrored to `.claude/skills/`, with `npm run test:skill-ops` run. Name the lesson and the skill in the CTO block. Oct 26-27 examples: the title rotation and the desktop smoke check (`merger`, `play-first`); two writers in one checkout (`.agents/rules/smart-and-look-first.md`); the generated pool index conflicting every PR (take main's, regenerate on main); a merged play item flipping to done (`merger` step 8)
 - [ ] Scenes: the words-and-scenes lead's newest block names the real-life episode it worked (`scenes-from-life`); a pass with no episode is a pass with no new scene
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
@@ -52,10 +53,10 @@ The CTO merges only its own docs, skill and pool PRs, and every session's `skill
 ## Who does what
 
 - **The play-first lane** (`docs/play-first/`, skill `play-first`): the only writer in `src/bench`; may edit `src/director`, `src/english` and `data/english` for lane items with the Words session's review (`Review: words`); many agents in turn, SMART and time-boxed; the lane's law is `LAW.md`, which the CTO writes only after `OWNER-DECISIONS.md` has the ruling.
-- **Leads** own their matrices (`wiring-audit`, `lead-session`); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
+- **Leads** own their matrices (`wiring-audit`, `crew-coordinator` (lead-session part)); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
 - **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; English lines the grade ledger lets play are never a send-back. Their comments start with their prefix so audits can tell them apart.
 - **Words** (`words-engine`): Story writes the lines (Nov 10) and reviews lane PRs marked `Review: words`; scenes are graded by voice note, not batches; a grade becomes a rule a program tests, not a line-by-line review.
-- **Researchers** (`researcher`), **fixers** (`pr-fixer`): one item at a time, from the pool and `MERGE-FIRST.md`.
+- **Researchers** (`researcher`), **fixers** (`merger` (pr-fixer part)): one item at a time, from the pool and `MERGE-FIRST.md`.
 - **Orders** live in files: a pool item, a skill, `docs/play-first/ORDER.md` or `docs/work-orders/<name>-<date>.md`. A chat message is not an order.
 - **Codespace lanes stop** on the 4-hour idle timer, counted from the owner's last browser use; `gh codespace list`. The owner restarts their agents.
 
@@ -87,6 +88,13 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 **Mocks reach the owner through the CTO (owner, Nov 1: "the lane will show me a mock and you'll send it to me in this chat"):** the lane pushes PNGs to a branch and sends the paths. Read each image yourself before sending it with `SendUserFile` (`display: render`), and name in the same message anything that departs from what he asked or ruled (Nov 1: the Issues list was still a grid of cards; Budgets moved under a Money menu). The screens wait for his answer.
 
 **Even the checkers by status, not by count:** `list_sessions` shows each checker's last summary. When one queue is several deep and another checker reads idle or done, move the waiting PRs it has not started (never one mid-gate), the most urgent first, and tell both checkers which ones moved.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 03:38Z: the CTO asked every lane who folded five pull requests it had folded itself. Cause: the fold desk's summary cut the top of its own output. Print every FOLD line before you post about folds.
+- Nov 17, 02:11Z: a CTO line called real business counts right and was withdrawn. Cause: the line was not checked against the owner's calibration rule. Check a ruling against the standing rules before you post it.
 
 ## More in this folder
 
