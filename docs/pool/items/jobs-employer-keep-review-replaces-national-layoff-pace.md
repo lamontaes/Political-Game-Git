@@ -5,10 +5,10 @@ area: world
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude-labor
-pr:
+pr: 9865
 blocked-on:
 after:
 lead: jobs
