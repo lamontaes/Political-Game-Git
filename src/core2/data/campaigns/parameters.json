@@ -1345,6 +1345,7 @@
     "specialShortNoticeFilingShare": {
       "value": 0.5,
       "tag": "TUNABLE",
+      "role": "coefficient",
       "source": "The share of the days between a special election's call and its election day that filing stays open when the usual close (specialFilingDaysBefore) has already passed, so a special called on short notice still gives a petition days to circulate. State special-election calendars set election day 30 to 90 days after the vacancy and close filing in the first part of that time.",
       "spread": [0.25, 0.75]
     },
