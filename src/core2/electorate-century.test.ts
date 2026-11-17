@@ -10,11 +10,16 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { candidateReasons, electorateParameter } from "./electorate-inputs";
-import { centuryOf, centuryPresidency } from "./electorate-century";
+import {
+  centuryOf,
+  centuryPresidency,
+  setHistoryMode,
+} from "./electorate-century";
 import { gameStartDate } from "./game-start";
 import { presidentElection } from "./modules/national-opinion";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
+import { contestedStates2024 } from "./officials-president";
 
 const RUN = `history-president:${Date.now()}`;
 
@@ -147,5 +152,53 @@ describe("the century elects day one's President", () => {
     );
     // data/research/offices/federal-executive-2026.json: the real office's party.
     expect(presidentTerms(world).serving?.party, where).toBe("Republican");
+  }, 120_000);
+
+  it("re-elects a sitting President more often than not across drawn worlds", () => {
+    // About 15 of the 21 sitting Presidents who ran since 1900 won. With experience counted
+    // for the challenger, a President's incumbency lost to it every time, and worlds
+    // alternated parties every term (the re-election check on #9834 red at 0.277).
+    let ran = 0,
+      kept = 0;
+    const named: string[] = [];
+    for (let i = 0; i < 16; i += 1) {
+      const place = drawPlace(`${RUN}:sitting:${i}`, "history-president");
+      named.push(`${place.name} (${place.key}), world seed ${place.seed}`);
+      setHistoryMode(place.seed, "century", gameStartDate());
+      const terms = centuryOf(place.seed, gameStartDate()).presidencies;
+      for (let j = 1; j < terms.length; j += 1)
+        if (terms[j]!.incumbentRan) {
+          ran += 1;
+          if (terms[j]!.winnerSide === terms[j - 1]!.winnerSide) kept += 1;
+        }
+    }
+    expect(
+      kept / ran,
+      `sitting Presidents re-elected across ${named.join("; ")}`,
+    ).toBeGreaterThan(0.5);
+  }, 120_000);
+
+  it("leaves states near even in a close year: no drawn world with an even 2024 has no contested state", () => {
+    // Each state's 1925 shift may be any size (electorate-century.ts centuryShift). A floor on it
+    // left no state near the nation, so a world whose 2024 was even had no state near 50%
+    // (#9820's guards, realistic-not-real row 42, Kingfield, Maine, seed cab9fef34d92ab59).
+    const empty: string[] = [];
+    let close = 0;
+    for (let i = 0; i < 24; i += 1) {
+      const place = drawPlace(`${RUN}:contested:${i}`, "history-president");
+      setHistoryMode(place.seed, "century", gameStartDate());
+      const last = centuryOf(place.seed, gameStartDate()).presidencies.at(-1)!;
+      if (Math.abs(last.republicanShare - 0.5) > 0.02) continue;
+      close += 1;
+      if (!contestedStates2024(place.seed, gameStartDate()).length)
+        empty.push(
+          `${place.name} (${place.key}), world seed ${place.seed}: ${(last.republicanShare * 100).toFixed(1)}% R`,
+        );
+    }
+    expect(
+      close,
+      "drawn worlds with a 2024 within 2 points of even",
+    ).toBeGreaterThan(0);
+    expect(empty, "close worlds with no contested state").toEqual([]);
   }, 120_000);
 });

@@ -12,7 +12,7 @@
  * decided by the count: where each state stands, who runs (a sitting president runs again until
  * elected twice), the party's time in the White House and the president's standing. Who exists is
  * generated: each state's and the country's place on the lean order in 1925 is one starting shift
- * from the world's seed (`worldOffsetUnit`, the one draw), sized by the real map's spread. After
+ * from the world's seed (`centuryShift`, any size equally likely), sized by the real map's spread. After
  * that no roll decides anything.
  *
  * It is a pure function of the world's seed, worked out once per seed and kept, so every reader
@@ -42,7 +42,6 @@ import {
 import { seededUnit } from "./seeded";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { readinessOf } from "./turnout";
-import { worldOffsetUnit } from "./world-draw";
 import { gameStartDate } from "./game-start";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
@@ -228,10 +227,21 @@ function stateKeys(): readonly string[] {
   return Object.keys(ELECTORS.states).sort();
 }
 
+/**
+ * One starting shift on the lean order in 1925, between -1 and 1 of its spread, any size equally
+ * likely (who exists, not what happens). Not the world draw's offset (`worldOffsetUnit`), whose
+ * floor keeps a figure off its published value: 1925 has no published value to stay off, and a
+ * floor would leave no state near the nation, so that a century whose states carry their own
+ * results would never have a state near even in an even year.
+ */
+function centuryShift(seed: string, key: string): number {
+  return 2 * seededUnit(seed, `century:shift:${key}`) - 1;
+}
+
 /** The country in 1925: one starting shift for the nation and one for each state (who exists, not what happens). */
 export function centuryOpening(seed: string): CenturyOpening {
   const national =
-    worldOffsetUnit(seed, "century:lean:nation") *
+    centuryShift(seed, "century:lean:nation") *
     centuryParameter("centuryNationalLeanSpread");
   const leans: Record<string, number> = {};
   for (const key of stateKeys())
@@ -241,7 +251,7 @@ export function centuryOpening(seed: string): CenturyOpening {
         1,
         0.5 +
           national +
-          worldOffsetUnit(seed, `century:lean:${key}`) *
+          centuryShift(seed, `century:lean:${key}`) *
             centuryParameter("centuryStateLeanSpread"),
       ),
     );
@@ -408,9 +418,12 @@ function presidentialElection(
     party: nationalParty(side),
     side,
     incumbent: incumbentRuns && side === sittingSide,
-    // A major party's nominee has held office (stopgap SG-HIST-century-nominees).
+    // In an open race each major party's nominee has held office (stopgap
+    // SG-HIST-century-nominees); a sitting President faces a typical challenger, as every race
+    // the world counts from afar does in play (voting.ts decide). Experience counts only for a
+    // non-incumbent, so a challenger with it would outweigh a President's incumbency every time.
     // stopgapId: SG-HIST-century-nominees
-    experienced: true,
+    experienced: !incumbentRuns,
     spentMinor: null,
     record: 0,
     presidentsParty: side === sittingSide,
@@ -717,7 +730,7 @@ function openingSeats(
         Math.min(
           1,
           (leans[stateKey] ?? 0.5) +
-            worldOffsetUnit(seed, `century:lean:${key}`) *
+            centuryShift(seed, `century:lean:${key}`) *
               centuryParameter("centuryDistrictLeanSpread"),
         ),
       );
