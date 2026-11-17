@@ -1,0 +1,63 @@
+@font-face {font-family:Cinzel;src:url(art/fonts/cinzel-800.ttf);font-weight:800}
+@font-face {font-family:Andada;src:url(art/fonts/andada-pro-400.ttf)}
+@font-face {font-family:Fira;src:url(art/fonts/fira-sans-400.ttf)}
+@font-face {font-family:Fira;src:url(art/fonts/fira-sans-600.ttf);font-weight:600}
+
+* {box-sizing:border-box}
+html,body {width:1440px;height:900px;margin:0;overflow:hidden}
+body {font:17px/1.35 Fira,sans-serif;font-variant-numeric:tabular-nums}
+h1,h2,h3,p,figure,dl,dd,ul {margin:0}
+h1,h2,h3 {font:800 1em/1.1 Cinzel,Georgia,serif}
+p {font:17px/1.45 Andada,Georgia,serif}
+.label {
+  display:block;
+  font:600 14px/1.25 Fira,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.085em;
+}
+time {white-space:nowrap}
+.pick {
+  position:relative;
+  padding:6px 11px;
+  background:none;
+  border:0;
+  color:inherit;
+  font:inherit;
+  font-weight:600;
+  cursor:pointer;
+  isolation:isolate;
+}
+.pick::after {
+  position:absolute;
+  inset:0;
+  content:"";
+  z-index:-1;
+  pointer-events:none;
+  opacity:0;
+  background:
+    linear-gradient(90deg,transparent 5%,#f3c578 48%,transparent 95%) top/100% 1px no-repeat,
+    linear-gradient(90deg,transparent 5%,#f3c578 48%,transparent 95%) bottom/100% 1px no-repeat,
+    linear-gradient(transparent 10%,#f3c578 48%,transparent 90%) left/1px 100% no-repeat,
+    linear-gradient(transparent 10%,#f3c578 48%,transparent 90%) right/1px 100% no-repeat;
+  box-shadow:inset 0 0 17px #e4b66e33,0 0 12px #e4b66e40;
+  transition:opacity 140ms;
+}
+.pick:hover,.pick:focus-visible {background-color:#e0ad542e;outline:none}
+.pick:hover::after,.pick:focus-visible::after {opacity:1}
+.pick[aria-pressed="true"] {
+  background:linear-gradient(175deg,#efce8d,#c28e44);
+  box-shadow:inset 0 1px #ffe7b6,0 4px 12px #09100b30;
+  color:#2c2012;
+}
+.bust {
+  display:block;
+  background:radial-gradient(ellipse at 50% 52%,#e8be795e,transparent 69%);
+}
+.bust img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  mask-image:linear-gradient(#000 76%,transparent 100%);
+}
