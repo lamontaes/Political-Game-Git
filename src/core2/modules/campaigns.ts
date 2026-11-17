@@ -5627,6 +5627,35 @@ export function runAd(
     );
     if (cause) causes.push(cause);
   }
+  // The one an attack ad ran against holds it against whoever bought it: the
+  // drives engine reads this record and answers by their own temperament
+  // (a grudge, proving themselves, a cause or carrying on), never by a roll.
+  if (
+    input.attackFilingId &&
+    causes.length > 0 &&
+    target.candidateId !== campaign.candidateId &&
+    api.state.people.get(target.candidateId as PersonId)?.alive &&
+    api.state.people.get(campaign.candidateId as PersonId)?.alive
+  )
+    api.emit({
+      id: `campaign.attacked:${campaign.id}:${api.state.date}:${campaign.spentMinor}`,
+      date: api.state.date,
+      kind: "campaign.attacked",
+      personIds: [target.candidateId as PersonId],
+      placeId: api.state.people.get(target.candidateId as PersonId)!.placeId,
+      publicRecord: false,
+      topic: campaign.candidateId,
+      desiredChange: "campaign.attacked",
+      facts: {
+        attackerId: campaign.candidateId,
+        contestId: campaign.contestId,
+      },
+      source: {
+        tag: "SOURCED",
+        citation: `Attack ad against ${target.candidateId} bought by ${campaign.candidateId}`,
+        asOf: api.state.date,
+      },
+    });
   // The ad's message is a public record its viewers saw: the views engine
   // moves each one's stance on its question.
   if (!input.attackFilingId && !input.quiet)
