@@ -117,10 +117,30 @@ export function federalBenefitLine(
   };
 }
 
+/** The days each line's rows were last swept at its base, so a payer's run sweeps once. */
+const sweptAtBase = new WeakMap<object, Map<string, string>>();
+
+/**
+ * At its base a federal line's bills reach nobody: every row a payer wrote
+ * on the line's key ends, including a recipient the payer no longer pays (one
+ * who died or moved), once a day at most; an index lookup, empty once ended.
+ */
+function endLineShares(api: CoreAPI, key: string): void {
+  let swept = sweptAtBase.get(api.state);
+  if (!swept) sweptAtBase.set(api.state, (swept = new Map()));
+  if (swept.get(key) === api.state.date) return;
+  swept.set(key, api.state.date);
+  for (const row of appliedOn(api, key))
+    if (row.engine === APPLIED_ENGINE)
+      lawNoLongerApplies(api, key, row.targetId);
+}
+
 /**
  * The part of a benefit a federal line's bill changed, on that bill's record
  * under the line's key: what the engine paid against what its own law alone
- * worked out. Nothing is recorded while no bill changed the line.
+ * worked out. Nothing is recorded while no bill changed the line, and once
+ * the line is back at its base the recipient's row ends (the bill no longer
+ * reaches them), as Social Security's own payer ends its rows.
  */
 export function recordLineShare(
   api: CoreAPI,
@@ -135,7 +155,11 @@ export function recordLineShare(
     readonly paidMinor: number;
   },
 ): void {
-  if (!line.lawId || line.level === 1) return;
+  if (line.level === 1) {
+    endLineShares(api, input.key);
+    return;
+  }
+  if (!line.lawId) return;
   recordApplied(api, {
     key: input.key,
     lawId: line.lawId,

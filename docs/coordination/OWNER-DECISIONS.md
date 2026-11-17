@@ -2,6 +2,21 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 17, 2026, morning: Desk answers (owner, verbatim; recorded by the CTO)
+
+- **Who hears a speech** (8:04 a.m.): "One by one: only the people you can see that day (household, family, people in focus, officials present). Everyone else hears it as part of their group, and each still keeps their own record when you meet them." Detail on demand: one record per group, and a person's own record is made when the player meets them.
+- **New mechanics from real lives, bank 3** (8:03 a.m.): "Build the basic versions after the road to the first election is done: impeachment and censure, certification, quorum, special election dates. Violence aimed at officeholders stays out for now."
+
+## Nov 16-17, 2026, night (owner, verbatim; recorded by the CTO)
+
+- **Everything comes from the simulation.** "No, again, real number of businesses. Everything comes from the simulation. Stop pegging things to real numbers. Everything comes from the simulation." Real data only sets the strength of a relationship. It never sets a count, rate, level, share, band or starting value. (cto-notes/playtest/2026-11-17-pins-to-lift.md lists the 489 pins being lifted.)
+- **History from 1925.** "Oh, 1925? Okay. I didn't know if I could be that ambitious, but sure. Absolutely." Each world's history is simulated from 1925. Day one is whatever that history produced: officeholders, party control and laws. "the 2024 result doesn't matter." Disasters come from each world's own risks, and "just like today" is an option. This replaces the Sept 28 and Oct 12 day-one rulings.
+- **Parties.** Parties come out of each world's history and can rise, fall, split, merge or rebrand; each carries its own founding, stances and notable people. "I don't mean it literally. Again, just conceptually."
+- **Appointments.** "No, you can only be appointed to council, like the playable offices." Boards exist in the background: "Other people can hold them and appoint them, but not the player." Keep them basic: "let it be on people's records."
+- **Every figure is traceable from dev mode.** "every figure should be traceable from dev mode to speed this up in the futute"
+- **The skills policy** ("Let's go ahead"): update an existing skill first; a new skill retires or merges an old one, under a cap of about 40; gotchas go in the job's skill; rules that must always hold become GitHub checks; unused skills are cut. Skills and docs merge straight to main, even in train mode.
+- **Scene patterns from real lives.** "That's exactly what I've been wanting when I've said use real lives." Roles and settings are slots: "You're a little too specific." The patterns are in docs/story/scene-patterns.*.
+
 ## Open
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).

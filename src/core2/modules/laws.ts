@@ -1375,7 +1375,7 @@ export {
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { policyAuthority, type PolicyLevel } from "../policy-authority";
 export { stateActEffectiveDate } from "../state-effective-date";
-export { policySeriesAtLevel } from "../policy-answers";
+export { labelOfAnotherAtLevel, policySeriesAtLevel } from "../policy-answers";
 export type { LawRowInput } from "../laws-starting";
 export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
 export { termReadPlaces } from "../term-read";

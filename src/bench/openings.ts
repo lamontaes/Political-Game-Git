@@ -2,6 +2,7 @@ import { organizationName } from "../director/words";
 import { coreAPI } from "../core2/state";
 import {
   JOBS_MODULE_ID,
+  applyForOpening,
   quitJob,
   type PositionRow,
 } from "../core2/modules/jobs";
@@ -36,6 +37,10 @@ export function openingsView(core: CoreState, personId: string) {
         })(),
         hourlyMinor: row.hourlyMinor,
         hoursDaily: core.jobs.get(row.templateJobId)?.hoursDaily ?? null,
+        applied: !!coreAPI(core)
+          .moduleState(JOBS_MODULE_ID)
+          .table("playerApplications")
+          .get(row.id),
       })),
   };
 }
@@ -46,4 +51,9 @@ export function openingsView(core: CoreState, personId: string) {
  */
 export function leaveJobAs(core: CoreState, personId: string) {
   return quitJob(coreAPI(core), personId);
+}
+
+/** The player applies for a listed opening by their own press; the jobs engine records it. */
+export function applyForOpeningAs(core: CoreState, positionId: string) {
+  return { applied: applyForOpening(coreAPI(core), positionId) };
 }
