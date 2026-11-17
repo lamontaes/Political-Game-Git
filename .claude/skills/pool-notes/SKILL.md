@@ -1,16 +1,14 @@
 ---
 name: pool-notes
 description: >
-  How pool-only changes for Our Civic Duty reach main: cause write-ups, new
-  items, status notes and relabels go as commits on the hour's own branch
-  (named for the date and the hour), with one pull request for the hour,
-  gated by Desk B and merged once an hour (owner, Nov 11), instead of one
-  pull request each. Also the
-  cap on new work while too many game pull requests are open. Use before you
-  commit any change that touches only `docs/pool/items`, when you are Desk B
-  or the CTO at the top of the hour, and before a builder takes a new item.
-  Not for a game pull request's own item (it stays in that pull request), and
-  not for rules, checks, skills or docs, which keep their own pull requests.
+  The pool's paperwork: adding or changing an item by hand (the file under
+  docs/pool/items, the Cause prefixes the standard allows, the release
+  declaration), and pool-only changes as commits on the hour's branch with one
+  pull request an hour (owner, Nov 11); also the cap on new work while too many
+  game pull requests are open. Use whenever you find something worth an item,
+  before writing an item's Cause, before committing a change that touches only
+  docs/pool/items, and before taking a new item. Not for rules, checks, skills
+  or docs.
 ---
 
 # Pool notes: one bundle an hour
@@ -86,3 +84,9 @@ A note is delivered when its commit is on the hour's branch and its line is on t
 ## A merger on any tool (Nov 11)
 
 A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with the pool check alone and merges it pinned to the head in the cut line. A bundle that touches a file outside `docs/pool/` and `docs/release/changes/` is sent back.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/file-a-pool-item.md`: whenever you add or change a pool item by hand.

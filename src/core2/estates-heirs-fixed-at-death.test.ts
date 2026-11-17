@@ -111,9 +111,12 @@ describe("estate heirs are fixed at death", () => {
   });
 
   describe("a will is read on the day of death", () => {
+    // A decedent who made a will: years of their living cost saved, and
+    // family to leave it to (estates.ts willReasons).
     const old = (relations: Record<string, string>) => ({
       ...person("dead", 30_000, relations),
       birthDate: "1925-01-01",
+      livingCostDailyMinor: 10,
     });
 
     it("passes a beneficiary who dies during probate's share to that beneficiary's own child", () => {
