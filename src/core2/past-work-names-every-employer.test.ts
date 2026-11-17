@@ -25,10 +25,7 @@ describe(`Past jobs name their employers (seed ${seed})`, () => {
       setBookkeeping(false);
       const seen: string[] = [];
       for (let at = 0; at < 3; at += 1) {
-        const drawn = drawPlace(
-          at ? `${seed}:${at}` : seed,
-          "past-work-employer",
-        );
+        const drawn = drawPlace(at ? `${seed}:${at}` : seed, "card-life");
         const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}`;
         const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
           twoLevel: true,
