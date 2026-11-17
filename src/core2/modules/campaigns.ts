@@ -39,6 +39,7 @@ import {
   termOfLean,
 } from "../trait-decisions";
 import { campaignDayOpen, takeCampaignDayChoice } from "../campaign-day";
+export { campaignDayChoices, takeCampaignDayChoice } from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
