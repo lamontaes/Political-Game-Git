@@ -5555,9 +5555,6 @@ const sheets = {
                 },
               ]),
             ),
-            ...(race.announced
-              ? [prose(labels.announcedNote, "record-empty")]
-              : []),
             ...(tray.length ? [buttonTray(...tray)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
