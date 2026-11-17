@@ -4,7 +4,7 @@ A political and government RPG with a full life simulation underneath. Every age
 
 ## Where the game is going (owner, Oct 10, 2026)
 
-- **The new core (`src/core2`) is the engine.** Build onto it through modules and data rows. Never start a parallel engine, writer, scheduler or system. **One engine per mechanic (owner, Oct 27): there is one election engine, one body engine, one executive engine, one budget engine, one scene engine, one screen renderer per menu type; the level, office, body, place and law are data rows the one engine reads. A second engine or a per-level code path is a duplicate to delete. The simulation is the one layer that knows anything; every screen, scene, journal entry, news story and speech is a view of the same records (owner, Oct 28: "It's just different ways of displaying the same information... That's how literally every single game works"). A view that computes or stores its own version of a fact is a duplicate.** The old core (`src/simulation`) was deleted on Oct 28 (#6659); the `old-imports` guard refuses any attempt to bring it or its folder back.
+- **The new core (`src/core2`) is the engine.** Build onto it through modules and data rows. Never start a parallel engine, writer, scheduler or system. **One engine per mechanic (owner, Oct 27): there is one election engine, one body engine, one executive engine, one budget engine, one scene engine, one screen renderer per menu type; the level, office, body, place and law are data rows the one engine reads. A second engine or a per-level code path is a duplicate to delete. The simulation is the one layer that knows anything; every screen, scene, journal entry, news story and speech is a view of the same records (owner, Oct 28: "It's just different ways of displaying the same information... That's how literally every single game works"). A view that computes or stores its own version of a fact is a duplicate.** The old core, `src/simulation` (removed), was deleted on Oct 28 (#6659); the `old-imports` guard refuses any attempt to bring it or its folder back.
 - **Progress is the golden path with the world running.** The player's path: start as an adult, 18 unless the player picks another age (owner, Nov 16) → meet people → file for office where that place files (clerk, registrar or board of elections, from its records) → campaign → win or lose → propose an ordinance → negotiate → pass or fail → the town visibly changes → people bring it up → the next election uses the record. Around it the whole time: the national economy, state and federal governments acting through the same engines as local government, and other places at a coarser level. Report the furthest step a player reaches, never an audit percentage.
 - **The Political Process is the baseline (owner, Oct 12).** The game does everything _The Political Process_ (Verlumino Studios) does, then goes deeper from the owner's decisions and the design record. `docs/roadmap/political-process-baseline.md` maps each of its systems to our specs.
 - **Early access:** local and state offices playable (council, mayor, county, state legislature, governor), including the executive role. Federal is built in parallel on the same engines; playing as president is a goal that early access doesn't wait for. Courts come after early access.
@@ -117,9 +117,11 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `ask-why`: every proof answers why, by record
 - `asset-scene-admission`: admitting art into the game
 - `cadence-and-summaries`: nothing runs or is kept every day by default; the daily register and its guard
+- `century-history`: the century before day one from 1925: adding an office or body, the one count path, the carry, the "today" setting and its checks
 - `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
+- `crew-coordinator`: running a builder crew from a crew line: lanes, the watcher, relays, reading checks, the hourly merge list
 - `crew-messages`: how sessions message each other, and processes as skills
 - `cto`: the CTO role
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
@@ -155,6 +157,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `press-desk-reach`: which stories a town's outlets print, how a record's reach is weighed by its readers, and proving a desk change by story kind
 - `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
+- `relationship-checks`: turning a check that fails a world for leaving a real band into a check that a relationship has its real strength
 - `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
