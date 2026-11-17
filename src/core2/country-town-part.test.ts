@@ -130,7 +130,10 @@ it("counts the town inside its state once, and its state's jobs follow the town'
     ).toEqual([]);
     // Dev mode's trace on the state's record shows the part and the rest, and they add to the state.
     const node = traceNode(open, undefined, `country-state:${key}`);
-    for (const title of ["People", "Jobs"] as const) {
+    // The jobs panel counts the jobs the state's residents hold (the part's
+    // from each resident's employer, townPartCounts in modules/macro.ts), so
+    // its title is "Residents with jobs in ..." (CTO, #9747, Nov 17).
+    for (const title of ["People", "Residents with jobs"] as const) {
       const panel = node.why.find(
         (row) =>
           row.title.startsWith(`${title} in `) &&
