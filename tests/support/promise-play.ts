@@ -360,14 +360,47 @@ export function playPayOnTime(
   // at a time) until every promise made has had its whole window.
   const first = core.date;
   let staged_ = 0;
+  // The lender's talk is read the day a promise breaks: the engine keeps the
+  // "why" of a person outside the player's circle a week (log-retention.json,
+  // circleDecisionDetailDays), so the missed payment is read while it is kept.
+  const said = new Map<string, string>();
+  const readTalk = (one: Staged) => {
+    const row = rowOf(one)!;
+    const ender = (missedBy.get(one.borrowerId) ?? []).find(
+      (event) => event.id === row.endedBy,
+    );
+    const subject = promiseSubject(core, director, one.owedId, one.borrowerId);
+    check(
+      Boolean(subject),
+      `${where}: ${row.id} gives the lender nothing to say the day it breaks (ended by ${row.endedBy}, in the log ${Boolean(core.durableLog.get(row.endedBy ?? ""))}, its loan ${ender?.facts?.loanKind})`,
+    );
+    const offered = promiseAnswers(core, subject!, one.borrowerId);
+    check(
+      offered.slice(0, 3).join() === "own-it,explain,deny",
+      `${where}: offered ${offered.join(",")}`,
+    );
+    check(
+      offered.includes("make-it-right") ===
+        kindOf(subject!.promiseKind).renewable,
+      `${where}: make-it-right offered ${offered.includes("make-it-right")}`,
+    );
+    check(paymentNamed(core, row), `${where}: ${row.id} names no payment`);
+    said.set(
+      row.id,
+      `${one.owedId} brings it up with ${offered.join(", ")} offered, the payment named from the ${ender?.facts?.loanKind} loan ${ender?.facts?.loanId}`,
+    );
+  };
   for (;;) {
     while (staged_ < quarrels.length) stage(quarrels[staged_++]!);
+    for (const one of staged)
+      if (rowOf(one)!.outcome === "broken" && !said.has(rowOf(one)!.id))
+        readTalk(one);
     const last = staged.reduce(
       (day, one) => (rowOf(one)!.dueOn > day ? rowOf(one)!.dueOn : day),
       first,
     );
     if (core.date > last) break;
-    play(core, playerId, 7);
+    play(core, playerId, 3);
   }
   // Each promise ends as the rule says: broken by the holder's first missed
   // payment inside its window, kept when none fell in it.
@@ -410,30 +443,8 @@ export function playPayOnTime(
   if (!broken.length) return { passed };
   const one = broken[0]!;
   const row = rowOf(one)!;
-  const ender = (missedBy.get(one.borrowerId) ?? []).find(
-    (event) => event.id === row.endedBy,
-  );
-  // The one owed has something to say about it, the payment it was over is
-  // named from the missed payment's loan, and the answers the borrower is
-  // offered follow the kind (the talk itself is the player's scene, where the
-  // borrower is the player: see the pool item for the player's borrowing).
-  const subject = promiseSubject(core, director, one.owedId, one.borrowerId);
-  check(
-    Boolean(subject),
-    `${where}: ${row.id} gives the lender nothing to say (outcome ${row.outcome}, saidAt ${row.saidAt}, held by ${row.holderId} owed to ${row.otherId}, ended by ${row.endedBy} in the log ${Boolean(core.durableLog.get(row.endedBy ?? ""))}, its loan ${core.durableLog.get(row.endedBy ?? "")?.facts?.loanKind ?? ender?.facts?.loanKind}, asked as ${one.owedId} to ${one.borrowerId}; followed ${(core.focusPersonIds as unknown as Set<string>).has(one.borrowerId)}; the borrower's misses ${(missedBy.get(one.borrowerId) ?? []).map((event) => `${event.date} ${event.id.slice(-10)} kept ${core.durableLog.has(event.id)}`).join(", ")})`,
-  );
-  const offered = promiseAnswers(core, subject!, one.borrowerId);
-  check(
-    offered.slice(0, 3).join() === "own-it,explain,deny",
-    `${where}: offered ${offered.join(",")}`,
-  );
-  check(
-    offered.includes("make-it-right") === kindOf(subject!.promiseKind).renewable,
-    `${where}: make-it-right offered ${offered.includes("make-it-right")}`,
-  );
-  check(paymentNamed(core, row), `${where}: ${row.id} names no payment`);
   return {
     passed,
-    played: `${where}: ${row.id} is brought up by ${one.owedId} with ${offered.join(", ")} offered\n    the missed payment's loan ${ender?.facts?.loanKind} ${ender?.facts?.loanId} (${ender?.id})\n    the promise's own move: ${(moves.get(row.id) ?? []).join("; ") || "(none)"}\n    quarrel ${one.quarrel.id} over the earlier missed payment ${String(one.quarrel.facts?.missedId)}\n    ${row.id} owed to ${one.owedId}, ${row.outcome} by ${row.endedBy} on ${row.endedAt} at a cost of ${row.tieCost?.toFixed(4)} hours`,
+    played: `${where}: ${said.get(row.id)}\n    the promise's own move: ${(moves.get(row.id) ?? []).join("; ") || "(none)"}\n    quarrel ${one.quarrel.id} over the earlier missed payment ${String(one.quarrel.facts?.missedId)}\n    ${row.id} owed to ${one.owedId}, ${row.outcome} by ${row.endedBy} on ${row.endedAt} at a cost of ${row.tieCost?.toFixed(4)} hours`,
   };
 }
