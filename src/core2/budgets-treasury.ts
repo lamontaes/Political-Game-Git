@@ -1044,6 +1044,8 @@ export interface CountryWithholding {
   readonly month: number;
   readonly federalIncome: number;
   readonly federalPayroll: number;
+  /** The mean month of the federal income tax the tier withheld over its last twelve months (the year a re-budgeted plan was set from). */
+  readonly yearMeanFederalIncome: number;
 }
 /**
  * What the country tier's states withheld in the last month each stepped, read from the macro
@@ -1056,6 +1058,7 @@ function countryWithholdingOf(api: CoreAPI): CountryWithholding | undefined {
   let month = 0;
   let federalIncome = 0;
   let federalPayroll = 0;
+  const incomeByMonth = new Map<number, number>();
   for (const row of api.moduleState("macro").table("countryStates").rows()) {
     const moved = (
       row as unknown as {
@@ -1068,13 +1071,29 @@ function countryWithholdingOf(api: CoreAPI): CountryWithholding | undefined {
     const last = moved[moved.length - 1];
     if (!last) continue;
     month = Math.max(month, last.month);
+    for (const step of moved)
+      for (const line of step.withheld)
+        if (line.level === "federal" && line.tax === "income")
+          incomeByMonth.set(
+            step.month,
+            (incomeByMonth.get(step.month) ?? 0) + line.dollars,
+          );
     for (const line of last.withheld) {
       if (line.level !== "federal") continue;
       if (line.tax === "income") federalIncome += line.dollars;
       else federalPayroll += line.dollars;
     }
   }
-  return month > 0 ? { month, federalIncome, federalPayroll } : undefined;
+  const lastYear = [...incomeByMonth.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .slice(-treasuryParameter("monthsPerYear"))
+    .map(([, dollars]) => dollars);
+  const yearMeanFederalIncome = lastYear.length
+    ? lastYear.reduce((a, v) => a + v, 0) / lastYear.length
+    : 0;
+  return month > 0
+    ? { month, federalIncome, federalPayroll, yearMeanFederalIncome }
+    : undefined;
 }
 
 /**
@@ -1141,21 +1160,33 @@ function standingDue(api: CoreAPI, account: string, date: string): number {
     );
 }
 
+/** The law series that sets the statutory debt limit, in dollars of total public debt. */
+export const DEBT_LIMIT = "debt-limit";
+
 /**
  * The statutory debt limit in this world's debt held by the public: the
  * public-held debt at the last record plus the room the limit leaves over the
- * total debt then (P.L. 119-21 sec. 72001: $41.1 trillion), moved by the same
- * factor that sized this world's opening debt.
+ * total debt then, moved by the same factor that sized this world's opening
+ * debt. The limit is the one Congress has in force (`DEBT_LIMIT`); before any
+ * act sets it, the opening one (P.L. 119-21 sec. 72001: $41.1 trillion).
+ * stopgapId: SG-LAWS-debt-limit-opening-statute
  */
-function debtLimitMinor(holders: readonly DebtRow[]): number {
+function debtLimitMinor(api: CoreAPI, holders: readonly DebtRow[]): number {
   const budget = federalBudget as unknown as {
     debtHeldByPublic: Record<string, number>;
     totalPublicDebt: Record<string, number>;
     debtLimit: number;
   };
+  const enacted = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, DEBT_LIMIT).levels.find(
+        (l) => l.level === "federal" && typeof l.row?.value === "number",
+      )?.row
+    : undefined;
+  if (!enacted) api.stopgap("SG-LAWS-debt-limit-opening-statute");
+  const limit = enacted?.value ?? budget.debtLimit;
   const held = budget.debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
   const lastDate = Object.keys(budget.totalPublicDebt).sort().pop()!;
-  const room = budget.debtLimit - budget.totalPublicDebt[lastDate]!;
+  const room = limit - budget.totalPublicDebt[lastDate]!;
   const opening = holders.reduce(
     (n, h) => n + balanceOf(h) - borrowedOf(h) + h.repaidMinor,
     0,
@@ -1168,7 +1199,7 @@ function debtLimitMinor(holders: readonly DebtRow[]): number {
 
 /** The statutory debt limit in this world's public-held debt, in minor units, for tests and screens. */
 export function federalDebtLimit(api: CoreAPI): number {
-  return debtLimitMinor(federalDebtOf(api));
+  return debtLimitMinor(api, federalDebtOf(api));
 }
 
 const PAY_FOR_DEBT_LIMIT =
@@ -1202,7 +1233,7 @@ function borrowFederal(
     const owed = holders.reduce((n, h) => n + balanceOf(h), 0);
     amountMinor = Math.max(
       0,
-      Math.min(wantedMinor, debtLimitMinor(holders) - owed),
+      Math.min(wantedMinor, debtLimitMinor(api, holders) - owed),
     );
     // The law reached the U.S. Treasury: its borrowing is held to the room under the limit.
     if (limitLaw.governing)
@@ -1276,16 +1307,41 @@ export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
  * every government's base until the states' own bases are read from the
  * regional rows.)
  */
-/** The day the plan was calibrated: the start of the government's first budget, which every later plan repeats. */
-function firstBudgetStart(
-  api: CoreAPI,
-  governmentId: string,
-  fallback: string,
-): string {
-  let first = fallback;
-  for (const row of budgetsOf(api, governmentId))
-    if (row.startsOn < first) first = row.startsOn;
-  return first;
+/**
+ * What the world's own people, prices, debt and borrowing cost stand at in the last completed month: the drivers a
+ * federal budget's lines move with from one year to the next (people the household lines reach, prices every
+ * purchase is made at, the debt and its yield for interest). A budget row keeps the drivers it was written with, so
+ * next year's budget reads the ratio, never a published level. None when the world keeps no macro record yet.
+ */
+export interface BudgetDrivers {
+  readonly people: number;
+  readonly prices: number;
+  readonly debt: number;
+  readonly yield: number;
+}
+export function budgetDrivers(api: CoreAPI): BudgetDrivers | undefined {
+  if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  const debt = federalDebtOf(api).reduce((n, h) => n + balanceOf(h), 0);
+  const macro = api.moduleState("macro");
+  const months = macro.table("months").rows() as unknown as {
+    month: string;
+    priceIndex: number;
+    treasury10Pct: number;
+  }[];
+  let last: (typeof months)[number] | undefined;
+  for (const m of months) if (!last || m.month > last.month) last = m;
+  let people = 0;
+  for (const row of macro.table("countryStates").rows())
+    for (const cell of (row as unknown as { cells: { people: number }[] })
+      .cells ?? [])
+      people += cell.people;
+  if (people <= 0 || !last || debt <= 0) return undefined;
+  return {
+    people,
+    prices: last.priceIndex,
+    debt,
+    yield: Math.max(0.01, last.treasury10Pct),
+  };
 }
 
 export function taxBaseIndex(
@@ -1344,18 +1400,25 @@ function tierBaseOf(
   api: CoreAPI,
   gov: GovernmentRow,
   tier: CountryWithholding,
+  budget: BudgetRow,
 ): number | undefined {
-  const id = `${gov.id}:individualIncomeTax`;
+  // Each budget's plan has its own base: the opening plan is the tax in the month it was first read; a plan
+  // re-budgeted from a year's collections is that year's mean month, so growth is counted once, not again each year.
+  const id = `${gov.id}:individualIncomeTax:${budget.id}`;
   const kept = table(api, "tierBases").get(id) as unknown as
     { dollars: number } | undefined;
   if (kept) return kept.dollars > 0 ? kept.dollars : undefined;
-  if (tier.federalIncome <= 0) return undefined;
+  const rebudgeted =
+    budget.revenuePlanMonth !== undefined &&
+    budget.revenuePlanMonth !== budget.startsOn.slice(0, 7);
+  const dollars = rebudgeted ? tier.yearMeanFederalIncome : tier.federalIncome;
+  if (dollars <= 0) return undefined;
   table(api, "tierBases").put({
     id,
-    dollars: tier.federalIncome,
+    dollars,
     month: tier.month,
   } as unknown as ModuleRow);
-  return tier.federalIncome;
+  return dollars;
 }
 
 /**
@@ -1452,7 +1515,9 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   if (tier)
     for (const gov of govs) {
       if (gov.level !== "federal") continue;
-      const base = tierBaseOf(api, gov, tier);
+      const federal = budgets.get(gov.id);
+      if (!federal) continue;
+      const base = tierBaseOf(api, gov, tier, federal);
       if (base !== undefined) tierBase.set(gov.id, base);
     }
   for (const gov of govs) {
@@ -1514,7 +1579,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       // The plan's installment moved by the economy's tax base since the budget year began.
       const baseIndex = taxBaseIndex(
         api,
-        firstBudgetStart(api, gov.id, budget.startsOn),
+        budget.revenuePlanMonth ?? budget.startsOn.slice(0, 7),
         lastMonth,
       );
       const installment = Math.round(

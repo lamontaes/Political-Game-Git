@@ -708,6 +708,7 @@ function drawWorld(attempt: number) {
     build: () =>
       buildBenchWorld(drawn.seed, gameStartDate(), {
         twoLevel: true,
+        settings: { history: "today" },
         placeKey: drawn.key,
       }).core,
   };
@@ -721,7 +722,7 @@ const log = (line: string) =>
   process.stderr.write(`LOG medical-debt ${line}\n`);
 
 describe("medical bills and medical debt in a played world", () => {
-  it("the expansion's medical-debt link is researched and runs from the law", () => {
+  it("the expansion's medical-debt link is researched and runs from the law (just like today: needs the state's real medical-debt and Medicaid laws)", () => {
     const row = WEB_LINKS.find((link) => link.key === TWIN_LINK)!;
     expect(row.from).toBe(`law:${EXPAND}`);
     expect(row.to).toBe("finance.medical-debt-in-collections");
@@ -729,7 +730,7 @@ describe("medical bills and medical debt in a played world", () => {
   });
 
   it(
-    `(a) a household with a serious illness under way pays more for its month than a healthy one (MEDICAL_DEBT_SEED=${SEED})`,
+    `(a) a household with a serious illness under way pays more for its month than a healthy one (MEDICAL_DEBT_SEED=${SEED}) (just like today: needs the state's real medical-debt and Medicaid laws)`,
     { timeout: 7_200_000 },
     () =>
       traced(() => {
@@ -824,7 +825,7 @@ describe("medical bills and medical debt in a played world", () => {
   );
 
   it(
-    `(b) the expansion shrinks a low-income household's medical debt (MEDICAL_DEBT_SEED=${SEED})`,
+    `(b) the expansion shrinks a low-income household's medical debt (MEDICAL_DEBT_SEED=${SEED}) (just like today: needs the state's real medical-debt and Medicaid laws)`,
     { timeout: 3_600_000 },
     () =>
       traced(() => {
