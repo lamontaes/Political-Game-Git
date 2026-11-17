@@ -726,15 +726,17 @@ function keepProbateOpen(
   deathEventId: string,
   plan: Plan,
 ): void {
-  api
-    .moduleState(ESTATES_MODULE_ID)
-    .table("probate")
-    .put({
-      id: personId,
-      share: plan.share,
-      ...(plan.baseMinor === undefined ? {} : { baseMinor: plan.baseMinor }),
-      ...(plan.carry === undefined ? {} : { carry: plan.carry }),
-    } as unknown as ModuleRow);
+  // The heirs, the will and its reasons stay as they stood on the day of
+  // death: a probate held open for a house never reads them again later,
+  // when the estate has grown (World, #9747 07:13Z).
+  const table = api.moduleState(ESTATES_MODULE_ID).table("probate");
+  table.put({
+    ...(table.get(personId) ?? {}),
+    id: personId,
+    share: plan.share,
+    ...(plan.baseMinor === undefined ? {} : { baseMinor: plan.baseMinor }),
+    ...(plan.carry === undefined ? {} : { carry: plan.carry }),
+  } as unknown as ModuleRow);
   const month = Math.round(
     api.parameter("daysPerMeanYear") / api.parameter("macroMonthsPerYear"),
   );
