@@ -420,7 +420,7 @@ export function playPayOnTime(
   const subject = promiseSubject(core, director, one.owedId, one.borrowerId);
   check(
     Boolean(subject),
-    `${where}: ${row.id} gives the lender nothing to say (outcome ${row.outcome}, saidAt ${row.saidAt}, held by ${row.holderId} owed to ${row.otherId}, ended by ${row.endedBy} in the log ${Boolean(core.durableLog.get(row.endedBy ?? ""))}, its loan ${core.durableLog.get(row.endedBy ?? "")?.facts?.loanKind ?? ender?.facts?.loanKind}, asked as ${one.owedId} to ${one.borrowerId})`,
+    `${where}: ${row.id} gives the lender nothing to say (outcome ${row.outcome}, saidAt ${row.saidAt}, held by ${row.holderId} owed to ${row.otherId}, ended by ${row.endedBy} in the log ${Boolean(core.durableLog.get(row.endedBy ?? ""))}, its loan ${core.durableLog.get(row.endedBy ?? "")?.facts?.loanKind ?? ender?.facts?.loanKind}, asked as ${one.owedId} to ${one.borrowerId}; followed ${(core.focusPersonIds as unknown as Set<string>).has(one.borrowerId)}; the borrower's misses ${(missedBy.get(one.borrowerId) ?? []).map((event) => `${event.date} ${event.id.slice(-10)} kept ${core.durableLog.has(event.id)}`).join(", ")})`,
   );
   const offered = promiseAnswers(core, subject!, one.borrowerId);
   check(
