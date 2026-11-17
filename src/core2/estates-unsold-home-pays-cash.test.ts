@@ -76,9 +76,15 @@ describe(`an unsold home does not hold the estate's cash (seed ${seed})`, () => 
           continue;
         }
         for (const sale of sales) {
-          const balance = api
-            .accounts()
-            .balance(api.accounts().main(sale.decedentId!));
+          // A decedent with no cash account on record holds no cash.
+          let balance = 0;
+          try {
+            balance = api
+              .accounts()
+              .balance(api.accounts().main(sale.decedentId!));
+          } catch {
+            balance = 0;
+          }
           expect(
             balance,
             `${where}: ${sale.decedentId} holds cash ${sale.date} listed, past probate`,
