@@ -75,9 +75,31 @@ it("pays each counted worker who retired their own claim, once, and no place-ave
       where,
     ).toEqual([]);
     const claims = retirementClaims(core!);
+    // A retiree whose household left the counts in the year (it moved away or
+    // its last member died) has no live claim flow: the engine ends a
+    // household's awards with it (`endHouseholdFlows`, reason
+    // `household-left`). Those are passed over by name with the day each
+    // ended; any other ended flow, or one ended while the household is still
+    // counted, fails below.
+    const rt = residentsRuntime(core!)!;
+    const liveCounted = new Set<string>();
+    for (const h of rt.store.liveHouseholds())
+      for (const m of rt.store.countedMembers(h))
+        liveCounted.add(rt.store.ids[m]!);
+    const passedOver: string[] = [];
+    let checked = 0;
     // The retirement claimed on the day; each award is the claim flow, once.
     for (const row of retired) {
       const claim = claims.get(row.personId)!;
+      const ended = flows.find((f) => f.id === claim.obligationId && f.endedAt);
+      if (
+        ended?.endedReason === "household-left" &&
+        !liveCounted.has(row.personId)
+      ) {
+        passedOver.push(`${row.personId} (household left ${ended.endedAt})`);
+        continue;
+      }
+      checked += 1;
       expect(claim.counted, `${where}: ${row.id} claim is counted`).toBe(true);
       if (claim.obligationId !== `retirement-claim:${row.personId}`)
         console.log(
@@ -96,6 +118,13 @@ it("pays each counted worker who retired their own claim, once, and no place-ave
         0,
       );
     }
+    expect(
+      checked,
+      `${where}: a retiree still in the counts was checked in full (passed over: ${passedOver.join("; ") || "none"})`,
+    ).toBeGreaterThan(0);
+    console.log(
+      `jobs-counted-retire-claim: ${checked} checked in full; passed over: ${passedOver.join("; ") || "none"}`,
+    );
   } finally {
     setBookkeeping(true);
   }
