@@ -63,3 +63,7 @@ Done when every row has its `.done` file with an exit code and seconds, its resu
 ## A gate script dies with its worker (Nov 15, F1)
 
 A background gate script dies if the worker restarts: check its log for `ALLDONE` and rerun what is missing, and keep temporary probe tests out of the tree while a gate is running.
+
+## A 20-year proof names the place the red names (Nov 17, Long game)
+
+A fix is proven at the place and world seed of the red it answers, not at another place. On Nov 17 a passing 20 years at one place (Ranger, Georgia) was read as the nightly's fix, and the nightly's own place (East Altoona, Pennsylvania) still crashed in year 12 on a different error. Run the replay at the failing place and seed, with the command `npm run long-game -- --place <key> --world-seed <seed> --years <N>` from the red's `FAILED` line, and say in the pull request what the change alone does there. When GitHub's runners queue a Twenty year run for an hour or are swept and canceled, the same command runs on an idle cloud container in about 40 minutes for 14 years (one heavy run, nothing beside it); put its exit code in a file and say in the report that the seconds are that machine's, not a speed-bar measurement.
