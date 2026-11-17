@@ -10598,7 +10598,7 @@
       "key": "journal.memoir-work-pay-up.the-pay-was-better-than-the-last-place",
       "move": "memoir-work-pay-up",
       "kind": "spoken",
-      "text": "The pay was better than the last place.",
+      "text": "The pay went up, from {wage_from} to {wage_to}.",
       "uses": [
         {
           "move": "memoir-work-pay-up",
@@ -10625,7 +10625,7 @@
       "key": "journal.memoir-work-pay-up.it-paid-better-than-i-was-used-to",
       "move": "memoir-work-pay-up",
       "kind": "spoken",
-      "text": "It paid better than I was used to.",
+      "text": "It paid {wage_to}, up from {wage_from}.",
       "uses": [
         {
           "move": "memoir-work-pay-up",
@@ -10652,7 +10652,7 @@
       "key": "journal.memoir-work-pay-down.the-pay-was-a-step-down-but-it-was-work",
       "move": "memoir-work-pay-down",
       "kind": "spoken",
-      "text": "The pay was a step down, but it was work.",
+      "text": "A step down, {wage_to} after {wage_from}, but work.",
       "uses": [
         {
           "move": "memoir-work-pay-down",
@@ -10679,7 +10679,7 @@
       "key": "journal.memoir-work-pay-down.the-pay-never-caught-up-with-the-rent",
       "move": "memoir-work-pay-down",
       "kind": "spoken",
-      "text": "The pay never caught up with the rent.",
+      "text": "The pay fell to {wage_to} and never caught the rent.",
       "uses": [
         {
           "move": "memoir-work-pay-down",
@@ -10810,7 +10810,7 @@
       "key": "journal.health-line-hospital.i-spent-some-time-in-the-hospital",
       "move": "health-line-hospital",
       "kind": "spoken",
-      "text": "I spent some time in the hospital.",
+      "text": "At {age_then} I spent some time in the hospital.",
       "uses": [
         {
           "move": "health-line-hospital",
@@ -10837,7 +10837,7 @@
       "key": "journal.health-line-hospital.i-was-in-the-hospital-for-a-stretch",
       "move": "health-line-hospital",
       "kind": "spoken",
-      "text": "I was in the hospital for a stretch.",
+      "text": "I was in the hospital for a stretch at {age_then}.",
       "uses": [
         {
           "move": "health-line-hospital",
@@ -10864,7 +10864,7 @@
       "key": "journal.home-line-moved.i-moved-here-that-year",
       "move": "home-line-moved",
       "kind": "spoken",
-      "text": "I moved here that year.",
+      "text": "I moved here at {age_then}.",
       "uses": [
         {
           "move": "home-line-moved",
