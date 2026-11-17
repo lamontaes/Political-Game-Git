@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-mark-wide-races
-pr:
+pr: #9781
 after:
 blocked-on:
 root: none
