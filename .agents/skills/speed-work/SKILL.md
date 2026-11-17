@@ -2,11 +2,14 @@
 name: speed-work
 description: >
   Times a country's year with npm run speed:year, proves a faster path changes
-  nothing with dev mode's records proof, finds exact cuts in an election
-  year's CPU profile, folds tables that grow with history, and runs long
-  saves. Use for any core-speed-* or core-long-run-* item, any PR that says a
-  year runs faster, and any change that drops or summarizes old records. Not
-  for screen or browser speed or the release machinery's timings.
+  nothing with dev mode's records proof, finds exact cuts in an election year's
+  CPU profile, folds tables that grow with history, runs long saves and long
+  memory-heavy jobs so they survive memory and restarts, and picks how often a
+  step runs and how long a table is kept (never daily by default). Use for any
+  core-speed-* or core-long-run-* item, any PR that says a year runs faster, any
+  change that drops or summarizes old records, any long run, and before making a
+  step daily. Not for screen or browser speed or the release machinery's
+  timings.
 ---
 
 # Speed work
@@ -17,7 +20,7 @@ description: >
 
 ## Time it
 
-- **Read `cadence-and-summaries` first** (owner, Nov 10): every speed cut moves a daily step to its real cadence or folds a table, and changes its line in `docs/design/daily-register.md` in the same pull request; the register's unapproved entries are the list of cuts.
+- **Read `speed-work` (cadence-and-summaries part) first** (owner, Nov 10): every speed cut moves a daily step to its real cadence or folds a table, and changes its line in `docs/design/daily-register.md` in the same pull request; the register's unapproved entries are the list of cuts.
 - Every run: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed <seed> --proof-out <file>`. It runs four years by default, so every check includes an election year. A one-year check measured only 2025, an off year: in a Ringgold, Louisiana save 2025 took 52 s and 2028 took 155 s.
 - Profile an election year (year 4, 2028), not year 1. `--cpu-prof` makes a year about 1.35 times slower; convert profile seconds before you quote them.
 - A cloud container has 4 cores and about 15 GB. Two heavy runs at once is the limit; a third, or a long save beside them, gets killed for memory near 4 GB each (Oct 30).
@@ -107,9 +110,17 @@ The loading bar can only move between steps the server yields, so a long block h
 
 A change to anything that runs without the player watching (monthly engines, skipped time, counted groups) carries two tables in the PR body: year 1 of `npm run speed:year`, and time per record, each at three drawn places, with and without the change. Container noise is 10 to 20 percent, so one process at a time and say the machine. A change that makes a year more than 20 percent slower than its base fails the bar even if each table looks small.
 
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 02:09Z (#9784): a per-day cost that grows with a bigger set is a hot spot even when the counts are right. Cause: work repeated every day on data that rarely changes. Do it once, or only on change, and post the before and after at the CI guard's place and seed.
+
 ## More in this folder
 
 Read each file here when its moment comes:
 
 - `references/cases.md`: when a year is slow and the cause is not in this page, when you time a change of a few files, or when a test's wait or a golden-path row is slow.
 - `references/memory.md`: before you fold or drop a table for memory, and when a long run runs out of memory.
+- `references/heavy-runs.md`: before a long, memory-heavy run in a cloud container.
+- `references/cadence-and-summaries.md`: before you make an engine step daily or keep a growing table.

@@ -2,12 +2,12 @@
 name: crew-coordinator
 description: >
   How one session runs a builder crew for Our Civic Duty from a work list on a
-  crew issue: opening one session per lane and a watcher, the loop of light and
-  full checks, relaying lines between lanes, reading the checks on every pull
-  request posted ready, sending reds back, keeping lanes from stopping, and the
-  hourly status with one merge list for the CTO. Use when started as a
-  coordinator or told to run lanes from a crew line. Not for merging (merger,
-  merge-trains), ruling (cto) or leading one matrix (lead-session); a
+  crew issue: one session per lane and a watcher, the loop of light and full
+  checks, relaying lines between lanes, reading the checks on every pull request
+  posted ready, sending reds back, keeping lanes from stopping, and the hourly
+  status with one merge list for the CTO; also a lead session that owns one
+  family's matrix. Use when started as a coordinator or a lead, or told to run
+  lanes from a crew line. Not for merging (merger) or ruling (cto); a
   coordinator never merges, rules or writes player lines.
 ---
 
@@ -55,3 +55,9 @@ One comment on the crew line, starting "Coordinator:". In order: what is ready w
 ## Before the account runs out
 
 Tell every lane to push its work and post what is left, then post the coordinator's own last status with every open pull request, its head and its state.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/lead-session.md`: when started with a lead prompt or a work order under docs/work-orders/.

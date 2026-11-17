@@ -1,11 +1,14 @@
 ---
 name: merger
 description: >
-  Merges and validates pull requests: changed-file checks on the merged result
-  in its own environment, the morning check, head-pinned merges in a share
-  split with other mergers, send-backs that reopen pool items, stale GitHub
-  runs cleared. Use when a session is asked to merge or validate PRs. Not for
-  trains (merge-trains) or the gate before a train (train-gate).
+  Gates and merges pull requests, the one skill for that job: the gate a pull
+  request passes before it is named for the train or merged (the author's fast
+  checks, the checker's gate on the merged result), head-pinned merges, folding
+  green pull requests into the train and the train into main, auditing merged
+  pull requests, finishing sent-back ones, and merging main when the conflict is
+  in a generated or id-keyed file. Use when gating, checking, fixing, folding or
+  merging any pull request, and when auditing merges. Not for a red on main
+  (red-main) or the second session's check (seen-in-game).
 ---
 
 # Merger
@@ -95,7 +98,7 @@ When several pull requests are stacked and the desk gated them together on one t
    - Merge main once, right before you run the checks; if main moves while you check, merge again and rerun only the checks whose files moved. A push to main rejected as non-fast-forward is normal with many mergers: fetch, rebase your merge commit, push again; never force.
    - A conflict in code goes back to the author: one comment naming the files, and the pool item back to open (step 2.7).
    - Push the merge commit with a plain push.
-4. **Changed-file checks, on the merged result, in your own environment.** When the PR carries a `Checker <k>: gate passed on head <sha>` comment and the current head is that sha, or every later commit is a merge of main that touched none of the PR's files, the gate is done: do not rerun it; run only the PR's own new or changed tests once and go to the morning check (owner, Oct 29: checkers do the prep work for the mergers; `checker`). When the newest `Checker` comment is a send-back, the PR waits for that checker's pass on the new head, even if the author pushed a fix since (Oct 29: #6792 merged on a fix the checker had not rerun, and its new test failed by draw on main). Otherwise run these whether or not the body has a gate line:
+4. **Changed-file checks, on the merged result, in your own environment.** When the PR carries a `Checker <k>: gate passed on head <sha>` comment and the current head is that sha, or every later commit is a merge of main that touched none of the PR's files, the gate is done: do not rerun it; run only the PR's own new or changed tests once and go to the morning check (owner, Oct 29: checkers do the prep work for the mergers; `merger` (checker part)). When the newest `Checker` comment is a send-back, the PR waits for that checker's pass on the new head, even if the author pushed a fix since (Oct 29: #6792 merged on a fix the checker had not rerun, and its new test failed by draw on main). Otherwise run these whether or not the body has a gate line:
    - `npm run typecheck` (the repo's script; it is already scoped)
    - `npx eslint <changed files>`
    - `npx prettier --check <changed files>`
@@ -184,6 +187,16 @@ End each batch with a table: `PR | merged / sent back / left | reason`.
 
 The owner starts a merger, on Codex or any other tool, by pasting the one paragraph in `docs/pool/START-A-MERGER.md`. That page is the order of work: check in for a name, say what you can do, read the CTO's lines on the crew's issue each pass, gate each pull request step by step, merge it pinned or send it back with the check, place and seed, and never work around a refused merge. This skill holds the traps; the page holds the steps. When the two differ, the page is newer.
 
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 16, 23:52Z: one red on every pull request was main's own, a British spelling in a skill. Cause: main's defect, not the pull requests'. Fix main once, then have each lane merge main; never fix it pull request by pull request.
+- Nov 17, 03:34Z: five folds looked like an unknown folder's work. Cause: the fold desk's summary cut the top of its own output. Print every FOLD line in full before you report a fold.
+- Nov 17, 02:18Z: pull requests went red only on golden-path M3-09 timing out. Cause: every spec shared one clock, so the last one starved (#9832 gives each spec its own). Until it lands, a pull request whose only red is that timeout may fold; any other M3-09 failure blocks.
+- Nov 17, 03:44Z: two skills pull requests (#9776, #9777) hit 409 against the train. Cause: skill files folded into the train conflict with the lanes' skill lines. Skills and docs pull requests merge straight to main (CTO, Nov 17).
+- Nov 16, 23:52Z to Nov 17, 00:42Z: 13 pull requests were listed ready and none was green. Cause: ready was posted before the checks finished. Ready means every check finished green, or each red is named as red on main too.
+
 ## More in this folder
 
 Read each file here when its moment comes:
@@ -191,3 +204,9 @@ Read each file here when its moment comes:
 - `references/traps.md`: when a check fails in a way this page does not explain, a conflict will not resolve, or before your first pass on a new account.
 - `references/cloud-container.md`: when you run the checks in a new cloud container.
 - `references/prompt.md`: when you start a merger session.
+- `references/train-gate.md`: before you name a pull request for the train, or gate one as the author.
+- `references/checker.md`: when you check a pull request someone else built: main merged in, the gate, mechanical fixes, send-backs.
+- `references/merge-trains.md`: when you fold pull requests into a train or take a train to main.
+- `references/pr-fixer.md`: when a pull request was sent back and you finish it.
+- `references/generated-file-merges.md`: when a merge of main stops on a file a command writes, or a bank or rules file keyed by id.
+- `references/merge-audit.md`: when you audit pull requests already merged.

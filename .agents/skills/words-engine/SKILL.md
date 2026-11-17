@@ -1,6 +1,13 @@
 ---
 name: words-engine
-description: Explains how Our Civic Duty's English engine and story director work, how the owner's notes become rules that pull lines (data/english/line-rules.json, npm run words:rules), and how a session writes, wires and grades words under his rulings. Use when working on player text, banks, scenes, conversations, the journal, grades or rules, in any session (Claude or Codex).
+description: >
+  Explains how Our Civic Duty's English engine and story director work, how the
+  owner's notes become rules that pull lines (data/english/line-rules.json, npm
+  run words:rules), and how a session writes, wires and grades words under his
+  rulings; also every speech built from the one planner, and reading a term by
+  policy area for an address's kind and a town's strikes and rallies. Use when
+  working on player text, banks, scenes, conversations, the journal, speeches,
+  grades or rules, in any session (Claude or Codex).
 ---
 
 # The words engine and the director: the handoff
@@ -64,9 +71,9 @@ Words come from the English engine; every bank part plays unless the owner's gra
 - **Scene PRs collide on four shared files; land on fresh main.** Every scene edits `data/english/parts/scene-talk.json`, `src/director/data/situation-types.json`, `src/director/purpose-scene.ts` and the situation-type count in `src/director/director.test.ts`, and mergers never hand-merge a bank. Right before marking ready, `git fetch origin main`, merge it, re-add your pieces by piece key and your count bump on main's files, and push within minutes; a PR that is stacked or held waits for its base to merge, then redoes this. Oct 27: #6201, #6296, #6298 (twice), #6303 and #6309 were each sent back for this one conflict.
 
 - **Every line carries an insert (owner, Nov 11, 2026: "all the lines in the game need to be run through the English engine... a ton of different speech versions, a ton of different inserts").** No whole stock sentence is picked as it stands: a line names at least one slot in braces that the engine fills from the world's records, and a scene is composed from many versions. The opening comes first: the President's address and the evening after it.
-- **What may stay fixed is his ruling, and only that (owner, Nov 11, call 12: "Replies of one to three words and action names stay; everything else is rewritten.").** Three kinds are excused, by rule: a line of one to three words ("Hello.", "You won."); the name of an action the player picks (the `choice-names` bank); and a piece the engine joins, when the sentence it makes carries an insert. Nobody widens that without a new ruling.
+- **What may stay fixed is his ruling, and only that (owner, Nov 11, call 12: "Replies of one to three words and action names stay; everything else is rewritten.").** Three kinds are excused, by rule: a line of one to three words ("Hello.", "You won."); the name of an action the player picks (the `choice-names` bank); and a piece the engine joins, when the sentence it makes carries an insert. Nobody widens that without a new ruling. **The Nov 14 excuse for a line "the world places" is withdrawn (owner, Nov 16, on the Story thread #9750; asked whether to keep excusing the lines whose every use carries a fact, a caused purpose or a record-raised subject: "No. Count them again and rewrite them with inserts", with the note "either that or remove them and start fresh").** Those 5,339 lines (Nov 16: scene-talk 5,136, conversation 171, opening-speech 13) are back in the count and are rewritten with an insert from the record, most-heard scene first, or deleted; a fact in `requiresFacts` or `onlyWhen` places a line but does not excuse it.
 - **How a joined piece says so.** Give the part a `piece` field: `of` (the sentence it belongs to, one name for every piece of that sentence), `part` (which part it is: `opener`, `core`, `reason`, `closer` or the address's own move), and `required: true` when every such sentence has that part. The pieces of a sentence are excused when one of its required parts names a slot in every wording, because then no joined sentence can lack one. So put the insert in the part that is always there (the core), and the openers and closers around it may be plain.
-- **The guard.** `tests/guards/english/line-inserts.test.ts` counts, in each bank, the lines with no slot that are not excused, against `tests/guards/english/line-inserts-baseline.json` (7,613 on Nov 11, after 605 excused). A count may only go down: a new line of four words or more with no slot fails by bank, and when you rewrite or delete such lines you lower the bank's count in the same change.
+- **The guard.** `tests/guards/english/line-inserts.test.ts` counts, in each bank, the lines with no slot that are not excused, against `tests/guards/english/line-inserts-baseline.json` (7,613 on Nov 11, after 605 excused; 5,580 on Nov 16, when the placed lines came back into the count). A count may only go down: a new line of four words or more with no slot fails by bank, and when you rewrite or delete such lines you lower the bank's count in the same change.
 
 ## Boundaries
 
@@ -82,9 +89,16 @@ Words come from the English engine; every bank part plays unless the owner's gra
 - **The padded-name check reads only the first-name slots.** `VOCATIVE` in `tests/guards/english/line-inserts.test.ts` matches `{first}`, `{their-first}` and `{player-first}`, so a line ending in `, {name}.` or `, {you}.` passes it. On Nov 17 the conversation bank held 9 agree answers ending in `{name}` and 121 lines ending in `{you}` (14 thanks or greetings that may keep it, 25 that keep another insert when the name comes off, 82 that then need a record insert written). Count them with a python pass over the bank before widening the regex; widening it raises `vocativeNames`, which needs the lines rewritten in the same PR.
 - **The owner's Nov 14 excuse for a "placed" line is withdrawn (Nov 16: "No. Count them again and rewrite them with inserts").** The insert guard counts them again (5,580 on Nov 17); a rewrite deletes the fixed line or gives it a record insert, most-heard scene first. Measure "most heard" with `scripts/dialogue-batch/scene-year.ts` over several seeds, not by bank size: eleven played years as a new adult staged only 12 scene purposes and 118 purposes never staged, so a purpose a candidate or an officeholder meets is measured with `cap-year.ts` and its personas.
 - **Proving a bank line in a composed talk:** `scripts/words/opening-talk-trace.ts` with `SEEDS=` plays the first evening and prints each talk's lines, replies and pieces. About one seed in two stages the address talk at home, and one reply wording plays per talk, so a spot with four stance combinations needs eight to twelve seeds; run four at a time with `--max-old-space-size=4096` when other helpers run (a 12-seed run was killed for memory). A line unplayed after that is deleted with its text kept in the PR body.
-- **The Scenes page is fed from the engine.** `scripts/words/scene-samples.ts --seed <word> --days 240 --as resident|legislator|mayor|governor` writes one playable file per staged scene type under `docs/scenes/samples/` (the opening, the ask, every reply with what it leads to, each line's tied wordings, the endings, the place, seed and record ids) and an INDEX.json; the CTO publishes them. A graded sample comes out of the next batch (owner, Nov 16: "remove those 14 and update or replace those 80, have them all be different"). Never write a sample by hand.
+- **The Scenes page is fed from the engine.** `scripts/words/scene-samples.ts --seed <word> --days 240 --as resident|legislator|mayor|governor` writes one playable file per staged scene type under `docs/scenes/samples/` (new) (the opening, the ask, every reply with what it leads to, each line's tied wordings, the endings, the place, seed and record ids) and an INDEX.json; the CTO publishes them. A graded sample comes out of the next batch (owner, Nov 16: "remove those 14 and update or replace those 80, have them all be different"). Never write a sample by hand.
 - **A branch from another account's thread is yours once the thread is gone.** The Words lead's played files live under `/mnt/project-files`, which a cloud session cannot reach; a read remakes the played file from a run at the head (a script in the helper's scratchpad, never committed) and the stamp rests on that run. A PR whose base is a train branch that main already holds is read against main.
 
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 00:39Z: the family kept saying "two weeks of savings" out of context. Cause: a scene note ("their savings and time are at stake") was built as a line; the owner: "You took that literally." Build the situation, and say a figure only where the moment needs it.
+- Nov 17, 00:39Z: street stops, office-hours visits and the partner's reaction played far too often. Cause: each scene set its own frequency. Frequency is the director's job, weighed by the situation.
+- Nov 17, 00:39Z: a scene fixed the convention keynote at 10 to 20 clicks; the owner: "this should not be specified." Cause: a count written into a scene. The length follows the occasion and the person (rules 127 and 133).
 
 ## More in this folder
 
@@ -98,3 +112,5 @@ Read each file here when its moment comes:
 - `references/staging-and-playing.md`: before you stage a talk or a story so a reader sees it played, or set facts from a talk.
 - `references/lessons.md`: when a words pull request is sent back, a line never plays, or a talk-box or scene-reply test goes red.
 - `references/prompt.md`: when you start or hand over the Story session.
+- `references/speech-planner.md`: when you add or change a speech, an address or a speech's wording.
+- `references/term-read.md`: when you read a term by policy area, an address's kind, or a town's strikes, protests and rallies.
