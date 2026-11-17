@@ -48,3 +48,5 @@ description: >
 ## Stop condition
 
 The skill ends when every helper's copy is sparse, outside the main checkout and on its own branch. Anything it cannot narrow (a copy another session owns) goes to that session or the CTO.
+
+- **A helper copy is removed the hour its pull request is ready or stamped (Story lead, Nov 17).** Twenty-four sparse copies at 776 MB each filled a 252 GB session to 97 percent and Chrome stopped taking screenshots. Keep only the copies of branches still being built or that another branch stacks on; remove the rest with `git worktree remove --force <path>` (or `rm -rf` and `git worktree prune`) after `git status --porcelain | grep -v '^??'` shows nothing uncommitted. A removed copy costs one `helper-checkout.sh new` to bring back.
