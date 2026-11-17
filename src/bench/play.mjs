@@ -7048,6 +7048,8 @@ document.getElementById("front-close")?.addEventListener("click", () => {
   FRONT_OUT[here]?.();
 });
 show("front-close", false);
+// The game's name as the page first prints it; the loading card wears it until the world names a place.
+const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
   // The close X is on every front panel but the title menu itself.
@@ -7573,7 +7575,18 @@ function followBuild(bar, onStory) {
     const at =
       p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
-    $("front-status").textContent = controls.loading?.[p.stage] ?? "";
+    // Every step's line stays: each one the build has passed is listed in order, including any
+    // that finished between two polls, so the card reads as the loading messages, not one line.
+    const box = $("front-status");
+    const last = p.stage === "done" ? STEPS.length : at + 1;
+    box.replaceChildren(
+      ...STEPS.slice(0, last).map((step, i) => {
+        const line = document.createElement("span");
+        line.className = i === last - 1 && p.stage !== "done" ? "now" : "past";
+        line.textContent = controls.loading?.[step] ?? "";
+        return line;
+      }),
+    );
   }, 400);
   return {
     stop() {
@@ -7581,7 +7594,7 @@ function followBuild(bar, onStory) {
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";
-      $("front-status").textContent = "";
+      $("front-status").replaceChildren();
     },
   };
 }
@@ -7594,8 +7607,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   const chosenName = placeKey
     ? $("cr-place-summary-name").textContent.trim()
     : "";
-  if (chosenName)
-    document.querySelector("#front > .title").textContent = chosenName;
+  // Before the world names a place the card wears the game's name, never the last panel's.
+  document.querySelector("#front > .title").textContent =
+    chosenName || GAME_TITLE;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;
