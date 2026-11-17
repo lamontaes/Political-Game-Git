@@ -305,7 +305,7 @@
     {
       "id": "certify",
       "label": "Officials who certify a result, and pressure on them to change it",
-      "status": "New: only recall petitions are certified (recalls.ts); no official certifies an election.",
+      "status": "New: a result gets a certified date after a recount (voting.ts) and recall petitions are certified (recalls.ts), but no official certifies a result, so no one can be pressed to change one.",
       "patterns": ["C26", "C39"]
     },
     {
@@ -10828,7 +10828,7 @@
         },
         {
           "person": "John Kerry",
-          "life": "He became the president's climate envoy in 2021 and negotiated a joint climate declaration with China; a leaked tape later led senators to ask for an inquiry.",
+          "life": "As the president's climate envoy from 2021 he negotiated a joint climate declaration with China. Separately, a leaked 2021 recording of Iran's foreign minister led senators to ask for an inquiry into what Kerry had told him.",
           "urls": ["https://en.wikipedia.org/wiki/John_Kerry"]
         },
         {

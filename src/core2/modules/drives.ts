@@ -115,6 +115,7 @@ export interface DrivesData {
 }
 
 type EventKindKey =
+  | "wordRetold"
   | "formed"
   | "shared"
   | "confronted"
@@ -125,6 +126,7 @@ type EventKindKey =
   | "soughtStanding"
   | "strengthened";
 type FactKey =
+  | "wordEvent"
   | "responsible"
   | "decidedBy"
   | "drive"
@@ -1882,6 +1884,7 @@ export function createDrivesModule(
       ...new Set([
         ...data.eventRules.map((rule) => rule.eventKind),
         ...data.civicActEvents.map((row) => row.eventKind),
+        data.eventKinds.wordRetold,
       ]),
     ],
     onDay(api, _decide, refresh) {
@@ -2022,6 +2025,25 @@ export function createDrivesModule(
             "reconstructed",
           );
         }
+      }
+      // Word of an act, retold by one who saw it (speech.ts, spreadWord): each hearer who
+      // believed it perceives the act itself as a witness of it.
+      if (event.kind === data.eventKinds.wordRetold) {
+        const told = event.facts?.[data.factKeys.wordEvent];
+        const act = told ? (JSON.parse(told) as CoreEventInput) : undefined;
+        if (
+          !act ||
+          !data.eventRules.some((rule) => rule.eventKind === act.kind)
+        )
+          return;
+        for (const id of event.witnessIds ?? [])
+          respond(api, data, id, {
+            ...act,
+            date: event.date,
+            witnessIds: [id],
+            source: event.source,
+          });
+        return;
       }
       if (!data.eventRules.some((rule) => rule.eventKind === event.kind))
         return;

@@ -3441,7 +3441,7 @@ Written Nov 17, 2026. 49 patterns from 15 lives active between 1996 and 2026, no
 - **A censure by a body or by a party** (C14, C15, C27). New, confirmed missing: no censure anywhere in src on main.
 - **Members leaving to deny a quorum, and the moves around it** (C05, C07). New: quorum is read only for contingent elections (contingent-election.ts).
 - **An executive choosing when a vacancy's vote is held** (C06). New: special election dates come from the law alone (specialElectionDate in elections.ts).
-- **Officials who certify a result, and pressure on them to change it** (C26, C39). New: only recall petitions are certified (recalls.ts); no official certifies an election.
+- **Officials who certify a result, and pressure on them to change it** (C26, C39). New: a result gets a certified date after a recount (voting.ts) and recall petitions are certified (recalls.ts), but no official certifies a result, so no one can be pressed to change one.
 - **Attacks and threats aimed at officeholders and candidates** (C20, C26). New: crime.ts never names an officeholder or candidate as a target.
 - **Acts in the weeks between losing and the handover** (C43). New, unchecked: not found in executive.ts or legislature.ts.
 - **An executive calling the body into a special sitting** (C01). New, unchecked: not found in executive.ts or legislature.ts.
@@ -5355,7 +5355,7 @@ Bank 3 · a cause
 **Real lives.**
 
 - Gabby Giffords: After leaving Congress she and her husband founded a gun-safety group in 2013, and she testified at a Senate hearing. Her husband won a U.S. Senate seat in 2020. (https://en.wikipedia.org/wiki/Gabby_Giffords)
-- John Kerry: He became the president's climate envoy in 2021 and negotiated a joint climate declaration with China; a leaked tape later led senators to ask for an inquiry. (https://en.wikipedia.org/wiki/John_Kerry)
+- John Kerry: As the president's climate envoy from 2021 he negotiated a joint climate declaration with China. Separately, a leaked 2021 recording of Iran's foreign minister led senators to ask for an inquiry into what Kerry had told him. (https://en.wikipedia.org/wiki/John_Kerry)
 - Liz Cheney: After her 2022 loss she formed a political action committee, which ran ads urging her own party's primary voters not to back Trump. (https://en.wikipedia.org/wiki/Liz_Cheney)
 
 ### C49. Break with the one you served
