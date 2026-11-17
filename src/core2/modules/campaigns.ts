@@ -4164,6 +4164,10 @@ export function donationAnswer(
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return { givenMinor: 0, why: "no-spare" };
+  // Someone standing in the same race campaigns for themselves and funds no
+  // rival (`rivalFiling`): no reason to give, as for every other help.
+  if (rivalFiling(api, campaign, donorId))
+    return { givenMinor: 0, why: "not-warm" };
   const budget = giftBudget(api, donor);
   const reason = donorReason(api, filingId, donorId, budget);
   if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
@@ -4306,7 +4310,11 @@ export function askPlayerForMoney(
   return true;
 }
 
-/** An ask is open while it waits on an answer and its candidate is still standing for a race not yet held. */
+/**
+ * An ask is open while it waits on an answer, its candidate is still standing
+ * for a race not yet held, and the person asked has not filed against them in
+ * it (`rivalFiling`: a rival funds no rival).
+ */
 function askOpen(api: CoreAPI, row: AskRow): boolean {
   if (row.status !== "pending") return false;
   const filing = filingOf(api, row.campaignId);
@@ -4318,7 +4326,8 @@ function askOpen(api: CoreAPI, row: AskRow): boolean {
     !!filing &&
     standing(filing) &&
     !!contest &&
-    contest.electionDate >= api.state.date
+    contest.electionDate >= api.state.date &&
+    !rivalFiling(api, campaignFor(api, row.campaignId), row.donorId)
   );
 }
 
