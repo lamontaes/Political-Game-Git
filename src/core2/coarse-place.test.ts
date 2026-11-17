@@ -7,7 +7,8 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { coarsePlace, metResident } from "./coarse-place";
-import { townJobRate } from "./town-pay";
+import { gameStartDate } from "./game-start";
+import { startingMinimumHourlyAt, townJobRate } from "./town-pay";
 
 const seed = process.env.COARSE_PLACE_SEED || randomBytes(8).toString("hex");
 const places = Array.from({ length: 6 }, (_, i) =>
@@ -57,11 +58,12 @@ describe("coarse place counts", () => {
           Math.max(band.minAge, band.maxAge - 1),
         );
         expect(met!.age, where).toBeGreaterThanOrEqual(met!.job.minAge);
+        // The place's opening pays at its starting law's minimum wage.
         const wage = townJobRate(
           met!.job.occupation,
           coarse.jurisdictionId,
           50,
-          undefined,
+          startingMinimumHourlyAt(place.key, gameStartDate()),
           seed,
         );
         expect(met!.job.hourlyMinor, where).toBe(wage?.hourlyMinor ?? null);
