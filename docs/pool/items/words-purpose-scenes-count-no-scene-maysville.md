@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scenes.test.ts, src/director/swearing-in.ts (removed), src/director/purpose-scene.ts
+**Files.** src/director/purpose-scenes.test.ts, `src/director/swearing-in.ts` (removed), src/director/purpose-scene.ts
 
 **Notes.** TODO
 
