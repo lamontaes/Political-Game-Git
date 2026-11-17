@@ -21,7 +21,7 @@ source: owner, Nov 17, after playing v0.113.0 (the CTO's rows on #9750, 16:54Z)
 **What.** "It's the evening of January 20. You stay in" plays twice on the first evening, and the President's address pivots between its points with a stock sentence ("Talking about a higher federal minimum wage brings me to...").
 Seen: in the owner's sitting on v0.113.0, Nov 17, 2026.
 
-**Cause.** Design: two paths say one line. src/bench/opening.ts composes its own landing line after the address and src/director/scene.ts composes the same arrival line when the evening's scene opens; the planner (src/director/speech-outline.ts) puts a `turn` move between every two points and before the theme, worded from five stock pieces in the opening-speech bank. The CTO's rows of Nov 17 on #9750 put both under the owner's delete ruling.
+**Cause.** Design: the owner's ruling of Nov 17, 2026 (docs/coordination/OWNER-DECISIONS.md, Nov 17: delete everything the engine has not written), applied by the CTO's rows on #9750 to these two stops. Two paths say one line. src/bench/opening.ts composes its own landing line after the address and src/director/scene.ts composes the same arrival line when the evening's scene opens; the planner (src/director/speech-outline.ts) puts a `turn` move between every two points and before the theme, worded from five stock pieces in the opening-speech bank. The CTO's rows of Nov 17 on #9750 put both under the owner's delete ruling.
 
 **Fix.** Delete the opening's landing line, the play screen's `landHome` and the browser check that pinned it; the director's scene is the one path. Delete the planner's turn blocks and the five `turn` pieces with their two slots; each point opens on its own.
 
