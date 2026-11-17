@@ -180,7 +180,7 @@
     "id": "SG-HIST-century-nominees",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "Every century nominee counts as an experienced candidate (has held elected office); nominees are named-only records with no primary.",
+    "whatItFakes": "In an open presidential race both century nominees count as experienced candidates (have held elected office), and a sitting President's challenger counts as a typical one; nominees are named-only records with no primary.",
     "why": "The century's Congress, governors and the parties' primaries are not run yet, so no record says who held office before a nomination.",
     "addedBy": "History lane (claude/history-presidency)",
     "addedAt": "2026-11-17",

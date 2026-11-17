@@ -154,6 +154,30 @@ describe("the century elects day one's President", () => {
     expect(presidentTerms(world).serving?.party, where).toBe("Republican");
   }, 120_000);
 
+  it("re-elects a sitting President more often than not across drawn worlds", () => {
+    // About 15 of the 21 sitting Presidents who ran since 1900 won. With experience counted
+    // for the challenger, a President's incumbency lost to it every time, and worlds
+    // alternated parties every term (the re-election check on #9834 red at 0.277).
+    let ran = 0,
+      kept = 0;
+    const named: string[] = [];
+    for (let i = 0; i < 16; i += 1) {
+      const place = drawPlace(`${RUN}:sitting:${i}`, "history-president");
+      named.push(`${place.name} (${place.key}), world seed ${place.seed}`);
+      setHistoryMode(place.seed, "century", gameStartDate());
+      const terms = centuryOf(place.seed, gameStartDate()).presidencies;
+      for (let j = 1; j < terms.length; j += 1)
+        if (terms[j]!.incumbentRan) {
+          ran += 1;
+          if (terms[j]!.winnerSide === terms[j - 1]!.winnerSide) kept += 1;
+        }
+    }
+    expect(
+      kept / ran,
+      `sitting Presidents re-elected across ${named.join("; ")}`,
+    ).toBeGreaterThan(0.5);
+  }, 120_000);
+
   it("leaves states near even in a close year: no drawn world with an even 2024 has no contested state", () => {
     // Each state's 1925 shift may be any size (electorate-century.ts centuryShift). A floor on it
     // left no state near the nation, so a world whose 2024 was even had no state near 50%
