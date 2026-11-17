@@ -53,6 +53,7 @@ First used Nov 16, 2026, on crew line #9747: six lanes and a watcher, 20 pull re
 - **A watcher can stall without saying so.** Nov 17: the relay session's sends were refused in its own session from 09:53Z, and it waited for an answer instead of relaying. Read the watcher's status every hour (`list_sessions`). If it is blocked, stand it down, write "read the crew line" into each lane's own wake prompt, and read the line yourself every 30 minutes for lines naming the coordinator. A CTO order addressed to the coordinator sat 90 minutes because the coordinator's last read had ended 12 minutes before it.
 - **A hold can lift minutes after it is posted.** Before relaying a hold, freeze or train cut to every lane, read the newest five comments on the line. On Nov 17 a push hold was relayed at 14:10Z, the CTO lifted it at 14:15Z, and every lane had been told to wait until 14:40Z.
 - **Two free fixers can take the same red.** Before giving a red to a fixer, read every fixer's `task_summary` in `list_sessions`. On Nov 17 a red given to one fixer was already being traced by the other, and the hand-out had to be swapped.
+- **Hold nothing for a build.** On Nov 17 a push hold for the Mac build stopped every lane until the owner said "everyone's supposed to keep building, just start a new train." When a train freezes for a build, lanes keep building and push to the next train; only fixes for the build's own reds go on the frozen one.
 
 ## The hourly status
 
