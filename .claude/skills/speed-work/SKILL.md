@@ -140,6 +140,14 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 
 - **A 5 to 10 percent gap between runs can be the machine (Account lead builder, Nov 14).** A with-and-without pair at Odessa, Washington read 56.2 and 56.1 s against 50.7 and 50.1 s, run as two blocks, and looked like a cost; eight runs alternated with, without, without, with, with, without, without, with gave 53.9 to 59.1 s and 54.5 to 58.8 s. Alternate the order, run at least four a side, and compare the ranges before you go looking for a cause; then profile the step directly (it ran 3 ms a month) instead of guessing.
 
+## A new game's build and the bench server (Nov 17, Speed)
+
+- **`ps` %CPU is a lifetime average, not what a process does now.** After a 45 s build that used 75 CPU-seconds, the bench server read 119% in `ps` falling to 76% over 30 s, while the server's live CPU from `/proc/<pid>/stat` deltas was 0% (Nov 17, item 1 on #9747: "the bench stays at 124% CPU" was this). Read live CPU as the change in `utime+stime` over two seconds, per thread from `/proc/<pid>/task/*/stat`, before calling something a leftover.
+- **A per-step profile of the build:** stop and restart the inspector in the build's progress callback only at the steps you want. Stopping and restarting it at every one of 11,168 reports hung the probe for ten minutes. Select a warm-up day by its ordinal (`stage === "warmup"` and `Math.floor(done)`), never by its printed label, whose fraction shifts between runs.
+- **A read that rebuilds a list only to confirm nothing changed is the first thing to count.** `organize` rebuilt a chamber's member list on every committee and leader look-up (66,461 calls in 30 days at Epping, New Hampshire, 0 reorganizations). Keep the last answer stamped with the date and the `writes` counts of the module stores the list reads (`api.moduleState(id).writes`); reread under `bookkeeping()` and check it agrees, and reread while `tableTraceOn()` so the trace sees every reader (#9824).
+- **A sort inside a per-member loop is quadratic in the body.** `knownThrough` sorted the whole 400-seat chamber once per member, with a date parse in every comparison (731 ms to 84 ms when the rank and keys were worked out once, #9836). An `Intl.Collator().compare` gives the same order as `localeCompare()` with no arguments.
+- **Run the base side of a proof from a second worktree on main,** not by copying the base file over yours: a swapped file shows as an uncommitted change for the whole run, and the stop hook asks to commit it.
+
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
