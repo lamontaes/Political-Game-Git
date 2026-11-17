@@ -5,11 +5,11 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/story-k1-endorsement
 claimed-at: 2026-11-17T06:30:00.000Z
-pr:
+pr: #9909
 blocked-on:
 milestone:
 source: 'Owner, Nov 14 9:23 PM ET (Story thread #9750, part 3): "someone says, you know, I''ve been working for you for a long time and, like, I want to get involved on my own. I''m asking you for an endorsement."'
