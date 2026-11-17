@@ -14,7 +14,7 @@ import type { CoreEventInput } from "./types";
 // The place is drawn from all 56; a place with no such estate is passed over
 // and named (CTO, #9747 04:26Z: off its pin at Dennis, MA).
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const DRAWS = 8;
+const DRAWS = 20;
 
 describe("an estate keeps its heirs through probate (played world)", () => {
   for (const by of ["intestacy", "will"] as const)
@@ -151,5 +151,5 @@ describe("an estate keeps its heirs through probate (played world)", () => {
       throw new Error(
         `No drawn place held the case, seed ${seed}: ${passed.join("; ")}`,
       );
-    }, 1_500_000); // Probate's 270 played days, and a house sale's wait, are the game's own time (about 170 s in a played town), after the draws.
+    }, 2_700_000); // Probate's 270 played days, and a house sale's wait, are the game's own time (about 170 s in a played town), after the draws.
 });
