@@ -44,7 +44,12 @@ import {
   recordRanking,
   recordHiredUnderBan as recordHiredWithRecordUnderBan,
 } from "../jobs-record-bias";
-import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
+import {
+  LAWS_MODULE_ID,
+  lawInForce,
+  socialSecurityAges,
+  minimumHourlyAt,
+} from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { outsideLaborForce } from "../gov-rules/place-population";
@@ -2975,7 +2980,7 @@ function hireRegional(
         occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
-        undefined,
+        minimumHourlyAt(api, seeker.placeId),
         c.seed,
       )
     : null;

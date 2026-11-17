@@ -1141,21 +1141,33 @@ function standingDue(api: CoreAPI, account: string, date: string): number {
     );
 }
 
+/** The law series that sets the statutory debt limit, in dollars of total public debt. */
+export const DEBT_LIMIT = "debt-limit";
+
 /**
  * The statutory debt limit in this world's debt held by the public: the
  * public-held debt at the last record plus the room the limit leaves over the
- * total debt then (P.L. 119-21 sec. 72001: $41.1 trillion), moved by the same
- * factor that sized this world's opening debt.
+ * total debt then, moved by the same factor that sized this world's opening
+ * debt. The limit is the one Congress has in force (`DEBT_LIMIT`); before any
+ * act sets it, the opening one (P.L. 119-21 sec. 72001: $41.1 trillion).
+ * stopgapId: SG-LAWS-debt-limit-opening-statute
  */
-function debtLimitMinor(holders: readonly DebtRow[]): number {
+function debtLimitMinor(api: CoreAPI, holders: readonly DebtRow[]): number {
   const budget = federalBudget as unknown as {
     debtHeldByPublic: Record<string, number>;
     totalPublicDebt: Record<string, number>;
     debtLimit: number;
   };
+  const enacted = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, DEBT_LIMIT).levels.find(
+        (l) => l.level === "federal" && typeof l.row?.value === "number",
+      )?.row
+    : undefined;
+  if (!enacted) api.stopgap("SG-LAWS-debt-limit-opening-statute");
+  const limit = enacted?.value ?? budget.debtLimit;
   const held = budget.debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
   const lastDate = Object.keys(budget.totalPublicDebt).sort().pop()!;
-  const room = budget.debtLimit - budget.totalPublicDebt[lastDate]!;
+  const room = limit - budget.totalPublicDebt[lastDate]!;
   const opening = holders.reduce(
     (n, h) => n + balanceOf(h) - borrowedOf(h) + h.repaidMinor,
     0,
@@ -1168,7 +1180,7 @@ function debtLimitMinor(holders: readonly DebtRow[]): number {
 
 /** The statutory debt limit in this world's public-held debt, in minor units, for tests and screens. */
 export function federalDebtLimit(api: CoreAPI): number {
-  return debtLimitMinor(federalDebtOf(api));
+  return debtLimitMinor(api, federalDebtOf(api));
 }
 
 const PAY_FOR_DEBT_LIMIT =
@@ -1202,7 +1214,7 @@ function borrowFederal(
     const owed = holders.reduce((n, h) => n + balanceOf(h), 0);
     amountMinor = Math.max(
       0,
-      Math.min(wantedMinor, debtLimitMinor(holders) - owed),
+      Math.min(wantedMinor, debtLimitMinor(api, holders) - owed),
     );
     // The law reached the U.S. Treasury: its borrowing is held to the room under the limit.
     if (limitLaw.governing)
