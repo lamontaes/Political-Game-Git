@@ -67,9 +67,13 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     const questions = [...seat.questions].sort(
       (a, b) => marginOn(b) - marginOn(a) || a.localeCompare(b),
     );
+    // The most settled question the body may decide: a draft on a question
+    // outside the body's authority is blocked and never comes to a vote, and
+    // in most drawn towns the four most settled questions are a state's or
+    // the country's to decide, not a town board's.
     let bill = { id: "", status: "blocked" };
     let brought = "";
-    for (const question of questions.slice(0, 4)) {
+    for (const question of questions) {
       if (bill.status !== "blocked") break;
       brought = question;
       bill = seatAct(core, me, {
@@ -78,6 +82,12 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
         question,
         value: 1,
       }) as { id: string; status: string };
+    }
+    if (bill.status === "blocked") {
+      tried.push(
+        `${where}: ${body.officeId} may decide none of its ${questions.length} questions`,
+      );
+      continue;
     }
     if (!core.durableLog.has(`office.introduced:${bill.id}`)) {
       tried.push(`${where}: ${bill.status}, no introduction record`);
@@ -211,12 +221,42 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     // PROBE (hand-made): the national press. A reporter of a national outlet
     // plays national at any level; the bill's level alone, for a reporter of
     // the town's own outlet, is not enough.
+    // One record at a time, like the probes below: the call is about a bill
+    // the member has no vote on, so the town-against read is zero and the
+    // outlet is the only record in the sum. With the member's real vote on
+    // record the hostile arc is in the same sum (its weight times the town's
+    // margin, times one plus the reporter's own pull), and it rightly wins
+    // where that product is the larger: Chetopa, Kansas, seed
+    // 9e06037dac12a152:0, margin 0.69, played hostile.
     if (nationalId) {
-      const national = pick("probe-national", { level: "federal" }, nationalId);
+      const national = pick(
+        "probe-national",
+        { level: "federal", billId: "no-vote-on-this-bill" },
+        nationalId,
+      );
+      expect(national.reads["town-against"], where).toBe(0);
       expect(national.variant, JSON.stringify(national.reads)).toBe("national");
       expect(national.reads["national-desk"]).toBe(1);
       expect(national.recordIds.some((id) => id.startsWith("outlet:"))).toBe(
         true,
+      );
+      // The same reporter calling about the vote the town stands against:
+      // the outlet still reads as the national desk, the margin is the
+      // electorate's, and the arc played is the one the engine's sum ranks
+      // first, hostile exactly where its score passes the national arc's.
+      const onVote = pick(
+        "probe-national-vote",
+        { level: "federal" },
+        nationalId,
+      );
+      expect(onVote.reads["national-desk"], where).toBe(1);
+      expect(onVote.reads["town-against"], where).toBeCloseTo(expected, 10);
+      const onVoteScore = (name: string) =>
+        onVote.scores.find((s) => s.variant === name)!.score;
+      expect(onVote.variant, JSON.stringify(onVote.scores)).toBe(
+        onVoteScore("hostile") > onVoteScore("national")
+          ? "hostile"
+          : "national",
       );
     }
     const federalLocal = pick("probe-federal-local", {
@@ -348,6 +388,9 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
     expect(scandal.recordIds).toContain("probe-exposed-a");
     process.stdout.write(
       `PRESS COMMENT PROBES ${where}: against margin ${margin.toFixed(2)} gave ${gap.variant}; friendly ${friendly.variant}; scandal ${scandal.variant}; national ${nationalId ? "national desk tried" : "no national reporter"}\n`,
+    );
+    process.stdout.write(
+      `PRESS COMMENT passed over before ${where}: ${tried.join("; ") || "none"}\n`,
     );
     proven += 1;
   }
