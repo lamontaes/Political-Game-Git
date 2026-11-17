@@ -1,5 +1,3 @@
-import { resolveLawInForce } from "./laws-in-force";
-import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import {
   DEFAULT_RESIDENT_EMPLOYMENT,
   openingEmploymentFromRecordedRoles,
@@ -58,6 +56,7 @@ import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
+  startingMinimumHourlyAt,
   townJobRate,
   townPayPercentile,
   weeklyHoursOf,
@@ -266,21 +265,6 @@ function countyContexts(place: CorePlace): readonly CountyContext[] {
 }
 
 /** The minimum wage in force on a date at a place, from the starting law, in dollars an hour; null where none is recorded. */
-function startMinimumWage(placeKey: string, date: string): number | null {
-  const chain = lawChainForPlace(placeKey);
-  const answer = resolveLawInForce({
-    series: "minimum-wage",
-    chain,
-    date,
-    // Local minimums are not modeled in pay: the state and federal rows only.
-    rows: startingLawRows(chain).filter(
-      (row) =>
-        row.series === "minimum-wage" &&
-        (row.level === "federal" || row.level === "state"),
-    ),
-  });
-  return answer.value === null ? null : answer.value / p("minorPerDollar");
-}
 
 /** An initialization identity choice among real records, never a behavioral roll. */
 function selectedPlace(
@@ -593,7 +577,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const town = place.context.jurisdiction.id;
   // The floor the opening's pay rests on is the minimum wage the starting law
   // gives on the start date (dollars an hour), not a later year's rate.
-  const startMinimumHourly = startMinimumWage(place.key, startedAt);
+  const startMinimumHourly = startingMinimumHourlyAt(place.key, startedAt);
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
   if (place.stateJurisdictionKey) {

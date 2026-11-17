@@ -24,7 +24,8 @@ import type {
 
 import { parameter as p } from "./parameters";
 import { TOWN_WORKPLACES, type Role } from "./town-workplaces";
-import { townJobRate } from "./town-pay";
+import { startingMinimumHourlyAt, townJobRate } from "./town-pay";
+import { gameStartDate } from "./game-start";
 import { placeReferencePopulation } from "./gov-rules/place-population";
 import { townWorkplaceWeights } from "./town-employment-mix";
 
@@ -162,6 +163,8 @@ export function coarsePlace(
     0,
   );
   const jobs: CoarseJobRow[] = [];
+  // Built from the place's opening, before its own world runs: the starting law's minimum.
+  const minimum = startingMinimumHourlyAt(placeKey, gameStartDate());
   for (const workplace of TOWN_WORKPLACES) {
     const weight = Math.max(0, weights.get(workplace.key) ?? 0);
     if (weight <= 0 || weightTotal <= 0) continue;
@@ -171,7 +174,7 @@ export function coarsePlace(
         role.occupation,
         jurisdictionId,
         wagePercentile(),
-        undefined,
+        minimum,
         seed,
       );
       jobs.push({

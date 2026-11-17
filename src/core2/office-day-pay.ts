@@ -36,6 +36,14 @@ const PAY_ROWS: Readonly<Record<string, string>> = {
   "county-executive": "mayor",
 };
 
+/** The law series a town or county sets a local seat's yearly pay by, in dollars (its pay ordinance), by the seat's pay row. */
+export const localSeatPaySeries = (row: string) => `local-official-pay:${row}`;
+
+/** The pay row a local office kind is paid by (council-member, mayor, county-commissioner), or none. */
+export function seatPayRow(officeKind: string): string | undefined {
+  return PAY_ROWS[officeKind];
+}
+
 export interface SeatPay {
   readonly annualMinor: number;
   readonly weeklyHours: number;

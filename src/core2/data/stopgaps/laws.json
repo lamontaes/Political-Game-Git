@@ -155,5 +155,38 @@
     "addedBy": "claude/pins-16-amounts-read-the-law",
     "addedAt": "2026-11-17",
     "replacement": "Every teacher minimum in force on day one carries its teacher-minimum-salary amount row from History's century; teacherFloor reads only the law, and this stopgap and the parameter's use here are deleted."
+  },
+  {
+    "id": "SG-LAWS-paid-leave-opening-premium",
+    "kind": "approximation",
+    "file": "src/core2/paid-leave.ts",
+    "line": 36,
+    "whatItFakes": "Where paid family leave is law but no act in the world has set its premium, every paycheck pays 0.6 percent (paidLeavePremiumShare), a middle value of five real states' 2025 premiums, not a share the world's bodies chose.",
+    "why": "The world's own acts come from its history: History's bodies enact the laws from 1925 (pull request 5 of 6), which is not built yet. A premium a body enacts in play (paid-leave-premium at the program's level) is read first.",
+    "addedBy": "claude/pins-16-amounts-read-the-law",
+    "addedAt": "2026-11-17",
+    "replacement": "Every paid leave program in force on day one carries its paid-leave-premium row from History's century; paidLeaveProgram reads only the law, and this stopgap and the parameter are deleted."
+  },
+  {
+    "id": "SG-LAWS-debt-limit-opening-statute",
+    "kind": "approximation",
+    "file": "src/core2/budgets-treasury.ts",
+    "line": 1036,
+    "whatItFakes": "Until Congress in the world enacts a debt limit, the limit is the real statute's $41.1 trillion (P.L. 119-21 sec. 72001), not one the world's Congress set.",
+    "why": "The world's own acts come from its history: History's Congress enacts the laws from 1925 (pull request 5 of 6), which is not built yet. A limit Congress enacts in play (debt-limit at the federal level) is read first.",
+    "addedBy": "claude/pins-16-amounts-read-the-law",
+    "addedAt": "2026-11-17",
+    "replacement": "History's century leaves a debt-limit row in force on day one; debtLimitMinor reads only the law, and the file's debtLimit and this stopgap are deleted."
+  },
+  {
+    "id": "SG-LAWS-local-seat-pay-opening-band",
+    "kind": "approximation",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 1786,
+    "whatItFakes": "A local seat no pay ordinance in the world has set is paid its band's estimate for the body's population (local-office-pay-2026.json), a real survey average moved within its spread, not pay the town or county chose. A full-time seat paid through payroll keeps the pay it was seated at until its next term.",
+    "why": "The world's own ordinances come from its history: History's bodies enact the laws from 1925 (pull request 5 of 6), which is not built yet. An ordinance a body enacts in play (local-official-pay:<row> at the town's or county's level) is read first, at seating and at every stipend payday.",
+    "addedBy": "claude/pins-16-amounts-read-the-law",
+    "addedAt": "2026-11-17",
+    "replacement": "Every local seat's pay ordinance in force on day one comes from History's century; seatPay's band and this stopgap are deleted, and a full-time seat's payroll wage follows the ordinance too."
   }
 ]

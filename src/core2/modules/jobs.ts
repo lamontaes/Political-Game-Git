@@ -128,6 +128,7 @@ import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
+import { minimumHourlyAt } from "../wage-floor";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -2975,7 +2976,7 @@ function hireRegional(
         occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
-        undefined,
+        minimumHourlyAt(api, seeker.placeId),
         c.seed,
       )
     : null;
