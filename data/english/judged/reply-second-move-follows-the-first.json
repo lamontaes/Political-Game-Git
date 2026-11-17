@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 14800,
+  "judged": 14790,
   "no": {
     "1zmdwj41zpc": {
       "keys": [
@@ -12,5 +12,5 @@
       "why": "After 'It was. Most of it.' the speaker jumps to 'grab the other end' with nothing linking the two, and 'It was' does not fit the line it answers."
     }
   },
-  "yesHash": "00ck2n0i1b3"
+  "yesHash": "15tv95p6bx8"
 }
