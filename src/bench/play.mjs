@@ -362,6 +362,20 @@ $("news-reader-close").addEventListener("click", () =>
 // open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
 // restores focus; when none is open, it opens the session menu"). In order: a person's card, the
 // news reader, a term's card, the open menu. A talk or a scene is not one of them.
+/**
+ * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
+ * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
+ * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
+ */
+function closeCards() {
+  if (!$("person").hidden) closePerson();
+  show("news-reader", false);
+  show("tip", false);
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
+}
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
@@ -685,6 +699,7 @@ async function refresh(scene = {}) {
     `/api/election-night?id=${encodeURIComponent(me.id)}`,
   );
   if (night) {
+    closeCards();
     await electionNight(night);
     // That night, once the returns close: the scene of your own result (the
     // concession call or the victory), when the director staged one.
@@ -713,6 +728,13 @@ async function act(path) {
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    // The clock is held (a scene, a meeting, the polls): no menu stays open over it.
+    if (
+      result.packet?.kind === "stop" ||
+      result.pollingPlace ||
+      result.candidateMorning
+    )
+      closeCards();
     if (result.pollingPlace || result.candidateMorning) {
       // Election morning: canvass if you're running, then vote or stay home
       // (or, with no ballot here, go on with the day).
@@ -1336,7 +1358,7 @@ function electionNight(night) {
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
-    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // call, rows in columns across the board, so all of them fit the panel at 1024x768
     // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
     // could not be reached).
     const steps = night.nation.races.length
@@ -1344,6 +1366,8 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
+      // The page of the races elsewhere lays its rows across the board (play.css, #returns.nation).
+      $("returns").classList.toggle("nation", Boolean(steps[at].nation));
       $("returns").replaceChildren(
         electionNightScreen({
           title: night.title,
@@ -2055,13 +2079,6 @@ async function campaignParts() {
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
-        // How many signed at the doors, a day of none included (owner, Nov 14:
-        // "Tab total and each outing"), outside the dialogue.
-        result.signed === null || result.signed === undefined
-          ? ""
-          : result.signed === 0
-            ? controls.campaignResults.signedNone
-            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.reached &&
         (result.votesAsked === null ||
           result.votesAsked === undefined ||
@@ -2189,22 +2206,9 @@ async function campaignParts() {
               ? [why]
               : choice.outing === "doors" && petition?.gatherTarget
                 ? [
-                    (petition.asksAtDoors
+                    petition.asksAtDoors
                       ? T.askingWhySignatures
-                      : T.askingWhyVotes
-                    )
-                      .replace(
-                        "{signed}",
-                        petition.signed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{needed}",
-                        petition.needed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{target}",
-                        petition.gatherTarget.toLocaleString("en-US"),
-                      ),
+                      : T.askingWhyVotes,
                   ]
                 : [],
           }),
@@ -2407,10 +2411,7 @@ async function campaignParts() {
                       value: (petition.signed >= petition.needed
                         ? labelsC.signaturesEnough
                         : labelsC.signaturesHeld
-                      )
-                        .replace("{signed}", String(petition.signed))
-                        .replace("{needed}", String(petition.needed))
-                        .replace("{date}", dateWords(petition.due)),
+                      ).replace("{date}", dateWords(petition.due)),
                     },
                   ]
                 : []),
@@ -2522,6 +2523,8 @@ async function showStory(momentId) {
     `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
+  // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
+  closeCards();
   $("backdrop").src = story.backdrop.url;
   drawHere(story);
   show("talk", true);
@@ -2693,6 +2696,24 @@ function storyStop(value) {
     : undefined;
 }
 
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
+}
+
 // ---- The person card: only what you could know about them ----
 let personRequest = 0;
 let personOpener;
@@ -2837,15 +2858,24 @@ async function personCardNode(
     // playtest, Nov 8).
     ...(c.history?.length
       ? [
-          stripSection(
-            5,
-            capital(heading("lifeStory", "lifeStoryThey")),
-            ...lifeParagraphs(c.history),
+          markLife(
+            stripSection(
+              5,
+              capital(heading("lifeStory", "lifeStoryThey")),
+              ...lifeParagraphs(c.history),
+            ),
           ),
         ]
       : []),
   ];
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
+  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
+  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2885,12 +2915,23 @@ async function personCardNode(
     node: stripScreen({
       name: c.name,
       role,
+      nameBeside: true,
+      // The approved card's bust stands as tall as its sections (pl-people).
+      bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
   };
+}
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 440;
+/** A card's life story section, marked so the card can set it in its second column. */
+function markLife(node) {
+  node.dataset.life = "1";
+  return node;
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -3089,9 +3130,10 @@ async function officeParts() {
                       if (asked.packet) renderPacket(asked.packet);
                       const moment = storyStop(asked.packet);
                       closeSheet();
+                      // The sit-down plays with nothing over it; with no scene, back to Office.
                       if (asked.story) await showStory(asked.story);
                       else if (moment) await showStory(moment.recordId);
-                      await openSheet("office");
+                      else await openSheet("office");
                     },
                   }),
                 ),
@@ -4369,6 +4411,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5170,7 +5228,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5180,8 +5238,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
@@ -5480,7 +5536,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),
@@ -5550,8 +5606,11 @@ const sheets = {
         race.officeLevel === "county"
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
-      aside:
-        own && race.cannotFile?.metOn
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : own && race.cannotFile?.metOn
           ? `${labels.filingOpens} ${dateWords(
               race.filingOpens && race.filingOpens > race.cannotFile.metOn
                 ? race.filingOpens
@@ -5562,7 +5621,7 @@ const sheets = {
             ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
             : own && race.playerMayFile && race.filingOpen
               ? labels.fileForIt
-              : race.filers.length || filed.has(race.contestId)
+              : race.filers.length
                 ? status(race)
                 : "",
       data: { contest: race.contestId },

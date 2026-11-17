@@ -11,6 +11,9 @@ import { pager } from "./pager.mjs";
 import { stripBoard, stripSection } from "./strips.mjs";
 import { dateWords, monthWords } from "../../english/plain-words.mjs";
 
+/** How many things a day names on the month; the rest are on its plate. */
+const DAY_LINES = 2;
+
 // The icon each kind of dated thing shows on its day.
 const dayIcon = (kind) =>
   ({
@@ -276,24 +279,20 @@ export function calendarScreen({
       cell.setAttribute("aria-pressed", String(iso === selected));
       if (iso === date) cell.setAttribute("aria-current", "date");
       cell.append(el("span", { className: "num", textContent: String(day) }));
-      // Each kind of thing on the day is a small icon; its words are on the day's plate.
-      if (entries.length)
+      // Each thing on the day is named on it, its kind's icon before its own
+      // line (owner: "events on their days, one worded line each naming who
+      // and what"; the pl-calendar mock), the player's own first; the rest
+      // are on the day's plate.
+      for (const entry of entries.slice(0, DAY_LINES))
         cell.append(
-          el(
-            "span",
-            { className: "marks" },
-            ...[...new Set(entries.map((e) => groupOf(e.kind)))]
-              .slice(0, 3)
-              .map((group) =>
-                kinded(
-                  el("img", {
-                    src: `/ui/kit13/calendar-${dayIcon(GROUPS.find((g) => g.key === group).kinds[0])}.png`,
-                    alt: "",
-                    className: "day-icon",
-                  }),
-                  group,
-                ),
-              ),
+          kinded(
+            el(
+              "span",
+              { className: `mark${entry.own ? " own" : ""}` },
+              icon(entry),
+              el("span", { className: "what", textContent: entry.line }),
+            ),
+            groupOf(entry.kind),
           ),
         );
       grid.append(cell);

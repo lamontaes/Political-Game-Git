@@ -85,6 +85,12 @@
       "tag": "TUNABLE",
       "spread": "600 to 720",
       "note": "Before 11 a.m., talk of a day already done is end-of-day talk in the morning (owner, Nov 12: \"Busy one at work today?\" at 7:00 a.m.)."
+    },
+    "closeSharedWordsLeast": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "1 to 2",
+      "note": "The fewest subject words a speech's close (its last line) shares with what the speech said before it, places, people and the close's own frame words (closeFrameWords) set aside, for the close to name something from the speech (owner, Nov 16: \"She didn't really say anything that's in front of it\")."
     }
   },
   "placeSaidOnlyAs": {
@@ -594,5 +600,18 @@
   "journalFeelingsNote": "Words that name a feeling, which the Journal never says (owner's standing ruling, Sept 6, OWNER-DECISIONS.md: 'Imply relationship tension through ordinary concrete behavior/dialogue rather than narrating feelings.'). The list is the check's, not a ruling: a word on it in a Journal sentence is a break to read.",
   "journalMoveVerbs": "\\b(?:moved|moved back|came|went back) to ([A-Z][\\w'’.-]*(?:,? [A-Z][\\w'’.-]*)*)",
   "journalTimeOpener": "^(?:a|an|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|a few|some|several|many|\\d+) (?:and a half )?(?:days?|weeks?|months?|years?|decades?)(?: and a half)? (?:later|on|after that)\\b",
-  "journalProperRun": "\\b(?:[A-Z][\\w'’.&-]+ )+(?:[A-Z][\\w'’.&-]+)"
+  "journalProperRun": "\\b(?:[A-Z][\\w'’.&-]+ )+(?:[A-Z][\\w'’.&-]+)",
+  "closeFrameWords": [
+    "work",
+    "front",
+    "thank",
+    "hearing",
+    "night",
+    "word",
+    "bless",
+    "everybody",
+    "country",
+    "nation"
+  ],
+  "closeFrameWordsAbout": "The words a close's frame says whatever the speech was about (\"That's the work in front of ...\", \"thank you\", \"good night\", \"God bless this nation\"): they never count as naming something the speech said."
 }

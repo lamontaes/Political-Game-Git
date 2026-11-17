@@ -10728,6 +10728,7 @@
       },
       "stateLegislative": {
         "office": "Council member (at-large)",
+        "districtSeatsRead": "municipalOffice",
         "applicable": true,
         "offeredIn2026": true,
         "filedWith": "District of Columbia Board of Elections",
