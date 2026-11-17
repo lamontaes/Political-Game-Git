@@ -1459,6 +1459,15 @@
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "requiresFacts": ["bill", "vote-tomorrow"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -1484,6 +1493,15 @@
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "requiresFacts": ["bill", "vote-tomorrow"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",
