@@ -73,7 +73,7 @@ describe(`Closings keep their causes (seed ${seed})`, () => {
         }
         for (const row of closures)
           expect(
-            row.causes?.costs.length,
+            row.causes?.costs.length ?? 0,
             `${where}: ${row.id} closed on ${row.date} with no recorded costs`,
           ).toBeGreaterThan(0);
         console.log(
