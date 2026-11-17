@@ -2,11 +2,12 @@
  * The director's board (board.ts) at a drawn place: the day's one pick is the
  * candidate felt most whose wordings hold, a candidate that fails a gate is
  * cut with that gate, a life with no room left picks nothing, equal amounts
- * break by the stable hash whatever order they came in, and over a played
- * stretch every watched person's day has at most one pick, every candidate
- * left on the board ends picked or cut, and no year holds more picks than the
- * life's pace. Places are drawn from all 56 (seed from GOLDEN_PATH_SEED,
- * random when unset).
+ * break by the stable hash whatever order they came in, a cause that is the
+ * person's own record outranks an equal one about someone else, and over a
+ * played stretch every watched person's day has at most one pick, every
+ * candidate left on the board ends picked or cut, and no year holds more picks
+ * than the life's room (its pace times what its standing holds). Places are
+ * drawn from all 56 (seed from GOLDEN_PATH_SEED, random when unset).
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -19,8 +20,14 @@ import { advanceCore } from "../core2/life";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { IsoDate, PersonId } from "../core2/types";
-import { pickFromBoard, picksInYear } from "./board";
+import {
+  ownCause,
+  pickFromBoard,
+  picksInYear,
+  standingMultiplier,
+} from "./board";
 import { paceOf, SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import { playerStanding } from "./standing";
 import type { PersonLedger } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(10).toString("hex");
@@ -101,11 +108,11 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   ).toBeUndefined();
   expect(skipped.board!.cut, where).toBe("skipping");
 
-  // A life with no room left in its year picks nothing.
-  const pace = paceOf(
-    SITUATION_LIBRARY,
-    core.people.get(playerId)!.birthDate,
-    date,
+  // A life with no room left in its year picks nothing: its room is its
+  // pace times what its standing holds (an officeholder's year holds more).
+  const pace = Math.ceil(
+    paceOf(SITUATION_LIBRARY, core.people.get(playerId)!.birthDate, date) *
+      standingMultiplier(SITUATION_LIBRARY, playerStanding(core, playerId)),
   );
   const full: PersonLedger = {
     ...book,
@@ -151,11 +158,44 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   const ids = ["board:tie:a", "board:tie:b", "board:tie:c"];
   expect(pickOf(ids), where).toBe(pickOf([...ids].reverse()));
 
+  // Of equal amounts, a cause that is the person's own record outranks one
+  // about someone else, whatever order they came in.
+  const offerOf = (causeId: string) => ({
+    rowId: `board:row:${causeId}`,
+    typeKey: "constituent-stop",
+    causeId,
+    castId: playerId,
+    score: 0.4,
+    before: false,
+    lived: false,
+    stage: () => waitingEntry(`board:offer:${causeId}`, date, 0.4),
+  });
+
   // A played stretch: at most one pick a day for each watched person, every
-  // candidate left on the board ends picked or cut, and no year holds more
-  // picks than the life's pace.
+  // candidate left on the board ends picked or cut, no year holds more picks
+  // than the life's room, and an own record wins an equal amount.
   for (let day = 0; day < DAYS; day++)
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  const records = [...core.durableLog.keys()];
+  const own = records.find((id) => ownCause(core, playerId, id));
+  const other = records.find((id) => !ownCause(core, playerId, id));
+  expect(own, `${where}: a record naming ${playerId}`).toBeDefined();
+  expect(other, `${where}: a record about someone else`).toBeDefined();
+  const open: PersonLedger = { ...book, schedule: [] };
+  for (const order of [
+    [other!, own!],
+    [own!, other!],
+  ])
+    expect(
+      pickFromBoard(core, open, {
+        date: makeIsoDate(core.date),
+        mode: "live",
+        pending: [],
+        offers: order.map(offerOf),
+        worded: () => undefined,
+      }).picked?.momentId,
+      `${where}: ${own} over ${other}`,
+    ).toBe(`board:offer:${own}`);
   let picks = 0;
   let cuts = 0;
   for (const [personId, watched] of director.ledger.people) {
@@ -179,7 +219,11 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
         picksInYear(SITUATION_LIBRARY, watched, makeIsoDate(core.date)),
         `${where}: ${personId}`,
       ).toBeLessThanOrEqual(
-        paceOf(SITUATION_LIBRARY, person.birthDate, makeIsoDate(core.date)),
+        paceOf(SITUATION_LIBRARY, person.birthDate, makeIsoDate(core.date)) *
+          standingMultiplier(
+            SITUATION_LIBRARY,
+            playerStanding(core, personId, watched),
+          ),
       );
   }
   process.stderr.write(

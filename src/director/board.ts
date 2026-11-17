@@ -34,6 +34,7 @@ import {
   type ScheduleEntry,
   type SituationLibrary,
 } from "./scheduling";
+import { holdsWord, playerStanding, type PlayerStanding } from "./standing";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -475,6 +476,8 @@ interface Candidate {
   /** The row says its scene comes ahead of the day's others (circumstances.json `before`). */
   before: boolean;
   score: number;
+  /** The cause is a record of the person's own (their vote, bill, law or act): it outranks an equal amount about someone else. */
+  own: boolean;
   key: string;
 }
 
@@ -491,6 +494,45 @@ export interface BoardOfferInput {
   lived: boolean;
   /** Stores its moment, as any moment is stored and weighed, and returns its entry. */
   stage: () => ScheduleEntry | undefined;
+}
+
+/**
+ * How many times its pace a life's year holds, by the person's standing
+ * (standing.ts `holds` words): an officeholder's year holds more scored scenes
+ * than a filed candidate's, and theirs more than a life with neither
+ * (situation-types.json standingPace, TUNABLE). A flat multiplier until the
+ * cards' weights decide what fills the room
+ * (SG-DIRECTOR-board-room-by-standing).
+ */
+export function standingMultiplier(
+  library: SituationLibrary,
+  standing: PlayerStanding,
+): number {
+  const row = library.scheduling.standingPace;
+  if (!row) return one;
+  if (holdsWord("office", standing)) return row.office;
+  if (holdsWord("filed", standing)) return row.filed;
+  return row.none;
+}
+
+/**
+ * Whether a cause record is the person's own: they are named in it (their
+ * vote, their bill, their act), or it reads a record they are named in (a
+ * story of the vote they cast, the law they passed, by its source record).
+ */
+export function ownCause(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  causeId: string | undefined,
+): boolean {
+  const record = causeId ? core.durableLog.get(causeId) : undefined;
+  if (!record) return false;
+  if (record.personIds.includes(personId)) return true;
+  const source = record.facts?.sourceRecordId;
+  return (
+    !!source &&
+    core.durableLog.get(source)?.personIds.includes(personId) === true
+  );
 }
 
 /** Scenes picked by the board over the trailing year: the life's room is its pace less these. */
@@ -513,8 +555,9 @@ export function picksInYear(
  * The day's one pick for a watched person, from every candidate on their
  * board: the moments waiting since today's weighing and the scenes from
  * circumstance offered. The best by the amount felt is read first (a row that
- * comes ahead of the day's others first of all; equal amounts by the stable
- * hash), its wordings checked, and the first whose wordings hold is picked
+ * comes ahead of the day's others first of all; of equal amounts, a cause
+ * that is the person's own record before one about someone else, then the
+ * stable hash), its wordings checked, and the first whose wordings hold is picked
  * while the life has room. A scene met where the person is plays now; any
  * other waits for them, and while time is skipped only a scene met where they
  * are can stop the skip. Every candidate not picked keeps why on its entry.
@@ -544,6 +587,11 @@ export function pickFromBoard(
       entry,
       before: false,
       score: entry.board.score,
+      own: ownCause(
+        core,
+        book.personId,
+        book.momentsById.get(entry.momentId)?.causeId,
+      ),
       key: entry.momentId,
     });
   }
@@ -552,6 +600,7 @@ export function pickFromBoard(
       offer,
       before: offer.before,
       score: offer.score,
+      own: ownCause(core, book.personId, offer.causeId),
       key: `${offer.rowId}|${offer.causeId}|${offer.castId}`,
     });
   if (!candidates.length) return { stops };
@@ -561,11 +610,13 @@ export function pickFromBoard(
     (a, b) =>
       Number(b.before) - Number(a.before) ||
       b.score - a.score ||
+      Number(b.own) - Number(a.own) ||
       tie(a).localeCompare(tie(b)),
   );
   const person = core.people.get(book.personId);
   const room = person
-    ? paceOf(library, person.birthDate, input.date) -
+    ? paceOf(library, person.birthDate, input.date) *
+        standingMultiplier(library, playerStanding(core, book.personId, book)) -
       picksInYear(library, book, input.date)
     : zero;
   const live = input.mode === "live";

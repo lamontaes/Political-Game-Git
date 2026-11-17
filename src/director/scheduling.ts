@@ -234,6 +234,8 @@ export interface SituationLibrary {
     trailingDays: number;
     /** The most scenes of one type in a season's window of days. */
     seasonCap: { value: number; days: number };
+    /** How many times its pace a life's year holds by standing: in office, filed, neither (board.ts standingMultiplier). */
+    standingPace?: { office: number; filed: number; none: number };
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
