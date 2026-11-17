@@ -977,6 +977,32 @@ export interface PlaceResult {
 }
 
 /**
+ * The share of a counted record's people who back the right-hand candidate in a race between two
+ * party candidates counted from afar. A record stands for the people over its own stretch of the
+ * lean order (half of it, `halfStretch`, either side of its rank), not one person at its rank: on
+ * that stretch their lean, and so the gap between the two candidates in their eyes, runs on a
+ * line (a voter's appeal moves with lean times the candidate's side, `countedAppeal`, and lean
+ * with twice the distance along the order), so the people past the point where the gap turns
+ * back the right, the rest the left. `gap` is the right's appeal less the left's at the record's
+ * own rank; at either end of the lean scale (`atEnd`) the stretch stands whole on one side. A
+ * small move in a place's lean or a candidate's pull then moves the count (CTO line 6936407513,
+ * Nov 17, 2026: "count ... over a continuous lean distribution, so that small moves matter"; the
+ * replacement SG-GOV-counted-lean-spread named: "A spread of leans within each counted record on
+ * the lean order").
+ */
+export function rightPartOfRecord(
+  gap: number,
+  halfStretch: number,
+  atEnd: boolean,
+): number {
+  if (atEnd || halfStretch <= 0) return gap > 0 ? 1 : gap < 0 ? 0 : 0.5;
+  // Along the stretch the gap falls by four for each unit of the order: two from lean, two from
+  // the two candidates' opposite sides.
+  const reach = 4 * halfStretch;
+  return Math.max(0, Math.min(1, (gap + reach) / (2 * reach)));
+}
+
+/**
  * Where a place's people stand on the lean order for its 2024 vote. The
  * people who feel most strongly turn out most (interest is the strength of
  * their strongest feeling), so a place whose people stood at its 2024 share
@@ -994,6 +1020,8 @@ function orderPlacement(
   // end of the lean scale always weighs a gap of two.
   const rule = turnoutRule();
   const atEnds = voters.map((voter) => rule(voter.readiness, 2));
+  // Each record stands for an equal stretch of the order (`coarseSample`).
+  const halfStretch = voters.length ? 1 / (2 * voters.length) : 0;
   // Each voter's own readiness against their own place in the order: who
   // turns out at what strength of feeling, as the count itself decides it.
   const shareAt = (right: number) => {
@@ -1008,9 +1036,11 @@ function orderPlacement(
           : rule(voter.readiness, 2 * Math.abs(lean));
       all += share;
       // Two typical candidates carry party labels, so each voter's people
-      // back the one on their side whole (`countedShareRule`).
-      if (lean > 0) r += share;
-      else if (lean === 0) r += share / 2;
+      // back the one on their side, over the record's own stretch of the
+      // order (`rightPartOfRecord`, the same division the count makes).
+      r +=
+        share *
+        rightPartOfRecord(2 * lean, halfStretch, lean === 1 || lean === -1);
     }
     return all ? r / all : right;
   };
@@ -1174,6 +1204,14 @@ export function countPlaces(
   readonly places: readonly PlaceResult[];
 } {
   const { voters, placement } = coarseSample(sample);
+  // A race between one candidate of each side, by their ids; each counted record's stretch.
+  const pair =
+    seats === 1 && field.length === 2 && field[0]!.side * field[1]!.side < 0
+      ? field[0]!.side > 0
+        ? { right: field[0]!.id, left: field[1]!.id }
+        : { right: field[1]!.id, left: field[0]!.id }
+      : null;
+  const halfStretch = voters.length ? 1 / (2 * voters.length) : 0;
   // One record refilled for every voter: each voter's appeal is read here
   // and nothing keeps it (`countedAppeal`'s `into`).
   const scratch: Record<string, CountedAppeal> = {};
@@ -1234,6 +1272,19 @@ export function countPlaces(
         // They divide among the candidates by the race's rule
         // (`countedShareRule`): by each one's share of their appeal on a
         // ballot without party labels, whole to the first on one with them.
+        // Two party candidates counted from afar: the record's people divide over its own
+        // stretch of the order (`rightPartOfRecord`), so a small move in the place's lean or a
+        // candidate's pull moves the count.
+        if (pair && !place.inTown && !primary) {
+          const right = rightPartOfRecord(
+            appeal[pair.right]!.total - appeal[pair.left]!.total,
+            halfStretch,
+            lean === 1 || lean === -1,
+          );
+          votes[pair.right] = (votes[pair.right] ?? 0) + share * right;
+          votes[pair.left] = (votes[pair.left] ?? 0) + share * (1 - right);
+          continue;
+        }
         const parts = shares(appeal);
         for (const id of Object.keys(parts))
           votes[id] = (votes[id] ?? 0) + share * parts[id]!;

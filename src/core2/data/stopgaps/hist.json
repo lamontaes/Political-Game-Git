@@ -241,5 +241,16 @@
     "addedAt": "2026-11-17",
     "replacement": "Each seat's term from the offices data (offices-state.ts REPRESENTATION termYears).",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-uncounted-seats",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A seat in Congress whose place has no counted vote on record (a territory's delegate with no two-party race) is never elected in the century: its 1925 holder's side keeps it to day one, as play does not run such a race either (voting.ts countedPlace).",
+    "why": "The count needs a place's eligible voters and lean; a territory with no presidential vote and no two-party delegate race has neither on record.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "The territory's people counted from its own population (the people engine's counts), so its delegate's races run in the century and in play.",
+    "status": "open"
   }
 ]

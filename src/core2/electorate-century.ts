@@ -278,10 +278,13 @@ function eligibleOf(seed: string, stateKey: string): number {
   const key = `${seed}|${stateKey}`;
   const known = eligibles.get(key);
   if (known !== undefined) return known;
-  const eligible = statePlaces(stateKey.slice(3), seed).reduce(
-    (sum, place) => sum + place.eligible,
-    0,
-  );
+  const sum = (places: readonly { eligible: number }[]) =>
+    places.reduce((total, place) => total + place.eligible, 0);
+  // A territory has no county places: its people are sized by its delegate's race, as play's
+  // races size them (voting.ts worldRacePlaces).
+  const eligible =
+    sum(statePlaces(stateKey.slice(3), seed)) ||
+    sum(statePlaces(stateKey.slice(3), seed, 1));
   eligibles.set(key, eligible);
   return eligible;
 }
@@ -640,6 +643,10 @@ function congressElections(
     const lean =
       (house ? districtLeans[seat.key] : leans[seat.stateKey]) ?? 0.5;
     const stateEligible = eligibleOf(seed, seat.stateKey);
+    // A place with no counted vote on record is not elected, as in play (voting.ts countedPlace):
+    // its holder keeps the seat (stopgap SG-HIST-century-uncounted-seats).
+    // stopgapId: SG-HIST-century-uncounted-seats
+    if (stateEligible <= 0) continue;
     const eligible = house
       ? stateEligible / Math.max(1, districtsOf(seat.stateKey).length)
       : stateEligible;
