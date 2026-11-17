@@ -14,6 +14,7 @@ import { publicPayTreasuries } from "./public-work-pay";
 import {
   lineAdders,
   linePayers,
+  registerBudgetPassThrough,
   registerLineAdditions,
   registerLinePayments,
   registerTreasuryRule,
@@ -69,6 +70,7 @@ const DATA = spendingData as unknown as {
   aid: {
     flows: { payer: string; payee: string; revenueLine: string }[];
     fromLines: Record<string, string[]>;
+    matchLines: Record<string, string>;
   };
   providers: {
     lines: Record<
@@ -440,6 +442,45 @@ function lawsOnLine(
     });
   return out;
 }
+
+/**
+ * What a bill that moved a federal grant line adds to the line a state, county
+ * or town spends that grant on (`DATA.aid.matchLines`): the receiver's federal
+ * aid for the year, times the share of the federal grant lines' base the bill
+ * moved. This is the same share `grantLineChanges` pays on top of the base aid
+ * each month, so the line rises by the dollars that arrive for it.
+ */
+registerBudgetPassThrough((api, gov, revenueMinor) => {
+  const flow = DATA.aid.flows.find(
+    (f) => f.payer === "federal" && f.payee === gov.level,
+  );
+  const aid = flow ? (revenueMinor[flow.revenueLine] ?? 0) : 0;
+  if (aid <= 0) return {};
+  const federalGov = governments(api).find((g) => g.level === "federal");
+  const budget = federalGov
+    ? budgetsOf(api, federalGov.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]
+    : undefined;
+  if (!federalGov || !budget) return {};
+  const fy = Number(budget.startsOn.slice(0, 4));
+  const grantLines = DATA.aid.fromLines["federal"] ?? [];
+  const baseTotal = grantLines.reduce(
+    (n, line) => n + lineWithoutBills(api, federalGov, fy, line),
+    0,
+  );
+  if (baseTotal <= 0) return {};
+  const out: Record<string, number> = {};
+  for (const [grantLine, spentOn] of Object.entries(DATA.aid.matchLines)) {
+    const byBills =
+      (budget.spendingMinor[grantLine] ?? 0) -
+      lineWithoutBills(api, federalGov, fy, grantLine);
+    if (byBills === 0) continue;
+    out[spentOn] =
+      (out[spentOn] ?? 0) + Math.round((aid * byBills) / baseTotal);
+  }
+  return out;
+});
 
 /** A law that raised a line, with the share of the line it added. */
 type RaisedBy = LineAddition & { readonly share: number };
