@@ -6,6 +6,28 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).
 
+## Nov 16, 2026: Desk answers, playtest rulings and CTO authority (owner, on Fable's Desk and in chat; recorded by the CTO)
+
+- **The acting CTO's 10:51Z ruling is withdrawn.** It allowed kept-red cases as expected failures. It is replaced by the done-proof rules (`AGENTS.md`, "How done is proven"). No check may be kept red on purpose.
+- **Authority (05:50 p.m.):** full CTO authority: "make any skill, delete any skill, change anything in AgentMD... change guards... take the reins".
+- **The ten Desk answers (2:45 to 2:49 p.m.), verbatim:**
+  - Trains: "Merge Train 4 now and fix both on main after. Main carries a known game fault until then."
+  - Two-branch switch: "Right after Train 4 merges. One more merge into main, then the switch."
+  - Placed lines: "No. Count them again and rewrite them with inserts. A long words job." His note: "either that or remove them and start fresh".
+  - Start age: "18, unless you pick another age. Every default life starts young, with the most years ahead."
+  - Signature counts: "Take every count off the screens. The clerk and the talk tell you when you have enough."
+  - Voter registration: "Keep it for townspeople; you are always registered."
+  - Profit tax: "Keep it, as built on Train 2. Nothing to rebuild."
+  - Budget amendment: "Keep it as built on Train 2. Nothing to rebuild."
+  - Warm-up: "Longer. Fills more on its own, costs more time at every new game."
+  - First year: "Work for someone else's campaign, a party committee or an appointed board until a race opens".
+- **Playtest Desk answers (5:25 p.m.):**
+  - Travel: "Places tied to you first, then the town's biggest workplaces across every kind of work".
+  - Creator pictures: "Hair and facial hair as pictures, with skin and colors as swatches".
+  - Speaker: "the design of a but the people in the top tight like c". Mock and meaning in `docs/mocks/2026-11-16-speaker/`.
+  - Title paintings (5:36 p.m.): "mostly fine... A, without any people, they all just seem empty. And B, these are all basically the same painting, just multiple variants. There needs to be a lot more paintings, and they need to be a little busier... This isn't super high... I would rather you work on getting the busts to exist behind desks. If you establish that you can do that, that unlocks a lot more for us to do."
+- **Metrics:** Layout A is approved. The mock is in `docs/mocks/2026-11-12-metrics/`.
+
 ## Nov 16: overnight on the second train; rulings given on the other account, Nov 13 to 16; the acting CTO's rulings (recorded by Fable B, acting CTO)
 
 - **The cutover waits; overnight is the second train (owner, typed to Fable B, about 05:30Z):** "Nothing from about dev is going to happen until probably at least around noon, so about 12 hours, so you can stop waiting for that. Overnight, not much needs to be done except for any acting CTO questions. And then just checking the merge train and messaging back, I guess. I'm not sure if it has anything watching. I'll tell it to check it every hour or so. Check the second train PR, but you can go ahead and do fixes. So when I'm ready to merge it and start a Mac build, then you can do that."
