@@ -1299,6 +1299,14 @@ input[type="range"]::-moz-range-thumb {
 #front-status:empty {
   display: none;
 }
+/* The loading messages: every step the build has passed, the current one lit. */
+#front-status span {
+  display: block;
+  opacity: 0.55;
+}
+#front-status span.now {
+  opacity: 1;
+}
 /* One header treatment for every title-side panel: the gold name, a thin
    gold rule, then room before the first control. */
 #front .title {

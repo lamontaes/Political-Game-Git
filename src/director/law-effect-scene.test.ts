@@ -34,6 +34,7 @@ const run = (drawSeed: string): string | null => {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: place.key,
   });
   const api = coreAPI(core);
@@ -115,7 +116,7 @@ const run = (drawSeed: string): string | null => {
   return null;
 };
 
-it(`the scene of a law's effect names the law and what the household paid (seed ${seed})`, () => {
+it(`the scene of a law's effect names the law and what the household paid (seed ${seed}) (just like today: needs the state's real law in force)`, () => {
   const passed: string[] = [];
   for (let draw = 0; draw < 4; draw += 1) {
     const skipped = run(`${seed}:${draw}`);

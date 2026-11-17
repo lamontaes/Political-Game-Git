@@ -643,18 +643,26 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold; a filing's announcement takes
-  // its candidate off the rival campaigns they worked for.
-  eventKinds: ["scene.reply", "election-result", "candidate-filed"],
+  // its candidate off the rival campaigns they worked for; an announcement
+  // forms the candidate's committee the day they announce.
+  eventKinds: [
+    "scene.reply",
+    "election-result",
+    "candidate-filed",
+    "candidate-announced",
+  ],
   onEvent: (api, event) =>
     event.kind === "election-result"
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : (answerOffer(api, event),
-          answerAskForVote(api, event),
-          answerEndorsementAsk(api, event),
-          answerVolunteerAsk(api, event),
-          answerPetitionShort(api, event)),
+        : event.kind === "candidate-announced"
+          ? void campaignFor(api, String(event.facts?.filingId ?? ""))
+          : (answerOffer(api, event),
+            answerAskForVote(api, event),
+            answerEndorsementAsk(api, event),
+            answerVolunteerAsk(api, event),
+            answerPetitionShort(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -7095,7 +7103,7 @@ export interface CauseSums {
   >;
 }
 
-/** A candidate's campaigns as date windows: filed to election day, by filing id. */
+/** A candidate's campaigns as date windows: announced or filed to election day, by filing id. */
 function campaignWindows(
   api: CoreAPI,
   candidateId: string,
@@ -7108,7 +7116,7 @@ function campaignWindows(
     ]) as unknown as FilingRow[]
   ).map((filing) => ({
     id: filing.id,
-    from: filing.filedOn,
+    from: filing.announcedOn ?? filing.filedOn,
     through: (
       contests.get(filing.contestId) as unknown as
         { electionDate?: string } | undefined
