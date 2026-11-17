@@ -37,6 +37,7 @@ import { fileCandidacy, playerContests } from "../core2/modules/elections";
 import {
   DEBATE_ACCEPTED_EVENT,
   DEBATE_INVITED_EVENT,
+  acceptDebate,
   debatesIn,
   meetingParameter,
   type DebateRow,
@@ -48,7 +49,6 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
 import { openConversation, say, sayNothing } from "./conversation";
-import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 
 /**
@@ -147,7 +147,7 @@ function play(draw: number): Evidence | string {
   if (petition && !(petition.check && petition.check.valid >= petition.needed))
     return `${where}: the petition came up short`;
 
-  // Play week by week to the debate's invitation, and say yes in its scene.
+  // Play week by week to the debate's invitation, and say yes to it.
   const seen = new Set<string>();
   let yes: { id: string; eventId: string } | null = null;
   while (!yes && core.date < contest.electionDate) {
@@ -155,31 +155,20 @@ function play(draw: number): Evidence | string {
       core,
       [addDays(makeIsoDate(core.date), 7), contest.electionDate].sort()[0]!,
     );
-    for (const entry of director.ledger.people.get(me)!.schedule) {
-      if (seen.has(entry.momentId)) continue;
-      seen.add(entry.momentId);
-      if (!entry.bindings.some((row) => row.typeKey === "debate-invite"))
-        continue;
-      const result = purposeScene(core, director, me, entry, {
-        typeKey: "debate-invite",
-      });
-      if (result?.kind !== "composed") continue;
-      const agree = result.scene.talk.tree.replies.findIndex(
-        (reply) => reply.line.move === "agree",
-      );
-      expect(agree, `${where}: the invitation can be accepted`).toBeGreaterThan(
-        -1,
-      );
-      const id = String(
-        core.durableLog.get(result.scene.cause.id as never)!.facts!.debateId,
-      );
-      expect(
-        replyInScene(core, director, me, entry, [agree]),
-        where,
-      ).toBeTruthy();
-      yes = { id, eventId: `${DEBATE_ACCEPTED_EVENT}:${id}` };
-      break;
-    }
+    // The debate's invitation waits on the record; the player says yes through
+    // the engine's acceptance the menu calls (the invitation scene went with
+    // the unwritten kinds, owner, Nov 17).
+    const invited = debatesIn(api, contest.id).find(
+      (row) =>
+        row.status === "invited" &&
+        !seen.has(row.id) &&
+        core.durableLog.get(`${DEBATE_INVITED_EVENT}:${row.id}` as never)?.facts
+          ?.invitedId === me,
+    );
+    if (!invited) continue;
+    seen.add(invited.id);
+    acceptDebate(api, invited.id, me, `menu:debate:${core.date}`);
+    yes = { id: invited.id, eventId: `${DEBATE_ACCEPTED_EVENT}:${invited.id}` };
   }
   if (!yes) return `${where}: no debate invitation reached the player`;
   const waiting = debatesIn(api, contest.id).find((row) => row.id === yes!.id)!;
@@ -396,7 +385,6 @@ function play(draw: number): Evidence | string {
   expect(afterHeld, `${where}: no second debate scene`).not.toContain(
     "debate-sitting",
   );
-  expect(afterHeld, where).not.toContain("debate-invite");
 
   return {
     where,

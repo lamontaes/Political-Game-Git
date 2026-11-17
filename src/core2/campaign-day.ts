@@ -48,6 +48,7 @@ import {
 } from "./modules/elections";
 import { VOTING_MODULE_ID, resultOf } from "./modules/voting";
 import {
+  acceptInterview,
   answerInterview,
   interviewsFor,
   newsworthiness,
@@ -941,6 +942,11 @@ export function takeCampaignDayChoice(
     let row: InterviewRow | undefined = waiting
       ? interviewsFor(api, player).find((i) => i.id === waiting)
       : undefined;
+    // Taking the day on an invitation the outlet sent is the yes: the sitting
+    // goes on the record for the director to stage. The invitation scene went
+    // with the unwritten kinds (owner, Nov 17); this choice is the one path.
+    if (row?.status === "invited")
+      acceptInterview(api, row.id, `campaign-day:${filingId}:${date}`);
     if (!row || row.status !== "invited") {
       const outletId =
         options.outletId ?? offered.interview?.outlets[0]?.outletId;

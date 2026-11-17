@@ -5024,6 +5024,25 @@ function accepted(api: CoreAPI, row: InterviewRow, replyId: string): void {
   });
 }
 
+/**
+ * The player accepts an interview an outlet offered, from the Campaign tab
+ * (the invitation scene went with the unwritten kinds, owner, Nov 17): the
+ * sitting goes on the record for the director to stage, as the scene's yes
+ * did. `fromId` names the choice that said yes, for the record's citation.
+ */
+export function acceptInterview(
+  api: CoreAPI,
+  interviewId: string,
+  fromId: string,
+): InterviewRow {
+  const row = table(api, "interviews").get(interviewId) as unknown as
+    InterviewRow | undefined;
+  if (!row || row.status !== "invited")
+    throw new Error(`No interview waiting: ${interviewId}`);
+  accepted(api, row, fromId);
+  return row;
+}
+
 /** The player turns down an interview an outlet offered. */
 export function declineInterview(
   api: CoreAPI,
