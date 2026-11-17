@@ -6,12 +6,14 @@
  * (`obligation:<bill>:<colleague>:reply`, the same row the campaign reads when
  * it calls the debt in). While the debt stands, a second ask of the same
  * colleague on another bill gets the plain no: they have already done the
- * player the favor. Played by presses in a pinned place, a town body drafted
- * on by the player; the place and seed were found by a script outside the
- * test (a draw, 150 days, the first evening a plea carries one colleague on
- * two bills).
+ * player the favor. Played by presses in a place drawn from all 56, a town body
+ * drafted on by the player, for up to 150 days until an evening comes on which
+ * a plea carries one colleague on two bills; a place without that evening is
+ * passed over and named, and the test fails by name if none has it.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { seatAct, seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -33,17 +35,15 @@ import type { CoreEventInput, PersonId } from "../core2/types";
 import { traceNode } from "../bench/dev-trace";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
-const PLACE = {
-  name: "South Glastonbury, Montana",
-  key: "3069713",
-  seed: "5e3ce505c6be1f0f5f34db9c8d806153ae0189235f6565a4e2342b65f6c38af8",
-};
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 16;
 
-it(`a yes the plea carried is a debt, and the same colleague gives the plain no on the next bill (${PLACE.name} ${PLACE.key}, world seed ${PLACE.seed.slice(0, 8)})`, () => {
+/** Plays one drawn place; the reason it has no such evening, or undefined once every check passed there. */
+function attempt(place: ReturnType<typeof drawPlace>): string | undefined {
   setBookkeeping(false);
-  const { core, director } = buildBenchWorld(PLACE.seed, gameStartDate(), {
+  const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: PLACE.key,
+    placeKey: place.key,
   });
   const api = coreAPI(core);
   const full = (officeId: string) =>
@@ -61,7 +61,8 @@ it(`a yes the plea carried is a debt, and the same colleague gives the plain no 
         )
         .map((row) => [row.office.id, row.office] as const),
     ).values(),
-  ].sort((a, b) => full(b.id).length - full(a.id).length)[0]!;
+  ].sort((a, b) => full(b.id).length - full(a.id).length)[0];
+  if (!body) return "no town body with three living members";
   const seated = full(body.id);
   core.playerId = seated[0]! as PersonId;
   const player = core.playerId;
@@ -133,10 +134,8 @@ it(`a yes the plea carried is a debt, and the same colleague gives the plain no 
           other !== pleaded && colleagueOf(other) === colleagueOf(pleaded!),
       );
   }
-  expect(
-    pleaded,
-    "no evening where a plea carries one colleague on two bills",
-  ).toBeTruthy();
+  if (!pleaded || !again)
+    return "no evening where a plea carries one colleague on two bills";
   const colleague = colleagueOf(pleaded!);
   const billId = String(pleaded!.facts!.billId);
 
@@ -176,7 +175,14 @@ it(`a yes the plea carried is a debt, and the same colleague gives the plain no 
   );
 
   // Step 2: asked again on another bill, the same colleague gives the plain no.
-  const second = sceneOf(again!, `vote-sought|${again!.id}`);
+  // The evening's later bill is its own scene of the same entry (`vote-sought|<ask id>`)
+  // where the director joined it to the first, or the plain `vote-sought` of its own entry.
+  const secondKey = entryOf(again!).bindings.some(
+    (b) => b.typeKey === `vote-sought|${again!.id}`,
+  )
+    ? `vote-sought|${again!.id}`
+    : "vote-sought";
+  const second = sceneOf(again!, secondKey);
   const lean = memberPosition(
     api,
     String(again!.facts!.billId),
@@ -198,4 +204,31 @@ it(`a yes the plea carried is a debt, and the same colleague gives the plain no 
       (o) => o.kind === "favor",
     ),
   ).toHaveLength(1);
-}, 60_000);
+  return undefined;
+}
+
+it(`a yes the plea carried is a debt, and the same colleague gives the plain no on the next bill (seed ${seed})`, () => {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "favor-carried-once");
+    let why: string | undefined;
+    try {
+      why = attempt(place);
+    } catch (error) {
+      throw new Error(
+        `${place.name} (${place.key}), seed ${seed}:${draw}: ${String(error)}`,
+        { cause: error },
+      );
+    }
+    if (!why) {
+      process.stdout.write(
+        `FAVOR CARRIED ONCE passed at ${place.name} (${place.key}), seed ${seed}:${draw}; passed over: ${passed.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    passed.push(`${place.name} (${why})`);
+  }
+  throw new Error(
+    `No drawn place had the evening: ${passed.join("; ")} (seed ${seed})`,
+  );
+}, 1_800_000);
