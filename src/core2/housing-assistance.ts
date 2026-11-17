@@ -29,6 +29,21 @@ import type { CoreAPI, CoreState } from "./types";
 
 export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
 
+/**
+ * One household's monthly help: its rent above its own share of its monthly
+ * income (42 U.S.C. 1437f(o)), never more than the rent and never below none.
+ * A household whose income carries its rent needs none.
+ */
+export function voucherMinor(
+  rentMinor: number,
+  incomeMinor: number,
+  ownShare: number,
+): number {
+  return Math.floor(
+    Math.min(rentMinor, Math.max(0, rentMinor - incomeMinor * ownShare)),
+  );
+}
+
 /** Pay this month's rent assistance and end it for households no longer covered. */
 export function payRentAssistance(
   api: CoreAPI,
@@ -75,12 +90,7 @@ export function payRentAssistance(
       if (money <= 0) break;
       if (funded.has(tenant.id)) continue;
       // One household's help is its rent above its own share of income; a household whose income carries its rent needs none.
-      const voucher = Math.floor(
-        Math.min(
-          tenant.rentMinor,
-          Math.max(0, tenant.rentMinor - tenant.incomeMinor * own),
-        ),
-      );
+      const voucher = voucherMinor(tenant.rentMinor, tenant.incomeMinor, own);
       if (voucher <= 0) continue;
       // A counted household takes the help of every household it stands for; the last one may be served in part.
       const served = Math.min(tenant.weight, money / voucher);
@@ -186,12 +196,7 @@ function payHousingVouchers(
       if (helped.has(tenant.id) || tenant.memberIds.length === 0) continue;
       if (tenant.placeId !== town) continue;
       if (tenant.incomeMinor > (townMedian ??= median()) * limit) continue;
-      const amount = Math.floor(
-        Math.min(
-          tenant.rentMinor,
-          Math.max(0, tenant.rentMinor - tenant.incomeMinor * own),
-        ),
-      );
+      const amount = voucherMinor(tenant.rentMinor, tenant.incomeMinor, own);
       if (amount <= 0) continue;
       const source = {
         tag: "ESTIMATED" as const,

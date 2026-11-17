@@ -41,6 +41,7 @@ import { budgetToday, housingLineMeasureId } from "./law-reach/group-a-money";
 import { mechanicRow } from "./law-reach/group-a-records";
 import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import type { LawRowInput } from "./laws-starting";
+import { voucherMinor } from "./housing-assistance";
 import type { CoreAPI, CoreState } from "./types";
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
@@ -244,10 +245,7 @@ function raiseToReachFullHouseholds(api: CoreAPI, gov: GovernmentRow): number {
   let aheadMonthly = 0;
   let reached = 0;
   for (const t of ranked) {
-    const voucher = Math.min(
-      t.rentMinor,
-      Math.max(0, t.rentMinor - t.incomeMinor * own),
-    );
+    const voucher = voucherMinor(t.rentMinor, t.incomeMinor, own);
     if (voucher <= 0) continue;
     if (t.tier === "full" && aheadMonthly >= coveredMonthly) reached += 1;
     aheadMonthly += voucher * t.weight;
