@@ -185635,75 +185635,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-asks-for-a-minute-of-your-time",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} asks for a minute of your time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-come-to-ask-you-for-something",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has come to ask you for something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-waits-until-the-two-of-you-can-talk",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} waits until the two of you can talk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-tell-reason.you-know-me-better-than-anyone",
       "move": "state-tell-reason",
       "kind": "spoken",
@@ -185725,31 +185656,6 @@
       "date": "2026-11-15",
       "tag": {
         "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-need.i-d-like-you-to-say-so",
-      "move": "state-tell-need",
-      "kind": "spoken",
-      "text": "I'd like you to say so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-need",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["reason-tie-close"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell-need",
         "key": "favor-asked"
       }
     },
@@ -185866,31 +185772,6 @@
           "role": "asker",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-m-asking-for-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'm asking for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["reason-tie-distant"],
           "excludesFacts": ["asked-again"]
         }
       ],
@@ -186024,30 +185905,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-stood-by-me-i-ll-stand-by-you",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You stood by me. I'll stand by you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["reason-tie-close"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.i-owe-you-you-have-it",
       "move": "reply-agree",
       "kind": "spoken",
@@ -186072,10 +185929,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
+      "key": "scene-talk.reply-decline.i-m-staying-out-of-the-office-race",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not endorsing anyone in this race.",
+      "text": "I'm staying out of the {office} race.",
       "uses": [
         {
           "subject": "scene",
@@ -186083,7 +185940,9 @@
           "move": "decline",
           "role": "asked",
           "purpose": "ask-endorsement",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["endorsed-other"]
         }
       ],
       "origin": "authored",
@@ -186422,39 +186281,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.the-answer-is-no-it-isn-t-about-you",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "The answer is no. It isn't about you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.can-i-ask-why"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.i-didn-t-ask-what-it-cost-me-on-bill"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "refuse",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.i-m-backing-someone-else-i-gave-my-word",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -186746,28 +186572,8 @@
           "role": "asker",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
-          "after": "decline",
-          "requiresFacts": ["reason-tie-close"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
           "after": "refuse",
           "requiresFacts": ["reason-favor"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "after": "refuse",
-          "requiresFacts": ["reason-tie-close"]
         }
       ],
       "origin": "authored",
@@ -192869,6 +192675,990 @@
       "date": "2026-11-16",
       "tag": {
         "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-filed-for-office-this-week-and-wants-a-minute",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} filed for {office} this week and wants a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-on-the-ballot-for-office-now-and-has-a-question-for-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is on the ballot for {office} now, and has a question for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-ve-worked-for-you-years-with-you-now-i-m-asking-you-for-something",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I've worked for you {years-with-you}. Now I'm asking you for something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["years-with-you"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.after-years-with-you-on-your-campaigns-i-m-the-one-filing",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "After {years-with-you} on your campaigns, I'm the one filing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["years-with-you"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.years-with-you-of-knocking-doors-for-you-i-ve-learned-the-job",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "{years-with-you} of knocking doors for you. I've learned the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["years-with-you"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-keep-coming-back-to-carries-cause-nobody-s-carrying-it-so-i-will",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I keep coming back to {carries-cause}. Nobody's carrying it, so I will.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["carries-cause"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-m-running-on-carries-cause-you-know-that-s-been-my-fight",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I'm running on {carries-cause}. You know that's been my fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["carries-cause"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.somebody-has-to-stand-up-on-carries-cause-i-filed-to-do-it",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "Somebody has to stand up on {carries-cause}. I filed to do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["carries-cause"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-lost-my-job-lost-job-ago-i-m-done-waiting-on-somebody-else",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I lost my job {lost-job} ago. I'm done waiting on somebody else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["lost-job"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.lost-job-without-work-taught-me-what-this-town-needs-so-i-filed",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "{lost-job} without work taught me what this town needs. So I filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["lost-job"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-ran-once-ran-before-ago-this-time-i-want-your-name-beside-mine",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I ran once, {ran-before} ago. This time I want your name beside mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["ran-before"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-ve-been-on-a-ballot-before-ran-before-back-i-know-what-i-m-asking",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I've been on a ballot before, {ran-before} back. I know what I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["ran-before"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.we-re-both-same-party-say-it-first-and-others-will-follow",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "We're both {same-party}. Say it first, and others will follow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["same-party"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.same-party-same-fights-i-d-like-the-first-word-to-be-yours-as-a-same-party",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "Same party, same fights. I'd like the first word to be yours, as a {same-party}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["same-party"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.i-know-you-ve-stood-with-against-your-ally-i-m-asking-anyway",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "I know you've stood with {against-your-ally}. I'm asking anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["against-your-ally"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.against-your-ally-is-in-this-race-too-i-know-what-i-m-asking-you-to-choose",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "{against-your-ally} is in this race too. I know what I'm asking you to choose.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["against-your-ally"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-with-against-your-ally-in-this-one-i-gave-my-word-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm with {against-your-ally} in this one. I gave my word first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-against-your-ally-asked-me-first-and-i-said-yes",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't. {against-your-ally} asked me first, and I said yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.does-against-your-ally-know-you-the-way-i-do",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Does {against-your-ally} know you the way I do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.did-against-your-ally-knock-doors-for-you-i-did",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Did {against-your-ally} knock doors for you? I did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.that-s-not-the-question-my-word-s-given",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "That's not the question. My word's given.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.does-against-your-ally-know-you-the-way-i-do",
+          "requiresFacts": ["against-your-ally"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.did-against-your-ally-knock-doors-for-you-i-did",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.yes-and-my-word-still-stands",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Yes, and my word still stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.does-against-your-ally-know-you-the-way-i-do",
+          "requiresFacts": ["against-your-ally"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.did-against-your-ally-knock-doors-for-you-i-did",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-earn-it-without-you-no-hard-feelings",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll earn it without you. No hard feelings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-beat-against-your-ally-on-my-own",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll beat {against-your-ally} on my own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-earned-it-years-with-you-of-work-says-so",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've earned it. {years-with-you} of work says so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["years-with-you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-years-with-you-for-me-so-my-name-goes-behind-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. {years-with-you} for me, so my name goes behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["years-with-you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.after-years-with-you-that-means-more-than-you-know",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "After {years-with-you}, that means more than you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["years-with-you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-work-for-this-the-way-i-worked-for-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll work for this the way I worked for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["years-with-you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.years-with-you-and-that-s-the-answer-all-right",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "{years-with-you}, and that's the answer. All right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["years-with-you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-take-that-from-you-i-know-how-you-decide",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll take that from you. I know how you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["years-with-you"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-filed-for-office-will-you-endorse-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I filed for {office}. Will you endorse me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-running-for-office-and-i-want-your-name-behind-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm running for {office}, and I want your name behind me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.my-name-s-on-the-ballot-for-office-i-m-asking-for-yours-beside-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My name's on the ballot for {office}. I'm asking for yours beside it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-with-you-on-carries-cause-that-s-the-whole-of-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not with you on {carries-cause}. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why",
+          "requiresFacts": ["carries-cause"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-don-t-know-your-record-well-enough-to-put-my-name-on-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I don't know your record well enough to put my name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why",
+          "requiresFacts": ["reason-tie-distant"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.because-against-your-ally-has-it-i-don-t-give-it-twice",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Because {against-your-ally} has it. I don't give it twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why",
+          "requiresFacts": ["against-your-ally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-hard-to-hear-from-you-all-right",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's hard to hear from you. All right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["reason-tie-close"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["reason-tie-close"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-d-hoped-for-more-from-you-but-okay",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'd hoped for more from you, but okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["reason-tie-close"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["reason-tie-close"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
         "key": "favor-asked"
       }
     }
