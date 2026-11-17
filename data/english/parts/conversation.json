@@ -99,7 +99,8 @@
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
     "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk).",
-    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
+    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json).",
+    "issue": "The question a promise was about, by its short name, from the promise's record (promise-talk)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -36277,6 +36278,1830 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-work-new-answer-turn.i-m-my-position-at-my-employer-what-about-you",
+      "move": "own-work-new-answer-turn",
+      "kind": "spoken",
+      "text": "I'm {my_position} at {my_employer}. What about you?",
+      "uses": [
+        {
+          "move": "own-work-new-answer-turn",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-work-new-answer-turn.my-employer-most-days-where-do-you-work",
+      "move": "own-work-new-answer-turn",
+      "kind": "spoken",
+      "text": "{my_employer}, most days. Where do you work?",
+      "uses": [
+        {
+          "move": "own-work-new-answer-turn",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.tenure-reply-answer-turn.years-years-their-first-you-d-know-everyone-there",
+      "move": "tenure-reply-answer-turn",
+      "kind": "spoken",
+      "text": "{years} years, {their_first}? You'd know everyone there.",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-turn",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "next-2"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.tenure-reply-answer-turn.years-years-that-s-a-long-run-anywhere",
+      "move": "tenure-reply-answer-turn",
+      "kind": "spoken",
+      "text": "{years} years. That's a long run anywhere.",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-turn",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "next-2"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.tenure-reply-answer-ack.years-years-you-ve-outlasted-most-people",
+      "move": "tenure-reply-answer-ack",
+      "kind": "spoken",
+      "text": "{years} years. You've outlasted most people.",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-ack",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "ack"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.tenure-reply-answer-ack.years-years-is-a-long-time-in-one-place",
+      "move": "tenure-reply-answer-ack",
+      "kind": "spoken",
+      "text": "{years} years is a long time in one place.",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-ack",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "ack"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.home-new-answer-turn.i-m-from-my-place-where-are-you-from-their-first",
+      "move": "home-new-answer-turn",
+      "kind": "spoken",
+      "text": "I'm from {my_place}. Where are you from, {their_first}?",
+      "uses": [
+        {
+          "move": "home-new-answer-turn",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.home-new-answer-turn.my-place-these-days-and-you",
+      "move": "home-new-answer-turn",
+      "kind": "spoken",
+      "text": "{my_place}, these days. And you?",
+      "uses": [
+        {
+          "move": "home-new-answer-turn",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.charge-answer-deflect.there-s-more-to-offense-than-they-say",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "There's more to {offense} than they say.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.charge-answer-deflect.it-s-not-that-simple-offense-is-for-the-court",
+      "move": "charge-answer-deflect",
+      "kind": "spoken",
+      "text": "It's not that simple. {offense} is for the court.",
+      "uses": [
+        {
+          "move": "charge-answer-deflect",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.charge-answer-refuse.i-won-t-discuss-offense-with-anyone",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "I won't discuss {offense} with anyone.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.charge-answer-refuse.not-offense-not-tonight",
+      "move": "charge-answer-refuse",
+      "kind": "spoken",
+      "text": "Not {offense}. Not tonight.",
+      "uses": [
+        {
+          "move": "charge-answer-refuse",
+          "subject": "charge",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.conviction-answer-refuse.i-won-t-go-over-offense-again",
+      "move": "conviction-answer-refuse",
+      "kind": "spoken",
+      "text": "I won't go over {offense} again.",
+      "uses": [
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.conviction-answer-refuse.the-court-ruled-on-offense-i-m-done-talking",
+      "move": "conviction-answer-refuse",
+      "kind": "spoken",
+      "text": "The court ruled on {offense}. I'm done talking.",
+      "uses": [
+        {
+          "move": "conviction-answer-refuse",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.a-plea-on-offense-their-first-that-s-on-you",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "A plea on {offense}, {their_first}? That's on you.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame",
+          "requiresFacts": ["plea"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.charge-reply-answer-blame.you-pleaded-to-offense-you-brought-this-on-yourself",
+      "move": "charge-reply-answer-blame",
+      "kind": "spoken",
+      "text": "You pleaded to {offense}. You brought this on yourself.",
+      "uses": [
+        {
+          "move": "charge-reply-answer-blame",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "blame",
+          "requiresFacts": ["plea"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.i-m-sorry-their-first-offense-is-on-me",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, {their_first}. {offense} is on me.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.conviction-answer-apologize.i-let-you-down-over-offense-i-m-sorry",
+      "move": "conviction-answer-apologize",
+      "kind": "spoken",
+      "text": "I let you down over {offense}. I'm sorry.",
+      "uses": [
+        {
+          "move": "conviction-answer-apologize",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "apologize"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.conviction-answer-confess.i-did-it-offense-and-i-ll-answer-for-it",
+      "move": "conviction-answer-confess",
+      "kind": "spoken",
+      "text": "I did it. {offense}, and I'll answer for it.",
+      "uses": [
+        {
+          "move": "conviction-answer-confess",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.conviction-answer-confess.offense-is-what-they-said-and-it-s-true",
+      "move": "conviction-answer-confess",
+      "kind": "spoken",
+      "text": "{offense} is what they said, and it's true.",
+      "uses": [
+        {
+          "move": "conviction-answer-confess",
+          "subject": "conviction",
+          "role": "answer",
+          "choice": "confess"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.acquittal-answer-refuse.that-s-all-i-ll-say-about-offense",
+      "move": "acquittal-answer-refuse",
+      "kind": "spoken",
+      "text": "That's all I'll say about {offense}.",
+      "uses": [
+        {
+          "move": "acquittal-answer-refuse",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.acquittal-answer-refuse.the-offense-case-is-over-leave-it-there",
+      "move": "acquittal-answer-refuse",
+      "kind": "spoken",
+      "text": "The {offense} case is over. Leave it there.",
+      "uses": [
+        {
+          "move": "acquittal-answer-refuse",
+          "subject": "acquittal",
+          "role": "answer",
+          "choice": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-reply-answer-brief.oh-nice-what-s-employer-like",
+      "move": "job-new-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, nice. What's {employer} like?",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-brief",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-reply-answer-brief.employer-tell-me-how-that-came-about",
+      "move": "job-new-reply-answer-brief",
+      "kind": "spoken",
+      "text": "{employer}? Tell me how that came about.",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-brief",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-told-reply-answer-thank.thanks-employer-finally-came-through",
+      "move": "job-new-told-reply-answer-thank",
+      "kind": "spoken",
+      "text": "Thanks. {employer} finally came through.",
+      "uses": [
+        {
+          "move": "job-new-told-reply-answer-thank",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "thank"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-told-reply-answer-thank.thank-you-their-first-employer-took-a-while",
+      "move": "job-new-told-reply-answer-thank",
+      "kind": "spoken",
+      "text": "Thank you, {their_first}. {employer} took a while.",
+      "uses": [
+        {
+          "move": "job-new-told-reply-answer-thank",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "thank"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-brief.no-i-haven-t-seen-first-why-do-you-ask",
+      "move": "asked-mutual-answer-brief",
+      "kind": "spoken",
+      "text": "No, I haven't seen {first}. Why do you ask?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-brief.not-first-no-why",
+      "move": "asked-mutual-answer-brief",
+      "kind": "spoken",
+      "text": "Not {first}, no. Why?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-ask-why.why-do-you-ask-about-first",
+      "move": "asked-mutual-answer-ask-why",
+      "kind": "spoken",
+      "text": "Why do you ask about {first}?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-ask-why",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "ask-why"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-ask-why.what-s-going-on-with-first",
+      "move": "asked-mutual-answer-ask-why",
+      "kind": "spoken",
+      "text": "What's going on with {first}?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-ask-why",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "ask-why"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.school-how-could-i-forget",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "{school}? How could I forget.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.school-that-takes-me-back",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "{school}. That takes me back.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.i-m-beat-weekday-at-my-employer-wore-me-out",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "I'm beat. {weekday} at {my_employer} wore me out.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.long-day-at-my-employer-glad-to-be-home",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "Long day at {my_employer}. Glad to be home.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.fine-weekday-at-my-employer-nothing-worth-telling",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Fine. {weekday} at {my_employer}, nothing worth telling.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.fine-just-another-weekday",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Fine. Just another {weekday}.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.i-missed-you-we-haven-t-sat-down-since-last-together",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "I missed you. We haven't sat down since {last-together}.",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "miss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.not-since-last-together-their-first-i-missed-this",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "Not since {last-together}, {their_first}. I missed this.",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "miss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.not-tonight-their-first-weekday-took-it-out-of-me",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "Not tonight, {their_first}. {weekday} took it out of me.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.i-need-quiet-weekday-was-enough",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "I need quiet. {weekday} was enough.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.position-at-employer-you-ll-be-good-at-that",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "{position} at {employer}. You'll be good at that.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.position-at-employer-sounds-like-a-fit",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "{position} at {employer} sounds like a fit.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-employer-treats-you-right",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope {employer} treats you right.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-employer-pays-what-position-should",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope {employer} pays what {position} should.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-brief.well-position-is-a-start",
+      "move": "job-new-detail-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Well, {position} is a start.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-brief",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-brief.employer-it-s-a-start",
+      "move": "job-new-detail-reply-answer-brief",
+      "kind": "spoken",
+      "text": "{employer}. It's a start.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-brief",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.long-story-my-place-for-now",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Long story. {my_place}, for now.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.not-much-to-tell-my-place-mostly",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Not much to tell. {my_place}, mostly.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.no-argument-from-me-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "No argument from me on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.we-re-on-the-same-side-of-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "We're on the same side of {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-vote-your-way-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd vote your way on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-about-the-other-way",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see {about} the other way.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-don-t-agree-on-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We don't agree on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-of-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I come down the other side of {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.government-news-answer-for.i-d-be-for-it-about-was-overdue",
+      "move": "government-news-answer-for",
+      "kind": "spoken",
+      "text": "I'd be for it. {about} was overdue.",
+      "uses": [
+        {
+          "move": "government-news-answer-for",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "for"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.government-news-answer-for.i-m-for-about-somebody-had-to-do-it",
+      "move": "government-news-answer-for",
+      "kind": "spoken",
+      "text": "I'm for {about}. Somebody had to do it.",
+      "uses": [
+        {
+          "move": "government-news-answer-for",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "for"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.government-news-answer-against.i-d-be-against-about",
+      "move": "government-news-answer-against",
+      "kind": "spoken",
+      "text": "I'd be against {about}.",
+      "uses": [
+        {
+          "move": "government-news-answer-against",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "against"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.government-news-answer-against.i-m-against-it-about-is-the-wrong-call",
+      "move": "government-news-answer-against",
+      "kind": "spoken",
+      "text": "I'm against it. {about} is the wrong call.",
+      "uses": [
+        {
+          "move": "government-news-answer-against",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "against"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.veto-reply-answer-gives.i-know-what-bill-meant-to-you-i-m-sorry",
+      "move": "veto-reply-answer-gives",
+      "kind": "spoken",
+      "text": "I know what {bill} meant to you. I'm sorry.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-gives",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "gives",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.veto-reply-answer-leave.i-have-to-get-back-we-ll-talk-about-bill-later",
+      "move": "veto-reply-answer-leave",
+      "kind": "spoken",
+      "text": "I have to get back. We'll talk about {bill} later.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-leave",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "leave",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.victimization-reply-answer-help.it-was-only-when-how-can-i-help",
+      "move": "victimization-reply-answer-help",
+      "kind": "spoken",
+      "text": "It was only {when}. How can I help?",
+      "uses": [
+        {
+          "choice": "help",
+          "move": "victimization-reply-answer-help",
+          "role": "answer",
+          "subject": "victimization-reply"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.victimization-reply-answer-help.how-can-i-help-their-first-when-is-still-fresh",
+      "move": "victimization-reply-answer-help",
+      "kind": "spoken",
+      "text": "How can I help, {their_first}? {when} is still fresh.",
+      "uses": [
+        {
+          "choice": "help",
+          "move": "victimization-reply-answer-help",
+          "role": "answer",
+          "subject": "victimization-reply"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.you-think-running-for-office-is-a-mistake",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "You think running for {office} is a mistake?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["office", "stance-worry"]
+        },
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-worry", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.player-news-answer-ask.you-d-really-vote-against-me-for-office",
+      "move": "player-news-answer-ask",
+      "kind": "spoken",
+      "text": "You'd really vote against me for {office}?",
+      "uses": [
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["office", "stance-other-side"]
+        },
+        {
+          "move": "player-news-answer-ask",
+          "subject": "player-news",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["stance-other-side", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-plain.i-said-i-d-vote-on-issue-and-i-did",
+      "move": "promise-kept-answer-plain",
+      "kind": "spoken",
+      "text": "I said I'd vote on {issue}, and I did.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-plain",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-plain.i-said-i-d-pay-payment-on-time",
+      "move": "promise-kept-answer-plain",
+      "kind": "spoken",
+      "text": "I said I'd pay {payment} on time.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-plain",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-plain.i-said-i-d-be-at-meeting-body",
+      "move": "promise-kept-answer-plain",
+      "kind": "spoken",
+      "text": "I said I'd be at {meeting-body}.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-plain",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-modest.it-was-right-issue-mattered",
+      "move": "promise-kept-answer-modest",
+      "kind": "spoken",
+      "text": "It was right. {issue} mattered.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-modest",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "modest",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-modest.paying-payment-on-time-was-only-right",
+      "move": "promise-kept-answer-modest",
+      "kind": "spoken",
+      "text": "Paying {payment} on time was only right.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-modest",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "modest",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-modest.meeting-body-needed-someone-there",
+      "move": "promise-kept-answer-modest",
+      "kind": "spoken",
+      "text": "{meeting-body} needed someone there.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-modest",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "modest",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-warm.i-m-glad-it-helped-with-issue",
+      "move": "promise-kept-answer-warm",
+      "kind": "spoken",
+      "text": "I'm glad it helped with {issue}.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-warm",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "warm",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-warm.i-m-glad-payment-is-settled",
+      "move": "promise-kept-answer-warm",
+      "kind": "spoken",
+      "text": "I'm glad {payment} is settled.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-warm",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "warm",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-kept-answer-warm.glad-i-made-it-to-meeting-body",
+      "move": "promise-kept-answer-warm",
+      "kind": "spoken",
+      "text": "Glad I made it to {meeting-body}.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-warm",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "warm",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-own-it.you-re-right-i-didn-t-vote-on-issue-as-i-said",
+      "move": "promise-broken-answer-own-it",
+      "kind": "spoken",
+      "text": "You're right. I didn't vote on {issue} as I said.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-own-it",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "own-it",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-own-it.you-re-right-payment-was-late",
+      "move": "promise-broken-answer-own-it",
+      "kind": "spoken",
+      "text": "You're right. {payment} was late.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-own-it",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "own-it",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-own-it.you-re-right-i-missed-meeting-body",
+      "move": "promise-broken-answer-own-it",
+      "kind": "spoken",
+      "text": "You're right. I missed {meeting-body}.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-own-it",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "own-it",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-explain.things-changed-on-issue-i-couldn-t-do-it",
+      "move": "promise-broken-answer-explain",
+      "kind": "spoken",
+      "text": "Things changed on {issue}. I couldn't do it.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-explain",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "explain",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-explain.things-changed-payment-had-to-wait",
+      "move": "promise-broken-answer-explain",
+      "kind": "spoken",
+      "text": "Things changed. {payment} had to wait.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-explain",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "explain",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-explain.i-couldn-t-make-meeting-body-meeting-held",
+      "move": "promise-broken-answer-explain",
+      "kind": "spoken",
+      "text": "I couldn't make {meeting-body} {meeting-held}.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-explain",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "explain",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-deny.that-s-not-how-i-remember-issue",
+      "move": "promise-broken-answer-deny",
+      "kind": "spoken",
+      "text": "That's not how I remember {issue}.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-deny",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "deny",
+          "requiresFacts": ["promise-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-deny.payment-late-that-s-not-how-i-remember-it",
+      "move": "promise-broken-answer-deny",
+      "kind": "spoken",
+      "text": "{payment} late? That's not how I remember it.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-deny",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "deny",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-deny.i-don-t-remember-promising-meeting-body",
+      "move": "promise-broken-answer-deny",
+      "kind": "spoken",
+      "text": "I don't remember promising {meeting-body}.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-deny",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "deny",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-make-it-right.i-ll-make-it-right-payment-goes-out-on-time",
+      "move": "promise-broken-answer-make-it-right",
+      "kind": "spoken",
+      "text": "I'll make it right. {payment} goes out on time.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-make-it-right",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "make-it-right",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.promise-broken-answer-make-it-right.i-ll-be-at-meeting-body-next-time",
+      "move": "promise-broken-answer-make-it-right",
+      "kind": "spoken",
+      "text": "I'll be at {meeting-body} next time.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-make-it-right",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "make-it-right",
+          "requiresFacts": ["promise-attend"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.veto-reply-answer-holds.i-d-veto-bill-again",
+      "move": "veto-reply-answer-holds",
+      "kind": "spoken",
+      "text": "I'd veto {bill} again.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-holds",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "holds",
+          "requiresFacts": ["veto-stood"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.veto-reply-answer-holds.bill-was-a-mistake-and-still-is",
+      "move": "veto-reply-answer-holds",
+      "kind": "spoken",
+      "text": "{bill} was a mistake, and still is.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-holds",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "holds",
+          "requiresFacts": ["veto-overridden"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.veto-reply-back-core.then-we-know-where-we-stand-on-bill",
+      "move": "veto-reply-back-core",
+      "kind": "spoken",
+      "text": "Then we know where we stand on {bill}.",
+      "uses": [
+        {
+          "move": "veto-reply-back-core",
+          "subject": "veto-reply-back",
+          "role": "core",
+          "stages": ["holds"],
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.veto-reply-back-core.that-helps-thank-you-for-hearing-me-out-on-bill",
+      "move": "veto-reply-back-core",
+      "kind": "spoken",
+      "text": "That helps. Thank you for hearing me out on {bill}.",
+      "uses": [
+        {
+          "move": "veto-reply-back-core",
+          "subject": "veto-reply-back",
+          "role": "core",
+          "stages": ["gives"],
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.what-do-you-do-here-in-place",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "What do you do here in {place}?",
+      "uses": [
+        {
+          "move": "own-work-new-ask-where",
+          "subject": "own-work-new",
+          "role": "ask",
+          "choice": "where"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.where-do-you-work-around-place",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "Where do you work, around {place}?",
+      "uses": [
+        {
+          "move": "own-work-new-ask-where",
+          "subject": "own-work-new",
+          "role": "ask",
+          "choice": "where"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.home-new-ask-where.you-re-not-from-place-i-d-guess-where-from",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "You're not from {place}, I'd guess. Where from?",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.home-new-ask-where.where-are-you-from-not-place-i-think",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "Where are you from? Not {place}, I think.",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.their-work-raise-ask.and-you-where-do-you-work-around-place",
+      "move": "their-work-raise-ask",
+      "kind": "spoken",
+      "text": "And you? Where do you work around {place}?",
+      "uses": [
+        {
+          "move": "their-work-raise-ask",
+          "subject": "their-work",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.their-work-raise-ask.what-about-you-what-do-you-do-in-place",
+      "move": "their-work-raise-ask",
+      "kind": "spoken",
+      "text": "What about you? What do you do in {place}?",
+      "uses": [
+        {
+          "move": "their-work-raise-ask",
+          "subject": "their-work",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.their-tenure-raise-ask.how-long-have-you-been-at-employer",
+      "move": "their-tenure-raise-ask",
+      "kind": "spoken",
+      "text": "How long have you been at {employer}?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.their-tenure-raise-ask.been-at-employer-long",
+      "move": "their-tenure-raise-ask",
+      "kind": "spoken",
+      "text": "Been at {employer} long?",
+      "uses": [
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.farewell-core.let-s-pick-up-about-said-next-time-we-talk",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Let's pick up {about-said} next time we talk.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-be-thinking-about-about-said-take-care-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll be thinking about {about-said}. Take care now.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.farewell-core.good-to-hear-your-side-of-about-said-see-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good to hear your side of {about-said}. See you.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.farewell-core.that-s-enough-about-about-said-for-one-day-take-care",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "That's enough about {about-said} for one day. Take care.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.farewell-core.give-my-best-to-name-when-you-see-them",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Give my best to {name} when you see them.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.farewell-core.tell-name-we-talked-take-care-of-yourself",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Tell {name} we talked. Take care of yourself.",
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["by-phone"]
+        }
+      ],
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
       "date": "2026-11-17"
     }
   ]

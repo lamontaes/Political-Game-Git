@@ -1,6 +1,12 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
+    "conversation.home-new-answer-deflect.not-much-to-tell-my-place-is-home": [
+      "no-x-is-home"
+    ],
+    "conversation.tenure-reply-answer-turn.years-years-their-first-you-must-know-everyone-there": [
+      "no-must-for-have-to"
+    ],
     "opening-speech.ask.folded-polished-keep-law-short": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -80,6 +86,9 @@
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
       "alright-in-dialogue"
+    ],
+    "conversation.job-new-detail-reply-answer-brief.well-position-is-a-start": [
+      "no-filler"
     ],
     "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
