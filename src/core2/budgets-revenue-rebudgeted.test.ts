@@ -42,6 +42,7 @@ describe("revenue is re-budgeted from last year's collections", () => {
         .slice()
         .sort((a, b) => a.fiscalYear - b.fiscalYear);
       const revenues = new Set<number>();
+      const movedFederal = new Set<number>();
       let rebudgeted = 0;
       for (const row of rows) {
         revenues.add(total(row.revenueMinor));
@@ -63,12 +64,32 @@ describe("revenue is re-budgeted from last year's collections", () => {
         ).toBe(
           Object.values(lines).reduce((a, v) => a + Math.round(v * ratio), 0),
         );
-        // A state's or county's spending follows the same ratio; the nation's holds.
-        expect(row.receiptsFactor, `${where}: ${level} spending factor`).toBe(
-          level === "federal" ? 1 : ratio,
-        );
+        // A state's or county's spending carries forward from its last budget by what it collected over that
+        // budget's revenue plan; the nation's lines move with its own people and prices, not with its receipts.
+        const before = rows.find((r) => r.fiscalYear === row.fiscalYear - 1);
+        if (before?.baseSpendingMinor && row.baseSpendingMinor) {
+          const carried = total(row.baseSpendingMinor);
+          const last = total(before.baseSpendingMinor);
+          if (level === "federal") movedFederal.add(carried / last);
+          else
+            expect(
+              carried / last,
+              `${where}: ${level} ${row.fiscalYear} spending carry`,
+            ).toBeCloseTo(
+              months.reduce(
+                (a, m) => a + m.collectedMinor - m.borrowedMinor,
+                0,
+              ) / total(before.revenueMinor),
+              4,
+            );
+        }
         rebudgeted += 1;
       }
+      if (level === "federal")
+        expect(
+          [...movedFederal].some((r) => r !== 1),
+          `${where}: federal spending moves from year to year`,
+        ).toBe(true);
       expect(
         rebudgeted,
         `${where}: ${level} re-budgeted years`,

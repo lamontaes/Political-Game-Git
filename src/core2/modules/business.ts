@@ -97,8 +97,11 @@ export {
 export { firmCharged } from "../business-charges";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
+  loanOf,
   medicalDebtOf,
+  nextBillingDay,
   recordMedicalDebt,
+  type LoanRow,
   type MedicalDebtRow,
 } from "./credit";
 export { housingKeptBack, livingPlan, mainBalance } from "../cost-of-living";

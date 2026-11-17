@@ -56,7 +56,7 @@ import {
 } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { dayAhead, inNextMonth } from "../english/day-words";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
@@ -80,9 +80,11 @@ import {
   questionAbout,
   questionSaid,
 } from "../english/question-names";
+import { FAMILY_QUARREL } from "../core2/modules/partnerships";
+import { APOLOGY_PURPOSE, apologyReads } from "./apology-facts";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
-import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -1668,6 +1670,34 @@ function composeBinding(
           : undefined,
         personLean,
       ),
+      // Where the gift ranks, where the bill is, whether the player votes on
+      // it and which side the player's own view puts them on, each from the
+      // record that holds it (donor-ask-facts.ts, `donorReads`).
+      donorReads(core, {
+        causeId: moment.causeId,
+        donorId: askerId,
+        playerId: askedId,
+        ...(said.filingId ? { filingId: said.filingId } : {}),
+        ...(record?.kind === "campaign-gift" &&
+        facts["donor-bill"] &&
+        said.billId
+          ? { billId: said.billId }
+          : {}),
+        sayPerson,
+        leanOf: personLean,
+      }),
+    );
+  // The apology over a missed payment: what the payment was for, who was not
+  // paid, how far behind, the household's money, the next bill and an earlier
+  // quarrel, each from the record that holds it (apology-facts.ts).
+  if (type.purpose === APOLOGY_PURPOSE && record?.kind === FAMILY_QUARREL)
+    Object.assign(
+      facts,
+      apologyReads(core, {
+        causeId: moment.causeId,
+        wrongedId: askerId,
+        borrowerId: askedId,
+      }),
     );
   // How the two stand, from the one reader (relation-facts.ts): the asked
   // person's family (`kin`), known people (`acquainted`, else `stranger`), and
@@ -3451,9 +3481,11 @@ const DOOR_ASK_AFTER = "ask";
  * tie stands on today.
  */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number; unit?: string } | undefined>
+  Record<
+    string,
+    { value?: number; unit?: string; parameter?: string } | undefined
+  >
 >;
-const SHARE_OF_TIE = "share of the tie";
 
 /** The hours an ending's strain takes off the tie between two people today. */
 export function endingStrainHours(
@@ -3464,8 +3496,11 @@ export function endingStrainHours(
 ): number | undefined {
   const row = ENDING_STRAIN[keeps];
   if (!row) return undefined;
-  return row.unit === SHARE_OF_TIE
-    ? row.value * tieHoursBetween(core, a, b)
+  // A share of the tie is a core parameter (trust lost: closeness.ts
+  // trustLostHours, the row the promises engine reads too).
+  return row.parameter
+    ? parameter(row.parameter, core.data.parameters) *
+        tieHoursBetween(core, a, b)
     : row.value;
 }
 
@@ -3585,7 +3620,7 @@ export function replyInScene(
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       // A promise a record can settle: its kind and its tie, from the
-      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // ending's row in src/director/data/promise-endings.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),

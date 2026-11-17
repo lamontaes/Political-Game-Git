@@ -13,7 +13,7 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { moneySaid, votesSaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
 const RULES = rulesFile.familyStakes;
@@ -39,6 +39,25 @@ export interface Stake {
 const daysBetween = daysBetweenText;
 
 const ageOn = ageOnDate;
+
+/**
+ * A household's liquid money and what its members' pay leaves of their living
+ * costs each day (the business engine's founder runway): the one read a
+ * filing's money stake and the apology talk's "the money wasn't there" share.
+ */
+export function householdMoney(
+  core: Readonly<CoreState>,
+  members: readonly PersonState[],
+): { liquid: number; cost: number } {
+  const liquid = members.reduce((sum, row) => sum + row.liquidMinor, zero);
+  const pay = members.reduce((sum, row) => {
+    const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
+    return sum + (job && !job.endsAt ? job.wageDailyMinor : zero);
+  }, zero);
+  const cost =
+    members.reduce((sum, row) => sum + row.livingCostDailyMinor, zero) - pay;
+  return { liquid, cost };
+}
 
 /**
  * The stake one relative has in the filing, or null. `causeId` is the filing's
@@ -70,13 +89,7 @@ function filingStakeOf(
   // (owner, Oct 28 sitting, 38: "who says the player is not campaigning
   // after work?").
   const electionDate = core.durableLog.get(causeId)?.facts?.electionDate;
-  const liquid = members.reduce((sum, row) => sum + row.liquidMinor, zero);
-  const pay = members.reduce((sum, row) => {
-    const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
-    return sum + (job && !job.endsAt ? job.wageDailyMinor : zero);
-  }, zero);
-  const cost =
-    members.reduce((sum, row) => sum + row.livingCostDailyMinor, zero) - pay;
+  const { liquid, cost } = householdMoney(core, members);
   const raceDays =
     typeof electionDate === "string"
       ? daysBetween(core.date, electionDate)
