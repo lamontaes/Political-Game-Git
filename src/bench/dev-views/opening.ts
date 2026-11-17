@@ -43,6 +43,7 @@ import {
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
 import { allOfficials } from "../../core2/modules/officials";
+import { statePlaces, stateRightShare } from "../../core2/electorate-places";
 import { partySide } from "../../core2/appointments";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
@@ -320,6 +321,23 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             return `${mine || "not counted by the century (its members are not elected on the two national sides)"}; across the country the Republicans hold ${control.r} chambers and the Democrats ${control.d}, elected seat by seat through the century`;
           })()
         : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.stateLean",
+      "Your state on day one",
+      (() => {
+        // The state as play's counts read it: its counted places' vote-weighted lean.
+        const town = coreAPI(core)
+          .moduleState("core2-offices-v1")
+          .table("loaded")
+          .get("town") as unknown as { stateKey: string } | undefined;
+        const usps = town?.stateKey.slice(3) ?? "";
+        const share = stateRightShare(usps, core.seed);
+        const places = statePlaces(usps, core.seed);
+        return share === null
+          ? "no counted places"
+          : `${pct(share)} Republican across its ${places.length} counted places (${historyMode(core.seed) === "century" ? "the century's last count in the state" : "its 2024 presidential vote and this world's swing"})`;
+      })(),
     ),
     row(
       "town.districtLeans",

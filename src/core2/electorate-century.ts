@@ -46,7 +46,7 @@ import {
   congressSeatKeys,
   congressStateKeys,
   rosterLabel,
-  statePlaces,
+  publishedStatePlaces,
 } from "./electorate-places";
 import { seededUnit } from "./seeded";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
@@ -359,6 +359,22 @@ export function centurySignedLean(
   return share === undefined ? undefined : 2 * share - 1;
 }
 
+/**
+ * The right's two-party share where the century's last count left a state or territory (by
+ * USPS): a state's last presidential count, a territory's last delegate race. Undefined under
+ * "today" and where the century has no count for it.
+ */
+export function centuryStateShare(
+  seed: string,
+  usps: string,
+): number | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return (
+    centuryOf(seed, openingOf(seed)).leans[`US-${usps}`] ??
+    centuryDistrictLean(seed, { usps, houseCode: "0" })
+  );
+}
+
 /** The century's parties, under "century"; undefined under "today". */
 export function centuryParties(
   seed: string,
@@ -451,8 +467,8 @@ function eligibleOf(seed: string, stateKey: string): number {
   // A territory has no county places: its people are sized by its delegate's race, as play's
   // races size them (voting.ts worldRacePlaces).
   const eligible =
-    sum(statePlaces(stateKey.slice(3), seed)) ||
-    sum(statePlaces(stateKey.slice(3), seed, 1));
+    sum(publishedStatePlaces(stateKey.slice(3), seed)) ||
+    sum(publishedStatePlaces(stateKey.slice(3), seed, 1));
   eligibles.set(key, eligible);
   return eligible;
 }
