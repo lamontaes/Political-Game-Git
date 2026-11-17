@@ -32,6 +32,11 @@ import {
   latestApproval,
   presidentElection,
 } from "../../core2/modules/national-opinion";
+import {
+  centuryOf,
+  centuryPresidency,
+  historyMode,
+} from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
@@ -217,6 +222,67 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         ? `${shown(election.share * api.parameter("macroHundred"))}% (their share in the ${election.date} election; months of the term before day one: 0; now ${approvalNow(latestApproval(api)?.pct)})`
         : "none (no record of the race that seated the president)",
       election ? { recordId: election.termId } : {},
+    ),
+  );
+  // Who the century before day one elected (src/core2/electorate-century.ts), or today's real
+  // record when the world chose it; the President's term carries the race (Trace opens it).
+  const century = centuryOf(core.seed, core.startedAt);
+  const sitting = centuryPresidency(core.seed, core.startedAt);
+  const pct = (share: number) => `${(share * 100).toFixed(1)}%`;
+  rows.push(
+    row(
+      "town.president",
+      "President on day one",
+      sitting
+        ? `${sitting.winnerParty}: won ${sitting.year} with ${pct(sitting.winnerShare)} of the two-party vote and ${sitting.winnerSide > 0 ? sitting.electoral.republican : sitting.electoral.democratic} electors; the person's term ${sitting.personTerms}, the party's ${sitting.partyTerms} in a row (${sitting.id})`
+        : "today's real record (the world chose it)",
+      election ? { recordId: election.termId } : {},
+    ),
+    row(
+      "town.century",
+      "The century's presidential elections",
+      historyMode(core.seed) === "century"
+        ? century.presidencies
+            .map(
+              (p) =>
+                `${p.year} ${p.winnerSide > 0 ? "R" : "D"}${p.incumbentRan ? " (sitting President ran)" : ""} ${pct(p.republicanShare)} R, electors ${p.electoral.republican}-${p.electoral.democratic}${p.timeForChange.side ? `, time for a change cost the ${p.timeForChange.side > 0 ? "R" : "D"} ticket ${pct(p.timeForChange.share)}` : ""}`,
+            )
+            .join("; ")
+        : "none (today's real record)",
+    ),
+  );
+  // Congress on day one and every Congress of the century (electorate-century.ts).
+  const congress = century.congresses.at(-1);
+  const seated = (c: (typeof century.congresses)[number]) =>
+    `House ${c.house.republican} R, ${c.house.democratic} D; Senate ${c.senate.republican} R, ${c.senate.democratic} D`;
+  rows.push(
+    row(
+      "town.congress",
+      "Congress on day one",
+      historyMode(core.seed) === "century" && congress
+        ? `${seated(congress)}, after the ${congress.year} elections (${congress.id})`
+        : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.governors",
+      "Governors on day one",
+      historyMode(core.seed) === "century"
+        ? (() => {
+            const governors = [...century.seats.values()].filter(
+              (seat) =>
+                seat.chamber === "executive" && seat.rosterKey === "governor",
+            );
+            const r = governors.filter((seat) => seat.side > 0).length;
+            return `${r} R, ${governors.length - r} D, elected through the century`;
+          })()
+        : "today's real record (the world chose it)",
+    ),
+    row(
+      "town.congresses",
+      "The century's Congresses",
+      historyMode(core.seed) === "century"
+        ? century.congresses.map((c) => `${c.year}: ${seated(c)}`).join("; ")
+        : "none (today's real record)",
     ),
   );
   return rows;

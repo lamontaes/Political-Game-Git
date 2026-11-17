@@ -16,6 +16,7 @@ import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
 import type { ClaimRow } from "./jobs-benefits";
 import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
+import { retirementClaims } from "./modules/retirement-claims";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -73,6 +74,7 @@ export interface HouseholdPoverty {
  */
 function claimIncome(core: CoreState): Map<string, number> {
   const out = new Map<string, number>();
+  retirementClaimIncome(core, out);
   if (!core.modules.has("jobs")) return out;
   const rt = residentsRuntime(core);
   for (const claim of coreAPI(core)
@@ -99,6 +101,48 @@ function claimIncome(core: CoreState): Map<string, number> {
     );
   }
   return out;
+}
+
+/**
+ * Social Security claimed in play is money income the Census counts (its
+ * money income lists Social Security among its sources): each open claim's
+ * monthly award, a year's worth, for the claimant's household, named or
+ * counted. Awards written at the opening are income contracts, counted
+ * above for named households and in the counted household's own income.
+ */
+function retirementClaimIncome(
+  core: CoreState,
+  out: Map<string, number>,
+): void {
+  const claims = retirementClaims(core);
+  if (!claims.size) return;
+  const accounts = coreAPI(core).accounts();
+  const rt = residentsRuntime(core);
+  for (const [personId, claim] of claims) {
+    // A full claimant is paid by an obligation; a counted one by a monthly
+    // residents flow under the same id, which the line rerates the same way.
+    let monthlyMinor = 0;
+    if (claim.counted) {
+      const flow = rt?.flows.get(claim.obligationId);
+      if (!flow || flow.endedAt) continue;
+      monthlyMinor =
+        flow.amountByContract?.[claim.obligationId] ?? flow.amountMinor;
+    } else {
+      const obligation = accounts.obligation(claim.obligationId);
+      if (!obligation || obligation.endedAt) continue;
+      monthlyMinor = obligation.amountMinor;
+    }
+    const named = core.people.get(personId)?.householdId;
+    const m =
+      named === undefined ? rt?.store.countedMember(personId) : undefined;
+    const household =
+      named ??
+      (m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!]?.id);
+    if (household === undefined) continue;
+    out.set(household, (out.get(household) ?? 0) + monthlyMinor * 12);
+  }
 }
 
 /** Every household's income against its line today, named and counted. */

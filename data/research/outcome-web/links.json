@@ -867,6 +867,48 @@
       "notes": "Unsupported until measured: the game's coverage records hold only simulated people's Medicaid changes, not a place's covered share, and catastrophic bills are not a kept place outcome."
     },
     {
+      "key": "medicare-line-to-medical-debt",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the federal Medicare line is above its base",
+      "lagMonths": 4,
+      "group": "Medicare members, named and counted, and the households that pay their bills",
+      "owner": "F",
+      "anchor": "Medicare at 65 brings \"a 30 percent reduction in debt collections\" in credit bureau data, with \"limited effects on other financial outcomes\". The line in force over its base raises Medicare's own part of each member's care, so the member's bill falls by the same dollars; what a household cannot pay past the provider's wait is what goes to collections. The response is the arithmetic of each bill against the household's cash, not a fitted size.",
+      "source": "Goldsmith-Pinkham, Pinkovskiy and Wallace, The Great Equalizer: Medicare and the Geography of Consumer Financial Strain, Federal Reserve Bank of New York Staff Reports no. 911, January 2020, revised September 2023 (https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr911.pdf), read Nov 17, 2026",
+      "evidence": "researched",
+      "from": "budget.medicare-added-pct",
+      "to": "finance.medical-debt-in-collections",
+      "carriedBy": "the coverage engine's monthly bills (billMembers in src/core2/medical-bills.ts, run on the 1st by src/core2/modules/coverage.ts) read the federal Medicare line in force (federalBenefitLine): a line over its base raises Medicare's part of each Medicare member's care and lowers the member's share by the same dollars (medicareLineMinor on the bill), full and counted members alike, so the household owes less, leaves less unpaid past the provider's wait and has less placed for collection (collectionsShare, and recordMedicalDebt in src/core2/modules/credit.ts). The web does not run the link",
+      "why": [
+        "The federal Medicare line pays Medicare's part of its members' care; the line in force over its base raises that part.",
+        "A member's own share of the care falls by what the line adds.",
+        "A household that cannot pay a bill carries it for the provider's wait, and part of what is still unpaid goes to collections.",
+        "The terminal is each member's bill, the household's payment and the medical debt placed on its books, all on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household has Medicare members with high care needs and little cash."
+        ],
+        "weakerWhen": [
+          "The household pays its bills from what it holds, or its Medicare members need little care."
+        ],
+        "absentWhen": [
+          "The line is at its base, or no one in the place is on Medicare."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back raises each member's share from the next monthly bill; a debt already placed stays on the household's books.",
+      "who": "People on Medicare, named and counted, and the households that pay their bills.",
+      "lagWhy": "A bill unpaid past the provider's 120-day wait is when part of it goes to collections.",
+      "aboutZero": false,
+      "notes": "Not run by the web: the bills price each Medicare member by the line in force, so the link is carried. The study measures Medicare coverage at 65, which the bills already price by each member's plan; the line sets how much of the care Medicare pays."
+    },
+    {
       "key": "coverage-to-medical-debt",
       "status": "cause-not-recorded",
       "unsupportedReason": "cause-not-recorded",
@@ -6548,6 +6590,48 @@
       "lagWhy": "The benefit is owed from the month after the line changes and counts as income when paid.",
       "aboutZero": false,
       "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. The Medicaid part of the line pays medical spending, a noncash benefit the official measure does not count; the SNAP benefit is food aid, also not counted."
+    },
+    {
+      "key": "social-security-line-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the federal Social Security line is above its base",
+      "lagMonths": 0,
+      "group": "households with a Social Security award, named and counted",
+      "owner": "F",
+      "anchor": "\"The income used to compute poverty status includes (before taxes)\" a list that names \"Social Security\" and \"Supplemental Security Income\". An award the line raises is income dollar for dollar against the household's poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Nov 17, 2026",
+      "evidence": "researched",
+      "from": "budget.socialSecurity-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: a named household's opening award (an income contract the line rerates in applySocialSecurityLevel, src/core2/budgets-treasury.ts), a claim made in play (retirementClaimIncome, the claim's award the line rerates), and a counted household's own award rows (rerateCountedRetirement, src/core2/modules/residents.ts); the poverty share the web reads is that record",
+      "why": [
+        "The federal Social Security line pays each recipient their award; the line in force over its base scales every award.",
+        "Social Security is money income in the official poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household lives mainly on its award, just under its threshold."
+        ],
+        "weakerWhen": [
+          "The household has wages well above its threshold, or its award is small."
+        ],
+        "absentWhen": [
+          "The line is at its base, or no one in the place draws an award."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back lowers each award from the next payment; the household's income falls with it.",
+      "who": "Retirees and their households, named and counted, who draw an award.",
+      "lagWhy": "An award follows the line from the next monthly close and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. Medicare is a noncash benefit the official measure does not count."
     },
     {
       "key": "emissions-to-warming",
