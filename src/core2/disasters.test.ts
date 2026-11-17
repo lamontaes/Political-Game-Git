@@ -8,6 +8,7 @@ import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
+  causeDamagingDisaster,
   damagedHomesOf,
   disasterAssistancePaid,
   disasterRepairsPaid,
@@ -60,6 +61,8 @@ function worldWithFirstYearDisaster() {
     end.setUTCFullYear(end.getUTCFullYear() + 1);
     end.setUTCDate(end.getUTCDate() - 1);
     yearEnd = end.toISOString().slice(0, 10);
+    // The county's own exposure makes its disasters; cause the next one that damages the town.
+    causeDamagingDisaster(coreAPI(core));
     due = townDisasters(coreAPI(core)).filter(
       (row) => row.begins > opened && row.begins <= yearEnd,
     );
@@ -84,8 +87,12 @@ describe(`disasters from the record (seed ${seed})`, () => {
     console.log(
       `disasters in ${where}: ${events.length} events in the first year, ${disasterAssistancePaid(api).length} payments, ${disasterRepairsPaid(api).length} repairs`,
     );
-    // One public, newsworthy event per declared disaster begun in the year.
-    expect(events.length).toBe(due.length);
+    // One public, newsworthy event per disaster begun in the year: the one caused and any the weather made.
+    const begun = townDisasters(api).filter(
+      (row) => row.begins > opened && row.begins <= yearEnd,
+    );
+    expect(begun.length).toBeGreaterThanOrEqual(due.length);
+    expect(events.length).toBe(begun.length);
     for (const row of events) {
       expect(row.date > opened && row.date <= yearEnd).toBe(true);
       expect(row.facts?.disasterNumber).toBeDefined();
@@ -155,6 +162,7 @@ describe(`disasters from the record (seed ${seed})`, () => {
         placeKey: place.key,
       });
       const api = coreAPI(core);
+      causeDamagingDisaster(api);
       const yearEnd = addDays(makeIsoDate(core.date), 365);
       const disaster = townDisastersWithDamage(api)
         .filter((row) => row.declared > core.date && row.declared <= yearEnd)

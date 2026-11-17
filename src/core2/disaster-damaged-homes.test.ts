@@ -9,6 +9,7 @@ import {
   damagedHomesOf,
   disasterAssistancePaid,
   normalizedGovernmentName,
+  causeDamagingDisaster,
   townDisastersWithDamage,
 } from "./modules/disasters";
 import households from "./data/disasters/households.json" with { type: "json" };
@@ -54,11 +55,14 @@ function run(short: boolean): void {
         placeKey: place.key,
       });
       const api = coreAPI(core);
+      causeDamagingDisaster(api);
       const yearEnd = addDays(makeIsoDate(core.date), 365);
       const disaster = townDisastersWithDamage(api)
         .filter((row) => row.declared > core.date && row.declared <= yearEnd)
         // The short case: FEMA's damage in the town is more than its aid, so the pool cannot cover repairs from aid alone.
-        .filter((row) => !short || damageBeatsAid(row.number, name))
+        .filter(
+          (row) => !short || damageBeatsAid(row.recorded ?? row.number, name),
+        )
         .sort((x, y) => x.declared.localeCompare(y.declared))[0];
       if (!disaster) {
         tried.push(`${where}: no damaged-home disaster in the year`);
