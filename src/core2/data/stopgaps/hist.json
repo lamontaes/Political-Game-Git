@@ -208,5 +208,38 @@
     "addedAt": "2026-11-17",
     "replacement": "Each state's people by decade from the population history, and electors from each census's apportionment.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-district-leans",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A House district's lean in the century carries only its own House results, not the presidential or Senate results its people also cast; a state's lean carries the presidential and Senate results.",
+    "why": "The century counts a state's presidential and Senate races as one place, not by district or county, so no district's share of those races exists.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "World B's leans per counted place (carryLean), with the century counting the presidency and the Senate by county and district.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-parties",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed.",
+    "why": "Party evolution is the History lane's PR 7, after Congress and the states, because a party's stances come from its coalition's people.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's parties (PR 7, history-parties): each party's record with its founding, stances and notable people.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-delegate-terms",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The century elects every House seat, delegates included, every second year, including Puerto Rico's Resident Commissioner, whose term is four years.",
+    "why": "The roster keys a delegate's seat like any district; the term length is not read in the century yet.",
+    "addedBy": "History lane (claude/history-congress)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each seat's term from the offices data (offices-state.ts REPRESENTATION termYears).",
+    "status": "open"
   }
 ]

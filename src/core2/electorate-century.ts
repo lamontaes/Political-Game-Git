@@ -526,6 +526,7 @@ function careerOf(
 }
 
 /** Every seat in Congress in 1925: who holds it is the side its own place leans to. */
+// stopgapId: SG-HIST-century-district-leans
 function openingSeats(
   seed: string,
   leans: Readonly<Record<string, number>>,
@@ -629,6 +630,8 @@ function congressElections(
   results: YearResults,
 ): void {
   const cycle = year % 4 === 0 ? "presidential" : "midterm";
+  // stopgapId: SG-HIST-century-delegate-terms
+  // stopgapId: SG-HIST-century-parties
   for (const seat of seats.values()) {
     if (seat.chamber === "senate" && !senateClassUp(seat.senateClass, year))
       continue;

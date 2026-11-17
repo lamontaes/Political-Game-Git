@@ -70,6 +70,14 @@
       "made": "decision",
       "by": "src/core2/electorate-century.ts runCentury: every presidential election from 1928, each state's 1925 lean one starting shift from the world's seed (world-draw.ts worldOffsetUnit, centuryStateLeanSpread) and carried from its own results since (centuryLeanCarryShare)"
     },
+    "town.congress": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressElections: every House seat each even year and the Senate by class from 1926, counted on the one path (electorate.ts countParties); the day-one seats are seated by src/core2/modules/offices.ts worldParties and read by every engine through electorate-places.ts worldRoster. Under the world setting history \"today\", the real roster (data/research/offices/legislature-party-counts-2026.json)."
+    },
+    "town.congresses": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts congressCount: each chamber's seats by party after every November of the century"
+    },
     "person.name": {
       "made": "generation",
       "by": "src/core2/person-names.ts and src/core2/gov-rules/given-name-cohorts.ts: given names by birth-year cohort; family names picked evenly from the whole name list (own random stream)",
@@ -833,6 +841,16 @@
       "made": "generation",
       "what": "Each state's and the country's place on the lean order in 1925, where the century starts: an even split moved by one seeded shift each, sized by the real map's spread (CTO line 6935396694)",
       "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
+    },
+    "src/core2/electorate-century.ts#openingSeats": {
+      "made": "generation",
+      "what": "Each House district's place on the lean order in 1925: its state's, moved by one seeded shift sized by the real spread of districts within their states",
+      "replace": "Nothing: who exists in 1925 is generation, and everything after is the century's count"
+    },
+    "src/core2/electorate-century.ts#careerOf": {
+      "made": "generation",
+      "what": "How many terms a member of Congress serves before leaving the seat open, drawn once when they first win, its mean the completed career the CRS mean service implies",
+      "replace": "A member's own decision to run again from their record (age, health, standing) once past members are filled in on open"
     }
   }
 }

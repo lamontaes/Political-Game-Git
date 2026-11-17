@@ -251,6 +251,26 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         : "none (today's real record)",
     ),
   );
+  // Congress on day one and every Congress of the century (electorate-century.ts).
+  const congress = century.congresses.at(-1);
+  const seated = (c: (typeof century.congresses)[number]) =>
+    `House ${c.house.republican} R, ${c.house.democratic} D; Senate ${c.senate.republican} R, ${c.senate.democratic} D`;
+  rows.push(
+    row(
+      "town.congress",
+      "Congress on day one",
+      historyMode(core.seed) === "century" && congress
+        ? `${seated(congress)}, after the ${congress.year} elections (${congress.id})`
+        : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.congresses",
+      "The century's Congresses",
+      historyMode(core.seed) === "century"
+        ? century.congresses.map((c) => `${c.year}: ${seated(c)}`).join("; ")
+        : "none (today's real record)",
+    ),
+  );
   return rows;
 }
 
