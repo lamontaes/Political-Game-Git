@@ -33,7 +33,7 @@ root: rc3-thin-life-record
 
 **Waits on.** Nothing.
 
-**Files.** src/director/hold-chair-sought.test.ts; src/bench/office.ts
+**Files.** src/bench/office.ts
 
 **Notes.**
 

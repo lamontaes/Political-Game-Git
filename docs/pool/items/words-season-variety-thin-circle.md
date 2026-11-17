@@ -35,7 +35,7 @@ branch: claude/pool-words-season-variety-thin-circle
 
 **Waits on.** Nothing.
 
-**Files.** src/director/campaign-season.test.ts, src/director/data/situation-types.json, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json
+**Files.** src/director/data/situation-types.json, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json
 
 **Notes.** lead: words. Found Oct 29 while fixing the Northford seed red.
 
@@ -44,3 +44,5 @@ Oct 30 (Words): more evidence, a first-beat gap: Pineland, Florida (seed chk2-b:
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:38 UTC) on branch claude/pool-words-season-variety-thin-circle.
 
 Released by next (2026-11-13): no push to claude/pool-words-season-variety-thin-circle since 2026-11-11 02:38 UTC, more than twice its 5-hour time box. Continue on branch claude/pool-words-season-variety-thin-circle and pull request #8490.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/campaign-season.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

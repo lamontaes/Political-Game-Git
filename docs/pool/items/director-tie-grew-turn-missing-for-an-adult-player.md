@@ -32,4 +32,8 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/director/ledger.ts, src/director/tie-turns.test.ts
+**Files.** src/director/ledger.ts
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/tie-turns.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").
