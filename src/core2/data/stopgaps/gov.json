@@ -2076,5 +2076,17 @@
     "addedAt": "2026-11-11",
     "replacement": "Resolved Nov 14, 2026 (elections-read-counted-cases): the counted electorate reads a counted resident's decided cases as warmth toward the official (caseWarmthsOf in constituent-cases.ts, read by countedAppeal at the election count, the primary, the door answer and the turnout reason), by the same step touchImpression applies, at the share of the record who brought the case. Was: The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-counted-places-hear-their-state",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 7116,
+    "whatItFakes": "The people of a place counted outside the town are taken to have heard how their state's unemployment moved against the nation's over the last year, so the party that holds the seat pays or gains for it by the town's own rule. In the town a change counts only once a story carrying it has reached someone who lives there.",
+    "why": "No press is modeled outside the town: a counted place has no outlets, stories or readers of its own to carry its state's figures to its people.",
+    "addedBy": "World B",
+    "addedAt": "2026-11-17",
+    "replacement": "The nation tier's press reaches counted places: a state's jobs figures count in a place's vote only where a recorded story carried them to its readers.",
+    "status": "open"
   }
 ]
