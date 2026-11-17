@@ -109,6 +109,21 @@ export interface EntryBoard {
   cut?: BoardCut;
   /** The day's scenes from circumstance weighed beside it and never stored. */
   offers?: BoardOffer[];
+  /** The life's room on the day's board, as the pick read it (kept on the same entry as the offers). */
+  room?: BoardRoom;
+}
+
+/**
+ * The life's room as the day's pick read it: the pace over the trailing year,
+ * times the standing's multiplier, less the picks made this year whose cause
+ * was not the person's own record. A candidate whose cause is their own record
+ * is weighed outside it (its entry's board says `own`).
+ */
+export interface BoardRoom {
+  pace: number;
+  standing: number;
+  picks: number;
+  left: number;
 }
 
 /**
@@ -782,11 +797,12 @@ export function pickFromBoard(
       tie(a).localeCompare(tie(b)),
   );
   const person = core.people.get(book.personId);
-  const room = person
-    ? paceOf(library, person.birthDate, input.date) *
-        standingMultiplier(library, playerStanding(core, book.personId, book)) -
-      picksInYear(library, book, input.date)
+  const pace = person ? paceOf(library, person.birthDate, input.date) : zero;
+  const standing = person
+    ? standingMultiplier(library, playerStanding(core, book.personId, book))
     : zero;
+  const picks = person ? picksInYear(library, book, input.date) : zero;
+  const room = pace * standing - picks;
   const live = input.mode === "live";
   // The best scene from circumstance that follows a record of the person's
   // own life (a door on their canvass, their own chamber's floor) is met as
@@ -872,5 +888,7 @@ export function pickFromBoard(
     passed[passed.length - one] ??
     candidates.find((row) => row.entry)?.entry;
   if (offered.length && holder?.board) holder.board.offers = offered;
+  // The room the pick read, on the same entry, so dev mode shows it as read.
+  if (holder?.board) holder.board.room = { pace, standing, picks, left: room };
   return { ...(picked ? { picked } : {}), stops };
 }

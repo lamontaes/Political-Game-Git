@@ -12,13 +12,24 @@
  *  - `lines`: every scene-talk line of a type's purpose, from the line register, with its tie class,
  *    the facts it needs, whether an engine reaches it and whether the grades or a rule hold it.
  *  - `force`: causes a type through the game's own code (`DevMode.forceScene`) and writes a dev-mode
- *    mark `scene-forced` on the record; a forced scene is never a played one for a Words stamp.
+ *    mark `scene-forced` on the record; a forced scene is never a played one for a Words stamp. The
+ *    forced cause then meets the board's gates and room like any other (no gate is lifted), and the
+ *    answer names the board's verdict: staged, or held back with the gate that cut it.
+ *  - `board`: the director's board for one day (the board design's item 7): every candidate it
+ *    weighed, stored moments and the scenes from circumstance offered, each with its cause record,
+ *    its cards and the gate that cut each, its score and the reads behind it, the pick, and the life's
+ *    room as the pick read it. Each row's `board` is the ledger entry's own (board.ts writes it); the
+ *    view computes nothing.
  * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
 import { lineByKey, linesForPurpose } from "../../english/line-register";
 import { applyCoreEvent } from "../../core2/state";
 import { addDays, makeIsoDate } from "../../core2/kernel/dates";
-import { SITUATION_LIBRARY } from "../../director/scheduling";
+import {
+  SITUATION_LIBRARY,
+  type ScheduleEntry,
+} from "../../director/scheduling";
+import type { PersonLedger } from "../../director/types";
 import type { PersonId } from "../../core2/types";
 import type { PurposeType } from "../../director/scene-talk";
 import type { DevView } from "../dev-views";
@@ -45,6 +56,54 @@ const MOMENTS = 20;
 
 const personLabel = (person?: { givenName: string; familyName: string }) =>
   person ? `${person.givenName} ${person.familyName}` : undefined;
+
+/**
+ * What the board did with a forced type, read from the entries it wrote since the force: staged
+ * (bound and not a journal line), else the first gate it gave (the card's own cut, the day's cut of
+ * the moment, a scene from circumstance's cut, or the held-back reason), else not weighed (no
+ * moment bound the type). The entry is the latest that names the type, its cause record first.
+ */
+function boardVerdict(
+  book: PersonLedger | undefined,
+  entries: readonly ScheduleEntry[],
+  typeKey: string,
+  causeId?: string,
+): {
+  verdict: "staged" | "held-back" | "not-weighed";
+  reason: string | null;
+  date: string | null;
+  momentId: string | null;
+} {
+  const names = (entry: ScheduleEntry) =>
+    entry.bindings.some((row) => row.typeKey === typeKey) ||
+    !!entry.board?.cards.some((card) => card.typeKey === typeKey) ||
+    !!entry.board?.offers?.some((offer) => offer.typeKey === typeKey) ||
+    !!entry.heldBack?.some((held) => held.typeKey === typeKey);
+  const named = entries.filter(names);
+  const entry =
+    named
+      .filter((row) => book?.momentsById.get(row.momentId)?.causeId === causeId)
+      .at(-1) ?? named.at(-1);
+  if (!entry)
+    return { verdict: "not-weighed", reason: null, date: null, momentId: null };
+  const at = { date: entry.date, momentId: entry.momentId };
+  if (
+    entry.outcome !== "journal-line" &&
+    entry.bindings.some((row) => row.typeKey === typeKey)
+  )
+    return { verdict: "staged", reason: null, ...at };
+  const reason =
+    entry.board?.cards.find((card) => card.typeKey === typeKey && card.cut)
+      ?.cut ??
+    (entry.bindings.some((row) => row.typeKey === typeKey)
+      ? entry.board?.cut
+      : undefined) ??
+    entry.board?.offers?.find((offer) => offer.typeKey === typeKey)?.cut ??
+    entry.heldBack?.find((held) => held.typeKey === typeKey)?.reason ??
+    entry.closed ??
+    null;
+  return { verdict: "held-back", reason, ...at };
+}
 
 const view: DevView = {
   name: "scene-trace",
@@ -90,6 +149,98 @@ const view: DevView = {
       "slot-world": "a record of the world only",
       weak: "nothing: only the kind of subject",
       none: "nothing: no use declared",
+    },
+    board: {
+      title: "The director's board for a day",
+      day: "Day",
+      show: "Show the board",
+      nothing: "Nothing was on the director's board this day.",
+      room: "The life's room",
+      pace: "pace over the year",
+      standing: "times its standing",
+      picks: "less picks this year",
+      left: "room left",
+      noRoom: "The day's pick was not read: nothing waited on the board",
+      own: "Its cause is your own record: weighed outside the room",
+      candidate: "Candidate",
+      offered: "Offered from circumstance, not stored",
+      cause: "Cause",
+      card: "Card",
+      felt: "Felt",
+      reads: "Read",
+      readRecords: "Records read",
+      picked: "The day's pick",
+      staged: "Staged by a stop rule",
+      notPicked: "Not picked",
+      trace: "Trace",
+      readNames: {
+        impact: "how strongly it was felt",
+        tie: "the tie the offer leans on",
+        size: "the size of the offer",
+        need: "what the offer stakes",
+        "refused-before": "offers refused before",
+        "offered-before": "offers made before",
+        "pressed-before": "offers pressed before",
+        strain: "money strain",
+        public: "a public place",
+        "gift-size": "the size of the gift",
+        "gift-share": "the gift's share",
+        close: "closeness",
+        "gave-before": "gifts given before",
+        "put-off-before": "asks put off before",
+        "answered-before": "questions answered before",
+        "sparred-before": "interviews sparred before",
+        "dodged-before": "questions dodged before",
+        "town-against": "the town against",
+        quarrel: "a quarrel",
+        "declined-party": "a party's ask declined",
+        "exposed-before": "exposed in the press before",
+        scandal: "scandal on record",
+        "national-desk": "a national outlet",
+        reach: "the office's reach",
+        "same-party": "the same party",
+        "holds-post": "holds a post",
+        "favor-given": "favors given",
+        "town-for-bill": "the town for the bill",
+        "town-against-bill": "the town against the bill",
+        "about-money": "about money",
+        "quarreled-before": "quarrels before",
+        complaint: "a complaint",
+        witnessed: "seen firsthand",
+        told: "told by someone",
+        "bribe-taken": "a bribe taken",
+        "laid-off": "laid off",
+        "notice-served": "a notice served",
+        "rent-owed": "rent owed",
+        "own-illness": "their own illness",
+        "household-illness": "illness at home",
+      },
+      verdicts: {
+        staged: "The board staged it",
+        "held-back": "The board held it back",
+        "not-weighed":
+          "No moment bound this scene, so the board never weighed it",
+      },
+      cuts: {
+        yields: "It gives way to another scene of the same cause",
+        "contest-passed": "Its race has had its election day",
+        "not-allowed": "The player's filter leaves it out",
+        "season-cap": "The scene's season was full",
+        "nothing-changed": "Nothing had changed since it last played",
+        "nothing-to-ask": "There was nothing to ask that the game can settle",
+        "not-received": "Its receive rule refuses this cast",
+        joined: "Taken into a sitting already staged today",
+        "switched-off": "The player switched off this office stop",
+        silent: "No one in it speaks and nothing is chosen",
+        "nothing-said": "Its talk says nothing past its opener",
+        skipping:
+          "Time is skipped, and only a scene met where you are stops it",
+        "no-room": "The life has no room left in its year",
+        outscored: "Another candidate was felt more",
+        requires: "Something it needs is not on record",
+        excludes: "An earlier answer on record rules it out",
+        "asked-twice": "The player already said no to this twice",
+      },
     },
   },
   routes: {
@@ -207,6 +358,40 @@ const view: DevView = {
       }));
     },
     "GET scene-trace/line": ({ q }) => lineByKey(q("key")) ?? null,
+    "GET scene-trace/board": ({ mode, q }) => {
+      const personId = mode.core.playerId as PersonId | undefined;
+      const date = q("date") || mode.core.date;
+      const book = personId
+        ? mode.director?.ledger.people.get(personId)
+        : undefined;
+      // Each entry the board weighed that day, with its own board as board.ts wrote it.
+      const rows = (book?.schedule ?? [])
+        .filter((entry) => entry.date === date && entry.board)
+        .map((entry) => {
+          const moment = book!.momentsById.get(entry.momentId);
+          return {
+            momentId: entry.momentId,
+            outcome: entry.outcome,
+            stopsBecause: entry.stopsBecause ?? [],
+            cause: moment
+              ? {
+                  id: moment.causeId,
+                  kind: moment.causeKind,
+                  label: moment.label,
+                }
+              : null,
+            bound: entry.bindings.map((row) => row.typeKey),
+            board: entry.board!,
+          };
+        });
+      return {
+        personId: personId ?? null,
+        date,
+        rows,
+        // The room as the day's pick read it, kept on one of the day's entries.
+        room: rows.find((row) => row.board.room)?.board.room ?? null,
+      };
+    },
     "POST scene-trace/force": ({ mode, input }) => {
       const typeKey = String(input.typeKey ?? "");
       const way = FORCE[typeKey];
@@ -240,16 +425,16 @@ const view: DevView = {
           },
         } as never);
         mode.advance(addDays(makeIsoDate(mode.core.date), 1));
-        const staged = !!book?.schedule
-          .slice(seen)
-          .some((row) =>
-            row.bindings.some((bound) => bound.typeKey === typeKey),
-          );
+        const since = book?.schedule.slice(seen) ?? [];
+        const staged = since.some((row) =>
+          row.bindings.some((bound) => bound.typeKey === typeKey),
+        );
         return {
           recipe: "event",
           personId: playerId,
           causeRecords: [eventId],
           staged,
+          board: boardVerdict(book, since, typeKey, eventId),
           mark: mode.mark("scene-forced", [eventId], {
             typeKey,
             recipe: "event",
@@ -257,6 +442,11 @@ const view: DevView = {
           }),
         };
       }
+      const book = playerId
+        ? mode.director?.ledger.people.get(playerId)
+        : undefined;
+      // The schedule folds by count over a long run, so the entries since are read by date.
+      const from = mode.core.date;
       const forced = mode.forceScene({
         typeKey,
         ...(typeof input.forId === "string" ? { forId: input.forId } : {}),
@@ -264,6 +454,11 @@ const view: DevView = {
       });
       return {
         ...forced,
+        board: boardVerdict(
+          book,
+          (book?.schedule ?? []).filter((entry) => entry.date >= from),
+          typeKey,
+        ),
         mark: mode.mark("scene-forced", [], {
           typeKey,
           recipe: String(forced.recipe),
