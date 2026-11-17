@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr:
+pr: 9790
 blocked-on:
 source: Laws and effects lane on the crew line, Nov 16
 after:
