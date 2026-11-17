@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 after: world-challenger-odds-from-the-seats-last-race
-pr: 0
+pr: 9992
 blocked-on:
 model: sonnet
 effort: medium
