@@ -5,7 +5,8 @@ import assert from "node:assert/strict";
 import { mkdtempSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { runSuite, validateFeatures } from "./runner.mjs";
+import { runSuite, specBudget, validateFeatures } from "./runner.mjs";
+import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 import { drawPlace } from "./place.ts";
 import { runCommand } from "../../scripts/core2-guard/process.mjs";
 const fixturePlace = () => ({
@@ -21,9 +22,16 @@ const suite = (features, extra = {}) =>
     cwd: process.cwd(),
     budget: 1000,
     drawPlace: fixturePlace,
+    // A fixture's own budget is exactly its measured time.
+    policy: { specBudgetRatio: 1, specBudgetFloorMilliseconds: 0 },
     ...extra,
   });
-const spec = (id, passes, command) => ({ id, passes, command });
+const spec = (id, passes, command, measuredMilliseconds = 1000) => ({
+  id,
+  passes,
+  command,
+  ...(passes && command ? { measuredMilliseconds } : {}),
+});
 test("accepted regressions block but goals cannot grant or revoke acceptance", async () => {
   const document = [
     spec("goal", false, [process.execPath, "-e", "process.exit(2)"]),
@@ -90,7 +98,7 @@ test("deadline kills command descendants and reports goals not reached", async (
   const parent = `require('node:child_process').spawn(process.execPath,['-e',${JSON.stringify(descendant)}],{stdio:'ignore'});setInterval(()=>{},1000)`;
   const receipt = await suite(
     [
-      spec("accepted", true, [process.execPath, "-e", parent]),
+      spec("accepted", true, [process.execPath, "-e", parent], 100),
       spec("goal", false, [process.execPath, "-e", "process.exit(0)"]),
     ],
     { budget: 100 },
@@ -210,4 +218,78 @@ test("the specs that play a year or more run in the long job, so the quick job's
   // which starved M2-05 to M3-09 of the shared budget on two pull requests.
   for (const id of ["M0-13", "M1-11"])
     assert.ok(long.includes(id), `${id} runs in the long job`);
+});
+test("the last accepted spec keeps its own budget after the earlier ones used the job's whole clock", async () => {
+  // The red this fixes: on one shared clock of 450 s the nineteen accepted
+  // specs before M3-09 took 444 s, so M3-09 was killed after 5.7 s
+  // (Mashantucket, Connecticut, main c5808caa). Here the first spec outlasts
+  // the job's clock and the last one still runs to its end.
+  const wait = (ms) => [
+    process.execPath,
+    "-e",
+    `setTimeout(()=>process.exit(0),${ms})`,
+  ];
+  const receipt = await suite(
+    [
+      spec("first", true, wait(300), 2000),
+      spec("last", true, wait(300), 2000),
+      spec("goal", false, wait(0)),
+    ],
+    { budget: 200 },
+  );
+  assert.deepEqual(
+    receipt.results.map((row) => [row.id, row.status]),
+    [
+      ["first", "passed"],
+      ["last", "passed"],
+      ["goal", "not-reached"],
+    ],
+  );
+  assert.equal(receipt.regression, false);
+  assert.equal(receipt.results[1].budgetMilliseconds, 2000);
+});
+test("an accepted spec is still cut off at its own budget, and an accepted row without a measured time is refused", async () => {
+  const receipt = await suite([
+    spec(
+      "slow",
+      true,
+      [process.execPath, "-e", "setInterval(()=>{},1000)"],
+      100,
+    ),
+    spec("next", true, [process.execPath, "-e", "process.exit(0)"]),
+  ]);
+  assert.equal(receipt.results[0].status, "timeout");
+  assert.ok(receipt.results[0].milliseconds < 1000);
+  assert.equal(receipt.results[1].status, "passed");
+  assert.equal(receipt.regression, true);
+  assert.throws(
+    () =>
+      validateFeatures({
+        features: [{ id: "bare", passes: true, command: "true" }],
+      }),
+    /measured time/,
+  );
+  assert.equal(
+    specBudget(
+      { measuredMilliseconds: 10 },
+      { specBudgetRatio: 2, specBudgetFloorMilliseconds: 50 },
+    ),
+    50,
+  );
+});
+test("every accepted spec's own budget, added up, fits its job's time limit less setup", () => {
+  const rows = validateFeatures(
+    JSON.parse(readFileSync(resolve("docs/roadmap/features.json"), "utf8")),
+  ).filter((row) => row.passes && row.command);
+  // goldenJobMinutes includes five minutes of dependency setup.
+  const limit = (policies.goldenJobMinutes - 5) * 60000;
+  for (const long of [false, true]) {
+    const total = rows
+      .filter((row) => (row.longRunning === true) === long)
+      .reduce((sum, row) => sum + specBudget(row), 0);
+    assert.ok(
+      total <= limit,
+      `${long ? "long" : "quick"} job: ${total} ms of budgets against ${limit} ms`,
+    );
+  }
 });
