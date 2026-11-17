@@ -37,6 +37,20 @@ export function electionNight({ title, step, labels, last, onNext }) {
       stripSection(
         1,
         step.nation ? labels.nation : labels.count,
+        // The places that have reported, each with what every candidate got
+        // there (the mock's count by place), then the running totals.
+        ...(step.places?.length
+          ? [
+              dotRows(
+                step.places.map((place) => ({
+                  label: place.name,
+                  value: place.votes
+                    .map((v) => `${v.name} ${v.votes.toLocaleString("en-US")}`)
+                    .join(" · "),
+                })),
+              ),
+            ]
+          : []),
         dotRows(rows),
       ),
       stripSection(2, labels.call, ...lines),
