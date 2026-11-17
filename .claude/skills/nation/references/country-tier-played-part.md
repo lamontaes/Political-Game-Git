@@ -1,20 +1,6 @@
----
-name: country-tier-played-part
-description: >
-  How Our Civic Duty's country tier counts the state the player lives in: the
-  played town and its county are taken out of the state as "the part", the
-  tier steps "the rest", and the part goes back in. Covers how to probe the
-  part and the rest month by month, the traps that made the player's state
-  lose its unemployed (Nov 17), and what a fix there must show. Use when a
-  state figure of the played state looks wrong (unemployment, jobs, pay,
-  prices, people), when changing `stepCountry`, `takeOutPart`, `putInPart`,
-  `resolveCountryPart`, `townPartCounts` or `residentsPart`, and before
-  trusting a state figure another engine reads. Not for the national economy
-  and the dollar (money-economy) or the town's own job market
-  (labor-market-proof).
----
+# The played state's part and rest
 
-# The played state: the part and the rest
+Part of the `nation` skill. Written as its own skill by World B on Nov 17, 2026 and folded here under the skills policy (a new skill retires one). Use when a figure of the played state looks wrong, or when changing `stepCountry`, `takeOutPart`, `putInPart`, `resolveCountryPart`, `townPartCounts` or `residentsPart`.
 
 The country tier (`src/core2/country-model.ts`) holds every state as cells of people and sectors of jobs. The state the player lives in is counted in two pieces each month (`runMonth` in `src/core2/modules/macro.ts`):
 
