@@ -38,7 +38,7 @@ import {
 } from "../core2/modules/national-events";
 import { DISASTERS_MODULE_ID, townDisasters } from "../core2/modules/world";
 import { townSeats } from "../core2/modules/offices";
-import { SCANDAL_REPORTED } from "../core2/modules/corruption";
+import { SCANDAL_REPORTED } from "../core2/modules/justice";
 import { coreStateName } from "../core2/place-lookup";
 import { countSaid } from "../english/count-words";
 import addressData from "./data/opening-address.json" with { type: "json" };
