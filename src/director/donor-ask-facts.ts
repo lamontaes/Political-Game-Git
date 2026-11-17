@@ -191,12 +191,12 @@ export function donorReads(
       : bill.status !== "drafted"
         ? null
         : floor.some((row) => row.chamber && !row.override)
-          ? (["bill-one-house", "passed one house"] as const)
+          ? (["bill-one-house", "past one house"] as const)
           : held
             ? (["bill-held", "held up in committee"] as const)
             : sat.length
               ? (["bill-heard", "through its committee hearing"] as const)
-              : (["bill-filed", "just filed"] as const);
+              : (["bill-filed", "filed and waiting"] as const);
   if (stage) {
     const ids = [...cited, ...sat.map((row) => row.id)];
     facts[stage[0]] = fact("yes", ids);
