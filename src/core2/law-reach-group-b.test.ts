@@ -382,10 +382,7 @@ function amend(gov: GovernmentRow, name: string, delta: number) {
 const stepFor = (gov: GovernmentRow, name: string) =>
   Math.max(
     Math.round(line(gov, name) * 0.1),
-    Math.max(
-      residentsOf(api, gov),
-      townPopulation(api) || 1000,
-    ) * 1000,
+    Math.max(residentsOf(api, gov), townPopulation(api) || 1000) * 1000,
   );
 
 /** The assistance work requirement case, run in the drawn town and again in the pinned regression town. */

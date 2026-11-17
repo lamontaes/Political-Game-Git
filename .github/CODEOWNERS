@@ -15,6 +15,7 @@
 /src/core2/parameters.ts @lamontaes
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
+/src/core2/live-population.ts @lamontaes
 /src/core2/world-base-rates.ts @lamontaes
 /src/core2/scene-replies.ts @lamontaes
 /src/core2/shares.ts @lamontaes
