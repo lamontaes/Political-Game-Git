@@ -23393,7 +23393,7 @@
       "key": "conversation.address-point-back-agree.good-it-s-been-like-that-here-a-while-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "Good. It's been like that here a while, {you}.",
+      "text": "Good. It's been like that in {place} a while.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23405,7 +23405,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["year-point"]
+          "requiresFacts": ["year-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23416,7 +23416,7 @@
       "key": "conversation.address-point-back-disagree.it-looks-different-from-where-i-sit-you",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "It looks different from where I sit, {you}.",
+      "text": "It looks different from where I sit in {place}.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23428,7 +23428,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["year-point"]
+          "requiresFacts": ["year-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23462,7 +23462,7 @@
       "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-votes-you",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "We'll see who's right once Congress votes, {you}.",
+      "text": "We'll see who's right once {decider} votes.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23474,7 +23474,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "decider"]
         }
       ],
       "origin": "authored",
@@ -23485,7 +23485,7 @@
       "key": "conversation.address-point-back-disagree.fair-enough-you-we-don-t-have-to-agree",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Fair enough, {you}. We don't have to agree.",
+      "text": "Fair enough. Half of {place} would say the same.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23497,7 +23497,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "place"]
         }
       ],
       "origin": "authored",
@@ -23940,7 +23940,7 @@
       "key": "conversation.address-point-back-agree.i-ll-believe-it-when-decider-passes-it-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "I'll believe it when {decider} passes it, {you}.",
+      "text": "I'll believe it when {decider} passes it.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -23969,7 +23969,7 @@
       "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "I'll bring it up at {employer} tomorrow, {you}.",
+      "text": "I'll bring it up at {employer} tomorrow.",
       "uses": [
         {
           "move": "address-point-back-agree",
