@@ -30,7 +30,6 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
-  filingRulesFor,
   filingWindowOpen,
   playerContests,
   playerFilingBar,
@@ -39,11 +38,7 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import {
-  candidateIdentity,
-  petitionNeededHere,
-  resultOf,
-} from "../core2/modules/voting";
+import { candidateIdentity, resultOf } from "../core2/modules/voting";
 import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
@@ -358,15 +353,6 @@ export function governmentView(core: CoreState, personId: string) {
       checks: core.people.has(personId)
         ? checkEligibility(api, personId, contest.id)
         : [],
-      // The signatures the clerk would ask of a filing with no party; none
-      // means the race goes straight onto the ballot (the one rule, read
-      // from the elections and voting engines, not a second one).
-      signaturesAsked: petitionNeededHere(
-        api,
-        contest,
-        filingRulesFor(api, contest, "independent").petition,
-        null,
-      ),
     })),
     filings,
     nextFiling: nextFiling(core),
