@@ -11,7 +11,8 @@
     "asked_warm": "Warm",
     "asked_guarded": "Guarded",
     "asked_argumentative": "Argumentative",
-    "asked_against": "Disagrees",
+    "stand-apart": "Disagrees",
+    "stand-with": "Agrees",
     "asked_wants_gone": "Against it",
     "asked_wants_kept": "For it"
   }
