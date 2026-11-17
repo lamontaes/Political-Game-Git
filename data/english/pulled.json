@@ -333,8 +333,7 @@
       "ask-vote.watched/relent",
       "ask-vote.whip/relent",
       "ask-vote/relent",
-      "confirm-vote/relent",
-      "section-bargain/relent"
+      "confirm-vote/relent"
     ],
     "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
       "join-cause/decline"
@@ -403,9 +402,6 @@
     "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y": [
       "conflict-accuse/accept"
     ],
-    "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
-      "favor-job/press"
-    ],
     "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again": [
       "ask-vote/thank"
     ],
@@ -451,6 +447,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 9777
+    "reply-second-move-follows-the-first (pairs)": 7508
   }
 }
