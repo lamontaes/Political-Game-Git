@@ -10,7 +10,12 @@ import {
   type PriceStepInputs,
 } from "./housing-prices";
 import { pastLogLevel, pastRecent, pricePathTo } from "./housing-price-path";
+import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import type { CoreAPI } from "./types";
+
+const housingRow = (key: string) =>
+  (housingParameters as unknown as Record<string, { value: number }>)[key]!
+    .value;
 
 const HOUSING = "housing";
 const stock = (api: CoreAPI) => api.moduleState(HOUSING).table("stock");
@@ -39,7 +44,7 @@ export interface PriceLevelFields {
   priceLogLevel: number;
   /** The last 13 months' log levels, oldest first (momentum reads the year's change). */
   priceRecent: number[];
-  /** Money per unit of relative level: set once so day one's level is the census median. */
+  /** Money per unit of relative level: set once so day one's level is the value the place's pay supports. */
   priceScaleMinor: number;
   /** The typical home's value today: scale times the level times the web's factor. */
   priceLevelMinor: number;
@@ -54,23 +59,29 @@ export interface PriceLevelFields {
   priceBuyers: number;
   priceOffered: number;
   priceRead?: PriceRead;
+  /** What day one's level was set from: the place's median household pay a day and the typical rent it supports. */
+  priceOpeningPayDailyMinor?: number;
+  priceOpeningRentMinor?: number;
 }
 
 type StockWithPrice = Partial<PriceLevelFields> & { id: string };
 
 /**
- * Sets a place's level on day one: the census median is day one's typical
- * value (the calibration point), and the world's path to day one walks the
- * past back from it.
+ * Sets a place's level on day one: the typical value its own pay supports
+ * (`levelFromPay`, modules/housing.ts), and the world's path to day one walks
+ * the past back from it.
  */
 export function openPriceLevel(
   api: CoreAPI,
   placeId: string,
   input: {
-    /** The census median home value, in cents: day one's typical value. */
-    readonly medianValueMinor: number;
+    /** Day one's typical home value here, in cents. */
+    readonly typicalValueMinor: number;
     /** The town's median monthly pay on day one (0 where it has no jobs). */
     readonly townPayMinor: number;
+    /** The median household pay a day the typical value and rent were set from, for Trace. */
+    readonly householdPayDailyMinor?: number;
+    readonly typicalRentMinor?: number;
   },
 ): void {
   const row = stock(api).get(`stock:${placeId}`) as StockWithPrice | undefined;
@@ -81,7 +92,7 @@ export function openPriceLevel(
     p,
   );
   const log = pastLogLevel(path, api.state.date);
-  const scale = input.medianValueMinor / Math.exp(log);
+  const scale = input.typicalValueMinor / Math.exp(log);
   const level = Math.round(scale * Math.exp(log));
   stock(api).put({
     ...row,
@@ -95,6 +106,12 @@ export function openPriceLevel(
     priceEconomyPayAtStart: path.payAtStart,
     priceBuyers: 0,
     priceOffered: 0,
+    ...(input.householdPayDailyMinor === undefined
+      ? {}
+      : {
+          priceOpeningPayDailyMinor: Math.round(input.householdPayDailyMinor),
+          priceOpeningRentMinor: input.typicalRentMinor ?? 0,
+        }),
   } as never);
 }
 
@@ -224,12 +241,18 @@ export function stepPriceLevel(
 export function priceTrace(api: CoreAPI, placeId: string): string {
   const row = stock(api).get(`stock:${placeId}`) as StockWithPrice | undefined;
   const read = row?.priceRead;
+  // Day one's level: what the place's own pay supports (levelFromPay).
+  const opening =
+    row?.priceOpeningPayDailyMinor === undefined
+      ? ""
+      : `; day one's level ${row.openingPriceLevelMinor} and typical rent ${row.priceOpeningRentMinor} from median household pay ${row.priceOpeningPayDailyMinor} a day (rent share ${housingRow("housingRentShareOfPay")}, value multiple ${housingRow("housingValuePayMultiple")} at a ${housingRow("housingValueFitRatePct")}% rate, moved by this world's price path)`;
   if (!row || !read)
-    return `${row?.id ?? `stock:${placeId}`}: the opening's level, no month stepped yet`;
+    return `${row?.id ?? `stock:${placeId}`}: the opening's level, no month stepped yet${opening}`;
   return (
     `${row.id} ${read.month}: level ${row.priceLevelMinor} from pay index ${read.payIndex.toFixed(4)} ` +
     `(town pay ${read.townPayMinor}), rate ${read.ratePct.toFixed(2)}% (${read.rateRecordId ?? "no macro month"}), ` +
     `${read.buyers} buyers against ${read.offered} homes offered of ${read.owned} owned, ` +
-    `web factor ${read.webFactor.toFixed(3)} (${read.webRecordId ?? "no web month"})`
+    `web factor ${read.webFactor.toFixed(3)} (${read.webRecordId ?? "no web month"})` +
+    opening
   );
 }

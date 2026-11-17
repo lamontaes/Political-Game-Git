@@ -142,8 +142,10 @@ import type { CoreState } from "./types";
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
   "world-disasters-from-conditions": [41],
 };
-// Drawn, each with its own two-world test: row 6 in housing-world.test.ts,
-// rows 39 and 40 in outcome-bases-world.test.ts, row 50 in
+// Row 6 (county rents and home values) is no longer drawn around a
+// published figure: day one's come from the place's own pay
+// (housing-day-one-from-pay.test.ts). Drawn, each with its own two-world
+// test: rows 39 and 40 in outcome-bases-world.test.ts, row 50 in
 // budgets-world.test.ts; rows 51 and 52 below.
 
 /** The census's district code for a non-voting delegate's seat. */

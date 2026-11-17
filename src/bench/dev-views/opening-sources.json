@@ -307,7 +307,7 @@
     },
     "src/core2/housing-prices.ts#housingWorldOffset": {
       "made": "world-offset",
-      "what": "Home prices and rents"
+      "what": "Owner shares, shelter beds, HUD rents and building permits (day one's rents and home values come from each place's own pay, src/core2/modules/housing.ts levelFromPay)"
     },
     "src/core2/jobs-elsewhere.ts#opening": {
       "made": "ad-hoc-draw",
