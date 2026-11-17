@@ -375,24 +375,10 @@ export function newGameFaces(seed: string): {
   start: PersonFace | null;
   advanced: PersonFace[];
 } {
-  const people = [...bustPeople()].sort(
-    (a, b) => hash(`${seed}:who:${a.id}`) - hash(`${seed}:who:${b.id}`),
-  );
+  // Each face is the one appearance draw a new character's Random makes
+  // (drawnAppearance), on the visit's seed and the face's own draw number.
   const pictured = (n: number, dress: "everyday" | "official") => {
-    const person = people[n % people.length]!;
-    const choices = bustChoices(person);
-    const pick = <T>(items: readonly T[], key: string) =>
-      items[hash(`${seed}:${n}:${key}`) % items.length]!;
-    const face = pick(facesOf(person), "face");
-    const bust = bustOfLook(
-      {
-        person: person.id,
-        hair: pick(choices.hair, "hair").key,
-        hairColor: pick(choices.hairColor, "hair-color").key,
-        ...(face ? { face } : {}),
-      },
-      dress,
-    );
+    const bust = bustOfLook(drawnAppearance("", seed, n), dress);
     return bust ? { bust } : null;
   };
   return {

@@ -14,17 +14,6 @@
       "replacement": null
     },
     {
-      "file": "src/bench/appearance.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "(a, b) => hash(`${seed}:who:${a.id}`) - hash(`${seed}:who:${b.id}`), ); const pictured = (n: number, dress: \"everyday\" | \"official\") => { const person = people[n % people.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "title visit seed + bank person id",
-      "reason": "Which of the bust bank's people decorate New game, fresh each launch and game (owner, Nov 16: 'each game, it should start with new ones'); who is pictured on a menu, not what anyone does.",
-      "replacement": null
-    },
-    {
       "file": "src/bench/creator.ts",
       "kind": "list-pick",
       "build": null,
