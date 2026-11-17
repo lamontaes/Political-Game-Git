@@ -94,6 +94,20 @@
       "spread": [1, 4],
       "note": "How many times its pace (paces, above) a life's year holds in scenes the director's board picks, by the person's standing (standing.ts holds words): serving in an office, filed in a contest ahead, neither. An officeholder's year holds more (the Story lead, Nov 17, on #9841: a stop from the player's own vote or law must not be starved to thin the stops from nothing they did). Checked against the played year of Elkhart, Texas (4823140), seed ba995bbcf319779c52e6d2a4d029838d, as a council member. A candidate whose cause is the person's own record (a story of their vote, a law they passed reaching someone) is weighed outside the room and does not spend it (Story lead, Nov 17), so the office value likely settles lower once the cards' weights are in; for PR 5 to calibrate. A flat multiplier until the cards' weights decide what fills the room (SG-DIRECTOR-board-room-by-standing; pool item director-cards-require-and-weigh)."
     },
+    "ownActKinds": {
+      "note": "Record kinds that are the person's own act when they name them: a vote cast, a bill they wrote or carried, a filing, an act of office, an executive act, a speech they gave (Story lead, Nov 17, on #9841). A scene caused by one, or by a record that reads one (a story of the vote, by its source record), or by a law the person passed (sponsored or voted yes), is weighed outside the board's room (board.ts ownCause). Attending a sitting (public-meeting) is not one.",
+      "kinds": [
+        "legislative-vote",
+        "office.voted",
+        "office.introduced",
+        "candidate-filed",
+        "office-act",
+        "executive-action",
+        "mayor.address",
+        "governor.address",
+        "president.address"
+      ]
+    },
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,

@@ -166,12 +166,46 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   // than the life's room, and an own record wins an equal amount.
   for (let day = 0; day < DAYS; day++)
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const records = [...core.durableLog.keys()];
-  const own = records.find((id) => ownCause(core, playerId, id));
-  const other = records.find((id) => !ownCause(core, playerId, id));
-  expect(own, `${where}: a record naming ${playerId}`).toBeDefined();
+  // An act of someone's own (a vote cast, a bill carried, an act of office)
+  // from the stretch, and the person who acted.
+  const kinds = SITUATION_LIBRARY.scheduling.ownActKinds!.kinds;
+  let actor: PersonId | undefined;
+  let own: string | undefined;
+  let sitting: { id: string; personId: PersonId } | undefined;
+  for (const [id, record] of core.durableLog) {
+    const alive = record.personIds.find(
+      (personId) => core.people.get(personId)?.alive,
+    );
+    if (!alive) continue;
+    if (!own && kinds.includes(record.kind)) {
+      own = id;
+      actor = alive;
+    }
+    if (!sitting && record.kind === "public-meeting")
+      sitting = { id, personId: alive };
+  }
+  expect(
+    own,
+    `${where}: an act of someone's own in ${DAYS} days`,
+  ).toBeDefined();
+  expect(ownCause(core, actor!, own), `${where}: ${own}`).toBe(true);
+  // Attending a sitting is the job, not an act of one's own.
+  expect(sitting, `${where}: a sitting in ${DAYS} days`).toBeDefined();
+  expect(
+    ownCause(core, sitting!.personId, sitting!.id),
+    `${where}: ${sitting!.id}`,
+  ).toBe(false);
+  const other = [...core.durableLog.keys()].find(
+    (id) => !ownCause(core, actor!, id),
+  );
   expect(other, `${where}: a record about someone else`).toBeDefined();
-  const open: PersonLedger = { ...book, schedule: [], boardPicks: [] };
+  const actorBook: PersonLedger = {
+    ...book,
+    personId: actor!,
+    schedule: [],
+    boardPicks: [],
+  };
+  const open = actorBook;
   for (const order of [
     [other!, own!],
     [own!, other!],
@@ -189,9 +223,16 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   // The room is for the world coming unbidden: on a year with no room left,
   // a cause that is the person's own record is still picked, and it does not
   // spend the room; one about someone else is not.
+  const room = Math.ceil(
+    paceOf(
+      SITUATION_LIBRARY,
+      core.people.get(actor!)!.birthDate,
+      makeIsoDate(core.date),
+    ) * standingMultiplier(SITUATION_LIBRARY, playerStanding(core, actor!)),
+  );
   const fullNow: PersonLedger = {
-    ...book,
-    boardPicks: Array.from({ length: pace }, () => makeIsoDate(core.date)),
+    ...actorBook,
+    boardPicks: Array.from({ length: room }, () => makeIsoDate(core.date)),
   };
   const whenFull = (causeId: string) =>
     pickFromBoard(core, fullNow, {
@@ -210,7 +251,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   expect(
     picksInYear(SITUATION_LIBRARY, fullNow, makeIsoDate(core.date)),
     `${where}: an own pick spends no room`,
-  ).toBe(pace);
+  ).toBe(room);
   // A year later the room is back: the picks a year gone are not counted.
   expect(
     picksInYear(

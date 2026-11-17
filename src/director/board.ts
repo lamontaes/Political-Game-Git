@@ -17,6 +17,8 @@
 import { stableHash } from "../core2/kernel/ids";
 import { lastMetOnRow } from "../core2/closeness";
 import { coreAPI } from "../core2/state";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { OFFICE_DAY_MODULE_ID, stopsOf } from "../core2/modules/office-day";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -517,24 +519,66 @@ export function standingMultiplier(
   return row.none;
 }
 
+/** Whether a record is an act of the person's own: of an act kind (situation-types.json ownActKinds) and naming them. */
+function actOf(
+  library: SituationLibrary,
+  personId: PersonId,
+  record: { kind: string; personIds: readonly PersonId[] } | undefined,
+): boolean {
+  return (
+    !!record &&
+    (library.scheduling.ownActKinds?.kinds ?? []).includes(record.kind) &&
+    record.personIds.includes(personId)
+  );
+}
+
+/** Whether the person passed a law: they sponsored the bill that enacted it, or voted yes on it. */
+function lawPassedBy(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  lawId: string,
+): boolean {
+  if (
+    !core.modules.has(LAWS_MODULE_ID) ||
+    !core.modules.has(LEGISLATURE_MODULE_ID)
+  )
+    return false;
+  const api = coreAPI(core as CoreState);
+  const law = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+    { terms?: { enactedByBill?: string } } | undefined;
+  const billId = law?.terms?.enactedByBill;
+  if (!billId) return false;
+  const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
+  const bill = legislature.table("bills").get(billId) as
+    { sponsorId?: string } | undefined;
+  if (bill?.sponsorId === personId) return true;
+  const vote = legislature.table("votes").get(`vote:${billId}:${personId}`) as
+    { vote?: string } | undefined;
+  return vote?.vote === "yes";
+}
+
 /**
- * Whether a cause record is the person's own: they are named in it (their
- * vote, their bill, their act), or it reads a record they are named in (a
- * story of the vote they cast, the law they passed, by its source record).
+ * Whether a cause is the person's own record: a record of their own act (a
+ * vote cast, a bill they wrote or carried, a filing, an executive act, a
+ * speech they gave), a record that reads one (a story of the vote they cast,
+ * by its source record), or a law they passed reaching someone (Story lead,
+ * Nov 17). Attending a sitting is not one: it is the job, and the household's
+ * evening without them is the world reacting to it.
  */
 export function ownCause(
   core: Readonly<CoreState>,
   personId: PersonId,
   causeId: string | undefined,
+  library: SituationLibrary = SITUATION_LIBRARY,
 ): boolean {
   const record = causeId ? core.durableLog.get(causeId) : undefined;
   if (!record) return false;
-  if (record.personIds.includes(personId)) return true;
+  if (actOf(library, personId, record)) return true;
   const source = record.facts?.sourceRecordId;
-  return (
-    !!source &&
-    core.durableLog.get(source)?.personIds.includes(personId) === true
-  );
+  if (source && actOf(library, personId, core.durableLog.get(source)))
+    return true;
+  const lawId = record.facts?.lawId;
+  return !!lawId && lawPassedBy(core, personId, lawId);
 }
 
 /**
@@ -597,6 +641,7 @@ export function pickFromBoard(
         core,
         book.personId,
         book.momentsById.get(entry.momentId)?.causeId,
+        library,
       ),
       key: entry.momentId,
     });
@@ -606,7 +651,7 @@ export function pickFromBoard(
       offer,
       before: offer.before,
       score: offer.score,
-      own: ownCause(core, book.personId, offer.causeId),
+      own: ownCause(core, book.personId, offer.causeId, library),
       key: `${offer.rowId}|${offer.causeId}|${offer.castId}`,
     });
   if (!candidates.length) return { stops };
