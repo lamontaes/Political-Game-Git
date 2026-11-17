@@ -83,6 +83,10 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 - **Wait for a picture to finish loading before the shot (Nov 15).** A story picture is a file fetched on show; the check read `naturalWidth` after 300 ms and called a loaded picture "did not load". Wait for `img.complete` first.
 - **A walk can start in a chosen place (Nov 15).** The new-life request takes `placeKey` (a place's key from `searchCorePlaces`, such as `1562600` for Pearl City, Hawaii), which a script adds with a `page.route` on `**/api/newlife*`, as `bill-amend.browser.mjs` does with `BENCH_PLACEKEY`. Use it to see one wording at named places (an own-named body, a state's reading, a new row) instead of waiting for a draw. A place takes about two minutes to build and open.
 
+## Opening a menu while a day runs (Blockers lane, Nov 17)
+
+The rail stays live while Day runs, so a walk that presses Day and then opens a menu reproduces what a player does when the day is slow. Until #9756, a scene that came due then was drawn under the menu, Day stayed held, and nothing could be pressed: the owner's "I think I'm stuck... I pressed escape". A browser check that must open the menu before the day lands holds the day's request with `page.route` on a gate made before Day is pressed (`gate = new Promise(...)` and the route awaits it), never a `release` function set inside the route handler: the day's request can reach the route after the menu shows, and then the release fires before the route waits for it and the check hangs.
+
 ## Replaying Visit or Call (Nov 15, Visit/Call thread)
 
 A new life offers no Call on day 1: calls need weeks of play, and the card's ties are housemates and relatives elsewhere, so a replay needs a life where the player has met someone. Advance with `POST /api/advance?mode=week`, then reload `/play` and click `front-continue` before reading the card.
