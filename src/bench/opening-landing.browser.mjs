@@ -63,6 +63,15 @@ for (const how of ["played", "skipped"]) {
   const clock = await page.locator("#card-clock").innerText();
   console.log(`  after the address: "${shown}"; card: ${clock}`);
   assert.ok(shown.includes(landing.text), "the landing line is not shown");
+  // The clock, the light and the line read one time: the card's clock shows the
+  // hour the household gets home, never the midnight the day starts from.
+  const minute = opening.home.minuteOfDay;
+  const hour12 = Math.floor(minute / 60) % 12 || 12;
+  const expected = `${hour12}:${String(minute % 60).padStart(2, "0")} ${minute < 720 ? "AM" : "PM"}`;
+  assert.ok(
+    clock.replace(/\s+/g, " ").includes(expected),
+    `the card's clock reads "${clock}", the arrival hour is ${expected}`,
+  );
   assert.doesNotMatch(shown, /\d{4}-\d{2}-\d{2}/, "an ISO date on screen");
   if (shots) await page.screenshot({ path: `${shots}/landing-${how}.png` });
 }
