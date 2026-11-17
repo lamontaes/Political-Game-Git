@@ -30,6 +30,7 @@ import type {
 import { OFFICES_MODULE_ID, townSeats } from "./offices";
 import { placePopulation } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { seededUnit } from "../seeded";
 import {
   hazardOfIncident,
   hazardRate,
@@ -139,36 +140,10 @@ function runtime(api: CoreAPI): Runtime {
     if (org.classification === fundingData.contributorClassification)
       treasuryId = org.id;
   }
+  // No recorded disaster is scheduled: the town's disasters are the ones its county's own
+  // exposure makes (`makeWeather`), which take a recorded disaster's figures as templates.
   const byBegin = new Map<string, Disaster[]>(),
     byDeclared = new Map<string, Disaster[]>();
-  const seen = new Set<number>();
-  const rows = declarations.byCounty as unknown as Record<string, Row[]>;
-  const add = (row: Row, statewide: boolean) => {
-    if (seen.has(row[4])) return;
-    seen.add(row[4]);
-    const disaster: Disaster = {
-      number: row[4],
-      title: (declarations.titles as Record<string, string>)[row[4]] ?? "",
-      type: declarations.types[row[2]] ?? "",
-      begins: row[0],
-      declared: row[1],
-      statewide,
-    };
-    if (disaster.begins > core.date)
-      byBegin.set(disaster.begins, [
-        ...(byBegin.get(disaster.begins) ?? []),
-        disaster,
-      ]);
-    if (disaster.declared > core.date)
-      byDeclared.set(disaster.declared, [
-        ...(byDeclared.get(disaster.declared) ?? []),
-        disaster,
-      ]);
-  };
-  if (county) {
-    for (const row of rows[county] ?? []) add(row, false);
-    for (const row of rows[`${county.slice(0, 2)}000`] ?? []) add(row, true);
-  }
   const rt: Runtime = {
     ...(town ? { town } : {}),
     ...(county ? { county } : {}),
@@ -183,7 +158,10 @@ function runtime(api: CoreAPI): Runtime {
     paid: [],
     repairs: [],
     made: new Map(),
-    templates: recordedByHazard(rows, county),
+    templates: recordedByHazard(
+      declarations.byCounty as unknown as Record<string, Row[]>,
+      county,
+    ),
   };
   runtimes.set(core, rt);
   return rt;
@@ -256,7 +234,6 @@ function makeWeather(api: CoreAPI, rt: Runtime): void {
     id: "weather:state",
     generatedMonth: month,
   } as unknown as ModuleRow);
-  if (`${month}-01` <= RECORD_END) return;
   const exposures = api.moduleState(DISASTERS_MODULE_ID).table("exposure");
   const monthNumber = Number(month.slice(5, 7));
   const lastDay = Number(
@@ -272,7 +249,10 @@ function makeWeather(api: CoreAPI, rt: Runtime): void {
     const row = (exposures.get(id) as unknown as Exposure | undefined) ?? {
       id,
       hazard,
-      expected: 0,
+      // A world opens with a fraction of a disaster already built up in each hazard, its own
+      // (the generation of the world's start, from its seed), as the state's exposure does in
+      // national-events; the exposure then grows only with the county's rate and the climate.
+      expected: seededUnit(core.seed, `exposure-start:${rt.county}:${hazard}`),
       fired: 0,
     };
     const expected =
