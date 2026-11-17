@@ -192,19 +192,25 @@ function keep(core: CoreState): Kept {
 
 function run(
   drawn: ReturnType<typeof drawPlace>,
-  until: IsoDate,
   withoutDisasters: boolean,
   cause?: Candidate,
-): Kept {
+  /** The day to run to; with a cause and no day, RUN_DAYS past the declaration of the disaster it caused. */
+  until?: IsoDate,
+): Kept & { readonly until: IsoDate } {
   const core = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: drawn.key,
   }).core as CoreState;
   if (withoutDisasters) core.modules.delete(DISASTERS_MODULE_ID);
   // The county's own exposure makes the disaster: cause the recorded one the screen found.
-  else if (cause) causeDisaster(coreAPI(core), cause.hazard, cause.number);
-  advanceCore(core, until);
-  return keep(core);
+  const made =
+    !withoutDisasters && cause
+      ? causeDisaster(coreAPI(core), cause.hazard, cause.number)
+      : undefined;
+  const end =
+    until ?? addDays(makeIsoDate(made?.declared ?? core.date), RUN_DAYS);
+  advanceCore(core, end);
+  return { ...keep(core), until: end };
 }
 
 describe("a declaration is not a severe disaster", () => {
@@ -248,15 +254,14 @@ describe("a severe disaster reaches home values and moving through the outcome w
             passed.push(`${label}: no severe disaster in its FEMA records`);
             continue;
           }
-          const until = addDays(makeIsoDate(gameStartDate()), 1 + RUN_DAYS);
-          const treated = run(drawn, until, false, found);
+          const treated = run(drawn, false, found);
           if (!treated.event || treated.event.severity < MIN_SEVERITY) {
             passed.push(
               `${label}: opened with no severe disaster (the player's county differs from the screen's)`,
             );
             continue;
           }
-          const control = run(drawn, until, true);
+          const control = run(drawn, true, undefined, treated.until);
           console.log(
             `disasters-web: passed over ${passed.length} drawn places with no severe disaster in the played window, e.g. ${passed
               .slice(0, 6)
