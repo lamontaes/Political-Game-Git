@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { campaignDay } from "../bench/campaign";
+import { leaveHoldsToCharacter } from "../bench/office";
 import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -20,6 +21,7 @@ import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
+import { stateFloorHolds, voteOnStateFloor } from "../core2/office-day-state";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { CIRCUMSTANCES } from "./circumstance";
@@ -282,6 +284,14 @@ function playYear(
       for (const stop of packet.stop.modules) {
         open(stop.recordId);
       }
+      // A sitting member's meeting stops the play with a hold; the player
+      // leaves it to the character, as the bench's checks do, or the stop
+      // comes back unchanged forever.
+      leaveHoldsToCharacter(core, personId);
+      // A state legislator's floor vote holds the clock too: left to the
+      // character, who votes their own position.
+      for (const billId of stateFloorHolds(coreAPI(core)))
+        voteOnStateFloor(coreAPI(core), personId, billId, "own");
       packet = resume({ kind: "stop", pauseId: packet.pauseId });
     } else
       packet = resume({
