@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1172,
+  "judged": 1168,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -4625,15 +4625,6 @@
       ],
       "why": "Most of the lines are an offer to tell the whole story in other words."
     },
-    "252beo7hc1b": {
-      "keys": [
-        "scene-talk.reply-lie.i-m-leaning-your-way",
-        "scene-talk.reply-lie.of-course-put-me-down",
-        "scene-talk.reply-lie.sure-i-ll-be-there",
-        "scene-talk.reply-lie.you-can-count-on-me"
-      ],
-      "why": "Three of the four lies are the same firm yes in other words, with no fact to choose between them."
-    },
     "25eospi7xep": {
       "keys": [
         "scene-talk.reply-decline.i-ll-think-about-it-that-s-honest",
@@ -5298,5 +5289,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0spyj8ykgf3"
+  "yesHash": "1mjsz9ip3bz"
 }

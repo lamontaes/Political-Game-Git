@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 965,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -1072,21 +1072,6 @@
       ],
       "why": "Apart from 'Thursday, on the record', the replies redo the sorry, walking away (nearly verbatim) and the resentful fight complaint."
     },
-    "0iv22v8s015": {
-      "keys": [
-        "scene-talk.follow-plea.it-s-one-vote-i-m-asking-as-a-friend",
-        "scene-talk.reply-agree.for-you-yes-not-for-the-bill-for-you",
-        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
-        "scene-talk.reply-bargain.i-ll-do-it-if-you-ll-hear-me-out-on-my-own-bill-next-week",
-        "scene-talk.reply-stall.don-t-make-me-answer-standing-here",
-        "scene-talk.reply-lie.yes-stop-worrying-about-it",
-        "scene-talk.reply-relent.fine-you-win-you-always-do-this",
-        "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no",
-        "scene-talk.reply-bargain.stand-next-to-me-when-i-explain-it-to-my-district-and-i-ll-vote-yes",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'You win', 'No' and 'Stand next to me... and I'll vote yes' restate the first yes, refusal and hear-me-out condition."
-    },
     "0jvqsp6n6tl": {
       "keys": [
         "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
@@ -1688,21 +1673,6 @@
         "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
       ],
       "why": "'My answer is the same' and 'said all I'm going to say' repeat the first no and finished options."
-    },
-    "0rphingm2da": {
-      "keys": [
-        "scene-talk.follow-plea.everyone-s-going-to-see-this-vote-i-d-rather-not-be-the-only-name-on-it",
-        "scene-talk.reply-agree.i-ll-vote-yes-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
-        "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
-        "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first",
-        "scene-talk.reply-lie.i-m-a-yes-i-ll-tell-my-district-tonight",
-        "scene-talk.reply-relent.fine-i-ll-take-the-heat-with-you",
-        "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
-        "scene-talk.reply-bargain.i-ll-vote-yes-if-my-name-goes-on-the-amendment-if-the-town-s-going-to-be-angry-t",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'I'll take the heat with you', 'It's no' and the amendment condition restate the first yes, can't-vote and end-date-condition replies."
     },
     "0rxqzpk85a7": {
       "keys": [
@@ -2837,21 +2807,6 @@
       ],
       "why": "'Tell you exactly how it went' and 'I'm sorry. I got into something' restate the opening explain and apology, two of three."
     },
-    "1gozps4yb3y": {
-      "keys": [
-        "scene-talk.follow-press.tomorrow-s-the-vote-give-me-something-to-hold-on-to",
-        "scene-talk.reply-agree.for-you-yes-not-for-the-bill-for-you",
-        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
-        "scene-talk.reply-bargain.i-ll-do-it-if-you-ll-hear-me-out-on-my-own-bill-next-week",
-        "scene-talk.reply-stall.don-t-make-me-answer-standing-here",
-        "scene-talk.reply-lie.yes-stop-worrying-about-it",
-        "scene-talk.reply-relent.fine-you-win-you-always-do-this",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "'You win', 'I can't be on it' and the road-money condition restate the first yes, refusal and conditional replies."
-    },
     "1gprzmt4z7m": {
       "keys": [
         "scene-talk.follow-press.don-t-change-the-subject-will-you-call-relative",
@@ -3128,21 +3083,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "All three replies restate first options: still no, reporting it, and ending the talk."
-    },
-    "1o5h0mcj8jn": {
-      "keys": [
-        "scene-talk.follow-press.they-ll-ask-you-at-the-store-what-will-you-say",
-        "scene-talk.reply-agree.i-ll-vote-yes-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
-        "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
-        "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first",
-        "scene-talk.reply-lie.i-m-a-yes-i-ll-tell-my-district-tonight",
-        "scene-talk.reply-relent.fine-i-ll-take-the-heat-with-you",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.i-ll-vote-yes-if-my-name-goes-on-the-amendment-if-the-town-s-going-to-be-angry-t",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Taking the heat, 'I can't be on it' and the amendment condition restate the first yes, refusal and end-date condition instead of saying what the player will tell the store."
     },
     "1ofie1mijdq": {
       "keys": [
@@ -3510,20 +3450,6 @@
         "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "1wgacekydqy": {
-      "keys": [
-        "scene-talk.follow-plea.i-can-t-carry-it-alone-with-the-whole-town-watching",
-        "scene-talk.reply-agree.i-ll-vote-yes-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
-        "scene-talk.reply-bargain.put-an-end-date-on-it-and-i-can-explain-a-yes-at-the-grocery-store",
-        "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first",
-        "scene-talk.reply-lie.i-m-a-yes-i-ll-tell-my-district-tonight",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "'I'm in', 'I can't vote for {bill}' and 'Take out section {section}' are the first yes, refusal and condition again."
     },
     "1whj448q17n": {
       "keys": [
@@ -4372,5 +4298,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "0map84i54g7"
 }

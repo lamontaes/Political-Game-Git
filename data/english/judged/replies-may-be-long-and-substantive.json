@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 995,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -301,16 +301,6 @@
       ],
       "why": "A promise, tea and a morning visit give no reason."
     },
-    "05u4grh6r9b": {
-      "keys": [
-        "scene-talk.follow-press.tomorrow-s-the-vote-give-me-something-to-hold-on-to",
-        "scene-talk.reply-relent.fine-you-win-you-always-do-this",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.stand-next-to-me-when-i-explain-it-to-my-district-and-i-ll-vote-yes",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "Giving in, neutrality, a stand-with-me condition and a later answer state no reason."
-    },
     "061fuu1zgau": {
       "keys": [
         "scene-talk.state-request.we-re-talking-to-everyone-running-for-office-would-you-sit-down-with-us-for-an-interview",
@@ -607,16 +597,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "0caybpn00xx": {
-      "keys": [
-        "scene-talk.follow-press.tomorrow-s-the-vote-give-me-something-to-hold-on-to",
-        "scene-talk.reply-relent.fine-you-win-you-always-do-this",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Giving in, neutrality, a road-money trade and an exit carry no argument."
     },
     "0ckcw4puwl6": {
       "keys": [
@@ -2246,15 +2226,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "1bvqg39jt0h": {
-      "keys": [
-        "scene-talk.follow-plea.i-can-t-carry-it-alone-with-the-whole-town-watching",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-refuse.i-can-t-vote-for-bill",
-        "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote"
-      ],
-      "why": "Giving in, a bare can't and a section condition carry no reason."
-    },
     "1c79hyyxtky": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -2290,16 +2261,6 @@
         "scene-talk.follow-press.what-changed"
       ],
       "why": "An invitation, a condition to say it in public, a dismissal and a question offer no reason of the player's own."
-    },
-    "1d3xrmfvyla": {
-      "keys": [
-        "scene-talk.follow-press.can-t-or-won-t",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either",
-        "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Asked \"Can't, or won't?\", the replies give in, stay neutral, set a condition or leave without a why."
     },
     "1d4dhy3hgx6": {
       "keys": [
@@ -4155,5 +4116,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "1269w93etru"
 }
