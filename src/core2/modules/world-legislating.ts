@@ -253,6 +253,11 @@ export function openSittingSessions(core: CoreState): void {
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
   const api = coreAPI(core);
   for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+    // Another state's session keeps only its results and is generated on
+    // demand (owner, Nov 5): nothing about it is read at the opening, so its
+    // legislators stay named officials on their term rows, seated by no one
+    // (the CTO's ruling of Nov 17). Its calendar entry opens it later.
+    if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) continue;
     const w = nextWindow(jurisdiction, core.date, true);
     if (!w || w.conveneAt > core.date) continue;
     openSession(api, {
