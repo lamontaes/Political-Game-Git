@@ -62,7 +62,6 @@ import {
   promiseOfEvent,
   promiseHeldBySecond,
   settlePromisesOnEvent,
-  settlePromisesOnTie,
   promiseParam,
 } from "./promises";
 import type {
@@ -2250,7 +2249,6 @@ export function createDirector(
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
-      settlePromisesOnTie(api, ledger, notice, promiseParam);
       for (const id of [notice.actorId, notice.otherId]) {
         if (!ledger.people.has(id)) continue;
         let queue = tieNotices.get(id);

@@ -24,13 +24,12 @@ import {
   votesOn,
   LEGISLATURE_MODULE_ID,
 } from "../core2/modules/legislature";
-import { officeActsOf } from "../core2/modules/office-day";
+
 import type {
   CoreAPI,
   CoreEventInput,
   IsoDate,
   PersonId,
-  RelationshipChangeNotice,
 } from "../core2/types";
 import { P } from "../core2/parameters";
 import kindsJson from "./data/promise-kinds.json" with { type: "json" };
@@ -39,7 +38,6 @@ import type { KeptFact, KeptPromise, Ledger } from "./types";
 interface SettleRow {
   operation: string;
   eventKind?: string;
-  relationshipCause?: string;
 }
 
 interface PromiseKindRow {
@@ -175,9 +173,6 @@ const settleKeys: Record<
   "holder-missed-payment": {
     ofFact: (fact) => `holder-missed-payment|${fact.holderId}`,
   },
-  "pair-talk": {
-    ofFact: (fact) => `pair-talk|${pairKey(fact.holderId, fact.otherId)}`,
-  },
   // A word on a question is tested by the holder's own act on it, whether a
   // vote at a roll call or a signature or veto at the desk: one key for both.
   "question-vote": {
@@ -185,10 +180,6 @@ const settleKeys: Record<
   },
   "question-signature": {
     ofFact: (fact) => questionKey(fact),
-  },
-  "meeting-held": {
-    ofFact: (fact) =>
-      fact.promise?.meetingId ? `meeting-held|${fact.promise.meetingId}` : null,
   },
 };
 
@@ -201,8 +192,6 @@ const questionKey = (fact: KeptFact): string | null =>
 export function promiseHeldBySecond(kindId: string): boolean {
   return kindOf(kindId).heldBy === "second";
 }
-
-const pairKey = (a: string, b: string) => [a, b].sort().join(":");
 
 /**
  * The promise a `scene.reply` names, as the kept fact's promise part, with
@@ -218,7 +207,6 @@ export function promiseOfEvent(
   const billId = event.facts?.["promise-billId"];
   const question = event.facts?.["promise-question"];
   const side = event.facts?.["promise-side"];
-  const meetingId = event.facts?.["promise-meetingId"];
   return {
     kind: kind.id,
     dueOn: addDays(makeIsoDate(event.date), param(kind.windowDays)),
@@ -227,7 +215,6 @@ export function promiseOfEvent(
     ...(typeof side === "string" && side
       ? { side: side === "no" || side === "-1" ? minusOne : one }
       : {}),
-    ...(typeof meetingId === "string" && meetingId ? { meetingId } : {}),
   };
 }
 
@@ -350,13 +337,6 @@ const SETTLE_EVENT_KINDS = new Set(
     kind.settle.flatMap((row) => (row.eventKind ? [row.eventKind] : [])),
   ),
 );
-const SETTLE_CAUSES = new Set(
-  PROMISE_KINDS.kinds.flatMap((kind) =>
-    kind.settle.flatMap((row) =>
-      row.relationshipCause ? [row.relationshipCause] : [],
-    ),
-  ),
-);
 
 /** A core event that may settle open promises: one set test, then one lookup. */
 export function settlePromisesOnEvent(
@@ -393,39 +373,6 @@ export function settlePromisesOnEvent(
           : "broken",
         event.id,
         param,
-      );
-    }
-    return;
-  }
-  if (event.kind === "public-meeting") {
-    // The meeting promised: kept if the one who promised was there (the
-    // player's own presence, the meeting's record), broken if not.
-    const meetingId = event.facts?.meetingId;
-    const ids =
-      typeof meetingId === "string"
-        ? ledger.promisesBySettle.get(`meeting-held|${meetingId}`)
-        : undefined;
-    for (const id of [...(ids ?? [])]) {
-      const fact = copiesOf(ledger, id)[zero];
-      if (!fact?.promise) continue;
-      // There: still in the room at its close, or came and left (office-day's
-      // own "attend" act on the meeting).
-      const there =
-        fact.holderId === api.state.playerId &&
-        (event.facts?.playerPresent === "true" ||
-          officeActsOf(api, fact.holderId).some(
-            (act) => act.kind === "attend" && act.recordId === meetingId,
-          ));
-      // Not there, the friend learns it apart from them: the tie moves when
-      // the two next talk and it is said.
-      endPromise(
-        api,
-        ledger,
-        id,
-        there ? "kept" : "broken",
-        event.id,
-        param,
-        there,
       );
     }
     return;
@@ -498,35 +445,6 @@ function settleQuestionPromises(
     }
 }
 
-/** Time together that may settle open promises between the two (a talk). */
-export function settlePromisesOnTie(
-  api: CoreAPI,
-  ledger: Ledger,
-  notice: RelationshipChangeNotice,
-  param: (key: string) => number,
-): void {
-  const cause = notice.reason?.cause;
-  if (!cause || !SETTLE_CAUSES.has(cause) || !ledger.promisesBySettle.size)
-    return;
-  const ids = ledger.promisesBySettle.get(
-    `pair-talk|${pairKey(notice.actorId, notice.otherId)}`,
-  );
-  if (!ids) return;
-  for (const id of [...ids]) {
-    // The talk it was promised in (or answered in) is not the one that
-    // keeps it: a later day's talk is.
-    if (copiesOf(ledger, id)[zero]?.since === api.state.date) continue;
-    endPromise(
-      api,
-      ledger,
-      id,
-      "kept",
-      notice.reason?.sourceId ?? notice.relationshipId,
-      param,
-    );
-  }
-}
-
 /** Promises whose window closes today end as their kind says. One lookup a day. */
 export function closeDuePromises(
   api: CoreAPI,
@@ -561,7 +479,6 @@ export interface PromiseBetween {
   billId?: string;
   question?: string;
   side?: number;
-  meetingId?: string;
   outcome: "open" | "kept" | "broken" | "lapsed";
   endedBy?: string;
   endedAt?: IsoDate;
@@ -599,9 +516,6 @@ export function promisesBetween(
         ...(fact.promise.billId ? { billId: fact.promise.billId } : {}),
         ...(fact.promise.question ? { question: fact.promise.question } : {}),
         ...(fact.promise.side ? { side: fact.promise.side } : {}),
-        ...(fact.promise.meetingId
-          ? { meetingId: fact.promise.meetingId }
-          : {}),
         outcome: fact.promise.outcome ?? "open",
         ...(fact.endedBy ? { endedBy: fact.endedBy } : {}),
         ...(fact.endedAt ? { endedAt: fact.endedAt } : {}),
