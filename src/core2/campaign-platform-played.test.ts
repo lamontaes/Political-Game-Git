@@ -2,8 +2,8 @@
  * Candidates run on the questions where the town agrees with them, in a
  * played year (pool item campaign-platform-follows-agreement; research
  * docs/research/platform-emphasis-2026-10-30.md). Worlds in places drawn
- * from all 56 (PLATFORM_PLAYED_SEED pins the run) each play a year a day at
- * a time. A grown resident of the town is the player and files at the
+ * from all 56 (the run seed is GOLDEN_PATH_SEED when set, else fresh, and
+ * printed) each play a year a day at a time. A grown resident of the town is the player and files at the
  * counter (`openBenchFilingVisit`, `chooseAtCounter`, the bench's filing
  * route) on the platform the rule gives them, in the first local race they
  * may enter that another candidate has filed for, else in the first whose
@@ -53,8 +53,9 @@
  *   a view on than they run on), and every candidate the years' filings hold
  *   who did where they do not, and the test says which.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it, vi } from "vitest";
-import type { drawPlace } from "../../scripts/core2-year/place";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -148,31 +149,16 @@ vi.mock("./campaign-stances", async (importOriginal) => {
 });
 
 /**
- * The places whose years the totals pool, named and pinned at fixed place
- * seeds (never drawn): the same places and years every run. A running mate's filing
- * (Leeds Point, a ticket office) is read here too; the case of its own is
+ * The run's places are drawn from all 56 (Pins family 32: a check reads the
+ * relationship at places nobody chose, never three fixed towns). The run seed
+ * is printed, so a red names its places and seed. A running mate's filing is
+ * read here too when a drawn place holds one; the case of its own is
  * campaign-running-mate-platform.test.ts.
  */
-const PLACES = [
-  {
-    key: "3439810",
-    name: "Leeds Point",
-    state: "NJ",
-    seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
-  },
-  {
-    key: "4651724",
-    name: "Prairiewood Village",
-    state: "SD",
-    seed: "e030b215e75a72f2d660599e5ac63caba33f7862416e9169c41a050a7b9c41cd",
-  },
-  {
-    key: "0115256",
-    name: "Clay",
-    state: "AL",
-    seed: "652c0b614db96a56ae3ed028b8d0ded5fec150e5a17459d6b85f8c364d11b5ca",
-  },
-] as const;
+const RUN_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+/** The most places drawn before the totals are read with what they hold. */
+const MAX_DRAWS = 12;
 const DAYS = 365;
 /** The fewest drawn places' years the totals pool. */
 const MIN_PLACES = 3;
@@ -292,10 +278,9 @@ function levelOf(api: CoreAPI, contest: ContestRow): string {
   );
 }
 
-/** A pinned place's year, a day at a time, and every platform it recorded, read back on its day. */
-function playYear(pinned: (typeof PLACES)[number]) {
-  const place = pinned as ReturnType<typeof drawPlace>;
-  const where = `${place.name}, ${place.state} (${place.key}), pinned place seed ${place.seed}`;
+/** A drawn place's year, a day at a time, and every platform it recorded, read back on its day. */
+function playYear(place: ReturnType<typeof drawPlace>) {
+  const where = `${place.name}, ${place.state} (${place.key}), run seed ${RUN_SEED}, place seed ${place.seed}`;
   console.log(`campaign-platform-played: ${where}`);
   try {
     return playYearIn(where, place);
@@ -783,8 +768,10 @@ it("every contested local race's candidates run on their top questions by the ru
   const enough = () =>
     contestedPool.filter(spoke).length >= MIN_CANDIDATES ||
     everyPool.filter(spoke).length >= MIN_CANDIDATES;
-  for (const pinned of PLACES) {
-    const year = playYear(pinned);
+  for (let draw = 0; draw < MAX_DRAWS; draw += 1) {
+    const year = playYear(
+      drawPlace(RUN_SEED, `campaign-platform-played:${draw}`),
+    );
     places.push(year.where);
     players.push(`${year.where}: ${year.player}`);
     // Every platform read is the rule's, contested or not.
@@ -851,7 +838,7 @@ it("every contested local race's candidates run on their top questions by the ru
   console.log([...(proof ?? tried), total].join("\n"));
   if (!proof)
     expect.fail(
-      `none of the ${PLACES.length} pinned places held a contested local race:\n${tried.join("\n")}`,
+      `none of the ${places.length} places drawn from run seed ${RUN_SEED} held a contested local race:\n${tried.join("\n")}`,
     );
   expect(
     minority.length,
