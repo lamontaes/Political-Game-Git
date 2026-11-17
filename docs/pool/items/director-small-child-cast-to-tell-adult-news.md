@@ -37,4 +37,4 @@ Seen: the talk at home in which a household member tells the player news from th
 
 **Files.** src/director/circumstance.ts, src/director/data/circumstances.json, src/director/circumstance.test.ts
 
-**Notes.** Built by the Life records builder (opus-lr), Nov 13, to Fable A's rule 28 (07:51Z): under 13, never cast to tell news of politics, money, law or work. The floor is `directorCircumstanceNewsTellerMinAge` (13), read in `circumstancePicks` where every source's cast is checked; rows whose news a child can know say `childMayTell`. The check is `src/director/child-teller-floor.test.ts`, not circumstance.test.ts, so it runs in minutes.
+**Notes.** Built by the Life records builder (opus-lr), Nov 13, to Fable A's rule 28 (07:51Z): under 13, never cast to tell news of politics, money, law or work. The floor is `directorCircumstanceNewsTellerMinAge` (13), read in `circumstancePicks` where every source's cast is checked; rows whose news a child can know say `childMayTell`. The check is `src/director/child-teller-floor.test.ts` (removed), not circumstance.test.ts, so it runs in minutes.

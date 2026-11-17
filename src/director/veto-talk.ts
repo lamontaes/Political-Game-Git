@@ -254,10 +254,10 @@ export function answerVeto(
 /**
  * The group that pressed the members who voted no hardest (the most
  * meetings with them, then the largest case), as people say its name, or
- * null when none met them or its record has no name to say. Shared by the
- * desk visit (`deskFacts`) and the veto said at the next talk.
+ * null when none met them or its record has no name to say: the veto said at
+ * the next talk.
  */
-export function opposingGroup(
+function opposingGroup(
   core: Readonly<CoreState>,
   town: string | null,
   meetings: readonly {
