@@ -27,7 +27,7 @@ Seen: #10011's debate-sitting test, which accepted through the deleted scene.
 
 **Time box.** 3 hours, one Sonnet session at medium.
 
-**Rules.** One engine per mechanic (the meetings engine's acceptance, called, not copied); screens follow the mocks (screen-to-mock); no hand-written player text in code.
+**Rules.** One engine per mechanic: the control calls the meetings engine's own acceptance through a bench route and copies none of its logic into the screen. Screens follow the mocks (screen-to-mock): the control sits where the race's card shows the invitation. No hand-written player text in code: the control's label comes from the English engine's control names.
 
 **Done when.** A second session, in a drawn place on main, files, receives a debate invitation, presses Accept on the screen and sees the `debate-accepted` record in dev mode's trace and the sitting staged on its day; `src/director/debate-sitting.test.ts` accepts through the same route.
 
