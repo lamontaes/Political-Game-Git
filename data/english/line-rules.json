@@ -5947,6 +5947,24 @@
           "speech:player"
         ]
       }
+    },
+    {
+      "id": "address-topics-turned",
+      "says": "Between two points of a speech there is a turn (\"That's where I stand on X. Now, Y.\"); a speech never jumps to a new topic with no turn.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-16",
+          "words": "I've had my say on right-to-work rules, and the other... that doesn't make any sense... she just completely pivoted."
+        }
+      ],
+      "note": "Story thread #9750, part 4: composed over whole addresses played in drawn worlds (`npm run words:composed`). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["topics-turned"],
+        "applies": ["speech:president", "speech:governor", "speech:mayor"]
+      }
     }
   ]
 }

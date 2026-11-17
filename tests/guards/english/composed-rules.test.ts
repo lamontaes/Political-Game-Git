@@ -101,6 +101,30 @@ const FIXTURES: Record<
   string,
   { catches: ComposedSample; spares: ComposedSample; breaksAt?: number[] }
 > = {
+  "topics-turned": {
+    catches: sampleOf(
+      text("speech:governor", [
+        ["Members of the Ohio legislature, and every citizen of Ohio."],
+        [
+          "I am against right-to-work rules, and I will veto any bill for them.",
+        ],
+        ["Teachers have a seat at the table, and I will keep it that way."],
+        ["On unions, you have my word."],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:governor", [
+        ["Members of the Ohio legislature, and every citizen of Ohio."],
+        [
+          "I am against right-to-work rules, and I will veto any bill for them.",
+        ],
+        [
+          "That's where I stand on right-to-work rules. Now, teachers have a seat at the table, and I will keep it that way.",
+        ],
+        ["On unions, you have my word."],
+      ]),
+    ),
+  },
   "no-capital-after-comma": {
     catches: sampleOf(
       text("speech:governor", [

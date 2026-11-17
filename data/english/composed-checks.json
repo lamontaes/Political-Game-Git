@@ -575,5 +575,22 @@
     "country",
     "nation"
   ],
-  "closeFrameWordsAbout": "The words a close's frame says whatever the speech was about (\"That's the work in front of ...\", \"thank you\", \"good night\", \"God bless this nation\"): they never count as naming something the speech said."
+  "closeFrameWordsAbout": "The words a close's frame says whatever the speech was about (\"That's the work in front of ...\", \"thank you\", \"good night\", \"God bless this nation\"): they never count as naming something the speech said.",
+  "turnFrames": [
+    "now,",
+    "now i want",
+    "next is",
+    "next,",
+    "that's where i stand",
+    "enough on",
+    "after ",
+    "that covers",
+    "i've had my say",
+    "let's talk about",
+    "let me turn",
+    "turn to",
+    "on to ",
+    "another thing"
+  ],
+  "turnFramesAbout": "Words that mark a turn between two points of a speech (\"That's where I stand on X. Now, Y.\"): a body paragraph that shares no subject word with the one before it opens with one of them, or it changed topics with no turn (owner, Nov 16: \"she just completely pivoted\")."
 }
