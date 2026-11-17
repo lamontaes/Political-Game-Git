@@ -133,5 +133,16 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage"
+  },
+  {
+    "id": "SG-LAWS-official-salary-opening-table",
+    "kind": "approximation",
+    "file": "src/core2/modules/official-pay.ts",
+    "line": 152,
+    "whatItFakes": "An office no pay act in the world has set yet is paid the 2026 salary table's figure (official-salaries-2026.json), a real statute or commission figure, as the law in force on day one.",
+    "why": "The world's own pay acts come from its history: the bodies History seats from 1925 enact them (History's plan, pull request 5 of 6), and that history is not built yet. Every act a body passes in play is read first.",
+    "addedBy": "claude/pins-16-amounts-read-the-law",
+    "addedAt": "2026-11-17",
+    "replacement": "History's laws from 1925 leave an official-salary:<office> law row in force for every office on day one; officialSalary then reads only the law, and the table and this stopgap are deleted."
   }
 ]
