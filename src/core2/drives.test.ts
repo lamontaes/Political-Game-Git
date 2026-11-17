@@ -975,6 +975,11 @@ describe("drive responses against the research bands", () => {
     return (100 * (counts[`${rule}:${response}`] ?? p("zero"))) / total;
   };
 
+  // The fit's own check, on a hand-built fixture rather than a played world:
+  // the decision's weights were fitted so that this fixture of bereaved adults
+  // reproduces the meta-analysis's share. A played world's share is its own
+  // (owner, Nov 17); the next case checks the relationship, that a heavier
+  // loss moves more of the bereaved off carrying on.
   it("the share of the bereaved who carry on is inside the trajectory meta-analysis's interval", () => {
     const core = bereaved();
     const carryOn = share(core, "bereavement", "carry-on");

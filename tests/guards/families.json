@@ -387,7 +387,6 @@
         "src/core2/money-traits-kit.ts",
         "src/core2/town-households.ts",
         "src/core2/world-poverty.ts",
-        "src/core2/circle-turnover-check.ts",
         "src/core2/turnover-check.ts",
         "src/core2/journal-state.ts",
         "src/core2/journal.ts",

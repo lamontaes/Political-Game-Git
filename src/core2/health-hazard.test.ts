@@ -140,7 +140,11 @@ describe("CRISIS K1 fixed-point hazard", () => {
   });
 
   it("matches the annual survival probability across many thresholds", () => {
-    // Fraction of thresholds crossed within one age-80 year ≈ qx.
+    // Fraction of thresholds crossed within one age-80 year ≈ qx. A check of
+    // the hazard's own arithmetic against the table it integrates, not of any
+    // world: the table's level is the health engine's to replace with causes
+    // (family 23 of the calibration audit on #9747), and this figure changes
+    // with it.
     const profile: HazardProfile = {
       birthDate: d("1946-01-10"),
       category: "male",
