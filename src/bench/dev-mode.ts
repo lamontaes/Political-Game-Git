@@ -11,7 +11,7 @@
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
-import { heldDrivesOf } from "../core2/modules/drives";
+import { heldDrivesOf } from "../core2/modules/people";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";

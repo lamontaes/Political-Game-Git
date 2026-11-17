@@ -220,6 +220,7 @@ export { MOVED_AWAY_EVENT } from "./moves";
 export { countedHeadcountOf, limitOutsideSales } from "../residents-economy";
 // A person's life as one list, for the screens that tell it (the card, the You screen).
 export { lifeOf, type LifeEvent } from "../person-life";
+export { heldDrivesOf } from "./drives";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
 // A housemate's call for help, for the director's rescue scene.
