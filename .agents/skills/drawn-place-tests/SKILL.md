@@ -57,3 +57,7 @@ The trait and calibration tests (`src/core2/modules/*.traits.test.ts`) draw a fr
 ## A name check that matches inside another word
 
 A drawn place can name a business after a person, so a check that counts the player's name in a line must match the whole word (`\bSam\b`), or "Sampson's Market" counts as saying "Sam" (Nov 15, the coworker test at Anderson Island WA, seed 666aac4c9a33aa4fddd8). When a drawn test goes red, rerun that file pinned to the failing seed (`GOLDEN_PATH_SEED=<seed>`) before and after the fix. That shows the fix, not a new draw, turned it green.
+
+## A case the player never reaches (Handoff, Nov 17)
+
+When the case happens to townspeople and not to the player (a borrower who misses a payment: the player's home opens with cash and no loan, so ten drawn places and six birthdays found none), the test finds the person the engines name in the drawn place, as `findTownBorrower` does, and stages only that person's choice, labeled where it stands. It follows them from day one (the director watches, and `focusPersonIds` keeps their records), and it reads what a non-player's record says the day it happens, since the engine forgets a person outside the player's circle after a week (`circleDecisionDetailDays`). That the player cannot reach the case is a gap for the lane that owns the player's choices, posted as "for Blockers".
