@@ -582,6 +582,24 @@
       "now": "src/bench/creator-person.browser.mjs (the one Random for the whole person)",
       "when": "2026-11-16",
       "why": "The creator's separate Randomize name and Random place buttons were replaced by one Random (owner, Nov 16)."
+    },
+    {
+      "old": ".agents/skills/standing-rules-self-check",
+      "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
+      "when": "2026-11-16",
+      "why": "Most of it repeated AGENTS.md's standing rules; its eight lines and the Account lead's two moved word for word into done-proof, which runs at the same moment, before a pull request opens."
+    },
+    {
+      "old": ".claude/skills/standing-rules-self-check",
+      "now": ".claude/skills/done-proof (section 9, the standing rules one line each)",
+      "when": "2026-11-16",
+      "why": "The mirror of the skill above, removed with it."
+    },
+    {
+      "old": ".agents/rules/git-worktrees.md",
+      "now": ".agents/rules/storage-and-workspaces.md (section Branches and takeovers)",
+      "when": "2026-11-16",
+      "why": "Its branch, takeover and publishing lines moved word for word into the storage rules; its workspace line repeated that file and AGENTS.md."
     }
   ]
 }

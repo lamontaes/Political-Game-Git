@@ -255,6 +255,26 @@ const state: ServerState = {
 /** What the server holds before any life, for a replay to start from. */
 const EMPTY_STATE: ServerState = { ...state };
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
+/**
+ * The minute of day the player's clock, the light behind them and a scene's
+ * opener all read. The opening day is that evening at home, when the household
+ * gets home, so the clock is never at the midnight it starts the day from
+ * (owner, Nov 16: "the timing is completely messed up"): the player's own
+ * minute, raised to the arrival minute on the opening day.
+ */
+function shownMinute(): number | undefined {
+  const minute = state.player?.packet?.at.minuteOfDay;
+  const current = state.core;
+  if (
+    !current ||
+    !state.player?.personId ||
+    state.director?.ledger.opening?.date !== current.date
+  )
+    return minute;
+  const arrival = openingArrivalMinute(current, state.player.personId);
+  return Math.max(minute ?? arrival, arrival);
+}
+
 function sceneNow(current: CoreState, id: string) {
   const playing = state.player?.personId === id;
   const openingDay =
@@ -1112,7 +1132,7 @@ const ROUTES: readonly Route[] = [
       send(200, {
         url: backdropFile(
           officePlace(url.searchParams.get("filedWith") ?? ""),
-          state.player?.packet?.at.minuteOfDay ?? 12 * 60,
+          shownMinute() ?? 12 * 60,
         ).url,
       });
       return;
@@ -1180,7 +1200,7 @@ const ROUTES: readonly Route[] = [
         requireCore(),
         state.player.personId,
         url.searchParams.get("org") ?? "",
-        state.player.packet?.at.minuteOfDay ?? 12 * 60,
+        shownMinute() ?? 12 * 60,
       );
       const spent =
         state.player.spend(parameter("visitHours", parameters)) ?? trip;
@@ -1505,7 +1525,7 @@ const ROUTES: readonly Route[] = [
           ? meetingSceneView(
               requireCore(),
               state.player.personId,
-              state.player.packet?.at.minuteOfDay ?? 18 * 60,
+              shownMinute() ?? 18 * 60,
             )
           : null,
       );
@@ -1528,7 +1548,7 @@ const ROUTES: readonly Route[] = [
         meetingSceneView(
           requireCore(),
           state.player.personId,
-          state.player.packet?.at.minuteOfDay ?? 18 * 60,
+          shownMinute() ?? 18 * 60,
         ),
       );
       return;
@@ -1550,7 +1570,7 @@ const ROUTES: readonly Route[] = [
         meetingSceneView(
           requireCore(),
           state.player.personId,
-          state.player.packet?.at.minuteOfDay ?? 18 * 60,
+          shownMinute() ?? 18 * 60,
         ),
       );
       return;
@@ -2256,7 +2276,7 @@ const ROUTES: readonly Route[] = [
           current,
           state.player.personId,
           filedWith,
-          state.player.packet?.at.minuteOfDay ?? 12 * 60,
+          shownMinute() ?? 12 * 60,
         );
       } catch (error) {
         // Nothing to file and no petition out: no scene at the counter
@@ -2480,10 +2500,12 @@ const ROUTES: readonly Route[] = [
       const core = requireCore();
       send(200, {
         ...personCard(core, url.searchParams.get("id") ?? ""),
-        at: state.player?.packet?.at ?? {
-          date: makeIsoDate(core.date),
-          minuteOfDay: 0,
-        },
+        at: state.player?.packet?.at
+          ? {
+              ...state.player.packet.at,
+              minuteOfDay: shownMinute() ?? state.player.packet.at.minuteOfDay,
+            }
+          : { date: makeIsoDate(core.date), minuteOfDay: shownMinute() ?? 0 },
       });
       return;
     },
