@@ -4501,6 +4501,18 @@ export function contributeOwnMoney(
   return amount;
 }
 
+/**
+ * The chance a stranger with no tie gives to a cold ask: it slides up with
+ * how close their views are to the candidate's (`agreement`, 0 to 1) and
+ * their means (the cash they hold beyond a cushion, in months of a typical
+ * donor's income), at the strength `coldAskResponse` fits once.
+ */
+export function coldAskChance(agreement: number, means: number): number {
+  return (
+    1 - Math.exp(-campaignParameter("coldAskResponse") * agreement * means)
+  );
+}
+
 export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const campaign = campaignFor(api, filingId);
   const reached = campaign.outsideReached ?? 0;
@@ -4547,8 +4559,7 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     // A cold ask reaches a stranger with no tie. Each answers by their own
     // means and how close their views are to the candidate's: the chance
     // of a gift slides up with both (`coldAskResponse`, fitted once).
-    const chance =
-      1 - Math.exp(-campaignParameter("coldAskResponse") * reason * means);
+    const chance = coldAskChance(reason, means);
     const donors = Math.floor(place.eligible * aligned * step * chance);
     if (donors <= 0) continue;
     // stopgapId: SG-GOV-outside-donor-month-income
