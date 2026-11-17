@@ -17,7 +17,7 @@
     "id": "SG-OFFICIALS-outside-opinion",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/officials.ts",
-    "line": 1427,
+    "line": 1425,
     "whatItFakes": "An official whose constituency does not hold the played area (another state's legislators and executives, the House members of the town's state's other districts and of every other state, other states' senators, and the President) weighs their district, their state and the press by their voters' lean alone, with no term for what those voters' lives, faith, degree and news add beyond their leans.",
     "why": "The views engine keeps opinion (src/core2/modules/views.ts, keepOpinions) only over the played area's people, full and counted; applying that town's mean to every district in the country would make one town speak for all 56 places.",
     "addedBy": "Pins 18 review fix",
