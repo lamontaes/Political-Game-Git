@@ -139,11 +139,17 @@ export function endorsementAskFacts(
   if (!core.modules.has(ELECTIONS_MODULE_ID)) return facts;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
 
-  // A race they filed in before this one.
+  // A race they filed in before this one: an earlier election, not another seat on the same day's ballot.
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const dayOf = (id: string) =>
+    (contests.get(id) as unknown as { electionDate?: string } | undefined)
+      ?.electionDate ?? "";
   const before = (
     filings.query("byPerson", [askerId]) as unknown as FilingRow[]
   )
-    .filter((row) => row.contestId !== contestId && row.filedOn < today)
+    .filter(
+      (row) => row.filedOn < today && dayOf(row.contestId) < dayOf(contestId),
+    )
     .sort(
       (a, b) => b.filedOn.localeCompare(a.filedOn) || a.id.localeCompare(b.id),
     )[P.zero];

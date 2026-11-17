@@ -294,8 +294,15 @@ function playAt(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .query("byPerson", [volunteerId]) as unknown as FilingRow[];
+  const dayOf = (id: string) =>
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(id) as unknown as { electionDate?: string } | undefined
+    )?.electionDate ?? "";
   const earlier = filings.find(
-    (f) => f.contestId !== theirs!.contestId && f.filedOn < today,
+    (f) => f.filedOn < today && dayOf(f.contestId) < dayOf(theirs!.contestId),
   );
   expect(!!facts["ran-before"], `${where}: ran-before`).toBe(!!earlier);
   if (earlier) expect(facts["ran-before"]!.recordIds).toContain(earlier.id);
