@@ -108,7 +108,7 @@
     "cabinet": "Appointing the cabinet",
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
-    "warmup": "Letting the country run a few weeks",
+    "warmup": "Letting the country, the state and the town run two months on their own before your first evening.",
     "opening": "Preparing the opening"
   },
   "worldSettings": {
@@ -576,16 +576,46 @@
       "abstain": "Abstained"
     },
     "bodySwitches": [
-      { "has": ["council"], "label": "Council meetings" },
-      { "has": ["police jury"], "label": "Police Jury meetings" },
-      { "has": ["town meeting"], "label": "Town Meeting" },
-      { "has": ["governing body"], "label": "Governing Body meetings" },
-      { "has": ["board"], "label": "Board meetings" },
-      { "has": ["commission"], "label": "Commission meetings" },
-      { "has": ["committee"], "label": "Committee meetings" },
-      { "has": ["assembly"], "label": "Assembly meetings" },
-      { "has": ["legislature"], "label": "Legislature sessions" },
-      { "has": ["aldermen"], "label": "Aldermen meetings" }
+      {
+        "has": ["council"],
+        "label": "Council meetings"
+      },
+      {
+        "has": ["police jury"],
+        "label": "Police Jury meetings"
+      },
+      {
+        "has": ["town meeting"],
+        "label": "Town Meeting"
+      },
+      {
+        "has": ["governing body"],
+        "label": "Governing Body meetings"
+      },
+      {
+        "has": ["board"],
+        "label": "Board meetings"
+      },
+      {
+        "has": ["commission"],
+        "label": "Commission meetings"
+      },
+      {
+        "has": ["committee"],
+        "label": "Committee meetings"
+      },
+      {
+        "has": ["assembly"],
+        "label": "Assembly meetings"
+      },
+      {
+        "has": ["legislature"],
+        "label": "Legislature sessions"
+      },
+      {
+        "has": ["aldermen"],
+        "label": "Aldermen meetings"
+      }
     ],
     "switches": {
       "meetings": "Meetings",
@@ -1201,7 +1231,8 @@
       "trait": "it isn't the kind of bill {subject} brings",
       "consistency": "it runs against how {subject} voted last",
       "party": "{possessive} party's leaders are against it",
-      "wing": "{possessive} wing of the party is against it"
+      "wing": "{possessive} wing of the party is against it",
+      "budget": "it would take money out of the budget {subject} has to pass"
     },
     "askedReasonsThey": {
       "views": "they don't believe in it",
@@ -1210,7 +1241,8 @@
       "trait": "it isn't the kind of bill they bring",
       "consistency": "it runs against how they voted last",
       "party": "their party's leaders are against it",
-      "wing": "their wing of the party is against it"
+      "wing": "their wing of the party is against it",
+      "budget": "it would take money out of the budget they have to pass"
     }
   },
   "journal": {
@@ -1354,7 +1386,8 @@
       "trait": "Their temperament",
       "consistency": "Their last vote on it",
       "bribe": "A payment taken",
-      "reply": "What was said to them"
+      "reply": "What was said to them",
+      "budget": "The hole it leaves in their budget"
     },
     "showAll": "Show all",
     "staff": "Staff",
