@@ -224,7 +224,7 @@
       "setting": "campaign",
       "lives": ["miller-lbj", "wtx-richards", "crimson-sullivan"],
       "cause": [
-        "src/core2/modules/campaigns.ts ~6257 askForEndorsement skips playerId",
+        "src/core2/modules/campaigns.ts askPlayerForEndorsement",
         "EndorsementRow ~385"
       ],
       "depth": "4-8 turns; yes, yes with a condition, not yet (only if kept), no",
@@ -413,7 +413,7 @@
       "title": "The favor called in",
       "setting": "office",
       "lives": [],
-      "cause": ["SG-GOV-player-favor-asked", "obligationsOwedTo"],
+      "cause": ["askPlayerForEndorsement", "obligationsOwedTo"],
       "depth": "4-6 turns",
       "writes": "endorsement row; obligation kept or broken",
       "unlocks": ["betrayal", "the ally returns"],

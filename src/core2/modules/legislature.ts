@@ -6674,6 +6674,31 @@ function decideAtDesk(
         }
       : {},
   );
+  // A veto is a refusal the sponsor holds against whoever cast it (whether
+  // or not the body then overrode it): the drives engine reads this record
+  // and answers by the sponsor's own temperament, never by a roll.
+  if (
+    vetoes &&
+    executive.personId &&
+    executive.personId !== bill.sponsorId &&
+    api.state.people.has(bill.sponsorId)
+  )
+    api.emit({
+      id: `bill.vetoed:${bill.id}`,
+      date: api.state.date,
+      kind: "bill.vetoed",
+      personIds: [bill.sponsorId],
+      placeId: lawChain(api).townPlaceId,
+      publicRecord: false,
+      topic: executive.personId,
+      desiredChange: "bill.vetoed",
+      facts: { billId: bill.id, executiveId: executive.personId },
+      source: {
+        tag: "SOURCED",
+        citation: `Veto of ${bill.number}`,
+        asOf: api.state.date,
+      },
+    });
   return { status, decision: { executiveId: key, action: status }, override };
 }
 

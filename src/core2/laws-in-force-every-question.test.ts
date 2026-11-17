@@ -24,6 +24,7 @@ import { advanceCore } from "./life";
 import { LAWS_MODULE_ID, lawChain, lawHere } from "./modules/laws";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
+import { centuryLaw } from "./electorate-century";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const FEDERAL_QUESTIONS = "us-federal-positions:";
@@ -56,9 +57,19 @@ it("every policy question's law in force is read at each level by record id, by 
     const jurisdiction = chain.levels.find(
       (l) => l.level === level,
     )?.jurisdiction;
-    const answer = jurisdiction
-      ? entry.answers[jurisdiction]?.answer
+    // The answer the world opened with: the century's law where its bodies decide the
+    // question (CTO line 6935086070 on #9747), else the research's ("just like today").
+    const century = jurisdiction
+      ? centuryLaw(place.seed, jurisdiction, question)
       : undefined;
+    const answer =
+      century !== undefined
+        ? century?.value === 1
+          ? "yes"
+          : "no"
+        : jurisdiction
+          ? entry.answers[jurisdiction]?.answer
+          : undefined;
     if (answer !== "yes" && answer !== "no") continue;
     answered += 1;
     const row = here.get(question)?.levels.find((l) => l.level === level)?.row;

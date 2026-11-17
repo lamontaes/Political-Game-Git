@@ -61,6 +61,9 @@
     "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ],
+    "scene-talk.reply-refuse.i-m-not-with-you-on-carries-cause-that-s-the-whole-of-it": [
+      "plain-american-spelling-and-phrasing"
+    ],
     "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ]
@@ -119,6 +122,9 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
+    "scene-talk.follow-accept.all-right-i-ll-beat-against-your-ally-on-my-own": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.follow-accept.all-right-its-on-the-record-either-way": [
       "alright-in-dialogue"
     ],
@@ -131,6 +137,9 @@
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
     "scene-talk.follow-accept.of-course-we-ll-sort-out-the-rest-as-we-go": [
       "plain-american-reads-stiff"
+    ],
+    "scene-talk.follow-accept.years-with-you-and-that-s-the-answer-all-right": [
+      "alright-in-dialogue"
     ],
     "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
       "no-stock-phrases"
@@ -451,6 +460,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11431
+    "reply-second-move-follows-the-first (pairs)": 9777
   }
 }

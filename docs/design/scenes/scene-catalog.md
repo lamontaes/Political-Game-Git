@@ -123,9 +123,9 @@ Every row below names what it unlocks. The mechanism is the director reading an 
 **K1. Your long-time volunteer or staffer asks for your endorsement to run on their own.** The owner's example.
 
 - **Life:** a congressman's aide who answered every constituent letter, later ran for the seat (LBJ, Miller Center); an aide to a state legislator, asked by the party to run for county office after her husband declined (Ann Richards, Women in Texas History); a council member's son who handed out cards in his father's race, ran himself after a layoff (Crimson, 1981).
-- **Cause, checked in code:** the candidacy engine already decides who runs, from their own record. The campaign engine already has each candidate ask the people closest to them for an endorsement every turn (`askForEndorsement`, `src/core2/modules/campaigns.ts` around line 6273), **but it skips the player by name** (`id !== playerId`), and a favor the player owes is a registered stopgap (`SG-GOV-player-favor-asked`, line 6803). So the ask already happens to everyone except the player. The scene is that ask reaching the player.
+- **Cause, checked in code (Nov 17):** the candidacy engine decides who runs, from their own record. The campaign engine has each candidate ask the people closest to them for an endorsement every turn; the player is asked the same way (`askPlayerForEndorsement`, `src/core2/modules/campaigns.ts`), the row says `asked` until the player's reply writes the yes or the no, and the scene `endorsement-ask` plays it. What the asker says about why now (years on the player's campaign or staff, a cause they carry, a job they lost, a race they ran before, a shared party, an ally of the player they run against) is the scene packet's facts, each from the record that holds it (`src/director/endorsement-ask-facts.ts`).
 - **Depth:** four to eight turns. They say why now, from their own record (years on the player's campaign or staff, a cause they carry from the drives engine, a job they lost). They may ask for more than the word: a donor list, a door list, the player's appearance. The player can say yes, yes with a condition, not yet, or no; ask what they'd do about a question they differ on.
-- **Writes:** the existing endorsement row (`keepEndorsement`), with the answer and the reason (pool item `campaigns-endorsement-ask-answer-record`, open).
+- **Writes:** the existing endorsement row (`keepEndorsement`), with the answer and the reason (pool item `campaigns-endorsement-ask-answer-record`, done).
 - **Unlocks:** their race night (they call the player); if they win, an ally on the body; if refused, they leave the campaign (the volunteer-lapse record, `campaigns-volunteer-joined-and-lapsed-records`, in a PR) and may run against someone the player backs.
 - **Can do:** SMALL, and it clears a stopgap. Owner: new builder (Sonnet, campaigns engine), lines from the Words lead.
 
@@ -203,7 +203,7 @@ Every row below names what it unlocks. The mechanism is the director reading an 
 
 **M4. The favor called in.** Someone the player owes asks for it back: a vote, an endorsement, a job for a relative.
 
-- **Cause, checked:** the obligations ledger; the campaign engine already calls in favors from colleagues and skips the player as a stopgap (`SG-GOV-player-favor-asked`). The scene inventory still lists "betrayal" as waiting on an obligations ledger; that ledger now exists, so the inventory row is out of date.
+- **Cause, checked:** the obligations ledger; the campaign engine calls in favors from colleagues and asks the player through the same `endorsement-ask` scene (the `SG-GOV-player-favor-asked` stopgap is cleared). The scene inventory still lists "betrayal" as waiting on an obligations ledger; that ledger now exists, so the inventory row is out of date.
 - **Unlocks:** betrayal (if the player says no), the ally's return.
 - **Can do:** SMALL; clears a stopgap. Owner: new builder, with K1 (same engine call).
 
