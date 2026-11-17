@@ -31,8 +31,6 @@ const bare = (over: Partial<PlayerStanding> = {}): PlayerStanding => ({
   officeIds: new Set(),
   filedIn: [],
   working: false,
-  partyId: null,
-  kin: new Set(),
   ...over,
 });
 const legislator = bare({

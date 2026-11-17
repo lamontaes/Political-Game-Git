@@ -4,22 +4,21 @@
  * scenes that are played at state legislator or as an executive for state,
  * federal, and local, or as a person reading"): each office they serve with
  * its branch and level, the contests they have filed in that are still
- * ahead, whether they work, their party and their household's yes-or-no
- * facts. A scene's `holds` words gate on it (any one passing admits the
- * scene); an amount never gates here.
+ * ahead, and whether they work. A scene's `holds` words gate on it (any one
+ * passing admits the scene); an amount never gates here. The rest of who
+ * they are (party, household facts, decisions owed) joins it with the
+ * reader that gates on it, so nothing here is read by nobody.
  *
  * Kept on the ledger's person book and recomputed only when a record about
  * the person changes: an event that names them (ledger.ts drops the kept
- * standing), a past fact or a job of theirs, or the day passing an election
+ * standing), a job of theirs, or the day passing an election
  * or a term's end the standing was read against. Under bookkeeping every
  * kept standing is checked against a fresh read.
  */
 import { bookkeeping } from "../core2/bookkeeping";
-import { familyFactsOf, formerKin } from "../core2/closeness";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { bodyRow } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { PARTIES_MODULE_ID, type TieRow } from "../core2/modules/parties";
 import { executiveRow } from "../core2/offices-executives";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -49,10 +48,6 @@ export interface PlayerStanding {
   filedIn: string[];
   /** They hold a job that has not ended. */
   working: boolean;
-  /** The party their recorded tie names, else null. */
-  partyId: string | null;
-  /** The relations their family facts record today (former ties left out), as yes-or-no facts. */
-  kin: Set<string>;
 }
 
 /** What a kept standing was read against, so a later day knows whether it still holds. */
@@ -60,7 +55,6 @@ interface KeptStanding {
   standing: PlayerStanding;
   /** The day it stops holding: the next election day of a filed contest or the end of a term. */
   until: string | null;
-  pastFacts: number;
   jobId: string | undefined;
 }
 
@@ -148,24 +142,14 @@ function read(core: Readonly<CoreState>, personId: PersonId): KeptStanding {
   const filed = filingsAhead(core, personId);
   for (const row of filed) sooner(row.electionDate);
   const jobId = person?.jobId;
-  const tie = api.state.modules.has(PARTIES_MODULE_ID)
-    ? (api.moduleState(PARTIES_MODULE_ID).table("ties").get(personId) as
-        TieRow | undefined)
-    : undefined;
-  const kin = new Set<string>();
-  for (const fact of familyFactsOf(person).values())
-    if (!formerKin(fact.relation)) kin.add(fact.relation);
   return {
     standing: {
       offices,
       officeIds: new Set(offices.map((row) => row.officeId)),
       filedIn: filed.map((row) => row.contestId),
       working: !!jobId && core.jobs.get(jobId)?.endsAt === undefined,
-      partyId: tie?.partyId ?? null,
-      kin,
     },
     until,
-    pastFacts: person?.pastFacts?.length ?? zero,
     jobId,
   };
 }
@@ -174,7 +158,7 @@ const kept = new WeakMap<PersonLedger, KeptStanding>();
 
 /**
  * The person's standing today. With their ledger book, the kept read is used
- * until a record about them changes (`dropStanding`, a new past fact or job,
+ * until a record about them changes (`dropStanding`, a new job,
  * or the day passing what it was read against).
  */
 export function playerStanding(
@@ -188,7 +172,6 @@ export function playerStanding(
   if (
     held &&
     (held.until === null || core.date <= held.until) &&
-    held.pastFacts === (person?.pastFacts?.length ?? zero) &&
     held.jobId === person?.jobId
   ) {
     if (bookkeeping()) {
@@ -211,13 +194,7 @@ export function dropStanding(book: PersonLedger): void {
 }
 
 function standingKey(standing: PlayerStanding): string {
-  return JSON.stringify([
-    standing.offices,
-    standing.filedIn,
-    standing.working,
-    standing.partyId,
-    [...standing.kin].sort(),
-  ]);
+  return JSON.stringify([standing.offices, standing.filedIn, standing.working]);
 }
 
 /**
