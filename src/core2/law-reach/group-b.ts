@@ -712,7 +712,9 @@ function runPolicy(
           ? [...facts.households.values()].filter(
               (h) =>
                 h.incomeDollars <=
-                (povertyLineDollars(chain.stateKey, h.size) * limit) / 100,
+                (povertyLineDollars(chain.stateKey, h.size, facts.priceIndex) *
+                  limit) /
+                  100,
             )
           : [];
       const paid = payEnergyAssistance(api, {
