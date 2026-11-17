@@ -45,6 +45,7 @@ describe(`a place's kept lean: ${where}`, () => {
     for (let election = 0; election < 50; election += 1)
       carryLeans(rows, {
         date: `${String(2026 + 2 * election)}-11-03`,
+        election: String(2026 + 2 * election),
         contestId: `race:${String(election)}`,
         strength,
         places: [
@@ -66,6 +67,7 @@ describe(`a place's kept lean: ${where}`, () => {
     const second = 0.04 * (drawn("second") - 0.5);
     carryLeans(rows, {
       date: "2026-11-03",
+      election: "2026",
       contestId: "race:senate",
       strength,
       places: [{ placeId: place.id, lean, ownMove: move, result: 0.5 }],
@@ -73,6 +75,7 @@ describe(`a place's kept lean: ${where}`, () => {
     expect(leanOf(rows, place), where).toBeCloseTo(lean + strength * move, 12);
     carryLeans(rows, {
       date: "2026-11-03",
+      election: "2026",
       contestId: "race:governor",
       strength,
       places: [{ placeId: place.id, lean, ownMove: second, result: 0.5 }],
@@ -82,7 +85,8 @@ describe(`a place's kept lean: ${where}`, () => {
     expect(leanOf(rows, place), where).toBeCloseTo(afterDay, 12);
     carryLeans(rows, {
       date: "2028-11-07",
-      contestId: "race:president",
+      election: "2028",
+      contestId: "race:senate:2028",
       strength,
       places: [
         { placeId: place.id, lean: afterDay, ownMove: move, result: null },
@@ -93,8 +97,24 @@ describe(`a place's kept lean: ${where}`, () => {
       afterDay + strength * move,
       12,
     );
+    // The electors meet in December of the same election: one more contest of 2028, not a
+    // second carry.
+    carryLeans(rows, {
+      date: "2028-12-19",
+      election: "2028",
+      contestId: "race:president",
+      strength,
+      places: [
+        { placeId: place.id, lean: afterDay, ownMove: move, result: null },
+      ],
+    });
+    expect(leanOf(rows, place), where).toBeCloseTo(
+      afterDay + strength * move,
+      12,
+    );
     const row = leanRow(rows, place.id)!;
     expect(row.opening, where).toBe(lean);
+    expect(row.day, where).toMatchObject({ election: "2028", contests: 2 });
     expect(row.last, where).toMatchObject({
       contestId: "race:president",
       countedOn: afterDay,

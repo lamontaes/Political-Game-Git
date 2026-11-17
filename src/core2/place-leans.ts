@@ -26,11 +26,12 @@ export interface LeanRow {
   /** What set the opening value: the history's last record, or the lean the first count read. */
   readonly source: string;
   /**
-   * The election day now being carried: the lean as the day opened and each contest's own
-   * move, so several contests counted in one place on one day move it once, by their mean.
+   * The general election now being carried: the lean as it opened and each contest's own
+   * move, so several contests of one election counted in one place (a senator and a
+   * governor in November, the electors in December) move it once, by their mean.
    */
   readonly day?: {
-    readonly date: string;
+    readonly election: string;
     readonly base: number;
     readonly sum: number;
     readonly contests: number;
@@ -124,6 +125,8 @@ export function carryLeans(
   rows: LeanTable,
   input: {
     readonly date: string;
+    /** The general election the contest belongs to (its year): contests of one election move a place once. */
+    readonly election: string;
     readonly contestId: string;
     /** How much of a place's own move stays with it to the next election, 0 to 1. */
     readonly strength: number;
@@ -143,15 +146,15 @@ export function carryLeans(
     // A place counted for the first time with nothing of its own at stake keeps no row.
     if (!held && place.ownMove === 0) continue;
     const day =
-      held?.day?.date === input.date
+      held?.day?.election === input.election
         ? {
-            date: input.date,
+            election: input.election,
             base: held.day.base,
             sum: held.day.sum + place.ownMove,
             contests: held.day.contests + 1,
           }
         : {
-            date: input.date,
+            election: input.election,
             base: held?.rightShare ?? place.lean,
             sum: place.ownMove,
             contests: 1,

@@ -6476,6 +6476,7 @@ export function electoralCollege(
       carryCount(api, {
         contestId: `presidential:${year}:${key}`,
         date,
+        election: year,
         sample,
         places: statePlacesCounted,
         holderSide: holder,
@@ -7154,6 +7155,8 @@ function carryCount(
   input: {
     readonly contestId: string;
     readonly date: string;
+    /** The general election's year. */
+    readonly election: number;
     readonly sample: readonly SampleVoter[];
     readonly places: readonly RacePlace[];
     /** The side of the party that holds the seat (0: none). */
@@ -7166,6 +7169,7 @@ function carryCount(
   if (!moves.size) return;
   carryLeans(table(api, "leans"), {
     date: input.date,
+    election: String(input.election),
     contestId: input.contestId,
     strength: electorateParameter("leanCarryShare"),
     places: input.places.map((place, at) => {
@@ -7366,6 +7370,7 @@ function decide(
     carryCount(api, {
       contestId: raceId,
       date,
+      election: year,
       sample,
       places: countedPlaces,
       holderSide: side,
