@@ -30,7 +30,6 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { noteHeard, openConversation, say } from "./conversation";
-import { purposeScene, replyInScene } from "./purpose-scene";
 
 const EVENING = 20 * 60 + 30;
 const VOTE = "2025-11-04";
@@ -56,33 +55,10 @@ function liveThrough(
     },
   });
   while (packet.kind !== "complete") {
-    if (packet.kind === "stop") answerPetitionOffer(world, playerId);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
         : resumePlayerV1(core, { kind: "own-choice", pauseId: packet.pauseId });
-  }
-}
-
-/**
- * A player who is told their petition is short says yes, as a player does:
- * the engine offers and the player decides (OWNER-DECISIONS Oct 14). The
- * character on its own choice answers no scene.
- */
-function answerPetitionOffer(world: World, playerId: PersonId): void {
-  const { core, director } = world;
-  const book = director.ledger.people.get(playerId);
-  for (const entry of book?.schedule ?? []) {
-    if (!entry.bindings.some((b) => b.typeKey === "petition-short")) continue;
-    if (entry.answered?.includes("petition-short")) continue;
-    const result = purposeScene(core, director, playerId, entry, {
-      typeKey: "petition-short",
-    });
-    if (result?.kind !== "composed") continue;
-    const yes = result.scene.talk.tree.replies.findIndex(
-      (reply) => reply.line.move === "promise",
-    );
-    if (yes >= 0) replyInScene(core, director, playerId, entry, [yes]);
   }
 }
 

@@ -1,9 +1,8 @@
 /**
- * A layoff opens a scene at work with the boss who decided it, from the jobs
- * engine's own record: the lost job's event carries who decided and where.
- * A worker with a household is told at home instead, so one cause stages one
- * scene. The fixture world stands in for the jobs engine; a drawn place
- * proves the engine's own record in jobs-layoff-decider.
+ * A worker with a household who loses their job is told at home, from the
+ * jobs engine's own record, so one cause stages one scene (the layoff talk at
+ * work was deleted with the unwritten kinds, owner, Nov 17). The fixture world
+ * stands in for the jobs engine.
  */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../core2/life";
@@ -149,21 +148,6 @@ function run(withSpouse: boolean) {
 }
 
 describe("a layoff scene", () => {
-  it("opens at work with the boss who decided it, for a worker with no household", () => {
-    const { entry } = run(false);
-    expect(entry).toBeDefined();
-    const layoff = entry!.bindings.find((row) => row.typeKey === "layoff");
-    expect(layoff, JSON.stringify(entry)).toBeDefined();
-    expect(layoff!.setting).toEqual({ kind: "workplace", recordId: employer });
-    expect(layoff!.roles.find((row) => row.role === "boss")!.personIds).toEqual(
-      ["person:boss"],
-    );
-    expect(
-      layoff!.roles.find((row) => row.role === "worker")!.personIds,
-    ).toEqual(["person:worker"]);
-    expect(layoff!.opener).toBe("boss");
-  });
-
   it("gives a worker with a household the one family scene at home", () => {
     const { entry } = run(true);
     expect(entry).toBeDefined();

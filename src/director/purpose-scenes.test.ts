@@ -26,10 +26,10 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // (found once by draw), residents file for a race counted within the year: the
 // filing's own record fires the household's reaction, which plays as an
 // exchange on the play screen, worded by the English engine and naming the
-// record and every fact it says. The count's result record fires the win or
-// the loss at home for every filer on the night it plays; for one a top-two
-// or top-four primary put out, the primary's record fires the loss that
-// night. The year plays out in full.
+// record and every fact it says. The count's result record fires the
+// winner's scene on the night it plays; a loss, in the count or a top-two or
+// top-four primary, stages none (owner, Nov 17: the unwritten scenes are
+// deleted). The year plays out in full.
 //
 // Pinned (Nov 16). Before, the test drew its seed at run time from
 // GOLDEN_PATH_SEED or randomBytes and drew up to 32 places from it, passing
@@ -38,17 +38,12 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // 5a5019ed8cb2fc5d:1 failed on an office name, item
 // tests-purpose-scenes-household-year-by-random-seed). Litchfield,
 // Connecticut is the second draw at seed pin-ps-2 (the first has no race
-// counted in the year); the four seeds tried all passed. Galatia stays here
-// as an expected failure (it.fails) for that item: replayed on Nov 16 it
-// fails with no race-lost scene for a council filer.
+// counted in the year); the four seeds tried all passed. Galatia was kept
+// as an expected failure for that item, which failed on its race-lost scene;
+// the scene was deleted with the unwritten kinds (owner, Nov 17), so the case
+// went with it.
 const CASES = [
   { seed: "pin-ps-2:1", key: "0943300", name: "Litchfield, Connecticut" },
-  {
-    seed: "5a5019ed8cb2fc5d:1",
-    key: "2025050",
-    name: "Galatia, Kansas",
-    fails: "tests-purpose-scenes-household-year-by-random-seed",
-  },
 ] as { seed: string; key: string; name: string; fails?: string }[];
 const YEAR = 365;
 
@@ -197,20 +192,9 @@ const run = (drawSeed: string): string | null => {
   // clerk's check, the morning after the deadline.
   gatherSignatures(core, ...filings.map((f) => f.id));
 
-  // Whether someone at home put work or money into the filer's race.
-  const partIn = (filer: PersonId, causeId: string) =>
-    (
-      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
-    ).some((id) => stakeOf(core, filer, causeId, id) !== null);
-  // Whether the filer still lives with someone to meet them at home.
-  const livesWithSomeone = (filer: PersonId) =>
-    (
-      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
-    ).some((id) => id !== filer && core.people.get(id)?.alive);
   // A top-two or top-four primary sends only its top finishers on. Its record
-  // names everyone it put out and fires their loss on the night it plays: at
-  // home with the household, or the race's own scene for one who lives alone.
-  // They are not on the general's count.
+  // names everyone it put out, who stage no scene for the loss (deleted with
+  // the unwritten kinds, owner, Nov 17) and are not on the general's count.
   const outInPrimary = new Set<string>();
   if (contest.primaryDate && contest.primaryDate >= core.date) {
     advanceCore(core, addDays(makeIsoDate(contest.primaryDate), 2));
@@ -225,26 +209,6 @@ const run = (drawSeed: string): string | null => {
         .get(filer)!
         .schedule.find((row) => row.momentId.includes(primary!.id));
       expect(entry, `${here}: the primary fired no scene`).toBeTruthy();
-      // The talk at home after a loss is for a relative who put work or
-      // money into the race, on the records (family-stake.ts); with none,
-      // no one at home is staged to talk about it.
-      const part = partIn(filer, primary!.id);
-      const types = entry!.bindings.map((row) => row.typeKey);
-      if (part) expect(types, here).toContain("family-loss");
-      else expect(types, here).not.toContain("family-loss");
-      if (!types.includes("family-loss") && !types.includes("race-lost"))
-        continue;
-      const scene = purposeScene(core, director, filer, entry!);
-      expect(scene?.kind, here).toBe("composed");
-      if (scene?.kind !== "composed") continue;
-      expect(scene.scene.cause.id, here).toBe(primary!.id);
-      expect(
-        scene.scene.facts.find((row) => row.key === "office")?.recordIds,
-        here,
-      ).toContain(primary!.id);
-      told.push(
-        `${scene.scene.cause.id} (out in the primary): "${scene.scene.talk.state.text}"`,
-      );
     }
   }
 
@@ -269,7 +233,6 @@ const run = (drawSeed: string): string | null => {
     `${where}: ${contest.id} has no winner`,
   ).toBeTruthy();
   let counted = 0;
-  let alone = 0;
   let quiet = 0;
   for (const filing of filings) {
     const filer = filing.personId as PersonId;
@@ -304,68 +267,22 @@ const run = (drawSeed: string): string | null => {
             return { personId, entry: row };
       return undefined;
     };
-    // A winner, and a filer who lives alone by the count (their household
-    // moved out or died), has the race's own scene: the household is in the
-    // winner's room, and nobody is at home to meet the one alone.
-    if (won || !livesWithSomeone(filer)) {
-      expect(
-        sitting(won ? "race-won" : "race-lost"),
-        `${here}: no ${won ? "race-won" : "race-lost"} scene`,
-      ).toBeTruthy();
-      alone += 1;
-      continue;
-    }
-    // A loss is talked over at home only with a relative who put work or
-    // money into the race; with none, nobody is staged to talk about it.
-    if (!won && !partIn(filer, `election-result:${contest.id}`)) {
-      expect(sitting("family-loss"), `${here}: no part, no talk`).toBe(
-        undefined,
-      );
+    // A winner has the race's own scene. A loss stages none: the concession
+    // call and the talk at home after a loss were deleted with the unwritten
+    // kinds (owner, Nov 17).
+    if (!won) {
       quiet += 1;
       continue;
     }
-    const staged = sitting("family-loss");
-    expect(staged, `${here}: no family-loss scene`).toBeTruthy();
-    const scene = purposeScene(
-      core,
-      director,
-      staged!.personId,
-      staged!.entry,
-      { typeKey: "family-loss" },
-    );
-    expect(scene?.kind, here).toBe("composed");
-    if (scene?.kind !== "composed") continue;
-    const causeId = `election-result:${contest.id}`;
-    if (staged!.entry === entry) {
-      expect(scene.scene.cause.id, here).toBe(causeId);
-      if (!won)
-        expect(
-          scene.scene.facts.find((row) => row.key === "opponent")?.recordIds,
-          here,
-        ).toContain(result!.winnerId);
-    } else
-      // Taken into the day's sitting about another count: the sitting names
-      // this filer's count among its records.
-      expect(
-        staged!.entry.bindings
-          .flatMap((row) => row.joined ?? [])
-          .map((row) => row.causeId),
-        here,
-      ).toContain(causeId);
+    const staged = sitting("race-won");
+    expect(staged, `${here}: no race-won scene`).toBeTruthy();
     counted += 1;
-    told.push(
-      `${scene.scene.cause.id} (${won ? "won" : "lost"}): "${scene.scene.talk.state.text}"`,
-    );
+    told.push(`election-result:${contest.id} (won)`);
   }
-  // Every filer on the count has its scene: the household's for each who
-  // still lives with someone and lost with a relative's part in it, the
-  // race's own for a winner or one alone, and there is at least one.
-  expect(
-    counted + alone + quiet + outInPrimary.size,
-    `${where}: result scenes`,
-  ).toBe(filings.length);
-  if (!counted)
-    return `${where}: no filer on the count lived with someone (${alone} alone, ${outInPrimary.size} out in the primary)`;
+  // Every filer on the count is read: the winner's scene, each loss with none.
+  expect(counted + quiet + outInPrimary.size, `${where}: result scenes`).toBe(
+    filings.length,
+  );
   // The rest of the year plays out.
   advanceCore(core, end);
   console.log(`PURPOSE SCENES ${where}\n${told.join("\n")}`);

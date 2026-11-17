@@ -22,16 +22,7 @@ interface Part {
   uses: Use[];
 }
 const parts = (sceneTalk as unknown as { parts: Part[] }).parts;
-const SCENES = [
-  "celebration",
-  "gathering",
-  "rescue",
-  "owed-apology",
-  "conflict-accuse",
-  "new-baby",
-  "victory-night",
-  "swearing-in",
-];
+const SCENES = ["owed-apology", "conflict-accuse", "victory-night"];
 const ofScenes = parts.filter((part) =>
   part.uses.some((use) => SCENES.some((s) => use.purpose?.startsWith(s))),
 );
@@ -58,20 +49,6 @@ describe("what the owner flagged in batch 3, in the scenes merged on Nov 10", ()
       /[.!?] \{(office|rivals|line|post|story|stand)\}/.test(part.text),
     );
     expect(bad.map((part) => `${part.key}: ${part.text}`)).toEqual([]);
-  });
-
-  it("names nobody in a line that no earlier line introduced (a rescue's child is named where the question is asked)", () => {
-    const asks = ofScenes.filter(
-      (part) =>
-        part.uses.some((use) => use.purpose === "rescue-ask") &&
-        /\{child\}/.test(part.text) &&
-        part.uses.some((use) => use.step === "state"),
-    );
-    expect(asks.length).toBeGreaterThan(0);
-    for (const part of asks)
-      expect(part.text, part.key).toMatch(
-        /\{child\}, was|\{child\}.*[Ii]n the house/,
-      );
   });
 
   it("calls the other person by their first name once on a branch, not on every line", () => {
@@ -149,35 +126,7 @@ describe("what the owner flagged in batch 3, in the scenes merged on Nov 10", ()
     ).not.toContain("Devon");
   });
 
-  it("answers a request in a new-baby visit with a line that fits what was asked", () => {
-    const babyParts = parts.filter((part) =>
-      part.uses.some((use) => use.purpose === "new-baby"),
-    );
-    const byKey = new Map(babyParts.map((part) => [part.key, part]));
-    // "Go. {kid} and I will be fine." leaves the baby with the asker: it only
-    // follows a request to take the baby for a sleep or a nap.
-    for (const part of babyParts.filter((row) =>
-      /^Go\. (\{kid\} and I will be fine|I've got \{kid\})/.test(row.text),
-    )) {
-      for (const use of part.uses) {
-        const asked = use.after ? byKey.get(use.after) : undefined;
-        expect(asked?.text, `${part.key}: follows ${use.after}`).toMatch(
-          /\{kid\}.*(sleep|nap)/,
-        );
-      }
-    }
-  });
-
-  it("refers to nothing a scene never said (no groceries, no apology, nobody sorry)", () => {
-    // A close that puts the groceries away needs a visit that brought them.
-    const groceries = parts.filter(
-      (part) =>
-        /groceries/.test(part.text) &&
-        part.uses.some(
-          (use) => use.purpose === "new-baby" && use.step === "close",
-        ),
-    );
-    expect(groceries.map((part) => part.text)).toEqual([]);
+  it("refers to nothing a scene never said (no apology, nobody sorry)", () => {
     // A follow that answers any reply to an owed apology does not presuppose one was made.
     const presumes = parts.filter(
       (part) =>
