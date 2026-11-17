@@ -19,6 +19,8 @@ source: owner, Nov 17, after playing v0.113.0; CTO order on issue #9750 (comment
 ---
 
 **What.** After the bank cut, 18 tests in src/english and scripts/dialogue-batch named lines or kinds that no longer exist, and the English line rules had two red checks.
+The cut left them red until they were fixed.
+Seen: in the owner's sitting on v0.113.0, Nov 17, in the eviction talk at home.
 
 **Cause.** Design: the owner's ruling, Nov 17, verbatim: "STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING." The tests pinned the deleted lines' keys and texts.
 
@@ -26,7 +28,7 @@ source: owner, Nov 17, after playing v0.113.0; CTO order on issue #9750 (comment
 
 **Time box.** 4 hours, one Sonnet session at medium.
 
-**Rules.** No `.skip`, `.only`, `it.fails` or widened tolerance; no pin to a place.
+**Rules.** Replace, never layer: the deleted lines are not kept in any list or copy. No `.skip`, `.only`, `it.fails` or widened tolerance; no pin to a place.
 
 **Done when.** The ten test files named in the cut's pull request pass, except reply-pairs, which waits on the director's cut; the tests of the deleted director kinds are removed in the director's pull request; a second session sees the road to election day played at a drawn place with no stock line.
 
