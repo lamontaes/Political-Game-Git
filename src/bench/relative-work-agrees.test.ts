@@ -114,9 +114,15 @@ describe.each(["a", "b"])("a relative's work and office (case %s)", (draw) => {
           // And in the journal, in the same sentence as the office (one
           // sentence per person; #8772, #8808), naming the employer.
           const first = (employer ?? "").toLowerCase().split(" ")[0]!;
-          const sentence = officeLine!.text
+          // The line may be a paragraph that tells the household's work after
+          // its roots, so the person's work sentence is the one that names them
+          // and their employer (Story lead, Nov 17).
+          const named = officeLine!.text
             .split(/(?<=\.)\s+/)
-            .find((text) => text.includes(core.people.get(id)!.givenName));
+            .filter((text) => text.includes(core.people.get(id)!.givenName));
+          const sentence =
+            named.find((text) => text.toLowerCase().includes(first)) ??
+            named[0];
           expect(
             !!first && !!sentence?.toLowerCase().includes(first),
             `${where}: the journal's sentence for ${id} names no ${employer}: "${sentence}"`,
