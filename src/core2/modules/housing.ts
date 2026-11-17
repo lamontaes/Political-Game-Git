@@ -256,6 +256,16 @@ export function levelFromPay(
   };
 }
 
+/** The level the pay a typical rent implies supports, by the same strengths: for a place that keeps rents and no level. */
+function levelFromRent(api: CoreAPI, rentMinor: number): HousingLevel {
+  return levelFromPay(
+    (rentMinor * housingMacroParameter("macroMonthsPerYear")) /
+      DAYS_PER_YEAR /
+      pv("housingRentShareOfPay"),
+    { startedAt: api.state.date, seed: api.state.seed },
+  );
+}
+
 /** The economy's pay a day on day one, in cents: the pay of a place whose own people the game does not keep. */
 function economyPayDailyMinor(world: {
   readonly startedAt: string;
@@ -1469,11 +1479,14 @@ export function rentHomeValue(
   const level = placePriceLevel(api, placeId);
   const rentHere = typicalRent(placeId);
   if (level && rentHere > 0) return level.now * (rentMinor / rentHere);
-  // No price level or no other renter yet: the level the place's opening wrote.
+  // No price level or no other renter yet: the level the place's opening
+  // wrote, else what the pay this rent implies supports.
   const opened = placeLevel(api, placeId);
   return opened
     ? opened.valueMinor * (rentMinor / opened.rentMinor)
-    : undefined;
+    : rentMinor > 0
+      ? levelFromRent(api, rentMinor).valueMinor
+      : undefined;
 }
 
 /**
@@ -2920,7 +2933,12 @@ export function openHousing(api: CoreAPI): void {
     // The place's home price level on day one: what its own pay supports
     // (the opening's typical value), with this world's path walking the past
     // back from it.
-    const opened = placeLevel(api, landlord.placeId);
+    // A place whose homes were not opened here (its leases came with the
+    // world) has no level written: the pay its typical rent implies, by the
+    // same strength, supports its typical value.
+    const opened =
+      placeLevel(api, landlord.placeId) ??
+      (town.rentMinor > 0 ? levelFromRent(api, town.rentMinor) : undefined);
     openPriceLevel(api, landlord.placeId, {
       typicalValueMinor: opened?.valueMinor ?? town.homeValueMinor,
       townPayMinor: town.monthlyPayMinor,
