@@ -13,6 +13,7 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
+import { loadingLines } from "./ui/loading-lines.mjs";
 import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
@@ -7533,12 +7534,10 @@ function followBuild(bar, onStory) {
     const box = $("front-status");
     const last = p.stage === "done" ? STEPS.length : at + 1;
     box.replaceChildren(
-      ...STEPS.slice(0, last).map((step, i) => {
-        const line = document.createElement("span");
-        line.className = i === last - 1 && p.stage !== "done" ? "now" : "past";
-        line.textContent = controls.loading?.[step] ?? "";
-        return line;
-      }),
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        p.stage === "done" ? -1 : last - 1,
+      ),
     );
   }, 400);
   return {
