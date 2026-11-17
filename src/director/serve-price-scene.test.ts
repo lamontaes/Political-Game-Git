@@ -160,7 +160,16 @@ function filedForGovernor(place: Drawn) {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .put(filing as unknown as ModuleRow);
-  return { core, director, api, where, player, ticket, filing } as const;
+  return {
+    core,
+    director,
+    api,
+    where,
+    player,
+    ticket,
+    filing,
+    chamberId: chamber!.id,
+  } as const;
 }
 
 /**
@@ -267,8 +276,10 @@ function playCase(
   const c = { asked: f.asked, take, vote: howVote };
   setBookkeeping(false);
   try {
-    const { core, director, api, where, player, ticket, filing } =
-      filedForGovernor(f.place)!;
+    const filed = filedForGovernor(f.place);
+    if ("skip" in filed) throw new Error(filed.skip);
+    const { core, director, api, where, player, ticket, filing, chamberId } =
+      filed;
 
     // The priced person: a no from their own record, which the player's
     // word on the one question they hold would carry.
@@ -384,7 +395,7 @@ function playCase(
     // vote cast for the player or a roll held early is not play).
     const bill = seatAct(core, player, {
       kind: "draft",
-      officeId: LEGISLATURE,
+      officeId: chamberId,
       question,
       value: 1,
     });
