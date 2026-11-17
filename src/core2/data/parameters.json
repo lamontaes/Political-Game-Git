@@ -8574,5 +8574,16 @@
       "unit": "score",
       "citation": "From preschool take-up near a third to near two thirds at a typical eligible income."
     }
+  },
+  "benefitsFileReplacementWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "score per log of the benefit's share of the lost pay",
+      "citation": "The fit's neighbors with the base refitted: 0.4 gives elasticities of 0.30 to 0.46 and 0.6 about 0.45 to 0.60 in the three towns of benefitsFileBase."
+    },
+    "citation": "How much the share of the lost weekly pay the benefit replaces pulls an eligible worker toward filing, as the log of the share (jobs-benefits.ts filingDecision). A 10% higher weekly benefit raises take-up 4.7%: elasticity 0.467, 95% CI 0.382 to 0.553 (McQuillan & Moore, Washington ESD working paper, Nov 2025, https://esd.wa.gov/media/pdf/4240/endogenoustake-upuibenefts-working-paper-nov2025pdf); Anderson & Meyer (NBER WP 4787) report 0.46 to 0.78. At 0.5, raising every benefit by 10% raises take-up by an elasticity of 0.45 (Wayland), 0.42 (Piltzville) and 0.52 (Washington) over every business worker (full and counted) of three drawn towns with at least 100, each laid off in thought from their own job: Wayland, Michigan (2684880, seed 0c4eea785dc2), Piltzville, Montana (3057475, seed b3ab1b16e0f7) and Washington, District of Columbia (1150000, seed ed36e0484fc6), label trait-wiring, built January 20, 2025. The share is the state's weekly share of pay up to its weekly maximum, so a high earner capped at the maximum files less. Kept with the core parameters (Pins, Nov 17) because every benefit's take-up reads it through the same case (law-reach group-b-money.ts takesUp), in worlds with and without the jobs engine."
   }
 }
