@@ -27,20 +27,10 @@
       "causeKinds": ["family.quarrel"]
     },
     {
-      "purpose": "introduction",
-      "ending": "took-them-in-hand",
-      "kind": "show-around"
-    },
-    {
       "purpose": "ask-to-serve",
       "ending": "promised",
       "kind": "hold-question",
       "causeKinds": ["serve-asked"]
-    },
-    {
-      "purpose": "friend-ask",
-      "ending": "said-yes-to-friend",
-      "kind": "attend"
     }
   ],
   "kinds": [
@@ -76,38 +66,6 @@
       "windowEnds": "kept",
       "countedOn": true,
       "renewable": true
-    },
-    {
-      "id": "show-around",
-      "about": "Showing a new coworker how things run: kept by a talk between the two (the conversation engine's time together, cause `conversation`), broken when the window closes with none.",
-      "tie": {},
-      "settle": [
-        {
-          "operation": "pair-talk",
-          "relationshipCause": "conversation"
-        }
-      ],
-      "windowDays": "promiseShowAroundWindowDays",
-      "windowEnds": "broken",
-      "countedOn": false,
-      "renewable": true
-    },
-    {
-      "id": "attend",
-      "about": "Coming to a town body's posted meeting with a friend who asked (words-friend-ask-leads-to-a-held-day): the yes marks the player to attend (office-day's attendMeeting) and writes the friend onto the meeting; the meeting's public-meeting record settles it, kept if the player was there, broken if not. The meeting comes from the scene's own fact (meeting-facts.ts nextMeetingFacts).",
-      "tie": {
-        "meetingId": "meeting"
-      },
-      "settle": [
-        {
-          "operation": "meeting-held",
-          "eventKind": "public-meeting"
-        }
-      ],
-      "windowDays": "promiseAttendWindowDays",
-      "windowEnds": "lapsed",
-      "countedOn": true,
-      "renewable": false
     },
     {
       "id": "reach-someone",
