@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, URL */
 // A talk's people (owner, Nov 16: "There's one person, shorten the strip", "She
 // should be smaller since she isn't talking", and his Desk answer on the
 // speaker). Plays a new life's opening, the President's address, and reads
