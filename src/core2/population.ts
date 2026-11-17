@@ -824,14 +824,17 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // place's own split of every kind of household (the nation's where the
   // place shows none), and the first holding a person that age moves in,
   // every member aged from the place's records as above, so the player is a
-  // resident who lived that age's life. A town may go without.
+  // resident who lived that age's life. A town may go without, and a town
+  // with no household of its own (every resident in group quarters: a
+  // colony, a dormitory, a barracks) gets none for the player; a new game
+  // passes it over (src/bench/world.ts `passOver`).
   const everyShape = mix.shares.some(([, share]) => share > p("zero"))
     ? mix.shares.filter(([, share]) => share > p("zero"))
     : householdMixForJurisdiction(null).shares;
   const playerAge = options.playerAge;
   const ofPlayerAge = (person: CharacterHistoryContextPersonInput) =>
     ageOnDate(makeIsoDate(person.birthDate), cohortsOn) === playerAge;
-  if (playerAge !== undefined && !inputs.some(ofPlayerAge)) {
+  if (playerAge !== undefined && inputs.length && !inputs.some(ofPlayerAge)) {
     const total = everyShape.reduce((sum, [, share]) => sum + share, p("zero"));
     // Searched no further than as many households again as the town has, and
     // never fewer than the floor: a town of a few people has a few households.
