@@ -40,7 +40,13 @@ import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { publicOffset } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
-import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
+import {
+  centuryOf,
+  historyMode,
+  publishedSenateSeats,
+  worldRoster,
+  worldSwing,
+} from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -511,6 +517,16 @@ function unrecordedParty(
   if (rostered) return { party: partyName(rostered), partySource: "roster" };
   // stopgapId: SG-OFFICIALS-unrecorded-party
   api.stopgap("SG-OFFICIALS-unrecorded-party");
+  // In a world whose day one is the century's, the side the century left the state leaning to.
+  if (historyMode(api.state.seed) === "century") {
+    const lean = centuryOf(api.state.seed, api.state.startedAt).leans[stateKey];
+    if (lean !== undefined)
+      return {
+        party: lean >= 0.5 ? "Republican" : "Democratic",
+        partySource:
+          "estimated: the side the century left the state leaning to",
+      };
+  }
   return {
     party:
       stateLeanOf(stateKey, api.state.seed) > 0 ? "Republican" : "Democratic",

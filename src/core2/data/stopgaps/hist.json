@@ -221,10 +221,32 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-century-district-sizes",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A district's eligible voters in the century are its chamber's typical moved by one seeded size per district, the same in every year, instead of the people who live there as they move and age.",
+    "why": "The century keeps no people by district; districts by law hold near equal people but not equal eligible voters, so each gets its own size within a tunable spread.",
+    "addedBy": "History lane (claude/history-states-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each district's eligible voters read from the places it covers as the century's population moves (family 5, the states' people), with the spread sourced from the Census Bureau's citizen voting-age population by district.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-term-limits-always",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Today's term limit on a governor, a statewide officer or a state legislator binds every century holder from 1925, though most legislative limits were adopted from 1990 on and many governors' at other times.",
+    "why": "The offices research records each office's limit in force now, not the year it was adopted; the laws in force through the century are a later unit.",
+    "addedBy": "History lane (claude/history-states-legislatures)",
+    "addedAt": "2026-11-17",
+    "replacement": "The laws in force through the century (History family 4): each term limit binding from the year its state adopted it, sourced from the state constitutions and NCSL's table of legislative term limits.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-parties",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
-    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed.",
+    "whatItFakes": "Every century race is between the two national parties of the party-sides data; no party is founded, split, merged or renamed. A legislature most of whose published members belong to no national side (Nebraska's, elected without party labels; Puerto Rico's, with its own parties; a territory's with no party record) is not counted by the century and keeps what play reads.",
     "why": "Party evolution is the History lane's PR 7, after Congress and the states, because a party's stances come from its coalition's people.",
     "addedBy": "History lane (claude/history-congress)",
     "addedAt": "2026-11-17",

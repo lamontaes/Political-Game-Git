@@ -110,6 +110,44 @@ export function closenessBetween(
 }
 
 /**
+ * How strong a grudge the holder carries against another person (0 to 1),
+ * read from the holder's drives. A grudge's id names its target (the drives
+ * engine's `kind:topic`). Zero with none.
+ */
+export function grudgeBetween(
+  core: Pick<CoreState, "people">,
+  holderId: PersonId,
+  targetId: PersonId,
+): number {
+  const drive = core.people
+    .get(holderId)
+    ?.drives.get(`grudge:grudge:${targetId}`);
+  return drive ? Math.min(Math.max(drive.strength, 0), 1) : 0;
+}
+
+/**
+ * How the holder feels toward another person, -1 to 1: closeness less the
+ * holder's grudge. The one read every decision that weighs a person uses
+ * (votes, endorsements, leadership, recalls, the press's regard); closeness
+ * alone cannot go below zero, so a grudge could never turn anyone against
+ * someone they knew. Direction matters: it is the holder's feeling.
+ */
+export function feelingBetween(
+  core: Pick<CoreState, "data" | "date" | "relationships" | "people">,
+  holderId: PersonId,
+  otherId: PersonId,
+): number {
+  return Math.min(
+    Math.max(
+      closenessBetween(core, holderId, otherId) -
+        grudgeBetween(core, holderId, otherId),
+      -1,
+    ),
+    1,
+  );
+}
+
+/**
  * Hours two people have spent together that no relationship row keeps,
  * read from another engine's record when asked (the sittings two members of
  * one body have shared, `sitting-closeness.ts`), already faded to today.
