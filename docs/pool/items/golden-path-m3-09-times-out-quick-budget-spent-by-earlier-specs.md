@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/red-main-golden-path-own-budgets
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ source: "Account lead F1, Nov 14, 2026, from the golden-path job on PR #9297 (ru
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+claimed-at: 2026-11-17T02:57:01.768Z
 ---
 
 **What.** The golden-path check on a pull request goes red with one regression: the accepted spec M3-09 times out, and the 36 goals under it (not-reached or missing-command rows) stay unread. Nothing about the pull request's change fails. Main and every pull request stand to go red the same way whenever GitHub's runner is a little slow. Seen: the golden-path job of #9297 at head ca450a33.

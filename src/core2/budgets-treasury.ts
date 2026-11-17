@@ -108,7 +108,7 @@ export interface DebtRow {
   /** What the holder has lent in all, in the same split (read it with `debtBorrowedMinor`). */
   readonly borrowedWhole: number;
   readonly borrowedRest: number;
-  /** Principal repaid. Maturing debt is rolled over, so none is repaid here. */
+  /** Principal repaid from a surplus (`repayFederalSurplus`); maturing debt is otherwise rolled over. */
   readonly repaidMinor: number;
   readonly interestPaidMinor: number;
 }
@@ -139,6 +139,17 @@ function addDebt(
     whole: whole + Number(total / unit),
     rest: Number(total % unit),
   };
+}
+/** A split less one safe amount, exactly (never below zero). */
+function subtractDebt(
+  whole: number,
+  rest: number,
+  amount: number,
+): { whole: number; rest: number } {
+  const left = debtExact(whole, rest) - BigInt(amount);
+  const total = left > 0n ? left : 0n;
+  const unit = BigInt(DEBT_SPLIT);
+  return { whole: Number(total / unit), rest: Number(total % unit) };
 }
 /** A holder's balance and lifetime lending as numbers, for shares and limits (rounded once past 2^53). */
 export const debtBalanceMinor = (h: DebtRow) =>
@@ -1835,6 +1846,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     } satisfies TreasuryMonthRow as unknown as ModuleRow);
   }
   sweepReserves(api, govs, budgets, outside, date, source);
+  repayFederalSurplus(api, govs, outside, date);
   endLineLaws(api, lineLawKeys, lineLawRows);
   applySocialSecurityLevel(api);
   attributeLanded(api);
@@ -1844,7 +1856,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
  * What a state or local treasury holds above its reserve is invested outside
  * the town (trust funds, securities), as real governments do with a surplus,
  * so a Census year that ran a surplus does not pile up in the account month
- * after month (SG-GOV-reserve-sweep). The federal treasury borrows instead.
+ * after month (SG-GOV-reserve-sweep). The federal treasury pays down its
+ * debt instead (`repayFederalSurplus`).
  */
 function sweepReserves(
   api: CoreAPI,
@@ -1884,6 +1897,62 @@ function sweepReserves(
       amountMinor: receipt.paidMinor,
     } as unknown as ModuleRow);
   }
+}
+
+/**
+ * What the U.S. Treasury holds after the month's payments, above the month of
+ * standing payments it keeps back, repays the groups that hold its debt, in
+ * the shares of what each is owed: a surplus pays down debt held by the
+ * public, as the Treasury does with one, and never piles up in its account.
+ * Without it, a world whose receipts passed its spending kept every surplus
+ * dollar: at Inarajan, Guam (seed 426e846c…a834) the account grew from $1
+ * million in June 2031 to $777 billion that November, and the outside
+ * market's net past 2^53 cents in year 13.
+ */
+function repayFederalSurplus(
+  api: CoreAPI,
+  govs: readonly GovernmentRow[],
+  outside: string,
+  date: string,
+): void {
+  const gov = govs.find((g) => g.level === "federal");
+  if (!gov) return;
+  const accounts = api.accounts();
+  const main = accounts.main(gov.organizationId);
+  const excess = Math.floor(
+    accounts.balance(main) - standingReserve(api, main),
+  );
+  if (excess <= 0) return;
+  const holders = federalDebtOf(api);
+  const owed = holders.map((h) => balanceOf(h));
+  const total = owed.reduce((a, b) => a + b, 0);
+  if (total <= 0) return;
+  const parts = splitBy(Math.min(excess, total), owed);
+  holders.forEach((holder, i) => {
+    const amountMinor = Math.min(parts[i]!, owed[i]!);
+    if (amountMinor <= 0) return;
+    const paid = accounts.transfer({
+      id: `federal-repayment:${holder.id}:${gov.id}:${date}`,
+      from: main,
+      to: accounts.main(outside),
+      amountMinor,
+      reasonKey: "federal-repayment",
+      source: {
+        tag: "SOURCED",
+        citation:
+          "U.S. Treasury, Monthly Treasury Statement: a surplus of receipts over outlays reduces debt held by the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
+        asOf: date,
+      },
+    }).paidMinor;
+    if (paid <= 0) return;
+    const balance = subtractDebt(holder.balanceWhole, holder.balanceRest, paid);
+    table(api, "federalDebt").put({
+      ...holder,
+      balanceWhole: balance.whole,
+      balanceRest: balance.rest,
+      repaidMinor: holder.repaidMinor + paid,
+    } as unknown as ModuleRow);
+  });
 }
 
 interface LandedRow {
