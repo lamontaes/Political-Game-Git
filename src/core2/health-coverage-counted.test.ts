@@ -10,7 +10,9 @@ import {
   COVERAGE_MODULE_ID,
   countedCoverageOf,
   coverageOf,
+  planRateOf,
   staffOf,
+  workerPremium,
   type CountedCoverageRow,
   type CoverageRow,
 } from "./modules/coverage";
@@ -107,15 +109,13 @@ function playToJune(drawSeed: string) {
   // person's rule: single for one covered, family for more.
   const opening = counted();
   expect(opening.length, `${where}: counted policies`).toBeGreaterThan(0);
-  const single = api.parameter("healthWorkerContributionSingleAnnualUsd");
-  const family = api.parameter("healthWorkerContributionFamilyAnnualUsd");
-  const perMonth = (usd: number) =>
-    Math.round(
-      (usd * api.parameter("minorPerDollar")) / api.parameter("monthsPerYear"),
-    );
+  // The year's rate is set from the care the town's own people need, and the
+  // worker's part of it is theirs to pay for each person the policy covers.
+  const rate = planRateOf(api)!;
+  expect(rate.rateMonthlyMinor, `${where}: the year's rate`).toBeGreaterThan(0);
   for (const row of opening)
     expect(row.premiumMonthlyMinor, `${where} ${row.id}`).toBe(
-      perMonth(row.covered > 1 ? family : single),
+      workerPremium(api, rate.rateMonthlyMinor, row.covered),
     );
 
   // Five months in, the day before the 1st: each household that holds a policy
@@ -337,15 +337,7 @@ it(`a counted household pays the premium a full household of its shape pays, and
     const sameShape = onPlan === h.record.covered;
     const due = sameShape
       ? h.record.premiumMonthlyMinor
-      : Math.round(
-          (api.parameter(
-            onPlan > 1
-              ? "healthWorkerContributionFamilyAnnualUsd"
-              : "healthWorkerContributionSingleAnnualUsd",
-          ) *
-            api.parameter("minorPerDollar")) /
-            api.parameter("monthsPerYear"),
-        );
+      : workerPremium(api, planRateOf(api)!.rateMonthlyMinor, onPlan);
     if (!sameShape)
       reshaped.push(`${row.id}: ${h.record.covered} to ${onPlan}`);
     expect(row.lastDueMinor, `${label}: premium due`).toBe(due);
