@@ -67,7 +67,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   const strongest = waitingEntry("board:strongest", date, 0.9);
   const middle = waitingEntry("board:middle", date, 0.5);
   const weakest = waitingEntry("board:weakest", date, 0.1);
-  const picked = pickFromBoard(core, book, {
+  const { picked } = pickFromBoard(core, book, {
     date,
     mode: "live",
     pending: [weakest, strongest, middle],
@@ -96,7 +96,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
       pending: [skipped],
       offers: [],
       worded: () => undefined,
-    }),
+    }).picked,
     where,
   ).toBeUndefined();
   expect(skipped.board!.cut, where).toBe("skipping");
@@ -134,7 +134,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
       pending: [late],
       offers: [],
       worded: () => undefined,
-    }),
+    }).picked,
     where,
   ).toBeUndefined();
   expect(late.board!.cut, where).toBe("no-room");
@@ -147,7 +147,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
       pending: order.map((id) => waitingEntry(id, date, 0.4)),
       offers: [],
       worded: () => undefined,
-    })?.momentId;
+    }).picked?.momentId;
   const ids = ["board:tie:a", "board:tie:b", "board:tie:c"];
   expect(pickOf(ids), where).toBe(pickOf([...ids].reverse()));
 

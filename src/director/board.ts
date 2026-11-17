@@ -487,6 +487,8 @@ export interface BoardOfferInput {
   /** The amount it would be felt, on the same scale as a moment's impact. */
   score: number;
   before: boolean;
+  /** The row follows a record of the player's own life: met as their own record, whatever the score. */
+  lived: boolean;
   /** Stores its moment, as any moment is stored and weighed, and returns its entry. */
   stage: () => ScheduleEntry | undefined;
 }
@@ -516,7 +518,8 @@ export function picksInYear(
  * while the life has room. A scene met where the person is plays now; any
  * other waits for them, and while time is skipped only a scene met where they
  * are can stop the skip. Every candidate not picked keeps why on its entry.
- * Returns the picked entry.
+ * Returns the pick, and the scene from circumstance staged first as the
+ * person's own record.
  */
 export function pickFromBoard(
   core: Readonly<CoreState>,
@@ -531,7 +534,8 @@ export function pickFromBoard(
     worded: (entry: ScheduleEntry) => "silent" | "nothing-said" | undefined;
   },
   library: SituationLibrary = SITUATION_LIBRARY,
-): ScheduleEntry | undefined {
+): { picked?: ScheduleEntry; stops: ScheduleEntry[] } {
+  const stops: ScheduleEntry[] = [];
   const candidates: Candidate[] = [];
   for (const entry of input.pending) {
     if (!entry.board?.pending) continue;
@@ -550,7 +554,7 @@ export function pickFromBoard(
       score: offer.score,
       key: `${offer.rowId}|${offer.causeId}|${offer.castId}`,
     });
-  if (!candidates.length) return undefined;
+  if (!candidates.length) return { stops };
   const tie = (candidate: Candidate) =>
     stableHash(`${book.personId}:${input.date}:${candidate.key}`);
   candidates.sort(
@@ -565,6 +569,27 @@ export function pickFromBoard(
       picksInYear(library, book, input.date)
     : zero;
   const live = input.mode === "live";
+  // The best scene from circumstance that follows a record of the person's
+  // own life (a door on their canvass, their own chamber's floor) is met as
+  // their own record: a stop rule, whatever the score and the room. The
+  // rest of them weigh like any other candidate.
+  const lived = candidates.find((row) => row.offer?.lived);
+  if (lived) {
+    candidates.splice(candidates.indexOf(lived), one);
+    const entry = lived.offer!.stage();
+    if (entry?.board?.pending) {
+      delete entry.board.pending;
+      const unworded = input.worded(entry);
+      if (unworded) entry.board.cut = unworded;
+      else {
+        entry.outcome = "scene-now";
+        entry.interrupt = true;
+        entry.stopsBecause = ["own-record"];
+        entry.stopsSkip = !live;
+        stops.push(entry);
+      }
+    }
+  }
   const metWhereYouAre = library.scheduling.metWhereYouAre ?? [];
   const offered: BoardOffer[] = [];
   const passed: ScheduleEntry[] = [];
@@ -624,5 +649,5 @@ export function pickFromBoard(
     passed[passed.length - one] ??
     candidates.find((row) => row.entry)?.entry;
   if (offered.length && holder?.board) holder.board.offers = offered;
-  return picked;
+  return { ...(picked ? { picked } : {}), stops };
 }

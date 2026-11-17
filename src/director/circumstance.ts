@@ -88,6 +88,13 @@ export interface CircumstanceRow {
    */
   keepsDays?: number;
   /**
+   * The row follows a record of the player's own life (their school year
+   * ending, a door on their own canvass, the floor of their own chamber): it
+   * is met as the player's own record, staged whatever else the day's board
+   * holds (board.ts), the best of them one a day.
+   */
+  lived?: boolean;
+  /**
    * The cast may be someone the director cast in another scene from
    * circumstance lately: the record is the player's own and the household has
    * few to tell it (a home a disaster damaged is talked over by the one other

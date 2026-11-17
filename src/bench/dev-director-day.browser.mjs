@@ -1,5 +1,5 @@
 /* global process, URL, console, fetch */
-// Dev mode's director's day (src/bench/dev-views/director-day.ts) in a played life: Sheridan WY (5669845), seed 7. Runs the world until a day has a held scene, opens that day on the Calendar's dev panel and opens the cause in the trace box. Run against a fresh bench: node src/bench/dev-director-day.browser.mjs [screenshot.png]
+// Dev mode's director's day (src/bench/dev-views/director-day.ts), with the board's columns, in a played life: Sheridan WY (5669845), seed 7. Runs the world until a day has a held scene, opens that day on the Calendar's dev panel and opens the cause in the trace box. Run against a fresh bench: node src/bench/dev-director-day.browser.mjs [screenshot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { devModeOn } from "./dev-setup.mjs";
@@ -63,6 +63,10 @@ try {
   await panel.locator("input[type=date]").fill(held.date);
   await panel.getByRole("button", { name: "Show the day" }).click();
   await panel.locator(".dev-director-held").first().waitFor();
+  // The board's columns (board.ts): each moment's candidates with the gate
+  // that cut them, and its score.
+  await panel.locator(".dev-director-candidate").first().waitFor();
+  await panel.locator(".dev-director-board").first().waitFor();
   await panel.locator(".dev-director-moment button").first().click();
   await panel.locator(".dev-trace h4").waitFor();
   console.log(await panel.innerText());

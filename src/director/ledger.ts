@@ -1704,6 +1704,7 @@ export function createDirector(
             before:
               !!pick.row.before ||
               pick.record.personIds.includes(book.personId),
+            lived: !!pick.row.lived,
             stage: () => {
               const change: Change = {
                 causeId: pick.record.id,
@@ -1776,7 +1777,7 @@ export function createDirector(
       const controlled = isExplicitlyControlledPersonV1(core, book.personId);
       const pending = onBoard.get(book.personId) ?? [];
       onBoard.delete(book.personId);
-      const picked = pickFromBoard(core, book, {
+      const { picked, stops } = pickFromBoard(core, book, {
         date,
         mode,
         pending,
@@ -1785,6 +1786,10 @@ export function createDirector(
         worded: (entry) =>
           controlled ? unworded(core, entry, book.personId) : undefined,
       });
+      for (const entry of stops) {
+        const moment = book.momentsById.get(entry.momentId);
+        if (moment) interrupts.push({ moment, entry });
+      }
       if (!picked) continue;
       const moment = book.momentsById.get(picked.momentId);
       if (picked.interrupt && moment)
