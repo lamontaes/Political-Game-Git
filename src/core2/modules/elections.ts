@@ -65,6 +65,7 @@ import {
   type OfficeFamily,
 } from "../elections-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { seatParty } from "../candidate-pool";
 import {
   answerVacancyOffer,
   governorTicketStage,
@@ -356,6 +357,12 @@ interface ReadSide {
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
+  /**
+   * Where a family's row names an at-large office but the place elects its
+   * district seats under another family's row (the District of Columbia's
+   * ward seats on the Council), the family a district seat reads.
+   */
+  readonly districtSeatsRead?: OfficeFamily;
   readonly filedWith?: string;
   readonly party?: ReadSide;
   readonly independent?: ReadSide;
@@ -627,11 +634,13 @@ export function filingRulesFor(
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  const stateRules = filingRequirements(
-    town(api).stateKey,
-    contest.family,
-    side,
-  );
+  // A district seat reads the row its place's data points it to, where the
+  // family's own row is for the body's at-large seats.
+  const family =
+    (contest.district
+      ? readRequirements(town(api).stateKey, contest.family)?.districtSeatsRead
+      : undefined) ?? contest.family;
+  const stateRules = filingRequirements(town(api).stateKey, family, side);
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
   const federal = (
@@ -661,6 +670,25 @@ export function filingRulesFor(
     ? ruleOfficeBody(dated.filedWith, contest.family, town(api).geoid)
     : null;
   return body ? { ...dated, filedWith: body } : dated;
+}
+
+/**
+ * The side of the filing law a filer is on. A seat chosen without party
+ * labels has the one filing row every candidate uses (the research row's
+ * "one filing for every candidate"), so an unaffiliated candidate for a town
+ * office with no party on its seat is on its party side; a seat that carries
+ * a party, and every county, state and federal seat, keep an independent
+ * route apart from a party's.
+ */
+export function filingSideFor(
+  api: CoreAPI,
+  contest: ContestRow,
+  party: string | null | undefined,
+): FilingSide {
+  return party ||
+    (contest.family === "municipalOffice" && !seatParty(api, contest))
+    ? "party"
+    : "independent";
 }
 
 function localFilingOfficer(usps: string, family: OfficeFamily): string {
@@ -1573,7 +1601,7 @@ export function checkEligibility(
   const contest = table(api, "contests").get(
     contestId,
   ) as unknown as ContestRow;
-  const side: FilingSide = party ? "party" : "independent";
+  const side: FilingSide = filingSideFor(api, contest, party);
   const rules = filingRulesFor(api, contest, side);
   const deadline = filingDeadlineFor(api, contest, side);
   const person = api.state.people.get(personId);
@@ -1739,7 +1767,7 @@ export function fileCandidacy(
   const rules = filingRulesFor(
     api,
     contest,
-    input.party ? "party" : "independent",
+    filingSideFor(api, contest, input.party),
   );
   if (unmet.length) {
     return { status: "refused", unmet };
@@ -2009,7 +2037,7 @@ export function petitionDue(api: CoreAPI, filing: FilingRow): string {
   return filingDeadlineFor(
     api,
     contest,
-    filing.party ? "party" : "independent",
+    filingSideFor(api, contest, filing.party),
   );
 }
 
