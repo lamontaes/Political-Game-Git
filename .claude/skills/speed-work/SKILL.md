@@ -114,6 +114,7 @@ A change to anything that runs without the player watching (monthly engines, ski
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
+- Nov 17, 17:38Z (#9921, Pins): paired-performance read 1.243 against 1.2 while a local year had shown +8.6%. Cause: a cache keyed on a whole module's write count (`officials.writes`) was thrown away on every write, and each miss re-read all 56 states. Key a cache on what the value actually reads, and measure with `scripts/core2-guard/paired.mjs` against CI's base, not a year at another place.
 - Nov 17, 02:09Z (#9784): a per-day cost that grows with a bigger set is a hot spot even when the counts are right. Cause: work repeated every day on data that rarely changes. Do it once, or only on change, and post the before and after at the CI guard's place and seed.
 
 ## More in this folder
