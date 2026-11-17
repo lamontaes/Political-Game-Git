@@ -1,9 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { townSeats } from "../core2/modules/offices";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreState } from "../core2/types";
 import type { OpeningStory } from "../director/opening-story";
-import { wordSceneLine } from "../english/scene-words";
-import { homeAloneDayFacts } from "../director/day-part";
 import { addressAiring } from "../director/address-airing";
 import { workSpansOf } from "./places";
 
@@ -46,26 +44,6 @@ export function openingArrivalMinute(
   return minute;
 }
 
-/** The one line that lands the player at home after the address: the day as people say it, at home. */
-function landingLine(
-  core: CoreState,
-  playerId: string,
-  story: OpeningStory,
-  minute: number,
-) {
-  return wordSceneLine({
-    seed: core.seed,
-    move: { part: "arrival", kind: "home" },
-    viewerId: playerId as PersonId,
-    facts: {
-      ...homeAloneDayFacts(core.date, minute, story.id),
-    },
-    stage: () => "alone",
-    momentKey: `${story.id}:landing`,
-    fallbackSourceId: story.id,
-  });
-}
-
 /**
  * The opening: who gives the address and the evening at home (that night's
  * news is the news engine's, read by /api/news). Read-only. The address's pictures and the people pointed out were
@@ -96,12 +74,6 @@ export function openingFrames(
     home: {
       ...story.home,
       minuteOfDay: openingArrivalMinute(core, playerId),
-      landing: landingLine(
-        core,
-        playerId,
-        story,
-        openingArrivalMinute(core, playerId),
-      ),
     },
   };
 }

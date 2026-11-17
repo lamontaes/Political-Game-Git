@@ -2123,8 +2123,8 @@ export function planSpeech(
       ].slice(P.zero, Math.max(P.one, row.points))
     : themePoints;
   const asks = pointStands;
-  // The theme's own points after the answer: the first is turned to with a
-  // sentence of its own. Where the row holds one point, the theme is the close.
+  // The theme's own points after the answer. Where the row holds one point,
+  // the theme is the close.
   const turnsTo = crisis
     ? pointStands.filter((stand) => !answersCondition(stand.question, crisis))
     : [];
@@ -2451,15 +2451,12 @@ export function planSpeech(
   /**
    * A hurt address's body in its order: the condition, then its answer from
    * the speaker's record in the same paragraph (citing the bill they
-   * sponsored on it, where one is), then a sentence the engine words that
-   * turns to the theme, which opens the next paragraph.
+   * sponsored on it, where one is); the theme opens the next paragraph with
+   * no turn sentence (owner, Nov 17: a pivot with no setup is deleted).
    */
   const hurtOrder = (drafts: Draft[]): Draft[] => {
     if (!crisis || !response) return drafts;
     const answerKey = `point-${response.stand.question}`;
-    const turnKey = turnsTo[P.zero]
-      ? `point-${turnsTo[P.zero]!.question}`
-      : null;
     return drafts.flatMap((draft): Draft[] => {
       if (draft.key === answerKey)
         return [
@@ -2483,30 +2480,6 @@ export function planSpeech(
                 )
               : draft.facts,
           },
-        ];
-      if (draft.key === turnKey && themeName)
-        return [
-          {
-            key: "turn",
-            level: "country",
-            facts: {
-              // From the answer just given to the theme.
-              ...(questionAbout(response.stand.question)
-                ? {
-                    "turn-from": fact(
-                      questionAbout(response.stand.question)!,
-                      `question:${response.stand.question}`,
-                    ),
-                  }
-                : {}),
-              "turn-to": fact(
-                themeName,
-                ...turnsTo.map((row) => `question:${row.question}`),
-              ),
-            },
-            moves: [move("turn")],
-          },
-          { ...draft, joins: true },
         ];
       return [draft];
     });
@@ -2604,7 +2577,7 @@ export function planSpeech(
     theme: () => {
       // A crisis or combative address's first point is the term's worst
       // condition, said with its fact; its answer from the speaker's record
-      // follows in the same paragraph, then a turn to the theme (hurtOrder).
+      // follows in the same paragraph (hurtOrder).
       const crisisDrafts = crisis ? [crisisDraft(crisis)] : [];
       // A number of years is said once in an address (words lead, Nov 14,
       // rule 39): the first figure that says it keeps it, and a later point
@@ -2704,33 +2677,14 @@ export function planSpeech(
                     : []),
                 ]
               : [];
-          // One turn line between two points, never before the first (the
-          // Words lead, Nov 16, rule 3): the next point said by its plain
-          // name. A hurt address's turn to its theme is hurtOrder's.
-          const last = pointStands[at - P.one];
-          const turns =
-            !!last &&
-            !(crisis && response && turnsTo[P.zero] === stand) &&
-            !!questionAbout(stand.question) &&
-            !!questionAbout(last.question);
+          // No turn sentence between two points (owner, Nov 17: "Talking
+          // about a higher federal minimum wage brings me to..." is a pivot
+          // with no setup, and is deleted): each point opens on its own.
           return {
             key: `point-${stand.question}`,
             level: "country",
             facts: {
               ...themeFacts,
-              ...(turns
-                ? {
-                    // The point just made and the next, by their plain names.
-                    "turn-from": fact(
-                      questionAbout(last!.question)!,
-                      `question:${last!.question}`,
-                    ),
-                    "turn-to": fact(
-                      questionAbout(stand.question)!,
-                      `question:${stand.question}`,
-                    ),
-                  }
-                : {}),
               ...(topic && figureMoves.length
                 ? {
                     ...figuredFacts,
@@ -2789,7 +2743,6 @@ export function planSpeech(
                 : {}),
             },
             moves: [
-              ...(turns ? [move("turn")] : []),
               ...shape.moves.flatMap((name) =>
                 name === "figure"
                   ? figureMoves
