@@ -39,3 +39,4 @@ claimed-at:
 
 - Nov 15. Filed with Needs cause so nobody builds it before the cause is found.
 - Nov 16, views thread: the test is now pinned to Litchfield, Connecticut (seed pin-ps-2:1, passes) with Galatia, Kansas (seed 5a5019ed8cb2fc5d:1) kept as a red case. Replayed on the Train a62a2fda, Galatia now fails with "no race-lost scene" for filing:contest:seat:gus2025:126868:council:0:2025-11-04:person_0eedb5268ea92e66 rather than the office name.
+- Nov 17, story-cut-deleted-scene-kinds: the race-lost scene this item failed on was deleted with the unwritten kinds (owner, Nov 17), and the Galatia expected-failure case left src/director/purpose-scenes.test.ts with it.

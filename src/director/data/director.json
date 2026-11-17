@@ -245,34 +245,6 @@
         "citation": "Fewest days between two scenes of one street circumstance (a constituent, a neighbor with news)."
       }
     },
-    "directorCircumstanceHomeEveryDays": {
-      "value": 30,
-      "tag": "TUNABLE",
-      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "checkRange": {
-        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
-      },
-      "spread": {
-        "low": 7,
-        "high": 45,
-        "unit": "days",
-        "citation": "Fewest days between two scenes of household members bringing home a story they read: a household with one reader is not cut short."
-      }
-    },
-    "directorCircumstanceWorkEveryDays": {
-      "value": 14,
-      "tag": "TUNABLE",
-      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "checkRange": {
-        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
-      },
-      "spread": {
-        "low": 7,
-        "high": 30,
-        "unit": "days",
-        "citation": "Fewest days between two scenes of one workplace circumstance (a coworker with news, a new hire)."
-      }
-    },
     "directorCircumstanceHallwayEveryDays": {
       "value": 14,
       "tag": "TUNABLE",
@@ -327,20 +299,6 @@
         "high": 0.25,
         "unit": "life-change units divided by 100",
         "citation": "Meeting a new coworker, as above."
-      }
-    },
-    "directorCircumstanceDeathImpact": {
-      "value": 0.2,
-      "tag": "TUNABLE",
-      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "checkRange": {
-        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
-      },
-      "spread": {
-        "low": 0.11,
-        "high": 0.4,
-        "unit": "life-change units divided by 100",
-        "citation": "Hearing of the death of someone known through their household, as above."
       }
     },
     "directorCircumstanceDoorImpact": {

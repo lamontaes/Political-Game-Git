@@ -15,13 +15,13 @@ import { askToVolunteer, campaignFor } from "../core2/modules/campaigns";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 
-// A race won or lost is a scene for the candidate (owner, Oct 15): the night
+// A race won is a scene for the candidate (owner, Oct 15): the night
 // of the count, with the campaign's own people and the household. The cause
 // is the election's result record; the winner is in it.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const place = drawPlace(seed, "electoral-scenes");
 
-it(`a candidate's night of the count is a won or lost scene citing the result, in ${place.name}, seed ${seed}`, () => {
+it(`a winner's night of the count is a won scene citing the result, in ${place.name}, seed ${seed}`, () => {
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -72,7 +72,9 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
   const stated: string[] = [];
   for (const filing of filings) {
     const result = resultOf(api, filing.contestId);
-    if (!result?.winnerId) continue;
+    // A lost race stages no scene of its own (the concession call was
+    // deleted with the unwritten kinds, owner, Nov 17): only the winner's.
+    if (!result?.winnerId || result.winnerId !== filing.personId) continue;
     const book = director.ledger.people.get(filing.personId)!;
     // A candidate the director saw the count reach (an official on the
     // calendar, in a race beyond the town, has no day-by-day ledger).
@@ -97,12 +99,8 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
       `${entry.momentId}: staged or taken into the night's sitting`,
     ).toBeDefined();
     const types = sitting!.bindings.map((row) => row.typeKey);
-    const won = result.winnerId === filing.personId;
-    expect(types).toContain(won ? "race-won" : "race-lost");
-    expect(types).not.toContain(won ? "race-lost" : "race-won");
-    const scene = sitting!.bindings.find(
-      (row) => row.typeKey === (won ? "race-won" : "race-lost"),
-    )!;
+    expect(types).toContain("race-won");
+    const scene = sitting!.bindings.find((row) => row.typeKey === "race-won")!;
     // The candidate is the subject, and the household is theirs on record.
     expect(
       scene.roles.find((row) => row.role === "candidate")!.personIds,
@@ -141,7 +139,7 @@ it(`a candidate's night of the count is a won or lost scene citing the result, i
       ),
     );
     stated.push(
-      `${filing.personId} ${won ? "won" : "lost"} ${filing.contestId} (${scene.setting.kind} ${scene.setting.recordId}; supporters ${supporters.length}, family ${family.length})`,
+      `${filing.personId} won ${filing.contestId} (${scene.setting.kind} ${scene.setting.recordId}; supporters ${supporters.length}, family ${family.length})`,
     );
   }
   expect(stated.length).toBeGreaterThan(0);

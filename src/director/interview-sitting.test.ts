@@ -25,6 +25,7 @@ import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { fileCandidacy, playerContests } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import {
@@ -39,7 +40,6 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
 import { openConversation, say, sayNothing } from "./conversation";
-import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 
 /**
@@ -136,7 +136,7 @@ function play(draw: number): Evidence | string {
   if (petition && !(petition.check && petition.check.valid >= petition.needed))
     return `${where}: the petition came up short`;
 
-  // Play week by week to the invitation, and say yes in its scene.
+  // Play week by week to the invitation, and say yes from the Campaign tab.
   const seen = new Set<string>();
   let yes: { id: string; eventId: string } | null = null;
   while (!yes && core.date < contest.electionDate) {
@@ -144,31 +144,22 @@ function play(draw: number): Evidence | string {
       core,
       [addDays(makeIsoDate(core.date), 7), contest.electionDate].sort()[0]!,
     );
-    for (const entry of director.ledger.people.get(me)!.schedule) {
-      if (seen.has(entry.momentId)) continue;
-      seen.add(entry.momentId);
-      if (!entry.bindings.some((row) => row.typeKey === "interview-invite"))
-        continue;
-      const result = purposeScene(core, director, me, entry, {
-        typeKey: "interview-invite",
-      });
-      if (result?.kind !== "composed") continue;
-      const agree = result.scene.talk.tree.replies.findIndex(
-        (reply) => reply.line.move === "agree",
-      );
-      expect(agree, `${where}: the invitation can be accepted`).toBeGreaterThan(
-        -1,
-      );
-      const id = String(
-        core.durableLog.get(result.scene.cause.id as never)!.facts!.interviewId,
-      );
-      expect(
-        replyInScene(core, director, me, entry, [agree]),
-        where,
-      ).toBeTruthy();
-      yes = { id, eventId: `${INTERVIEW_ACCEPTED_EVENT}:${id}` };
-      break;
-    }
+    // The outlet's invitation waits on the record; the player says yes from
+    // the Campaign tab's interview choice (the invitation scene went with the
+    // unwritten kinds, owner, Nov 17).
+    const filingId = `filing:${contest.id}:${me}`;
+    const invited = interviewsFor(api, me, filingId).find(
+      (row) => row.status === "invited" && !seen.has(row.id),
+    );
+    if (!invited) continue;
+    seen.add(invited.id);
+    takeCampaignDayChoice(api, filingId, "interview", {
+      interviewId: invited.id,
+    });
+    yes = {
+      id: invited.id,
+      eventId: `${INTERVIEW_ACCEPTED_EVENT}:${invited.id}`,
+    };
   }
   if (!yes)
     return `${where}: no invitation reached the player before election day`;

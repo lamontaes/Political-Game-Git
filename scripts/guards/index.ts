@@ -193,6 +193,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/canned-content-guard.test.ts"),
   },
   {
+    id: "kept-scene-kinds",
+    rule: "The director stages only the scene kinds on the written list: every scene the English engine did not compose from the world's own records is deleted.",
+    readMore:
+      "src/director/data/kept-scene-kinds.json (its about quotes the owner's ruling)",
+    command: vitest("tests/guards/director/kept-scene-kinds.test.ts"),
+  },
+  {
     id: "director-numbers-in-data",
     rule: "Every number lives in a parameter table, and every stopgap the director marks is registered.",
     readMore: "AGENTS.md, Placeholders",

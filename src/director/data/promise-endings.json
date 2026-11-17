@@ -27,20 +27,10 @@
       "causeKinds": ["family.quarrel"]
     },
     {
-      "purpose": "introduction",
-      "ending": "took-them-in-hand",
-      "kind": "show-around"
-    },
-    {
       "purpose": "ask-to-serve",
       "ending": "promised",
       "kind": "hold-question",
       "causeKinds": ["serve-asked"]
-    },
-    {
-      "purpose": "friend-ask",
-      "ending": "said-yes-to-friend",
-      "kind": "attend"
     }
   ]
 }

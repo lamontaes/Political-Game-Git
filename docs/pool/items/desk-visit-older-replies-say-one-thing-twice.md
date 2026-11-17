@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 after: ""
 blocked-on: ""
@@ -40,4 +40,8 @@ Guards: the variants-differ, later-replies and replies-may-be-long rules on desk
 
 **Waits on.** #9292 folding into the train, since it moves the replies after an answer.
 
-**Files.** data/english/parts/scene-talk.json, data/english/judged/, src/director/desk-visit-scene.test.ts
+**Files.** data/english/parts/scene-talk.json, data/english/judged/
+
+**Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/desk-visit-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

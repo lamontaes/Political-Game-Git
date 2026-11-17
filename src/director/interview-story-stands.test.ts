@@ -19,13 +19,13 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { advanceCore } from "../core2/life";
 import { interviewsFor } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
 import { openConversation, say } from "./conversation";
-import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 
 /** Pinned: Cannonville, Utah (pin-b:0 of the debate draw). */
@@ -76,20 +76,20 @@ describe("an interview's printed story", () => {
     let published: string | null = null;
     while (!published && today() < "2025-11-04") {
       advanceCore(core, addDays(today(), 1));
+      // An outlet's invitation is answered from the Campaign tab's interview
+      // choice (the invitation scene went with the unwritten kinds, Nov 17).
+      const filingId = `filing:${council}:${me}`;
+      for (const row of interviewsFor(api, me, filingId))
+        if (row.status === "invited" && !seen.has(row.id)) {
+          seen.add(row.id);
+          takeCampaignDayChoice(api, filingId, "interview", {
+            interviewId: row.id,
+          });
+        }
       for (const entry of director.ledger.people.get(me)!.schedule) {
         if (seen.has(entry.momentId)) continue;
         const types = entry.bindings.map((row) => row.typeKey);
-        if (types.includes("interview-invite")) {
-          seen.add(entry.momentId);
-          const result = purposeScene(core, director, me, entry, {
-            typeKey: "interview-invite",
-          });
-          if (result?.kind !== "composed") continue;
-          const agree = result.scene.talk.tree.replies.findIndex(
-            (reply) => reply.line.move === "agree",
-          );
-          expect(replyInScene(core, director, me, entry, [agree])).toBeTruthy();
-        } else if (types.includes("interview-sitting")) {
+        if (types.includes("interview-sitting")) {
           seen.add(entry.momentId);
           const scene = composeScene(core, director, me, entry);
           const talk = openConversation(core, me, scene!.talkToId!, {

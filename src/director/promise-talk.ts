@@ -16,13 +16,8 @@
 import { billNameOf, billTitleSaid } from "../english/bill-names";
 import { questionAbout, questionSaid } from "../english/question-names";
 import type { Fact } from "../english/conversation-words";
-import {
-  LEGISLATURE_MODULE_ID,
-  billOf,
-  bodyOf,
-} from "../core2/modules/legislature";
-import { meetingOf, OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
-import { daySince } from "../english/day-words";
+import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+
 import { paymentSaid } from "../english/payment-words";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -108,24 +103,6 @@ export function promiseSubject(
       ? questionAbout(row.question)
       : null;
   if (about) facts.about = fact(about);
-  // A meeting promised: the body, and the day it was held as a past day
-  // ("yesterday", "the other day", "on March 4th"), from the meeting's record.
-  const meeting =
-    row.meetingId && core.modules.has(OFFICE_DAY_MODULE_ID)
-      ? meetingOf(coreAPI(core as CoreState), row.meetingId)
-      : undefined;
-  const body = meeting
-    ? bodyOf(coreAPI(core as CoreState), meeting.officeId)
-    : undefined;
-  if (meeting && body) {
-    facts["meeting-body"] = {
-      text: body.bodyName ?? body.kind,
-      sourceRecordIds: [body.id, meeting.id],
-    };
-    const held = daySince(meeting.date, core.date);
-    if (held)
-      facts["meeting-held"] = { text: held, sourceRecordIds: [meeting.id] };
-  }
   // A payment promised: the loan behind the missed payment, named as people
   // say it ("the loan"). Broken, the new missed payment that broke it;
   // kept, the one the quarrel was over (the cause of the reply).

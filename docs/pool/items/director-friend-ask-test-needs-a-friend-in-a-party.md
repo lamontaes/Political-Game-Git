@@ -21,7 +21,7 @@ checked: meetings and floor builder 2026-11-14
 
 **What.** The meeting-scene friend-ask test drew a town where the player and the new friend shared no party, and the scene was skipped ("cannot be worded from the records given"), so the test could not show a friend's ask. In play a friend with no shared party asks nothing, which is right while the one remaining request names the next meeting of a party. Seen: the meeting scene test skipped at Arab, Alabama on the Train's clean head ce166298.
 
-**Cause.** Found in code: b97d14d147 (Nov 14) cut the eleven friend-ask requests that promised a day no engine holds, a Words lead ruling, leaving one request that requires the `party` fact, which src/director/meeting-facts.ts sets only when both people hold the same party tie (partyTie); at Arab, Alabama (0102116, run on a seed that draws it) the player starts with no party ("the-player-chooses") and the test's friend was the first townsperson sorted by id, in no shared party.
+**Cause.** Found in code: b97d14d147 (Nov 14) cut the eleven friend-ask requests that promised a day no engine holds, a Words lead ruling, leaving one request that requires the `party` fact, which src/director/purpose-scene.ts (the meeting-facts file was deleted with the friend-ask kind on Nov 17) sets only when both people hold the same party tie (partyTie); at Arab, Alabama (0102116, run on a seed that draws it) the player starts with no party ("the-player-chooses") and the test's friend was the first townsperson sorted by id, in no shared party.
 
 **Fix.** The test's friend is a townsperson in a party and the player joins that party first (joinParty, the player's own act), so the scene is worded through the game's own path. No line or assertion changed; the broader fix (a friend's ask that names a held day) stays with words-friend-ask-leads-to-a-held-day.
 
@@ -33,6 +33,8 @@ checked: meetings and floor builder 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/director/meeting-scene.test.ts
+**Files.** src/director/data/kept-scene-kinds.json
 
 **Notes.** Seen: Arab, Alabama, seed s32151, skipped before and composed after. For a player who is playing, the stop is already refused: the ledger's registerInterrupts asks `speaks`, which asks the bench's `wordsPurpose`, and a scene the bank cannot word goes to the Journal as a line with no stop (src/director/ledger.ts, src/bench/world.ts). That is the staging condition the Account lead asked for, and it reads whether the scene can be worded now, so it widens by itself when friend requests that need no party return. This is read from the code and not yet seen played: whoever builds words-friend-ask-leads-to-a-held-day plays the no-party Journal line then.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/meeting-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

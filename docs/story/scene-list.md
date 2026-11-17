@@ -2,7 +2,7 @@
 
 For the owner to read and riff on (owner, Nov 16: "just a list of scenes or something and potential scenes and stuff, I can riff off of that as well"). Kept by the Story lead on the Story thread (#9750) and refreshed every few hours. Part (a) is every scene kind the game has today, in plain words. Part (b) is what is planned or being weighed, by where you are in life, with the scenes each one unlocks. A riff on any line goes back to the thread verbatim and changes the engine, not only the line.
 
-Updated Nov 17, 2026, 11:30 UTC.
+Updated Nov 17, 2026, after the cut.
 
 ## (a) Every scene kind that exists today
 
@@ -10,44 +10,18 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 
 ### Home and family
 
-- A relative or housemate just out of prison asks for a place to stay and help finding work. At home. At stake: home, job. Anyone. [return]
-- A relative who lives far away writes asking for a visit, a call, or a word on how you are doing. At stake: the tie. Anyone. [letter]
 - Someone at home or on the phone brings news of an eviction, a death, a job loss, an illness, or a family split or wedding. Anyone. [news-arrives]
 - Someone you owe an apology asks for one, at home, at their home, or in public. Anyone. [apology]
-- A wedding or new job in the family is marked at home, and a relative asks for a few words, a favor, or a talk about an old quarrel. Anyone. [celebration]
-- The day after you graduate, someone you live with marks it and asks what comes next. Anyone. [diploma-home]
-- The day after your senior year ends without a diploma, someone at home asks what happened and what comes next. Anyone. [no-diploma-home]
-- A birthday at home with a close relative far away missing; someone asks you to reach out. Anyone. [gathering-missing]
-- A relative dies and you go to the funeral; mourners speak to you about the person and the cause they left. Anyone. [funeral]
-- A partner asks to move in with you; you agree, decline, or say not yet. Anyone. [move-in]
-- A partner proposes, at home, in public or at a venue, and you answer. Anyone. [proposal]
-- Your partner ends the relationship at home, and the children in the house react. Anyone. [breakup]
-- A housemate who got you help when you fell ill asks for a ride, a doctor visit, or a promise to call at the first sign of sickness. Anyone. [rescue]
-- Someone you look after asks you to stay close while they are sick. Anyone. [care]
-- A visitor brings news of a new baby in the family and asks the parent for help, a visit, or a promise. Anyone. [new-baby]
-- A new housemate moves in; the household greets them and talks about what it means. Anyone. [arrival]
-- The landlord serves your household notice to pay or leave; someone you live with asks what happens next. Anyone. [notice-home]
-- Disaster aid is paid and the repair bill comes due on your damaged home; someone you live with reacts. Anyone. [home-damaged]
 
 ### Work and money
 
-- A new hire at your workplace comes over to introduce themselves and asks how things run there. Anyone with a job. [first-meeting]
 - Your first day at a new school or job: a senior coworker or classmate sets you straight. Anyone. [first-day]
 - Your last day at a school or job: classmates or coworkers say goodbye and ask what comes next. Anyone. [last-day]
-- Your boss offers layoff terms: more severance, a reference, or a signature. At stake: money and years of work. Anyone with a job. [layoff]
 - An employer calls with a job offer. At stake: money and work. Anyone looking. [job-offer]
-- A friend or relative who just lost their job calls to ask for a word or help finding work. Anyone. [reach-out]
 
 ### Meeting people and the town
 
-- A friend asks you to come along somewhere or do them a favor, a test of the friendship. Anyone. [becoming-friends]
-- A first date in a public place or at a venue, after a partnership begins. Anyone. [date]
-- A neighbor who thinks you owe them confronts you, at home, at work, at school or in public, with others watching. Anyone. [argument]
-- Someone you fell out with reaches out to make up. Anyone. [reconciliation]
-- A friend who broke a promise comes to explain, or you confront them. Anyone. [betrayal]
-- A friend or relative held before trial or in prison asks you to visit, look after a child, or carry word to family. Anyone. [prison-visit]
 - Someone who knows you accuses you of a crime at school, at work or in public, while people watch. Anyone. [accusation]
-- A friend or relative moving away stops by to say goodbye. Anyone. [moving-goodbye]
 - A neighbor who shared a cause with you stops you with a clipboard and asks you to come to the town body's next posted meeting about it; a yes is a promise the meeting's record keeps or breaks, and you can only say yes to a cause you agree with. Anyone. Rewritten Nov 17 (#9947), ready. [cause-invite]
 - A seated officeholder of your party who took you under their wing weighs in, at their home, on whether you should run. Anyone weighing a run. [advice]
 
@@ -57,43 +31,20 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 - Your family reacts when you file, only when the race itself costs the house something read from its books: your own money in the campaign, a job you left to run, or a young child at home while you work. The talk names the office, the race's length, the money put in, the job or the child; nobody says how long the savings last. A house the race costs nothing hears the filing as news at the evening talk. At home. Candidates. Rebuilt Nov 17 (#9905), ready. [family-filing]
 - A voter opens the door to your canvass, the first time or again; their view of your platform decides how it goes, and what they say is placed by their record (a lost job, a rent notice, a sick relative, your rival's name, your stand on their question). At stake: their vote. Candidates. Rewritten Nov 17 (#9846), ready. [door-ask]
 - A voter at the door is asked to sign your petition while it circulates; the petition record's answer decides, and the talk reads it. Candidates. Rewritten Nov 17 (#9846), ready. [door-signature]
-- At a petition table in town, someone asks about your petition and may sign it. Candidates. [petition-short]
-- Someone passes on a rival's word about you, from a paid message or a remark. At stake: your race. Candidates. [rival-word]
-- At a public rally, a rival candidate confronts you while the crowd listens. Candidates. [rally-opponent]
-- At a rally that formed over something going well, a neighbor asks you to say a few words. Officials and candidates. [rally-word]
-- An outlet invites you to sit for an interview about your race, by phone or in public. Candidates. [interview-invite]
 - A reporter presses you for an on-the-record answer about your race. Candidates. [interview-sitting]
-- An outlet or group invites you to a debate. Candidates. [debate-invite]
 - You stand on stage at a debate with your opponent, before the press and the public. Candidates. [debate-sitting]
 - Another candidate asks you to endorse them, and says why now from their own records: how long they worked for you, the question they carry, a job lost, an earlier run, the same party, or that they run against someone you backed. Anyone the candidate is close to. Rebuilt Nov 17 (#9909), ready. [endorsement-ask]
-- Someone who knows you heard you filed and comes by to offer help on your campaign. Candidates. [volunteer-offer]
-- Someone close to you (a partner, a relative, a best friend) offers to run your campaign, not only help it. Candidates. [manager-offer]
-- A party chair comes to your home to ask you to run under the party's name for a seat nobody filed for. Party members. [party-recruit]
-- A party leader welcomes you at the party's office after you join, and asks whether they can count on you. Anyone who joins a party. [party-welcome]
 - A candidate whose speech moved you in the room comes over afterward to ask for your support. Anyone who heard a speech in person. [speech-afterward]
 - Election day: you go to your precinct's polling place and cast your ballot while poll workers and neighbors watch. Anyone who votes. [polling-place]
 - Election night, you win: supporters gather, you speak and make a promise on stage. Candidates. [race-won]
-- Election night, you lose: your campaign manager has the phone, and you decide how and when to concede. Candidates. [race-lost]
-- After the count, your family reacts to the result and what the race cost them. At home. Candidates. [family-loss]
 
 ### Holding a local office
 
 - A reporter catches you in the hallway after a vote, a bill, a veto or an act, and asks for comment; the questions name the bill and your vote, a lie is caught by the roll call, and the closes follow what you actually said. Officeholders. Rewritten Nov 17 (#9794), ready. [press-interview]
-- A paper exposes you or your office, and a reporter asks for your side: confess, refuse, or lie. Officeholders. [scandal]
 - A resident stops you in the street about a vote you cast or a law that just reached them. Fires far too often today (owner, Nov 17); each stop needs its cause on record and a cooldown, and the board picks a few. Officeholders and candidates. Graded Nov 17. [constituent-stop]
-- Recall petitioners corner you at a table or by phone and ask you to answer for your record. Officeholders. [recall]
-- Someone with the power to appoint offers you a seat on a board or a post. Anyone offered a post. [appointment]
-- At the swearing-in, the officiant reads the oath and you take it. Anyone who just won or was appointed. [swearing-in]
-- A department head asks you to fight a budget cut, or to accept it. At stake: the cut and your votes. Officeholders. [budget-cut]
-- A constituent comes to office hours with a lost job, rent trouble, a relative in custody or an illness, and asks for help. Fires far too often today (owner, Nov 17); same rule: a cause on record, a cooldown, the board picks a few. Officeholders. Graded Nov 17. [office-hours]
 - Someone offers you a bribe at your office or a venue for a favor; you can take it, refuse it, or report it; the lines name the bill or the contract, the gift's weight in words and your own stand. Officeholders. Rewrite in build Nov 17. [bribe-offer]
 - After you refuse, the same person presses harder. Officeholders. [bribe-pressed]
 - A donor calls about a bill: their gift's weight is said in words against the other donors (the biggest check, a small one), your yes or no gives your own side on the question, the bill's stage places a stall, and a lie about a bill that never moved is caught by the sponsor or the chair. A gift that names no bill brings no call. Officeholders and candidates. Rewritten Nov 17 (#9931), ready. [donor-ask]
-- At a town hall, a resident asks you a question in front of the room. Officeholders and candidates. [town-hall-question]
-- A protester or striker confronts you at the edge of the crowd about what it is over. Officeholders. [action-confront]
-- The day after a crowd formed against the town, someone you live with doubts you, having seen it on your face. Officeholders. [office-doubt]
-- The morning after you sat past the hour at a night meeting, someone at home asks where you were. Officeholders. [family-absence]
-- One of your own aides calls to warn you that a group is organizing in town, or a story is coming. Officeholders. [warning]
 
 ### Holding a seat in a legislature (town council, state house or senate, Congress)
 
@@ -102,21 +53,10 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 - A colleague asks you to take a seat, a committee or a role in the body. Members. [serve-sought]
 - The sponsor of a bill whose veto override failed asks you for another try. Members. [vote-confirmed]
 - A member who introduced a bill asks you to carry it with them. Members. [bill-carry]
-- A colleague asks you to sign on as a cosponsor. Members. [bill-sign-on]
-- A member bargains with you over one section of a bill before the floor: your vote for a change elsewhere. Members. [section-bargain]
-- Your bill is held in committee; you ask its chair for a hearing, and the chair says yes, not yet, or no. Members. [bill-held-chair]
-- A committee chair asks you, the sponsor, what you will give to get your held bill moving. Members. [hold-chair-sought]
-- Before the roll call, a member rises to speak for or against a bill, and you answer from your seat. Members. [floor-debate]
-- A resident who testified at a hearing catches you on the way out to say what the bill does to their life. Members. [hearing-witness]
-- A committee forms a study group on a bill it could not settle, and its chair charges you with the study. Members. [study-formed]
-- A study group reports back, and its chair tells you what it found. Members. [study-reported]
-- A lobbyist from a group you voted against comes back to remember your vote. Members. [lobby-remembers]
 
 ### Executives: mayor, county executive, governor, president
 
 - You give a public address (the yearly address, a State of the State, the State of the Union), and people answer it. Executives. [address]
-- A sponsor brings a passed bill to your desk and asks you to sign it, veto it, or hold it. Governors and mayors. [desk-visit]
-- A department head briefs you on a disaster and asks you to declare an emergency or let it pass. Governors; the mayor's and the President's rooms are next. [emergency-briefing]
 
 ## (b) Potential scenes, planned or being weighed
 
@@ -201,5 +141,7 @@ Each line says who, where, what is at stake, and what it unlocks. "Unlocks" mean
 - The divorce that comes in two scenes: a feeler, then the talk. (Owner, Nov 14: "if there's like a feeler scene, you know, or an exposition scene... that unlocks more scenes.")
 
 ## What changed since the last update
+
+Nov 17, the cut (owner: "STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING."): the 60 scene kinds whose lines were not composed from the world's own records are deleted from the game and from part (a). Part (a) lists only the kinds on src/director/data/kept-scene-kinds.json.
 
 First version. The owner's riffs, when they come, are quoted here under the line they touch, and the engine change each one caused is named.

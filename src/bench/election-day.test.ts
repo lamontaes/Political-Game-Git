@@ -258,18 +258,18 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
         .join(" / ")} … ${call.lines.map((l) => l.text).join(" ")}`,
     );
 
-    // The scene after the call: a concession call or the victory night.
+    // The scene after the call: the victory night (the concession call was
+    // deleted with the unwritten kinds, owner, Nov 17).
     const scene = director!.ledger.people
       .get(playerId!)
       ?.schedule.find((entry) =>
         entry.bindings.some(
           (binding) =>
-            (binding.typeKey === "race-lost" ||
-              binding.typeKey === "race-won") &&
+            binding.typeKey === "race-won" &&
             binding.setting.recordId !== undefined,
         ),
       );
-    expect(scene, `${where}: a concession or victory scene`).toBeDefined();
+    expect(scene, `${where}: a victory scene`).toBeDefined();
     const reply = storyReply(core, director!, playerId!, scene!.momentId, [0]);
     expect(core.durableLog.has(reply.recordId as EntityId), where).toBe(true);
     const journal = composeJournal(

@@ -27,7 +27,7 @@ import { buildBenchWorld } from "./world";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 6;
 /** The recipes that need only a seat, a colleague and a question: they stage in every place that seats the player. */
-const ALWAYS = ["bill-carry", "press-interview", "desk-visit"];
+const ALWAYS = ["bill-carry", "press-interview"];
 
 function request(method: string, input?: unknown): IncomingMessage {
   const text = input === undefined ? "" : JSON.stringify(input);

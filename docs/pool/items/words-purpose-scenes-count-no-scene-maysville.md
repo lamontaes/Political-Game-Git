@@ -21,9 +21,9 @@ checked: fable 2026-11-10
 
 **What.** src/director/purpose-scenes.test.ts fails on main with GOLDEN_PATH_SEED=b192e3dbed748f0f, as it does on branches that merge main. On its third draw, Maysville, North Carolina (3742100), the filer behind filing:contest:seat:gus2025:131738:council:0:2025-11-04:person_04962cc79c8da140 has no scene for the November 4, 2025 count: the test's check "the count fired no scene" finds no schedule entry for the election-result record. The test draws its place at random, so this turns CI red on any director change whose run lands on it. The cause is not yet known: the count's moment may be missing, unbound, or held by the month's repeat window.
 
-**Cause.** Found in code: the Maysville miss no longer reproduces. `GOLDEN_PATH_SEED=b192e3dbed748f0f npx vitest run src/director/purpose-scenes.test.ts --maxWorkers=1` passes on main d64255aa (Nov 11), as it did on Nov 10. The test is still red by draw for another reason. At `GOLDEN_PATH_SEED=sweep-fresh-13897` (Paradise, Kansas, 2054325, draw 0) it fails at src/director/purpose-scenes.test.ts line 152, `expect(office.text, here).toBe(contest.title)`, with "expected 'council member' to be 'Council member'" for filing:contest:seat:gus2025:126960:council:0:2025-11-04:person_6ebdcf651eaa02b8. In src/director/purpose-scene.ts (line 960) the scene's `office` fact is `titleInSentence(said.office)`. `titleInSentence` (src/director/swearing-in.ts line 62) lowers a title with only an initial capital, so it reads as a common noun in running text ("your run for council member"), and keeps one with other capitals ("Town Council"). So every place whose seat is titled with one capital fails the test. The code is right; the test predates the running-text rule.
+**Cause.** Found in code: the Maysville miss no longer reproduces. `GOLDEN_PATH_SEED=b192e3dbed748f0f npx vitest run src/director/purpose-scenes.test.ts --maxWorkers=1` passes on main d64255aa (Nov 11), as it did on Nov 10. The test is still red by draw for another reason. At `GOLDEN_PATH_SEED=sweep-fresh-13897` (Paradise, Kansas, 2054325, draw 0) it fails at src/director/purpose-scenes.test.ts line 152, `expect(office.text, here).toBe(contest.title)`, with "expected 'council member' to be 'Council member'" for filing:contest:seat:gus2025:126960:council:0:2025-11-04:person_6ebdcf651eaa02b8. In src/director/purpose-scene.ts (line 960) the scene's `office` fact is `titleInSentence(said.office)`. `titleInSentence` (`src/director/swearing-in.ts` (removed) line 62) lowers a title with only an initial capital, so it reads as a common noun in running text ("your run for council member"), and keeps one with other capitals ("Town Council"). So every place whose seat is titled with one capital fails the test. The code is right; the test predates the running-text rule.
 
-**Fix.** In src/director/purpose-scenes.test.ts, line 152, compare the scene's office fact with `titleInSentence(contest.title)`, imported from src/director/swearing-in.ts, instead of `contest.title`. Leave line 150 as it is: the cause's own fact still carries the record's title. Change nothing in the director.
+**Fix.** In src/director/purpose-scenes.test.ts, line 152, compare the scene's office fact with `titleInSentence(contest.title)`, imported from src/director/swearing-in.ts (removed), instead of `contest.title`. Leave line 150 as it is: the cause's own fact still carries the record's title. Change nothing in the director.
 
 **Time box.** 1 hour for one Haiku session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scenes.test.ts, src/director/swearing-in.ts, src/director/purpose-scene.ts
+**Files.** src/director/purpose-scenes.test.ts, src/director/purpose-scene.ts (the swearing-in file that held the title helper was deleted with its scene kind on Nov 17)
 
 **Notes.** TODO
 

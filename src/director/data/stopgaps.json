@@ -319,44 +319,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-recall-promise-record",
-    "kind": "missing-data",
-    "file": "src/director/purpose-scene.ts",
-    "line": 1,
-    "whatItFakes": "At the recall table, the organizer's line that the member voted for the bill 'after telling us you wouldn't', and the member's two answers to it, need a promised-against fact; no engine records a promise to vote against a bill, so they never play and the organizer names only the vote.",
-    "why": "Ask why: a broken promise is said only where a record holds the promise (a pledge, a platform stance against the bill's question, a reply in an earlier scene). The legislature records only a promise to vote for a bill (vote-promise, a committee trade).",
-    "addedBy": "Words and director session",
-    "addedAt": "2026-10-29",
-    "replacement": "purpose-scene sets promised-against for a recall petition when the member's filed platform takes the stand against the bill's question, or a scene reply recorded a promise against it, citing that record.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-swearing-in-no-court",
-    "kind": "missing-record",
-    "file": "src/director/civic-roles.ts",
-    "line": 104,
-    "whatItFakes": "Who gives the oath at a swearing-in. Real oaths are given by a judge, a justice or a notary (a state's chief justice swears in a governor); the world keeps no courts or notaries, so the oath is given by the clerk who took the winner's filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. A clerk at the state level, and every fallback, marks this stopgap.",
-    "why": "Courts come after early access (AGENTS.md). Ask why: the officiant is always a person a record names (the filing clerk, the town's or county's clerk, the seat's ended term, the leadership engine's presiding officer); with none on record the scene is not staged, and no one is invented.",
-    "addedBy": "Words session",
-    "addedAt": "2026-10-29",
-    "replacement": "The justice engine's judges and justices, cast by the court that swears in each office (a chief justice for a governor, a local judge for a council), read in oathGiver ahead of the clerk.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-swearing-in-address-in-scene",
-    "kind": "missing-hook",
-    "file": "src/director/inaugural-address.ts",
-    "line": 1,
-    "whatItFakes": "The inaugural address of a mayor, county executive or governor is recorded as heard (speech.heard) only when the player plays their own swearing-in and chooses to speak; the world's other executives give no inaugural, because the office-day engine has only the annual address. The speech's occasion is read from its record id (speech:inaugural:...), as SG-DIRECTOR-speech-occasion reads every speech's.",
-    "why": "The simulation should give the address for any sworn-in executive and the scene should read it (owner, Oct 29: the player's slice of a world event). The office-day engine's acts belong to the governing lead; the scene was built against the smallest stand-in. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
-    "addedBy": "Words session",
-    "addedAt": "2026-10-29",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An inaugural act in the office-day engine, run for any sworn-in executive, that calls deliverSpeech with an occasion fact; the swearing-in scene then reads that record, and the existing address type stages it for the people who hear it.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T3"
-  },
-  {
     "id": "SG-WORDS-filing-counter-prompts",
     "kind": "missing-hook",
     "file": "src/director/filing-visit.ts",
@@ -378,18 +340,6 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "Laws and effects (or the economy lead) start the town's jobs and poverty measures from a settled year, after which the warm-up in src/core2/data/term-read/areas.json is zero and this stopgap is removed.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-action-confront-town-hall-lines",
-    "kind": "missing-data",
-    "file": "src/director/purpose-scene.ts",
-    "line": 1,
-    "whatItFakes": "A protest or strike that stands before a town official (type action-confront) is worded with the town hall's purpose (town-hall-question, reading host-declined). The narration, the protester's question, one follow and one close are the protest's own (they require the protest or strike fact); the official's replies and the endings are the town hall's, which say nothing of a crowd or a picket line.",
-    "why": "The exchange is the same (a person with a demand, an official who answers) and the town hall's lines exist; the protest's own register (owner, Nov 8: the English works differently for different kinds of scenes) is the next piece of the Story lane.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "A purpose of its own for action-confront in purpose-arcs.json whose replies and endings are stances toward the crowd (hear the line, send a representative, call the police, join them).",
     "status": "open"
   },
   {
@@ -537,46 +487,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORDS-moving-goodbye-reason-rows",
-    "kind": "hand-written-bank",
-    "file": "src/director/data/scene-talk-rules.json",
-    "line": 1,
-    "whatItFakes": "Which reason a farewell says when the departure record names several: the rows of departureWhy are tried in a hand-set order (an eviction, a job lost, a job elsewhere, family, kin who left first, a death), and a reason is said only when its row is present in the record.",
-    "why": "The moves engine records every cause and push that built the pull, on scales that do not compare (events against pushes read on the holds' scale), so no one reason is 'the biggest'. Naming none when no row is present keeps the goodbye honest; the order is a hand-set stopgap. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The moves engine records the one cause that tipped the pull over the holds (the largest term on a common scale) on the departure; the farewell reads that.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-WORDS-notice-shortfall-bands",
-    "kind": "uncalibrated-tunable",
-    "file": "src/director/data/scene-talk-rules.json",
-    "line": 1,
-    "whatItFakes": "Where a notice's lines call the shortfall small or deep: under half a month's rent is 'small', two months' rent or more is 'deep', and the lines for each differ.",
-    "why": "Wording bands set by hand (TUNABLE, with a spread) from ordinary usage; no survey sizes at what share of a month's rent people say 'a little short' or 'months behind'. No outcome depends on them: the landlord's own weighing of amount and months is the housing engine's. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Bands read from how renters in the Household Pulse and the Eviction Lab describe arrears, or from the housing engine's own notice score so the lines follow the same weighing the landlord used.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-STORY-home-damaged-cast",
-    "kind": "missing-data",
-    "file": "src/director/purpose-scene.ts",
-    "line": 1,
-    "whatItFakes": "The talk over a damaged home (circumstance home-damaged) is cast only from the people who live with the player. The damaged-home record names no lender, landlord, insurer or aid office, so none is cast, and a player who lives alone is told nothing of it. A home the counted population lost has no named head and no scene.",
-    "why": "The disasters engine keeps the home's kind, the aid paid and the repairs paid and owed, but no mortgage, policy or case worker, and the housing engine's lender is not tied to a damaged home.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "The housing engine names the home's lender or landlord on the damaged-home row; the row's pool then casts that party (or the aid office's worker) beside the household.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-scene-arrival-time",
     "kind": "missing-data",
     "file": "src/director/scene.ts",
@@ -647,20 +557,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-meeting-no-club-records",
-    "kind": "missing-data",
-    "file": "src/director/meeting-facts.ts",
-    "line": 1,
-    "whatItFakes": "A first meeting or a new friend's ask names the employer, the job, the school, the party and the town the two share. It never names a church, a club or a street, though people meet there.",
-    "why": "No record in the world keeps a church, a club or a block for a person: memberships hold only parties (and groups the player joins), and a person's place is a town, not a street. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Memberships for congregations and clubs, and an address on the household record; meeting-facts.ts then reads them as it reads the party.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T3"
-  },
-  {
     "id": "SG-WORDS-friend-ask-plan-unrecorded",
     "kind": "missing-data",
     "file": "data/english/parts/scene-talk.json",
@@ -687,54 +583,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORDS-letter-ask-unrecorded",
-    "kind": "missing-data",
-    "file": "data/english/parts/scene-talk.json",
-    "line": 1,
-    "whatItFakes": "The ask in a relative's letter (to come visit, to write or call, to hear their news) is worded for every letter; the `family.contact` record holds only who wrote and how close the two are. Where they live, what changed in their life since their last letter, a birthday they missed at the reader's table and their own birthday coming are from records.",
-    "why": "The kin-contact engine writes a contact with no topic; nothing keeps what a relative wants to say, so the ask is the purpose and its lines name only things any relative might ask.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A topic on the contact record (a visit planned, news to share, a favor) drawn from the writer's own life records, so the letter asks what the records give.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-celebration-ask-unrecorded",
-    "kind": "missing-data",
-    "file": "data/english/parts/scene-talk.json",
-    "line": 1,
-    "whatItFakes": "What a relative at a wedding or a new-job celebration asks of the player (a few words for everyone, a picture, a dance, a talk about an old quarrel, help finding work) is worded for every celebration; nothing on a record says this guest wants a toast or a picture. What is celebrated, whose it is, the guest's town, a new child, the guest being out of work and a quarrel on the tie are from records.",
-    "why": "No engine keeps what a guest wants from a host at a family occasion; the ask is the purpose itself, so its lines name only things any relative at a celebration might ask, and lines about a quarrel, a new child or looking for work play only when a record says so.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A wants record per person (a favor to ask, a quarrel to mend, work sought) that the celebration reads, so the ask is the one the records give; birthdays and births as celebration causes once the director has a moment for them.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-gathering-ask-unrecorded",
-    "kind": "missing-data",
-    "file": "data/english/parts/scene-talk.json",
-    "line": 1,
-    "whatItFakes": "What the household asks of the player after a birthday with a relative missing (to call, write, visit, make the first move, send word) is worded for every missed gathering; the `family.gathering-missed` record holds only who was missing, whose birthday it was and how close the two are. Whose birthday, the age, where the missing relative lives, their lately changed life and a quarrel on the tie are from records; why they did not come is never claimed.",
-    "why": "The kin-contact engine writes the missed gathering with no reason; nothing keeps why a relative stayed away, so the lines say what the records show and ask the player to reach out, and never explain the absence.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A reason on the missed-gathering record (work, illness, distance, a falling-out) drawn from the absent relative's own life records, so the ask can name why.",
-    "status": "open"
-  },
-  {
-    "id": "SG-WORDS-rescue-ask-unrecorded",
-    "kind": "missing-data",
-    "file": "data/english/parts/scene-talk.json",
-    "line": 1,
-    "whatItFakes": "What the housemate who got the player help asks afterward (a ride to the doctor, a visit to one, to stay close, a promise to say when the player feels sick again, leave to tell the family, a word with a child who was in the room) is worded for every rescue; nothing on a record says this rescuer wants a visit to the doctor. That the rescuer got help, whether they are the player's partner, whether a child was in the room and whether other grown people saw it are from the rescue record, the family records and the witnesses; the illness itself is never named, because the rescue record does not say its kind.",
-    "why": "No engine keeps what a person who helped in an emergency wants from the one they helped; the ask is the purpose itself, so its lines name only things anyone who called for help might ask, and lines about a partner, a child or the others at home play only when a record says so.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "A wants record per person, and the health engine's case row (condition, how serious, the care it calls for) that the rescue reads, so the ask is the one the care needs.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-accusation-promise-unread",
     "kind": "missing-hook",
     "file": "src/director/data/arc-variants.json",
@@ -744,20 +592,6 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A justice-engine reading of what the accused told the accuser (a disclosure or a confession to a witness) as evidence or mitigation.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T3"
-  },
-  {
-    "id": "SG-WORDS-new-baby-ask-unrecorded",
-    "kind": "missing-data",
-    "file": "data/english/parts/scene-talk.json",
-    "line": 1,
-    "whatItFakes": "What the relative who comes to see a new baby offers or asks (dinner, the dishes, an hour of sleep, to hold the baby) is worded for every birth; nothing on a record says this relative will bring dinner. The child's name, the other parent, and the visitor's town (when it is not the parent's) are from the birth record and the people records.",
-    "why": "No engine keeps what a visitor brings to a new parent; the visit is the purpose itself, and its lines name only things any relative might offer. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-09",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A wants record per person and the household's chores and sleep from the people engine, so the visit offers what the home needs.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T3"

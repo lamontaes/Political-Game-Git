@@ -38,23 +38,6 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
-      "id": "new-coworker",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["job"],
-      "place": "workplace",
-      "pool": ["new-coworker"],
-      "where": "same-employer",
-      "player": "anyone",
-      "cast": "the person hired today at the player's employer",
-      "typeKey": "first-meeting",
-      "impactParameter": "directorCircumstanceMeetingImpact",
-      "everyParameter": "directorCircumstanceWorkEveryDays"
-    },
-    {
       "id": "hallway-colleague",
       "receive": {
         "age": "any",
@@ -85,40 +68,6 @@
       "player": "same-body",
       "cast": "a reporter covering the player's body after a bill dies in committee, scored on tie and sociability",
       "typeKey": "press-interview",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
-    },
-    {
-      "id": "job-lost-calls",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["work.job-lost"],
-      "place": "phone",
-      "pool": ["named"],
-      "where": "known",
-      "player": "working-or-public",
-      "cast": "someone the player knows who lost their job that day and calls to ask for a word, scored on tie and sociability",
-      "typeKey": "reach-out",
-      "impactParameter": "directorCircumstanceNewsImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "organizing-warning",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["initiative.organizing-started"],
-      "place": "phone",
-      "pool": ["civic:staff"],
-      "where": "pool",
-      "player": "serving",
-      "cast": "one of the officeholder's own aides, when a group starts organizing in town",
-      "typeKey": "warning",
       "impactParameter": "directorCircumstanceHallwayImpact",
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
@@ -157,41 +106,6 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
-      "id": "rival-message",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["campaign-message"],
-      "place": "public",
-      "pool": ["fact:candidateId"],
-      "where": "rival",
-      "player": "public-figure",
-      "cast": "a candidate filed in the player's own contest whose paid message ran that day",
-      "typeKey": "rally-opponent",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "new-housemate",
-      "childMayTell": true,
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["household-member"],
-      "place": "home",
-      "pool": ["named"],
-      "where": "same-household",
-      "player": "anyone",
-      "cast": "someone who joined the player's household that day, other than a newborn",
-      "typeKey": "arrival",
-      "impactParameter": "directorCircumstanceMeetingImpact",
-      "everyParameter": "directorCircumstanceHomeEveryDays"
-    },
-    {
       "id": "law-news-street",
       "receive": {
         "age": "any",
@@ -207,174 +121,6 @@
       "cast": "a resident who read that a law took effect, stopping the officeholder or candidate in the street, scored on reason, tie and sociability",
       "typeKey": "constituent-stop",
       "impactParameter": "directorCircumstanceLawImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "away-evening",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["public-meeting"],
-      "recordFactEquals": {
-        "evening": ["true"]
-      },
-      "playerNamed": true,
-      "afterDays": 1,
-      "place": "home",
-      "pool": ["own-household"],
-      "where": "pool",
-      "player": "named-in-it",
-      "cast": "the morning after the player's body sat past the hour it meets at night, someone they live with, scored on tie and sociability",
-      "typeKey": "family-absence",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "lobby-remembers",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
-      },
-      "recordKinds": ["office.voted"],
-      "playerNamed": true,
-      "afterDays": 2,
-      "place": "seat",
-      "pool": ["lobbied-against"],
-      "where": "pool",
-      "player": "named-in-it",
-      "cast": "two days after the player voted against the way of a group that lobbied them on the bill, the group's lobbyist, who remembers",
-      "typeKey": "lobby-remembers",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
-    },
-    {
-      "id": "office-doubt",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["civic.protest", "civic.strike"],
-      "afterDays": 1,
-      "place": "home",
-      "pool": ["own-household"],
-      "where": "pool",
-      "player": "heard-it",
-      "cast": "the day after a crowd formed against the town's term, someone the player lives with, who saw it in the player's face, scored on tie and sociability",
-      "typeKey": "office-doubt",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "floor-debate-for",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
-      },
-      "recordKinds": ["floor-debate"],
-      "lived": true,
-      "before": true,
-      "place": "seat",
-      "pool": ["fact:forId"],
-      "where": "pool",
-      "player": "same-body",
-      "cast": "the member who rises in session for the bill before the roll, when the player sits in the body",
-      "typeKey": "floor-debate",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
-    },
-    {
-      "id": "floor-debate-against",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
-      },
-      "recordKinds": ["floor-debate"],
-      "lived": true,
-      "before": true,
-      "place": "seat",
-      "pool": ["fact:againstId"],
-      "where": "pool",
-      "player": "same-body",
-      "cast": "the member who rises in session against the bill before the roll, when the player sits in the body",
-      "typeKey": "floor-debate",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
-    },
-    {
-      "id": "hearing-witness",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "serving"
-      },
-      "recordKinds": ["committee-hearing"],
-      "recordFacts": ["witnessIds"],
-      "place": "seat",
-      "pool": ["fact:witnessIds"],
-      "where": "pool",
-      "player": "named-in-it",
-      "playerNamed": true,
-      "cast": "a resident who testified at the committee's hearing on a bill, catching the player (its sponsor or a member of the committee) on the way out to say what the bill does to their own life",
-      "typeKey": "hearing-witness",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
-    },
-    {
-      "id": "held-known-visit",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["justice.held-before-trial"],
-      "place": "venue",
-      "pool": ["named"],
-      "where": "known",
-      "player": "anyone",
-      "cast": "someone the player knows who is held before trial; the player visits them",
-      "typeKey": "prison-visit",
-      "impactParameter": "directorCircumstanceDeathImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "imprisoned-known-visit",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["justice.imprisoned"],
-      "place": "venue",
-      "pool": ["named"],
-      "where": "known",
-      "player": "anyone",
-      "cast": "someone the player knows who has been sent to prison; the player visits them",
-      "typeKey": "prison-visit",
-      "impactParameter": "directorCircumstanceDeathImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "moved-away-farewell",
-      "childMayTell": true,
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["person.moved-away"],
-      "place": "other-home",
-      "pool": ["named"],
-      "where": "known",
-      "player": "anyone",
-      "cast": "someone the player knows who is moving away, saying goodbye",
-      "typeKey": "moving-goodbye",
-      "impactParameter": "directorCircumstanceMeetingImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
@@ -431,52 +177,6 @@
       "player": "named-in-it",
       "cast": "on the last day of the player's school year as a senior, someone who attended the same school that year, scored on tie and sociability",
       "typeKey": "last-day",
-      "impactParameter": "directorCircumstanceSchoolImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "graduation-home",
-      "childMayTell": true,
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["school.finished"],
-      "recordFactEquals": {
-        "passed": ["true"]
-      },
-      "playerNamed": true,
-      "afterDays": 1,
-      "place": "home",
-      "pool": ["own-household"],
-      "where": "pool",
-      "player": "named-in-it",
-      "cast": "the day after the player graduated, someone they live with, scored on tie and sociability",
-      "typeKey": "diploma-home",
-      "impactParameter": "directorCircumstanceSchoolImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
-      "id": "no-graduation-home",
-      "childMayTell": true,
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["school.finished"],
-      "recordFactEquals": {
-        "passed": ["false"]
-      },
-      "playerNamed": true,
-      "afterDays": 1,
-      "place": "home",
-      "pool": ["own-household"],
-      "where": "pool",
-      "player": "named-in-it",
-      "cast": "the day after the player's senior year ended without a diploma, someone they live with, scored on tie and sociability",
-      "typeKey": "no-diploma-home",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
@@ -565,76 +265,6 @@
       "player": "listed:members",
       "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
       "typeKey": "vote-confirmed",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays"
-    },
-    {
-      "id": "notice-home",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["housing.notice-served"],
-      "playerNamed": true,
-      "place": "home",
-      "pool": ["own-household"],
-      "where": "pool",
-      "player": "named-in-it",
-      "cast": "the day the landlord serves the player's household notice to pay or leave, someone they live with, scored on tie and sociability",
-      "typeKey": "notice-home",
-      "impactParameter": "directorCircumstanceNewsImpact",
-      "everyParameter": "directorCircumstanceHomeEveryDays"
-    },
-    {
-      "id": "home-damaged",
-      "receive": {
-        "age": "any",
-        "counterpart": "any",
-        "seat": "any"
-      },
-      "recordKinds": ["disaster.home-damaged"],
-      "playerNamed": true,
-      "lived": true,
-      "recast": true,
-      "place": "home",
-      "pool": ["own-household"],
-      "where": "pool",
-      "player": "named-in-it",
-      "cast": "the day a disaster's aid is paid and the repair bill comes due on the player's damaged home, someone they live with, scored on tie and sociability",
-      "typeKey": "home-damaged",
-      "impactParameter": "directorCircumstanceNewsImpact",
-      "everyParameter": "directorCircumstanceHomeEveryDays"
-    },
-    {
-      "id": "study-formed-member",
-      "recordKinds": ["study-formed"],
-      "playerNamed": true,
-      "afterDays": 1,
-      "lived": true,
-      "place": "seat",
-      "pool": ["study-members"],
-      "where": "pool",
-      "player": "on-study",
-      "cast": "the day after the body formed a study committee on a bill it could not settle (the vote day is the floor's own), its chair, or a fellow member when the player chairs it, telling a member what it is charged with",
-      "typeKey": "study-formed",
-      "outcome": "scene.reply",
-      "impactParameter": "directorCircumstanceHallwayImpact",
-      "everyParameter": "directorCircumstanceHallwayEveryDays",
-      "keepsDays": 14
-    },
-    {
-      "id": "study-reported-member",
-      "recordKinds": ["study-reported"],
-      "playerNamed": true,
-      "lived": true,
-      "place": "seat",
-      "pool": ["study-members"],
-      "where": "pool",
-      "player": "on-study",
-      "cast": "the committee's chair, or a fellow member when the player chairs it, on what the committee found and what the chair's speech to the body moved",
-      "typeKey": "study-reported",
-      "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceHallwayImpact",
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     }

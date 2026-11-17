@@ -35,6 +35,8 @@ merged-at: 2026-11-12T22:23:12.446Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/budgets.ts, src/director/budget-cut-scene.test.ts, docs/design/scenes/from-life/budget-cut-department-head.md
+**Files.** src/core2/modules/budgets.ts, docs/design/scenes/from-life/budget-cut-department-head.md
 
 **Notes.** Evidence and the probe are in docs/design/scenes/from-life/budget-cut-department-head.md. Lead laws-effects. Words does not build engine records.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/budget-cut-scene.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN").

@@ -40,7 +40,7 @@ const view: DevView = {
     reasons: {
       "season-cap": "The scene's season was full",
       "nothing-changed": "Nothing had changed since it last played",
-      "nothing-to-ask": "There was nothing to ask that the game can settle",
+      "not-kept": "The scene kind is not on the written list of kept scenes",
     },
     timings: { now: "Now", waiting: "Waiting for you" },
   },

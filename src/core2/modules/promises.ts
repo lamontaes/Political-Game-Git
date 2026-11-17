@@ -30,7 +30,6 @@ import {
   votesOn,
   LEGISLATURE_MODULE_ID,
 } from "./legislature";
-import { officeActsOf } from "./office-day";
 import { P } from "../parameters";
 import { declareSnapshotCovered } from "../snapshot";
 import type {
@@ -145,8 +144,6 @@ export interface PromiseRow {
   question?: string;
   /** The side promised on a bill or a question: 1 for, -1 against. */
   side?: number;
-  /** The meeting promised to come to (office-day's meetings), for an "attend" promise. */
-  meetingId?: string;
   outcome: "open" | "kept" | "broken" | "lapsed";
   endedBy?: string;
   endedAt?: IsoDate;
@@ -191,8 +188,6 @@ const SETTLE_KEYS: Record<string, (row: PromiseRow) => string | null> = {
   // vote at a roll call or a signature or veto at the desk: one key for both.
   "question-vote": (row) => questionKey(row),
   "question-signature": (row) => questionKey(row),
-  "meeting-held": (row) =>
-    row.meetingId ? `meeting-held|${row.meetingId}` : null,
 };
 
 const questionKey = (row: PromiseRow): string | null =>
@@ -238,7 +233,6 @@ function keepPromise(api: CoreAPI, event: CoreEventInput): void {
   const billId = fact("billId");
   const question = fact("question");
   const side = fact("side");
-  const meetingId = fact("meetingId");
   const row: PromiseRow = {
     id,
     kind: kind.id,
@@ -250,7 +244,6 @@ function keepPromise(api: CoreAPI, event: CoreEventInput): void {
     ...(billId ? { billId } : {}),
     ...(question ? { question } : {}),
     ...(side ? { side: side === "no" || side === "-1" ? minusOne : one } : {}),
-    ...(meetingId ? { meetingId } : {}),
     outcome: "open",
     pair: pairKey(holderId, otherId),
     settleKeys: [],
@@ -363,26 +356,6 @@ function settleOnEvent(api: CoreAPI, event: CoreEventInput): void {
         voted !== zero && voted === (promise.side ?? one) ? "kept" : "broken",
         event.id,
       );
-    }
-    return;
-  }
-  if (event.kind === "public-meeting") {
-    // The meeting promised: kept if the one who promised was there (the
-    // player's own presence, the meeting's record), broken if not.
-    const meetingId = event.facts?.meetingId;
-    if (typeof meetingId !== "string") return;
-    for (const promise of filedUnder(api, `meeting-held|${meetingId}`)) {
-      // There: still in the room at its close, or came and left (office-day's
-      // own "attend" act on the meeting).
-      const there =
-        promise.holderId === api.state.playerId &&
-        (event.facts?.playerPresent === "true" ||
-          officeActsOf(api, promise.holderId).some(
-            (act) => act.kind === "attend" && act.recordId === meetingId,
-          ));
-      // Not there, the friend learns it apart from them: the tie moves when
-      // the two next talk and it is said.
-      endPromise(api, promise, there ? "kept" : "broken", event.id, there);
     }
     return;
   }

@@ -6,7 +6,7 @@ area: play
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -33,6 +33,8 @@ checked: fable 2026-11-10
 
 **Waits on.** laws-hold-record-names-the-sponsor (open).
 
-**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, src/director/hold-scenes.test.ts, src/core2/modules/legislature.ts
+**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, src/core2/modules/legislature.ts
 
 **Notes.** TODO
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/hold-scenes.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

@@ -2,8 +2,8 @@
  * The player's own records that are met where they happened (the filing at
  * the clerk's counter, the count of their own race on election night) stop
  * the day there, played by the page's own presses (pool item
- * director-own-record-at-a-venue-stops-the-day). Before, race-won,
- * race-lost and filing bound at a venue, which scheduling.ownRecordSettings
+ * director-own-record-at-a-venue-stops-the-day). Before, race-won
+ * and filing bound at a venue, which scheduling.ownRecordSettings
  * did not list, so the filing and the night of the count were Journal lines
  * and election night opened no scene of the player's own result.
  *
@@ -105,7 +105,7 @@ const staged = async (recordPart: string) => {
 };
 
 it(
-  `${PLACE.name}: the filing and the night of the count stop the day at the venue`,
+  `${PLACE.name}: the filing stops the day at the venue, and election night comes`,
   async () => {
     setBookkeeping(false);
     expect(
@@ -159,22 +159,10 @@ it(
       if (read?.contestId === PLACE.contestId) night = read;
     }
     expect(night, `${WHERE}: election night never came`).not.toBeNull();
-    const result = await staged(`election-result:${PLACE.contestId}`);
-    expect(result.row, `${WHERE}: no result moment`).toBeDefined();
-    expect(
-      result.row!.bindings.map((b) => [b.typeKey, b.setting.kind]),
-    ).toContainEqual(["race-lost", "venue"]);
-    expect(result.row!.outcome, `${WHERE}: ${JSON.stringify(result.row)}`).toBe(
-      "scene-now",
-    );
-    expect(result.row!.stopsBecause).toContain("own-record");
-    // Election night opens the scene of the player's own result.
-    expect(night!.resultMomentId).toBe(result.row!.momentId);
-    expect(JSON.stringify(result.panel)).toContain(
-      "own record, met where its scene is set",
-    );
+    // The player loses here, and a lost race stages no scene of its own: the
+    // concession call was deleted with the unwritten kinds (owner, Nov 17).
     process.stdout.write(
-      `${WHERE}: filing ${filing.row!.momentId} and result ${result.row!.momentId} staged scene-now at the venue\n`,
+      `${WHERE}: filing ${filing.row!.momentId} staged scene-now at the venue\n`,
     );
   },
   LIMIT_MS,

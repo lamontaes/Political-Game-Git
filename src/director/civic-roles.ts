@@ -19,152 +19,47 @@
  * town's or the county's (`localClerkFor`), and an official's aide is one of
  * the staff they hired (`servingStaffOf`).
  */
-import { remarkOf } from "./remark";
-import { closenessBetween } from "../core2/modules/people";
+
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
   LEGISLATURE_MODULE_ID,
   billReach,
-  bodyOf,
-  executiveOf,
   memberKey,
   members,
-  votesOn,
   type BillRow as LegislatureBill,
 } from "../core2/modules/legislature";
-import type { BoardMember } from "../core2/central-bank-board";
-import { MACRO_MODULE_ID } from "../core2/modules/macro";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import {
-  LEADERSHIP_MODULE_ID,
-  presidingOfficer,
-} from "../core2/modules/leadership";
+
 import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
 } from "../core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
-import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
-import {
-  EMERGENCY_OFFERED,
-  EXECUTIVE_MODULE_ID,
-  appointmentsIn,
-  emergencyBriefingPosts,
-} from "../core2/modules/executive";
-import { lawChain } from "../core2/modules/laws";
-import { lineForPost } from "../core2/budgets-treasury";
-import {
-  INTEREST_GROUPS_MODULE_ID,
-  meetingsOn,
-} from "../core2/modules/interest-groups";
+
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
-import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
-import {
-  VOTING_MODULE_ID,
-  beatenRunnerUp,
-  pollingPlaceOf,
-} from "../core2/modules/voting";
+
+import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
-import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
-import { markWordsStopgap } from "./stopgaps";
+
 import type { Moment } from "./types";
 
 const zero = P.zero;
-
-/**
- * Who gives the oath, from the records and never invented (the world keeps no
- * judges yet, SG-WORDS-swearing-in-no-court): the clerk who took the winner's
- * filing, else the clerk of the government the office belongs to, else the
- * holder who left the seat that day, else the body's presiding officer (the
- * legislature's leaders for a statewide office). Nobody on record, and the
- * role stays unfilled and the scene is not staged.
- */
-function oathGiver(
-  core: Readonly<CoreState>,
-  moment: { readonly personId: string; readonly causeId: string },
-): PersonId[] {
-  const sworn = swornOffice(core, moment.causeId);
-  if (!sworn) return [];
-  const api = coreAPI(core as CoreState);
-  // The living full person a record names, never the one sworn in.
-  const pick = (id: string | null | undefined): PersonId[] =>
-    id === moment.personId ? [] : living(core, [id ?? null]);
-  // The clerk is the oath's usual giver in a town or a county; at the state
-  // and federal level a court's officer would be, and the world keeps none.
-  const clerical = sworn.level !== "state" && sworn.level !== "federal";
-  const filed =
-    sworn.resultId && api.state.modules.has(ELECTIONS_MODULE_ID)
-      ? filingClerkFor(api, sworn.resultId)
-      : null;
-  const government =
-    sworn.level === "county"
-      ? localClerkFor(api, "countyOffice")
-      : sworn.level === "city" || sworn.level === "township"
-        ? localClerkFor(api, "municipalOffice")
-        : null;
-  const clerk = pick((filed ?? government)?.personId);
-  if (clerk.length) {
-    if (!clerical) markWordsStopgap("SG-WORDS-swearing-in-no-court");
-    return clerk;
-  }
-  markWordsStopgap("SG-WORDS-swearing-in-no-court");
-  const outgoing = outgoingHolder(core, sworn, moment.personId);
-  if (outgoing) return [outgoing];
-  if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
-  return pick(
-    presidingOfficer(api, sworn.officeId) ??
-      chamberPresiding(api, sworn.jurisdiction),
-  );
-}
-
-/**
- * The presiding officer of the government's legislature, for an office sworn
- * in outside any body (a governor): its first chamber, by id, that has one.
- */
-function chamberPresiding(api: CoreAPI, jurisdiction: string): string | null {
-  const offices = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .query("byJurisdiction", [jurisdiction]) as unknown as { id: string }[];
-  for (const office of [...offices].sort((a, b) => a.id.localeCompare(b.id))) {
-    if (!bodyOf(api, office.id)?.kind.startsWith("legislature-")) continue;
-    const id = presidingOfficer(api, office.id);
-    if (id) return id;
-  }
-  return null;
-}
 
 const one = P.one;
 
 /** The fills this module answers; `scheduling.ts` asks it for each. */
 export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "clerk",
-  "staff-or-ally",
   "poll-workers",
-  "chair",
   "members",
-  "subject-on-body",
-  "bill-sponsor",
-  "executive",
-  "appointer",
   "press",
   "press-corps",
   "staff",
-  "department-head",
-  "sponsor",
-  "lobbyist",
-  "town-hall-askers",
-  "supporters",
-  "volunteers",
-  "opponent",
   "audience",
-  "staff",
-  "oath-giver",
-  "sworn-colleagues",
-  "emergency-lead",
+  "supporters",
 ]);
 
 interface BillRow {
@@ -197,25 +92,6 @@ function contestOfFiling(api: CoreAPI, causeId: string): string {
   return filing?.contestId ?? causeId;
 }
 
-/** The living people holding the state cabinet posts a disaster offer's incident type calls to the room, lead department first. */
-function emergencyHeadsOf(
-  core: Readonly<CoreState>,
-  causeId: string,
-): PersonId[] {
-  const offer = core.durableLog.get(causeId);
-  if (offer?.kind !== EMERGENCY_OFFERED) return [];
-  const api = coreAPI(core as CoreState);
-  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-  const rows = appointmentsIn(api, lawChain(api).stateKey);
-  return living(
-    core,
-    emergencyBriefingPosts(String(offer.facts?.incidentType ?? "")).flatMap(
-      (post) =>
-        rows.filter((row) => row.post === post).map((row) => row.holderId),
-    ),
-  );
-}
-
 /** People the core holds as full people and who are alive. */
 const living = (core: Readonly<CoreState>, ids: readonly (string | null)[]) =>
   ids.filter(
@@ -243,19 +119,11 @@ export function civicFill(
   core: Readonly<CoreState>,
   moment: Moment,
   taken: ReadonlySet<PersonId>,
-  closest: (ids: PersonId[]) => PersonId[] = (ids) => ids.sort(),
 ): PersonId[] {
   const api = coreAPI(core as CoreState);
   const free = (ids: PersonId[]) =>
     ids.filter((id) => id !== moment.personId && !taken.has(id));
   switch (fill) {
-    case "oath-giver":
-      // Whoever the records name to give the oath of the office the cause
-      // seated the subject in (swearing-in.ts).
-      return free(oathGiver(core, moment));
-    case "sworn-colleagues":
-      // The others in the government who stand in the room.
-      return colleagues(core, moment, taken, closest);
     case "poll-workers": {
       if (!api.state.modules.has(VOTING_MODULE_ID)) return [];
       const place = pollingPlaceOf(api, moment.personId, moment.date);
@@ -282,37 +150,6 @@ export function civicFill(
           ]),
         ]),
       );
-    }
-    case "opponent": {
-      // The candidate who finished first behind the moment's subject among
-      // those who missed the cut in the count the cause settled (in an
-      // at-large race the other winners were seated too, so none of them
-      // calls): living and not the subject. Where the subject did not win,
-      // or nobody missed the cut, the role stays unfilled and the scene does
-      // not fire.
-      const facts = core.durableLog.get(moment.causeId)?.facts;
-      if (!facts?.totals || facts.winnerId !== moment.personId) return [];
-      const beaten = beatenRunnerUp(facts, moment.personId);
-      return free(living(core, beaten ? [beaten.id] : [])).slice(zero, one);
-    }
-    case "volunteers": {
-      // The volunteers of a campaign the candidate is running now, from the
-      // contests under way (a stop's speech names no contest).
-      if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return [];
-      const state = api.moduleState(CAMPAIGNS_MODULE_ID);
-      for (const race of state.table("races").rows() as unknown as {
-        id: string;
-        electionDate: string;
-      }[]) {
-        if (race.electionDate < moment.date) continue;
-        const campaign = (
-          state
-            .table("campaigns")
-            .query("byContest", [race.id]) as unknown as CampaignRow[]
-        ).find((row) => row.candidateId === moment.personId);
-        if (campaign) return free(living(core, [...campaign.volunteerIds]));
-      }
-      return [];
     }
     case "audience": {
       // The people a speech was given to: its recorded listeners.
@@ -361,11 +198,6 @@ export function civicFill(
         .sort()
         .slice(zero, one);
     }
-    case "executive": {
-      // The executive who signed or vetoed, named by the act's own record.
-      const named = core.durableLog.get(moment.causeId)?.facts?.executiveId;
-      return free(living(core, named ? [named] : []));
-    }
     case "press-corps": {
       // The reporters who cover an officeholder's act on the bill it names:
       // the national outlets' for a federal bill, the town's own for any
@@ -392,30 +224,6 @@ export function civicFill(
         ),
       );
     }
-    case "staff-or-ally": {
-      // Who brings a lost vote to its sponsor: their aide where they keep
-      // one; a council member keeps none, so a fellow member who voted for
-      // the bill finds them, the closest first (the owner's council member
-      // heard nothing after his ordinance failed, Oct 29).
-      const aides = civicFill("staff", core, moment, taken);
-      if (aides.length) return aides;
-      const billId = String(
-        core.durableLog.get(moment.causeId)?.facts?.billId ?? "",
-      );
-      if (!billId || !api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-      return free(
-        living(
-          core,
-          votesOn(api, billId)
-            .filter((row) => row.vote === "yes")
-            .map((row) => row.memberId as PersonId),
-        ),
-      ).sort(
-        (a, b) =>
-          closenessBetween(core, moment.personId, b) -
-            closenessBetween(core, moment.personId, a) || a.localeCompare(b),
-      );
-    }
     case "staff": {
       // The officeholder's own aides who serve now.
       if (!api.state.modules.has(STAFF_MODULE_ID)) return [];
@@ -426,173 +234,18 @@ export function civicFill(
         ),
       );
     }
-    case "emergency-lead": {
-      // The state cabinet head whose department leads for the disaster (data/executive/emergency.json,
-      // by the incident type on the offer's record, in the map's order) opens the briefing. Only the
-      // people who speak are cast: the other heads join when the room can seat more than one speaker
-      // (pool item director-emergency-briefing-other-heads). A state with no post for the type has no
-      // one in that seat, so there is no briefing.
-      return free(emergencyHeadsOf(core, moment.causeId).slice(zero, one));
-    }
-    case "department-head": {
-      // A cut line's department head: the person the town's appointment
-      // records seat in a post whose pay draws on the line the record cut. A
-      // line no post draws on (administration is every post's fallback), a
-      // raise, or a government that appoints no heads has none, and the
-      // scene does not fire.
-      if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-      const cut = core.durableLog.get(moment.causeId);
-      const line = cut?.facts?.line;
-      if (
-        cut?.kind !== "budget-line-changed" ||
-        !line ||
-        line === "administration" ||
-        cut.facts?.level !== "city" ||
-        !(Number(cut.facts?.deltaMinor) < zero)
-      )
-        return [];
-      return free(
-        living(
-          core,
-          appointmentsIn(api, lawChain(api).townPlaceId)
-            .filter((row) => lineForPost("city", `town:${row.post}`) === line)
-            .map((row) => row.holderId),
-        ),
-      );
-    }
-    case "sponsor": {
-      // The bill's sponsor on its record, when it is someone other than the
-      // executive whose desk it is on.
-      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-      const bill = billOf(api, moment);
-      return bill ? free(living(core, [bill.sponsorId])) : [];
-    }
-    case "lobbyist": {
-      // The lobbyist of a group whose recorded meetings on the bill are
-      // against it: the group that costs its members most comes first.
-      if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return [];
-      const bill = billOf(api, moment);
-      if (!bill) return [];
-      const against = meetingsOn(api, bill.id)
-        .filter((row) => row.lobbyistId && (row.side ?? -one) < zero)
-        .sort(
-          (a, b) =>
-            b.annualCostMinor - a.annualCostMinor ||
-            a.groupId.localeCompare(b.groupId),
-        );
-      return free(
-        living(
-          core,
-          against.map((row) => row.lobbyistId),
-        ),
-      );
-    }
-    case "town-hall-askers": {
-      // The residents who stood up with a question at the host's town hall,
-      // in the order the record took their questions.
-      if (!api.state.modules.has(MEETINGS_MODULE_ID)) return [];
-      const id = core.durableLog.get(moment.causeId)?.facts?.townHallId;
-      if (typeof id !== "string" || !id) return [];
-      const row = api
-        .moduleState(MEETINGS_MODULE_ID)
-        .table("townHalls")
-        .get(id) as unknown as
-        { questions: readonly { askedBy: string }[] } | undefined;
-      return free(
-        living(core, [
-          ...new Set((row?.questions ?? []).map((q) => q.askedBy)),
-        ]),
-      );
-    }
-    case "appointer": {
-      // A town post's record names who appointed to it.
-      const named = core.durableLog.get(moment.causeId)?.facts?.appointedBy;
-      if (typeof named === "string" && core.people.has(named))
-        return free(living(core, [named]));
-      // A central bank governor is named by the president and confirmed by
-      // the Senate (`board-appointer.ts`), so the president serving that day
-      // announces it. A reserve bank president is reappointed by the bank
-      // itself, with no one to announce it.
-      if (!api.state.modules.has(MACRO_MODULE_ID)) return [];
-      const seat = (
-        api
-          .moduleState(MACRO_MODULE_ID)
-          .table("members")
-          .query("all", [true]) as unknown as BoardMember[]
-      ).find((row) => row.personId === moment.personId);
-      if (seat?.seatKind !== "governor") return [];
-      if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-      const [term] = api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [
-          "seat:US:president",
-          "serving",
-        ]) as unknown as TermRow[];
-      const president = term?.personId;
-      return free(living(core, [president ?? null]));
-    }
-    case "bill-sponsor": {
-      // The member who carried the bill the cause's record names (a committee
-      // that held it), when they are a living full person.
-      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-      const sponsor = billOf(api, moment)?.sponsorId;
-      return free(living(core, sponsor ? [sponsor] : []));
-    }
-    case "subject-on-body": {
-      // The subject, when they sit on the body a heard public comment was
-      // made to (the comment's bill, from the meetings engine's remark).
-      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-      const remark = remarkOf(core, moment.causeId);
-      const bill = remark
-        ? (api
-            .moduleState(LEGISLATURE_MODULE_ID)
-            .table("bills")
-            .get(remark.billId) as unknown as BillRow | undefined)
-        : undefined;
-      if (!bill) return [];
-      return members(api, bill.bodyOfficeId)
-        .map((term) => memberKey(term))
-        .includes(moment.personId)
-        ? [moment.personId]
-        : [];
-    }
-    case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
       const bill = billOf(api, moment);
       if (!bill) return [];
-      if (fill === "members")
-        return free(
-          living(
-            core,
-            members(api, bill.bodyOfficeId).map((term) => memberKey(term)),
-          ),
-        );
-      // The chair presides; a body with no presiding post is chaired by its
-      // executive (a mayor, a governor), the one who signs.
-      const presiding = api.state.modules.has(LEADERSHIP_MODULE_ID)
-        ? presidingOfficer(api, bill.bodyOfficeId)
-        : null;
-      const executive = executiveOf(api, bill.bodyOfficeId).term;
       return free(
-        living(core, [presiding ?? (executive ? memberKey(executive) : null)]),
+        living(
+          core,
+          members(api, bill.bodyOfficeId).map((term) => memberKey(term)),
+        ),
       );
     }
     case "clerk": {
-      // A bill presented to the desk is brought by its body's clerk: the
-      // town's for a council's bill, the county's for a board's.
-      const cause = core.durableLog.get(moment.causeId);
-      if (cause?.kind === "bill-presented") {
-        const level = cause.facts?.level;
-        const clerk =
-          level === "city" || level === "township"
-            ? localClerkFor(api, "municipalOffice")
-            : level === "county"
-              ? localClerkFor(api, "countyOffice")
-              : null;
-        return free(living(core, [clerk?.personId ?? null]));
-      }
       if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
       const clerk = filingClerkFor(api, contestOfFiling(api, moment.causeId));
       return free(living(core, [clerk?.personId ?? null]));

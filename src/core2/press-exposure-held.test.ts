@@ -8,7 +8,7 @@
  *
  * Pinned to Gilbert, Iowa (1930630), seed reporters-call-1, where the town
  * paper's reporter digs and its owner runs a leaked bribe (the same staging
- * as src/director/scandal-call.test.ts). One world, two takers, so the
+ * as src/director/scandal-call.test.ts (removed)). One world, two takers, so the
  * file runs in about a minute.
  */
 import { expect, it } from "vitest";

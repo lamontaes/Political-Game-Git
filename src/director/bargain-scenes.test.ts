@@ -14,16 +14,15 @@ import { coreAPI } from "../core2/state";
 import { spokenDesignation } from "../english/bill-names";
 import { purposeScene } from "./purpose-scene";
 
-// A vote trade is a scene for both sides. When a sponsor gives a holdout a
-// section for their vote, the
-// legislature records it (bill-amendment, kind trade-amendment); the holdout
-// is asked for their vote by the sponsor, and the sponsor bargains with the
-// holdout over the section. Both are cast from the record and say its bill and
-// section. Places are drawn in turn until one's legislators trade a vote.
+// A vote trade is a scene for the holdout. When a sponsor gives a holdout a
+// section for their vote, the legislature records it (bill-amendment, kind
+// trade-amendment); the holdout is asked for their vote by the sponsor, cast
+// from the record, saying its bill and section. Places are drawn in turn
+// until one's legislators trade a vote.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 75;
 
-it(`a vote trade is a vote ask for the holdout and a section bargain for the sponsor, from its record (seed ${seed})`, () => {
+it(`a vote trade is a vote ask for the holdout, from its record (seed ${seed})`, () => {
   const tried: string[] = [];
   for (let attempt = 0; attempt < 4; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "bargain-scenes");
@@ -106,20 +105,11 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
           `CHAMBER ${where}: vote-asked pictured in ${story.place} (${story.backdrop.file})\n`,
         );
       }
-      const bargain = sceneFor(sponsor, "section-bargain");
-      expect(
-        bargain.binding,
-        `${where}: ${trade.id}: no section bargain`,
-      ).toBeTruthy();
-      expect(
-        bargain.binding!.roles.find((row) => row.role === "member")!.personIds,
-      ).toEqual([holdout]);
-      // Both talk about the trade's own bill and section, citing the record.
-      // A trade taken into the day's sitting is talked of there, and that
-      // sitting's own trade is checked when its turn comes.
+      // The ask talks about the trade's own bill and section, citing the
+      // record. A trade taken into the day's sitting is talked of there, and
+      // that sitting's own trade is checked when its turn comes.
       for (const [personId, entry] of [
         ...(ask.joined ? [] : [[holdout, ask.entry!] as const]),
-        ...(bargain.joined ? [] : [[sponsor, bargain.entry!] as const]),
       ]) {
         // The lines that play, as ordinary play says them.
         const result = purposeScene(core, director, personId as never, entry);
@@ -148,18 +138,6 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
           /comes out|Drop section|Take out section|instead of dropping|cut half/,
         );
       }
-      // The holdout asks the sponsor to put their amendment in.
-      if (bargain.joined) continue;
-      const asked = purposeScene(
-        core,
-        director,
-        sponsor as never,
-        bargain.entry!,
-      );
-      expect(
-        asked?.kind === "composed" ? asked.scene.talk.state.text : "",
-        `${where}: ${trade.id}`,
-      ).toMatch(/amendment/);
     }
     return;
   }

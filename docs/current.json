@@ -894,6 +894,486 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "scripts/dialogue-batch/letter-why.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "scripts/dialogue-batch/move-in-play.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "scripts/dialogue-batch/rescue-why.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/bench/bill-cosponsors.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/bench/desk-visit-is-the-desk.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/bench/dev-who-named.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/action-confront-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/appointment-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/bill-sign-on.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/birth-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/birth-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/budget-cut-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/campaign-manager-household.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/campaign-manager.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/care-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/care-visit-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/case-help-moves.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/celebration-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/celebration-gathering-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/concession-reported.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/constituent-help-variants.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/couple-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/debate-opponent-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/desk-visit-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/diploma-home-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/emergency-briefing.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/family-loss-stake-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/family-own-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/floor-debate-ahead.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/floor-debate-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/gathering-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/hearing-witness.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/hold-chair-sought.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/hold-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/home-damaged-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/homecoming-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/housemate-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/inaugural-address.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/interview-invite-seat.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/letter-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/letter-repeat.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/lobby-remembers-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/meeting-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/meeting-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/move-in-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/move-in-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/moving-goodbye-destination.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/moving-goodbye-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/new-baby-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/notice-home-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/notice-shortfall-lines.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/office-doubt-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/office-hours-reply-case.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/office-hours-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/party-ask-refused.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/party-recruit.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/party-welcome.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/petition-short.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/prison-visit-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/rally-opponent-lines.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/rally-word-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/recall-answer.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/recall-override-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/rescue-facts.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/rescue-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/return-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/reunion-letter-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/rival-word-record.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/scandal-call-printed.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/scandal-call.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/school-year-end-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/study-committee-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/swearing-in-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/swearing-in.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/town-hall-question-scene.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/volunteer-offer-weight.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/campaign-season.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/child-teller-floor.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/tie-history-scenes.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
+    },
+    {
+      "old": "src/director/tie-turns.test.ts",
+      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
+      "when": "2026-11-17",
+      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
     }
   ]
 }

@@ -27,7 +27,7 @@ import type { PersonId } from "../core2/types";
 // A second place was tried and left out: Alamogordo, New Mexico took about
 // 200 seconds. Each case here plays to the first day a race is open, then a housemate
 // files through the game's own filing (`fileForOffice`).
-const OWN = new Set(["filing", "family-filing", "race-won", "race-lost"]);
+const OWN = new Set(["filing", "family-filing", "race-won"]);
 const PLACES = [
   { key: "3972242", seed: "scan-25", name: "Sherrodsville, Ohio" },
 ];

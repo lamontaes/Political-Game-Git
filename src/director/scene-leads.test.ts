@@ -7,7 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
-import { applyCoreEvent } from "../core2/state";
+
 import type { CoreState, PersonId } from "../core2/types";
 import { composeScene } from "./scene";
 import { SCENE_WORDS } from "../english/scene-words";
@@ -91,58 +91,5 @@ describe(`situation leads in ${where}`, () => {
       }
     // A year-old-world's scenes include at least one with a situation lead.
     expect(withLead, where).toBeGreaterThan(0);
-  }, 600_000);
-
-  it("sets a funeral: who has come to say goodbye, never the person who died", () => {
-    const watched = [...director.ledger.people.keys()]
-      .map((id) => core.people.get(id)!)
-      .find((row) => row.alive && [...row.knownIds].length > 2)!;
-    const dead = [...watched.knownIds]
-      .map((id) => core.people.get(id)!)
-      .find((row) => row.alive && row.tier !== "husk")!;
-    applyCoreEvent(core, {
-      id: `life.death:${dead.id}:${core.date}`,
-      date: core.date,
-      kind: "life.death",
-      personIds: [dead.id],
-      witnessIds: [watched.id],
-      placeId: watched.placeId,
-      publicRecord: true,
-      moodImpulse: -1,
-      stressImpulse: 1,
-      source: {
-        tag: "SOURCED",
-        citation: "A death as the health writer records it.",
-        asOf: core.date,
-      },
-    } as never);
-    play(core, 5);
-    const funeral = director.ledger.people
-      .get(watched.id)!
-      .schedule.filter((row) =>
-        row.bindings.some((bound) => bound.typeKey === "funeral"),
-      )
-      // The funeral's own scene: a death a housemate shares is first told at
-      // home (news-arrives), and the funeral follows it, as the bench orders
-      // a moment's scenes.
-      .map((row) =>
-        composeScene(core, director, watched.id, {
-          ...row,
-          bindings: [
-            ...row.bindings.filter((bound) => bound.typeKey === "funeral"),
-            ...row.bindings.filter((bound) => bound.typeKey !== "funeral"),
-          ],
-        })!,
-      );
-    expect(funeral.length, where).toBeGreaterThan(0);
-    for (const scene of funeral) {
-      const text = scene.narration.map((line) => line.text).join(" ");
-      expect(text, where).toMatch(/goodbye/);
-      // The sentence about the gathering never names the one who died.
-      const gathering = text
-        .split(/(?<=[.!?])\s/)
-        .find((row) => /goodbye/.test(row))!;
-      expect(gathering, where).not.toContain(dead.givenName);
-    }
   }, 600_000);
 });

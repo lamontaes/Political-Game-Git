@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -32,6 +32,8 @@ source: Reporter's-call builder, Nov 15, from the Account lead's ruling (10:53Z)
 
 **Waits on.** A world where an official's relative in another household in town owns a firm.
 
-**Files.** data/english/parts/scene-talk.json, src/director/scandal-call-printed.test.ts
+**Files.** data/english/parts/scene-talk.json
 
 **Notes.**
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/scandal-call-printed.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

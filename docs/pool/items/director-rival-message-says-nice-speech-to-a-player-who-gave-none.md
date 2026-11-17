@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 blocked-on:
 after:
@@ -33,6 +33,8 @@ Seen: Western, Nebraska, seed life29, a player's own play.
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/scene-talk.json, src/director/rally-opponent-lines.test.ts
+**Files.** data/english/parts/scene-talk.json
 
 **Notes.** Filed Nov 15 by hand with its pull request. The builder could not rebuild the Western world as the report names it (the start date and filing there are not in the report), so the red is shown on the bank and the player's world is for the second reader.
+
+- Nov 17, story-cut-deleted-scene-kinds: src/director/rally-opponent-lines.test.ts deleted with its scene kind (owner, Nov 17: "DELETE EVERYTHING THAT IT HASNT WRITTEN"). Dropped: the scene kind this item serves is deleted.

@@ -11,6 +11,8 @@
  * own filing (`fileForOffice`) and then plays the same days still hears their
  * own race.
  */
+import { campaignDayOpen, takeCampaignDayChoice } from "../core2/campaign-day";
+import { PETITION_SHORT_EVENT } from "../core2/modules/campaigns";
 import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { fileForOffice, governmentView } from "../bench/government";
@@ -30,7 +32,6 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { noteHeard, openConversation, say } from "./conversation";
-import { purposeScene, replyInScene } from "./purpose-scene";
 
 const EVENING = 20 * 60 + 30;
 const VOTE = "2025-11-04";
@@ -55,8 +56,11 @@ function liveThrough(
       minuteOfDay,
     },
   });
+  // The petition's short word is a record now, not a scene that stops the
+  // day (the petition-short kind went with the unwritten kinds, Nov 17), so
+  // the player reads it from the Campaign tab each day.
+  canvassWhenShort(world);
   while (packet.kind !== "complete") {
-    if (packet.kind === "stop") answerPetitionOffer(world, playerId);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
@@ -65,24 +69,24 @@ function liveThrough(
 }
 
 /**
- * A player who is told their petition is short says yes, as a player does:
- * the engine offers and the player decides (OWNER-DECISIONS Oct 14). The
- * character on its own choice answers no scene.
+ * A player who is told their petition is short goes out for names, as a
+ * player does from the Campaign tab (the canvass day, the same choice the
+ * scene's yes took before it was deleted with the unwritten kinds, owner,
+ * Nov 17): the engine offers and the player decides (OWNER-DECISIONS Oct 14).
  */
-function answerPetitionOffer(world: World, playerId: PersonId): void {
-  const { core, director } = world;
-  const book = director.ledger.people.get(playerId);
-  for (const entry of book?.schedule ?? []) {
-    if (!entry.bindings.some((b) => b.typeKey === "petition-short")) continue;
-    if (entry.answered?.includes("petition-short")) continue;
-    const result = purposeScene(core, director, playerId, entry, {
-      typeKey: "petition-short",
-    });
-    if (result?.kind !== "composed") continue;
-    const yes = result.scene.talk.tree.replies.findIndex(
-      (reply) => reply.line.move === "promise",
-    );
-    if (yes >= 0) replyInScene(core, director, playerId, entry, [yes]);
+const toldShort = new Set<string>();
+function canvassWhenShort(world: World): void {
+  const api = coreAPI(world.core);
+  for (const record of world.core.durableLog.values()) {
+    if (record.kind !== PETITION_SHORT_EVENT || toldShort.has(record.id))
+      continue;
+    toldShort.add(record.id);
+    const filingId = String(record.facts?.filingId ?? "");
+    if (
+      campaignDayOpen(api, filingId).find((c) => c.kind === "canvass")
+        ?.available
+    )
+      takeCampaignDayChoice(api, filingId, "canvass");
   }
 }
 
