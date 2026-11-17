@@ -33,6 +33,17 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
+## Putting a pinned test back on a drawn place
+
+The owner's answer to the pins of Nov 13 to 16 was "be random with it." Long game lane, Nov 17, from #9766, #9792 and the card-life branch:
+
+- **Bring back the drawn version's own seed line and limit.** Read the file before the pin (`git show <pin commit>^:<file>`) for its `randomBytes` seed, its env name (`GOLDEN_PATH_SEED`, `LIFE_SEED`, `ORDERS_SEED`) and its time limit. The pin cut the limit to one place's time, and a draw that passes over places needs the old one (bill-orders: 900 s, not the pin's 50 s).
+- **Draw 0 is the seed itself** (`` draw === 0 ? seed : `${seed}:${draw}` ``) when the old pin used `drawPlace(seed, ...)`, so the env seed replays the reported world exactly.
+- **Replay the old pinned seed through the env name before calling it fixed.** At the old seed the new test should pass over the failing place by name, or pass there. That is the proof the pin's red is understood.
+- **The case that only checked the pinned place goes, and the guard counts it.** `check-changes` (#9752) reports one dropped case and one dropped assertion for it. Say so in the pull request body and ask the CTO for the line; never add a filler check to keep the count.
+- **A red that moves with the draw is often the test's shared world.** Cases that end a term or move the date leave it changed for the next case (wide-races, #9781). Run the failing case alone with `-t`; if it passes alone, wrap the cases that change the world in `snapshotWorld` before and `restoreWorld` after, around those cases only (a snapshot before every case cost 25 s in a 12 s file).
+- **Print what was passed over on stdout** with the place used, as rule 8 above says; most pinned files had moved this to `console.log`.
+
 ## Before you call a red a flake
 
 Replay it. A check that failed once and passed on a second draw has told you nothing yet: run it again on the failed seed (`BENCH_SEED` for a browser check). If it fails every time on that seed, it is a finding about that place. On Nov 11 the merge desk saw `bill-stage` time out once in Red Hook, U.S. Virgin Islands. On replay it failed every time, and showed three defects: Play as offered another place's council, a bill's page cut off its vote, and a heading stood with nothing under it.
