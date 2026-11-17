@@ -1651,7 +1651,13 @@ function walkWith(
     );
     if (!cause) continue;
     if (canvasserId !== answers.id)
-      api.relationship(canvasserId, answers.id, "contact", 0.1);
+      // One door's share of the canvasser's hour (the walk's own pace).
+      api.relationship(
+        canvasserId,
+        answers.id,
+        "contact",
+        1 / campaignParameter("doorsPerCanvasserHour"),
+      );
     met.push(cause);
     retell(api, campaign, answers, cause);
     // A door that carries a petition asks for a signature; any other asks

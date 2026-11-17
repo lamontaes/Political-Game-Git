@@ -4777,7 +4777,7 @@
   "grudgeRelationshipChange": {
     "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "Relationship level lost on each confrontation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Closeness level a confrontation takes off the tie, from where it stands that day, written as the strain in hours that level stands for (drives.ts confront; Pins fixed Nov 17 that it was written as 0.1 hours). P10 prototype starting value; no direct source for this coefficient.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -8561,6 +8561,61 @@
       "high": 0.3,
       "unit": "weight",
       "citation": "The spread of traitWeightVotingStandAgain."
+    }
+  },
+  "grudgeFadeTraitWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly a grudge holder's own trait lean toward holding a grudge over carrying on (the drives.respond lean, the same one that chose the grudge) moves how long the grudge takes to fade: the half-life is driveGrudgeHalfLifeDays times exp(weight x lean), so a resentful person holds on years and a forgiving one lets go in weeks (Pins, CTO #9747 05:10Z). Checked so a played year's grudges span weeks to years.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "e-folds of half-life per unit of lean",
+      "citation": "From a gentle spread to forgiving and resentful people differing by a factor of seven or more."
+    }
+  },
+  "lobbyMeetingMinutes": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Minutes a lobbyist's meeting with a member counts as time together on their tie (interest-groups.ts): a short office visit. Moved from a literal 0.1 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 3.0,
+      "high": 18,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
+    }
+  },
+  "memberTalkMinutes": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Minutes a sponsor's word with a member about a bill counts as time together on their tie (legislature.ts: a stake learned in conversation, an ask in person, a trade): a word in the hall. Moved from a literal 0.05 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 1.5,
+      "high": 9,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
+    }
+  },
+  "sourceMeetingMinutes": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Minutes a leaker and the reporter they tell spend together, as time on their tie (press.ts): one meeting. Moved from a literal 0.5 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 15.0,
+      "high": 90,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
+    }
+  },
+  "hiringTalkMinutes": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Minutes an official's hiring talk with a new staffer counts as time together on their tie (staff.ts). Moved from a literal 0.1 hours in code (Pins, Nov 17).",
+    "spread": {
+      "low": 3.0,
+      "high": 18,
+      "unit": "minutes",
+      "citation": "From a word in passing to a sit-down meeting."
     }
   }
 }
