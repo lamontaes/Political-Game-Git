@@ -121,6 +121,8 @@
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
+  /* Government's room painting, a strip across the screen (gov-local mock). */
+  --room-strip-h: 72px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -1840,7 +1842,30 @@ body:not(.dev) .dev-only {
 .sheet-head .acts {
   flex: none;
 }
-#sheet-tabs:empty + #sheet-body {
+/* A sheet's tabs sit in its head row, between the title and the close (the
+   approved Government, People and Metrics mocks: "Politics" with its tabs
+   beside it). */
+.sheet-head > #sheet-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: center;
+}
+.sheet-head:has(> #sheet-tabs:empty) > #sheet-tabs {
+  display: none;
+}
+.sheet-head.tabs-below {
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+.sheet-head.tabs-below > #sheet-tabs {
+  order: 3;
+  flex-basis: 100%;
+}
+/* Tabs on their own row are spaced as they were before they joined the head. */
+.sheet-head.tabs-below + #sheet-body {
+  margin-top: 0;
+}
+#sheet-body {
   margin-top: 14px;
 }
 #sheet-body {
@@ -3634,6 +3659,12 @@ details.entry[open] {
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+/* Government's room runs across the screen as a short strip under its tabs. */
+.government-screen > .chamber {
+  height: var(--room-strip-h);
+  margin: 0 0 12px;
+  background-position: center 62%;
 }
 .chamber-name {
   font: 800 var(--t-h3)/1.1 var(--name);

@@ -126,6 +126,25 @@ import {
 } from "./ui/strips.mjs";
 import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
+// A sheet's tabs sit in its head row, between its title and its close (the
+// approved Government, People and Metrics mocks).
+document
+  .querySelector("#sheet > .sheet-head")
+  ?.insertBefore(
+    document.getElementById("sheet-tabs"),
+    document.querySelector("#sheet > .sheet-head > .acts"),
+  );
+// Where the tabs do not fit on one line beside the title (a narrow window, a
+// sheet with many tabs), they take their own row under it: measured, not
+// counted (play-first: fit by measure).
+new ResizeObserver(() => {
+  const head = document.querySelector("#sheet > .sheet-head");
+  const tabs = [...document.querySelectorAll("#sheet-tabs button")];
+  if (!head || !tabs.length) return;
+  head.classList.remove("tabs-below");
+  const wraps = tabs.at(-1).offsetTop > tabs[0].offsetTop + 2;
+  head.classList.toggle("tabs-below", wraps);
+}).observe(document.getElementById("sheet-tabs"));
 mountCloseButtons();
 mountSpeakers();
 const $ = (id) => document.getElementById(id);
@@ -6083,6 +6102,9 @@ const sheets = {
         : branch === "executive" || !body
           ? executiveView(v.executive)
           : lawmakingView(body, v.executive);
+      /** The view's room painting, when it opens with one. */
+      const roomOf = (nodes) =>
+        nodes[0]?.classList?.contains("chamber") ? nodes[0] : null;
       const screenNode = splitScreen({
         className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
@@ -6090,8 +6112,16 @@ const sheets = {
           stateFilter,
           offered.length > 1 ? branches : null,
         ].filter(Boolean),
+        // The room's painting runs across both columns under the tabs, as a
+        // short strip with its name (the approved gov-local, gov-state and
+        // gov-federal mocks); the rest of the view stays in the main column.
+        header: roomOf(view.main),
         // Dev mode's Bills and Bribe panels sit in the main column under what they act on.
-        main: [...bodyTabs, ...view.main, ...(devPanels ? [devPanels] : [])],
+        main: [
+          ...bodyTabs,
+          ...view.main.filter((node) => node !== roomOf(view.main)),
+          ...(devPanels ? [devPanels] : []),
+        ],
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
