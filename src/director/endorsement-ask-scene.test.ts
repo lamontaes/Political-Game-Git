@@ -1,4 +1,6 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -37,21 +39,38 @@ import type { TreeNode } from "./scene-talk";
 // each turn; the player was skipped. Now the player is asked in a scene
 // (endorsement-ask), the endorsement row says "asked" until their reply, and
 // the reply writes the yes or the no.
-// Pinned (owner ruling: a test names its place and world seed from data, and
-// never draws at run time): Loving, New Mexico (3544420), the seed the
-// carried donor-ask test names.
-const PLACE = {
-  key: "3544420",
-  name: "Loving, New Mexico",
-  seed: "d1ef254b96157871fa107765d9300048c2d5d9e252b59d2ae19b810ed8cc83be",
-};
-const where = `${PLACE.name} (${PLACE.key}), seed ${PLACE.seed}`;
+// Places are drawn from all 56 on a seed nobody chose, one after another, until
+// one has someone the player knows who files for a race; each place passed over
+// is named, and the test fails by name if none has.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 12;
 
 function world(favor = false) {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "endorsement-ask");
+    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+    try {
+      return playedWorld(place, where, favor);
+    } catch (error) {
+      if (!String(error).includes("no one the player knows filed")) throw error;
+      passed.push(where);
+    }
+  }
+  throw new Error(
+    `No drawn place had a candidate the player knows: ${passed.join("; ")}`,
+  );
+}
+
+function playedWorld(
+  place: ReturnType<typeof drawPlace>,
+  where: string,
+  favor: boolean,
+) {
   setBookkeeping(false);
-  const { core, director } = buildBenchWorld(PLACE.seed, gameStartDate(), {
+  const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: PLACE.key,
+    placeKey: place.key,
   });
   const api = coreAPI(core);
   const playerId = core.playerId as PersonId;
@@ -140,6 +159,7 @@ function world(favor = false) {
       } as never);
   }
   return {
+    where,
     core,
     director,
     api,
@@ -152,7 +172,7 @@ function world(favor = false) {
 }
 
 function asked(ctx: ReturnType<typeof world>) {
-  const { core, api, filing, candidate, playerId } = ctx;
+  const { core, api, filing, candidate, playerId, where } = ctx;
   const rowId = `endorsement:${filing.id}:${playerId}`;
   for (
     let day = 0;
@@ -192,7 +212,7 @@ function scene(
   text: string;
   tree: TreeNode;
 } {
-  const { core, director, playerId } = ctx;
+  const { core, director, playerId, where } = ctx;
   const book = director.ledger.people.get(playerId)!;
   const entry = book.schedule.find(
     (e) => book.momentsById.get(e.momentId)?.causeId === recordId,
@@ -262,7 +282,7 @@ const answerOf = (ctx: ReturnType<typeof world>) =>
     (r) => r.speakerId === ctx.playerId,
   )!.answer;
 
-it(`the player is asked and a yes endorses, in public (${PLACE.name})`, () => {
+it(`the player is asked and a yes endorses, in public`, () => {
   const ctx = world();
   const { rowId, record } = asked(ctx);
   expect(endorsed(ctx, rowId)).toBe(false);
@@ -278,7 +298,7 @@ it(`the player is asked and a yes endorses, in public (${PLACE.name})`, () => {
   expect(endorsed(ctx, rowId)).toBe(true);
 }, 600_000);
 
-it(`a no is kept as the row's answer and nothing is said in public (${PLACE.name})`, () => {
+it(`a no is kept as the row's answer and nothing is said in public `, () => {
   const ctx = world();
   const { rowId, record } = asked(ctx);
   const { entry, replies } = scene(ctx, record.id);
@@ -290,7 +310,7 @@ it(`a no is kept as the row's answer and nothing is said in public (${PLACE.name
   expect(answerOf(ctx)).toBe("no");
 }, 600_000);
 
-it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.name})`, () => {
+it(`a put-off comes back as a second asking, with no put-off offered `, () => {
   const ctx = world();
   const first = asked(ctx);
   const one = scene(ctx, first.record.id);
@@ -314,7 +334,7 @@ it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.na
       r.facts?.endorsementId === first.rowId &&
       r.id !== first.record.id,
   );
-  expect(back, `${where}: the put-off never came back`).toBeTruthy();
+  expect(back, `${ctx.where}: the put-off never came back`).toBeTruthy();
   expect(back!.facts?.again).toBe("yes");
   const two = scene(ctx, back!.id);
   expect(two.text).toContain("You said a few days");
@@ -323,7 +343,7 @@ it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.na
   expect(answerOf(ctx)).toBe("yes");
 }, 900_000);
 
-it(`a favor the player owes is asked by name, a no is final, and a yes settles it (${PLACE.name})`, () => {
+it(`a favor the player owes is asked by name, a no is final, and a yes settles it `, () => {
   const no = world(true);
   const ask = asked(no);
   expect(ask.record.facts?.obligationId).toBe(no.obligationId);
