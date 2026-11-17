@@ -5,7 +5,7 @@
 // On the bench (npm run bench) at 1440x900: New game, Advanced, a new world in a drawn place. The
 // bar's width is read every 200 ms from the press until the build ends; the check fails when the bar
 // stands still longer than STILL_MS, and names the step the loading line showed. Run:
-//   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/loading-bar-moves.browser.mjs
+//   BENCH_BROWSER=/opt/pw-browsers/chromium [BENCH_SEED=<seed>] node src/bench/loading-bar-moves.browser.mjs
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
@@ -21,6 +21,13 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(300000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
+// BENCH_SEED replays a drawn life's place and seed, the way the play walks do.
+if (process.env.BENCH_SEED)
+  await page.route("**/api/newlife*", (route) => {
+    const url = new URL(route.request().url());
+    url.searchParams.set("seed", process.env.BENCH_SEED);
+    return route.continue({ url: url.toString() });
+  });
 try {
   const title = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/title",
