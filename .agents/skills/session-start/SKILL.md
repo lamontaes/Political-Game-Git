@@ -1,12 +1,11 @@
 ---
 name: session-start
 description: >
-  What a building session of the game checks before it starts and before
-  it marks a pull request ready: the opening reads, the red-main rule and the
-  self-check. The loop itself (taking the next item, building, handing off) is
-  docs/pool/START-A-BUILDER.md. Use first in every building session, cloud or
-  local, Claude, Codex, Muse or any other agent; not for merging (merger),
-  checking (checker) or the play-first lane (play-first).
+  What a building session checks before it starts and before it marks a pull
+  request ready: the opening reads, the red-main rule and the self-check; the
+  loop itself is docs/pool/START-A-BUILDER.md. Use first in every building
+  session, cloud or local, on any agent. Not for merging (merger), checking
+  (merger) or the play-first lane (play-first).
 ---
 
 # Session start
@@ -20,7 +19,7 @@ description: >
 3. **Cloud container:** set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command and install with `npm install`. On the owner's Mac, follow "Workspaces and storage" in `AGENTS.md`.
 4. **Run the golden-path suite before you change anything:** `node --import tsx tests/golden-path/runner.mjs`.
 5. **Red main comes first (owner, Oct 15).** Read the newest release run on main (`gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`, or your tool's GitHub functions). If it failed, claim `release-main-red` and fix it at the root on its own pull request (`red-main`), then return to your item.
-6. **A sent-back item is a fix, not a build:** follow `pr-fixer`. An item that says `Needs cause.` is never built (`.agents/rules/pool-item-standard.md`).
+6. **A sent-back item is a fix, not a build:** follow `merger` (pr-fixer part). An item that says `Needs cause.` is never built (`.agents/rules/pool-item-standard.md`).
 7. **Read every function, export and field you plan to use on current `origin/main` first.** Names change daily; code written from memory of an older main is the most common unverified assumption.
 
 ## While you build
