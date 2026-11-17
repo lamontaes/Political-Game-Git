@@ -362,6 +362,8 @@ try {
   for (let i = 0; i < 40; i += 1) {
     const label = await page.locator("#returns-next").innerText();
     if (label === "Close") break;
+    // Each step of the count, as it reads at that point of the night.
+    await shot(`eday-4-returns-step-${String(i + 1).padStart(2, "0")}`);
     await page.locator("#returns-next").click();
   }
   console.log("CALL:", await page.locator("#returns").innerText());
