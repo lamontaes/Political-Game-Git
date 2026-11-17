@@ -16,7 +16,7 @@
  */
 import leadershipData from "../../../data/research/legislature/chamber-leadership.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { closenessBetween } from "../closeness";
+import { feelingBetween } from "../closeness";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -259,7 +259,7 @@ function ratingOf(
   const views = 1 - Math.abs(leanFor(api, voter) - leanFor(api, candidate));
   const tie =
     voter.personId && candidate.personId
-      ? closenessBetween(api.state, voter.personId, candidate.personId)
+      ? feelingBetween(api.state, voter.personId, candidate.personId)
       : 0;
   const seniority =
     campaignParameter("leadershipSeniorityWeight") *
