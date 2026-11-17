@@ -5858,3 +5858,16 @@ body.color-blind .meeting-member.vote-abstain {
   max-width: none;
   margin: 14px 0 0;
 }
+
+/* Patch notes: headed sections of short bullets (owner, Nov 16: "like real patch notes"). */
+.patch-list {
+  margin: 4px 0 6px;
+  padding: 0 0 0 20px;
+  list-style: disc;
+  color: var(--gold);
+}
+.patch-list li {
+  margin: 0 0 6px;
+  font: 400 var(--t-read)/1.4 var(--ui);
+  color: var(--cream);
+}

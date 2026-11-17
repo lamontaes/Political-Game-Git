@@ -4941,9 +4941,7 @@ const sheets = {
           })(),
           groups: (r.groups ?? []).map((group) => ({
             heading: group.heading,
-            notes: group.notes.map((note) =>
-              [note.title, note.text].filter(Boolean).join(". "),
-            ),
+            notes: group.notes.map((note) => note.headline),
           })),
         })),
       }),
