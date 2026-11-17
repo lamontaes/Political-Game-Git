@@ -143,6 +143,7 @@ import {
 } from "../legislature-bill-form";
 import { governmentProperName } from "../government-proper-name";
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
+import { headsExecutive } from "../offices-executives";
 import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
@@ -6399,10 +6400,7 @@ export function executiveOf(
       kind: string;
       elected: boolean;
     }[]
-  ).find(
-    (o) =>
-      o.elected && /^(mayor|governor|county-executive|president)$/.test(o.kind),
-  );
+  ).find((o) => o.elected && headsExecutive(o.kind));
   const seated = office
     ? (
         offices.table("seats").query("byOffice", [office.id]) as unknown as {
@@ -7414,9 +7412,12 @@ function enact(
         level,
         series: provision.series,
         value: provision.value,
+        // A bill sets the law's amount, never its unit: a section that names
+        // no unit amends the law in the law's own unit.
         unit:
           shaped?.unit ??
           provision.unit ??
+          current?.unit ??
           (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
         effectiveDate,
         measureId: bill.number,
