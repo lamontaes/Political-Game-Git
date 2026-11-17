@@ -4407,9 +4407,9 @@ export function answerDonationAsk(
  * adults of its district or state, counted by place at the coarser level.
  * Each turn the campaign's lists reach another share of the adults who lean
  * its candidate's way (`outsideReachPerTurn`). Who among them gives, and how
- * much, is read by the person rule from the campaign's own people in town
- * (`townGivingSample`): the same share give as of the adults it reaches
- * here, each the mean of what those would give, the law's limit included.
+ * much, is read by the person rule from the town's own like-minded adults
+ * the campaign has not reached (`townGivingSample`): the same share give,
+ * each the mean of what those would give, the law's limit included.
  * The gift is one record per place group, from the
  * outside account to the campaign's, so the dollars balance on the journal.
  * Returns the minor units raised.
@@ -4458,15 +4458,17 @@ export function contributeOwnMoney(
 }
 
 /**
- * How the campaign's own people in town give, read by the person rule: of
- * the adults in town its lists reach (`reachablePeople`; never the
+ * How a like-minded stranger gives to this campaign, read by the person
+ * rule from the town's own adults: of the full adults in town who lean the
+ * candidate's way and whom the campaign has not reached (no one in its
+ * circle, its party's ties or the people who have heard of it; never the
  * controlled person, whose money is theirs to move), how many have a reason
- * to give and something to give from, what each would give in all
- * (`wantedGiftMinor`, never past what they hold), and how far the law's
- * limit holds those gifts down. The outside donors' rule reads it: the
- * like-minded adults a district campaign's lists reach outside the town give
- * as the like-minded adults it reaches in town do. Read once a calendar
- * month for each campaign.
+ * to give and something to give from (`donorReason`, `giftBudget`), what
+ * each would give in all (`wantedGiftMinor`, never past what they hold), and
+ * how far the law's limit holds those gifts down. The outside donors' rule
+ * reads it: the like-minded adults a district campaign's lists reach outside
+ * the town are strangers to it too, and give as these do. Read once a
+ * calendar month for each campaign.
  */
 export function townGivingSample(
   api: CoreAPI,
@@ -4487,15 +4489,25 @@ export function townGivingSample(
   const adultAge = api.parameter("votingAge");
   const town = townRow(api).townPlaceId;
   const limit = contributionLimit(api, campaign.contestId).minor;
+  const side = partySide(filingOf(api, filingId)?.party ?? null);
+  const reached = new Set(reachablePeople(api, campaign));
   let asked = 0;
   let givers = 0;
   let given = 0;
   let heldBack = 0;
-  for (const id of reachablePeople(api, campaign)) {
-    if (id === core.playerId) continue;
+  for (const id of core.peopleByPlace.get(town) ?? []) {
+    if (id === core.playerId || id === campaign.candidateId) continue;
+    if (reached.has(id)) continue;
     const donor = core.people.get(id);
-    if (!donor?.alive || donor.placeId !== town) continue;
+    if (!donor?.alive) continue;
     if (ageOn(donor, api.state.date) < adultAge) continue;
+    // A candidate with a party draws on the adults on its side of the lean
+    // order; one with none, on all of them.
+    if (
+      side !== 0 &&
+      Math.sign(personLean(core.people, donor, townRow(api).lean)) !== side
+    )
+      continue;
     asked += 1;
     const budget = giftBudget(api, donor);
     const reason = donorReason(api, filingId, id, budget);
@@ -4545,9 +4557,9 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     townRow(api).townPlaceId,
   );
   if (!outside) return 0;
-  // Who gives outside the town, and how much, is how the campaign's own
-  // people in town give. Until it reaches someone in town who would give,
-  // its lists outside have no one to go on and are not spent.
+  // Who gives outside the town, and how much, is how a like-minded stranger
+  // in town would give. Where none would, the lists outside raise nothing
+  // and are not spent.
   const sample = townGivingSample(api, filingId);
   if (!sample.asked || !sample.givers) return 0;
   const givingShare = sample.givers / sample.asked;
@@ -4596,8 +4608,8 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       {
         tag: "ESTIMATED",
         asOf: api.state.date,
-        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule, giving as ${sample.givers} of the ${sample.asked} adults the campaign reaches in town would`,
-        estimatedFrom: "the campaign's own people in town (townGivingSample)",
+        citation: `${limit.source}; ${donors} donors in ${place.name} at the person rule, giving as ${sample.givers} of the town's ${sample.asked} like-minded adults the campaign has not reached would`,
+        estimatedFrom: "the town's own like-minded adults (townGivingSample)",
       },
     );
     if (paid <= 0) continue;
@@ -6049,6 +6061,35 @@ export function voterContactPriceMinor(api: CoreAPI): number {
   const mail = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
   const ad = adContactPrice(api);
   return ad > 0 ? Math.min(ad, mail) : mail;
+}
+
+/**
+ * The most a campaign can usefully put into each kind of reach in one turn,
+ * in minor units of its own money: an ad buy that reaches every follower of
+ * the town's outlet once at the outlet's price, a mailed piece to every
+ * address in town, and what its event fund still lacks of one venue. A
+ * district campaign spends only the town's share of its money here
+ * (`townShareOfRace`), so its room is that much larger.
+ */
+function channelRoom(
+  api: CoreAPI,
+  campaign: CampaignRow,
+): { readonly ad: number; readonly mail: number; readonly event: number } {
+  const share = townShareOfRace(api, campaign.contestId);
+  const outlet = adOutlet?.(api) ?? null;
+  const audience = outlet
+    ? outlet.followerIds.length + outlet.countedFollowers
+    : 0;
+  const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
+  const whole = (minor: number) => (share > 0 ? Math.ceil(minor / share) : 0);
+  return {
+    ad: outlet ? whole(audience * outlet.contactPriceMinor) : 0,
+    mail: whole(townAddresses(api).list.length * perPiece),
+    event: Math.max(
+      0,
+      unitPrice(api, "event-venue") - (campaign.eventFundMinor ?? 0),
+    ),
+  };
 }
 
 /**
@@ -8338,8 +8379,25 @@ export function campaignTurn(
       worth.poll * Math.max(0, 1 + w * trait("people-mind-v1:deliberation")),
   };
   const total = shares.ad + shares.mail + shares.event + shares.poll || 1;
-  const part = (k: keyof typeof shares) =>
+  const wanted = (k: keyof typeof shares) =>
     Math.floor((budget * shares[k]) / total);
+  // No kind of reach takes more than it can use this turn: an outlet sells
+  // no more than its whole audience, the mail no more than a piece to every
+  // address, and one evening needs one venue. What an ad or the mail cannot
+  // use goes to the other while it has room; the rest is kept for later.
+  const room = channelRoom(api, campaign);
+  const parts = {
+    ad: Math.min(wanted("ad"), room.ad),
+    mail: Math.min(wanted("mail"), room.mail),
+    event: Math.min(wanted("event"), room.event),
+    poll: wanted("poll"),
+  };
+  const over = wanted("ad") - parts.ad + (wanted("mail") - parts.mail);
+  if (over > 0 && shares.ad > 0 && parts.ad < room.ad)
+    parts.ad = Math.min(room.ad, parts.ad + over);
+  else if (over > 0 && shares.mail > 0 && parts.mail < room.mail)
+    parts.mail = Math.min(room.mail, parts.mail + over);
+  const part = (k: keyof typeof shares) => parts[k];
   let adReached = 0;
   let mailReached = 0;
   let eventAudience = 0;

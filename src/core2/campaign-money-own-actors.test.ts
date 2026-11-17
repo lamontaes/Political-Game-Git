@@ -13,7 +13,7 @@
  *   what the campaign does not know, never fixed shares;
  * - what goes on a rival's record follows that record and the campaign's
  *   own poll, never a fixed share;
- * - donors outside the town give as the campaign's own people in town give,
+ * - donors outside the town give as like-minded strangers in town would,
  *   never a fixed 2% at a published donor's balance.
  *
  * Each case fails on the code before the change: the old constants gave one
@@ -296,11 +296,11 @@ describe(`campaign money comes from the race's own actors (${where})`, () => {
     ).toBe(0);
   });
 
-  it("the outside donors' rule reads the campaign's own people in town", () => {
+  it("the outside donors' rule reads the town's own like-minded strangers", () => {
     const sample = townGivingSample(api, pair.you.id);
     expect(
       sample.asked,
-      `${where}: adults the campaign reaches`,
+      `${where}: like-minded adults it has not reached`,
     ).toBeGreaterThan(0);
     expect(sample.givers).toBeLessThanOrEqual(sample.asked);
     // The mean gift is whole money the givers hold, and the same month

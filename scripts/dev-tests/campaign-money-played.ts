@@ -19,10 +19,9 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
+import * as campaigns from "../../src/core2/modules/campaigns";
 import {
   CAMPAIGNS_MODULE_ID,
-  adContactPrice,
-  voterContactPriceMinor,
   type CampaignRow,
   type GiftRow,
   type PollRow,
@@ -35,6 +34,15 @@ const seed = process.argv[2] ?? "books";
 const places = Number(process.argv[3] ?? 3);
 const days = Number(process.argv[4] ?? 400);
 const dollars = (minor: number) => `$${Math.round(minor / 100)}`;
+// Read by name so the same script runs on a base from before the outlet set
+// its own price (it prints 0 there).
+const priced = campaigns as unknown as Record<
+  string,
+  ((api: unknown) => number) | undefined
+>;
+const adContactPrice = (api: unknown) => priced.adContactPrice?.(api) ?? 0;
+const voterContactPriceMinor = (api: unknown) =>
+  priced.voterContactPriceMinor?.(api) ?? 0;
 
 setBookkeeping(false);
 for (let draw = 0; draw < places; draw += 1) {
