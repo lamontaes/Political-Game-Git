@@ -107,6 +107,7 @@ type Row = Record<string, unknown>;
 function build(drawn: ReturnType<typeof drawPlace>, worldSeed = drawn.seed) {
   return buildBenchWorld(worldSeed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: drawn.key,
   }).core;
 }
@@ -347,7 +348,7 @@ const paidTo = (entries: Entry[], loanId: string, lender: string) =>
 
 describe("the consumer-loan cap reaches the small-dollar lender", () => {
   it(
-    `binds the lender's quote where the state lets payday lending operate (seed ${seed})`,
+    `binds the lender's quote where the state lets payday lending operate (seed ${seed}) (just like today: needs the state's real small-loan rate cap)`,
     { timeout: 3_600_000 },
     () => {
       const bookkeeping = setBookkeeping(false);
@@ -731,7 +732,7 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
   );
 
   it(
-    `moves no dollar through the bank where the state began with the cap and repeals it (seed ${seed})`,
+    `moves no dollar through the bank where the state began with the cap and repeals it (seed ${seed}) (just like today: needs the state's real small-loan rate cap)`,
     { timeout: 1_800_000 },
     () => {
       const bookkeeping = setBookkeeping(false);

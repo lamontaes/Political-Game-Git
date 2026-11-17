@@ -59,6 +59,7 @@ function draw(index: number) {
   const make = (law: boolean) => {
     const world = buildBenchWorld(drawn.seed, gameStartDate(), {
       twoLevel: true,
+      settings: { history: "today" },
       placeKey: drawn.key,
     });
     const core = world.core;
@@ -71,12 +72,12 @@ function draw(index: number) {
 }
 
 describe("state school aid", () => {
-  it("need shares add to one across a state's people and favor the poorer region", () => {
+  it("need shares add to one across a state's people and favor the poorer region (just like today: needs the state's real school aid law)", () => {
     expect(schoolAidNeed("US-AK")).toBeGreaterThan(0);
     expect(schoolAidNeed("US-PR", "region:72:rest")).toBe(1);
   });
 
-  it("pays the aid from the state treasury into the town's schools lines, and a repeal takes it back", () => {
+  it("pays the aid from the state treasury into the town's schools lines, and a repeal takes it back (just like today: needs the state's real school aid law)", () => {
     let tried = "";
     for (let i = 0; i < 8; i++) {
       const { drawn, make } = draw(i);

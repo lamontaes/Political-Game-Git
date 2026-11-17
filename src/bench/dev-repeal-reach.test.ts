@@ -31,13 +31,14 @@ const PARKS =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
 const PARKS_OPENING = `law:US-AL:state:${PARKS}:general:starting`;
 
-it("a repeal's bill card names the law it ended and who no longer gets it (Ridgeville AL)", () => {
+it("a repeal's bill card names the law it ended and who no longer gets it (Ridgeville AL) (just like today: needs the state's real law it repeals)", () => {
   setBookkeeping(false);
   const place = drawPlace(PINNED.run, PINNED.purpose);
   const where = `${place.name} (${place.key}), world seed ${place.seed}`;
   expect(place.key, `${where}: the pinned place moved`).toBe(PINNED.key);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: place.key,
   });
   const core = world.core;
