@@ -4,27 +4,6 @@
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
   "judged": 14617,
   "no": {
-    "0j6psqjia8y": {
-      "keys": [
-        "scene-talk.follow-confront.i-checked-with-source-nothing-has-moved",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
-    "1oum8qknjwd": {
-      "keys": [
-        "scene-talk.follow-ask.why-is-source-wrong",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
-    "1qkqjmi8b7f": {
-      "keys": [
-        "scene-talk.follow-ask.where-do-you-stand-on-about-then",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
     "1zmdwj41zpc": {
       "keys": [
         "scene-talk.follow-press.that-s-what-you-always-say",
@@ -32,47 +11,12 @@
       ],
       "why": "After 'It was. Most of it.' the speaker jumps to 'grab the other end' with nothing linking the two, and 'It was' does not fit the line it answers."
     },
-    "20qtilwyjp9": {
-      "keys": [
-        "scene-talk.follow-confront.source-says-it-never-left-committee",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
-    "25pksqfosxv": {
-      "keys": [
-        "scene-talk.follow-ask.why-say-bill-was-moving-then",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
     "2775y7lz5aj": {
       "keys": [
         "scene-talk.follow-answer.every-meeting-every-fish-fry-every-funeral-people-vote-for-the-face-th",
         "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear"
       ],
       "why": "'Going away' contradicts showing up everywhere, then 'that's what I needed to hear' accepts with no turn; the moves don't form one thought."
-    },
-    "2av5kbk664q": {
-      "keys": [
-        "scene-talk.follow-confront.i-m-not-threatening-anyone-i-m-telling-you-how-bill-looks-from-here",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
-    "2b2z61vkie1": {
-      "keys": [
-        "scene-talk.follow-confront.people-warned-me-you-d-stall-on-bill",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
-    },
-    "2g45gasnz43": {
-      "keys": [
-        "scene-talk.follow-confront.source-says-bill-was-never-put-on-a-committee-s-list",
-        "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go"
-      ],
-      "why": "Leaving because the speaker has to go does not follow from telling the listener to call the office."
     }
   },
   "yesHash": "237yy8w2gh9"
