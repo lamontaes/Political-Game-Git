@@ -295,6 +295,33 @@ export function stateUnemployment(api: CoreAPI): Map<string, number> {
   return out;
 }
 
+/**
+ * Each state's last month of work flows by USPS code, from the country tier's own step: the share of its jobs that firms ended, and the share of its people looking who found work. The wider labor market's pace for the lives elsewhere and the town's regional work (src/core2/jobs-elsewhere.ts); empty before the tier has stepped.
+ */
+export function stateJobFlows(
+  api: CoreAPI,
+): Map<string, { ended: number; found: number }> {
+  const out = new Map<string, { ended: number; found: number }>();
+  if (!api.state.modules.has("macro")) return out;
+  for (const state of countryStates(api)) {
+    const last = state.whatMoved.at(-1);
+    if (!last) continue;
+    let ended = 0,
+      hired = 0,
+      jobs = 0,
+      looking = 0;
+    for (const n of last.jobsCut) ended += n;
+    for (const n of last.jobsAdded) hired += n;
+    for (const row of state.sectors) jobs += row.jobs;
+    for (const cell of state.cells) looking += cell.seekers;
+    const before = jobs + ended - hired;
+    const seekers = looking + hired;
+    if (!(before > 0) || !(seekers > 0)) continue;
+    out.set(state.usps, { ended: ended / before, found: hired / seekers });
+  }
+  return out;
+}
+
 /** After-tax real income at these wages in a state, kept for the month. */
 function netIncome(
   api: CoreAPI,

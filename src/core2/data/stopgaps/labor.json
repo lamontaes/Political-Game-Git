@@ -151,11 +151,11 @@
     "kind": "estimated-behavior",
     "file": "src/core2/modules/jobs.ts",
     "line": 1,
-    "whatItFakes": "The town's people who work in the wider region (counted people in regional work, and the counted households' away workers) are let go at a fixed pace (the CPS employment-to-unemployment flow, moved by the state's unemployment and their age) instead of by the wider market's own month. The town's own employers no longer use it: each reviews its own workers (reviewKeeping, Nov 17).",
-    "why": "Narrowed Nov 17, 2026 (Labor, family 19 of the pins): the town half was replaced by the employer's keep review. The wider-market half waits one pull request: the country tier already works out each state's share of jobs ended each month and must keep it for the jobs engine to read.",
+    "whatItFakes": "Only a world with no country tier (no economy engine) still lets go the wider region's workers, and finds them work, at a fixed pace (the CPS flows, moved by the state's unemployment and their age). Where the tier has stepped, the lives elsewhere, the away workers and the town's regional work read the state's own month: the share of its jobs its firms ended and the share of its seekers who found work (layoffPullMonth, findPullMonth in src/core2/jobs-elsewhere.ts).",
+    "why": "Narrowed again Nov 17, 2026 (Labor, family 19 part 2): the wider market half now reads the country tier's own month. The fixed pace stays only where no tier runs, and quits elsewhere (quitPerQuarter) still read their base rate.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "The state's own month from the country tier: the share of its jobs that ended (stepCountry), read by workConditions in src/core2/jobs-elsewhere.ts. Then delete pastWorkLayoffsPerQuarter from play, pastWorkLayoffRisePerPoint and the odds ratio that holds a state at its opening rate.",
+    "replacement": "Give a world with no country tier the same month from its own jobs rows, or require the tier wherever lives elsewhere run; then delete pastWorkLayoffsPerQuarter, pastWorkLayoffRisePerPoint and pastWorkFindsPerQuarter from play. Quits elsewhere get their own cause in family 19 part 3.",
     "status": "open"
   },
   {

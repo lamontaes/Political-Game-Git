@@ -244,7 +244,7 @@ export { openGrievance } from "./grievance";
 export { householdIncome } from "./moves";
 // Who lives a life elsewhere, and each state's unemployment, for the jobs family.
 export { livesElsewhere } from "./moves";
-export { stateUnemployment } from "./counted-moves";
+export { stateJobFlows, stateUnemployment } from "./counted-moves";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {

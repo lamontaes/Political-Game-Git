@@ -85,16 +85,14 @@ import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import {
   forgetWorkElsewhere,
+  findPullMonth,
+  layoffPullMonth,
   regionalConditions,
+  type WorkAt,
   reviewWorkElsewhere,
 } from "../jobs-elsewhere";
 import { livesElsewhere } from "./people";
-import {
-  findPerQuarter,
-  layoffPerQuarter,
-  workAgeFactor,
-  workLeans,
-} from "../past";
+import { workAgeFactor, workLeans } from "../past";
 import { townOutsideOf } from "../opening-outside-market";
 import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
@@ -2494,7 +2492,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
-  const conditions = new Map<string, ReturnType<typeof regionalConditions>>();
+  const conditions = new Map<string, WorkAt>();
   const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
@@ -2532,7 +2530,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
         : undefined;
       const pull =
         (seeker.regionalPull ?? p("zero")) +
-        findPerQuarter(api, at.meanOverNow, lean, age) * month;
+        findPullMonth(api, at, lean, age, month);
       if (pull >= p("one")) {
         // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
         // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
@@ -2705,14 +2703,13 @@ function loseAwayWorkByTurnover(
     const lost = Math.min(
       away,
       away *
-        layoffPerQuarter(
+        layoffPullMonth(
           api,
-          at.rise,
+          at,
           p("zero"),
           workAgeFactor(api, ages / adults),
-        ) *
-        at.separation *
-        month,
+          month,
+        ),
     );
     if (!loseAwayWork(c, h, lost)) continue;
     carry += lost;
@@ -2917,9 +2914,7 @@ function reviewRegionalTurnover(api: CoreAPI): void {
     const here = regionalConditions(api, row.placeId);
     const pull =
       held +
-      layoffPerQuarter(api, here.rise, p("zero"), workAgeFactor(api, age)) *
-        here.separation *
-        month;
+      layoffPullMonth(api, here, p("zero"), workAgeFactor(api, age), month);
     if (pull < p("one") || !stopRegionalWork(c, row.personId)) {
       pulls.put({ id: key, pull } as never);
       continue;
