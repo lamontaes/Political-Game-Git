@@ -5586,8 +5586,11 @@ const sheets = {
         race.officeLevel === "county"
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
-      aside:
-        own && race.cannotFile?.metOn
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : own && race.cannotFile?.metOn
           ? `${labels.filingOpens} ${dateWords(
               race.filingOpens && race.filingOpens > race.cannotFile.metOn
                 ? race.filingOpens
@@ -5598,7 +5601,7 @@ const sheets = {
             ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
             : own && race.playerMayFile && race.filingOpen
               ? labels.fileForIt
-              : race.filers.length || filed.has(race.contestId)
+              : race.filers.length
                 ? status(race)
                 : "",
       data: { contest: race.contestId },
