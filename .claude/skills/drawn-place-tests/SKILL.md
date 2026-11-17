@@ -57,3 +57,7 @@ The trait and calibration tests (`src/core2/modules/*.traits.test.ts`) draw a fr
 ## A name check that matches inside another word
 
 A drawn place can name a business after a person, so a check that counts the player's name in a line must match the whole word (`\bSam\b`), or "Sampson's Market" counts as saying "Sam" (Nov 15, the coworker test at Anderson Island WA, seed 666aac4c9a33aa4fddd8). When a drawn test goes red, rerun that file pinned to the failing seed (`GOLDEN_PATH_SEED=<seed>`) before and after the fix. That shows the fix, not a new draw, turned it green.
+
+## A test drawn by state: sweep all 56 before you push
+
+A pure-model test that draws a state (`COUNTRY_STATE` in `src/core2/country-model.test.ts`) has only seen the handful of states your runs drew. Before you push, run it once for every state and territory: `for st in AL AK … MP; do COUNTRY_STATE=$st npx vitest run <file> -t "<name>"; done`, about ten minutes for a file that plays 120 months. On Nov 17 a new test required every sector to hold jobs and was red at the District of Columbia, which has no mining; and an old test in the same file turned out to be red on main whenever the draw is Puerto Rico. A case the place cannot have (a sector with no jobs) is left out of the case by the test and named, as a town with no race is passed over.
