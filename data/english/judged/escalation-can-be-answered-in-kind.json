@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "escalation-can-be-answered-in-kind",
   "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
-  "judged": 169,
+  "judged": 121,
   "no": {
     "00jwepcdcwk": {
       "keys": [
@@ -47,25 +47,6 @@
       ],
       "why": "A concession, a question and a pause; none pushes back."
     },
-    "0k0hq90w79d": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "The replies only deny or end the talk, and none escalates back against the accuser."
-    },
-    "0mgrjla31j8": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "The replies only apologize, deny, or end the talk, and none answers the challenge in kind."
-    },
     "0o743fqwqo6": {
       "keys": [
         "scene-talk.follow-confront.prove-it-by-lunch",
@@ -74,16 +55,6 @@
         "scene-talk.reply-leave.let-me-get-my-bearings-first"
       ],
       "why": "\"Prove it by lunch\" gets only a concession, a sidestep to the boss, or a pause; none takes up the dare."
-    },
-    "0qi61rmyp9f": {
-      "keys": [
-        "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
-        "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
-        "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
-        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
-        "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
-      ],
-      "why": "The replies explain, apologize, deny, or decline to talk, and none answers the accusation in kind."
     },
     "0u26unx9raw": {
       "keys": [
@@ -94,16 +65,6 @@
       ],
       "why": "\"Prove it by lunch\" gets an apology, a sidestep to the boss or a pause; none takes up the dare."
     },
-    "0uetp82g5ha": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "The replies only apologize, deny, or end the talk, and none answers the challenge in kind."
-    },
     "0zjqpfntw64": {
       "keys": [
         "scene-talk.follow-confront.nobody-plans-on-it",
@@ -111,15 +72,6 @@
         "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
       ],
       "why": "Only an apology or a sidestep to the boss; nothing answers the jab."
-    },
-    "16h770yfk8n": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "The replies only deny or end the talk, and none escalates back against the accuser."
     },
     "18dkhes6zv6": {
       "keys": [
@@ -137,25 +89,6 @@
         "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me"
       ],
       "why": "All three replies concede the jab; none answers it."
-    },
-    "1rfp8lleqic": {
-      "keys": [
-        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "The replies only apologize, deny, or walk away, and none escalates back against the accuser."
-    },
-    "1zfnwutkx82": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "Every reply offered either denies the offer or ends the talk, so the player has no way to push back in kind."
     },
     "29xpbfjbjx1": {
       "keys": [
@@ -181,16 +114,7 @@
         "scene-talk.reply-leave.let-me-get-my-bearings-first"
       ],
       "why": "A concession, a question and a pause; none pushes back."
-    },
-    "0n73d5iwm8y": {
-      "keys": [
-        "scene-talk.follow-threaten.other-candidates-in-this-town-return-calls",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-ll-let-you-know"
-      ],
-      "why": "The replies give in, defer or stall; none answers the pressure firmly."
     }
   },
-  "yesHash": "1r59xdmnsn6"
+  "yesHash": "1103t9oqeto"
 }
