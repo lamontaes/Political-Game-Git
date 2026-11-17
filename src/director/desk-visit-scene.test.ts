@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { storyScene } from "../bench/story";
@@ -66,12 +67,10 @@ function expectApart(facts: readonly { key: string }[], where: string): void {
 // bill are against it comes and asks for a veto, saying what it costs the
 // businesses they speak for; with neither, the aide's desk scene plays as
 // before. Places are drawn in turn until one's mayor has a veto.
-// Pinned (pinned-tests): Havre, Montana puts a titled bill on the mayor's
-// desk at attempt 2 and a governor's sponsor visit in the same run; a draw
-// over fresh seeds made this test red by luck (Kansas, Oklahoma had no
-// governor's visit). GOLDEN_PATH_SEED still runs any other draw.
-const seed =
-  process.env.GOLDEN_PATH_SEED ?? "4276344481a2b078e70633cfee47d0caccb65f74";
+// Drawn again (CTO, Nov 17: tests draw their place); GOLDEN_PATH_SEED replays
+// one. It was pinned to Havre, Montana after a draw over fresh seeds found no
+// governor's visit in Kansas and Oklahoma; the draw passes over such places.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 8;
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "desk-visit",
