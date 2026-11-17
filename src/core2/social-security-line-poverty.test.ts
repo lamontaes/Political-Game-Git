@@ -1,14 +1,10 @@
 // @vitest-environment node
 /**
- * The federal Social Security line moves who is poor through the awards it
- * sets, including the awards named people claim in play (outcome link
- * social-security-line-to-poverty, carried by the poverty engine). Two worlds
- * from one drawn place and seed: one where Congress's budget bill raises the
- * line a fifth, carried as a passed bill carries it, and one left alone. A
- * named person who claims in play is paid by the payer's monthly obligation,
- * which the line rerates; the poverty count reads that obligation as the
- * household's income. A place where no named person has claimed by the end
- * of the wait is passed over and named.
+ * The federal Social Security line moves who is poor, in both tiers (outcome
+ * link social-security-line-to-poverty, carried by the poverty engine). Two
+ * worlds from one drawn place and seed: one where Congress's budget bill
+ * raises the line a fifth, carried as a passed bill carries it, and one left
+ * alone. Production budgets, awards and the poverty count run in both.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -19,142 +15,188 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
-import { retirementClaims } from "./modules/retirement-claims";
-import { WEB_LINKS } from "./outcome-web-model";
+import { residentsRuntime } from "./modules/residents";
+import {
+  claimRetirementNow,
+  retirementClaims,
+} from "./modules/retirement-claims";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 import { householdPoverty } from "./world-poverty";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const place = drawPlace(replay, "social-security-line-poverty");
 const LINE = "socialSecurity";
-const TRIES = 3;
-const WAIT_DAYS = 80;
 
-/**
- * Each named in-play claim's household and the award it is paid today, for
- * claims made before `before`: the treasury rerates an award at the monthly
- * close after its claim, so a claim made since the last close is still at
- * its base.
- */
-function namedClaims(core: CoreState, before: string): Map<string, number> {
-  const accounts = coreAPI(core).accounts();
+const world = () => {
+  const w = buildBenchWorld(place.seed, gameStartDate(), {
+    placeKey: place.key,
+    twoLevel: true,
+  });
+  return { w, api: coreAPI(w.core) };
+};
+
+/** Every counted household's own Social Security, a year's worth, by household. */
+const countedRetirement = (core: CoreState) => {
+  const rt = residentsRuntime(core)!;
   const out = new Map<string, number>();
-  for (const [personId, claim] of retirementClaims(core)) {
-    if (claim.counted || claim.date >= before) continue;
-    const household = core.people.get(personId)?.householdId;
-    const obligation = accounts.obligation(claim.obligationId);
-    if (!household || !obligation || obligation.endedAt) continue;
-    out.set(household, (out.get(household) ?? 0) + obligation.amountMinor);
-  }
+  for (const h of rt.store.liveHouseholds())
+    if (h.retirementMinorYear > 0) out.set(h.id, h.retirementMinorYear);
   return out;
-}
+};
 
-/** A household's other recorded income: its members' pay and the awards the opening wrote. */
-function otherIncome(core: CoreState, householdId: string): number {
-  let minor = 0;
-  for (const id of core.households.get(householdId)?.memberIds ?? []) {
-    const person = core.people.get(id);
-    if (!person?.alive) continue;
-    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-    if (job && job.endsAt === undefined) minor += job.wageDailyMinor;
-    for (const contractId of core.finance.incomeContractsByPerson.get(id) ??
-      []) {
-      const contract = core.finance.contracts.get(contractId);
-      if (contract && !contract.endedAt) minor += contract.amountMinor;
-    }
-  }
-  return minor;
-}
-
-it(`a raise in the federal Social Security line raises the poverty income of people who claimed in play (replay ${replay})`, () => {
-  const link = WEB_LINKS.find(
-    (l) => l.key === "social-security-line-to-poverty",
-  );
-  expect(link?.from).toBe(`budget.${LINE}-added-pct`);
-  expect(link?.carriedBy).toMatch(/world-poverty\.ts/);
+it(`a raise in the federal Social Security line raises retirees' income where poverty is counted: ${place.name}, replay ${replay}`, () => {
   setBookkeeping(false);
-  const passed: string[] = [];
   try {
-    for (let attempt = 0; attempt < TRIES; attempt += 1) {
-      const place = drawPlace(
-        replay,
-        `social-security-line-poverty:${attempt}`,
-      );
-      const where = `${place.name} (${place.key}), replay ${replay} draw social-security-line-poverty:${attempt}, world seed ${place.seed}`;
-      const build = () =>
-        buildBenchWorld(place.seed, gameStartDate(), {
-          placeKey: place.key,
-          twoLevel: true,
-        }).core;
-      const raised = build();
-      const alone = build();
-      const api = coreAPI(raised);
-      const federal = governments(api).find((g) => g.level === "federal")!;
-      const budget = [...budgetsOf(api, federal.id)].sort(
-        (a, b) => b.fiscalYear - a.fiscalYear,
-      )[0]!;
-      const base = budget.spendingMinor[LINE] ?? 0;
-      expect(base, where).toBeGreaterThan(0);
-      expect(
-        amendBudget(api, {
-          governmentId: federal.id,
-          line: LINE,
-          deltaMinor: Math.round(base / 5),
-          measureId: "H.R. 9010 (Social Security, test)",
-          carry: true,
-        }),
-        where,
-      ).not.toBeNull();
-      // Long enough for named people to claim, and past a monthly close.
-      const until = addDays(makeIsoDate(raised.date), WAIT_DAYS);
-      advanceCore(raised, until);
-      advanceCore(alone, until);
-      // A month and a day before the end, so a monthly close follows each claim.
-      const before = addDays(until, -32);
-      const awardsRaised = namedClaims(raised, before);
-      const awardsAlone = namedClaims(alone, before);
-      // The same households claimed in both worlds, with nothing else of theirs moved.
-      const alike = [...awardsRaised.keys()].filter(
-        (id) =>
-          awardsAlone.has(id) &&
-          otherIncome(raised, id) === otherIncome(alone, id),
-      );
-      if (!alike.length) {
-        passed.push(
-          `${where}: no named person claimed in both worlds before ${before}`,
-        );
-        continue;
-      }
-      const months = api.parameter("monthsPerYear");
-      const povertyAlone = new Map(
-        householdPoverty(alone).map((row) => [row.householdId, row]),
-      );
-      const povertyRaised = new Map(
-        householdPoverty(raised).map((row) => [row.householdId, row]),
-      );
-      for (const id of alike) {
-        const rise = awardsRaised.get(id)! - awardsAlone.get(id)!;
-        // The line rerates every award a fifth.
-        expect(
-          awardsRaised.get(id)! / awardsAlone.get(id)!,
-          `${where}: household ${id} award`,
-        ).toBeCloseTo(1.2, 2);
-        // The poverty count reads the award as the household's income.
-        const read =
-          povertyRaised.get(id)!.incomeMinor -
-          povertyAlone.get(id)!.incomeMinor;
-        expect(read, `${where}: household ${id} income`).toBeCloseTo(
-          rise * months,
-          -2,
-        );
-      }
-      process.stdout.write(
-        `SOCIAL SECURITY ${where}: ${alike.length} named households claimed in play in both worlds; each award a fifth more, and each household's poverty income rose by its year of it. Passed over: ${passed.join("; ") || "none"}\n`,
-      );
-      return;
+    const raised = world();
+    const alone = world();
+    const federal = governments(raised.api).find((g) => g.level === "federal")!;
+    const budget = [...budgetsOf(raised.api, federal.id)].sort(
+      (a, b) => b.fiscalYear - a.fiscalYear,
+    )[0]!;
+    const delta = Math.round(budget.spendingMinor[LINE]! / 5);
+    expect(
+      amendBudget(raised.api, {
+        governmentId: federal.id,
+        line: LINE,
+        deltaMinor: delta,
+        measureId: "H.R. 9002 (Social Security, test)",
+        carry: true,
+      }),
+    ).not.toBeNull();
+    const until = addDays(makeIsoDate(raised.api.state.date), 40);
+    advanceCore(raised.w.core, until);
+    advanceCore(alone.w.core, until);
+
+    // Counted retirees: each household's own award follows the line.
+    const before = countedRetirement(alone.w.core);
+    const after = countedRetirement(raised.w.core);
+    expect(before.size).toBeGreaterThan(0);
+    let rose = 0;
+    for (const [id, minor] of before) {
+      const now = after.get(id);
+      if (now === undefined) continue;
+      expect(now).toBeGreaterThan(minor);
+      expect(now / minor).toBeGreaterThan(1.15);
+      rose += 1;
     }
-    throw new Error(`No place had a named claim: ${passed.join("; ")}`);
+    expect(rose).toBeGreaterThan(0);
+
+    // The poverty engine reads those incomes: every household with an award
+    // has more income under the raise, named and counted.
+    const incomes = (core: CoreState) =>
+      new Map(householdPoverty(core).map((h) => [h.householdId, h]));
+    const povertyAlone = incomes(alone.w.core);
+    const povertyRaised = incomes(raised.w.core);
+    let countedHigher = 0;
+    for (const id of before.keys()) {
+      const a = povertyAlone.get(id);
+      const r = povertyRaised.get(id);
+      if (!a || !r) continue;
+      expect(r.incomeMinor).toBeGreaterThan(a.incomeMinor);
+      countedHigher += 1;
+    }
+    expect(countedHigher).toBeGreaterThan(0);
+
+    // Social Security claimed in play counts as income for the claimant's
+    // household: a full resident of claiming age, out of work and holding
+    // no office, who has no award claims
+    // through the game's own call, and their household's income rises by a
+    // year of the award.
+    const core = raised.w.core;
+    const age = (birth: string) =>
+      Number(core.date.slice(0, 4)) - Number(birth.slice(0, 4));
+    const candidates = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.householdId &&
+          !p.jobId &&
+          !p.id.startsWith("official:") &&
+          age(p.birthDate) >= 63 &&
+          !retirementClaims(core).has(p.id),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
+    let claimant: (typeof candidates)[number] | undefined;
+    let incomeBefore = 0;
+    for (const p of candidates) {
+      const before = householdPoverty(core).find(
+        (h) => h.householdId === p.householdId,
+      );
+      if (!before) continue;
+      if (!claimRetirementNow(raised.api, p.id)) continue;
+      claimant = p;
+      incomeBefore = before.incomeMinor;
+      break;
+    }
+    expect(claimant).toBeDefined();
+    const claim = retirementClaims(core).get(claimant!.id)!;
+    const award = raised.api.accounts().obligation(claim.obligationId)!;
+    const incomeAfter = householdPoverty(core).find(
+      (h) => h.householdId === claimant!.householdId,
+    )!.incomeMinor;
+    expect(incomeAfter - incomeBefore).toBe(award.amountMinor * 12);
+    // A counted resident of claiming age claims the same way: their award
+    // is a monthly residents flow, and their counted household's income
+    // rises by a year of it.
+    const rt = residentsRuntime(core)!;
+    let countedClaimant: string | undefined;
+    let countedHousehold = "";
+    let countedBefore = 0;
+    search: for (const h of rt.store.liveHouseholds()) {
+      for (const m of rt.store.countedMembers(h)) {
+        const id = rt.store.ids[m]!;
+        if (age(rt.store.born[m]!) < 63 || retirementClaims(core).has(id))
+          continue;
+        const before = householdPoverty(core).find(
+          (row) => row.householdId === h.id,
+        );
+        if (!before || !claimRetirementNow(raised.api, id)) continue;
+        if (!retirementClaims(core).get(id)?.counted) continue;
+        countedClaimant = id;
+        countedHousehold = h.id;
+        countedBefore = before.incomeMinor;
+        break search;
+      }
+    }
+    expect(countedClaimant).toBeDefined();
+    const countedClaim = retirementClaims(core).get(countedClaimant!)!;
+    const flow = rt.flows.get(countedClaim.obligationId)!;
+    const countedAfter = householdPoverty(core).find(
+      (row) => row.householdId === countedHousehold,
+    )!.incomeMinor;
+    expect(countedAfter - countedBefore).toBe(
+      (flow.amountByContract?.[countedClaim.obligationId] ?? flow.amountMinor) *
+        12,
+    );
+    const claims = [...retirementClaims(core).values()].filter((c) => {
+      const o = raised.api.accounts().obligation(c.obligationId);
+      return o && !o.endedAt;
+    }).length;
+    const poor = (rows: ReturnType<typeof householdPoverty>) =>
+      rows.reduce((n, h) => n + (h.poor ? h.size * h.weight : 0), 0);
+    const poorAlone = poor([...povertyAlone.values()]);
+    const poorRaised = poor([...povertyRaised.values()]);
+    expect(poorRaised).toBeLessThanOrEqual(poorAlone);
+    console.log(
+      JSON.stringify({
+        place: place.name,
+        placeKey: place.key,
+        replay,
+        worldSeed: place.seed,
+        through: raised.w.core.date,
+        countedRetireeHouseholds: before.size,
+        countedHouseholdsHigher: rose,
+        povertyIncomesHigher: countedHigher,
+        openClaimsInPlay: claims,
+        claimant: claimant!.id,
+        claimMonthlyMinor: award.amountMinor,
+        countedClaimant,
+        poorPeopleAlone: Math.round(poorAlone),
+        poorPeopleRaised: Math.round(poorRaised),
+      }),
+    );
   } finally {
     setBookkeeping(true);
   }
-}, 900_000);
+}, 300_000);

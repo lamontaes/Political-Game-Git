@@ -188,6 +188,17 @@ function townResidents(input: CoreInput, placeId: string) {
 }
 
 /**
+ * The birthday of a player who is the default age (owner, Nov 16: "18, unless
+ * you pick another age"): the start date's own month and day, `PLAYER_MIN_AGE`
+ * years back (a leap day falls on the 28th).
+ */
+export function defaultPlayerBirthDate(startDate: string): string {
+  const day = makeIsoDate(startDate);
+  const [year, month, date] = day.split("-");
+  return `${Number(year) - PLAYER_MIN_AGE}-${month}-${month === "02" && date === "29" ? "28" : date}`;
+}
+
+/**
  * The player of a new game: with no birthday chosen, one of the town's own adults (18 and up),
  * picked by the world's seeded unit from them in id order, so the player's age follows the
  * place's own adults. Only a resident counts: relatives who live in households of their own are
@@ -415,21 +426,41 @@ export function buildBenchWorld(
  * A new game's drawn place where no player can be picked is passed over and
  * the draw taken again without it; a place asked for by key, or any other
  * error, is thrown.
+ *
+ * The golden-path runner's key is a draw too, not an ask: it draws one place
+ * per spec from every locality (tests/golden-path/place.ts) and hands the key
+ * to the command as GOLDEN_PATH_PLACE_KEY. A build at that key passes the
+ * place over as well and takes the same state's next place by key, the
+ * runner's own order, naming what it passed over.
  */
 function passOver(options: BuildOptions, error: unknown): BuildOptions {
-  if (
-    options.placeKey ||
-    !(error instanceof NoPlayerHereError) ||
-    !error.placeKey
-  )
-    throw error;
-  return {
-    ...options,
-    passedOver: [
-      ...(options.passedOver ?? []),
-      { key: error.placeKey, reason: error.message },
-    ],
-  };
+  if (!(error instanceof NoPlayerHereError) || !error.placeKey) throw error;
+  const passedOver = [
+    ...(options.passedOver ?? []),
+    { key: error.placeKey, reason: error.message },
+  ];
+  if (!options.placeKey) return { ...options, passedOver };
+  const drawn =
+    options.placeKey === process.env.GOLDEN_PATH_PLACE_KEY ||
+    options.passedOver?.some((passed) => passed.key !== options.placeKey);
+  const here = realLocalities().find((row) => row.key === options.placeKey);
+  if (!drawn || !here) throw error;
+  const state = realLocalities()
+    .filter((row) => row.stateJurisdictionKey === here.stateJurisdictionKey)
+    .sort((a, b) => a.key.localeCompare(b.key));
+  const from = state.findIndex((row) => row.key === here.key);
+  const next = state
+    .map((_, step) => state[(from + step) % state.length]!)
+    .find((row) => !passedOver.some((passed) => passed.key === row.key));
+  if (!next) throw error;
+  // A developer's message, written as an Error's so the line register
+  // (scripts/words/line-register.ts) reads it as one and not as a game line,
+  // as NoPlayerHereError's own is.
+  const said = new Error(
+    `Passed over ${here.displayName} (${here.key}): ${error.message} Building at ${next.displayName} (${next.key}), the same state's next place.`,
+  );
+  process.stdout.write(said.message + "\n");
+  return { ...options, placeKey: next.key, passedOver };
 }
 
 /**
@@ -494,6 +525,10 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   const minimumPeople = settings.population ?? options.minimumPeople;
+  // With no birthday chosen the player is the default age, 18.
+  const playerBirthDate =
+    options.playerBirthDate ??
+    (options.twoLevel ? defaultPlayerBirthDate(startDate) : undefined);
   const built = buildPopulation({
     seed,
     startedAt: makeIsoDate(date),
@@ -502,10 +537,10 @@ function* benchWorldStages(
     ...(minimumPeople ? { minimumPeople } : {}),
     // With a resident of the age the creator's birthday makes the player, as
     // far as the place's households allow (`entrantBornNear`).
-    ...(options.playerBirthDate
+    ...(playerBirthDate
       ? {
           playerAge: ageOnDate(
-            makeIsoDate(options.playerBirthDate),
+            makeIsoDate(playerBirthDate),
             makeIsoDate(startDate),
           ),
         }
@@ -549,7 +584,7 @@ function* benchWorldStages(
       pick = entrantChoice(
         input,
         place.context.jurisdiction.id,
-        options.playerBirthDate,
+        playerBirthDate,
         options.playerGender,
       );
     } catch (error) {

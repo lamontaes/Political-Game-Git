@@ -5170,48 +5170,6 @@
       "carriedBy": "src/core2/modules/retirement-claims.ts reads the full retirement age in the law row in force (socialSecurityAges, src/core2/social-security-law.ts) at each claim, so a later full age cuts each award at its claim age; src/core2/world-poverty.ts counts the award as the household's income"
     },
     {
-      "key": "social-security-line-to-poverty",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "percent the federal Social Security line is above its base",
-      "lagMonths": 0,
-      "group": "households drawing Social Security, named and counted",
-      "owner": "F",
-      "anchor": "\"Our findings suggest that over all elderly families the elasticity of poverty to benefits is roughly unitary.\" A benefit the line raises is income dollar for dollar against the household's poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
-      "source": "Engelhardt and Gruber 2004, Social Security and the Evolution of Elderly Poverty, NBER Working Paper 10466 (https://www.nber.org/papers/w10466), abstract, read Nov 17, 2026; U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), whose list of the income poverty is computed from names Social Security",
-      "evidence": "researched",
-      "from": "budget.socialSecurity-added-pct",
-      "to": "household.poverty-pct",
-      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: the award contracts the opening wrote, the payer's monthly obligation for each named person who claimed in play (retirementClaims in src/core2/modules/retirement-claims.ts), and the counted households' retirement income (householdIncome in src/core2/modules/residents.ts); the federal line in force rerates all three (applySocialSecurityLevel in src/core2/budgets-treasury.ts); the poverty share the web reads is that record",
-      "why": [
-        "The federal Social Security line pays retirees their awards; the line in force over its base scales every award.",
-        "Social Security is money income in the official poverty measure.",
-        "A household whose income reaches its threshold is no longer counted as poor.",
-        "The terminal is the household's income against its threshold, both on record."
-      ],
-      "conditions": {
-        "strongerWhen": [
-          "The household lives mainly on Social Security, just under its threshold."
-        ],
-        "weakerWhen": [
-          "The household has pay well above its threshold, or no one drawing an award."
-        ],
-        "absentWhen": [
-          "The line is at its base, or no one in the place draws an award."
-        ]
-      },
-      "reverseOnRepeal": "Putting the line back lowers each award from the next payment; the household's income falls with it.",
-      "who": "Retirees and their households, named and counted, who draw an award.",
-      "lagWhy": "An award follows the line from its next payment and counts as income when paid.",
-      "aboutZero": false,
-      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried."
-    },
-    {
       "key": "immigration-to-crime",
       "status": "about-zero",
       "unsupportedReason": null,
@@ -6613,6 +6571,48 @@
       "lagWhy": "The benefit is owed from the month after the line changes and counts as income when paid.",
       "aboutZero": false,
       "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. The Medicaid part of the line pays medical spending, a noncash benefit the official measure does not count; the SNAP benefit is food aid, also not counted."
+    },
+    {
+      "key": "social-security-line-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the federal Social Security line is above its base",
+      "lagMonths": 0,
+      "group": "households with a Social Security award, named and counted",
+      "owner": "F",
+      "anchor": "\"The income used to compute poverty status includes (before taxes)\" a list that names \"Social Security\" and \"Supplemental Security Income\". An award the line raises is income dollar for dollar against the household's poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Nov 17, 2026",
+      "evidence": "researched",
+      "from": "budget.socialSecurity-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: a named household's opening award (an income contract the line rerates in applySocialSecurityLevel, src/core2/budgets-treasury.ts), a claim made in play (retirementClaimIncome, the claim's award the line rerates), and a counted household's own award rows (rerateCountedRetirement, src/core2/modules/residents.ts); the poverty share the web reads is that record",
+      "why": [
+        "The federal Social Security line pays each recipient their award; the line in force over its base scales every award.",
+        "Social Security is money income in the official poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household lives mainly on its award, just under its threshold."
+        ],
+        "weakerWhen": [
+          "The household has wages well above its threshold, or its award is small."
+        ],
+        "absentWhen": [
+          "The line is at its base, or no one in the place draws an award."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back lowers each award from the next payment; the household's income falls with it.",
+      "who": "Retirees and their households, named and counted, who draw an award.",
+      "lagWhy": "An award follows the line from the next monthly close and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. Medicare is a noncash benefit the official measure does not count."
     },
     {
       "key": "emissions-to-warming",

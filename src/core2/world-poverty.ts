@@ -1,8 +1,8 @@
 /**
  * Who is poor, from incomes: every household in a place (the named people's
  * and the counted residents', each counted record standing for its weight)
- * has a yearly cash income (pay, recorded awards, Social Security claimed in
- * play and the welfare line's cash assistance) and a Census poverty
+ * has a yearly cash income (pay, recorded awards and the welfare line's cash
+ * assistance) and a Census poverty
  * threshold for its size, its children and its eldest member. A person is
  * poor when their household's income is under its threshold. World-metrics
  * records the share monthly; the outcome web reads that record. Unemployment
@@ -74,6 +74,7 @@ export interface HouseholdPoverty {
  */
 function claimIncome(core: CoreState): Map<string, number> {
   const out = new Map<string, number>();
+  retirementClaimIncome(core, out);
   if (!core.modules.has("jobs")) return out;
   const rt = residentsRuntime(core);
   for (const claim of coreAPI(core)
@@ -100,6 +101,48 @@ function claimIncome(core: CoreState): Map<string, number> {
     );
   }
   return out;
+}
+
+/**
+ * Social Security claimed in play is money income the Census counts (its
+ * money income lists Social Security among its sources): each open claim's
+ * monthly award, a year's worth, for the claimant's household, named or
+ * counted. Awards written at the opening are income contracts, counted
+ * above for named households and in the counted household's own income.
+ */
+function retirementClaimIncome(
+  core: CoreState,
+  out: Map<string, number>,
+): void {
+  const claims = retirementClaims(core);
+  if (!claims.size) return;
+  const accounts = coreAPI(core).accounts();
+  const rt = residentsRuntime(core);
+  for (const [personId, claim] of claims) {
+    // A full claimant is paid by an obligation; a counted one by a monthly
+    // residents flow under the same id, which the line rerates the same way.
+    let monthlyMinor = 0;
+    if (claim.counted) {
+      const flow = rt?.flows.get(claim.obligationId);
+      if (!flow || flow.endedAt) continue;
+      monthlyMinor =
+        flow.amountByContract?.[claim.obligationId] ?? flow.amountMinor;
+    } else {
+      const obligation = accounts.obligation(claim.obligationId);
+      if (!obligation || obligation.endedAt) continue;
+      monthlyMinor = obligation.amountMinor;
+    }
+    const named = core.people.get(personId)?.householdId;
+    const m =
+      named === undefined ? rt?.store.countedMember(personId) : undefined;
+    const household =
+      named ??
+      (m === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[m]!]?.id);
+    if (household === undefined) continue;
+    out.set(household, (out.get(household) ?? 0) + monthlyMinor * 12);
+  }
 }
 
 /** Every household's income against its line today, named and counted. */
@@ -148,21 +191,6 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
       id,
       (awards.get(id) ?? 0) +
         (contract.amountMinor * 12) / Math.max(1, contract.periodMonths),
-    );
-  }
-  // A Social Security award claimed in play is paid by the payer's monthly
-  // obligation, not an income contract: each named claimant's open award
-  // counts at its amount today, which the federal line in force sets.
-  const accounts = coreAPI(core).accounts();
-  for (const [personId, claim] of retirementClaims(core)) {
-    if (claim.counted) continue;
-    const id = core.people.get(personId)?.householdId;
-    const obligation = accounts.obligation(claim.obligationId);
-    if (id === undefined || !obligation || obligation.endedAt) continue;
-    awards.set(
-      id,
-      (awards.get(id) ?? 0) +
-        obligation.amountMinor * reachParameter("monthsPerYear"),
     );
   }
   // The welfare line's cash assistance is public assistance, which the

@@ -491,10 +491,6 @@
       "waitingOn": [],
       "carriedBy": "src/core2/modules/retirement-claims.ts reads the full retirement age in the law row in force (socialSecurityAges, src/core2/social-security-law.ts) at each claim, so a later full age cuts each award at its claim age; src/core2/world-poverty.ts counts the award as the household's income"
     },
-    "social-security-line-to-poverty": {
-      "waitingOn": [],
-      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: the award contracts the opening wrote, the payer's monthly obligation for each named person who claimed in play (retirementClaims in src/core2/modules/retirement-claims.ts), and the counted households' retirement income (householdIncome in src/core2/modules/residents.ts); the federal line in force rerates all three (applySocialSecurityLevel in src/core2/budgets-treasury.ts); the poverty share the web reads is that record"
-    },
     "earliest-claim-age-to-older-work": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts: retirementOnsetYears reads the earliest claim age in the law row in force (socialSecurityAges) each day, and the retire choice starts to pull on a worker only from that age; src/core2/modules/retirement-claims.ts holds every claim at or after it"
@@ -592,6 +588,10 @@
     "welfare-spending-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"
+    },
+    "social-security-line-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: a named household's opening award (an income contract the line rerates in applySocialSecurityLevel, src/core2/budgets-treasury.ts), a claim made in play (retirementClaimIncome, the claim's award the line rerates), and a counted household's own award rows (rerateCountedRetirement, src/core2/modules/residents.ts); the poverty share the web reads is that record"
     },
     "emissions-to-warming": {
       "waitingOn": [],
