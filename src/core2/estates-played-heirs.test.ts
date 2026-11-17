@@ -65,22 +65,54 @@ describe("an estate keeps its heirs through probate (played world)", () => {
             heard.push(event);
           },
         });
-        // An estate the debts take whole never reaches probate: the next
-        // candidate in the same world, named.
+        // A last owner's home goes on the market at probate and holds it open
+        // until a buyer comes; this test is about heirs, so it takes an estate
+        // with no home to sell.
+        const sellsHome = (id: string) => {
+          const person = core.people.get(id)!;
+          const household = core.households.get(person.householdId);
+          const others = household?.memberIds.some(
+            (m) => m !== id && core.people.get(m)?.alive,
+          );
+          const dwelling = core.modules.has("housing")
+            ? (api
+                .moduleState("housing")
+                .table("dwellings")
+                .get(`dwelling:${person.householdId}`) as unknown as
+                { tenure?: string } | undefined)
+            : undefined;
+          return !others && dwelling?.tenure === "own";
+        };
+        // An estate the debts take whole never reaches probate, and the will
+        // is the one the decedent held on the day they died (the probate
+        // row's): either way, the next candidate in the same world, named.
         let found: { dead: string; heir: string } | undefined;
         for (const row of candidates) {
           if (!core.people.get(row.dead)?.alive) continue;
+          if (sellsHome(row.dead)) {
+            passed.push(`${place.name}: ${row.dead} leaves a home to sell`);
+            continue;
+          }
           api.updatePerson(row.dead, { alive: false });
           settleEstate(api, row.dead, "event:death:proof");
-          if (
-            api.moduleState(ESTATES_MODULE_ID).table("probate").get(row.dead)
-          ) {
-            found = row;
-            break;
+          const kept = api
+            .moduleState(ESTATES_MODULE_ID)
+            .table("probate")
+            .get(row.dead) as unknown as { will?: unknown } | undefined;
+          if (!kept) {
+            passed.push(
+              `${place.name}: ${row.dead}'s estate left nothing for probate after debts`,
+            );
+            continue;
           }
-          passed.push(
-            `${place.name}: ${row.dead}'s estate left nothing for probate after debts`,
-          );
+          if (!!kept.will !== (by === "will")) {
+            passed.push(
+              `${place.name}: ${row.dead} ${kept.will ? "held a will" : "held no will"} on the day of death`,
+            );
+            continue;
+          }
+          found = row;
+          break;
         }
         if (!found) {
           passed.push(
