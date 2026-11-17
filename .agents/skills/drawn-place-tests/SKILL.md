@@ -92,6 +92,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 05:20Z (estates-played-heirs, Pins 31): probate never closed in 270 days at two drawn places. Cause: a last owner's home holds probate open until it sells. Wait for the settlement itself, and pass over by name an estate with a home to sell when the test is about heirs.
 - Nov 17, 05:30Z (estates-played-heirs, Pins 31): a decedent picked as having no will closed probate by will. Cause: the search read the will before the death, and probate uses the will kept on the row at death. Classify each candidate by the record the engine keeps at the event, not by a reading taken before it.
 - Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
+- Nov 17, 17:35Z (school-outcomes fill-in, Lake Viking, Missouri, seed cbf9c13751481f75): the test took the first counted student whose household's income moves its fifth, and met them, but the student was in the inactive "husk" tier, which the school counts leave out on purpose. Cause: a counted record's members can carry an inactive tier (they live away), and meeting one does not make them active. Choose the case's person among the active-tier members (`!inactiveTiers.has(p.tier ?? "")`), change no assertion.
 
 ## More in this folder
 
