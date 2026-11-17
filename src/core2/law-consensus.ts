@@ -47,8 +47,11 @@ export interface LawConsensus {
 const FEDERAL_BODIES = ["US:us-house", "US:us-senate"];
 
 interface Held {
-  readonly key: string;
-  readonly byQuestion: Map<string, LawConsensus | null>;
+  /** Each question's consensus, with the key it was read under. */
+  readonly byQuestion: Map<
+    string,
+    { readonly key: string; readonly value: LawConsensus | null }
+  >;
 }
 const held = new WeakMap<CoreState, Held>();
 
@@ -57,17 +60,23 @@ const held = new WeakMap<CoreState, Held>();
  * law's roll calls are (the past's law histories, built after the opening's
  * terms have read it), or, for the members' share, an official is.
  */
-function keyOf(api: CoreAPI): string {
+function keyOf(api: CoreAPI, question: string): string {
   const laws = api.moduleState(LAWS_MODULE_ID);
   const order = laws.table("chain").get("enactment-order") as unknown as
     { next?: number } | undefined;
-  const officials = api.state.modules.has(OFFICIALS_MODULE_ID)
-    ? api.moduleState(OFFICIALS_MODULE_ID).writes
-    : 0;
   const histories = api.state.modules.has(PAST_MODULE_ID)
     ? api.moduleState(PAST_MODULE_ID).table("laws").size
     : 0;
-  return `${laws.table("laws").size}:${order?.next ?? 0}:${officials}:${histories}`;
+  const lawKey = `${laws.table("laws").size}:${order?.next ?? 0}:${histories}`;
+  // A state question reads only the states' laws; only a question federal
+  // law alone answers can fall back to the sitting members, so only it is
+  // read again when an official changes (every officials write would
+  // otherwise throw away all 56 states' reads).
+  if (isStateQuestion(question)) return lawKey;
+  const officials = api.state.modules.has(OFFICIALS_MODULE_ID)
+    ? api.moduleState(OFFICIALS_MODULE_ID).writes
+    : 0;
+  return `${lawKey}:${officials}`;
 }
 
 const isStateQuestion = (question: string): boolean =>
@@ -132,13 +141,14 @@ export function lawConsensus(
 ): LawConsensus | null {
   if (!axisOf[question] || !api.state.modules.has(LAWS_MODULE_ID)) return null;
   const core = api.state as CoreState;
-  const key = keyOf(api);
+  const key = keyOf(api, question);
   let kept = held.get(core);
-  if (kept?.key !== key)
-    held.set(core, (kept = { key, byQuestion: new Map() }));
-  if (!kept.byQuestion.has(question))
-    kept.byQuestion.set(question, read(api, question));
-  return kept.byQuestion.get(question)!;
+  if (!kept) held.set(core, (kept = { byQuestion: new Map() }));
+  const cached = kept.byQuestion.get(question);
+  if (cached?.key === key) return cached.value;
+  const value = read(api, question);
+  kept.byQuestion.set(question, { key, value });
+  return value;
 }
 
 /** The policy question a law series is the row of, at whatever level. */
