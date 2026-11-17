@@ -23,7 +23,7 @@ import { budgetView } from "../../bench/budget";
 import { setJournalTrace } from "../journal-state";
 import { treasuryMonthsOf } from "../budgets-treasury";
 import { enactLaw, lawChain } from "../modules/laws";
-import { regionOfPlace } from "../modules/regional";
+import { regionOfPlace, stateRegionsNow } from "../modules/regional";
 import { recordSchoolSpending } from "../school-outcomes";
 import { schoolsLineAboveBase } from "../school-budget-line";
 import { coreAPI } from "../state";
@@ -71,9 +71,31 @@ function draw(index: number) {
 }
 
 describe("state school aid", () => {
-  it("need shares add to one across a state's people and favor the poorer region", () => {
-    expect(schoolAidNeed("US-AK")).toBeGreaterThan(0);
-    expect(schoolAidNeed("US-PR", "region:72:rest")).toBe(1);
+  it("need shares add to one across a state's people and favor the lower-paid region, from the world's own regions", () => {
+    const { drawn, make } = draw(0);
+    const api = coreAPI(make(false));
+    const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
+    const stateKey = lawChain(api).stateKey;
+    const rows = stateRegionsNow(api, stateKey.slice("US-".length));
+    expect(rows.length, `${where} regions in the world`).toBeGreaterThan(0);
+    const people = rows.reduce((n, r) => n + r.population, 0);
+    const mean =
+      rows.reduce(
+        (n, r) => n + schoolAidNeed(api, stateKey, r.regionId) * r.population,
+        0,
+      ) / people;
+    expect(mean, where).toBeCloseTo(1, 6);
+    const sorted = [...rows].sort(
+      (a, b) => a.hourlyEarnings - b.hourlyEarnings,
+    );
+    if (
+      sorted.length > 1 &&
+      sorted[0]!.hourlyEarnings < sorted.at(-1)!.hourlyEarnings
+    )
+      expect(
+        schoolAidNeed(api, stateKey, sorted[0]!.regionId),
+        where,
+      ).toBeGreaterThan(schoolAidNeed(api, stateKey, sorted.at(-1)!.regionId));
   });
 
   it("pays the aid from the state treasury into the town's schools lines, and a repeal takes it back", () => {
@@ -206,6 +228,7 @@ describe("state school aid", () => {
       const spendA = perStudent(a);
       const spendB = perStudent(b);
       const needNow = schoolAidNeed(
+        b,
         lawChain(b).stateKey,
         regionOfPlace(lawChain(b).townPlaceId),
       );

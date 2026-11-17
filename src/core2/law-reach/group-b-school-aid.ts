@@ -10,7 +10,6 @@
  * the school engine reads (school-outcomes.ts, school-budget-line.ts).
  */
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
-import regions from "../data/regional/regions.json" with { type: "json" };
 import {
   lineWithoutBills,
   governments,
@@ -18,7 +17,7 @@ import {
 } from "../modules/budgets";
 import { budgetInForce } from "../budgets-treasury";
 import { lawChain } from "../modules/laws";
-import { regionOfPlace } from "../modules/regional";
+import { regionOfPlace, stateRegionsNow } from "../modules/regional";
 import type { CoreAPI, CoreState } from "../types";
 import { moveBudget } from "./group-b-money";
 import { reachParameter } from "./group-b-people";
@@ -30,33 +29,30 @@ const bases = budgetBases as unknown as {
     { local?: { spending?: Record<string, number> } } | undefined
   >;
 };
-const regionData = regions as unknown as {
-  regions: {
-    id: string;
-    stateUsps: string;
-    population: number;
-    perCapitaIncome: number | null;
-  }[];
-};
 
 /**
- * How much more than the state's average a region needs: the state's income
- * per head over the region's, as a share of the people-weighted average of
- * that ratio across the state, so the state's shares add to one. A state whose
- * regions carry no income figure (Puerto Rico) shares by people alone.
+ * How much more than the state's average a region needs: the state's pay per
+ * hour over the region's, as a share of the people-weighted average of that
+ * ratio across the state, so the state's shares add to one. Read from the
+ * world's own regions at the latest month (their earnings and people move with
+ * the world's economy; Pins family 27), never a published income. Before the
+ * economy runs, or in a state with one region, the state shares by people alone.
  */
-export function schoolAidNeed(stateKey: string, regionId?: string): number {
-  const usps = stateKey.slice("US-".length);
-  const rows = regionData.regions.filter((r) => r.stateUsps === usps);
-  const need = (r: { perCapitaIncome: number | null }) =>
-    r.perCapitaIncome ? 1 / r.perCapitaIncome : 1;
-  if (rows.some((r) => !r.perCapitaIncome)) return 1;
+export function schoolAidNeed(
+  api: CoreAPI,
+  stateKey: string,
+  regionId?: string,
+): number {
+  const rows = stateRegionsNow(api, stateKey.slice("US-".length)).filter(
+    (r) => r.hourlyEarnings > 0,
+  );
+  const need = (r: { hourlyEarnings: number }) => 1 / r.hourlyEarnings;
   const people = rows.reduce((n, r) => n + r.population, 0);
   const mean =
     people > 0
       ? rows.reduce((n, r) => n + need(r) * r.population, 0) / people
       : 0;
-  const row = rows.find((r) => r.id === regionId);
+  const row = rows.find((r) => r.regionId === regionId);
   return row && mean > 0 ? need(row) / mean : 1;
 }
 
@@ -95,7 +91,11 @@ export function schoolAidShares(api: CoreAPI): Map<string, number> {
   const chain = lawChain(api);
   const perResident = poolPerResident(api);
   if (!perResident) return out;
-  const need = schoolAidNeed(chain.stateKey, regionOfPlace(chain.townPlaceId));
+  const need = schoolAidNeed(
+    api,
+    chain.stateKey,
+    regionOfPlace(chain.townPlaceId),
+  );
   // The town's governments carry its schools in proportion to what each
   // spends on them a resident at the Census base, so the aid reaches the
   // lines the school engine reads, and the per-resident rises add up to
