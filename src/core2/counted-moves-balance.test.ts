@@ -110,8 +110,9 @@ it("a place takes in people from abroad as the country tier's month brings them,
   // counted places can take only their part of what the state was brought.
   const seen = new Set<string>();
   let stateArrived = 0;
-  for (let day = 0; day < 730; day += 1) {
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  // Every 28 days, so no month is passed over (none is shorter).
+  for (let day = 0; day < 730; day += 28) {
+    advanceCore(core, addDays(makeIsoDate(core.date), Math.min(28, 730 - day)));
     const month = countryAbroadArrivals(coreAPI(core), "DC");
     if (!month || seen.has(`${month.month}`)) continue;
     seen.add(`${month.month}`);

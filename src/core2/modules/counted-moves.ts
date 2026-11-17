@@ -1275,15 +1275,23 @@ function month(api: CoreAPI): void {
     const abroad = countryAbroadArrivals(api, home.usps);
     if (abroad && stateTotal > 0) {
       let drawn = 0;
-      for (const [placeId, row] of agedHere)
-        drawn +=
-          row.reduce((n, v) => n + v, 0) *
-          Math.exp(workPullOf(conditionsAt(placeId).gap));
+      let here = 0;
+      for (const [placeId, row] of agedHere) {
+        const people = row.reduce((n, v) => n + v, 0);
+        here += people;
+        drawn += people * Math.exp(workPullOf(conditionsAt(placeId).gap));
+      }
+      // The counted places' part of the state's arrivals: their people
+      // weighed by where work is open, against the whole state's (the rest
+      // of the state at no pull of its own), so the parts never pass the
+      // whole the tier brought.
+      const weighed = drawn + Math.max(0, stateTotal - here);
       abroad.byBand.forEach((people, band) => {
         const key = `${ABROAD}|${band}`;
         rt.arrive.set(
           key,
-          (rt.arrive.get(key) ?? 0) + (people * drawn) / stateTotal,
+          (rt.arrive.get(key) ?? 0) +
+            (weighed > 0 ? (people * drawn) / weighed : 0),
         );
       });
     }
