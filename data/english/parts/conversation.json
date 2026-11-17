@@ -26619,7 +26619,7 @@
       "key": "conversation.player-news-say-closer.i-just-worry-what-it-ll-cost-you-you",
       "move": "player-news-say-closer",
       "kind": "spoken",
-      "text": "I just worry what {office} will cost you.",
+      "text": "I just worry what the {office} race will cost you.",
       "uses": [
         {
           "move": "player-news-say-closer",
@@ -27060,7 +27060,7 @@
       "key": "conversation.player-news-back-core.then-go-do-it-right-you",
       "move": "player-news-back-core",
       "kind": "spoken",
-      "text": "Then go do {office} right.",
+      "text": "Then go do the {office} job right.",
       "uses": [
         {
           "move": "player-news-back-core",
@@ -30527,7 +30527,7 @@
       "key": "conversation.player-day-back-core.tell-me-if-anything-comes-up-you",
       "move": "player-day-back-core",
       "kind": "spoken",
-      "text": "Tell me if anything comes up at {office}.",
+      "text": "Tell me if anything comes up in the {office} race.",
       "uses": [
         {
           "move": "player-day-back-core",

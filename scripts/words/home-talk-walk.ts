@@ -28,6 +28,7 @@ import { townResidentsByCash } from "../../src/core2/resident-adults-test-kit";
 import { coreAPI } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
 import { hoursSaid } from "../../src/english/count-words";
+import { sentenceStarts } from "../../src/english/said-as";
 import { composeConversationLine } from "../../src/english/conversation-words";
 import { businessNameSaid, properName } from "../../src/director/words";
 import {
@@ -202,12 +203,21 @@ const business = [...core.organizations.values()].find(
   (org) => org.kind === "business",
 );
 const sample = (slot: string): string | undefined => {
+  // A student's own school is said "school" (ownPlaceSaid), not the district the other subjects name.
+  if (slot === "school") return "school";
+  if (slot === "name")
+    return [...core.people.values()].find(
+      (row) => row.id !== playerId && row.alive,
+    )?.givenName;
   const seen = [...(slotRows.get(slot) ?? [])][0]?.split("  (")[0];
   if (seen) return seen;
   if (slot === "employer" && business) return businessNameSaid(business);
   if (slot === "office" && fileOffice) return properName(fileOffice);
   if (slot === "hours") return hoursSaid(540);
   if (slot === "school") return "school";
+  if (slot === "rent-again") return "the rent";
+  if (slot === "kin") return "my father";
+  if (slot === "years") return "twelve";
   if (slot === "illness") return "cancer";
   return undefined;
 };
@@ -245,7 +255,8 @@ for (const piece of file.parts) {
       stage: use.stages?.[0] ?? "",
       momentKey: `walk:${k}`,
     });
-    if (line?.wording?.parts.includes(piece.key)) text = line.text;
+    if (line?.wording?.parts.includes(piece.key))
+      text = sentenceStarts(line.text);
   }
   console.log(
     `COMPOSED ${piece.key} | ${text ?? "(not reached in 400 draws)"}`,

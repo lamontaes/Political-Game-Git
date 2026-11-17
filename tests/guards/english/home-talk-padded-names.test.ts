@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
@@ -61,7 +62,7 @@ describe("the padded names are out of the home talks", () => {
   });
 
   const place = drawPlace(
-    process.env.GOLDEN_PATH_SEED ?? "home-talk-padded-names",
+    process.env.GOLDEN_PATH_SEED || randomBytes(20).toString("hex"),
     "home-talk-padded-names",
   );
   it(`says no answer ending in the player's name in ${place.key} (seed ${place.seed}), and cites the record a slot reads`, () => {
@@ -83,7 +84,8 @@ describe("the padded names are out of the home talks", () => {
     let cited = 0;
     const named: string[] = [];
     const uncited: string[] = [];
-    for (let day = 0; day < 40; day += 1) {
+    // A place with no talk in forty days is walked on, up to a third of a year, until a housemate answers.
+    for (let day = 0; day < 40 || (said === 0 && day < 120); day += 1) {
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
       for (const id of house.memberIds) {
         if (id === playerId || !core.people.get(id as PersonId)?.alive)
@@ -127,8 +129,8 @@ describe("the padded names are out of the home talks", () => {
         }
       }
     }
-    console.log(
-      `home-talk-padded-names: ${place.key} seed ${place.seed}: ${said} answers said, ${slotted} with a record slot, ${cited} citing it`,
+    process.stderr.write(
+      `home-talk-padded-names: ${place.name} (${place.key}) seed ${place.seed}: ${said} answers said, ${slotted} with a record slot, ${cited} citing it\n`,
     );
     expect(said).toBeGreaterThan(0);
     expect(named).toEqual([]);

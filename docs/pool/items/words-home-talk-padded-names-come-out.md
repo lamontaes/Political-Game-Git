@@ -34,8 +34,8 @@ branch: claude/story-you-padded
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json, scripts/words/home-talk-walk.ts, tests/guards/english/home-talk-padded-names.test.ts
+**Files.** data/english/parts/conversation.json, scripts/words/home-talk-walk.ts (new), tests/guards/english/home-talk-padded-names.test.ts (new)
 
 **Notes.**
 
-- Nov 17: the stripped lines raise the conversation bank's no-insert count in tests/guards/english/line-inserts-baseline.json; the pull request names the exact rise and asks the CTO for the line (done-proof rule 1).
+- Nov 17: the stripped lines raise the conversation bank's no-insert count (238 to 282) in tests/guards/english/line-inserts-baseline.json; the pull request names the exact rise and asks the CTO for the line (done-proof rule 1).
