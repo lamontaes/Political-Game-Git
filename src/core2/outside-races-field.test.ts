@@ -17,7 +17,13 @@ import { setBookkeeping } from "./bookkeeping";
 import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { partyFieldsNominee } from "./modules/candidacy";
-import { racesOf } from "./modules/voting";
+import { partySide } from "./appointments";
+import { racesOf, contestRightShare } from "./modules/voting";
+import {
+  ballot,
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "./modules/elections";
 import { coreAPI } from "./state";
 
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
@@ -37,6 +43,7 @@ describe(`parties stand nominees where their chance covers the cost (seed ${seed
       let checked = 0;
       let oneSided = 0;
       let twoSided = 0;
+      let nominees = 0;
       for (let at = 0; at < DRAWS && checked < WANT_PLACES; at += 1) {
         const place = drawPlace(`${seed}:${at}`, "outside-races-field");
         const where = `${place.name} (${place.key}), seed ${place.seed}`;
@@ -62,6 +69,28 @@ describe(`parties stand nominees where their chance covers the cost (seed ${seed
           continue;
         }
         checked += 1;
+        // The town's own statewide races: a side whose chance does not cover
+        // the cost has no party nominee on the ballot.
+        for (const contest of api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]) {
+          if (
+            (contest.level !== "state" && contest.level !== "federal") ||
+            contest.district ||
+            contest.electionDate > "2026-11-13"
+          )
+            continue;
+          const right = contestRightShare(api, contest);
+          for (const filing of ballot(api, contest.id)) {
+            if (filing.how !== "party nominee") continue;
+            nominees += 1;
+            expect(
+              partyFieldsNominee(api, partySide(filing.party ?? null), right),
+              `${where}: ${contest.id}: a party nominee stands where its chance does not cover the cost`,
+            ).toBe(true);
+          }
+        }
         for (const race of counted) {
           const { republican, democratic } = race.votes!;
           // A race whose ballot carries neither major party's label (a
@@ -93,6 +122,10 @@ describe(`parties stand nominees where their chance covers the cost (seed ${seed
         );
       expect(oneSided, "races left to one side").toBeGreaterThan(0);
       expect(twoSided, "races drawing both sides").toBeGreaterThan(0);
+      expect(
+        nominees,
+        "party nominees on the towns' statewide ballots",
+      ).toBeGreaterThan(0);
     },
   );
 });

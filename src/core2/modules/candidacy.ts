@@ -532,7 +532,10 @@ export function partyFieldsNominee(
     one,
     two,
   );
-  return (side > 0 ? rightWins : one - rightWins) >= c(api, "candidacyPartyStandingCost");
+  return (
+    (side > 0 ? rightWins : one - rightWins) >=
+    c(api, "candidacyPartyStandingCost")
+  );
 }
 
 /**
