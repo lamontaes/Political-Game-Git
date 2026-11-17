@@ -88,6 +88,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
 - Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
 - Nov 17, 02:21Z (national-events, disaster-aid): tests counted disasters in fixed windows tied to real dates. Cause: disasters now come from each world's own risks. Stage one through the world's own hazard, or play until one occurs, and fail on zero.
+- Nov 17, 13:05Z (History, `electorate-house-side`, `world-races-no-district`): two reds on a stacked branch looked like the branch's own. Cause: one came from a pull request lower in the stack and one was red before any world was built. Before calling a red yours, run the test with only your changed files reverted to the base (`git checkout <base> -- <files>`), then read which assertion fails first.
 - Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
 
 ## More in this folder
