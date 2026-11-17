@@ -114,13 +114,13 @@ it("shows how the town, the player, their household, a business and an office op
   expect(person.rows.find((r) => r.label === "Name")?.recordId).toBe(
     world.core.playerId,
   );
-  // The player's age when the life began, and how the opening set it (no birthday chosen here).
+  // The player's age when the life began, and how the opening set it. No birthday is chosen here,
+  // so the player is the default age, 18 (owner, Nov 16: "Just do 18 and up right now"), which
+  // goes through the chosen-age path (world.ts entrantBornNear): decided from a record, no draw.
   const age = person.rows.find((r) => r.label === "Age when the life began");
-  expect(age?.made, where).toBe(SOURCES.kinds.generation);
-  expect(Number(age?.value), where).toBeGreaterThanOrEqual(18);
-  expect(age?.drawKey, where).toMatch(
-    /^opening-player:\S+: 0\.\d{3}, one of [\d,]+ adults in id order$/,
-  );
+  expect(age?.made, where).toBe(SOURCES.kinds.decision);
+  expect(String(age?.value), where).toMatch(/^18 \(chosen 18[;)]/);
+  expect(age?.drawKey, where).toBeUndefined();
 
   const household = await ask("subject=household");
   expect(household.rows[0]!.value, where).not.toBe("0");
