@@ -574,6 +574,8 @@ export function inHousehold(
 
 /** The opening population's parts: households, work, families. Each finished part is one share. */
 const POPULATION_PARTS = 3;
+/** The share of the families' part done once the kin are drawn (Speed lane, Nov 17: kin 0.70 s of about 1.2 s at Epping, New Hampshire). Engineering value. */
+const KIN_SHARE = 0.5;
 
 export function buildPopulation(options: PopulationOptions): CoreInput {
   const steps = buildPopulationSteps(options);
@@ -1570,7 +1572,7 @@ export function* buildPopulationSteps(
   });
   // The work is placed; the families that reach past the town come last.
   yield 2 / POPULATION_PARTS;
-  const family = openingFamilies({
+  const families = openingFamilies({
     seed: options.seed,
     world,
     town,
@@ -1591,6 +1593,20 @@ export function* buildPopulationSteps(
     people,
     source,
   });
+  let family: ReturnType<typeof openingFamilies> extends Generator<
+    number,
+    infer R
+  >
+    ? R
+    : never;
+  for (;;) {
+    const step = families.next();
+    if (step.done) {
+      family = step.value;
+      break;
+    }
+    yield (2 + step.value) / POPULATION_PARTS;
+  }
   stopgap("SG-P15-kin-generation");
   return {
     seed: options.seed,
@@ -1680,12 +1696,16 @@ interface OpeningFamilyInput {
  * P15: every resident's kin outside the household as husk-tier people, and the
  * five temperament dimensions spread to real norms for residents and kin alike.
  */
-function openingFamilies(input: OpeningFamilyInput): {
-  people: PersonInput[];
-  households: HouseholdInput[];
-  familyLinks: FamilyLink[];
-  husks: HuskInput[];
-} {
+/** The opening's families, a part at a time: it reports once the kin are drawn (0 to 1 of the families' share). */
+function* openingFamilies(input: OpeningFamilyInput): Generator<
+  number,
+  {
+    people: PersonInput[];
+    households: HouseholdInput[];
+    familyLinks: FamilyLink[];
+    husks: HuskInput[];
+  }
+> {
   const { world, startedAt, source } = input;
   const kin = buildOpeningKin(
     input.plans.map((plan) => ({
@@ -1773,6 +1793,8 @@ function openingFamilies(input: OpeningFamilyInput): {
       },
     },
   );
+  // The kin are drawn: half the families' work, by the time it takes at measured places.
+  yield KIN_SHARE;
   const names = new Map<string, string>();
   for (const person of input.people)
     names.set(person.id, `${person.givenName} ${person.familyName}`);

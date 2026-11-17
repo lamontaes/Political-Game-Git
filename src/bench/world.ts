@@ -370,6 +370,9 @@ export function buildShare(
   return (before + within * size(stage)) / total;
 }
 
+/** The economy stage's steps: the books, the market, the county sample, years in place, two levels, the world. */
+const ECONOMY_STEPS = 6;
+
 /** The people stage's steps: choosing the place is one, drawing the town the rest. */
 const PEOPLE_STEPS = 2;
 
@@ -673,18 +676,24 @@ function* benchWorldStages(
     );
     // The firms are sized to the weighted town before the outside market is
     // derived from their books, so its buyers and suppliers follow them.
+    // The same calls in the same order, a report between each, so the loading bar moves while the
+    // economy opens (owner, Nov 16: "It should continue to load.").
+    const step = (done: number): BuildStep => ({
+      stage: "economy",
+      done,
+      total: ECONOMY_STEPS,
+    });
+    const books = buildOpeningEconomy(withPlayer, {
+      finance: { countedHouseholdIds },
+      customers: { countedHouseholdIds },
+    }).input;
+    yield step(1);
     const economy: CoreInput = addOutsideMarket(
       withPrivateTuition(
-        scaleFirmsToCensus(
-          buildOpeningEconomy(withPlayer, {
-            finance: { countedHouseholdIds },
-            customers: { countedHouseholdIds },
-          }).input,
-          place.context.jurisdiction.id,
-          countScale,
-        ),
+        scaleFirmsToCensus(books, place.context.jurisdiction.id, countScale),
       ),
     );
+    yield step(2);
     // The world economy goes on after the collapse, as on the core's
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
@@ -692,26 +701,24 @@ function* benchWorldStages(
     // The county's counted sample, weighted to its eligible voters, and years
     // in place on every household.
     const countySample = withCountySample(economy, kept);
+    yield step(3);
+    const settled = withOrigins(
+      withRoles(withYearsInPlace(countySample?.input ?? economy)),
+    );
+    yield step(4);
     const weights = {
       ...(countScale !== 1
         ? { [place.context.jurisdiction.id]: countScale }
         : {}),
     };
+    const twoLevels = collapseToTwoLevels(settled, {
+      keep: kept,
+      ...(Object.keys(weights).length ? { weights } : {}),
+    });
+    yield step(5);
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
-      addTradeArea(
-        withWorldEconomy(
-          collapseToTwoLevels(
-            withOrigins(
-              withRoles(withYearsInPlace(countySample?.input ?? economy)),
-            ),
-            {
-              keep: kept,
-              ...(Object.keys(weights).length ? { weights } : {}),
-            },
-          ),
-        ),
-      ),
+      addTradeArea(withWorldEconomy(twoLevels)),
     );
   } else
     opening = withWorldEconomy(

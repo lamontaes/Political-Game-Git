@@ -746,6 +746,9 @@ function seatResident(
  * `startDate`: a seat whose term of record ended before it has its holder's
  * next term, from the office's own start day, ending at `termEnd`.
  */
+/** Seats opened between two reports to the loading screen in a large body. Engineering value. */
+const OPENING_SEATS_PER_STEP = 40;
+
 export function openOffices(
   core: CoreState,
   worldSeed: string,
@@ -798,7 +801,10 @@ export function* openOfficesSteps(
     // first term: its first election fills it.
     if (entry.office.firstTermStart && entry.office.firstTermStart > date)
       continue;
-    for (const seat of entry.seats)
+    for (const [n, seat] of entry.seats.entries()) {
+      // A large body (a state's legislature) reports between its seats too.
+      if (n > 0 && n % OPENING_SEATS_PER_STEP === 0)
+        yield (at + n / entry.seats.length) / (entries.length + 1);
       pastTerms(
         api,
         worldSeed,
@@ -813,6 +819,7 @@ export function* openOfficesSteps(
           "in office at the opening",
         ),
       );
+    }
   }
   table(api, "loaded").put({ id: `state:${stateKey}` });
   table(api, "loaded").put({ id: `federal:${stateKey}` });
