@@ -13,6 +13,7 @@ import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with 
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
 import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
+import { veteransIncomeByHousehold } from "./modules/laws";
 import type { ClaimRow } from "./jobs-benefits";
 import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
@@ -196,11 +197,14 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
   // The welfare line's cash assistance is public assistance, which the
   // Census counts in the income poverty status is computed from.
   const assistance = assistanceIncomeByHousehold(core);
+  // Veterans' payments, which the Census counts too.
+  const veterans = veteransIncomeByHousehold(core);
   for (const household of core.households.values()) {
     const ages: number[] = [];
     let income =
       (awards.get(household.id) ?? 0) +
       (assistance.get(household.id) ?? 0) +
+      (veterans.get(household.id) ?? 0) +
       (claims.get(household.id) ?? 0);
     for (const id of household.memberIds) {
       const person = core.people.get(id);
