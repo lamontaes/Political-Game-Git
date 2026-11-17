@@ -323,6 +323,12 @@ export const CAMPAIGN_ACTS = [
   "event",
 ] as const;
 export type CampaignAct = (typeof CAMPAIGN_ACTS)[number];
+/** The acts by which a campaign reaches a voter itself, putting them on its own lists. */
+const CONTACT_ACTS: ReadonlySet<CampaignAct> = new Set<CampaignAct>([
+  "door",
+  "volunteer-door",
+  "donation-ask",
+]);
 
 /** Why one person's view of one candidate changed, once. */
 export interface CauseRow {
@@ -4758,9 +4764,10 @@ function postMoney(
 /**
  * Everyone a campaign can reach without canvassing a stranger, through the
  * records that link them: the candidate's family, the people they know and
- * have a relationship with, the members of their party in town, the people
- * the campaign has already reached, and its volunteers, never a rival on the
- * same ballot. In id order.
+ * have a relationship with, the members of their party in town, the voters
+ * the campaign reached itself this race (a door or a donation ask; hearing of
+ * the candidate is not enough), and its volunteers, never a rival on the same
+ * ballot. In id order.
  */
 export function reachablePeople(
   api: CoreAPI,
@@ -4781,10 +4788,14 @@ export function reachablePeople(
         .query("byParty", [party.id]) as unknown as TieRow[])
         ids.add(tie.personId);
   }
-  for (const row of table(api, "impressions").query("byCandidate", [
+  // Voters the campaign reached itself this race: a door it knocked (the
+  // candidate's or a volunteer's) or a donation ask (CTO, Nov 17, 06:24Z:
+  // a campaign invites from its own lists; having heard of the candidate puts
+  // nobody on the list). A closed race's causes fold, so these are this race's.
+  for (const row of table(api, "causes").query("byCandidate", [
     campaign.candidateId,
-  ]) as unknown as ImpressionRow[])
-    if (row.heardOf) ids.add(row.voterId);
+  ]) as unknown as CauseRow[])
+    if (CONTACT_ACTS.has(row.act)) ids.add(row.voterId);
   ids.delete(campaign.candidateId);
   // Someone standing in the same race campaigns for themselves
   // (`rivalFiling`), so no campaign's list reaches them, nor the people they
