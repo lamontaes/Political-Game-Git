@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: Story lead (claude/dazzling-wozniak-vgomoz-opening-talk)
-pr:
+pr: 9783
 after:
 blocked-on:
 lead: words
