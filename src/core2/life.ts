@@ -543,18 +543,43 @@ export function runDay(
   core: CoreState,
   api: CoreAPI,
   due: readonly DuePerson[],
-  hooks: {
-    decide: DayDecide;
-    refresh: DayRefresh;
-    activate: (row: DuePerson) => number;
-    /** A module whose day the caller runs in its place, by module id. */
-    ownDay?: ReadonlyMap<string, () => DayCount | void>;
-  },
+  hooks: DayHooks,
 ): DayCount {
+  const steps = runDaySteps(core, api, due, hooks);
+  for (;;) {
+    const step = steps.next();
+    if (step.done) return step.value;
+  }
+}
+
+/** What the caller of the one day loop supplies: who chooses, who refreshes, who acts. */
+export interface DayHooks {
+  decide: DayDecide;
+  refresh: DayRefresh;
+  activate: (row: DuePerson) => number;
+  /** A module whose day the caller runs in its place, by module id. */
+  ownDay?: ReadonlyMap<string, () => DayCount | void>;
+}
+
+/**
+ * The one day loop, a step at a time: each step says how much of the day is done (0 to 1), so a caller
+ * that waits on many days, the opening's warm-up, can report between the engines (owner, Nov 16: "It
+ * should continue to load."). The day runs the same work in the same order as `runDay`.
+ */
+export function* runDaySteps(
+  core: CoreState,
+  api: CoreAPI,
+  due: readonly DuePerson[],
+  hooks: DayHooks,
+): Generator<number, DayCount> {
   const one = parameter("one", core.data.parameters);
   let decisions = parameter("zero", core.data.parameters),
     acts = decisions;
+  // The calendar, each module's day, the people due, each module's after-day.
+  const total = core.modules.size * (one + one) + one + one;
+  let done = parameter("zero", core.data.parameters);
   runModuleCalendar(core, api);
+  yield ++done / total;
   for (const module of core.modules.values()) {
     const own = hooks.ownDay?.get(module.id);
     const committed = own
@@ -564,6 +589,7 @@ export function runDay(
       decisions += committed.decisions;
       acts += committed.acts;
     }
+    yield ++done / total;
   }
   // Acts people planned for today happen in every day, the player's too.
   for (const act of takePlannedActs(core, makeIsoDate(core.date)))
@@ -572,7 +598,11 @@ export function runDay(
     decisions += one;
     acts += hooks.activate(row);
   }
-  for (const module of core.modules.values()) module.onAfterDay?.(api);
+  yield ++done / total;
+  for (const module of core.modules.values()) {
+    module.onAfterDay?.(api);
+    yield ++done / total;
+  }
   compactDay(core);
   return { decisions, acts };
 }

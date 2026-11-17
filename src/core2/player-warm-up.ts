@@ -15,7 +15,7 @@
 import { advanceDate, duePeople } from "./calendar";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { runControlledDay } from "./player-v1";
+import { runControlledDaySteps } from "./player-v1";
 import {
   registerControlledPersonV1,
   retireControlledPersonV1,
@@ -58,7 +58,15 @@ export function* warmUpOpeningDays(
         (row) => row.personId !== playedPersonId,
       );
       advanceDate(core, date);
-      runControlledDay(core, coreAPI(core), playedPersonId, due);
+      // Inside a day the engines report too, so a long day (a month's first) moves the bar.
+      const day = runControlledDaySteps(
+        core,
+        coreAPI(core),
+        playedPersonId,
+        due,
+      );
+      for (let step = day.next(); !step.done; step = day.next())
+        yield { done: done - 1 + step.value, total };
       yield { done, total };
     }
   } finally {

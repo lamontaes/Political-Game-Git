@@ -249,9 +249,21 @@ export function openWorldLegislating(core: CoreState): void {
  * day one. Called last by the world's build; a world that does not call it opens them the next day.
  */
 export function openSittingSessions(core: CoreState): void {
+  for (const step of openSittingSessionsSteps(core)) void step;
+}
+
+/**
+ * The sitting sessions opened a legislature at a time: each step says how much is done (0 to 1), so a
+ * new game's loading screen moves while they open (owner, Nov 16: "It should continue to load.").
+ */
+export function* openSittingSessionsSteps(
+  core: CoreState,
+): Generator<number, void> {
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
   const api = coreAPI(core);
-  for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+  const jurisdictions = ["US", ...sessionPlaceKeys()];
+  for (const [at, jurisdiction] of jurisdictions.entries()) {
+    yield at / jurisdictions.length;
     const w = nextWindow(jurisdiction, core.date, true);
     if (!w || w.conveneAt > core.date) continue;
     openSession(api, {

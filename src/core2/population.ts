@@ -572,7 +572,25 @@ export function inHousehold(
     !rooms.size || !person.householdId || !rooms.has(person.householdId);
 }
 
+/** The opening population's parts: households, work, families. Each finished part is one share. */
+const POPULATION_PARTS = 3;
+
 export function buildPopulation(options: PopulationOptions): CoreInput {
+  const steps = buildPopulationSteps(options);
+  for (;;) {
+    const step = steps.next();
+    if (step.done) return step.value;
+  }
+}
+
+/**
+ * The opening population a part at a time: each step says how much is built (0 to 1), so a new
+ * game's loading screen moves while the town is drawn (owner, Nov 16: "It should continue to load.").
+ * The parts run in the same order as one block, so the town is the same.
+ */
+export function* buildPopulationSteps(
+  options: PopulationOptions,
+): Generator<number, CoreInput> {
   const target = options.minimumPeople ?? p("targetPopulation");
   if (!Number.isSafeInteger(target) || target < p("one"))
     throw new Error("Opening population must be a positive whole count.");
@@ -937,6 +955,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const outsideLaborForceIds = new Set(
     plans.flatMap((plan) => (outsideLaborForce(plan.quarters) ? plan.ids : [])),
   );
+  // The households are drawn; their families and work come next.
+  yield 1 / POPULATION_PARTS;
   const world = withFamilyContext(
     createCharacterHistoryContextPeople(seedWorld, inputs),
     plans,
@@ -1548,6 +1568,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     organizations: publicPay.organizations,
     workCommitments: publicPay.workCommitments,
   });
+  // The work is placed; the families that reach past the town come last.
+  yield 2 / POPULATION_PARTS;
   const family = openingFamilies({
     seed: options.seed,
     world,

@@ -11,6 +11,8 @@ import {
   projectWorkNeeds,
   refreshNeeds,
   runDay,
+  runDaySteps,
+  type DayHooks,
 } from "./life";
 import { parameter } from "./parameters";
 import { assertFactoryCoreV1, coreAPI, resolveOperation } from "./state";
@@ -520,6 +522,25 @@ export function runControlledDay(
   personId: string,
   due: readonly DuePerson[],
 ): { decisions: number; acts: number } {
+  return runDay(core, api, due, controlledDayHooks(core, api, personId));
+}
+
+/** The same day, a step at a time, for the opening's warm-up to report between the engines (life.ts `runDaySteps`). */
+export function runControlledDaySteps(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+  due: readonly DuePerson[],
+): Generator<number, { decisions: number; acts: number }> {
+  return runDaySteps(core, api, due, controlledDayHooks(core, api, personId));
+}
+
+/** Who chooses and who acts in a day with one person controlled: never a module for that person. */
+function controlledDayHooks(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+): DayHooks {
   const decide = (
     actorId: string,
     offers: readonly ActOffer[],
@@ -541,7 +562,7 @@ export function runControlledDay(
     refreshNeeds(core, api, actor);
     return undefined;
   };
-  return runDay(core, api, due, {
+  return {
     decide,
     refresh,
     activate: (row) => (activate(core, row.personId, row.days) ? 1 : 0),
@@ -557,8 +578,9 @@ export function runControlledDay(
         },
       ],
     ]),
-  });
+  };
 }
+
 function closeDay(core: CoreState, s: Session, day: Day): void {
   if (day.work.length || day.action)
     throw new Error("Cannot close a day with unfinished controlled acts.");

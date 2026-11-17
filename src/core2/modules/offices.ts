@@ -751,6 +751,19 @@ export function openOffices(
   worldSeed: string,
   startDate: string,
 ): void {
+  for (const step of openOfficesSteps(core, worldSeed, startDate)) void step;
+}
+
+/**
+ * The offices opened a government at a time: each step says how much is done (0 to 1), so a new
+ * game's loading screen moves while every state and federal seat is filled (owner, Nov 16: "It should
+ * continue to load."). The same work in the same order as one block.
+ */
+export function* openOfficesSteps(
+  core: CoreState,
+  worldSeed: string,
+  startDate: string,
+): Generator<number, void> {
   registerElectorate(core);
   if (!core.modules.has(OFFICES_MODULE_ID))
     registerModule(core, OFFICES_MODULE);
@@ -773,10 +786,13 @@ export function openOffices(
     worldSeed,
     townPlaceId: place.context.jurisdiction.id,
   });
-  for (const entry of worldParties(worldSeed, [
+  const entries = worldParties(worldSeed, [
     ...federalOffices(stateKey, geoid, date),
     ...stateOffices(stateKey, geoid, date),
-  ])) {
+  ]);
+  for (const [at, entry] of entries.entries()) {
+    // The town's own offices, after these, are the last share.
+    yield at / (entries.length + 1);
     putOffice(api, entry);
     // An office its law creates later has no holder and no past until its
     // first term: its first election fills it.

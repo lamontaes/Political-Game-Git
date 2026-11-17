@@ -10,7 +10,7 @@ import {
 } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
-import { buildPopulation, inHousehold } from "../core2/population";
+import { buildPopulationSteps, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -28,7 +28,7 @@ import {
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
 import { openStartingCircle } from "../core2/modules/people";
-import { openOffices } from "../core2/modules/offices";
+import { openOfficesSteps } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
@@ -61,7 +61,7 @@ import { openNationalOpinion } from "../core2/modules/national-opinion";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
-  openSittingSessions,
+  openSittingSessionsSteps,
   openWorldLegislating,
 } from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
@@ -370,6 +370,12 @@ export function buildShare(
   return (before + within * size(stage)) / total;
 }
 
+/** The people stage's steps: choosing the place is one, drawing the town the rest. */
+const PEOPLE_STEPS = 2;
+
+/** The history stage's steps after the pre-start modules: the player's circle and the sitting sessions. */
+const HISTORY_AFTER_STEPS = 2;
+
 /** A step inside a stage that runs in parts (the history's modules, the warm-up's days): how many are done. */
 export interface BuildStep {
   stage: BuildStage;
@@ -548,7 +554,9 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   const minimumPeople = settings.population ?? options.minimumPeople;
-  const built = buildPopulation({
+  // The place is chosen; the town is drawn next, a part at a time.
+  yield { stage: "people", done: 1, total: PEOPLE_STEPS };
+  const town = buildPopulationSteps({
     seed,
     startedAt: makeIsoDate(date),
     ...(warmUp ? { cohortsOn: makeIsoDate(startDate) } : {}),
@@ -565,6 +573,19 @@ function* benchWorldStages(
         }
       : {}),
   });
+  let built: CoreInput;
+  for (;;) {
+    const step = town.next();
+    if (step.done) {
+      built = step.value;
+      break;
+    }
+    yield {
+      stage: "people",
+      done: 1 + step.value * (PEOPLE_STEPS - 1),
+      total: PEOPLE_STEPS,
+    };
+  }
   yield "past";
   // The ages that pick the player are the ages on the start date, not on the day the world is built.
   const population = warmUp
@@ -756,7 +777,9 @@ function* benchWorldStages(
   // Between the engines, a step: the loading bar moves while the government opens.
   openLaws(core);
   yield { stage: "government", done: 1, total: 3 };
-  openOffices(core, seed, startDate);
+  // Every state and federal seat, a government at a time.
+  for (const share of openOfficesSteps(core, seed, startDate))
+    yield { stage: "government", done: 1 + share, total: 3 };
   yield { stage: "government", done: 2, total: 3 };
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
@@ -840,17 +863,40 @@ function* benchWorldStages(
   // reached their seat, kept for the person card to read. It takes
   // milliseconds, being coarse steps over the records the opening wrote.
   const preStart = defaultPreStart(core);
-  // One module at a time, so the loading screen moves between them.
+  // One module at a time, so the loading screen moves between them; the two openings after the past
+  // (the player's circle, the sitting sessions) are the history's last two steps.
+  let modulesRun = 0;
   if (preStart)
     for (const step of runPreStartSteps(
       core,
       preStartWindow(core, preStart.from, preStart.step),
-    ))
-      yield { stage: "history", done: step.done, total: step.total };
+    )) {
+      modulesRun = step.total;
+      yield {
+        stage: "history",
+        done: step.done,
+        total: step.total + HISTORY_AFTER_STEPS,
+      };
+    }
   // The people the player starts out knowing have their whole past at the opening.
   openStartingCircle(core);
+  yield {
+    stage: "history",
+    done: modulesRun + HISTORY_AFTER_STEPS - 1,
+    total: modulesRun + HISTORY_AFTER_STEPS,
+  };
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
-  openSittingSessions(core);
+  for (const share of openSittingSessionsSteps(core))
+    yield {
+      stage: "history",
+      done: modulesRun + HISTORY_AFTER_STEPS - 1 + share,
+      total: modulesRun + HISTORY_AFTER_STEPS,
+    };
+  yield {
+    stage: "history",
+    done: modulesRun + HISTORY_AFTER_STEPS,
+    total: modulesRun + HISTORY_AFTER_STEPS,
+  };
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
