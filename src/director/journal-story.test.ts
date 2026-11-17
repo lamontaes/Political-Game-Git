@@ -304,13 +304,18 @@ describe("the journal as a story from birth", () => {
         chapter.lines.some((line) => /^I took office as/.test(line.text)),
       );
       const won = chapters.find((chapter) =>
-        chapter.lines.some((line) => /^I won the election/.test(line.text)),
+        chapter.lines.some((line) => /^I won\b/.test(line.text)),
       );
       expect(took, "the seat is told").toBeDefined();
+      expect(won, "the win is told").toBeDefined();
       expect(took!.title).toBe(won!.title);
-      expect(chapters.map((chapter) => chapter.title)).not.toContain(
-        "Council member",
-      );
+      // One name for the seat, the office record's own title as the You
+      // screen says it (Story lead, Nov 17): the race and the seat are one
+      // chapter, and no second chapter carries another name for the office.
+      expect(took!.title).toBe("Council member");
+      expect(
+        chapters.filter((chapter) => /council/i.test(chapter.title)),
+      ).toHaveLength(1);
     } finally {
       setBookkeeping(true);
     }
