@@ -243,12 +243,15 @@ function madeDisaster(
 /**
  * Dev mode's "cause a disaster" (and the tests'): build the county's exposure to a hazard up to
  * one more whole disaster and let it happen tomorrow, through the same begin and declare as one
- * the weather made. The hazard's next recorded disaster gives its figures. None where the county
- * has no recorded disaster of that hazard to take figures from.
+ * the weather made. A recorded disaster of the hazard gives its figures: the hazard's next one
+ * in turn, or with `damagingTown` the next whose recorded figures name homes damaged in the town
+ * (the ones before it count as having happened). None where the county has no such disaster to
+ * take figures from.
  */
 export function causeDisaster(
   api: CoreAPI,
   hazard: Hazard,
+  damagingTown = false,
 ): Disaster | undefined {
   const rt = runtime(api);
   const list = rt.templates.get(hazard) ?? [];
@@ -264,16 +267,29 @@ export function causeDisaster(
     ),
     fired: 0,
   };
+  let k = row.fired;
+  if (damagingTown) {
+    const at = [...list.keys()]
+      .map((i) => (row.fired + i) % list.length)
+      .find((i) => {
+        const damage = townRow(rt, list[i]!);
+        return (damage?.[2] ?? 0) > 0 && (damage?.[0] ?? 0) > 0;
+      });
+    if (at === undefined) return undefined;
+    k =
+      row.fired +
+      ((at - (row.fired % list.length) + list.length) % list.length);
+  }
   const made = madeDisaster(
     rt,
-    list[row.fired % list.length]!,
-    row.fired,
+    list[k % list.length]!,
+    k,
     addDays(makeIsoDate(api.state.date), 1),
   );
   exposures.put({
     ...row,
-    expected: Math.max(row.expected, row.fired + 1),
-    fired: row.fired + 1,
+    expected: Math.max(row.expected, k + 1),
+    fired: k + 1,
   } as unknown as ModuleRow);
   return made;
 }
@@ -283,29 +299,11 @@ export function causeDisaster(
  * "cause a disaster that damages the town"): the first hazard that has one, or none.
  */
 export function causeDamagingDisaster(api: CoreAPI): Disaster | undefined {
-  for (const hazard of GENERATED_HAZARDS)
-    if (nextDisasterDamagesTown(api, hazard)) return causeDisaster(api, hazard);
+  for (const hazard of GENERATED_HAZARDS) {
+    const made = causeDisaster(api, hazard, true);
+    if (made) return made;
+  }
   return undefined;
-}
-
-/** The hazards a county's disasters come from, in the order the exposure is read. */
-export const DISASTER_HAZARDS = GENERATED_HAZARDS;
-
-/** Whether the next disaster of a hazard would damage homes in the town: its recorded figures name some. */
-export function nextDisasterDamagesTown(api: CoreAPI, hazard: Hazard): boolean {
-  const rt = runtime(api);
-  const list = rt.templates.get(hazard) ?? [];
-  if (!list.length) return false;
-  const fired =
-    (
-      api
-        .moduleState(DISASTERS_MODULE_ID)
-        .table("exposure")
-        .get(`exposure:${rt.county}:${hazard}`) as unknown as
-        Exposure | undefined
-    )?.fired ?? 0;
-  const row = townRow(rt, list[fired % list.length]!);
-  return (row?.[2] ?? 0) > 0 && (row?.[0] ?? 0) > 0;
 }
 
 /**
