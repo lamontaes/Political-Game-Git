@@ -14,8 +14,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { challengerOdds } from "./modules/candidacy";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
@@ -24,6 +23,9 @@ import { seatLastMargin } from "./modules/voting";
 import { coreAPI } from "./state";
 
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
+// A month before the general election, played to ten days after it, so every seat voted on has its counted race.
+const OPENING = "2026-10-12";
+const AFTER_ELECTION = makeIsoDate("2026-11-13");
 const DRAWS = 10;
 const WANT_PLACES = 3;
 
@@ -40,7 +42,7 @@ describe(`a challenger's odds follow the seat's last race (seed ${seed})`, () =>
         const where = `${place.name} (${place.key}), seed ${place.seed}`;
         let world: ReturnType<typeof buildBenchWorld>;
         try {
-          world = buildBenchWorld(place.seed, gameStartDate(), {
+          world = buildBenchWorld(place.seed, OPENING, {
             twoLevel: true,
             placeKey: place.key,
           });
@@ -51,7 +53,7 @@ describe(`a challenger's odds follow the seat's last race (seed ${seed})`, () =>
         }
         const { core } = world;
         const api = coreAPI(core);
-        advanceCore(core, addDays(makeIsoDate(core.date), 400));
+        advanceCore(core, AFTER_ELECTION);
         const contests = api
           .moduleState(ELECTIONS_MODULE_ID)
           .table("contests")
