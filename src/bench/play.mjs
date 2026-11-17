@@ -7465,7 +7465,8 @@ function followBuild(bar, onStory) {
     if (p?.story) onStory?.();
     if (!p || built) return;
     // The step in plain words, and a bar that shows how much is done; no counts.
-    bar.firstElementChild.style.width = `${Math.round((p.share ?? 0) * 100)}%`;
+    // A tenth of a percent, so a short step still moves the bar.
+    bar.firstElementChild.style.width = `${((p.share ?? 0) * 100).toFixed(1)}%`;
     $("front-status").textContent = controls.loading?.[p.stage] ?? "";
   }, 400);
   return {

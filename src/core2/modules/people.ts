@@ -386,11 +386,13 @@ function parentIdsOf(person: Readonly<PersonState>): string[] {
  * carry no individual past until they are filled in, and the records' own
  * sources are kept.
  */
-function peopleHistory(
+function* peopleHistory(
   api: CoreAPI,
   window: PreStartWindow,
   history: HistoryWriter,
-): void {
+): Generator<number, void> {
+  // Between its phases the run says how far it is, so the loading screen moves (owner, Nov 16:
+  // "It should continue to load."); the phases run in the same order as one block.
   const inside = (date: string) =>
     date >= window.from && date <= window.through;
   const people = [...api.state.people.values()].filter(
@@ -403,7 +405,9 @@ function peopleHistory(
     if (!hasParentHere(api.state, person)) bornWhere(api.state, person);
   // Who came to the county and when, first: births, schools, the working
   // life and partnerships are placed by where people lived.
+  yield 0.2;
   pastMovesHistory(api, window, history, departureRateFor, withinCountyRateFor);
+  yield 0.4;
   // A child's birthplace is where their parent lived that day, now the
   // moves are run.
   writeChildBirthplaces(api.state, people);
@@ -442,7 +446,9 @@ function peopleHistory(
   }
   // The working life from school to day one is run, not copied (owner,
   // Oct 27, 2026: history before the start is simulated).
+  yield 0.6;
   pastWorkHistory(api, window, history);
+  yield 0.8;
   for (const row of partneredRecords(api, window)) history.record(row);
 }
 
