@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-board-devmode
-pr:
+pr: 9960
 after:
 blocked-on:
 model: opus
