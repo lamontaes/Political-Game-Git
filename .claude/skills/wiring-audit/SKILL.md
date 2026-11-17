@@ -70,6 +70,10 @@ Write one test per item that fails when nothing moved. When several PRs share a 
 - **A budget line is raised where the catalog lets it pass (laws lane, Nov 17, #9773).** Before #9773, `changeBudget` with no level put every line in the town's own budget, so the 11 federal lines were graded on a town treasury paying a line it never keeps. A budget line's reach of "full 0, counted groups 0, orgs 1" means the money reached no engine that pays people: read it as reaching nobody, never as wired.
 - **A new read across families goes through the other family's entry file (laws lane, Nov 17, #9764).** `legislature.ts` importing `budget-stakes.ts` directly turned `guards` red on the families check. Import from the family's entry (`budgets-treasury.ts` re-exports what readers outside the budgets family need), and run `tests/guards/families.test.ts` before pushing.
 - **Speed and space:** helpers work in `helper-checkout` copies and, under the Oct 29 "builders build" ruling, run only the tests they wrote. A played twin test builds two worlds, so at most one runs at a time on a crowded container; three runs were killed for memory on Oct 29.
+- **Grade a federal line on the federal budget** (laws lead, Nov 17). Until #9773, `changeBudget` in `scripts/law-wiring/check.ts` raised the town's own line for a federal budget line: $0 to $100,000 for Medicare, reaching no member. Read a federal row's `change` field before trusting its reach and repeal cells; it must name the `US` government.
+- **A link the bills carry needs a `BILL_CARRIED` rule** in `scripts/law-wiring/bill-records.ts`, naming which billed member the link priced, or no run can show it. A carried link grades wired without a size (`medicare-line-to-medical-debt`, #9844).
+- **`matrix.ts` overwrites the table.** To read one law's grade from a local run, run it on a throwaway branch and `git checkout -- docs/reports/` after.
+- **The `no-steering` guard reads `* (level - 1)` as a pull toward a target.** Write a line change's share as the bills' added dollars (`inForce - base`), which is what it is (#9789, Nov 17).
 
 ## 5. Finish
 
