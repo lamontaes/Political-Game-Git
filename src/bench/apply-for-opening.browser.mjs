@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console */
 // The jobs sheet's Apply control, on the bench (npm run bench): a new life, the
 // player's job left so openings list, one opening applied for, the button read
 // as Applied. Run: BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/apply-for-opening.browser.mjs <shots dir>
