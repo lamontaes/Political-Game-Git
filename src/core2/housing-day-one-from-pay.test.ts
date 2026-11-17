@@ -11,7 +11,16 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { levelFromPay, withHousing } from "./modules/housing";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import housingParameters from "./data/housing/parameters.json" with { type: "json" };
+import { gameStartDate } from "./game-start";
+import {
+  HOUSING_MODULE_ID,
+  levelFromPay,
+  withHousing,
+} from "./modules/housing";
+import { coreAPI } from "./state";
 import { corePlaceByKey } from "./place-lookup";
 import type { CoreInput, Source } from "./types";
 
@@ -24,6 +33,8 @@ const src: Source = {
   estimatedFrom: "Day-one housing fixture only.",
 };
 const HOMES = 120;
+const DAYS = 365;
+const MONTHS = 12;
 
 /** A drawn town's opening input before housing: `HOMES` one-person households at pay that rises across them, times `raise`. */
 function buildOpeningInput(placeKey: string, raise: number): CoreInput {
@@ -143,5 +154,87 @@ describe("day one's rents and values", () => {
     throw new Error(
       `No drawn place had both a renter and an owner: ${tried.join("; ")}`,
     );
+  }, 600_000);
+
+  it(`two drawn played towns open with rents at the same share of their own pay (seed ${seed})`, () => {
+    const before = setBookkeeping(false);
+    const share = housingParameters.housingRentShareOfPay.value;
+    try {
+      const towns: { where: string; pay: number; rent: number }[] = [];
+      const tried: string[] = [];
+      for (let attempt = 0; towns.length < 2 && attempt < 8; attempt += 1) {
+        const place = drawPlace(seed, `day-one-world:${attempt}`);
+        const where = `${place.name} (${place.key}), seed ${seed}`;
+        const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+        const town = String(core.placeMetadata?.housingTown ?? "");
+        const typical = core.placeMetadata?.housingTypical;
+        // The opening keeps what the town's rents and values came from.
+        expect(
+          typical,
+          `${where}: the opening's typical rent, value and pay`,
+        ).toBeDefined();
+        const [rent, , pay] = JSON.parse(String(typical)) as [
+          number,
+          number,
+          number?,
+        ];
+        if (!pay) {
+          tried.push(`${where}: no household with pay`);
+          continue;
+        }
+        // Typical rent is the fitted share of the town's own median household pay.
+        expect(
+          Math.abs(rent - (share * pay * DAYS) / MONTHS),
+          `${where}: rent ${rent} against pay ${pay} a day`,
+          // The kept pay is rounded to the cent: one cent of pay a day.
+        ).toBeLessThanOrEqual((share * DAYS) / MONTHS + 1);
+        // The town's renters pay around it: their median is the typical rent.
+        const rents = (
+          coreAPI(core)
+            .moduleState(HOUSING_MODULE_ID)
+            .table("dwellings")
+            .rows() as unknown as {
+            householdId: string;
+            tenure: string;
+            rentMinor?: number;
+          }[]
+        )
+          .filter(
+            (row) =>
+              row.tenure === "rent" &&
+              core.households.get(row.householdId)?.placeId === town,
+          )
+          .map((row) => row.rentMinor ?? 0);
+        if (rents.length >= 5) {
+          const middle = [...rents].sort((a, b) => a - b)[
+            Math.floor(rents.length / 2)
+          ]!;
+          expect(
+            Math.abs(middle / rent - 1),
+            `${where}: renters' median ${middle} against the typical ${rent}`,
+          ).toBeLessThan(0.25);
+        }
+        towns.push({ where, pay, rent });
+      }
+      if (towns.length < 2)
+        throw new Error(
+          `Fewer than two drawn towns had pay: ${tried.join("; ")}`,
+        );
+      const [a, b] = towns as [(typeof towns)[0], (typeof towns)[0]];
+      // The better-paid town opens on the higher rent.
+      if (a.pay !== b.pay)
+        expect(
+          Math.sign(a.rent - b.rent),
+          `${a.where} pay ${a.pay} rent ${a.rent}; ${b.where} pay ${b.pay} rent ${b.rent}`,
+        ).toBe(Math.sign(a.pay - b.pay));
+      process.stdout.write(
+        `day-one towns: ${towns.map((t) => `${t.where}: pay ${Math.round(t.pay)} a day, rent ${t.rent}`).join("; ")}; passed over: ${tried.join("; ") || "none"}\n`,
+      );
+    } finally {
+      setBookkeeping(before);
+    }
   }, 600_000);
 });
