@@ -262,6 +262,21 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     ).toEqual([]);
   });
 
+  it("refuses a new parameter row whose role is a level or an opening value, and lets a coefficient in", () => {
+    const row = (role: string) =>
+      `{ "a": { "value": 1, "tag": "SOURCED", "role": "${role}" } }\n`;
+    const ids = (after: string) =>
+      checkChanges(
+        [{ path: "src/core2/data/x.json", before: row("coefficient"), after }],
+        rules,
+      ).map((f) => f.id);
+    expect(ids(row("coefficient") + row("level"))).toEqual(["level-row-added"]);
+    expect(ids(row("coefficient") + row("opening"))).toEqual([
+      "level-row-added",
+    ]);
+    expect(ids(row("coefficient") + row("coefficient"))).toEqual([]);
+  });
+
   it("refuses a skill added without retiring one, and lets a swap pass", () => {
     const skill = (
       name: string,

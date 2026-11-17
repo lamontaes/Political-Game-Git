@@ -33,6 +33,12 @@
       "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
       "pattern": "\\brandomBytes\\s*\\(|\\bprocess\\.env\\.[A-Z_]*SEED\\b",
       "refuse": "fewer"
+    },
+    {
+      "id": "level-row-added",
+      "files": "^src/(?:core2|director)/data/.*\\.json$",
+      "pattern": "\"role\"\\s*:\\s*\"(?:level|opening)\"",
+      "says": "a parameter row whose role is a level or an opening value (real data sets only a relationship's strength: owner, Nov 17)"
     }
   ],
   "baselines": "(^|/)[^/]*(?:baseline|ceiling)[^/]*\\.json$",
