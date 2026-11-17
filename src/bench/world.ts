@@ -194,6 +194,17 @@ function townResidents(input: CoreInput, placeId: string) {
 }
 
 /**
+ * The birthday of a player who is the default age (owner, Nov 16: "18, unless
+ * you pick another age"): the start date's own month and day, `PLAYER_MIN_AGE`
+ * years back (a leap day falls on the 28th).
+ */
+export function defaultPlayerBirthDate(startDate: string): string {
+  const day = makeIsoDate(startDate);
+  const [year, month, date] = day.split("-");
+  return `${Number(year) - PLAYER_MIN_AGE}-${month}-${month === "02" && date === "29" ? "28" : date}`;
+}
+
+/**
  * The player of a new game: with no birthday chosen, one of the town's own adults (18 and up),
  * picked by the world's seeded unit from them in id order, so the player's age follows the
  * place's own adults. Only a resident counts: relatives who live in households of their own are
@@ -207,6 +218,26 @@ export function entrantOf(
   gender?: string,
 ): string {
   return entrantChoice(input, placeId, birthDate, gender).id;
+}
+
+/**
+ * A place whose every adult lives in group quarters (a colony, a dormitory, a
+ * barracks) has no household to open in (pool item
+ * world-opening-no-player-where-everyone-lives-in-group-quarters): the error
+ * counts the adults who are there, in quarters.
+ */
+function noPlayerHere(
+  input: CoreInput,
+  placeId: string,
+  at: ReturnType<typeof makeIsoDate>,
+): NoPlayerHereError {
+  const inQuarters = input.people.filter(
+    (person) =>
+      person.placeId === placeId &&
+      person.tier !== "husk" &&
+      ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
+  ).length;
+  return new NoPlayerHereError(placeId, inQuarters);
 }
 
 /** The player and what the pick rests on (`entrantOf`). Fails only where no adult lives. */
@@ -226,18 +257,7 @@ export function entrantChoice(
     }))
     .filter((row) => row.age >= PLAYER_MIN_AGE)
     .sort((a, b) => a.id.localeCompare(b.id));
-  if (!adults.length) {
-    // Who is in the place at all: a place whose every adult lives in group
-    // quarters (a colony, a dormitory, a barracks) has no household to open in
-    // (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
-    const inQuarters = input.people.filter(
-      (person) =>
-        person.placeId === placeId &&
-        person.tier !== "husk" &&
-        ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
-    ).length;
-    throw new NoPlayerHereError(placeId, inQuarters);
-  }
+  if (!adults.length) throw noPlayerHere(input, placeId, at);
   const unit = seededUnit(input.seed, `opening-player:${placeId}`);
   const pick = adults[Math.floor(unit * adults.length)]!;
   return {
@@ -285,12 +305,16 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
-  const residents = townResidents(input, placeId).map((person) => ({
-    person,
-    age: ageOnDate(makeIsoDate(person.birthDate), at),
-    apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
-  }));
-  if (!residents.length) throw new Error("No resident here.");
+  // A player is an adult (18 and up) in a household, whatever age was chosen:
+  // the nearest age is looked for among the town's adults only.
+  const residents = townResidents(input, placeId)
+    .map((person) => ({
+      person,
+      age: ageOnDate(makeIsoDate(person.birthDate), at),
+      apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
+    }))
+    .filter((row) => row.age >= PLAYER_MIN_AGE);
+  if (!residents.length) throw noPlayerHere(input, placeId, at);
   // The chosen age where anyone in town is that age, else the nearest age anyone is.
   const ageGap = (age: number) => Math.abs(age - chosenAge);
   const nearestGap = Math.min(...residents.map((row) => ageGap(row.age)));
@@ -421,21 +445,41 @@ export function buildBenchWorld(
  * A new game's drawn place where no player can be picked is passed over and
  * the draw taken again without it; a place asked for by key, or any other
  * error, is thrown.
+ *
+ * The golden-path runner's key is a draw too, not an ask: it draws one place
+ * per spec from every locality (tests/golden-path/place.ts) and hands the key
+ * to the command as GOLDEN_PATH_PLACE_KEY. A build at that key passes the
+ * place over as well and takes the same state's next place by key, the
+ * runner's own order, naming what it passed over.
  */
 function passOver(options: BuildOptions, error: unknown): BuildOptions {
-  if (
-    options.placeKey ||
-    !(error instanceof NoPlayerHereError) ||
-    !error.placeKey
-  )
-    throw error;
-  return {
-    ...options,
-    passedOver: [
-      ...(options.passedOver ?? []),
-      { key: error.placeKey, reason: error.message },
-    ],
-  };
+  if (!(error instanceof NoPlayerHereError) || !error.placeKey) throw error;
+  const passedOver = [
+    ...(options.passedOver ?? []),
+    { key: error.placeKey, reason: error.message },
+  ];
+  if (!options.placeKey) return { ...options, passedOver };
+  const drawn =
+    options.placeKey === process.env.GOLDEN_PATH_PLACE_KEY ||
+    options.passedOver?.some((passed) => passed.key !== options.placeKey);
+  const here = realLocalities().find((row) => row.key === options.placeKey);
+  if (!drawn || !here) throw error;
+  const state = realLocalities()
+    .filter((row) => row.stateJurisdictionKey === here.stateJurisdictionKey)
+    .sort((a, b) => a.key.localeCompare(b.key));
+  const from = state.findIndex((row) => row.key === here.key);
+  const next = state
+    .map((_, step) => state[(from + step) % state.length]!)
+    .find((row) => !passedOver.some((passed) => passed.key === row.key));
+  if (!next) throw error;
+  // A developer's message, written as an Error's so the line register
+  // (scripts/words/line-register.ts) reads it as one and not as a game line,
+  // as NoPlayerHereError's own is.
+  const said = new Error(
+    `Passed over ${here.displayName} (${here.key}): ${error.message} Building at ${next.displayName} (${next.key}), the same state's next place.`,
+  );
+  process.stdout.write(said.message + "\n");
+  return { ...options, placeKey: next.key, passedOver };
 }
 
 /**
@@ -507,6 +551,10 @@ function* benchWorldStages(
     placeStateKey(place.key) ?? undefined,
   );
   const minimumPeople = settings.population ?? options.minimumPeople;
+  // With no birthday chosen the player is the default age, 18.
+  const playerBirthDate =
+    options.playerBirthDate ??
+    (options.twoLevel ? defaultPlayerBirthDate(startDate) : undefined);
   const built = buildPopulation({
     seed,
     startedAt: makeIsoDate(date),
@@ -515,10 +563,10 @@ function* benchWorldStages(
     ...(minimumPeople ? { minimumPeople } : {}),
     // With a resident of the age the creator's birthday makes the player, as
     // far as the place's households allow (`entrantBornNear`).
-    ...(options.playerBirthDate
+    ...(playerBirthDate
       ? {
           playerAge: ageOnDate(
-            makeIsoDate(options.playerBirthDate),
+            makeIsoDate(playerBirthDate),
             makeIsoDate(startDate),
           ),
         }
@@ -562,7 +610,7 @@ function* benchWorldStages(
       pick = entrantChoice(
         input,
         place.context.jurisdiction.id,
-        options.playerBirthDate,
+        playerBirthDate,
         options.playerGender,
       );
     } catch (error) {
