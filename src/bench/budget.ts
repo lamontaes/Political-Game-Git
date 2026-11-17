@@ -17,11 +17,11 @@ import { lineForPost } from "../core2/budgets-treasury";
 import { facePlace, holderFace } from "./government";
 import type { CoreState } from "../core2/types";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
+import { headsExecutive } from "../core2/offices-executives";
 
 const NAMES = lineNames.lines as Record<string, { name: string }>;
 
 const OFFICES = "core2-offices-v1";
-const EXECUTIVES = /^(mayor|governor|county-executive|president)$/;
 
 /** The governments whose executive the person is, by jurisdiction. */
 function executiveOf(core: CoreState, personId: string): Set<string> {
@@ -33,7 +33,7 @@ function executiveOf(core: CoreState, personId: string): Set<string> {
     if (term.status !== "serving") continue;
     const office = offices.table("offices").get(term.officeId) as
       { kind: string; jurisdiction: string } | undefined;
-    if (office && EXECUTIVES.test(office.kind)) out.add(office.jurisdiction);
+    if (office && headsExecutive(office.kind)) out.add(office.jurisdiction);
   }
   return out;
 }
@@ -241,7 +241,7 @@ function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
       { kind: string; jurisdiction: string; title?: string } | undefined;
     if (
       !office ||
-      !EXECUTIVES.test(office.kind) ||
+      !headsExecutive(office.kind) ||
       governmentId !== office.jurisdiction
     )
       continue;

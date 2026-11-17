@@ -66,6 +66,17 @@ export interface Reach {
   readonly terms: Readonly<Record<string, number>>;
 }
 
+/**
+ * The benefits paid from the opening whose amount or income limit is the
+ * law's own value: each is a program of its own that the treasury's monthly
+ * close runs (group-b.ts), as the law reach host opens them (host.ts).
+ */
+export const STANDING_BENEFIT_PROGRAMS: readonly string[] = [
+  "child-care-income-limit",
+  "ssi-federal-benefit-rate",
+  "energy-assistance-income-limit",
+];
+
 let review: ((api: CoreAPI) => void) | null = null;
 /** group-b.ts registers the review that re-runs every active policy. */
 export function setReachReview(run: (api: CoreAPI) => void): void {
