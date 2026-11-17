@@ -11,6 +11,7 @@
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
+import { heldDrivesOf } from "../core2/modules/drives";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -2473,6 +2474,8 @@ export class DevMode {
         case: healthCase(core, personId),
       },
       drives: [...person.drives.values()],
+      // Each drive's own half-life (a grudge's follows its holder's traits).
+      heldDrives: heldDrivesOf(this.api, personId),
       relationships: [...(core.relationshipsByPerson.get(personId) ?? [])]
         .map((id) => core.relationships.get(id))
         .filter((row) => row !== undefined),
