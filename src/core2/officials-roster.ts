@@ -14,7 +14,7 @@ import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
-import { axisOf, PLATFORM_QUESTIONS } from "./campaign-data";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 
 interface Spread {
   readonly mean: number;
