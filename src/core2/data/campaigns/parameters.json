@@ -365,6 +365,20 @@
       "source": "Pew Research Center (2024), 'Changing Partisan Coalitions in a Politically Divided Nation': about 7% of adults neither identify with nor lean toward a party.",
       "spread": [0.05, 0.1]
     },
+    "partyIdentityReach": {
+      "value": 0.55,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "In a world whose day one is the century's, how far toward its side's party a person's own lean must reach (as a share of the party's position on the voters' scale, stanceLean) for them to take the party. Checked against Gallup's 2024 party identification (56% identify; partyIdentifierShare): at four drawn century worlds on Nov 17, 2026 (Channel Lake IL, South Windham CT, Long Hill CT, Fort Washakie WY), 0.55 gave 55.2% to 57.2%. It sets only the strength; how many take a party moves with how far the world's own parties stand from its people.",
+      "spread": [0.45, 0.65]
+    },
+    "noPartyReach": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "In a world whose day one is the century's, the noPartyScore (how firmly someone leans plus a little for careful thinking) at or under which a person who takes no party has no party at all rather than calling themselves independent. Checked against Pew 2024's 7% (noPartyShare): at the same four drawn century worlds, 0.02 put 5.5% to 7.5% of adults under it. It sets only the strength; the count moves with the people.",
+      "spread": [0.0, 0.04]
+    },
     "noPartyDeliberationWeight": {
       "value": 0.1,
       "tag": "TUNABLE",
@@ -1693,6 +1707,13 @@
       "role": "coefficient",
       "spread": "0.5 to 2",
       "source": "How much a campaign leans toward a question whose area of the term read went the way the candidate runs on (a challenger's toward the area the incumbent's term hurt, the incumbent's toward the area it helped): a question's share of what the campaign says is multiplied by one plus this times the area's slide on that side, between 0 and 1, so a town that slid furthest on pay moves a challenger's talk toward pay by this much and no further, never a pass or fail. TUNABLE: no study measures it. The spread is checked in three named places by how many of a challenger's acts reach the hurt area and by the platform-emphasis printout, which is not tuned to (pool item campaign-platform-emphasis-c1)."
+    },
+    "budgetHoleWeight": {
+      "value": 10,
+      "tag": "ESTIMATED",
+      "role": "coefficient",
+      "source": "How much the revenue a bill would take out of its own government's budget weighs against it for a member, per unit share of the year's planned revenue, in the units of a member's position (their own views run about -1 to 1). Fitted to which income taxes American legislatures have ended: Alaska ended its tax on all individual income in 1980, when it had fallen to 3.8 percent of general revenue from 18.5 percent in fiscal 1978 as oil receipts grew (MOST Policy Initiative science note, Pre-elimination income tax rates, citing the Alaska Department of Revenue 1981, https://mostpolicyinitiative.org/science-note/pre-elimination-income-tax-rates/); New Hampshire ended its interest and dividends tax when it was 7.2 to 8.8 percent of General Fund revenue (New Hampshire Business Review, March 6, 2025, https://www.nhbr.com/new-state-budget-will-bear-consequence-of-interest-and-dividend-tax-repeal/); no state has ended a broad income tax carrying a larger share, and Congress has not ended the federal one, about half of receipts (Monthly Treasury Statement, fiscal 2025). At 10 a tax carrying 4 to 9 percent of revenue costs a member 0.4 to 0.9, which a strong view outweighs, and one carrying 18.5 percent costs 1.85, which a single view does not. Checked by a twenty-world count of first-year repeals of the federal income tax (none in the real record).",
+      "spread": [5, 20]
     }
   }
 }

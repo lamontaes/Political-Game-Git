@@ -2,8 +2,25 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 419,
+  "judged": 454,
   "no": {
+    "000kvn97gfw": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes",
+        "scene-talk.follow-ask.are-they-counting-on-you-to-win-or-to-run",
+        "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
+        "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
+        "scene-talk.reply-thank.okay-that-one-landed",
+        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "005p34dzlgt": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
@@ -362,21 +379,6 @@
         "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no"
       ],
       "why": "'If this doesn't go my way' never names the vote or decision begged for."
-    },
-    "0c9hb78wbv0": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off",
-        "scene-talk.state-request.this-is-the-second-time-i-m-asking-i-d-like-a-yes-or-a-no",
-        "scene-talk.reply-stall.i-m-still-waiting-on-the-committee-s-numbers-i-ll-call-when-i-have-th",
-        "scene-talk.follow-press.how-many-more-weeks",
-        "scene-talk.reply-decline.i-ve-thought-about-it-the-vote-is-a-no-a-hearing-is-a-yes",
-        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.follow-press.a-hearing-isn-t-a-vote-why-not-the-vote",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.follow-threaten.i-ve-asked-twice-i-won-t-ask-a-third-time"
-      ],
-      "why": "The donor's ask is 'the vote', but what the vote is on is never named."
     },
     "0cmpuexi5bp": {
       "keys": [
@@ -1248,6 +1250,21 @@
       ],
       "why": "The threat 'don't come to me when it goes wrong' rests on a 'deal' never named; what the presser wants is never stated."
     },
+    "18ktmih9p88": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-disagree.you-were-luckier-than-i-am-then",
+        "scene-talk.follow-press.luck-had-nothing-to-do-with-it-i-waited",
+        "scene-talk.reply-thank.okay-that-one-landed",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "18r0g29qmiu": {
       "keys": [
         "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
@@ -1443,6 +1460,19 @@
         "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought"
       ],
       "why": "Large bribe with only 'goes my way'; no named vote, permit or contract."
+    },
+    "1eyymeruo0j": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
     },
     "1f2w91oq5r7": {
       "keys": [
@@ -1819,6 +1849,17 @@
       ],
       "why": "'If this doesn't go my way' never names the matter the player can't do."
     },
+    "1x38aup7bjk": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right",
+        "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "1yc8j2f3nlh": {
       "keys": [
         "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
@@ -2134,6 +2175,19 @@
       ],
       "why": "Veiled remark; what is wanted is never named."
     },
+    "2d1pmi5m3fx": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-held-office-for-years-you-asked-for-coffee-because-you-can-t-",
+        "scene-talk.state-tell.i-ll-say-it-before-you-ask-not-this-year-you-re-one-good-year-away-fro",
+        "scene-talk.reply-ask.were-you-ever-in-my-spot",
+        "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+        "scene-talk.reply-thank.that-s-the-most-useful-thing-anyone-s-told-me-this-month",
+        "scene-talk.follow-promise.i-ll-make-a-few-calls-this-week-quietly",
+        "scene-talk.reply-thank.that-would-mean-a-lot",
+        "scene-talk.follow-promise.then-it-s-done-eat-your-pie"
+      ],
+      "why": "Names nothing that is done, and the pie is on no record."
+    },
     "2djht1u1ucb": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-heard-about-the-diploma-and-won-t-let-it-pass-without-a-word",
@@ -2266,7 +2320,22 @@
         "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
       ],
       "why": "Bribe for 'it goes my way'; what 'it' is never appears."
+    },
+    "0c9hb78wbv0": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off",
+        "scene-talk.state-request.this-is-the-second-time-i-m-asking-i-d-like-a-yes-or-a-no",
+        "scene-talk.reply-stall.i-m-still-waiting-on-the-committee-s-numbers-i-ll-call-when-i-have-th",
+        "scene-talk.follow-press.how-many-more-weeks",
+        "scene-talk.reply-decline.i-ve-thought-about-it-the-vote-is-a-no-a-hearing-is-a-yes",
+        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
+        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
+        "scene-talk.follow-press.a-hearing-isn-t-a-vote-why-not-the-vote",
+        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
+        "scene-talk.follow-threaten.i-ve-asked-twice-i-won-t-ask-a-third-time"
+      ],
+      "why": "The donor's ask is 'the vote', but what the vote is on is never named."
     }
   },
-  "yesHash": "15cl7dhuuy2"
+  "yesHash": "1zv8ckh96m6"
 }

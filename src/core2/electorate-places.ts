@@ -35,6 +35,13 @@ import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
 import { worldOffsetUnit, worldRate } from "./world-draw";
+import {
+  centuryCongressRoster,
+  centuryDistrictLean,
+  centuryStateShare,
+  centuryLegislatureRoster,
+  historyMode,
+} from "./electorate-century";
 
 /** A place counted coarsely: how many may vote there and where it leans. */
 export interface ElectoratePlace {
@@ -217,14 +224,26 @@ export function publishedCitizenShareOf(
  * This world's swing in a state's Republican two-party share from 2024: the
  * world's national swing and the state's own, each drawn once from the seed
  * (realistic, not real; owner, Oct 27). Positive toward the Republicans.
+ *
+ * Each draw keeps its floor away from zero, and so does their sum: where the
+ * state's own draw would cancel the national one to within its own floor, it
+ * moves with the national swing instead, so no state opens on its published
+ * share (CTO, Nov 17; Agugulu, American Samoa, seed 108d24aa2670d324 drew a
+ * New Hampshire swing of 9e-10). History's century shares replace this path.
  */
 export function worldSwing(seed: string, usps: string): number {
-  return (
+  const national =
     worldOffsetUnit(seed, "politics:national-swing") *
-      parameter("worldNationalSwingSpreadShare") +
+    parameter("worldNationalSwingSpreadShare");
+  const own =
     worldOffsetUnit(seed, `politics:state-swing:${usps}`) *
-      parameter("worldStateSwingSpreadShare")
-  );
+    parameter("worldStateSwingSpreadShare");
+  const floor =
+    parameter("worldDrawOffsetFloorShare") *
+    parameter("worldStateSwingSpreadShare");
+  return Math.abs(national + own) < floor
+    ? national + Math.sign(national) * Math.abs(own)
+    : national + own;
 }
 
 /** This world's votes cast, as a share of the published, in a state's 2024 races. */
@@ -333,6 +352,51 @@ export function statePlaces(
   seed: string,
   territoryEligible?: number,
 ): readonly ElectoratePlace[] {
+  const published = publishedStatePlaces(usps, seed, territoryEligible);
+  // In a world whose day one is the century's, the state stands where the century's last count
+  // left it: every place moves by one shift, keeping how its places differ from each other.
+  const target =
+    historyMode(seed) === "century" ? centuryStateShare(seed, usps) : undefined;
+  if (target === undefined || !published.length) return published;
+  const key = `${seed}|${usps}|${territoryEligible ?? ""}`;
+  const hit = centuryPlaceCache.get(key);
+  if (hit) return hit;
+  const votes = published.reduce((sum, p) => sum + p.votes2024, 0);
+  const weight = (p: ElectoratePlace) =>
+    votes > 0 ? p.votes2024 : 1 / published.length;
+  const total = votes > 0 ? votes : 1;
+  const at = (shift: number, p: ElectoratePlace) =>
+    Math.max(0, Math.min(1, p.rightShare + shift));
+  const meanAt = (shift: number) =>
+    published.reduce((sum, p) => sum + weight(p) * at(shift, p), 0) / total;
+  // The one shift that puts the state's mean on the century's share (the mean rises with it).
+  let low = -1,
+    high = 1;
+  for (let i = 0; i < 60; i += 1) {
+    const mid = (low + high) / 2;
+    if (meanAt(mid) < target) low = mid;
+    else high = mid;
+  }
+  const shift = (low + high) / 2;
+  const places = published.map((p) => ({
+    ...p,
+    rightShare: at(shift, p),
+    source: `${p.source}; where its state stands: the century's last count (src/core2/electorate-century.ts)`,
+  }));
+  centuryPlaceCache.set(key, places);
+  return places;
+}
+const centuryPlaceCache = new Map<string, readonly ElectoratePlace[]>();
+
+/**
+ * A state's places as published (its counties' 2024 presidential vote), before a world's history
+ * moves them: the century sizes each state's voters from these while it runs.
+ */
+export function publishedStatePlaces(
+  usps: string,
+  seed: string,
+  territoryEligible?: number,
+): readonly ElectoratePlace[] {
   const key = `${seed}|${usps}|${territoryEligible ?? ""}`;
   const hit = statePlaceCache.get(key);
   if (hit) return hit;
@@ -420,16 +484,23 @@ export function stateRightShare(usps: string, seed: string): number | null {
  * winner carried, so that the same holder standing again with the opening's
  * inputs lands on 2024. A seat no one contested in 2024 leans like its
  * state's typical district toward the winner by the typical margin, sized as
- * the state's average district.
+ * the state's average district. In a world whose day one is the century's, it
+ * stands where the century left it (`fromCentury`).
  */
 export function housePlace(
   usps: string,
   code: string,
   seed: string,
 ): ElectoratePlace | null {
-  const key = `${seed}|${usps}-${code}`;
+  const key = `${seed}|${historyMode(seed)}|${usps}-${code}`;
   if (!houseCache.has(key))
-    houseCache.set(key, readHousePlace(usps, code, seed));
+    houseCache.set(
+      key,
+      fromCentury(
+        readHousePlace(usps, code, seed),
+        centuryDistrictLean(seed, { usps, houseCode: code }),
+      ),
+    );
   return houseCache.get(key)!;
 }
 const houseCache = new Map<string, ElectoratePlace | null>();
@@ -496,7 +567,8 @@ export function housePlaceByGeoid(
  * with both parties contesting it, else the state's two-party vote over its
  * districts leaning like the town's own county where the town votes in it,
  * else toward its holder's party at the typical margin; net of the holder's
- * incumbency.
+ * incumbency. In a world whose day one is the century's, it stands where the
+ * century left it (`fromCentury`).
  */
 export function legislativePlace(
   usps: string,
@@ -530,7 +602,25 @@ export function legislativePlace(
         : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
     holderSide,
   );
-  return place;
+  return fromCentury(place, centuryDistrictLean(seed, { seatId: seatKey }));
+}
+
+/**
+ * A district where the century counted it stands where the century left it (CTO line 6935086070
+ * on #9747: day one is whatever that history produced), not at its 2024 result; its people and
+ * their turnout stay the place's.
+ */
+function fromCentury(
+  place: ElectoratePlace | null,
+  lean: number | undefined,
+): ElectoratePlace | null {
+  return place && lean !== undefined
+    ? {
+        ...place,
+        rightShare: lean,
+        source: `${place.source}; where it stands: the century's count (src/core2/electorate-century.ts)`,
+      }
+    : place;
 }
 
 /** The county place a town's counties fall in, from its recorded county names. */
@@ -648,7 +738,7 @@ function heldInWorld(
  * the roster's own name for the party; the national party where the roster
  * has none.
  */
-function rosterLabel(side: number): string {
+export function rosterLabel(side: number): string {
   if (!rosterLabels) {
     const counts = new Map<string, number>();
     const add = (label: string, n: number) =>
@@ -733,14 +823,41 @@ export function publishedSenateSeats(stateKey: string): readonly string[] {
   return ROSTER.congress[stateKey]?.senate ?? [];
 }
 
+/** The places that send members to Congress (the states, the District and the territories), in key order. */
+export function congressStateKeys(): readonly string[] {
+  return Object.keys(ROSTER.congress).sort();
+}
+
+/**
+ * A place's House seats as the roster keys them (the district number, "0" for an at-large seat or
+ * a delegate): the roster's seats and any district the 2024 results hold that the roster leaves
+ * vacant. Which seats exist, never who holds them.
+ */
+export function congressSeatKeys(stateKey: string): readonly string[] {
+  const usps = stateKey.slice(3);
+  const keys = new Set(
+    Object.keys(ROSTER.congress[stateKey] ?? {}).filter((k) => k !== "senate"),
+  );
+  for (const row of CAL.house)
+    if (row.stateUsps === usps && /^\d+$/.test(row.districtCode)) {
+      const district = String(Number(row.districtCode));
+      if (Number(district) > 0 && Number(district) < 98) keys.add(district);
+    }
+  return [...keys].sort((a, b) => Number(a) - Number(b) || a.localeCompare(b));
+}
+
 /**
  * This world's roster of the legislatures and Congress: each seat's holder by
  * `worldSeatParty`'s rule, and each chamber's party counts moved by its seats
- * that changed hands. Built once per world.
+ * that changed hands. Built once per world. Congress is the century's (electorate-century.ts)
+ * unless the world chose today's real record.
  */
 export function worldRoster(seed: string): typeof ROSTER {
-  const known = rosters.get(seed);
+  // One roster per world and per where its day one comes from (the century or today's record).
+  const cacheKey = `${seed}|${historyMode(seed)}`;
+  const known = rosters.get(cacheKey);
   if (known) return known;
+  const fromCentury = centuryCongressRoster(seed);
   const places: Record<string, Record<string, RosterChamber>> = {};
   for (const [stateKey, chambers] of Object.entries(ROSTER.places)) {
     const usps = stateKey.slice(3);
@@ -814,8 +931,32 @@ export function worldRoster(seed: string): typeof ROSTER {
         }
       }
   }
-  const world = { places, congress };
-  rosters.set(seed, world);
+  // The century's chambers where it ran them; the roster's seats by district are the
+  // published holders, so they go with the published counts.
+  const legislatures = centuryLegislatureRoster(seed);
+  const chamberOf = (stateKey: string, key: string, chamber: RosterChamber) => {
+    const counted = legislatures?.[stateKey]?.[key];
+    return counted
+      ? { members: counted.members, parties: counted.parties }
+      : chamber;
+  };
+  const world = {
+    places: legislatures
+      ? Object.fromEntries(
+          Object.entries(places).map(([stateKey, chambers]) => [
+            stateKey,
+            Object.fromEntries(
+              Object.entries(chambers).map(([key, chamber]) => [
+                key,
+                chamberOf(stateKey, key, chamber),
+              ]),
+            ),
+          ]),
+        )
+      : places,
+    congress: fromCentury ?? congress,
+  };
+  rosters.set(cacheKey, world);
   return world;
 }
 

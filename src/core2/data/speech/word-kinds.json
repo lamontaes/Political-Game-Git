@@ -1,0 +1,20 @@
+{
+  "about": "Acts people talk about: each row names who saw the act (the event's witnesses, or the persons it was done to) and whom it is about (the event's first person, or a fact naming them). The ones who saw it weigh retelling it with the speech's own choice (speech.ts, spreadWord). Grudge and favor kinds join here as their writers record them (CTO, Nov 17, 06:18Z: one connected web).",
+  "kinds": [
+    {
+      "kind": "grievance.confronted",
+      "tellers": "witnesses",
+      "about": "first-person"
+    },
+    {
+      "kind": "press.snubbed",
+      "tellers": "persons",
+      "about": { "fact": "byId" }
+    },
+    {
+      "kind": "press.attacked",
+      "tellers": "persons",
+      "about": { "fact": "byId" }
+    }
+  ]
+}

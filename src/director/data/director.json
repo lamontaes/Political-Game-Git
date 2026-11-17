@@ -999,6 +999,20 @@
         "unit": "own read of the chance, 0 to 1",
         "citation": "Unverified estimate (Nov 17, 2026): a long shot, checked across drawn places in a played filing season; no study measures when an adviser calls a race a reach."
       }
+    },
+    "directorGiftRankDonors": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "citation": "The fewest other named donors a campaign needs before a gift reads as one of many (the biggest or one of the smallest checks the candidate has had); with fewer, a rank says nothing (Story lead, Nov 17, the donor's call; donor-ask-facts.ts `donorReads`).",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      },
+      "spread": {
+        "low": 1,
+        "high": 4,
+        "unit": "other donors",
+        "citation": "Unverified estimate (Nov 17, 2026): the range checked across drawn places in a played campaign; no study measures it. One other donor would make every gift the biggest or the smallest of two; four would hide a rank in a small race."
+      }
     }
   },
   "channels": [
@@ -1071,7 +1085,11 @@
       "endsOn": "never",
       "producedBy": [],
       "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
+        {
+          "eventKind": "scene.reply",
+          "fact": "keeps",
+          "equals": "favor-owed"
+        }
       ]
     },
     {
@@ -1079,8 +1097,14 @@
       "endsOn": "settling-record",
       "producedBy": [],
       "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "promise" },
-        { "eventKind": "promise.answer", "fact": "promise" }
+        {
+          "eventKind": "scene.reply",
+          "fact": "promise"
+        },
+        {
+          "eventKind": "promise.answer",
+          "fact": "promise"
+        }
       ]
     }
   ],

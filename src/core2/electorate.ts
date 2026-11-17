@@ -17,7 +17,14 @@ import {
   registerViewLeans,
 } from "./campaign-views";
 import { campaignParameter, type Stance } from "./campaign-data";
-import { electorateParameter } from "./electorate-inputs";
+import {
+  appealOfShare,
+  candidateReasons,
+  electorateParameter,
+  type CandidateInputs,
+  type CandidateReasons,
+  type RaceConditions,
+} from "./electorate-inputs";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
@@ -970,6 +977,32 @@ export interface PlaceResult {
 }
 
 /**
+ * The share of a counted record's people who back the right-hand candidate in a race between two
+ * party candidates counted from afar. A record stands for the people over its own stretch of the
+ * lean order (half of it, `halfStretch`, either side of its rank), not one person at its rank: on
+ * that stretch their lean, and so the gap between the two candidates in their eyes, runs on a
+ * line (a voter's appeal moves with lean times the candidate's side, `countedAppeal`, and lean
+ * with twice the distance along the order), so the people past the point where the gap turns
+ * back the right, the rest the left. `gap` is the right's appeal less the left's at the record's
+ * own rank; at either end of the lean scale (`atEnd`) the stretch stands whole on one side. A
+ * small move in a place's lean or a candidate's pull then moves the count (CTO line 6936407513,
+ * Nov 17, 2026: "count ... over a continuous lean distribution, so that small moves matter"; the
+ * replacement SG-GOV-counted-lean-spread named: "A spread of leans within each counted record on
+ * the lean order").
+ */
+export function rightPartOfRecord(
+  gap: number,
+  halfStretch: number,
+  atEnd: boolean,
+): number {
+  if (atEnd || halfStretch <= 0) return gap > 0 ? 1 : gap < 0 ? 0 : 0.5;
+  // Along the stretch the gap falls by four for each unit of the order: two from lean, two from
+  // the two candidates' opposite sides.
+  const reach = 4 * halfStretch;
+  return Math.max(0, Math.min(1, (gap + reach) / (2 * reach)));
+}
+
+/**
  * Where a place's people stand on the lean order for its 2024 vote. The
  * people who feel most strongly turn out most (interest is the strength of
  * their strongest feeling), so a place whose people stood at its 2024 share
@@ -979,6 +1012,9 @@ export interface PlaceResult {
  * would split as the place did. Everything that moves in play (standing,
  * conditions, laws, the cycle) moves the vote from there.
  */
+/** Points on the lean order where a sample's share is worked out once for placing places (engineering value). */
+const PLACEMENT_GRID = 512;
+
 function orderPlacement(
   voters: readonly SampleVoter[],
 ): (target: number) => number {
@@ -987,6 +1023,8 @@ function orderPlacement(
   // end of the lean scale always weighs a gap of two.
   const rule = turnoutRule();
   const atEnds = voters.map((voter) => rule(voter.readiness, 2));
+  // Each record stands for an equal stretch of the order (`coarseSample`).
+  const halfStretch = voters.length ? 1 / (2 * voters.length) : 0;
   // Each voter's own readiness against their own place in the order: who
   // turns out at what strength of feeling, as the count itself decides it.
   const shareAt = (right: number) => {
@@ -1001,33 +1039,42 @@ function orderPlacement(
           : rule(voter.readiness, 2 * Math.abs(lean));
       all += share;
       // Two typical candidates carry party labels, so each voter's people
-      // back the one on their side whole (`countedShareRule`).
-      if (lean > 0) r += share;
-      else if (lean === 0) r += share / 2;
+      // back the one on their side, over the record's own stretch of the
+      // order (`rightPartOfRecord`, the same division the count makes).
+      r +=
+        share *
+        rightPartOfRecord(2 * lean, halfStretch, lean === 1 || lean === -1);
     }
     return all ? r / all : right;
   };
-  // Every place's bisection starts from the same midpoints, so the share at
-  // each one is worked out once.
-  const sums = new Map<number, number>();
+  // The share at each place on the order rises smoothly with it (each record
+  // divides over its own stretch, `rightPartOfRecord`), so it is worked out
+  // once on a fine grid and each place's position read from it, rising
+  // linearly between two grid points: a count of many places with their own
+  // leans (the century's districts) no longer searches the order for each.
+  let grid: Float64Array | undefined;
   const cache = new Map<number, number>();
   return (target) => {
     if (!voters.length) return target;
     const hit = cache.get(target);
     if (hit !== undefined) return hit;
+    if (!grid) {
+      grid = new Float64Array(PLACEMENT_GRID + 1);
+      for (let i = 0; i <= PLACEMENT_GRID; i += 1)
+        grid[i] = shareAt(i / PLACEMENT_GRID);
+    }
     let lo = 0,
-      hi = 1;
-    for (let i = 0; i < 24; i += 1) {
-      const mid = (lo + hi) / 2;
-      let sum = sums.get(mid);
-      if (sum === undefined) {
-        sum = shareAt(mid);
-        sums.set(mid, sum);
-      }
-      if (sum < target) lo = mid;
+      hi = PLACEMENT_GRID;
+    if (target <= grid[0]!) return 0;
+    if (target >= grid[hi]!) return 1;
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1;
+      if (grid[mid]! < target) lo = mid;
       else hi = mid;
     }
-    const right = (lo + hi) / 2;
+    const span = grid[hi]! - grid[lo]!;
+    const right =
+      (lo + (span > 0 ? (target - grid[lo]!) / span : 0.5)) / PLACEMENT_GRID;
     cache.set(target, right);
     return right;
   };
@@ -1087,6 +1134,60 @@ function coarseSample(sample: readonly SampleVoter[]): CoarseSample {
 }
 
 /**
+ * The field of a race between party candidates as every counted voter sees it: each candidate's
+ * public standing from their reasons (the one race rule), and, for a holder, the voters' own
+ * incumbent lean read against `incumbentLeanCenter` (the town's average, in play).
+ */
+export function partyFieldEntries(
+  reasons: readonly CandidateReasons[],
+  field: readonly CandidateInputs[],
+  incumbentLeanCenter?: number,
+): readonly CountedFieldEntry[] {
+  return field.map((c, i) => ({
+    id: c.id,
+    side: c.side,
+    isIncumbent: c.incumbent,
+    // The holder's standing carries the average incumbency advantage, so each
+    // voter's own incumbent lean is read against the town's average, as the
+    // town's own races read it.
+    ...(c.incumbent && incumbentLeanCenter !== undefined
+      ? { incumbentLeanCenter }
+      : {}),
+    standing: appealOfShare(reasons[i]!.total),
+    localStanding: 0,
+    recognition: 0,
+    platform: [],
+  }));
+}
+
+/**
+ * One race between party candidates in places counted from afar: each candidate's reasons by the
+ * one race rule (`candidateReasons`), then the places counted on the one count (`countPlaces`).
+ * The one path for the world's races in play (voting.ts `decide`, the electors' states) and the
+ * century before day one (electorate-century.ts), so both count a race the same way.
+ */
+export function countParties(
+  sample: readonly SampleVoter[],
+  places: readonly RacePlace[],
+  field: readonly CandidateInputs[],
+  conditions: RaceConditions,
+  incumbentLeanCenter?: number,
+): {
+  readonly reasons: readonly CandidateReasons[];
+  readonly counted: ReturnType<typeof countPlaces>;
+} {
+  const reasons = field.map((c) => candidateReasons(c, conditions));
+  return {
+    reasons,
+    counted: countPlaces(
+      sample,
+      places,
+      partyFieldEntries(reasons, field, incumbentLeanCenter),
+    ),
+  };
+}
+
+/**
  * Count places outside the town's counted residents on the same engine:
  * each place's voters are the town's counted voters re-placed on the
  * place's own lean (the same rank in the order, against the place's right
@@ -1111,8 +1212,22 @@ export function countPlaces(
   readonly votes: Readonly<Record<string, number>>;
   readonly cast: number;
   readonly places: readonly PlaceResult[];
+  /**
+   * Each place's votes before they are rounded to whole people, in the places' order: a share is
+   * the division of the counted people, and only the printed counts are whole (two districts of
+   * a few thousand voters otherwise print one share by the rounding alone).
+   */
+  readonly exact: readonly Readonly<Record<string, number>>[];
 } {
   const { voters, placement } = coarseSample(sample);
+  // A race between one candidate of each side, by their ids; each counted record's stretch.
+  const pair =
+    seats === 1 && field.length === 2 && field[0]!.side * field[1]!.side < 0
+      ? field[0]!.side > 0
+        ? { right: field[0]!.id, left: field[1]!.id }
+        : { right: field[1]!.id, left: field[0]!.id }
+      : null;
+  const halfStretch = voters.length ? 1 / (2 * voters.length) : 0;
   // One record refilled for every voter: each voter's appeal is read here
   // and nothing keeps it (`countedAppeal`'s `into`).
   const scratch: Record<string, CountedAppeal> = {};
@@ -1124,6 +1239,7 @@ export function countPlaces(
       : one;
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
+  const exacts: Record<string, number>[] = [];
   let cast = 0;
   for (const place of places) {
     const votes: Record<string, number> = {};
@@ -1173,10 +1289,24 @@ export function countPlaces(
         // They divide among the candidates by the race's rule
         // (`countedShareRule`): by each one's share of their appeal on a
         // ballot without party labels, whole to the first on one with them.
+        // Two party candidates counted from afar: the record's people divide over its own
+        // stretch of the order (`rightPartOfRecord`), so a small move in the place's lean or a
+        // candidate's pull moves the count.
+        if (pair && !place.inTown && !primary) {
+          const right = rightPartOfRecord(
+            appeal[pair.right]!.total - appeal[pair.left]!.total,
+            halfStretch,
+            lean === 1 || lean === -1,
+          );
+          votes[pair.right] = (votes[pair.right] ?? 0) + share * right;
+          votes[pair.left] = (votes[pair.left] ?? 0) + share * (1 - right);
+          continue;
+        }
         const parts = shares(appeal);
         for (const id of Object.keys(parts))
           votes[id] = (votes[id] ?? 0) + share * parts[id]!;
       }
+    const exact = { ...votes };
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);
       totals[id] = (totals[id] ?? 0) + votes[id]!;
@@ -1192,6 +1322,7 @@ export function countPlaces(
       votes,
       source: place.source,
     });
+    exacts.push(exact);
   }
-  return { votes: totals, cast, places: results };
+  return { votes: totals, cast, places: results, exact: exacts };
 }
