@@ -1,0 +1,26 @@
+# Words engine: the composer
+
+Part of the `words-engine` skill. The composer and its checks (owner, Nov 12).
+
+## The composer (owner, Nov 12: "change the engine", never one sentence at a time)
+
+The design is `docs/design/words-composer.md`; read it before any words work. What it means for a session:
+
+- **A complaint about a line is a complaint about a shared part.** Before touching a bank line, name which of the six parts let it through (the telling, said-as, the outline, the join, stance, the composed checks) and fix it there, so the fix holds for every speech, talk, scene, Journal page and news story. A pull request that rewords lines for one scene and changes no shared part is sent back (owner, Nov 12: "You're focusing too much on the president's speech when the problem is the engine").
+- **No bank line holds a title, a full name or an employer's name as words.** A person, office, employer, bill or place is a slot, and the one said-as reader words it from what the text has already said.
+- **An `{issue}` or `{said}` short name is a subject, never a side.** A line never puts a direction on it ("hold the line on {issue}", "give ground on {issue}"), because the short name of a question can read either way; the side is said through the speaker ("with me on {issue}", "stand where I stand on {issue}") (Words lead, Nov 15).
+- **A composer is handed the telling or it does not compose:** the speaker and listener and their tie, who is in the room, the hour, what the listener knows, and what was said on this screen, in this household today and to this person this week. On Nov 12 the room's people were never passed to a talk and the hour was read only for the goodbye.
+- **A skill line is not a fix.** "Small talk loses to anything with a record" and "words know the hour" were written here on Nov 11 and never built, and the owner met both the next night. A lesson goes in with the code or with a pool item that names the function.
+- **A note about composed text becomes a composed rule,** read over whole texts in drawn worlds, with a count that only falls. Until its check exists, the rule's row says what it awaits; it is never marked done by rewording the lines he quoted.
+- **Pre-grade before he sees it.** A session that did not build the change plays a new life, reads the screens, and grades at least a speech that is not the President's, the talk at home and the Journal as he would from his past notes. Only what survives goes to him.
+
+## The composed checks (unit 5 of the composer, Nov 12)
+
+A composed rule reads whole texts a player met, never one bank line: its row's test is `{ "kind": "composed", "check": [names], "applies": [kinds] }`, status `sample` (it reports, it pulls nothing), and `ruleFlags` returns false for it.
+
+- **Run them:** `npm run words:composed -- --seed <seed> [--place-key <key>] [--draws N] [--days 14] [--report <file outside the repository>]`. Each draw plays a new life through the bench's own routes (`benchRequest`: the opening address and the evening after it, everyone at home who has something to say each day, Day pressed and every stop and staged scene played) and keeps every text as a `ComposedText` (`src/english/composed-text.ts`): speeches by level, talk at home and in town, scenes, narration, the Journal's first page and notes, news toasts and stories. A governor's or mayor's address the window misses is composed through `recordLocalAddress` at the end and marked `proof`. It prints per rule the texts read, breaks and three examples with place, seed and kind. A 14-day life takes under a minute; three draws in one process stay under 2 GB.
+- **The count only falls.** `tests/guards/english/composed-baseline.json` keeps breaks per 100 texts per rule on recorded draws. `npm run words:composed -- --check` replays those draws and exits 1 naming any rule whose rate rose; the run is deterministic on a seed, so a rise is your change. After a change that lowers a count, write it again on the same draws with `--write-baseline` and the same `--seed` flags.
+- **A words pull request quotes its before and after counts** from `--check` (or the table) for every composed rule its change touches, with the draws.
+- **Add a check:** a pure function `(text, sample) => breaks` in `src/english/composed-checks.ts`, registered in `COMPOSED_CHECKS`; its numbers and word lists go in `data/english/composed-checks.json` (each number TUNABLE with a spread); name it in the rule's `test.check`; give it a catch and a spare in our own words in `tests/guards/english/composed-rules.test.ts`, which fails until every registered check is used by a rule and has fixtures. A check that cannot be sound without the telling or typed pieces is not guessed: leave that part named in the rule's `note`.
+- **The talk's screen is one step of the talk box:** the other person's lines from one request plus the replies offered. A full name in the line and again in a reply counts twice on that screen, as the owner reads it.
+- **A line is never changed only to pass a guard**, the unique-text check included. A duplicate text means delete your copy and use the existing piece. A builder never judges pairs on its own lines: the sheet goes to the planted review (`npm run words:review` once #9221 folds; `trusted-review-pass`).

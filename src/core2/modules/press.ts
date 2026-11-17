@@ -4583,6 +4583,8 @@ function snubbed(
   outletId: string,
   byId: string,
   sourceId: string,
+  /** Those in the room when it was said (an attack in a speech): they saw it, so nobody tells them of it. */
+  presentIds: readonly string[] = [],
 ): void {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
@@ -4598,6 +4600,16 @@ function snubbed(
     date: api.state.date,
     kind,
     personIds: staff,
+    ...(presentIds.length
+      ? {
+          witnessIds: presentIds.filter(
+            (id) =>
+              id !== byId &&
+              !staff.includes(id) &&
+              api.state.people.get(id)?.alive,
+          ),
+        }
+      : {}),
     placeId: outlet.placeId,
     // The one who snubbed or attacked them is the responsible party.
     topic: byId,
@@ -4620,13 +4632,9 @@ export const INTERVIEW_INVITED_EVENT = "interview-invited";
  * candidate's answers, said there, publish the interview (`answerInterview`).
  */
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
-/** The replies in an invitation's scene that accept it. */
-export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
-  "agree",
-  "relent",
-]);
-/** The replies in an invitation's scene that turn it down. */
-export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+// The replies that accept or turn down an ask live with every engine that reads them.
+import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+export { ACCEPTING_MOVES, REFUSING_MOVES };
 
 /**
  * The races an outlet takes up this week. Each week a race in its horizon
@@ -5057,7 +5065,14 @@ export function attackOutlet(
       audienceIds: input.audienceIds,
       occasion: { recordId: id, kind: "attack" },
     });
-  snubbed(api, "press.attacked", outlet.id, input.speakerId, id);
+  snubbed(
+    api,
+    "press.attacked",
+    outlet.id,
+    input.speakerId,
+    id,
+    input.audienceIds,
+  );
   followCache.delete(api.state);
   return id;
 }

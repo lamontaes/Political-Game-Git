@@ -152,7 +152,9 @@ export interface VacancyRow {
   readonly since: string;
   readonly cause: string;
   readonly rule: VacancyRule;
-  readonly status: "open" | "filled" | "awaiting-election";
+  readonly status: "open" | "filled" | "awaiting-election" | "offered";
+  /** Offered to someone by the appointing body (`registerVacancyOffer`): how they would reach the seat. */
+  readonly offeredReached?: string;
   /** The term that ended when the seat fell vacant: dev mode's Trace names who left and how. */
   readonly vacatedTermId?: string;
   readonly filledBy?: string;
@@ -1764,6 +1766,7 @@ function fillVacancy(
   vacancy: VacancyRow,
   previous: Pick<TermRow, "personId" | "party" | "endDate" | "endEstimated"> &
     Partial<TermRow>,
+  offering = true,
 ): VacancyRow {
   const date = api.state.date;
   const rule = office.vacancyRule;
@@ -1868,10 +1871,20 @@ function fillVacancy(
   }
   if (rule.method === "successor")
     return appoint(`succeeded as ${rule.successor ?? "next in line"}`);
-  if (rule.method === "appointment")
-    return appoint(
-      `appointed by ${rule.appointedBy ?? "the appointing authority"}`,
-    );
+  if (rule.method === "appointment") {
+    const reached = `appointed by ${rule.appointedBy ?? "the appointing authority"}`;
+    // The body may offer the seat first to someone it would not seat unasked (the player): the seat
+    // waits on their answer (`answerVacancyOffer`).
+    if (
+      offering &&
+      !vacancy.unheld &&
+      [...vacancyOffers.values()].some((offer) =>
+        offer(api, { office, seat, vacancyId: vacancy.id, reached }),
+      )
+    )
+      return { ...vacancy, status: "offered", offeredReached: reached };
+    return appoint(reached);
+  }
   // A special election, after an interim appointment where the law makes one.
   const scheduled: VacancyRow = {
     ...vacancy,
@@ -1930,6 +1943,93 @@ type SpecialElectionOpener = (
     readonly unheld?: VacancyRow["unheld"];
   },
 ) => boolean;
+/**
+ * An engine that may offer a vacant seat, filled by appointment, to someone the appointing body does not
+ * seat unasked: the player, who takes a seat only by their own choice (owner, Oct 14: the engine
+ * offers, the player decides; Nov 16: "you can only be appointed to council, like the playable
+ * offices"). True when it made an offer; the vacancy then waits on `answerVacancyOffer`.
+ */
+export type VacancyOffer = (
+  api: CoreAPI,
+  input: {
+    readonly office: OfficeInput;
+    readonly seat: SeatInput;
+    readonly vacancyId: string;
+    readonly reached: string;
+  },
+) => boolean;
+const vacancyOffers = new Map<string, VacancyOffer>();
+/** An engine offers vacant seats to the person it answers for (the elections engine, the player). */
+export function registerVacancyOffer(
+  offer: VacancyOffer,
+  name = "player",
+): void {
+  vacancyOffers.set(name, offer);
+}
+
+/**
+ * The answer to an offered seat: a yes seats the person for the rest of the vacated term, with the
+ * appointing body's reason; a no fills it as the rule does when nobody is offered it. Returns the
+ * vacancy as it stands, or null where it is no longer offered.
+ */
+export function answerVacancyOffer(
+  api: CoreAPI,
+  vacancyId: string,
+  personId: string,
+  yes: boolean,
+): VacancyRow | null {
+  const vacancy = table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+  if (vacancy?.status !== "offered") return null;
+  const office = table(api, "offices").get(
+    vacancy.officeId,
+  ) as unknown as OfficeInput & { vacancyRule: VacancyRule };
+  const seat = table(api, "seats").get(vacancy.seatId) as unknown as SeatInput;
+  const previous = (vacancy.vacatedTermId
+    ? table(api, "terms").get(vacancy.vacatedTermId)
+    : undefined) as unknown as TermRow | undefined;
+  const ended = {
+    personId: previous?.personId ?? null,
+    party: previous?.party ?? null,
+    endDate: previous?.endDate ?? null,
+    endEstimated: previous?.endEstimated ?? true,
+  } as Pick<TermRow, "personId" | "party" | "endDate" | "endEstimated">;
+  if (!yes) {
+    const filled = fillVacancy(
+      api,
+      office,
+      seat,
+      { ...vacancy, status: "open" },
+      ended,
+      false,
+    );
+    table(api, "vacancies").put(filled as unknown as ModuleRow);
+    return filled;
+  }
+  const term = seatResident(
+    api,
+    office,
+    seat,
+    personId,
+    api.state.date,
+    vacancy.offeredReached ?? vacancy.rule.method,
+  );
+  const finished = {
+    ...term,
+    endDate: ended.endDate,
+    endEstimated: ended.endEstimated,
+  };
+  table(api, "terms").put(finished as unknown as ModuleRow);
+  const filled: VacancyRow = {
+    ...vacancy,
+    status: "filled",
+    filledBy: term.id,
+  };
+  recordFill(api, office, seat, finished, filled);
+  table(api, "vacancies").put(filled as unknown as ModuleRow);
+  return filled;
+}
+
 /** Each engine that opens real races for a seat awaiting a special election, by name. */
 const specialOpeners = new Map<string, SpecialElectionOpener>();
 /** The first engine that takes the seat opens its race; none leaves the stand-in. */
