@@ -28,7 +28,7 @@ const seed =
 const START = "2028-01-02";
 const DRAWS = 4;
 
-it("each major party has a world-chosen presidential candidate by the filing close", () => {
+it(`each major party has a world-chosen presidential candidate by the filing close (seed ${seed})`, () => {
   const passedOver: string[] = [];
   for (let draw = 0; draw < DRAWS; draw++) {
     const place = drawPlace(seed, `presidency-candidates:${draw}`);

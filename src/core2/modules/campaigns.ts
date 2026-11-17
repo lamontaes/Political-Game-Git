@@ -3794,28 +3794,47 @@ export function circulatorShift(
   const openness = Math.min(1, campaignParameter("petitionSignOpenness"));
   const outsideEligible = reach.outside.reduce((n, p) => n + p.eligible, 0);
   const held = petition.outsideSigned ?? {};
-  const got: [string, number][] = [];
-  let total = 0;
-  for (const place of reach.outside) {
+  // Each place gives its share of the shift's signatures, up to its willing
+  // voters, and the shares are placed whole by the largest remainder: a
+  // share rounded down at every place lost a few signatures each shift, and
+  // the last shift's few were spread below one a place and never bought (at
+  // Williston, Ohio, Nov 17, four presidential petitions ended 4 to 20 short
+  // of 1,000 with $456 of circulator money left).
+  const places = reach.outside.map((place) => {
     const aligned =
       side > 0
         ? place.rightShare
         : side < 0
           ? 1 - place.rightShare
           : shareValue("evenSplit");
-    const willing = Math.floor(
-      place.eligible * (1 - (1 - aligned) * (1 - openness)) -
-        (held[place.id] ?? 0),
+    const willing = Math.max(
+      0,
+      Math.floor(
+        place.eligible * (1 - (1 - aligned) * (1 - openness)) -
+          (held[place.id] ?? 0),
+      ),
     );
-    const n = Math.min(
-      Math.max(0, willing),
-      Math.floor((want * place.eligible) / outsideEligible),
-    );
-    if (n > 0) {
-      got.push([place.id, n]);
-      total += n;
+    const exact = (want * place.eligible) / outsideEligible;
+    const whole = Math.min(willing, Math.floor(exact));
+    return { id: place.id, willing, whole, rest: exact - Math.floor(exact) };
+  });
+  let left = want - places.reduce((n, p) => n + p.whole, 0);
+  for (const place of [...places].sort(
+    (a, b) => b.rest - a.rest || a.id.localeCompare(b.id),
+  )) {
+    if (left <= 0) break;
+    if (place.whole < place.willing) {
+      place.whole += 1;
+      left -= 1;
     }
   }
+  const got: [string, number][] = [];
+  let total = 0;
+  for (const place of places)
+    if (place.whole > 0) {
+      got.push([place.id, place.whole]);
+      total += place.whole;
+    }
   if (total <= 0) return 0;
   spend(api, filingId, {
     kind: "circulators",
