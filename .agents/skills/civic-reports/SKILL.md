@@ -91,6 +91,8 @@ A count or a build quoted from a page that other sessions keep publishing (the S
 own check turns every skills PR red (Nov 1, the U2 build spec, fixed at
 a44c7b833d). Run step 1 before any push.
 
+A pull request body written from a shell goes through a quoted heredoc (`cat > body.md <<'EOF'`), or a script that edits it does (`python3 - <<'PYEOF'` with the script in its own file when it holds backticks). With an unquoted delimiter the shell runs every backticked command in the text: on Nov 17 the Blockers lane's edit of a PR body ran the browser check and a vitest run it only named. The check reads everything before the first `## ` heading as the lead (under 120 words, no code, clock times, pull request numbers or how a test ran), so the template's sections after the opening paragraph go under `## ` headings, and the method goes there.
+
 `docs/writing/the-next-generation-rewrite.md` is the worked example: the
 report that prompted this skill, and the same facts rewritten to the bar.
 
