@@ -65,8 +65,7 @@ describe("the century elects day one's President", () => {
       const place = drawPlace(`${RUN}:worlds:${i}`, "history-president");
       parties.set(
         `${place.name} (${place.key}), world seed ${place.seed}`,
-        centuryOf(place.seed, gameStartDate()).presidencies.at(-1)!
-          .winnerParty,
+        centuryOf(place.seed, gameStartDate()).presidencies.at(-1)!.winnerParty,
       );
     }
     const seen = new Set(parties.values());
@@ -92,7 +91,9 @@ describe("the century elects day one's President", () => {
       );
       if (!row.noMajority)
         expect(
-          row.winnerSide > 0 ? row.electoral.republican : row.electoral.democratic,
+          row.winnerSide > 0
+            ? row.electoral.republican
+            : row.electoral.democratic,
           `${where}, ${row.year}`,
         ).toBeGreaterThanOrEqual(270);
     }

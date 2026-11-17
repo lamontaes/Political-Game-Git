@@ -24,11 +24,15 @@
  * This unit runs the presidency (pull request 1 of the History lane's plan, #9747). Congress, the
  * states, the economy and the laws follow, each on the same steps.
  */
-import { candidateReasons, type CandidateInputs } from "./electorate-inputs";
-import { appealOfShare, typicalSpendPerVote } from "./electorate-inputs";
+import {
+  appealOfShare,
+  candidateReasons,
+  nationalParty,
+  typicalSpendPerVote,
+  type CandidateInputs,
+} from "./electorate-inputs";
 import { countPlaces, type SampleVoter } from "./electorate";
 import { statePlaces } from "./electorate-places";
-import { nationalParty } from "./appointments";
 import { readinessOf } from "./turnout";
 import { worldOffsetUnit } from "./world-draw";
 import electorsData from "./data/elections/electoral-votes.json" with { type: "json" };
