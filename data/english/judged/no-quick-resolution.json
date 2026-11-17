@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "no-quick-resolution",
   "rubric": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
-  "judged": 616,
+  "judged": 574,
   "no": {
     "0f0tx72zwym": {
       "keys": [
@@ -63,5 +63,5 @@
       "why": "Both replies give in agreeably to the teasing, and neither pushes back, deflects or raises the stakes."
     }
   },
-  "yesHash": "27jc7wvuc8y"
+  "yesHash": "1dyruw06sr9"
 }

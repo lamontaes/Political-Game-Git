@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 2965,
+  "judged": 2854,
   "no": {
     "000jt3f972v": {
       "keys": [
@@ -312,20 +312,6 @@
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
     },
-    "0lpi4nnpmi9": {
-      "keys": [
-        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything"
-      ],
-      "why": "Agrees and apologizes though A accused nothing and only said the prosecutor has the account."
-    },
-    "0ltw3nyspt7": {
-      "keys": [
-        "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y",
-        "scene-talk.follow-accept.send-me-the-letter-that-s-all-i-need"
-      ],
-      "why": "A says it will step out; B asks for a letter A never mentioned"
-    },
     "0mnqvfo7sx9": {
       "keys": [
         "scene-talk.follow-accept.i-understand-their-first-thank-you-for-hearing-me-out",
@@ -353,13 +339,6 @@
         "scene-talk.follow-press.leaning-doesn-t-help-me-the-board-only-has-two-columns"
       ],
       "why": "B answers \"leaning,\" but A never said leaning; A said not to count them either way."
-    },
-    "0ont3ctgtib": {
-      "keys": [
-        "scene-talk.follow-ask.then-why-vote-at-all",
-        "scene-talk.reply-deny.no-where-did-you-hear-that"
-      ],
-      "why": "A asks why vote; B asks where A heard something."
     },
     "0oooltm2mz9": {
       "keys": [
@@ -431,13 +410,6 @@
       ],
       "why": "A agreed to apologize; B treats it as keeping score"
     },
-    "0tcjnpeoyd9": {
-      "keys": [
-        "scene-talk.follow-confront.i-will",
-        "scene-talk.reply-deny.no-where-did-you-hear-that"
-      ],
-      "why": "A's 'I will' is not something B answers with 'Where did you hear that?'"
-    },
     "0ud331megm9": {
       "keys": [
         "scene-talk.follow-accept.alright-their-first-no-hard-feelings",
@@ -472,13 +444,6 @@
         "scene-talk.follow-thank.i-knew-i-could-count-on-you"
       ],
       "why": "A just refused; saying B could count on them does not follow."
-    },
-    "0xg45rgwav2": {
-      "keys": [
-        "scene-talk.follow-confront.i-will",
-        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
-      ],
-      "why": "A's 'I will' is no question or claim; B gives a rebuttal."
     },
     "0y7fzy8grgo": {
       "keys": [
@@ -542,13 +507,6 @@
         "scene-talk.reply-agree.okay-one-meeting-then-we-ll-see"
       ],
       "why": "The line before asked who on the council would listen, and the reply never answers or dodges that."
-    },
-    "0znm0a68bss": {
-      "keys": [
-        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
-        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
-      ],
-      "why": "A asks if B thought A would take it; B answers about the rule."
     },
     "10jrh1fglio": {
       "keys": [
@@ -970,13 +928,6 @@
       ],
       "why": "A asks what the favor is (\"Depends on the favor\"), and B neither names it nor answers."
     },
-    "1rum4q2twzc": {
-      "keys": [
-        "scene-talk.follow-confront.i-will",
-        "scene-talk.reply-offer.fine-i-ll-step-out"
-      ],
-      "why": "A only says \"I will\"; stepping out is unprompted"
-    },
     "1rwfhk4vuza": {
       "keys": [
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go",
@@ -990,13 +941,6 @@
         "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
-    "1t2rqdl6crd": {
-      "keys": [
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
-        "scene-talk.follow-confront.i-will"
-      ],
-      "why": "'I will' answers nothing in A's statement."
     },
     "1u9zeyy89k0": {
       "keys": [
@@ -1264,13 +1208,6 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "2efd6mkrlgv": {
-      "keys": [
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.follow-confront.i-will"
-      ],
-      "why": "'I will' has no referent in A's statement of not fearing."
-    },
     "2ewpztwc89r": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
@@ -1314,5 +1251,5 @@
       "why": "A says they changed their mind; a no with no correction does not follow."
     }
   },
-  "yesHash": "0s852zn56as"
+  "yesHash": "1pulcgot82m"
 }

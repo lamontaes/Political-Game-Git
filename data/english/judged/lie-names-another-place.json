@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "lie-names-another-place",
   "rubric": "A lie about where you are from names another place; it is never \"Not here.\"",
-  "judged": 56,
+  "judged": 55,
   "no": {},
-  "yesHash": "1qc76rmse8u"
+  "yesHash": "2bt6kbjywm6"
 }

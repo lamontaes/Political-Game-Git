@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1090,
+  "judged": 1078,
   "no": {
     "007eyoz0umj": {
       "keys": [
@@ -60,14 +60,6 @@
         "scene-talk.follow-press.you-can-t-stay-on-the-fence-forever"
       ],
       "why": "Both lines say the person can't stay undecided, reworded."
-    },
-    "01jb6n103o8": {
-      "keys": [
-        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-        "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
-        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say"
-      ],
-      "why": "Most of the lines are the same defiance toward an investigation, with no fact to choose."
     },
     "01msn3wa0f3": {
       "keys": [
@@ -1429,13 +1421,6 @@
       ],
       "why": "Both lines are the same thanks for time."
     },
-    "0petu5sayl7": {
-      "keys": [
-        "scene-talk.follow-accept.witness.alright-i-wanted-to-hear-it-from-you-before-anyone-else",
-        "scene-talk.follow-accept.witness.thank-you-for-telling-me-straight-first-that-s-more-than-i-expected"
-      ],
-      "why": "Both lines thank the player for telling them directly."
-    },
     "0pitdp2lct8": {
       "keys": [
         "scene-talk.follow-comfort.i-m-so-sorry",
@@ -1720,13 +1705,6 @@
       ],
       "why": "Both lines doubt that the promise will be kept, the same press with no fact to choose between them."
     },
-    "0ugiswle3f8": {
-      "keys": [
-        "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
-        "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard"
-      ],
-      "why": "Both lines say the answer is not good enough."
-    },
     "0ukslv70g4h": {
       "keys": [
         "scene-talk.close-thank.i-m-glad-we-had-this-talk",
@@ -2002,14 +1980,6 @@
       ],
       "why": "All three lines only announce that it is Election Day and the polls are open, and the same-day tag picks nothing different to say."
     },
-    "0zri52mo1zt": {
-      "keys": [
-        "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
-        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
-        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything"
-      ],
-      "why": "All three lines are an apology for making the offer."
-    },
     "0zw73g1cq2o": {
       "keys": [
         "scene-talk.reply-promise.i-ll-be-home-more-i-promise",
@@ -2031,13 +2001,6 @@
         "scene-talk.narrate-narrate.you-re-at-your-desk-when-name-calls-from-the-executive-s-office-the-vo"
       ],
       "why": "The second line is the first with added detail, saying the same thing."
-    },
-    "101p90ssimv": {
-      "keys": [
-        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking",
-        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
-      ],
-      "why": "Both lines end the conversation in other words."
     },
     "102kb755ptz": {
       "keys": [
@@ -2131,14 +2094,6 @@
         "scene-talk.follow-plea.then-where-do-people-go-i-m-not-the-only-one-on-my-floor-with-one-of-these"
       ],
       "why": "Both lines ask where to go for help."
-    },
-    "11mlbnbde8a": {
-      "keys": [
-        "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
-        "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
-        "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks"
-      ],
-      "why": "All three lines are flat denials of an offer."
     },
     "11rcwkf30t9": {
       "keys": [
@@ -3240,13 +3195,6 @@
         "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
       ],
       "why": "Both lines say the reporter has it on the record and offers a chance to respond, reworded."
-    },
-    "1lif7e9ab9g": {
-      "keys": [
-        "scene-talk.state-confront.witness.i-m-letting-you-know-today-that-the-prosecutor-has-my-complaint-about-what-you-offered-me",
-        "scene-talk.state-confront.witness.you-offered-me-money-first-i-turned-it-down-and-i-reported-it"
-      ],
-      "why": "Both lines say the asker reported the offer to the prosecutor."
     },
     "1lsqjr5qs7s": {
       "keys": [
@@ -4368,13 +4316,6 @@
       ],
       "why": "Both simply agree to run, with no fact to choose between them."
     },
-    "28el1547q9t": {
-      "keys": [
-        "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today",
-        "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word"
-      ],
-      "why": "Both lines decline to say more today."
-    },
     "28obb2px9ni": {
       "keys": [
         "scene-talk.follow-thank.good-we-ll-be-glad-to-have-you",
@@ -4845,5 +4786,5 @@
       "why": "Both lines hold to the speaker's view in other words."
     }
   },
-  "yesHash": "178psnhuxiz"
+  "yesHash": "267oqiscw9h"
 }
