@@ -14,10 +14,16 @@ import type { OpeningView } from "../bench/dev-views/opening";
 import SOURCES from "../bench/dev-views/opening-sources.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { centurySeatRace } from "./electorate-century";
+import { centurySeatRace, setHistoryMode } from "./electorate-century";
+import { buildPopulation } from "./population";
+import { createLifeCore } from "./life";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+  type TermRow,
+} from "./modules/offices";
 import { realResult, recordedRaceShare } from "./offices-past-results";
 
 const RUN = `past-results:${Date.now()}`;
@@ -49,16 +55,25 @@ function asker(world: ReturnType<typeof buildBenchWorld>, where: string) {
   };
 }
 
-it("records each congressional holder's last share from their own century race, at two drawn places", async () => {
+it("records each congressional holder's last share from their own century race, at two drawn places", () => {
+  // The offices engine alone seats the holders and writes the race behind each term, so the
+  // check opens only the offices (a full played world built twice outran the unit run's limit
+  // on GitHub); dev-opening.test.ts checks dev mode's citation of the century race.
   setBookkeeping(false);
   for (let i = 0; i < 2; i += 1) {
     const place = drawPlace(`${RUN}:${i}`, "past-results");
     const where = `${place.name} (${place.key}), world seed ${place.seed}`;
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const offices = coreAPI(world.core).moduleState(OFFICES_MODULE_ID);
+    const core = createLifeCore(
+      buildPopulation({
+        seed: place.seed,
+        placeKey: place.key,
+        startedAt: gameStartDate(),
+        minimumPeople: 200,
+      }),
+    );
+    setHistoryMode(core.seed, "century", gameStartDate(), place.state);
+    openOffices(core, core.seed, core.date);
+    const offices = coreAPI(core).moduleState(OFFICES_MODULE_ID);
     let raced = 0,
       congressTerms = 0;
     for (const office of offices.table("offices").rows() as unknown as {
@@ -82,7 +97,7 @@ it("records each congressional holder's last share from their own century race, 
           if (!term.elected) continue;
           congressTerms += 1;
           const race = centurySeatRace(
-            place.seed,
+            core.seed,
             office,
             seat,
             Number(term.elected.date.slice(0, 4)),
@@ -94,26 +109,14 @@ it("records each congressional holder's last share from their own century race, 
           );
         }
     }
-    // The town's state's members of Congress are seated as terms (two-level world), and every
-    // one of them holds a seat whose race the century kept.
+    // Every member of Congress seated as a term holds a seat whose race the century kept.
     expect(raced, `${where}: holders whose century race is kept`).toBe(
       congressTerms,
     );
     expect(
       congressTerms,
-      `${where}: the state's members of Congress`,
+      `${where}: members of Congress seated`,
     ).toBeGreaterThan(2);
-    // Dev mode cites the town's House seat's race by its century record.
-    const ask = asker(world, where);
-    const house = (await ask("subject=office")).choices.office.find((c) =>
-      c.id.includes(":us-house:"),
-    );
-    if (!house) continue;
-    const row = (await ask(`subject=office&id=${house.id}`)).rows.find(
-      (r) => r.label === "Share of the vote last time",
-    );
-    expect(row?.made, `${where}: ${house.id}`).toBe(SOURCES.kinds.decision);
-    expect(row?.recordId, `${where}: ${house.id}`).toMatch(/^century:/);
   }
 }, 120_000);
 
