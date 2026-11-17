@@ -105,6 +105,14 @@ import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
+import { historyMonths } from "../macro-model";
+import {
+  openingRegionMonths,
+  REGIONS,
+  stateFigures,
+  type RegionMonth,
+} from "../regional-model";
+import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
@@ -256,13 +264,54 @@ export function levelFromPay(
   };
 }
 
-/** The level the pay a typical rent implies supports, by the same strengths: for a place that keeps rents and no level. */
-function levelFromRent(api: CoreAPI, rentMinor: number): HousingLevel {
+/**
+ * Each state's average pay a day at the world's opening, in cents, as the
+ * country tier opens the state (the regions' opening months, the same rows
+ * `openedTier` in modules/macro.ts reads), by state FIPS. Held per world
+ * (its seed and start).
+ */
+const openingRegions = new Map<string, RegionMonth[]>();
+function statePayDailyMinor(
+  world: { readonly startedAt: string; readonly seed: string },
+  usps: string,
+): number | undefined {
+  const fips = REGIONS.find((row) => row.stateUsps === usps)?.stateFips;
+  if (!fips) return undefined;
+  const key = `${world.seed}:${world.startedAt}`;
+  // The regions' parameters beside housing's, the economy's and credit's.
+  const p = (name: string) =>
+    (regionalParameters as Record<string, { value: number } | undefined>)[name]
+      ?.value ?? housingMacroParameter(name);
+  let rows = openingRegions.get(key);
+  if (!rows) {
+    const opening = historyMonths(world.startedAt, world.seed, p).at(-1)!;
+    rows = openingRegionMonths(opening, world.startedAt, world.seed, p);
+    // A few worlds at once (tests build several); the oldest goes first.
+    if (openingRegions.size >= 8)
+      openingRegions.delete(openingRegions.keys().next().value!);
+    openingRegions.set(key, rows);
+  }
+  const pay =
+    (stateFigures(rows, fips).hourlyEarnings *
+      p("macroHundred") *
+      countryParameters.countryHoursPerYear.value) /
+    DAYS_PER_YEAR;
+  return pay > 0 ? pay : undefined;
+}
+
+/**
+ * The level a place outside the played town opens on: what its state's pay
+ * supports. Its few named households (officials, kin) are no market, so their
+ * own pay would set nothing a place's rents follow; a place in no state reads
+ * the economy's pay.
+ */
+function outsideLevel(
+  world: { readonly startedAt: string; readonly seed: string },
+  usps: string,
+): HousingLevel {
   return levelFromPay(
-    (rentMinor * housingMacroParameter("macroMonthsPerYear")) /
-      DAYS_PER_YEAR /
-      pv("housingRentShareOfPay"),
-    { startedAt: api.state.date, seed: api.state.seed },
+    statePayDailyMinor(world, usps) ?? economyPayDailyMinor(world),
+    world,
   );
 }
 
@@ -987,8 +1036,13 @@ function openMissingHomes(api: CoreAPI): void {
           placeId,
       },
     };
-    // A place that already keeps homes houses the newcomers at its own level.
-    const kept = placeLevel(api, placeId);
+    // A place that already keeps homes houses the newcomers at its own level;
+    // a place outside the played town opens at what its state's pay supports.
+    const kept =
+      placeLevel(api, placeId) ??
+      (placeId === c.placeMetadata?.housingTown
+        ? undefined
+        : outsideLevel({ startedAt: c.date, seed: c.seed }, usps));
     const housed = withHousingAt(input, { placeId, geoid, county, usps }, kept);
     const typical = kept ?? typicalOf(housed);
     store(api)
@@ -1479,14 +1533,11 @@ export function rentHomeValue(
   const level = placePriceLevel(api, placeId);
   const rentHere = typicalRent(placeId);
   if (level && rentHere > 0) return level.now * (rentMinor / rentHere);
-  // No price level or no other renter yet: the level the place's opening
-  // wrote, else what the pay this rent implies supports.
+  // No price level or no other renter yet: the level the place's opening wrote.
   const opened = placeLevel(api, placeId);
   return opened
     ? opened.valueMinor * (rentMinor / opened.rentMinor)
-    : rentMinor > 0
-      ? levelFromRent(api, rentMinor).valueMinor
-      : undefined;
+    : undefined;
 }
 
 /**
@@ -2936,9 +2987,7 @@ export function openHousing(api: CoreAPI): void {
     // A place whose homes were not opened here (its leases came with the
     // world) has no level written: the pay its typical rent implies, by the
     // same strength, supports its typical value.
-    const opened =
-      placeLevel(api, landlord.placeId) ??
-      (town.rentMinor > 0 ? levelFromRent(api, town.rentMinor) : undefined);
+    const opened = placeLevel(api, landlord.placeId);
     openPriceLevel(api, landlord.placeId, {
       typicalValueMinor: opened?.valueMinor ?? town.homeValueMinor,
       townPayMinor: town.monthlyPayMinor,

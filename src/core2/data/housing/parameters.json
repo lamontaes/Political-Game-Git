@@ -22,29 +22,29 @@
     }
   },
   "housingRentShareOfPay": {
-    "value": 0.213,
+    "value": 0.248,
     "tag": "ESTIMATED",
     "role": "coefficient",
-    "citation": "ACS 2020-2024 five-year, national: median gross rent (B25064; the household-weighted county median in this repository's former countyRentValue table was $1,418 a month) over median household income (B19013, about $80,000 a year).",
-    "estimatedFrom": "How much of a place's median household pay its typical rent takes on day one (rent = this x pay). Fitted once on the national figures, 1,418 x 12 / 80,000; no place's published rent is read, so a place's rent level moves with its own pay. The income figure is from recall and is the research item housing-day-one-strengths-sourced's to verify.",
+    "citation": "ACS 2020-2024 five-year county median gross rent (B25064), read against each drawn town's own median household pay as the game counts it (the members' job pay).",
+    "estimatedFrom": "How much of a place's median household pay its typical rent takes on day one (rent = this x pay x 12 / 365 a month). Fitted Nov 17, 2026 on train/nov17 at 06499c66, before the county table was deleted: 57 played towns drawn from all 56 places (drawPlace with seed justice-fit-nov17, purposes fit-0 to fit-59; three had fewer than 20 households with pay and were left out), each built to its opening with buildBenchWorld and read where withHousingAt took the town's median household pay a day. The median over the towns of the county median rent x 12 over the town's pay for a year is 0.248 (quartiles 0.169 and 0.325, range 0.087 to 0.510; the pooled ratio is 0.232). No place's published rent is read in play, so a place's rent level moves with its own pay.",
     "spread": {
-      "low": 0.18,
-      "high": 0.3,
+      "low": 0.169,
+      "high": 0.325,
       "unit": "share of median household pay",
-      "citation": "ACS B25071 median gross rent as a share of renter household income runs about 0.3; against all households' median income the national ratio is near 0.21."
+      "citation": "The quartiles of the same fit over the 57 drawn towns."
     }
   },
   "housingValuePayMultiple": {
-    "value": 4.91,
+    "value": 6.09,
     "tag": "ESTIMATED",
     "role": "coefficient",
-    "citation": "ACS 2020-2024 five-year, national: median owner home value (B25077; the household-weighted county median in this repository's former countyRentValue table was $393,149) over median household income (B19013, about $80,000 a year).",
-    "estimatedFrom": "How many years of a place's median household pay its typical home is worth on day one, at the 30-year rate of housingValueFitRatePct (value = this x pay x the price path's level against that rate's). Fitted once on the national figures, 393,149 / 80,000; no place's published value is read, so a place's level moves with its own pay and the world's rate. The income figure is from recall and is the research item housing-day-one-strengths-sourced's to verify.",
+    "citation": "ACS 2020-2024 five-year county median owner home value (B25077), read against each drawn town's own median household pay as the game counts it, with the world's price path at day one against housingValueFitRatePct.",
+    "estimatedFrom": "How many years of a place's median household pay its typical home is worth on day one at the 30-year rate of housingValueFitRatePct (value = this x pay for a year x the price path's level against that rate's). Fitted Nov 17, 2026 on train/nov17 at 06499c66, before the county table was deleted: 57 played towns drawn from all 56 places (drawPlace with seed justice-fit-nov17, purposes fit-0 to fit-59; three had fewer than 20 households with pay and were left out), each built to its opening with buildBenchWorld and read where withHousingAt took the town's median household pay a day. The median over the towns of the county median value over the town's pay for a year times its world's path factor is 6.09 (quartiles 3.65 and 8.43, range 1.51 to 16.8; the pooled ratio is 5.81). No place's published value is read in play.",
     "spread": {
-      "low": 3.5,
-      "high": 6,
+      "low": 3.65,
+      "high": 8.43,
       "unit": "years of median household pay",
-      "citation": "National price-to-income ratios, 1985 to 2024, run about 3.5 to 5.8 (Harvard Joint Center for Housing Studies, State of the Nation's Housing)."
+      "citation": "The quartiles of the same fit over the 57 drawn towns."
     }
   },
   "housingValueFitRatePct": {
@@ -52,7 +52,7 @@
     "tag": "ESTIMATED",
     "role": "coefficient",
     "citation": "The mean 30-year fixed mortgage rate over the months of the ACS 2020-2024 window (data/macro/history.json, mortgage30Pct, 2020-01 through 2024-12: 4.957).",
-    "estimatedFrom": "The rate housingValuePayMultiple was fitted at: day one's value is the multiple times pay, moved by how far this world's price path stands from the loan a payment carries at this rate.",
+    "estimatedFrom": "The rate housingValuePayMultiple was fitted at: day one's value is the multiple times pay, moved by how far this world's price path stands from the loan a payment carries at this rate (the fit above used the same 4.96).",
     "spread": {
       "low": 4,
       "high": 6,
