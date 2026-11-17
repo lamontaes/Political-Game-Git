@@ -65,8 +65,14 @@ export function sessionQuestions(federal: boolean): readonly string[] {
   return federal ? questionLists.federal : questionLists.state;
 }
 
-/** Each member's lean on the voters' scale, sorted, from their party's typical position and their seat. */
-function memberLeans(chamber: SessionChamber): number[] {
+/** Where each side's party stands in Congress at a session, by side (the century's parties). */
+export type PartyPositions = Readonly<Record<number, number>>;
+
+/** Each member's lean on the voters' scale, sorted, from their party's position and their seat. */
+function memberLeans(
+  chamber: SessionChamber,
+  positions: PartyPositions | undefined,
+): number[] {
   const bySide = new Map<number, number[]>();
   for (const member of chamber.members)
     (
@@ -89,6 +95,7 @@ function memberLeans(chamber: SessionChamber): number[] {
           member.side > 0 ? "republican" : "democratic",
           chamber.body,
           z,
+          positions?.[member.side],
         ),
       );
     })
@@ -123,14 +130,16 @@ export function lawSession(
   executiveSide: number,
   questions: readonly string[],
   laws: Map<string, CenturyLaw>,
+  positions?: PartyPositions,
 ): void {
   if (!chambers.length || chambers.some((c) => !c.members.length)) return;
-  const leans = chambers.map(memberLeans);
+  const leans = chambers.map((chamber) => memberLeans(chamber, positions));
   const executive = stanceLean(
     expectedIdeal(
       executiveSide > 0 ? "republican" : "democratic",
       "executive",
       0,
+      positions?.[executiveSide],
     ),
   );
   const override = campaignParameter("vetoOverrideShare");
@@ -168,4 +177,26 @@ export function lawSession(
       overridden,
     });
   }
+}
+
+/**
+ * A party's key issues: the policy questions where its stance and the other party's differ most
+ * (each stance by the one stance rule at the party's position), and which way it stands on each.
+ */
+export function partyKeyIssues(
+  position: number,
+  otherPosition: number,
+  count: number,
+): readonly { readonly question: string; readonly supports: boolean }[] {
+  const own = stanceLean(position);
+  const other = stanceLean(otherPosition);
+  return Object.keys(POLICY_QUESTIONS)
+    .map((question) => {
+      const mine = memberSupportAt(own, question);
+      const theirs = memberSupportAt(other, question);
+      return { question, gap: Math.abs(mine - theirs), supports: mine > 0 };
+    })
+    .sort((a, b) => b.gap - a.gap || a.question.localeCompare(b.question))
+    .slice(0, count)
+    .map(({ question, supports }) => ({ question, supports }));
 }

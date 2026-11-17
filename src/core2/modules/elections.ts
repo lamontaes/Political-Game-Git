@@ -90,6 +90,7 @@ export {
   centuryCongressSeat,
   centuryLaw,
   centuryLegislatures,
+  centuryParties,
   centuryOf,
   centuryPresidency,
   centuryRace,
@@ -109,6 +110,7 @@ export {
   type CenturySeatRace,
   type HistoryMode,
 } from "../electorate-century";
+export { partyKeyIssues } from "../electorate-century-laws";
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;

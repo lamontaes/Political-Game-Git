@@ -35,6 +35,7 @@ import {
 import {
   centuryLegislatures,
   centuryOf,
+  partyKeyIssues,
   centuryPresidency,
   centuryRace,
   centurySeatRace,
@@ -317,6 +318,32 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             return `${mine || "not counted by the century (its members are not elected on the two national sides)"}; across the country the Republicans hold ${control.r} chambers and the Democrats ${control.d}, elected seat by seat through the century`;
           })()
         : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.parties",
+      "The parties",
+      historyMode(core.seed) === "century"
+        ? century.parties
+            .map((party) => {
+              const first = party.positions[0]?.position ?? 0;
+              const now = party.positions.at(-1)?.position ?? first;
+              const other =
+                century.parties
+                  .find((p) => p.side !== party.side)
+                  ?.positions.at(-1)?.position ?? 0;
+              const issues = partyKeyIssues(now, other, 3)
+                .map(
+                  (i) =>
+                    `${i.supports ? "for" : "against"} ${i.question.split(".").at(-1)}`,
+                )
+                .join(", ");
+              const won = century.presidencies
+                .filter((p) => p.winnerSide === party.side)
+                .map((p) => p.year);
+              return `${party.name} (${party.id}): ${party.founded ?? "before 1925"}; stands at ${now.toFixed(2)} (${first.toFixed(2)} in ${party.positions[0]?.year ?? ""}); ${issues}; won the presidency ${won.length} times${won.length ? ` (last ${won.at(-1)})` : ""}`;
+            })
+            .join("; ")
+        : "today's real parties (the world chose it)",
     ),
     row(
       "town.congresses",

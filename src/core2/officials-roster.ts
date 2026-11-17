@@ -313,15 +313,20 @@ export function expectedIdeal(
   party: PartyKey,
   body: BodyKind,
   districtZ: number,
+  /** Where the party stands in Congress when a world's own history sets it (the century's parties); the 119th Congress's otherwise. */
+  partyPosition?: number,
 ): number {
   const spread = partySpread(party, body);
   const pull = OFFICIALS_DATA.ideology.districtPull.value;
+  const mean =
+    partyPosition === undefined
+      ? spread.mean
+      : body === "legislature"
+        ? partyPosition * OFFICIALS_DATA.ideology.stateMeanScale.value
+        : partyPosition;
   return Math.max(
     -1,
-    Math.min(
-      1,
-      spread.mean + spread.sd * pull * Math.max(-3, Math.min(3, districtZ)),
-    ),
+    Math.min(1, mean + spread.sd * pull * Math.max(-3, Math.min(3, districtZ))),
   );
 }
 

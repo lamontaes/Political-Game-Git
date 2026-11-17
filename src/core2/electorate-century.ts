@@ -39,6 +39,7 @@ import {
   lawSession,
   sessionQuestions,
   type CenturyLaw,
+  type PartyPositions,
   type SessionChamber,
 } from "./electorate-century-laws";
 import {
@@ -244,11 +245,85 @@ export interface Century {
   readonly districtLeans: Readonly<Record<string, number>>;
   /** The nation's law in force on each federal policy question: its last change, by `US|<question>`. */
   readonly laws: ReadonlyMap<string, CenturyLaw>;
+  /** The parties the century's races are fought between, each with where it has stood. */
+  readonly parties: readonly CenturyParty[];
   /** Each state's governor's side after each change of party, oldest first, by state key. */
   readonly governorSides: ReadonlyMap<
     string,
     readonly { year: number; side: number }[]
   >;
+}
+
+/**
+ * A party of the century: who exists in 1925 (the two national parties, founded before it), and
+ * where it has stood since. Its position on the members' left-right scale (DW-NOMINATE's first
+ * dimension, -1 to 1) is where the members it holds stand: the mean of its members' seats in
+ * Congress, put on that scale by `centuryPartyLeanScale`. A party that wins moderate seats
+ * moderates; one left with only its safest seats moves out. Never a target position.
+ */
+export interface CenturyParty {
+  /** `party:<side>` for the two national parties. */
+  readonly id: string;
+  readonly name: string;
+  /** The side it competes on: -1 left, 1 right. */
+  readonly side: number;
+  /** The year it was founded; null for a party that existed before 1925. */
+  readonly founded: number | null;
+  /** Its position after each even November, oldest first. */
+  readonly positions: readonly {
+    readonly year: number;
+    readonly position: number;
+  }[];
+}
+
+/** Where each side's party stands: the mean of its members' seats in Congress, on the members' scale. */
+function partyPositionsNow(
+  seats: ReadonlyMap<string, CenturySeat>,
+  leans: Readonly<Record<string, number>>,
+  districtLeans: Readonly<Record<string, number>>,
+): Record<number, number> {
+  const sums: Record<number, { total: number; n: number }> = {
+    [-1]: { total: 0, n: 0 },
+    [1]: { total: 0, n: 0 },
+  };
+  for (const chamber of congressChambers(seats, leans, districtLeans))
+    for (const member of chamber.members) {
+      const row = sums[member.side];
+      if (!row) continue;
+      row.total += member.lean;
+      row.n += 1;
+    }
+  const scale = centuryParameter("centuryPartyLeanScale");
+  const out: Record<number, number> = {};
+  for (const side of [-1, 1]) {
+    const row = sums[side]!;
+    out[side] = row.n
+      ? Math.max(-1, Math.min(1, (row.total / row.n) * scale))
+      : side * 0;
+  }
+  return out;
+}
+
+/** Where each side's party stood after the last even November up to `year`. */
+function partyPositionsAt(
+  parties: readonly CenturyParty[],
+  year: number,
+): PartyPositions {
+  const out: Record<number, number> = {};
+  for (const party of parties) {
+    let at: number | undefined;
+    for (const row of party.positions) if (row.year <= year) at = row.position;
+    if (at !== undefined) out[party.side] = at;
+  }
+  return out;
+}
+
+/** The century's parties, under "century"; undefined under "today". */
+export function centuryParties(
+  seed: string,
+): readonly CenturyParty[] | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return centuryOf(seed, openingOf(seed)).parties;
 }
 
 const centuries = new Map<string, Century>();
@@ -1331,6 +1406,13 @@ export function* runCentury(
   const congresses: CenturyCongress[] = [];
   const laws = new Map<string, CenturyLaw>();
   const governorSides = new Map<string, { year: number; side: number }[]>();
+  const parties = [-1, 1].map((side) => ({
+    id: `party:${side > 0 ? "R" : "D"}`,
+    name: nationalParty(side),
+    side,
+    founded: null,
+    positions: [] as { year: number; position: number }[],
+  }));
   let sittingSide = opening.presidentSide;
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
@@ -1369,8 +1451,12 @@ export function* runCentury(
           list.push({ year, side: seat.side });
         governorSides.set(seat.stateKey, list);
       }
-    // Congress and the President sit after each November of a Congress.
-    if (year % 2 === 0)
+    // Each party stands where the members it now holds stand; Congress and the President then
+    // sit, after each November of a Congress.
+    if (year % 2 === 0) {
+      const now = partyPositionsNow(seats, leans, districtLeans);
+      for (const party of parties)
+        party.positions.push({ year, position: now[party.side]! });
       lawSession(
         "US",
         year,
@@ -1378,7 +1464,9 @@ export function* runCentury(
         sittingSide,
         sessionQuestions(true),
         laws,
+        now,
       );
+    }
     // Each place carries its year's results once (a state its presidential and Senate results).
     results.carry(leans, districtLeans);
     yield { year, done: at + 1, total: years.length };
@@ -1393,6 +1481,7 @@ export function* runCentury(
     districtLeans,
     laws,
     governorSides,
+    parties,
   };
   centuries.set(key, century);
   return century;
@@ -1463,6 +1552,7 @@ export function* runLegislatures(
           governor,
           sessionQuestions(false),
           stateLaws,
+          partyPositionsAt(century.parties, year),
         );
       }
     yield { year, done: at + 1, total: years.length };
