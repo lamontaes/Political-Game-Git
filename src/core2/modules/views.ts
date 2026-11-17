@@ -75,6 +75,7 @@ import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
 import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
 import {
+  countedGroupIdOf,
   countedGroupStance,
   countedStancesOfHousehold,
   liveCountedCrime,
@@ -1350,11 +1351,29 @@ function keepOpinions(api: CoreAPI, month: string): void {
       v("one"),
     );
   }
+  // What a counted group has heard is its one row a question, the same for
+  // every member: read once a group here, not once a member.
+  const indexOf = new Map(
+    questions.map((question, index) => [question, index]),
+  );
+  const heardOf = new Map<string, Float64Array>();
   for (const voter of countedResidents(core)) {
     if (ageOnDate(voter.birthDate, core.date) < adult) continue;
+    const profile = countedStanceProfile(api, voter);
+    const group = profile.heard && countedGroupIdOf(api, voter.id);
+    let heard = group ? heardOf.get(group) : undefined;
+    if (group && !heard) {
+      heard = Float64Array.from(questions, (question) =>
+        profile.heard!(question),
+      );
+      heardOf.set(group, heard);
+    }
+    const kept = heard;
     add(
       personLean(core.people, voter, town),
-      countedStanceProfile(api, voter),
+      kept
+        ? { ...profile, heard: (question) => kept[indexOf.get(question)!]! }
+        : profile,
       voter.weight,
     );
   }

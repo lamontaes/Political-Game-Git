@@ -325,17 +325,24 @@ export function opinionQuestions(): readonly string[] {
  * party reads its measured direction alone.
  */
 export function leanStrength(question: string): number {
+  // A question's strength is its data's alone: worked out once a question
+  // (the world's monthly opinion reads it for every adult and question).
+  const held = strengths.get(question);
+  if (held !== undefined) return held;
   const split = partySplit[question];
   const axis = questionAxis(question);
-  if (
-    !split ||
-    typeof split.democrats !== "number" ||
-    typeof split.republicans !== "number"
-  )
-    return axis;
-  const gap = split.republicans - split.democrats;
-  return axis ? Math.sign(axis) * Math.abs(gap) : gap;
+  const gap =
+    split &&
+    typeof split.democrats === "number" &&
+    typeof split.republicans === "number"
+      ? split.republicans - split.democrats
+      : undefined;
+  const strength =
+    gap === undefined ? axis : axis ? Math.sign(axis) * Math.abs(gap) : gap;
+  strengths.set(question, strength);
+  return strength;
 }
+const strengths = new Map<string, number>();
 
 /** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
 export interface StanceProfile {
@@ -359,6 +366,12 @@ export const STANCE_LOADINGS = stanceLoadings.questions as unknown as Record<
   { loadings: { faith: { value: number }; college: { value: number } } }
 >;
 
+/** Each question's survey loadings, looked up once a question (null: none). */
+const loadingsOf = new Map<
+  string,
+  (typeof STANCE_LOADINGS)[string]["loadings"] | null
+>();
+
 /**
  * What a person's faith and degree add to their opening stance on a question
  * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
@@ -372,9 +385,15 @@ export function loadingShift(
   profile: StanceProfile | null | undefined,
   question: string,
 ): number {
-  const loadings =
-    STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
-  if (!loadings || !profile || profile.faithFromAverage === undefined) return 0;
+  if (!profile || profile.faithFromAverage === undefined) return 0;
+  let loadings = loadingsOf.get(question);
+  if (loadings === undefined) {
+    loadings =
+      STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]
+        ?.loadings ?? null;
+    loadingsOf.set(question, loadings);
+  }
+  if (!loadings) return 0;
   return (
     loadings.faith.value * profile.faithFromAverage +
     loadings.college.value * (profile.collegeFromAverage ?? 0)
