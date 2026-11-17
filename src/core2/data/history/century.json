@@ -29,10 +29,10 @@
       "spread": [0.3, 0.9]
     },
     "centuryVoters": {
-      "value": 100,
+      "value": 40,
       "tag": "TUNABLE",
       "role": "coefficient",
-      "source": "How many voters, evenly spaced along the lean order at the typical readiness of a presidential year, stand for a place when the century counts it (stopgap SG-HIST-century-voters). The count's rule is the engine's own (electorate.ts countPlaces); the number only sets how finely the order is cut. Measured against 400 (the town's coarse sample size, coarseSampleVoters) at seeds a1, b2 and c3 on Nov 17, 2026: the century's 25 presidential winners matched in all but 0, 0 and 4, and day one's 541 seats in Congress in all but 16, 6 and 17 (1 to 3 percent), at 1.0 s a century against 3.5 s; 50 voters moved 8 to 10 presidential winners."
+      "source": "How many voters, evenly spaced along the lean order at the typical readiness of a presidential year, stand for a place when the century counts it (stopgap SG-HIST-century-voters). The count's rule is the engine's own (electorate.ts countPlaces, each record dividing over its own stretch of the order); the number only sets how finely turnout is weighed along it. Measured against 400 (the town's coarse sample size, coarseSampleVoters) at seeds a1, b2 and c3 on Nov 17, 2026, with the record-stretch count: the century's 25 presidential winners matched at 100, 40 and 20 voters in a1 and b2, and at 100 and 40 in c3 (20 moved 10); day one's 541 seats in Congress matched at 100, and differed in 1, 0 and 0 at 40, and 2, 2 and 10 at 20. A century cost 4.7 to 5.3 s at 400, 1.5 to 1.6 s at 100 and 0.76 to 1.0 s at 40."
     },
     "presidentialTermYears": {
       "value": 4,
