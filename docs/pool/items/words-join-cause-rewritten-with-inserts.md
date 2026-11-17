@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9947
 after:
 blocked-on:
 root: rc4-hand-written-words
