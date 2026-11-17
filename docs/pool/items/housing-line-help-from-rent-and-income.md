@@ -29,6 +29,8 @@ Seen: the rent help a household receives, in dev mode's housing records and the 
 
 **Rules.** No dice: help is computed from rent and income records. One rule, all 56 places: the same federal rule everywhere.
 
-**Done when.** A second session raises a town's housing line in dev mode and sees more households helped, each at its rent above 30 percent of its income, then cuts it and sees fewer, and src/core2/law-wiring-housing.test.ts, src/core2/housing-assistance-share.test.ts and src/core2/budget-line-extra.test.ts pass on main.
+**Done when.** A second session opens a drawn place, Lafayette, Colorado (seed 3da19558bdb4a07c) or any other, raises its housing line in dev mode and sees more households helped, each at its rent above 30 percent of its income, then cuts it and sees fewer, and src/core2/law-wiring-housing.test.ts, src/core2/housing-assistance-share.test.ts and src/core2/budget-line-extra.test.ts pass on main.
+
+**Waits on.** Nothing; the rule is already in `payHousingVouchers`.
 
 **Files.** src/core2/housing-assistance.ts, src/core2/data/laws/reach-group-a-parameters.json, src/core2/law-wiring-housing.test.ts, src/core2/housing-assistance-share.test.ts, src/core2/budget-line-extra.test.ts
