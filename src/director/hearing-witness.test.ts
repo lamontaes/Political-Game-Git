@@ -7,11 +7,13 @@
  * at home, their own age, or only a view). The director casts one of them in
  * the hallway; they say what the bill does to them, never a figure; the
  * player's reply is time on their tie, and the witness's own vote reads that
- * tie. Pinned to two drawn places and their world seeds: Ciales, Puerto Rico
- * and White Island Shores, Massachusetts (drawn with `drawPlace` from
- * "bill-stages-state" draws 0 and 1).
+ * tie. Places are drawn from all 56 on a seed nobody chose until one has a
+ * state chamber of three whose committees hear the player's bill; each place
+ * passed over is named, and the test fails by name if none has.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { seatAct, seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -31,18 +33,8 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
-const PLACES = [
-  {
-    name: "Ciales, Puerto Rico",
-    key: "7217773",
-    seed: "e3c490e23b33ec056ae75db27ab47d4194d4f3b110e76c01364bb79113891a0c",
-  },
-  {
-    name: "White Island Shores, Massachusetts",
-    key: "2579390",
-    seed: "60a7412dd46a80c4966b1f47f3908d4fa4dbf72a73c25c7337b79edffac0365a",
-  },
-] as const;
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 12;
 /** Bills the player drafts, one on each question the chamber can pass, so one is heard. */
 const BILLS = 6;
 const LIVES = new Set([
@@ -56,9 +48,12 @@ const LIVES = new Set([
   "believes",
 ]);
 
-for (const place of PLACES)
-  it(`a witness catches the player after the hearing on their bill and says what it does to them (${place.name})`, () => {
-    const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+/** Plays one drawn place; the reason it lacks the case, or undefined once every check passed there. */
+function attempt(
+  place: ReturnType<typeof drawPlace>,
+  where: string,
+): string | undefined {
+  {
     setBookkeeping(false);
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -83,7 +78,7 @@ for (const place of PLACES)
           .map((row) => [row.office.id, row.office] as const),
       ).values(),
     ].sort((a, b) => full(b.id).length - full(a.id).length)[0];
-    expect(body, `${where}: a state chamber`).toBeTruthy();
+    if (!body) return "no state chamber of three members";
     const player = full(body!.id)[0]! as PersonId;
     core.playerId = player;
     director.watch(core, player);
@@ -108,7 +103,8 @@ for (const place of PLACES)
       .map((id) => calendar.get(`committee:${id}`)?.date)
       .filter((date): date is string => !!date)
       .sort();
-    expect(hearings.length, `${where}: committee days set`).toBeGreaterThan(0);
+    if (!hearings.length)
+      return "no committee day was set for the player's bills";
     // The world runs to the eve of the hearings; the player lives the days.
     advanceCore(core, addDays(makeIsoDate(hearings[0]!), -1));
     let packet: ReturnType<typeof advancePlayerV1> | undefined =
@@ -150,7 +146,7 @@ for (const place of PLACES)
     expect(result?.kind, `${where}: ${JSON.stringify(result)}`).toBe(
       "composed",
     );
-    if (result?.kind !== "composed") return;
+    if (result?.kind !== "composed") return undefined;
     const talk = result.scene.talk;
     // The one who testified opens, with what the bill does to them.
     expect(witnesses, where).toContain(talk.askerId);
@@ -194,4 +190,25 @@ for (const place of PLACES)
       );
     expect(tie, `${where}: a tie with the witness`).toBeTruthy();
     expect(tie!.lastContactDate >= moment.date, where).toBe(true);
-  }, 240_000);
+    return undefined;
+  }
+}
+
+it("a witness catches the player after the hearing on their bill and says what it does to them", () => {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "hearing-witness");
+    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+    const why = attempt(place, where);
+    if (!why) {
+      process.stdout.write(
+        `HEARING WITNESS passed at ${where}; passed over: ${passed.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    passed.push(`${place.name} (${why})`);
+  }
+  throw new Error(
+    `No drawn place had a state chamber that heard the bill: ${passed.join("; ")} (seed ${seed})`,
+  );
+}, 1_800_000);
