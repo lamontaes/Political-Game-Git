@@ -1171,6 +1171,61 @@ export function playerFilingBar(
 }
 
 /**
+ * Why an office is not one the player runs for: the two causes of `not-your-office`, from the one rule
+ * (`playerMayFileForKind` over the player-offices data; owner, Oct 29). `not-run-for`: the office is
+ * not one a player runs for (a sheriff, a clerk, a statewide office below governor). `home-has-own`:
+ * it is the player's only where the home has none of its own (a county board where the town has a
+ * council). `insteadIds` are the home's own offices the player runs for instead, so the screen can name
+ * them (owner, Nov 16: "I can't run for anything"; crew list #9747, item 3a: closed offices show why).
+ */
+export interface NotYourOffice {
+  readonly why: "not-run-for" | "home-has-own";
+  readonly insteadIds: readonly string[];
+}
+
+export function notYourOfficeWhy(
+  api: CoreAPI,
+  contestId: string,
+  localKinds: readonly string[] = townLocalKinds(api),
+): NotYourOffice | null {
+  if (playerFilingBar(api, contestId, localKinds) !== "not-your-office")
+    return null;
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const office = contest
+    ? (offices.get(contest.officeId) as PlayerSeatOffice | undefined)
+    : undefined;
+  if (!office) return null;
+  // The home's own local offices, in id order: the town's, its township's and its county's.
+  const own = (
+    offices.query("byTown", [true]) as unknown as {
+      id: string;
+      level: string;
+      kind: string;
+    }[]
+  )
+    .filter((o) => LOCAL_LEVELS.has(o.level))
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const row = PLAYER_OFFICES.find((r) =>
+    (office.kind ?? "").startsWith(r.kindPrefix),
+  );
+  if (row?.onlyWhereNo)
+    return {
+      why: "home-has-own",
+      insteadIds: own
+        .filter((o) => row.onlyWhereNo!.some((p) => o.kind.startsWith(p)))
+        .map((o) => o.id),
+    };
+  return {
+    why: "not-run-for",
+    insteadIds: own
+      .filter((o) => playerMayFileForKind(o.kind, localKinds))
+      .map((o) => o.id),
+  };
+}
+
+/**
  * Whether a district seat is not the viewer's own: a body elected by
  * district shows its viewer their own district's seat only (Campaigns reads
  * this, the clerk's counter reads `playerFilingBar`).
