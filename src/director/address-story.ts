@@ -248,7 +248,7 @@ function scandalRun(
       .flatMap((row) => (row.holder?.personId ? [row.holder.personId] : [])),
   );
   const since = addDays(core.date as IsoDate, -STORIES.disasterDays.value);
-  const reported = (core.logByKind.get(SCANDAL_REPORTED) ?? [])
+  const reported = [...(core.logByKind.get(SCANDAL_REPORTED) ?? [])]
     .map((id) => core.durableLog.get(id))
     .filter(
       (event) =>
