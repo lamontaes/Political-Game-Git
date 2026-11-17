@@ -110,6 +110,12 @@ function hireLike(
   tag: string,
 ): string {
   const api = coreAPI(core);
+  // The player of a new game is an adult (18 or more) and may already work
+  // (Nov 16): a hire into the role leaves that job first, as the jobs
+  // engine's own move does.
+  const current = core.people.get(personId)?.jobId;
+  if (current && core.jobs.get(current)?.endsAt === undefined)
+    api.endJob(current, `promises-test:${tag}`);
   const commitment = [
     ...(core.work.commitmentsByPerson.get(template.personId) ?? []),
   ]
