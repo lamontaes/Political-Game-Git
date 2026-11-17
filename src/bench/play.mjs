@@ -13,7 +13,8 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
-import { metricsChange, metricsFigure } from "./ui/metrics-change.mjs";
+import { loadingLines } from "./ui/loading-lines.mjs";
+import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
@@ -4489,43 +4490,18 @@ const sheets = {
   // this year beside last, no charts. Every figure is the record's; the words are control names.
   async metrics() {
     const view = await api("/api/metrics");
-    const words = controls.metrics;
-    const figure = (row, value) => metricsFigure(row, value, words.percent);
-    const sections = view.sections.map((section, at) =>
-      stripSection(
-        at + 1,
-        // A section that shows one government's books is headed by that government's name.
-        section.name ?? words[section.key],
-        ...section.rows.map((row) => {
-          const change = metricsChange(row, words.points);
-          const direction =
-            change.direction === null ? "" : words[change.direction];
-          return typedRow(
-            words[row.key],
-            // A small town's count shows the people behind it ("13 of 86").
-            row.of === undefined
-              ? figure(row, row.now)
-              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
-            row.before === null
-              ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
-          );
-        }),
-      ),
-    );
-    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
-    const columns = [[], [], []];
-    sections.forEach((section, at) => columns[at % 3].push(section));
+    const screen = metricsScreen({
+      sections: view.sections,
+      words: controls.metrics,
+      title: controls.titles.metrics,
+    });
     // Views registered from their own files (ui/dev-views.mjs, slot "metrics"), under the board.
     const devViews = devModeOn()
       ? await devViewNodes("metrics", {
           refresh: () => openSheet("metrics"),
         })
       : [];
-    return [
-      stripBoard({ columns: columns.filter((c) => c.length) }),
-      ...(devViews.length ? [devPanelsRow(...devViews)] : []),
-    ];
+    return [...screen, ...(devViews.length ? [devPanelsRow(...devViews)] : [])];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -4974,9 +4950,7 @@ const sheets = {
           })(),
           groups: (r.groups ?? []).map((group) => ({
             heading: group.heading,
-            notes: group.notes.map((note) =>
-              [note.title, note.text].filter(Boolean).join(". "),
-            ),
+            notes: group.notes.map((note) => note.headline),
           })),
         })),
       }),
@@ -5377,7 +5351,10 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // An announcement is not a filing: the race still offers its filing in the window.
+    const filedFor = new Set(
+      v.filings.filter((f) => f.status !== "announced").map((f) => f.contestId),
+    );
     // A filing for any seat of an at-large race is a filing for the race.
     const filed = {
       has: (contestId) =>
@@ -5443,6 +5420,44 @@ const sheets = {
       fileButton.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
+      // Run now, file on the date (owner, Nov 17): announce for a race whose
+      // filing opens later; the campaign starts today.
+      const announceButton = makeButton({
+        className: "action primary",
+        textContent: labels.announce,
+      });
+      announceButton.dataset.testid = "announce";
+      announceButton.addEventListener("click", async () => {
+        await post(
+          `/api/announce?${new URLSearchParams({ contestId: race.contestId })}`,
+        );
+        await refresh();
+        await openSheet("campaign");
+      });
+      // A race whose filing hasn't opened runs the world to that morning, as a
+      // calendar day does (owner, Nov 17: "so I don't have to figure out the
+      // filing thing"); what needs the player on the way stops it there.
+      const opensLater =
+        !race.filingClosed &&
+        !race.filingOpen &&
+        race.filingOpens &&
+        race.filingOpens > today();
+      const simButton = makeButton({
+        textContent: labels.simTo.replace(
+          "{date}",
+          dateWords(race.filingOpens, { month: "short", year: today() }),
+        ),
+      });
+      simButton.dataset.testid = "sim-to-filing";
+      simButton.addEventListener("click", () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
+      });
+      const tray = [
+        ...(mayFile && !cannotFile ? [fileButton] : []),
+        ...(race.mayAnnounce ? [announceButton] : []),
+        ...(opensLater ? [simButton] : []),
+      ];
       return [
         rosterTitle(
           race.title,
@@ -5522,10 +5537,14 @@ const sheets = {
                 },
               ]),
             ),
-            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(tray.length ? [buttonTray(...tray)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile && race.bar && labels.refusal[race.bar]
+              : !mayFile &&
+                  !race.mayAnnounce &&
+                  !race.announced &&
+                  race.bar &&
+                  labels.refusal[race.bar]
                 ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
@@ -5600,20 +5619,22 @@ const sheets = {
       // its page offers no filing, so its line must not either.
       aside: filed.has(race.contestId)
         ? status(race)
-        : own && race.cannotFile?.metOn
-          ? `${labels.filingOpens} ${dateWords(
-              race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                ? race.filingOpens
-                : race.cannotFile.metOn,
-              { year: today() },
-            )}`
-          : own && race.bar === "window-not-open" && race.filingOpens
-            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-            : own && race.playerMayFile && race.filingOpen
-              ? labels.fileForIt
-              : race.filers.length
-                ? status(race)
-                : "",
+        : race.announced
+          ? labels.youAnnounced
+          : own && race.cannotFile?.metOn
+            ? `${labels.filingOpens} ${dateWords(
+                race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                  ? race.filingOpens
+                  : race.cannotFile.metOn,
+                { year: today() },
+              )}`
+            : own && race.bar === "window-not-open" && race.filingOpens
+              ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+              : own && race.playerMayFile && race.filingOpen
+                ? labels.fileForIt
+                : race.filers.length
+                  ? status(race)
+                  : "",
       data: { contest: race.contestId },
       race,
     });
@@ -7028,6 +7049,8 @@ document.getElementById("front-close")?.addEventListener("click", () => {
   FRONT_OUT[here]?.();
 });
 show("front-close", false);
+// The game's name as the page first prints it; the loading card wears it until the world names a place.
+const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
   // The close X is on every front panel but the title menu itself.
@@ -7107,58 +7130,43 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
-function pickGender(g) {
+function markGender(g) {
   setup.gender = g;
   filledIn();
+  // The look, and the person in it, appear only once a gender is picked (owner, Nov 17).
+  $("cr-screen").classList.remove("no-gender");
+  show("cr-look-col", true);
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
   }
+}
+function pickGender(g) {
+  markGender(g);
   void openLook();
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
-$("cr-random-name").addEventListener("click", async () => {
-  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
-  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
-  if (!setup.gender) {
-    document
-      .querySelector("[data-gender]")
-      ?.closest(".group")
-      ?.classList.add("missing");
-    return;
-  }
-  setup.nameDraws++;
-  const name = await api(
-    `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
-  );
-  $("cr-given").value = name.givenName;
-  $("cr-family").value = name.familyName;
-  filledIn();
-  nameFigure();
-});
-async function randomBirthday() {
-  setup.birthdayDraws++;
-  const b = await api(
-    `/api/creator/birthday?${new URLSearchParams({ seed: setup.seed, draw: setup.birthdayDraws })}`,
-  );
+async function setBirthday(b) {
   $("cr-month").value = String(b.month);
   fillDays();
   $("cr-day").value = String(b.day);
   await fillYears(b.year);
 }
-$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
+/** The birthday a new creator opens on: the youngest a life may begin at, 18, unless one is picked (owner, Nov 16 and 17). */
+async function defaultBirthday() {
+  fillDays();
+  await fillYears(9999);
+}
 
 /** Opens the creator for Start a life. */
 async function openCreator() {
   // The seed Advanced holds, drawn when the page loads, draws the world.
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
-  if (!$("cr-year").options.length) await randomBirthday();
+  if (!$("cr-year").options.length) await defaultBirthday();
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  // A bust stands in the creator from its first frame, before a gender is chosen.
-  void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -7281,16 +7289,12 @@ function showLook(view) {
   setup.lookView = view;
   const tab = setup.lookTab;
   $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
+    drawFace(view.faces[tab], { shape: "bust", column: 220 }),
   );
   const row = (r) =>
     lookRow(r, {
-      onMove: (id, by) => void moveLook(id, by),
-      arrowLabel: (by, it) =>
-        controls.creator[by < 0 ? "previous" : "next"].replace(
-          "{row}",
-          it.label.toLowerCase(),
-        ),
+      onPick: (id, option) => void pickLook(id, option),
+      picture: (option) => drawFace(option.face, { shape: option.picture }),
     });
   const tabs = Object.entries(controls.creator.lookTabs).filter(([key]) =>
     view.rows.some((r) => r.tab === key),
@@ -7350,9 +7354,9 @@ function showPlaceName() {
     ? setup.town.name
     : `${setup.town.name}, ${setup.state.name}`;
 }
-async function moveLook(row, by) {
+async function pickLook(row, pick) {
   const view = await post(
-    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, by })}`,
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, pick })}`,
   );
   setup.previous = [...setup.previous, setup.recipe].slice(-20);
   showLook(view);
@@ -7366,10 +7370,32 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
-$("cr-randomize").addEventListener("click", async () => {
+// One Random draws the whole character (owner, Nov 17: "you should be able to randomize an
+// entire character"): gender, name, birthday, place and look, on the creator's seed.
+$("cr-random").addEventListener("click", async () => {
+  setup.nameDraws++;
+  setup.birthdayDraws++;
+  setup.placeDraws++;
   setup.appearanceDraws++;
-  const view = await api(`/api/creator/appearance?${lookQuery({})}`);
-  await setLook(view.recipe, true);
+  const draw = setup.nameDraws;
+  const who = await api(
+    `/api/creator/character?${new URLSearchParams({ seed: setup.seed, draw })}`,
+  );
+  setup.state = who.place.state;
+  setup.town = who.place.town;
+  $("cr-state-name").textContent = who.place.state.name;
+  showPlaceName();
+  $("cr-given").value = who.name.givenName;
+  $("cr-family").value = who.name.familyName;
+  nameFigure();
+  await setBirthday(who.birthday);
+  markGender(who.gender);
+  setup.previous = [];
+  setup.initial = who.look.recipe;
+  showLook(who.look);
+  setup.lookGender = who.gender;
+  filledIn();
+  await showStates();
 });
 $("cr-reset").addEventListener(
   "click",
@@ -7550,7 +7576,16 @@ function followBuild(bar, onStory) {
     const at =
       p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
-    $("front-status").textContent = controls.loading?.[p.stage] ?? "";
+    // Every step's line stays: each one the build has passed is listed in order, including any
+    // that finished between two polls, so the card reads as the loading messages, not one line.
+    const box = $("front-status");
+    const last = p.stage === "done" ? STEPS.length : at + 1;
+    box.replaceChildren(
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        p.stage === "done" ? -1 : last - 1,
+      ),
+    );
   }, 400);
   return {
     stop() {
@@ -7558,7 +7593,7 @@ function followBuild(bar, onStory) {
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";
-      $("front-status").textContent = "";
+      $("front-status").replaceChildren();
     },
   };
 }
@@ -7571,8 +7606,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   const chosenName = placeKey
     ? $("cr-place-summary-name").textContent.trim()
     : "";
-  if (chosenName)
-    document.querySelector("#front > .title").textContent = chosenName;
+  // Before the world names a place the card wears the game's name, never the last panel's.
+  document.querySelector("#front > .title").textContent =
+    chosenName || GAME_TITLE;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;
