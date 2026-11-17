@@ -18,7 +18,7 @@ effort: high
 source: "CTO, LIFT THE PINS, #9747 comments 6936897718 and 6936903167 (family 27, moved to Pins by Laws and effects 6937865102); Pins plan 6938593892"
 ---
 
-**What.** A law's reach was set by published shares in every world: five benefits paid every eligible household the benefit times a survey take-up share, counted veterans were the census share by age, and a budget change became pay at a fixed share. Seen: the CTO's audit of main c5808caa, family 27.
+**What.** A law's reach was set by published shares in every world. Five benefits paid every eligible household the benefit times a survey take-up share, counted veterans were the census share by age, and a budget change became pay at a fixed share. Seen: the CTO's audit of main c5808caa, family 27.
 
 **Cause.** Found in code: `payPreschool`, `payChildCare`, `payEnergyAssistance` and `paySsi` in src/core2/law-reach/group-b-money.ts and `payVeterans` in src/core2/law-reach/group-b-veterans.ts read take-up shares; `scalePayroll` read schoolCompensationShare and healthCompensationShare; `placesFacts` in src/core2/law-reach/group-b-people.ts read ownerWeeklyHours; `schoolAidNeed` in src/core2/law-reach/group-b-school-aid.ts read BEA income.
 
