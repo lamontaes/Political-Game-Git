@@ -2829,12 +2829,14 @@ async function personCardNode(
         ]
       : []),
   ];
-  // Their life sits in the second column, beside who they are (the approved
-  // card, pl-people: two columns of sections, no empty half under the bust).
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
   const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
   const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
-    ...life,
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2877,6 +2879,7 @@ async function personCardNode(
       nameBeside: true,
       // The approved card's bust stands as tall as its sections (pl-people).
       bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]

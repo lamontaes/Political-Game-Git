@@ -2791,6 +2791,51 @@ body:not(.dev) .dev-only {
 .strip-screen.name-beside .mx3cols.one {
   grid-template-columns: minmax(0, 1fr);
 }
+/* The person card stands the panel's full height (owner on People, Nov 16:
+   "still lots of empty space"): each column's last section reaches the
+   panel's foot, and a long story scrolls inside its own section. */
+.roster-screen.people > .roster-page:has(.strip-screen.name-beside) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.roster-screen.people > .roster-page > .strip-screen.name-beside {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.strip-screen.name-beside .mx3left,
+.strip-screen.name-beside .mx3main,
+.strip-screen.name-beside .mx3col {
+  min-height: 0;
+}
+/* A column with more sections than the panel holds (dev mode adds several)
+   scrolls rather than being cut off. */
+.strip-screen.name-beside .mx3left,
+.strip-screen.name-beside .mx3col {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.strip-screen.name-beside .mx3cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+.strip-screen.name-beside .mx3left > .sec:last-child,
+.strip-screen.name-beside .mx3col > .sec:last-child {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.strip-screen.name-beside .sec:last-child > .secbody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
   max-width: none;

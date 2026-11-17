@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, getComputedStyle */
 // People: the approved card fills the panel (owner, Nov 16: "A massive just
 // hole."; the approved card, pl-people). Starts a life, opens People, and for
 // each of the first people on the list measures the card beside the list: the
@@ -9,8 +9,12 @@ import { chromium } from "playwright";
 import { startLife } from "./start-life.mjs";
 
 const port = process.env.BENCH_PORT ?? 3000;
-/** The most of the card's height either half may leave empty under it, as a share. */
-const MOST_EMPTY = 0.45;
+/**
+ * The most of the panel's height, from the card's top to the panel's foot,
+ * either half may leave empty under it, as a share (owner, Nov 16, on 31 to
+ * 41% left under the portrait: "still lots of empty space").
+ */
+const MOST_EMPTY = 0.1;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -51,11 +55,16 @@ try {
       );
       const box = (n) => n?.getBoundingClientRect();
       const top = box(card).top;
-      const pageBox = box(card.closest(".roster-page"));
-      const bottom = Math.min(pageBox.bottom, box(card).bottom);
+      // Measured to the panel's foot, not the card's: a short card in a tall
+      // panel is the hole the owner saw.
+      const page = card.closest(".roster-page");
+      const bottom =
+        box(page).bottom - parseFloat(getComputedStyle(page).paddingBottom);
       const height = bottom - top;
       const left = box(card.querySelector(".mx3left"));
-      const columns = [...card.querySelectorAll(".mx3col")].map(box);
+      const lastIn = (node) => box(node?.lastElementChild);
+      const leftLast = lastIn(card.querySelector(".mx3left"));
+      const columns = [...card.querySelectorAll(".mx3col")].map(lastIn);
       const name = box(card.querySelector(".strip-name"));
       const lastBottom = (rects) =>
         Math.max(top, ...rects.filter(Boolean).map((r) => r.bottom));
@@ -63,7 +72,7 @@ try {
         name: card.querySelector(".strip-name")?.textContent,
         bust: Boolean(card.querySelector(".mxbust")),
         nameBeside: name.left > left.right - 4,
-        underBust: (bottom - lastBottom([left])) / height,
+        underBust: (bottom - lastBottom([leftLast])) / height,
         underSections: (bottom - lastBottom(columns)) / height,
         columns: columns.length,
       };
