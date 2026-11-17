@@ -174883,10 +174883,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "scene-talk.state-press.same-ask-on-bill-first-more-money-this-time",
+      "key": "scene-talk.state-press.same-ask-on-bill-more-money-this-time",
       "move": "state-press",
       "kind": "spoken",
-      "text": "Same ask on {bill}, {first}. More money this time.",
+      "text": "Same ask on {bill}. More money this time.",
       "uses": [
         {
           "subject": "scene",
