@@ -185444,7 +185444,7 @@
       "key": "scene-talk.reply-refuse.everybody-doing-it-doesn-t-make-bill-a-favor",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Everybody doing it doesn't make {bill} a favor.",
+      "text": "Everybody doing it doesn't make it right. Not on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -185700,7 +185700,7 @@
       "key": "scene-talk.reply-deflect.that-s-kind-but-what-has-it-to-do-with-bill",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "That's kind, but what has it to do with {bill}?",
+      "text": "That's kind, but what does it have to do with {bill}?",
       "uses": [
         {
           "subject": "scene",
@@ -185929,7 +185929,7 @@
       "key": "scene-talk.follow-thank.good-bribe-weight-says-it-right-and-we-never-spoke",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. {bribe-weight} says it right, and we never spoke.",
+      "text": "Good. {wanted} is settled, and we never spoke.",
       "uses": [
         {
           "subject": "scene",
