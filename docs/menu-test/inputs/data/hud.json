@@ -1,0 +1,14 @@
+{
+  "screen": "In-game HUD over a room (always on screen)",
+  "room_painting": "art/backdrops/house-suburban-living__night.jpg",
+  "player_card": {"name": "Tracy Lucas", "town": "Grano, North Dakota", "date": "Monday, January 20, 2025", "time": "8:00 PM", "portrait": "crop a man from art/busts/v1/sheets/men-all27-front.png"},
+  "time_controls": ["Hour", "Day", "Week"],
+  "rail": ["You", "Journal", "Calendar", "Money", "Politics", "News", "People", "Travel", "Guide"],
+  "rail_unread": ["News", "Journal"],
+  "here_now": [{"name": "Ashley Lucas", "tie": "partner"}],
+  "toasts": [
+    {"kind": "News", "text": "Allen Schultz named mayor pro tem"},
+    {"kind": "Journal", "text": "Shane Harrison, who I work with, won a seat on the council."}
+  ],
+  "rule": "It sits over every painting, so it must never cover the room. The 'here now' area is only as wide as the people in it."
+}
