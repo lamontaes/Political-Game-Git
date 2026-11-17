@@ -3,9 +3,10 @@ import {
   causeDamagingDisaster,
   causeDisaster,
   DISASTERS_MODULE_ID,
+  hazardOfIncident,
   townDisasters,
-} from "../../core2/modules/disasters";
-import { hazardOfIncident, type Hazard } from "../../core2/modules/climate";
+  type Hazard,
+} from "../../core2/modules/national-events";
 import type { DevView } from "../dev-views";
 
 /**
