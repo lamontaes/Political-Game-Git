@@ -1,0 +1,158 @@
+seed 1e1f80b6fe13e0bc place Los Llanos, Puerto Rico me Deborah O'Brien
+  scene 1: Kai O'Brien Parker O'Brien It's late on January 20. You stay in. Continue
+day one rows: ["contest:seat:municipio:72043:executive:0:2028-11-07 :: Mayor · County office Filing opens June 15, 2028","contest:seat:municipio:72043:board:3:2028-11-07 :: Municipal Legislator (District 4) · County office Filing opens June 15, 2028"]
+local-races: [{"c":"contest:seat:municipio:72043:executive:0:2028-11-07","t":"Mayor","may":true,"bar":"window-not-open","opens":"2028-06-15","el":"2028-11-07"},{"c":"contest:seat:municipio:72043:board:3:2028-11-07","t":"Municipal Legislator (District 4)","may":true,"bar":"window-not-open","opens":"2028-06-15","el":"2028-11-07"}]
+shot 01-elections-day-one
+race contest:seat:municipio:72043:executive:0:2028-11-07 Mayor
+race page day one: buttons ["announce:Announce","sim-to-filing:Sim to Jun 15, 2028"] | MayorNovember 7, 2028 Who's running No one has filed Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Jun 15, 2028 Filing opens Aug 14, 2028 Filing closes Nov 7, 2028 Election day Announce Sim to Jun 15, 2028
+shot 02-race-day-one
+after Announce: tabs ["Government","Elections","Campaign","Parties","Issues","Bills","Budgets","Metrics"] | Where the race stands Nobody has heard from you yet. Voters decide on November 7, 2028. No one else has filed for mayor yet. Filing closes August 14, 2028. Asking 50 voters in a poll would cost $2,250. The money $0.00 Raised $0.00 Spent $0.00 Volunteers 0 Doors knocked 0 Go out on the trail
+shot 03-campaign-after-announce
+campaign buttons: ["Go out on the trail"]
+race page announced: buttons ["sim-to-filing:Sim to Jun 15, 2028"] | MayorNovember 7, 2028 Who's running No one has filed Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Jun 15, 2028 Filing opens Aug 14, 2028 Filing closes Nov 7, 2028 Election day Sim to Jun 15, 2028
+shot 04-race-announced
+press Sim to (Sim to Jun 15, 2028)
+  advance answered at {"date":"2025-01-22","minuteOfDay":420} kind stop
+  scene 2: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 3: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 15, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 4: Cynthia Valdez First thing on March 2nd, out and about, you stop to talk with Cynthia Valdez. Cynthia crosses the street to catch you. Continue
+  scene 5: Cynthia Valdez First thing on March 10th, out and about, you stop to talk with Cynthia Valdez. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 6: Cynthia Valdez First thing on March 23rd, out and about, you stop to talk with Cynthia Valdez. Cynthia crosses the street to catch you. Continue
+  scene 7: Cynthia Valdez First thing on April 1st, Cynthia Valdez walks up to you on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 8: Diego O'Brien First thing on April 2nd, the mail brings a letter from Diego O'Brien. A letter from Diego has come from Coamo Municipio, with something to ask you. Continue
+  scene 9: Cynthia Valdez First thing on April 20th, out and about, you stop to talk with Cynthia Valdez. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 10: Cynthia Valdez First thing on May 4th, Cynthia Valdez walks up to you on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 11: Kai O'Brien It's early on May 13. The house is quiet. Your mother has something to tell you the moment you're in. Continue
+  scene 12: Cynthia Valdez First thing on May 18th, out and about, you stop to talk with Cynthia Valdez. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 13: Cynthia Valdez First thing on June 2nd, you run into Cynthia Valdez on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 14: Kai O'Brien It's early on June 12. The house is quiet. You finished school yesterday. Kai wants to mark it. Continue
+  scene 15: William Rojas First thing on June 24th, William Rojas walks up to you on the street. William has known you for years, and has a favor to ask. Continue
+  scene 16: Heather York First thing on July 1st, out and about, you stop to talk with Heather York. Heather recognizes you on the street. Continue
+  scene 17: Robert Richmond First thing on July 9th, out and about, you stop to talk with Robert Richmond. Robert stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 18: Sherry Dean First thing on July 15th, your phone lights up with Sherry Dean's name. The phone rings. It's Sherry, from Ortega Supply Company. Continue
+  scene 19: Robert Richmond First thing on July 23rd, Robert Richmond walks up to you on the street. Robert stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 20: Rene Ortega First thing on August 6th, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 21: Zara Elliott First thing on August 20th, out and about, you stop to talk with Zara Elliott. Zara stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 22: Devon Rojas First thing on September 1st, out and about, you stop to talk with Devon Rojas. Devon crosses the street to catch you. Continue
+  scene 23: Devon Rojas First thing on September 8th, out and about, you stop to talk with Devon Rojas. Devon stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 24: Heather York First thing on September 30th, you run into Heather York on the street. Heather recognizes you on the street. Continue
+  scene 25: Wendy Wiggins First thing on October 7th, out and about, you stop to talk with Wendy Wiggins. Wendy stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 26: Heather York First thing on October 14th, Heather York walks up to you on the street. Heather recognizes you on the street. Continue
+  scene 27: Robert Richmond First thing on October 21st, Robert Richmond walks up to you on the street. Robert stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 28: Heather York First thing on October 28th, out and about, you stop to talk with Heather York. Heather crosses the street to catch you. Continue
+  scene 29: William Rojas First thing on November 4th, out and about, you stop to talk with William Rojas. William has known you for years, and has a favor to ask. Continue
+  scene 30: Teresa Graves First thing on November 11th, Teresa Graves walks up to you on the street. Teresa crosses the street to catch you. Continue
+  scene 31: Paige Pope First thing on November 18th, out and about, you stop to talk with Paige Pope. Paige stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 32: Teresa Graves First thing on November 25th, Teresa Graves walks up to you on the street. Teresa crosses the street to catch you. Continue
+  scene 33: Cynthia Valdez First thing on December 2nd, Cynthia Valdez walks up to you on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 34: Teresa Graves First thing on December 9th, out and about, you stop to talk with Teresa Graves. Teresa crosses the street to catch you. Continue
+  scene 35: Rene Ortega First thing on December 16th, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 36: Kai O'Brien Parker O'Brien It's early on December 24. You stay in. You turned 19, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 37: Diego O'Brien First thing on January 2nd, a letter comes from Diego O'Brien. A letter from Diego has come from Coamo Municipio, with something to ask you. Continue
+  scene 38: William Rojas First thing on January 13th, William Rojas walks up to you on the street. William has known you for years, and has a favor to ask. Continue
+  scene 39: Donna Myers First thing on January 20th, Donna Myers walks up to you on the street. Donna recognizes you on the street. Continue
+  scene 40: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 41: Teresa Graves First thing on January 27th, Teresa Graves walks up to you on the street. Teresa stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 42: Donna Myers First thing on February 3rd, out and about, you stop to talk with Donna Myers. Donna crosses the street to catch you. Continue
+  scene 43: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 16, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 44: Emily Estes First thing on February 10th, you run into Emily Estes on the street. Emily stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 45: Kai O'Brien Parker O'Brien It's early on February 11. The house is quiet. Last night you watched County Executive Jimmy Strickland's yearly address on WZIH-TV. Continue
+  scene 46: Donna Myers First thing on February 17th, Donna Myers walks up to you on the street. Donna crosses the street to catch you. Continue
+  scene 47: Heather York First thing on February 24th, out and about, you stop to talk with Heather York. Heather stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 48: Cynthia Valdez First thing on March 10th, out and about, you stop to talk with Cynthia Valdez. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 49: Heather York First thing on March 17th, out and about, you stop to talk with Heather York. Heather recognizes you on the street. Continue
+  scene 50: Teresa Graves First thing on March 27th, Teresa Graves walks up to you on the street. Teresa crosses the street to catch you. Continue
+  scene 51: Diego O'Brien First thing on April 2nd, the mail brings a letter from Diego O'Brien. A letter has come from Diego, who was missing from your birthday table and has something to ask you. Continue
+  scene 52: Rene Ortega First thing on April 3rd, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 53: Annette Chang First thing on April 10th, you run into Annette Chang on the street. Annette crosses the street to catch you. Continue
+  scene 54: Heather York First thing on May 3rd, you run into Heather York on the street. Heather stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 55: Sherry Dean First thing on May 17th, out and about, you stop to talk with Sherry Dean. Sherry has known you for years, and has a favor to ask. Continue
+  scene 56: Cynthia Valdez First thing on May 24th, Cynthia Valdez walks up to you on the street. Cynthia crosses the street to catch you. Continue
+  scene 57: Sherry Dean First thing on June 14th, Sherry Dean walks up to you on the street. Sherry has known you for years, and has a favor to ask. Continue
+  scene 58: Cynthia Valdez First thing on June 21st, out and about, you stop to talk with Cynthia Valdez. Cynthia crosses the street to catch you. Continue
+  scene 59: Cynthia Valdez First thing on July 5th, Cynthia Valdez walks up to you on the street. Cynthia recognizes you on the street. Continue
+  scene 60: Alyssa Marquez First thing on July 12th, Alyssa Marquez walks up to you on the street. Alyssa stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 61: William Rojas First thing on July 26th, out and about, you stop to talk with William Rojas. William has known you for years, and has a favor to ask. Continue
+  scene 62: Cynthia Valdez First thing on August 2nd, Cynthia Valdez walks up to you on the street. Cynthia crosses the street to catch you. Continue
+  scene 63: Paige Ruiz First thing on August 9th, Paige Ruiz walks up to you on the street. Paige stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 64: Sherry Dean First thing on August 23rd, Sherry Dean walks up to you on the street. Sherry has known you for years, and has a favor to ask. Continue
+  scene 65: Heather York First thing on September 6th, Heather York walks up to you on the street. Heather stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 66: Rene Ortega First thing on September 20th, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 67: Cynthia Valdez First thing on September 27th, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 68: Cynthia Valdez First thing on October 11th, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 69: Cynthia Valdez First thing on October 18th, you run into Cynthia Valdez on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 70: Cynthia Valdez First thing on November 1st, out and about, you stop to talk with Cynthia Valdez. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 71: Cynthia Valdez First thing on November 8th, out and about, you stop to talk with Cynthia Valdez. Cynthia recognizes you on the street. Continue
+  scene 72: Rene Ortega First thing on November 15th, out and about, you stop to talk with Rene Ortega. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 73: Cynthia Valdez First thing on November 22nd, Cynthia Valdez walks up to you on the street. Cynthia recognizes you on the street. Continue
+  scene 74: Sam Ward First thing on November 29th, you run into Sam Ward on the street. Sam has known you for years, and has a favor to ask. Continue
+  scene 75: Cynthia Valdez First thing on December 6th, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 76: Emily Estes First thing on December 13th, out and about, you stop to talk with Emily Estes. Emily stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 77: Kai O'Brien Parker O'Brien It's early on December 24. You stay in. You turned 20, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 78: Teresa Graves First thing on December 27th, you run into Teresa Graves on the street. Teresa stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 79: Cynthia Valdez First thing on January 3rd, Cynthia Valdez walks up to you on the street. Cynthia crosses the street to catch you. Continue
+  scene 80: Cynthia Valdez First thing on January 17th, out and about, you stop to talk with Cynthia Valdez. Cynthia recognizes you on the street. Continue
+  scene 81: Paige Pope First thing on January 24th, you run into Paige Pope on the street. Paige stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 82: Sherry Dean First thing on January 31st, out and about, you stop to talk with Sherry Dean. Sherry crosses the street to catch you. Continue
+  scene 83: Diego O'Brien First thing on February 2nd, you open a letter from Diego O'Brien. A letter from Diego has come from Coamo Municipio, with something to ask you. Continue
+  scene 84: Donna Myers First thing on February 7th, out and about, you stop to talk with Donna Myers. Donna stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 85: Cynthia Valdez First thing on February 21st, you run into Cynthia Valdez on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 86: Paige Pope First thing on March 7th, out and about, you stop to talk with Paige Pope. Paige stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 87: Sherry Dean First thing on March 14th, out and about, you stop to talk with Sherry Dean. Sherry recognizes you on the street. Continue
+  scene 88: Beth Allen First thing on March 21st, out and about, you stop to talk with Beth Allen. Beth stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 89: Alyssa Marquez First thing on April 4th, out and about, you stop to talk with Alyssa Marquez. Alyssa stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 90: Cynthia Valdez First thing on April 11th, out and about, you stop to talk with Cynthia Valdez. Cynthia recognizes you on the street. Continue
+  scene 91: Cynthia Valdez First thing on April 25th, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 92: Jessica Brown First thing on May 2nd, you pick up the phone and it's Jessica Brown. Jessica catches you on the street. Continue
+  scene 93: Cynthia Valdez First thing on May 9th, you run into Cynthia Valdez on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 94: Alexis McLeod First thing on May 18th, you pick up the phone and it's Alexis McLeod. The phone rings. It's Alexis, from Whitley Family Clinic. Continue
+  scene 95: Cynthia Valdez First thing on May 23rd, you run into Cynthia Valdez on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 96: Thomas Raymond First thing on June 2nd, the phone rings. It's Thomas Raymond. Thomas catches you on the street. Continue
+  scene 97: Heather York First thing on June 9th, out and about, you stop to talk with Heather York. Heather stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 98: Thomas Raymond First thing on June 26th, out and about, you stop to talk with Thomas Raymond. Thomas stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 99: Cynthia Valdez First thing on July 10th, Cynthia Valdez walks up to you on the street. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 100: Scott Hall First thing on July 20th, Scott Hall finds you at work at Whitley Family Clinic. Scott has just started as a nurse at Whitley Family Clinic and has come over to say hello. Continue
+  scene 101: Heather York First thing on July 27th, Heather York walks up to you on the street. Heather stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 102: Heather York First thing on August 3rd, out and about, you stop to talk with Heather York. Heather recognizes you on the street. Continue
+  scene 103: Cheryl McClure First thing on August 10th, you run into Cheryl McClure on the street. Cheryl stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 104: Cedric Lyons First thing on August 24th, Cedric Lyons walks up to you on the street. Cedric stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 105: William Rojas Late in the morning on August 31st, you knock on William Rojas's door. William has come by one last time before going. Continue
+  scene 106: Rene Ortega First thing on September 21st, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 107: Cynthia Valdez First thing on October 5th, out and about, you stop to talk with Cynthia Valdez. Cynthia stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 108: Yasmin O'Brien Late in the morning on October 12th, you go over to see Yasmin O'Brien. Yasmin is leaving town and wanted to say it face to face. Continue
+  scene 109: Jessica Brown First thing on October 19th, out and about, you stop to talk with Jessica Brown. Jessica stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 110: Alyssa Marquez First thing on November 2nd, Alyssa Marquez walks up to you on the street. Alyssa stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 111: Kai O'Brien Parker O'Brien It's early on November 12. You stay in. Roland turned 11, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 112: Rene Ortega First thing on November 16th, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 113: Cheryl McClure First thing on November 30th, Cheryl McClure walks up to you on the street. Cheryl stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 114: Kai O'Brien Parker O'Brien It's early on December 24. You stay in. You turned 21, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 115: Alyssa Marquez First thing on December 28th, Alyssa Marquez walks up to you on the street. Alyssa stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 116: Rene Ortega First thing on January 11th, Rene Ortega walks up to you on the street. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 117: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 118: Debra Stafford First thing on January 25th, Debra Stafford walks up to you on the street. Debra stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 119: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 18, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 120: Sandra Lawrence First thing on February 9th, out and about, you stop to talk with Sandra Lawrence. Sandra stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 121: Kai O'Brien Parker O'Brien It's early on February 11. The house is quiet. Last night you watched County Executive Jimmy Strickland's yearly address on WZIH-TV. Continue
+  scene 122: Robert Richmond First thing on February 23rd, Robert Richmond walks up to you on the street. Robert stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 123: Juan Pope First thing on March 13th, out and about, you stop to talk with Juan Pope. Juan stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 124: Diego O'Brien First thing on April 2nd, a letter comes from Diego O'Brien. A letter has come from Diego, who was missing from your birthday table and has something to ask you. Continue
+  scene 125: Sandra Lawrence First thing on April 10th, out and about, you stop to talk with Sandra Lawrence. Sandra stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 126: Heather York First thing on April 18th, you run into Heather York on the street. Heather recognizes you on the street. Continue
+  scene 127: Rene Ortega First thing on April 25th, out and about, you stop to talk with Rene Ortega. Rene stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 128: Rachel Mathews First thing on May 2nd, the phone rings. It's Rachel Mathews. Rachel catches you on the street. Continue
+  scene 129: Heather York First thing on May 10th, Heather York walks up to you on the street. Heather stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 130: Rene Ortega First thing on May 21st, out and about, you stop to talk with Rene Ortega. Rene recognizes you on the street. Continue
+  scene 131: Sandra Lawrence First thing on May 28th, Sandra Lawrence walks up to you on the street. Sandra stands at the edge of the room, holding a folded flyer from your campaign. Continue
+  scene 132: Rene Ortega First thing on June 4th, Rene Ortega walks up to you on the street. Rene crosses the street to catch you. Continue
+  scene 133: Sherry Dean First thing on June 11th, you run into Sherry Dean on the street. Sherry has known you for years, and has a favor to ask. Continue
+after 1 Sim to press(es), 133 scenes: race {"open":true,"opens":"2028-06-15","may":true,"bar":null}; header date ""
+race page at filing: buttons ["file-for-it:File for it"] | MayorNovember 7 Who's running No one has filed Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Aug 14 Filing closes Nov 7 Election day File for it
+shot 05-race-filing-open
+shot 06-counter
+  counter: County clerk DEBORAH O'BRIEN I want to run for mayor. Alright, then. You're the first one in for mayor. It's 4 years if you win. No primary, just the one election, November 7. It's a county office. You'd answer to everyone in the county, not just Los Llanos. Y
+  replies ["Where do I sign for mayor?","Did anybody in Los Llanos beat me to it?","Not today. I'll be back at the county clerk soon."] -> Where do I sign for mayor?
+rows after filing: ["contest:seat:municipio:72043:executive:0:2028-11-07 :: Mayor · County office You are running","contest:seat:municipio:72043:board:3:2028-11-07 :: Municipal Legislator (District 4) · County office File for it"]
+shot 07-elections-after-filing
+race page after filing: MayorNovember 7 Who's running Deborah O'Brien Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Aug 14 Filing closes Nov 7 Election day
+shot 08-race-after-filing
+errors []
