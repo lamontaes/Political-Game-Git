@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 999,
+  "judged": 983,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1289,15 +1289,6 @@
       ],
       "why": "The replies offer to explain, apologize or exit, but none states a reason."
     },
-    "0pbxzevffgl": {
-      "keys": [
-        "scene-talk.state-request.i-m-on-the-ballot-for-office-i-d-like-to-count-on-your-vote",
-        "scene-talk.reply-agree.self-you-knew-you-had-me-before-you-knocked",
-        "scene-talk.reply-decline.self-i-know-you-that-s-the-problem",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
     "0ptijp9su3l": {
       "keys": [
         "scene-talk.follow-plea.we-miss-you-that-s-all",
@@ -1618,14 +1609,6 @@
       ],
       "why": "Risk in writing, cancel, and meet at the door are plans with no reason."
     },
-    "0w9uwb8usic": {
-      "keys": [
-        "scene-talk.beat-beat.a-staffer-hovers-at-your-elbow-holding-a-schedule",
-        "scene-talk.reply-answer.go-ahead-i-meant-every-word",
-        "scene-talk.reply-leave.we-re-done-here"
-      ],
-      "why": "Permission to quote and ending the interview carry no reason."
-    },
     "0wjrcxcv7mz": {
       "keys": [
         "scene-talk.follow-confront.they-can-read-your-side-in-the-paper",
@@ -1900,15 +1883,6 @@
       ],
       "why": "A taunt and a promise to explain carry no reason."
     },
-    "11w45caw0zd": {
-      "keys": [
-        "scene-talk.follow-answer.carefully-and-in-the-open-where-you-can-watch-me",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-leave.i-need-to-head-home"
-      ],
-      "why": "\"I'm with you\", \"I'm not sold yet\" and heading home give no reason."
-    },
     "12d9wvg2hk9": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -2043,16 +2017,6 @@
         "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
       ],
       "why": "The replies are a denial and two exits with no reason or argument."
-    },
-    "16ige2zw64a": {
-      "keys": [
-        "scene-talk.state-request.i-meant-what-i-said-about-cause-can-i-count-on-your-vote",
-        "scene-talk.reply-ask.what-would-you-actually-do-first",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-deflect.let-me-think-it-over"
-      ],
-      "why": "A question, a yes, \"I'm not sold yet\" and thinking it over carry no reason."
     },
     "175wdffrwp0": {
       "keys": [
@@ -2738,15 +2702,6 @@
       ],
       "why": "Thanks, an \"as long as\" agreement and an exit offer no argument."
     },
-    "1n2dppnc1fz": {
-      "keys": [
-        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
-        "scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree",
-        "scene-talk.reply-refuse.they-know-where-my-office-is",
-        "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want"
-      ],
-      "why": "\"I listened, and I still disagree\" restates the stance without a reason, and the others deflect or leave."
-    },
     "1n7qrznb0qe": {
       "keys": [
         "scene-talk.follow-plea.the-people-out-there-gave-you-six-months-give-them-the-ending",
@@ -2803,15 +2758,6 @@
         "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
       ],
       "why": "Asked 'Why not the vote?', the player can agree, defer, set a condition or say 'I'll tell you before the vote', and none of these gives a reason."
-    },
-    "1os3v4hm1hq": {
-      "keys": [
-        "scene-talk.follow-press.fair-what-s-holding-you-back",
-        "scene-talk.reply-agree.i-m-with-you",
-        "scene-talk.reply-decline.i-m-not-sold-yet",
-        "scene-talk.reply-leave.i-need-to-head-home"
-      ],
-      "why": "Asked what holds them back, none of the three replies names anything."
     },
     "1pmyfxbql3r": {
       "keys": [
@@ -2993,15 +2939,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "1t0syfl9zd8": {
-      "keys": [
-        "scene-talk.follow-ask.can-i-quote-you-on-that",
-        "scene-talk.reply-answer.you-can-quote-me",
-        "scene-talk.reply-boast.time-will-answer-that-and-it-ll-answer-for-me",
-        "scene-talk.reply-leave.we-re-done-here"
-      ],
-      "why": "Permission to quote, \"time will answer\" and \"we're done\" carry no reason."
     },
     "1taf9x1pxdb": {
       "keys": [
@@ -3578,14 +3515,6 @@
       ],
       "why": "Appreciation and a we'll-finish-later exit carry no reason."
     },
-    "25xdngiychg": {
-      "keys": [
-        "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree",
-        "scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree",
-        "scene-talk.reply-refuse.they-know-where-my-office-is"
-      ],
-      "why": "\"I listened, and I still disagree\" and \"They know where my office is\" give no reason."
-    },
     "260qv6gdg3d": {
       "keys": [
         "scene-talk.follow-ask.even-if-it-costs-you-votes",
@@ -4097,5 +4026,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0ookhd707pp"
+  "yesHash": "0gmh2aqc15k"
 }
