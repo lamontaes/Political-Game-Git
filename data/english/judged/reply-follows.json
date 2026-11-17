@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3113,
+  "judged": 2757,
   "no": {
     "000jt3f972v": {
       "keys": [
@@ -32,13 +32,6 @@
       ],
       "why": "A just refused; 'I'll hold you to that' treats a no as a promise."
     },
-    "010ckajk5hi": {
-      "keys": [
-        "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
-        "scene-talk.reply-agree.all-right-one-meeting-then-we-ll-see"
-      ],
-      "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
-    },
     "016dasea7g1": {
       "keys": [
         "scene-talk.follow-thank.thank-you-i-won-t-forget-it",
@@ -52,13 +45,6 @@
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
       ],
       "why": "A asks what B needs to get there; B does not answer the question."
-    },
-    "01afwmhcrxb": {
-      "keys": [
-        "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
     },
     "01d9zvz4wto": {
       "keys": [
@@ -277,26 +263,12 @@
       ],
       "why": "A asks for something checkable; B accuses A of going to a prosecutor."
     },
-    "0h4swhf2th3": {
-      "keys": [
-        "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here",
-        "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
-      ],
-      "why": "The reply picks a job from a list the line before never gave."
-    },
     "0i8e0laa1yw": {
       "keys": [
         "scene-talk.follow-comfort.sit-down-i-ll-heat-it-up",
         "scene-talk.reply-deflect.it-s-temporary-it-ll-settle-down"
       ],
       "why": "A offers food; B talks about something being temporary."
-    },
-    "0j6afjghqut": {
-      "keys": [
-        "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors",
-        "scene-talk.reply-decline.speaking-at-meetings-isn-t-me-sorry"
-      ],
-      "why": "The reply picks a job from a list the line before never gave."
     },
     "0jjym9vvb6g": {
       "keys": [
@@ -311,13 +283,6 @@
         "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours"
       ],
       "why": "A agrees to apologize Tuesday; B's remark about paying for projects is unrelated."
-    },
-    "0jutidahoca": {
-      "keys": [
-        "scene-talk.reply-leave.i-need-to-return-these-books-before-they-close",
-        "scene-talk.close-press.think-it-over-we-meet-every-week"
-      ],
-      "why": "The reply tells the person to think it over, but the line before only said they have to return books."
     },
     "0k186lhn649": {
       "keys": [
@@ -452,13 +417,6 @@
       ],
       "why": "A never apologized; B says sorry doesn't tell who was involved."
     },
-    "0rgr11bru3n": {
-      "keys": [
-        "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
-        "scene-talk.reply-agree.okay-one-meeting-then-we-ll-see"
-      ],
-      "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
-    },
     "0ritm4offd5": {
       "keys": [
         "scene-talk.reply-leave.i-have-to-go-thank-you-for-telling-me",
@@ -508,13 +466,6 @@
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
     },
-    "0vuzlpyzaom": {
-      "keys": [
-        "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
     "0w0xkjp2yx2": {
       "keys": [
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go",
@@ -542,13 +493,6 @@
         "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
       ],
       "why": "A's 'I will' is no question or claim; B gives a rebuttal."
-    },
-    "0y7fzy8grgo": {
-      "keys": [
-        "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
-        "scene-talk.reply-agree.okay-i-ll-come-to-one-after-that-we-ll-see"
-      ],
-      "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
     },
     "0y8cfn041z4": {
       "keys": [
@@ -599,26 +543,12 @@
       ],
       "why": "A just refused; thanking them as if they agreed does not follow."
     },
-    "0ziyadppdnx": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen",
-        "scene-talk.reply-agree.okay-one-meeting-then-we-ll-see"
-      ],
-      "why": "The line before asked who on the council would listen, and the reply never answers or dodges that."
-    },
     "0znm0a68bss": {
       "keys": [
         "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
         "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
       ],
       "why": "A asks if B thought A would take it; B answers about the rule."
-    },
-    "10tvjj7splq": {
-      "keys": [
-        "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
     },
     "10w3hqp769a": {
       "keys": [
@@ -689,20 +619,6 @@
         "scene-talk.reply-agree.you-re-right-and-i-ll-do-it"
       ],
       "why": "A asks what is in the way; B agrees as if told something."
-    },
-    "16scfax8sdc": {
-      "keys": [
-        "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
-        "scene-talk.reply-agree.all-right-one-meeting-then-we-ll-see"
-      ],
-      "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
-    },
-    "16ugg5oyy99": {
-      "keys": [
-        "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
     },
     "186ucqdh56v": {
       "keys": [
@@ -781,13 +697,6 @@
       ],
       "why": "A only says thank you, and nothing in it pushes, so \"my answer isn't going to change, let it go\" does not follow."
     },
-    "1d4ukpzqj1b": {
-      "keys": [
-        "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
     "1e3v8xse6q4": {
       "keys": [
         "scene-talk.follow-ask.why-is-source-wrong",
@@ -801,13 +710,6 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A is making the first ask to a stranger, so no answer has been given yet that could stay the same."
-    },
-    "1fk4mpi6ysw": {
-      "keys": [
-        "scene-talk.reply-agree.give-them-here-i-ll-read-them-now",
-        "scene-talk.follow-thank.good-we-ll-see-you-there"
-      ],
-      "why": "The reply says they will see the person there, but the line before was only about reading the pages."
     },
     "1flwlzb30eq": {
       "keys": [
@@ -837,20 +739,6 @@
       ],
       "why": "A has just given the vote, so asking for it again, with the favor as leverage, does not follow."
     },
-    "1glmf8fb2xp": {
-      "keys": [
-        "scene-talk.reply-leave.the-library-closes-soon-i-have-to-return-these-books",
-        "scene-talk.close-press.think-it-over-we-meet-every-week"
-      ],
-      "why": "The reply tells the person to think it over, but the line before only said they have to return books."
-    },
-    "1gsergrwkrh": {
-      "keys": [
-        "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
     "1gwdvgx1c0j": {
       "keys": [
         "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed",
@@ -865,13 +753,6 @@
       ],
       "why": "A thanks B as if B agreed, so a firm refusal does not follow."
     },
-    "1gyblvy64mr": {
-      "keys": [
-        "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
     "1h4zkns4wtm": {
       "keys": [
         "scene-talk.follow-thank.thank-you-their-first-you-won-t-be-sorry",
@@ -885,20 +766,6 @@
         "scene-talk.reply-agree.yes-i-ll-marry-you-put-the-ring-on-me-before-i-start-crying-into-the-d"
       ],
       "why": "Accepts a proposal that A never made."
-    },
-    "1hamzlpok2h": {
-      "keys": [
-        "scene-talk.reply-leave.i-ve-got-to-get-these-books-back-before-they-close",
-        "scene-talk.close-press.think-it-over-we-meet-every-week"
-      ],
-      "why": "The reply tells the person to think it over, but the line before only said they have to return books."
-    },
-    "1hcmrzd51l1": {
-      "keys": [
-        "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that",
-        "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
-      ],
-      "why": "The reply accepts phone calls, but the line before only said how long a talk lasts."
     },
     "1idoc3os1iw": {
       "keys": [
@@ -977,33 +844,12 @@
       ],
       "why": "A responds to agreement; restating a refusal does not follow it."
     },
-    "1o69lay5te0": {
-      "keys": [
-        "scene-talk.reply-agree.let-me-see-them-i-ll-read-them-now",
-        "scene-talk.follow-thank.good-we-ll-see-you-there"
-      ],
-      "why": "The reply says they will see the person there, but the line before was only about reading the pages."
-    },
     "1ofe6hnaves": {
       "keys": [
         "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
         "scene-talk.follow-ask.taken.who-else-knew-first"
       ],
       "why": "'Who else knew?' has no link to A's rule-and-vote reason."
-    },
-    "1ohl0yu5i6o": {
-      "keys": [
-        "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
-        "scene-talk.reply-agree.okay-one-meeting-then-we-ll-see"
-      ],
-      "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
-    },
-    "1ox9p5tdjyw": {
-      "keys": [
-        "scene-talk.reply-agree.i-m-with-you-tell-me-when",
-        "scene-talk.follow-thank.that-s-all-i-ask-thank-you"
-      ],
-      "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
     "1q2j2b5iqu3": {
       "keys": [
@@ -1018,20 +864,6 @@
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
       ],
       "why": "A treats the vote as already promised; B's flat no contradicts it instead of following it."
-    },
-    "1qmteavzgji": {
-      "keys": [
-        "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
-    "1qphygvt0q2": {
-      "keys": [
-        "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors",
-        "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
-      ],
-      "why": "The reply picks a job from a list the line before never gave."
     },
     "1qy3bo00mml": {
       "keys": [
@@ -1124,13 +956,6 @@
       ],
       "why": "A says they have never met; there is no earlier answer to point back to."
     },
-    "1vn0brq2mlq": {
-      "keys": [
-        "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
-        "scene-talk.reply-agree.okay-i-ll-come-to-one-after-that-we-ll-see"
-      ],
-      "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
-    },
     "1vnuslqhpp6": {
       "keys": [
         "scene-talk.follow-accept.then-your-amendment-goes-in-deal",
@@ -1166,26 +991,12 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "1xc0e6ufwrn": {
-      "keys": [
-        "scene-talk.reply-agree.i-m-with-you-tell-me-when",
-        "scene-talk.follow-thank.good-we-ll-see-you-there"
-      ],
-      "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
-    },
     "1xnxleanzoq": {
       "keys": [
         "scene-talk.state-request.you-re-family-their-first-but-that-isn-t-why-i-m-asking-i-d-want-you-for-office-either-way",
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A is making the first ask, so no answer has been given yet that could stay the same."
-    },
-    "1y0hw2lmtqb": {
-      "keys": [
-        "scene-talk.reply-agree.count-me-in-tell-me-when",
-        "scene-talk.follow-thank.good-we-ll-see-you-there"
-      ],
-      "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
     "1ycjjzm8o2k": {
       "keys": [
@@ -1229,13 +1040,6 @@
       ],
       "why": "'Then I'll ask the boss' reacts to nothing in a welcome."
     },
-    "23k35jh8t2f": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen",
-        "scene-talk.reply-agree.okay-i-ll-come-to-one-after-that-we-ll-see"
-      ],
-      "why": "The line before asked who on the council would listen, and the reply never answers or dodges that."
-    },
     "23npzn0n7t2": {
       "keys": [
         "scene-talk.state-request.i-know-it-s-a-lot-to-ask-their-first-would-you-run-for-office-with-me",
@@ -1249,13 +1053,6 @@
         "scene-talk.state-request.can-i-count-on-you-for-bill"
       ],
       "why": "Asking \"Can I count on you?\" right after a no ignores it."
-    },
-    "24cvwm9e1y0": {
-      "keys": [
-        "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway",
-        "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
-      ],
-      "why": "The reply accepts phone calls, but the line before only said how long a talk lasts."
     },
     "24ni2pnf5qy": {
       "keys": [
@@ -1291,13 +1088,6 @@
         "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed"
       ],
       "why": "A has just accepted with \"Fair enough\"; restating the answer does not follow."
-    },
-    "272rsrmuh8x": {
-      "keys": [
-        "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here",
-        "scene-talk.reply-decline.speaking-at-meetings-isn-t-me-sorry"
-      ],
-      "why": "The reply picks a job from a list the line before never gave."
     },
     "278lbixnc36": {
       "keys": [
@@ -1404,48 +1194,13 @@
       ],
       "why": "'Somebody' echoes a word A never said; A offered a name reference."
     },
-    "2g2m53qiifo": {
-      "keys": [
-        "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-if-you-want",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
-    "2gf4jpc7n1x": {
-      "keys": [
-        "scene-talk.follow-answer.there-are-sign-up-sheets-and-calls-and-speaking-only-if-you-re-up-for-it",
-        "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
-      ],
-      "why": "The reply disagrees with something the line before never claimed."
-    },
-    "2gh793mit12": {
-      "keys": [
-        "scene-talk.reply-agree.count-me-in-tell-me-when",
-        "scene-talk.follow-thank.that-s-all-i-ask-thank-you"
-      ],
-      "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
-    },
     "2gnc5buygbt": {
       "keys": [
         "scene-talk.follow-accept.fair-i-ll-say-you-changed-your-mind",
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
       ],
       "why": "A says they changed their mind; a no with no correction does not follow."
-    },
-    "10jrh1fglio": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
-        "scene-talk.reply-agree.all-right-i-ll-do-it"
-      ],
-      "why": "A asks what would change their mind; B says 'I'll do it' as if asked to act."
-    },
-    "1c61qwtv5v6": {
-      "keys": [
-        "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
-        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in"
-      ],
-      "why": "A asks what changes; B agrees as if A made a case."
     }
   },
-  "yesHash": "0zqh6ukqlb5"
+  "yesHash": "0q4i77n0tfo"
 }
