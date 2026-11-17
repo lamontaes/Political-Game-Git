@@ -56,6 +56,8 @@ const seed = process.env.DISASTERS_WEB_SEED || randomBytes(20).toString("hex");
 const MAX_DRAWS = 8000;
 /** Days after the incident begins that both worlds run: past the web's next monthly record and the moves engine's next review. */
 const RUN_DAYS = 75;
+/** Days both worlds play before the disaster is caused: past the web's first month, which sets each cause's base. */
+const WEB_FIRST_MONTH_DAYS = 40;
 /** A disaster that reads this severe moves records by a share the test can tell from rounding. */
 const MIN_SEVERITY = 0.5;
 
@@ -202,7 +204,10 @@ function run(
     placeKey: drawn.key,
   }).core as CoreState;
   if (withoutDisasters) core.modules.delete(DISASTERS_MODULE_ID);
-  // The county's own exposure makes the disaster: cause the recorded one the screen found.
+  // The web's first month sets each cause's base, so a disaster already there at the start is in
+  // the base and moves nothing: both worlds play on past that month, then the county's own
+  // exposure makes the disaster, the recorded one the screen found.
+  advanceCore(core, addDays(makeIsoDate(core.date), WEB_FIRST_MONTH_DAYS));
   const made =
     !withoutDisasters && cause
       ? causeDisaster(coreAPI(core), cause.hazard, cause.number)
