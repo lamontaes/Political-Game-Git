@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: laws-and-effects (builder crew, Nov 17)
-pr:
+pr: #9877
 after: laws-veterans-line-reaches-poverty-both-tiers
 blocked-on:
 lead: laws-effects
