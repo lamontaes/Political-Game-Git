@@ -188648,7 +188648,7 @@
       "key": "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Call my office on {bill}. I have to go.",
+      "text": "I have to go, so call my office about {bill}.",
       "uses": [
         {
           "subject": "scene",
