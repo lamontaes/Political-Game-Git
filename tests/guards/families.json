@@ -1,5 +1,5 @@
 {
-  "about": "One engine per mechanic: every source file belongs to one engine family, and a file of one family reaches another family only through that family's entry files (its src/core2/modules file, or the folder's index). Paths are globs from the repository root; ** crosses folders, * does not. shared is the kernel every family may import. .github/CODEOWNERS is written from this file (scripts/guards/codeowners.ts). The guard is tests/guards/families.test.ts; docs/design/guards.md explains it.",
+  "about": "One engine per mechanic: every source file belongs to one engine family, and a file of one family reaches another family only through that family's entry files (its src/core2/modules file, or the folder's index). Paths are globs from the repository root; ** crosses folders, * does not. shared is the kernel every family may import. .github/CODEOWNERS is written from this file (scripts/guards/codeowners.ts); protected lists the instructions, workflows, guards and baselines the owner reviews, which are not a family. The guard is tests/guards/families.test.ts; docs/design/guards.md explains it.",
   "owner": "@lamontaes",
   "shared": [
     "src/core2/kernel/**",
@@ -44,6 +44,21 @@
     "src/core2/gov-rules/person-identity.ts",
     "src/core2/government-level.ts",
     "src/core2/fee-levels.ts"
+  ],
+  "protected": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".agents/**",
+    ".claude/**",
+    ".github/workflows/**",
+    ".github/CODEOWNERS",
+    "tests/guards/**",
+    "scripts/guards/**",
+    "tests/**/*baseline*.json",
+    "scripts/**/*baseline*.json",
+    "data/runtime-text/**/*baseline*.json",
+    "tests/**/*ceiling*.json",
+    "scripts/**/*ceiling*.json"
   ],
   "families": [
     {
