@@ -206,6 +206,14 @@ const run = (life: (typeof LIVES)[number]): { done: boolean; note: string } => {
             "Closer than anybody expected",
           );
         }
+        // A possessive takes the bare name, never an appositive: not
+        // "Anika Meadows, a member of the Select Board,'s team" (older than
+        // this pull request; src/english/possessive-appositive.test.ts).
+        for (const text of [call.scene.talk.state.text, ...heard])
+          expect(
+            text,
+            `${here}: an appositive inside a possessive`,
+          ).not.toMatch(/,['\u2019]s\b/);
         if (file)
           appendFileSync(
             file,

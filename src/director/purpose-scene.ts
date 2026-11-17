@@ -613,6 +613,18 @@ function composeBinding(
   const asked = core.people.get(askedId);
   if (!asker || !asked)
     return { kind: "skipped", reason: "the cast is not on record" };
+  // A person said with what they are ("Anika Meadows, a member of the
+  // Stoneham Select Board,") keeps the bare name for a slot the line follows
+  // with a possessive ("Anika Meadows's team"): the appositive is the first
+  // mention's, never inside a possessive (grounded-english.ts, said-as `bareName`).
+  const sayPersonFact = (
+    person: { id: string; givenName: string; familyName: string },
+    sourceRecordIds: string[],
+  ): Fact => {
+    const text = sayPerson(person);
+    const bare = bareName(text, person);
+    return { text, ...(bare ? { bare } : {}), sourceRecordIds } as Fact;
+  };
 
   const record = core.durableLog.get(moment.causeId);
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
@@ -1757,10 +1769,7 @@ function composeBinding(
     ? core.people.get(said.rivalId as PersonId)
     : undefined;
   if (rival)
-    facts.opponent = {
-      text: sayPerson(rival),
-      sourceRecordIds: [moment.causeId, rival.id],
-    };
+    facts.opponent = sayPersonFact(rival, [moment.causeId, rival.id]);
   // Word of a rival's message passed on: how it reached the teller, what it
   // argued (the subject and the rival's side of it) and how far it moved the
   // teller, each from the message's own record. Nothing here quotes it.
@@ -1906,10 +1915,7 @@ function composeBinding(
     ? core.people.get(said.winnerId as PersonId)
     : undefined;
   if (winner && winner.id !== askedId)
-    facts.opponent = {
-      text: sayPerson(winner),
-      sourceRecordIds: [moment.causeId, winner.id],
-    };
+    facts.opponent = sayPersonFact(winner, [moment.causeId, winner.id]);
   // In a race the asked won, the opponent is the one they beat: first among
   // those who missed the cut (in an at-large race the other winners were
   // seated too).
@@ -1919,10 +1925,7 @@ function composeBinding(
       beaten && core.people.has(beaten.id as PersonId) ? beaten.id : undefined;
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
-      facts.opponent = {
-        text: sayPerson(other),
-        sourceRecordIds: [moment.causeId, other.id],
-      };
+      facts.opponent = sayPersonFact(other, [moment.causeId, other.id]);
   }
   // A race's result for the asked (the morning after): the lines for a
   // winner and for the one who lost differ.
