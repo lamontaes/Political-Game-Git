@@ -1,5 +1,7 @@
 import { randomBytes } from "node:crypto";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
+import v8 from "node:v8";
+import vm from "node:vm";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -14,6 +16,14 @@ import { composeJournal } from "./journal";
 import { tieSide } from "./relation-facts";
 import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
+
+// Each case builds whole played worlds, up to a dozen in one test. V8 leaves a
+// finished world's heap uncollected until the limit, so on a shared box the
+// worker grew until it was killed ("Worker exited unexpectedly", PR #9119, the
+// flake of Nov 17). Collect after each world, as journal-opening.test.ts does.
+v8.setFlagsFromString("--expose_gc");
+const collect = vm.runInNewContext("gc") as () => void;
+afterEach(() => collect());
 
 // The Journal is a story from birth (owner, Oct 27: "this journal needs to be
 // written like a story, not individual sections, but written like a story
@@ -177,6 +187,7 @@ describe("the journal as a story from birth", () => {
     const passed: string[] = [];
     for (let draw = 0; draw < 12; draw += 1) {
       const skipped = ownEmployersOnly(`${seed}:elsewhere:${draw}`);
+      collect();
       if (!skipped) {
         process.stdout.write(
           `journal-story: passed over ${passed.join("; ") || "none"}\n`,

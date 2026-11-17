@@ -2775,7 +2775,20 @@ export function composeJournal(
       if (laws.length < P.two) continue;
       const first = laws[zero]!;
       const topics: Fact = {
-        text: listOf([...new Set(laws.map((unit) => unit.facts.topic!.text))]),
+        // Said as a list; a topic that holds "and" itself goes last, with
+        // ", and" before it, so the list is not ambiguous ("transportation,
+        // and electricity and the grid").
+        text: (() => {
+          const all = [...new Set(laws.map((unit) => unit.facts.topic!.text))];
+          const compound = (text: string) => / and /.test(text);
+          const items = [
+            ...all.filter((text) => !compound(text)),
+            ...all.filter(compound),
+          ];
+          return items.length > one && compound(items.at(-one)!)
+            ? `${items.slice(zero, -one).join(", ")}, and ${items.at(-one)}`
+            : listOf(items);
+        })(),
         sourceRecordIds: laws.flatMap((unit) => [
           unit.moment.causeId,
           ...unit.facts.topic!.sourceRecordIds,
@@ -4065,6 +4078,29 @@ export function composeJournal(
             (!unit.own || unit.moment.causeKind === "event:law.effect-learned"),
         )
       ) {
+        const isLaw = (unit: Unit) =>
+          unit.moment.causeKind === "event:law.effect-learned";
+        if (part.every(isLaw) && !kept.told.every(isLaw)) {
+          // A law's effect after a family beat is a paragraph of its own,
+          // opened on the person's age (the memoir's `whenAge`), never
+          // joined to a separation or a death.
+          const frame = render(
+            { part: "memoir", field: "whenAge" },
+            {
+              age: {
+                text: String(ageAt(part[zero]!.moment.date)),
+                sourceRecordIds: [person.id],
+              },
+            },
+            `${part[zero]!.moment.id}:age`,
+            [part[zero]!.moment.causeId],
+          );
+          push(
+            part,
+            frame ? [framedByAge(frame, told[zero]!, part[zero]!.facts)] : told,
+          );
+          continue;
+        }
         const joined = [...kept.sentences, ...told];
         const were = [...kept.told, ...part];
         chapter!.lines.splice(-one, one, entryOf(were, joined));
