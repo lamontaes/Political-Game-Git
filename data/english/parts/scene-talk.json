@@ -177581,10 +177581,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-haven-t-been-well-i-ll-sign-though",
+      "key": "scene-talk.reply-agree.i-haven-t-been-well-i-ll-sign-for-office-though",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I haven't been well. I'll sign, though.",
+      "text": "I haven't been well. I'll sign for {office}, though.",
       "uses": [
         {
           "subject": "scene",
@@ -178377,10 +178377,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.we-re-in-the-same-party-i-m-still-not-promising-my-vote",
+      "key": "scene-talk.reply-decline.we-re-in-the-same-party-i-m-still-not-promising-my-vote-for-office",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "We're in the same party. I'm still not promising my vote.",
+      "text": "We're in the same party. I'm still not promising my vote for {office}.",
       "uses": [
         {
           "subject": "scene",
