@@ -14,6 +14,10 @@
  *   choice on the campaign screen), and that money is what leaves the savings
  *   short of the race. The relative's stake is money, and its days are the
  *   ones the household's own records give;
+ * - a household already short before the race (owner, Nov 17: "it keeps
+ *   saying we only have 2 weeks of savings"): its savings fall short of the
+ *   race whether or not anyone runs, the filer gives nothing and there is no
+ *   young child, so the filing costs it nothing and nobody has a stake;
  * - a comfortable household: the filer gives nothing and has no young child
  *   at home. Nobody has a stake and the talk is not staged (the filing is the
  *   player's news at home instead);
@@ -89,10 +93,11 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
   const passed: string[] = [];
   let strained = "";
   let comfortable = "";
+  let short = "";
   let time = "";
   for (
     let draw = 0;
-    draw < DRAWS && !(strained && comfortable && time);
+    draw < DRAWS && !(strained && comfortable && short && time);
     draw++
   ) {
     const drawSeed = draw === 0 ? seed : `${seed}:${draw}`;
@@ -146,14 +151,14 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
       return null;
     };
     const cases: {
-      kind: "strained" | "comfortable" | "time";
+      kind: "strained" | "comfortable" | "short" | "time";
       person: PersonState;
       filingId: string;
       raceDays: number;
     }[] = [];
-    const want = (kind: string) =>
+    const want = (kind: "strained" | "comfortable" | "short" | "time") =>
       !cases.some((row) => row.kind === kind) &&
-      !(kind === "strained" ? strained : kind === "time" ? time : comfortable);
+      !{ strained, time, short, comfortable }[kind];
     for (const person of candidates) {
       if (homes.has(person.householdId)) continue;
       const child = youngChild(core, person);
@@ -174,12 +179,17 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
           : child && person.jobId && want("time")
             ? "time"
             : !child &&
-                (gap <= 0 ||
-                  (liquid - Math.floor(person.liquidMinor / 100)) / gap >=
-                    raceDays) &&
-                want("comfortable")
-              ? "comfortable"
-              : null;
+                gap > 0 &&
+                liquid / gap < raceDays * (1 - gate) - 2 &&
+                want("short")
+              ? "short"
+              : !child &&
+                  (gap <= 0 ||
+                    (liquid - Math.floor(person.liquidMinor / 100)) / gap >=
+                      raceDays) &&
+                  want("comfortable")
+                ? "comfortable"
+                : null;
       if (!kind) continue;
       homes.add(person.householdId);
       director.watch(core, person.id);
@@ -201,7 +211,7 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
           Math.floor(person.liquidMinor / 100),
         );
       cases.push({ kind, person, filingId: filed.filing.id, raceDays: days });
-      if (cases.length === 3) break;
+      if (cases.length === 4) break;
     }
     // The day closes and the director stores the filing's moment.
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
@@ -217,11 +227,14 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
         other,
         stake: stakeOf(core, row.person.id, causeId, other.id),
       }));
-      if (row.kind === "comfortable") {
+      if (row.kind === "comfortable" || row.kind === "short") {
         // No stake: no money talk, and no scene; the filing is news at home.
         for (const { stake } of stakes) expect(stake, here).toBeNull();
         expect(staged, `${here}: staged with no stake`).toBeUndefined();
-        comfortable = here;
+        if (row.kind === "short") {
+          const { liquid, gap } = books(core, row.person);
+          short = `${here}: savings carry ${spanSaid(Math.floor(liquid / gap))} of a ${spanSaid(row.raceDays - 1)} race, and nobody was staged`;
+        } else comfortable = here;
         continue;
       }
       const found = stakes.find((s) => s.stake)?.stake;
@@ -256,17 +269,21 @@ it(`a filing's stake at home is what the race costs that household (seed ${seed}
         time = `${here}: child ${child.text}, employer ${found!.facts.employer?.text ?? "(not said)"}`;
       }
     }
-    for (const kind of ["strained", "comfortable", "time"])
+    for (const kind of ["strained", "comfortable", "short", "time"])
       if (!cases.some((row) => row.kind === kind))
         passed.push(`${where}: no ${kind} household filed`);
   }
   process.stdout.write(
-    `family-stake (seed ${seed})\n  strained: ${strained}\n  comfortable: ${comfortable}\n  time: ${time}\n  passed over: ${passed.join("; ") || "none"}\n`,
+    `family-stake (seed ${seed})\n  strained: ${strained}\n  comfortable: ${comfortable}\n  short: ${short}\n  time: ${time}\n  passed over: ${passed.join("; ") || "none"}\n`,
   );
   expect(strained, `no strained household: ${passed.join("; ")}`).toBeTruthy();
   expect(
     comfortable,
     `no comfortable household: ${passed.join("; ")}`,
+  ).toBeTruthy();
+  expect(
+    short,
+    `no household short before the race: ${passed.join("; ")}`,
   ).toBeTruthy();
   expect(
     time,

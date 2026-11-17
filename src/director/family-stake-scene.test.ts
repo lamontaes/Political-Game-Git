@@ -190,7 +190,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
         here,
       );
       for (const move of moves)
-        expect(["tell", "request", "comfort", "deflect"], here).toContain(move);
+        expect(["tell", "request", "promise", "deflect"], here).toContain(move);
       // The player's replies name a body only where it is the office they
       // filed for, and claim no span of years the records do not hold.
       const office = (
