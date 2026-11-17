@@ -74,7 +74,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { leaveJobAs, openingsView } from "./openings";
+import { applyForOpeningAs, leaveJobAs, openingsView } from "./openings";
 import {
   billPaper,
   isByRequest,
@@ -2562,6 +2562,21 @@ const ROUTES: readonly Route[] = [
       send(
         200,
         governmentView(requireCore(), url.searchParams.get("id") ?? ""),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/apply",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        applyForOpeningAs(
+          requireCore(),
+          url.searchParams.get("position") ?? "",
+        ),
       );
       return;
     },
