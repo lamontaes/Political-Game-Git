@@ -6,7 +6,7 @@
 // with SEASON_SEED to replay the place src/director/campaign-season.test.ts drew.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { fileWhenFilingOpens } from "./start-life.mjs";
+import { fileWhenFilingOpens, finishTalk } from "./start-life.mjs";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
 
 const runSeed = process.env.SEASON_SEED ?? String(Date.now());
@@ -56,6 +56,7 @@ try {
     .click()
     .catch(() => {});
   let taken = 0;
+  const seen = new Map();
   for (let week = 0; week < 60 && taken < want; week += 1) {
     const talk = page.locator("#talk:not([hidden])");
     if (await talk.isVisible().catch(() => false)) {
@@ -70,30 +71,18 @@ try {
         .allInnerTexts();
       taken += 1;
       console.log(`SCENE ${taken} (${when.join(" · ")}):\n${text}\n`);
+      // A scene is counted once: the same words again mean the last one never closed.
+      assert.ok(
+        !seen.has(text),
+        `scene ${taken} repeats scene ${seen.get(text)}`,
+      );
+      seen.set(text, taken);
       if (shots)
         await page.screenshot({ path: `${shots}/season-scene-${taken}.png` });
-      // Open the exchange (Talk), read and photograph it, then answer with
-      // the first reply until the talk closes.
-      for (let turn = 0; turn < 5; turn += 1) {
-        const reply = page.locator("#talk-choices button").first();
-        if (!(await reply.isVisible().catch(() => false))) break;
-        await reply.click();
-        await page.waitForTimeout(900);
-        if (turn === 0) {
-          console.log(
-            `EXCHANGE ${taken}:\n${await page.locator("#talk").innerText()}\n`,
-          );
-          if (shots)
-            await page.screenshot({
-              path: `${shots}/season-scene-${taken}-talk.png`,
-            });
-        }
-      }
-      if (await talk.isVisible().catch(() => false))
-        await page
-          .locator("#talk-leave")
-          .click()
-          .catch(() => {});
+      // Play the scene to its end as a player would (its lines, the first
+      // reply, Leave): pressing only replies left a scene whose next step is
+      // Continue open, and the same scene was counted again.
+      await finishTalk(page);
       await page.waitForTimeout(700);
       continue;
     }
