@@ -24,9 +24,12 @@ import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
-import type {
-  BusinessMonthCharge,
-  BusinessTradingMonth,
+import {
+  closingCauses,
+  type BusinessClosingCauses,
+  type BusinessLossCauses,
+  type BusinessMonthCharge,
+  type BusinessTradingMonth,
 } from "../core2/modules/business";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
@@ -183,6 +186,17 @@ function closingPanels(core: CoreState, organizationId: string): WhyPanel[] {
       value: `${closure.date}, ${closure.workersAffected} workers affected, cause ${closure.cause ?? "none kept"}`,
       id: String(closure.id),
     });
+  // What closed it (the closure's record), or for an open business what its
+  // losing months held so far, from the same bills.
+  rows.push(
+    ...lossCauseRows(
+      closure
+        ? (closure.causes as BusinessClosingCauses | undefined)
+        : closingCauses(owner?.lossCauses as BusinessLossCauses | undefined),
+      closure ? "what closed it" : "what its losing months held",
+      closure ? String(closure.id) : undefined,
+    ),
+  );
   return [
     {
       title: `Books behind ${org?.name ?? organizationId}`,
@@ -219,6 +233,36 @@ function monthBillRows(core: CoreState, tradingId: unknown): WhyRow[] {
       label: `  ${CHARGE_LABELS[charge.kind]}`,
       value: `${money(charge.minor)}, ${charge.weighed ? "weighed in hiring, layoffs and closing" : "not weighed as a loss; it comes out of cash"}${charge.lawIds.length ? `, under ${charge.lawIds.length === 1 ? "one law" : `${charge.lawIds.length} laws`}` : ""}`,
       ...(charge.lawIds[0] ? { id: charge.lawIds[0] } : {}),
+    })),
+  ];
+}
+
+/** A closing's causes, or an open business's losing months so far: the costs largest first, then the laws in the sense the record keeps. */
+function lossCauseRows(
+  causes: BusinessClosingCauses | undefined,
+  title: string,
+  id: string | undefined,
+): WhyRow[] {
+  if (!causes) return [];
+  return [
+    {
+      label: title,
+      value: `${number(causes.losingMonths)} losing months in the loss memory`,
+      ...(id ? { id } : {}),
+    },
+    ...causes.costs.map((cost) => ({
+      label: `  ${CHARGE_LABELS[cost.kind]}`,
+      value: `${money(cost.minor)} in those months${cost.lawIds.length ? `, under ${cost.lawIds.length === 1 ? "one law" : `${cost.lawIds.length} laws`}` : ""}`,
+      ...(cost.lawIds[0] ? { id: cost.lawIds[0] } : {}),
+    })),
+    {
+      label: "  months the law charges tipped",
+      value: `${number(causes.lawTippedMonths)}: without the charges tied to laws these months would not have lost`,
+    },
+    ...causes.lawTipped.map((law) => ({
+      label: "    law",
+      value: `${number(law.months)} of those months`,
+      id: law.lawId,
     })),
   ];
 }

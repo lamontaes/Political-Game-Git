@@ -129,7 +129,7 @@ interface OwnerRow {
    */
   lossMonths?: number;
   /** The last months' sales and costs paid, which the month's loss is read over (payments fall due on a cycle, not evenly). */
-  recent?: { sales: number[]; costs: number[] };
+  recent?: { sales: number[]; costs: number[]; laws?: number[] };
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
   /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
@@ -137,6 +137,29 @@ interface OwnerRow {
   tradingId?: string;
   /** The running totals of what the business paid under laws and taxes (business-charges.ts), at the last booked month. */
   chargesThrough?: Partial<Record<FirmChargeKind, number>>;
+  /** What made its losing months, faded like the loss memory (`lossMonths`). */
+  lossCauses?: BusinessLossCauses;
+}
+
+/**
+ * What made a business's losing months, read from each month's bill and
+ * faded over the loss memory the same way `lossMonths` is. A month counts
+ * as losing when its loss read (the smoothed sales against the smoothed
+ * weighed costs) is a loss.
+ */
+export interface BusinessLossCauses {
+  /** Losing months, each counting one, faded. */
+  months: number;
+  /** The weighed costs those months paid, by kind, faded, with the laws behind each. */
+  costs: Partial<
+    Record<BusinessMonthCharge["kind"], { minor: number; lawIds: string[] }>
+  >;
+  /**
+   * Losing months the law charges tipped: without the weighed charges tied to
+   * a law, the month's loss read would not have been a loss. It says nothing
+   * about a month that lost money anyway. Faded, with each law's months.
+   */
+  lawTipped: { months: number; byLaw: Record<string, number> };
 }
 
 /** One cost a month's books hold: what it was, the law rows behind it, and whether the staffing and closing decisions weighed it. */
@@ -1042,6 +1065,7 @@ function bookedMonth(
   | "recent"
   | "tradingId"
   | "chargesThrough"
+  | "lossCauses"
 > {
   const outsidePaid =
     residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
@@ -1089,9 +1113,16 @@ function bookedMonth(
     1,
     Math.round(api.parameter("businessLossSmoothingMonths")),
   );
+  // The weighed charges a law stands behind, read over the same window.
+  const lawCosts = charges.reduce(
+    (n, charge) =>
+      n + (charge.weighed && charge.lawIds.length ? charge.minor : 0),
+    0,
+  );
   const recent = {
     sales: [...(row.recent?.sales ?? []), sales].slice(-window),
     costs: [...(row.recent?.costs ?? []), costs].slice(-window),
+    laws: [...(row.recent?.laws ?? []), lawCosts].slice(-window),
   };
   const read = (values: number[]) =>
     values.reduce((n, v) => n + v, 0) / values.length;
@@ -1103,11 +1134,13 @@ function bookedMonth(
           Math.min(1, (read(recent.costs) - read(recent.sales)) / base),
         )
       : 0;
-  const lossMonths = Math.max(
-    0,
-    (row.lossMonths ?? 0) *
-      (1 - 1 / api.parameter("businessLossMemoryMonths")) +
-      lost,
+  const fade = 1 - 1 / api.parameter("businessLossMemoryMonths");
+  const lossMonths = Math.max(0, (row.lossMonths ?? 0) * fade + lost);
+  const lossCauses = lossCausesAfter(
+    row.lossCauses,
+    fade,
+    lost > 0 ? charges : undefined,
+    lost > 0 && read(recent.costs) - read(recent.laws) <= read(recent.sales),
   );
   const tradingId = `business-trading:${row.id}:${api.state.date}`;
   const previous = row.tradingId
@@ -1144,6 +1177,93 @@ function bookedMonth(
     recent,
     tradingId,
     chargesThrough,
+    lossCauses,
+  };
+}
+
+/**
+ * The losing months' record after one more month: everything fades by the
+ * loss memory, and a losing month adds its weighed bill by kind (and, when the
+ * law charges tipped it, one month to each law behind them).
+ */
+function lossCausesAfter(
+  before: BusinessLossCauses | undefined,
+  fade: number,
+  losingBill: readonly BusinessMonthCharge[] | undefined,
+  lawTipped: boolean,
+): BusinessLossCauses {
+  const costs: BusinessLossCauses["costs"] = {};
+  for (const [kind, cost] of Object.entries(before?.costs ?? {}))
+    costs[kind as BusinessMonthCharge["kind"]] = {
+      minor: cost!.minor * fade,
+      lawIds: cost!.lawIds,
+    };
+  const byLaw: Record<string, number> = {};
+  for (const [lawId, months] of Object.entries(before?.lawTipped.byLaw ?? {}))
+    byLaw[lawId] = months * fade;
+  const out: BusinessLossCauses = {
+    months: (before?.months ?? 0) * fade + (losingBill ? 1 : 0),
+    costs,
+    lawTipped: {
+      months: (before?.lawTipped.months ?? 0) * fade + (lawTipped ? 1 : 0),
+      byLaw,
+    },
+  };
+  for (const charge of losingBill ?? []) {
+    if (!charge.weighed || charge.minor <= 0) continue;
+    const held = costs[charge.kind];
+    costs[charge.kind] = {
+      minor: (held?.minor ?? 0) + charge.minor,
+      lawIds: [...new Set([...(held?.lawIds ?? []), ...charge.lawIds])],
+    };
+  }
+  if (lawTipped)
+    for (const lawId of new Set(
+      (losingBill ?? [])
+        .filter((charge) => charge.weighed && charge.minor > 0)
+        .flatMap((charge) => charge.lawIds),
+    ))
+      byLaw[lawId] = (byLaw[lawId] ?? 0) + 1;
+  return out;
+}
+
+/** What a closing business's losing months held, as the closure record keeps it. */
+export interface BusinessClosingCauses {
+  /** Losing months in the loss memory, faded. */
+  losingMonths: number;
+  /** The weighed costs of those months, largest first, with the laws behind each. */
+  costs: {
+    kind: BusinessMonthCharge["kind"];
+    minor: number;
+    lawIds: string[];
+  }[];
+  /** Losing months whose loss was gone without the law charges, faded. */
+  lawTippedMonths: number;
+  /** The laws whose charges were in those months, most months first. Only in the sense above: never that a law alone closed it. */
+  lawTipped: { lawId: string; months: number }[];
+}
+
+/** The losing months' record, ordered for the closure row; nothing when the business never lost a month. */
+export function closingCauses(
+  held: BusinessLossCauses | undefined,
+): BusinessClosingCauses | undefined {
+  if (!held || held.months <= 0) return undefined;
+  const round = (n: number) => Math.round(n * 100) / 100;
+  return {
+    losingMonths: round(held.months),
+    costs: Object.entries(held.costs)
+      .map(([kind, cost]) => ({
+        kind: kind as BusinessMonthCharge["kind"],
+        minor: Math.round(cost!.minor),
+        lawIds: cost!.lawIds,
+      }))
+      .filter((cost) => cost.minor > 0)
+      .sort((a, b) => b.minor - a.minor || a.kind.localeCompare(b.kind)),
+    lawTippedMonths: round(held.lawTipped.months),
+    lawTipped: Object.entries(held.lawTipped.byLaw)
+      .map(([lawId, months]) => ({ lawId, months: round(months) }))
+      .filter((law) => law.months > 0)
+      .sort((a, b) => b.months - a.months || a.lawId.localeCompare(b.lawId)),
   };
 }
 
@@ -2778,6 +2898,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       OwnerRow | undefined;
     if (!row) return;
     const book = c.finance.businesses.get(organizationId);
+    const causes = closingCauses(row.lossCauses);
     store(api)
       .table("closures")
       .put({
@@ -2790,6 +2911,8 @@ export const BUSINESS_MODULE: PreStartModule = {
         workersAffected: event.personIds.length,
         salesMinor: book?.salesReceivedMinor ?? 0,
         wagesMinor: book?.wagesPaidMinor ?? 0,
+        // What made its losing months, from its bills (closingCauses).
+        ...(causes ? { causes } : {}),
       });
     // The owner answers for it: drives about a closure name them (M1-11).
     api.emit({
@@ -2805,11 +2928,29 @@ export const BUSINESS_MODULE: PreStartModule = {
         estimatedFrom: `${organizationId} closed; its owner ${row.ownerId} answers for it.`,
       },
       // The recorded reason rides on the event for the English engine to read.
-      ...(book?.closingReasonKey
+      ...(book?.closingReasonKey || causes
         ? {
             facts: {
-              [`organization:${organizationId}:closing-reason`]:
-                book.closingReasonKey,
+              ...(book?.closingReasonKey
+                ? {
+                    [`organization:${organizationId}:closing-reason`]:
+                      book.closingReasonKey,
+                  }
+                : {}),
+              // The costs its losing months paid, largest first, and the laws
+              // without whose charges those months would not have lost.
+              ...(causes?.costs.length
+                ? {
+                    [`organization:${organizationId}:closing-costs`]:
+                      causes.costs.map((cost) => cost.kind).join(","),
+                  }
+                : {}),
+              ...(causes?.lawTipped.length
+                ? {
+                    [`organization:${organizationId}:closing-laws-tipped`]:
+                      causes.lawTipped.map((law) => law.lawId).join(","),
+                  }
+                : {}),
             },
           }
         : {}),
