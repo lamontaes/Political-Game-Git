@@ -64,3 +64,9 @@ When one situation (a knock at a door, a visit to office hours) needs many scene
 - Invent a cause the records do not carry (`no-dice`, `ask-why`). A quiet stretch gets a new record from its engine, not a timer.
 - Write one line per scene. Every spoken line has versions by trait and tie.
 - A new scene or setting the gap turns up gets its picture row (skill `scene-pictures`); if no painted place fits, ship on the fallback and list what it wants in `wantedScenes`. Pictures are generated later.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 03:47Z: the owner found the real-lives scene bank "a little too specific" (dinner at home, the party's meeting room, a senator who comes to campaign). Cause: scenes tied to one place and one office. Write patterns with slots for the role ("a powerful officeholder") and the setting, and let a pattern feed or merge into others.

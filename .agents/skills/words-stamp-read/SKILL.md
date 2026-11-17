@@ -7,7 +7,7 @@ description: >
   reading each played talk against the owner's rules, the stamp line, limits,
   carry-overs and send-backs. Use when you are a words reader or second
   reader, or a builder about to ask for a words stamp. Not for writing lines
-  (civic-prose, words-engine) or the code gate (train-gate, checker).
+  (civic-prose, words-engine) or the code gate (merger).
 ---
 
 # Words stamp read

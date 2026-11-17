@@ -33,4 +33,4 @@ checked: fable 2026-11-11
 
 **Waits on.** play-rooms-are-the-painting-and-people-are-busts; play-new-game-and-creator-open-without-busts.
 
-**Files.** art/people-engine/v4, art/people-rooms, art/backdrops/occluders, art/archive/full-body/README.md (new), src/bench/people-pack.ts, src/bench/appearance.ts, .agents/skills/people-pack/SKILL.md, .agents/skills/room-spots/SKILL.md, .claude/skills/people-pack/SKILL.md, .claude/skills/room-spots/SKILL.md, scripts/skill-ops/skill-ops.test.ts, docs/art/full-body-people-after-early-access.md
+**Files.** art/people-engine/v4, art/people-rooms, art/backdrops/occluders, art/archive/full-body/README.md (new), src/bench/people-pack.ts, src/bench/appearance.ts, .agents/skills/room-spots/references/people-pack.md, .agents/skills/room-spots/SKILL.md, .claude/skills/room-spots/references/people-pack.md, .claude/skills/room-spots/SKILL.md, scripts/skill-ops/skill-ops.test.ts, docs/art/full-body-people-after-early-access.md

@@ -7,7 +7,7 @@ description: >
   dev mode as the check, the traps that give a false pass, and recording with
   npm run pool -- seen. Use when writing an item's Done when, before reporting
   anything done, and when taking a merged item to check. Not for the builder's
-  proof (played-world-proof) or the merge gate (checker, merger).
+  proof (played-world-proof) or the merge gate (merger).
 ---
 
 # Seen in the game

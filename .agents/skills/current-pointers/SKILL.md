@@ -6,7 +6,7 @@ description: >
   pointing at paths that exist. Use when you move, rename, replace or delete a
   file or folder, add something at the top of the repository, or see
   tests/guards/current-pointers.test.ts fail. Not for what may be deleted
-  (slim-down); rulings and other records are never rewritten.
+  (remove-a-stopgap); rulings and other records are never rewritten.
 ---
 
 # Current pointers
@@ -65,3 +65,9 @@ Add a `topLevel` row that says what it is. Think first whether it belongs inside
 - **Deleting a folder of old reports lowers its own area's count and can leave pointers to it elsewhere.** Search the whole repository for the folder's name before you open the pull request.
 - **A pull request written before a rule can break it on main.** The strip's pull request deleted five files and merged an hour after this guard did; four old documents still named them, and main went red. Whoever deletes a file runs the guard on main merged in, the same hour.
 - **A guard that is red on main in many areas at once (Handoff, Nov 16).** A fold of two branches' baselines can leave the baseline lower than the real count, so no file or date says which pointers are the new ones. Do not hunt for them: take the over-count in each area, pick that many dead paths (the ones named most often first), add each to the `replaced` list in `docs/current.json` with "removed; nothing replaces it", run `node --import tsx scripts/current/repoint.ts` (it marks every mention " (removed)", with a `:line` or trailing slash kept), then `node --import tsx scripts/current/write.ts` and `node --import tsx scripts/current/pointers.ts --write` to lower any count that went under. Read this skill before you start; on Nov 16 the same fix was first done by hand.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 04:45Z: two lane skills named `docs/scenes/samples` (new) and `src/core2/electorate-century.ts` (new), which were only on the train or a lane branch. Cause: a skill reached main before its code. Write such a path with " (new)" until its code is on main.

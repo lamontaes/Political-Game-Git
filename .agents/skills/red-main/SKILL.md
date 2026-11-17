@@ -6,7 +6,7 @@ description: >
   engine and session that own it, reproduce it, trace to the root, and ship
   one fix per branch. Use for the standing red-main owner, any session handed
   a red, and a test that fails by seed. Not for a PR a merger sent back
-  (pr-fixer).
+  (merger).
 ---
 
 # Red main
@@ -68,11 +68,11 @@ A red is not named until you have the failing test, the drawn place, the seed an
 - When a fix uncovers a different failure behind the first, ship the first, and file the second as a pool item with its numbers (search `docs/pool/items` for a twin first) or message its owner.
 - A before number from main's files: put them in the tree and restore your branch's in the same command (`cp`/`git checkout origin/main -- <files>; run; git checkout HEAD -- <files>`), never commit in between, and run `git status` after. A probe copy of a test goes in `.git/info/exclude` and is deleted before the commit; build its injected lines with a script, not a heredoc with newlines inside a JavaScript string (a split string killed a 5-minute probe).
 - A type import across folders is a guard failure waiting: run `tests/guards/families.test.ts` (seconds) before pushing, and import through the other family's entry file with a re-export there (PR #7044 imported `./work-cash` into finance and turned main red; #7056 fixed it). Never raise `families-baseline.json`.
-- A verdict run with `timeout N` that expires prints "Terminated" and gives no verdict: run it in the background and wait with an `until ! pgrep -f "runne[r]"` monitor (see `heavy-runs`). Never `git worktree add` a full checkout (2.2 GB, helper-checkout); edit skill and docs files on a branch of the main checkout when no run is using it.
+- A verdict run with `timeout N` that expires prints "Terminated" and gives no verdict: run it in the background and wait with an `until ! pgrep -f "runne[r]"` monitor (see `speed-work` (heavy-runs part)). Never `git worktree add` a full checkout (2.2 GB, helper-checkout); edit skill and docs files on a branch of the main checkout when no run is using it.
 - **Out of memory at the default heap is a trace, not a heap bump.** CI runs node's default (about 2.2 GB; check `v8.getHeapStatistics().heap_size_limit` after `unset NODE_OPTIONS`). Run the file with `env -u NODE_OPTIONS` at the seed to reproduce, then find what grows: log `heapUsed` after `gc()` (`NODE_OPTIONS=--expose-gc`) after the build and every 90 days, and print `moduleTableSizes(core)` at day 0 and day 600 (`src/core2/module-state.ts`). `law-wiring-housing` at `hr-fresh-9c2` showed 1.3 GB after the build (about 570 MB the world, the rest imports) and 2.0 GB after 700 days, from campaign door, cause and pledge rows. A population ceiling in the test left no town to play. The fix belongs to the table's owner (the fold items in the pool), not to the heap. A town's size does not predict it: a 48,000-person town ran the same file at the default heap.
 - **Never `pkill -f vitest` in the same shell.** It killed the session's shell (exit 144) on Nov 2. Wait for a run with `until [ -f <name>.done ]` and stop one with the PID it printed.
 
-- **The hourly full run (CTO, Nov 8: reds were found by accident, because a PR's checks run only the test files it changes).** About once an hour, at the first break between other pieces of work after an hour has passed (never a sleep loop or a timer), in your own checkout at the newest `origin/main`: run the full unit suite and `npm run guards`, one process, alone (`heavy-runs`). For each red post one line on #8928 that starts "Dev Tester: red on main", naming the test, the commit that broke it (bisect to it) and the owning session, and message the coordinator the same line so it reaches the owner and the owner's fix goes to the front of the desk's line. Name the main commit of each run in your PR bodies.
+- **The hourly full run (CTO, Nov 8: reds were found by accident, because a PR's checks run only the test files it changes).** About once an hour, at the first break between other pieces of work after an hour has passed (never a sleep loop or a timer), in your own checkout at the newest `origin/main`: run the full unit suite and `npm run guards`, one process, alone (`speed-work` (heavy-runs part)). For each red post one line on #8928 that starts "Dev Tester: red on main", naming the test, the commit that broke it (bisect to it) and the owning session, and message the coordinator the same line so it reaches the owner and the owner's fix goes to the front of the desk's line. Name the main commit of each run in your PR bodies.
 
 A red from the words machine (`npm run words:rules`, `tests/guards/english`) names a line or a rule. A rule a program can judge pulls the failing line (`data/english/pulled.json`); the rewrite is the Story session's, so a red-main fixer lists the line and does not edit `data/english/parts/` (owner, Nov 10, "Split by role"). A red in a rule is fixed in the rule's test, not by weakening the rule.
 
@@ -88,9 +88,15 @@ Every two hours write a block at the top of `## Red main` in `docs/coordination/
 - **Read the failing job's own message before trusting a pool item's cause.** The item for `press-comment-variants` said "no call by draw"; the red on the pull request was a different assertion at a different seed, and both were real. Take the seed from the job log, replay it on clean main, and only then read the item.
 - **A browser check that waits for the page to settle counts the page's requests; it does not use Playwright's network-idle state.** That state stays reached once it has been reached, so `waitForLoadState("networkidle")` returns at once later on. Attach `request`, `requestfinished` and `requestfailed` listeners before the press whose answer you wait for: a listener attached after the press misses the request already on its way (`watchRequests` in `src/bench/start-life.mjs`).
 - **Log the page before you theorize about a browser red.** An init script that records each change of two elements with its time showed the opening's talk closing, the room showing for 719 ms and the next talk opening. Two fixes written before that log did nothing.
-- **`npm run pool -- claim` and `status` push to main.** On an account whose rule is that nothing pushes to main (`file-a-pool-item`), edit the item on your branch instead.
+- **`npm run pool -- claim` and `status` push to main.** On an account whose rule is that nothing pushes to main (`pool-notes` (file-a-pool-item part)), edit the item on your branch instead.
 - **Post the cause before you build, even when the build is the probe.** Twice the fix was found by trying it; the cause line still goes on the crew's thread first, with "found by trying" said plainly.
 
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 02:18Z (golden-path M3-09): the last spec timed out on pull requests that never touched it. Cause: the specs shared one quick-budget clock, so the earlier ones starved it. Give each spec its own measured clock (#9832); never raise the total or skip the spec.
+- Nov 16, 23:52Z: five lanes chased the same `guards` red. Cause: it came from a skill on main. Read one failing log before sending lanes to look, then name the commit on main that fixes it.
 
 ## More in this folder
 
