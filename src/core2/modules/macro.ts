@@ -448,6 +448,9 @@ export interface CountryStateMonth {
   fips: string;
   month: string;
   unemploymentPct: number;
+  /** What the rate is out of, kept beside it for dev mode's trace: the state's people at work and looking for work, summed over the tier's cells. */
+  workers?: number;
+  seekers?: number;
   jobs: number;
   hourlyPay: number;
   prices: number;
@@ -464,11 +467,19 @@ function stateMonthRow(
 ): CountryStateMonth {
   const { unemploymentPct, jobs, hourlyPay, population, prices } =
     countryStateFigures(state, rules);
+  let workers = 0,
+    seekers = 0;
+  for (const cell of state.cells) {
+    workers += cell.workers;
+    seekers += cell.seekers;
+  }
   return {
     id: stateMonthId(state.fips, month),
     fips: state.fips,
     month,
     unemploymentPct,
+    workers,
+    seekers,
     jobs,
     hourlyPay,
     prices,

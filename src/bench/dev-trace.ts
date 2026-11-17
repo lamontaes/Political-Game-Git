@@ -41,6 +41,7 @@ import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import type { Director } from "../director/ledger";
 import type { Moment } from "../director/types";
 import { momentStagedPanel, whyPanels, type WhyPanel } from "./dev-why";
+import { FIGURE_PREFIX, figureTraceNode } from "./dev-views/figure-trace";
 
 export type TraceKind = "record" | "reason" | "learned" | "person" | "missing";
 
@@ -1335,6 +1336,8 @@ export function traceNode(
   director: Director | undefined,
   id: string,
 ): TraceNode {
+  // A figure (a registered output number for a place) traces through its own reader.
+  if (id.startsWith(FIGURE_PREFIX)) return figureTraceNode(core, id);
   const lookup = new Lookup(core, director);
   // A reason or a learned fact has no record of its own; its parent shows it.
   let found = lookup.record(id);

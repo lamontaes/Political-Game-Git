@@ -314,6 +314,67 @@ function valueIn(
   return number.fold === "sum" && number.cadence === "on-change" ? 0 : null;
 }
 
+/** One dated value of a figure, with the record it was read from (dev mode's figure trace). */
+export interface OutputHistoryPoint {
+  /** The month's or the year's date as the record keeps it. */
+  readonly date: string;
+  readonly value: number;
+  readonly recordId: string;
+  /** The named inputs kept beside the value on that record. */
+  readonly inputs?: Readonly<Record<string, number | string>>;
+}
+
+/**
+ * A kept figure's history for a place, oldest first, at most `limit` points:
+ * each monthly row world-metrics kept for the place (a month figure), or each
+ * year row (a year figure). Read by the place's index; nothing is scanned.
+ */
+export function keptOutputHistory(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  placeId: string,
+  limit: number,
+): OutputHistoryPoint[] {
+  const number = NUMBERS[id];
+  if (!number?.kept || !core.modules.has(OUTPUT_NUMBERS_MODULE_ID)) return [];
+  const state = api.moduleState(OUTPUT_NUMBERS_MODULE_ID);
+  const points: OutputHistoryPoint[] = [];
+  if (number.kept.table === "months") {
+    for (const row of state
+      .table("months")
+      .query("byPlace", [placeId]) as unknown as Record<string, unknown>[]) {
+      const value = row[number.kept.field];
+      if (typeof value !== "number") continue;
+      const inputs: Record<string, number | string> = {};
+      for (const name of number.traceInputs) {
+        const input = row[name];
+        if (typeof input === "number" || typeof input === "string")
+          inputs[name] = input;
+      }
+      points.push({
+        date: String(row.date),
+        value,
+        recordId: String(row.id),
+        ...(Object.keys(inputs).length ? { inputs } : {}),
+      });
+    }
+  } else
+    for (const row of state
+      .table("years")
+      .query("byPlace", [placeId]) as unknown as OutputYearRow[]) {
+      const value = valueIn(row, number);
+      if (value === null) continue;
+      points.push({
+        date: String(row.year),
+        value,
+        recordId: row.id,
+        ...(row.inputs?.[id] ? { inputs: row.inputs[id] } : {}),
+      });
+    }
+  return points.sort((a, b) => a.date.localeCompare(b.date)).slice(-limit);
+}
+
 /**
  * A kept figure for a place: this year's value (the latest month, or the
  * year so far) beside last year's, each a lookup of the place's year row by
