@@ -1,4 +1,7 @@
 import { expect, it } from "vitest";
+import { readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import bodies from "./data/offices/bodies.json" with { type: "json" };
 import executives from "./data/offices/executives.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
@@ -81,4 +84,34 @@ it("answers each reader the way its typed list did", () => {
       return row?.heads === true && row.level !== "federal";
     }),
   ).toEqual(["mayor", "county-executive", "governor"]);
+});
+
+it("leaves no list of executive office kinds typed in code under src", () => {
+  // A list typed in code is two or more executive kinds side by side: in a
+  // pattern (`mayor|governor`) or an array (`"mayor", "governor"`). Each
+  // reader asks the rows instead (offices-executives-one-list).
+  const kinds = executives.executives.map((row) => row.kind).join("|");
+  const typed = new RegExp(
+    `(?:\\b(?:${kinds})\\|(?:${kinds})\\b)|(?:["'](?:${kinds})["']\\s*,\\s*["'](?:${kinds})["'])`,
+  );
+  const found: string[] = [];
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) walk(path);
+      else if (
+        /\.(ts|mts|mjs|js)$/.test(entry.name) &&
+        !/\.test\.|\.browser\./.test(entry.name)
+      ) {
+        readFileSync(path, "utf8")
+          .split("\n")
+          .forEach((line, at) => {
+            if (typed.test(line))
+              found.push(`${path}:${at + 1}: ${line.trim()}`);
+          });
+      }
+    }
+  };
+  walk(join(dirname(fileURLToPath(import.meta.url)), ".."));
+  expect(found).toEqual([]);
 });
