@@ -48,14 +48,15 @@ function run(short: boolean): void {
       const place = drawPlace(`${seed}:damaged:${draw}`, "core2-disasters");
       const name = normalizedGovernmentName(place.name.split(",")[0] ?? "");
       if (!townsWithDamage(place.state.replace(/^US-/, "")).has(name)) continue;
-      opened += 1;
       const where = `${place.name}, ${place.state} (seed ${seed}:damaged:${draw})`;
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
       });
       const api = coreAPI(core);
-      causeDamagingDisaster(api);
+      // A place whose county has no recorded disaster that damages the town is passed over.
+      if (!causeDamagingDisaster(api)) continue;
+      opened += 1;
       const yearEnd = addDays(makeIsoDate(core.date), 365);
       const disaster = townDisastersWithDamage(api)
         .filter((row) => row.declared > core.date && row.declared <= yearEnd)
