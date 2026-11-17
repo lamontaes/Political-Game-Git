@@ -68,3 +68,5 @@ Tell every lane to push its work and post what is left, then post the coordinato
 Read each file here when its moment comes:
 
 - `references/lead-session.md`: when started with a lead prompt or a work order under docs/work-orders/.
+- `references/crew-messages.md`: when you send any message to another session, pass on the owner's words, or are about to explain a process in a message (the old `crew-messages` skill).
+- `references/owners-words-to-threads.md`: when an owner's words must reach a thread or a lane verbatim (moved here with `crew-messages`).

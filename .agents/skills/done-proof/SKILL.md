@@ -130,3 +130,6 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 Read each file here when its moment comes:
 
 - `references/skill-lessons.md`: when a lesson repeats and should become a skill line, and on the scheduled skill-lessons job.
+- `references/seen-in-game.md`: when writing an item's Done when, before reporting anything as done, and when taking a merged item to check in the running game (the old `seen-in-game` skill).
+- `references/played-world-proof.md`: before calling a feature, law or module finished: the one-year played-world proof, named by record id (the old `played-world-proof` skill).
+- `references/labor-market-proof.md`: for any jobs, wage, firm-demand or layoff change: 24 months in a played town, inflow and outflow (moved here with `played-world-proof`).

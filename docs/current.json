@@ -876,6 +876,42 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/crew-messages",
+      "now": ".agents/skills/crew-coordinator/references/crew-messages.md",
+      "when": "2026-11-17",
+      "why": "Merged into the crew-coordinator skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into crew-coordinator/references/."
+    },
+    {
+      "old": ".claude/skills/crew-messages",
+      "now": ".claude/skills/crew-coordinator/references/crew-messages.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/seen-in-game",
+      "now": ".agents/skills/done-proof/references/seen-in-game.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/."
+    },
+    {
+      "old": ".claude/skills/seen-in-game",
+      "now": ".claude/skills/done-proof/references/seen-in-game.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": ".agents/skills/played-world-proof",
+      "now": ".agents/skills/done-proof/references/played-world-proof.md",
+      "when": "2026-11-17",
+      "why": "Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/."
+    },
+    {
+      "old": ".claude/skills/played-world-proof",
+      "now": ".claude/skills/done-proof/references/played-world-proof.md",
+      "when": "2026-11-17",
+      "why": "The mirror of the row above, removed with it."
     }
   ]
 }

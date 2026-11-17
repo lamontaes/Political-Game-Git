@@ -1,17 +1,6 @@
----
-name: crew-messages
-description: >
-  How sessions message each other: the one tool that reaches another session,
-  who gets which message, what a message carries and what also goes in the
-  record, the address rule across the threads, and passing the owner's words on
-  verbatim, where an example he gives is a generality and the work is the system
-  behind it. Use before messaging another session, before explaining a process
-  in a message (a process is a skill), and whenever you pass something the owner
-  said to a thread, helper or reviewer. Not for the shared files
-  (.agents/rules/how-we-talk.md) or owner reports (civic-reports).
----
-
 # Crew messages
+
+Part of the `crew-coordinator` skill. Until Nov 17, 2026 this was the `crew-messages` skill; the CTO merged it here when the skills were capped at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747). What it covered: How sessions message each other: the one tool that reaches another session, who gets which message, what a message carries and what also goes in the record, the address rule across the threads, and passing the owner's words on verbatim, where an example he gives is a generality and the work is the system behind it. Use before messaging another session, before explaining a process in a message (a process is a skill), and whenever you pass something the owner said to a thread, helper or reviewer. Not for the shared files (.agents/rules/how-we-talk.md) or owner reports (civic-reports).
 
 The owner's rules: sessions message the CTO and the CTO messages them, sessions whose work meets message each other directly, and the CTO's word is the owner's word (owner, Oct 29; `.agents/rules/how-we-talk.md`). A message never replaces the record. **A process is a skill, not a message** (owner, Nov 1: "i saw one messaging about communicating a process. just make it a skill").
 

@@ -1,15 +1,6 @@
----
-name: played-world-proof
-description: >
-  Proves an Our Civic Duty feature in a one-year run of the played world, with
-  another engine reading what it wrote, named by record id; a jobs, wage or
-  firm-demand change is proven over 24 months with both the inflow into
-  unemployment and the outflow out of it. Use before calling any feature, law or
-  module finished, and for any jobs, business-demand, layoff or regional-work
-  change.
----
-
 # Played-world proof
+
+Part of the `done-proof` skill. Until Nov 17, 2026 this was the `played-world-proof` skill; the CTO merged it here when the skills were capped at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747). What it covered: Proves an Our Civic Duty feature in a one-year run of the played world, with another engine reading what it wrote, named by record id; a jobs, wage or firm-demand change is proven over 24 months with both the inflow into unemployment and the outflow out of it. Use before calling any feature, law or module finished, and for any jobs, business-demand, layoff or regional-work change.
 
 **Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
 

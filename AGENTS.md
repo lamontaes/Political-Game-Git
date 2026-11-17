@@ -124,7 +124,6 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
 - `crew-coordinator`: running a builder crew from a crew line, and a lead session
-- `crew-messages`: how sessions message each other, the address rule, and passing the owner's words on verbatim
 - `cto`: the CTO role
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
 - `day-one-in-motion`: every world opens already running, and day one is what the history from 1925 produced
@@ -140,7 +139,6 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `play-first`: one item of the play-first lane; the screenshot and browser check
-- `played-world-proof`: proving a feature in a played year; a jobs or wage change month by month
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: the pool's paperwork: filing an item by hand, pool-only changes in one bundle an hour, the cap on new work
 - `press-desk-reach`: which stories a town's outlets print, how a record's reach is weighed by its readers, and proving a desk change by story kind
@@ -154,7 +152,6 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `scene-standard`: the standard every scene meets, and a scene builder's first report
 - `scenes-from-life`: new scenes from real lives
 - `screen-to-mock`: screens follow the mocks and the shared controls; bill screens
-- `seen-in-game`: the acceptance rule: a second session sees it in the running game before it is done
 - `session-start`: the pool worker loop
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows, long runs, and how often a step runs
 - `trusted-review-pass`: bulk review passes with planted calibration rows
