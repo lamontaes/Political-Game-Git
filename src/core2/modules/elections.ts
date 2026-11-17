@@ -85,6 +85,20 @@ export {
   worldSeatParty,
   worldSwing,
 } from "../electorate-places";
+/** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
+export {
+  centuryOf,
+  centuryPresidency,
+  centuryRace,
+  centurySeatParty,
+  historyMode,
+  presidencyPartyTerms,
+  runCentury,
+  setHistoryMode,
+  type Century,
+  type CenturyPresidency,
+  type HistoryMode,
+} from "../electorate-century";
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;

@@ -62,6 +62,14 @@
       "made": "decision",
       "by": "src/core2/modules/national-opinion.ts presidentElection: the share of the two-party vote the 2024 presidential election recorded for the sitting president (src/core2/past-elections.ts, kept on their term), moved from the first month of the term by the economy and the pushes other engines write"
     },
+    "town.president": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts centuryPresidency: the 2024 presidential election of the century run from 1925 (owner, Nov 17, 2026), counted state by state on the one count (electorate.ts countPlaces) with the one race rule (electorate-inputs.ts candidateReasons); seated by src/core2/modules/offices.ts worldParties. Under the world setting history \"today\", the real record (data/research/offices/federal-executive-2026.json)."
+    },
+    "town.century": {
+      "made": "decision",
+      "by": "src/core2/electorate-century.ts runCentury: every presidential election from 1928, each state's 1925 lean one starting shift from the world's seed (world-draw.ts worldOffsetUnit, centuryStateLeanSpread) and carried from its own results since (centuryLeanCarryShare)"
+    },
     "person.name": {
       "made": "generation",
       "by": "src/core2/person-names.ts and src/core2/gov-rules/given-name-cohorts.ts: given names by birth-year cohort; family names picked evenly from the whole name list (own random stream)",

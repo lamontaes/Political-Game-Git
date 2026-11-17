@@ -73,7 +73,11 @@ import {
 // The record shapes, for engines that read offices through this entry (families guard).
 export type { OfficeInput, SeatInput };
 import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
-import { worldSeatParty } from "./elections";
+import {
+  centuryPresidency,
+  centurySeatParty,
+  worldSeatParty,
+} from "./elections";
 // A screen reads which district a town votes in through this entry.
 // Another state's offices as plain definitions (titles, seats), for a view
 // that names them without creating them in the world.
@@ -624,16 +628,23 @@ export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
   return term;
 }
 
-/** The offices with each seat held by the party that holds it in this world (realistic, not real). */
+/**
+ * The offices with each seat held by the party that holds it in this world: the party the
+ * century before day one left in it where the century runs the seat (century.ts; the
+ * presidency so far), else the seat's own record moved by the world's swing.
+ */
 function worldParties(
   seed: string,
   entries: readonly OfficeWithSeats[],
+  date: string,
 ): OfficeWithSeats[] {
   return entries.map((entry) => ({
     ...entry,
     seats: entry.seats.map((seat) => ({
       ...seat,
-      party: worldSeatParty(seed, entry.office, seat),
+      party:
+        centurySeatParty(seed, date, entry.office) ??
+        worldSeatParty(seed, entry.office, seat),
     })),
   }));
 }
@@ -773,10 +784,14 @@ export function openOffices(
     worldSeed,
     townPlaceId: place.context.jurisdiction.id,
   });
-  for (const entry of worldParties(worldSeed, [
-    ...federalOffices(stateKey, geoid, date),
-    ...stateOffices(stateKey, geoid, date),
-  ])) {
+  for (const entry of worldParties(
+    worldSeed,
+    [
+      ...federalOffices(stateKey, geoid, date),
+      ...stateOffices(stateKey, geoid, date),
+    ],
+    date,
+  )) {
     putOffice(api, entry);
     // An office its law creates later has no holder and no past until its
     // first term: its first election fills it.
@@ -875,7 +890,7 @@ export function openOffices(
     seatOutsideOffices(
       api,
       worldSeed,
-      worldParties(worldSeed, stateOffices(key, "", date)),
+      worldParties(worldSeed, stateOffices(key, "", date), date),
       date,
     );
     table(api, "loaded").put({ id: `state:${key}` });
@@ -992,8 +1007,8 @@ const TERM_LIMITS =
  * service of sitting officials of that kind (a geometric spread, drawn once
  * per seat from the world's seed: who exists, not what anyone decides), never
  * younger than the minimum age at the first term, and never past the state's
- * legislative term limit where it has one. The presidency keeps its real
- * record (`federal-executive-2026.json`).
+ * legislative term limit where it has one. The presidency's career is the
+ * century's (century.ts), or the real record under "today".
  */
 function pastTerms(
   api: CoreAPI,
@@ -1011,15 +1026,35 @@ function pastTerms(
   ).date;
   if (!years || !term.endDate) return;
   const start = termStartInYear(office, shiftYears(term.endDate, -years));
-  // The federal executive keeps its real record: the current term began a
-  // full term before it ends (January 20), with no earlier terms invented.
+  // The federal executive's career is the century's (century.ts): the current term began a full
+  // term before it ends, and a President the century elected twice served the term before it.
+  // Under "today" no earlier term is written, as the real record has none in the world.
   if (office.kind === "president" || office.kind === "vice-president") {
+    const century = centuryPresidency(worldSeed, opening);
+    const prior = century ? century.personTerms - 1 : 0;
+    const serviceStart = termStartInYear(
+      office,
+      shiftYears(start, -prior * years),
+    );
     if (start <= opening)
       table(api, "terms").put({
         ...term,
         startDate: start > api.state.date ? api.state.date : start,
-        serviceStart: start,
+        serviceStart,
       } as unknown as ModuleRow);
+    for (let k = withPast ? prior : 0; k >= 1; k -= 1) {
+      const from = termStartInYear(office, shiftYears(start, -k * years));
+      table(api, "terms").put({
+        ...term,
+        id: `${term.id}:past:${k}`,
+        startDate: from,
+        serviceStart,
+        endDate: termStartInYear(office, shiftYears(from, years)),
+        reached: "elected",
+        status: "ended",
+        endedBy: "re-elected",
+      } as unknown as ModuleRow);
+    }
     return;
   }
   // An office its law created has no service before its first term: a term
@@ -1279,10 +1314,13 @@ export function officesOfState(
       worldSeed: string;
     };
     const date = api.state.date;
+    const opened = (
+      table(api, "loaded").get("opening") as unknown as { date: string }
+    ).date;
     seatOutsideOffices(
       api,
       town.worldSeed,
-      worldParties(town.worldSeed, federalOffices(stateKey, "", date)),
+      worldParties(town.worldSeed, federalOffices(stateKey, "", date), opened),
       date,
     );
     table(api, "loaded").put({ id: `federal:${stateKey}` });

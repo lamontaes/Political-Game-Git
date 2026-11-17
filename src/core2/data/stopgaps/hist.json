@@ -131,5 +131,82 @@
     "addedAt": "2026-11-14",
     "replacement": "A coarse count of the households that left the town before the start, with their rents and homes, from the moves engine's leaving rate, so the past town holds the people who left as well as those who stayed.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-voters",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The century counts each state on 100 voters spaced evenly along the lean order at a presidential year's typical readiness, not on people of the state in that year.",
+    "why": "The town's own people of 1925 to 2024 are not in the world, so the town's counted sample cannot stand for each state as it does for places counted from afar in play.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "The people of each decade from the population history once it runs back (history-economy and history-places units, #9747 plan points 4 and 6).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-first-president",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The President in office in January 1925 is of the side the country's own starting shift leans to; the century's first election is 1928.",
+    "why": "The century starts in 1925 with no election before it to say who held the office.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "Run the 1924 election from the same starting leans as the century's first step.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-steady-economy",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "The century has no economic cycle yet: a President's approval stays at the share they were elected with, so only incumbency, experience, the party's time in the White House and each state's carried lean move the century's races.",
+    "why": "The economy before day one is the published series plus one offset (macro-model.ts), which the owner's ruling of Nov 17 removes; the country tier is not yet run back from 1925.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "The country tier run coarse from 1925, feeding the century's approval through national-opinion.ts's own rule (History lane plan point 4, with World B).",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-two-terms",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A President the century elected twice does not run again in any year, including before the Twenty-Second Amendment (1951), when it was custom.",
+    "why": "A named-only President of the century has no health, age or ambition record to decide a third run.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "A President's own run decision from their record (age, health, standing) once past Presidents are filled in on open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-nominees",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Every century nominee counts as an experienced candidate (has held elected office); nominees are named-only records with no primary.",
+    "why": "The century's Congress, governors and the parties' primaries are not run yet, so no record says who held office before a nomination.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "Nominees from the century's own governors and senators once the history-congress and history-states units run them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-contingent",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "A century presidential election where no ticket wins a majority of the electors leaves the office with the sitting President's side.",
+    "why": "The century's House is not counted yet, so the House's choice by state delegation (amend. XII) cannot be read.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "The century's House by state delegation, from the history-congress unit.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-apportionment",
+    "kind": "partial-model",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "Every century presidential election uses the 2020 apportionment's electors and each state's eligible voters today.",
+    "why": "The century runs on today's people; no state's population by decade is simulated.",
+    "addedBy": "History lane (claude/history-presidency)",
+    "addedAt": "2026-11-17",
+    "replacement": "Each state's people by decade from the population history, and electors from each census's apportionment.",
+    "status": "open"
   }
 ]
