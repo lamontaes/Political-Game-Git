@@ -87,6 +87,7 @@ describe("M4-06 the record follows you", () => {
     let place = process.env.GOLDEN_PATH_PLACE_KEY;
     let core = null as ReturnType<typeof createLifeCore> | null;
     let contest: ContestRow | undefined;
+    let incumbentId: string | undefined;
     // A place whose town has a local seat held by a resident and up this cycle.
     for (let attempt = 0; attempt < 8 && !contest; attempt += 1) {
       const state = pick(states, `state:${draw}:${attempt}`);
@@ -119,7 +120,8 @@ describe("M4-06 the record follows you", () => {
       // outlet's ad time, and none registered means it buys nothing.
       openPress(core);
       const api = coreAPI(core);
-      const held = new Set(
+      // Each local seat held by a resident, and who holds it.
+      const held = new Map(
         townSeats(api)
           .filter(
             (s) =>
@@ -127,7 +129,7 @@ describe("M4-06 the record follows you", () => {
               s.office.level !== "federal" &&
               s.office.level !== "state",
           )
-          .map((s) => s.seat.id),
+          .map((s) => [s.seat.id, s.holder!.personId as string]),
       );
       // The town's held seats up for election, by the day their filing
       // window opens. Nobody can file before it does: at seed rec-probe-4 the
@@ -164,8 +166,12 @@ describe("M4-06 the record follows you", () => {
           weighContest(api, race);
           fileRunners(api, race);
         }
-        if (ballot(api, race.id).length) {
+        // The incumbent is the seat's holder, not whoever filed first:
+        // once the window is open the world's own challengers file too.
+        const holder = held.get(race.seatId);
+        if (ballot(api, race.id).some((f) => f.personId === holder)) {
           contest = race;
+          incumbentId = holder;
           break;
         }
       }
@@ -176,7 +182,9 @@ describe("M4-06 the record follows you", () => {
       "no town with a resident-held local seat up for election whose incumbent runs",
     ).toBeDefined();
     const api = coreAPI(core!);
-    const incumbentFiling = ballot(api, contest!.id)[0]!;
+    const incumbentFiling = ballot(api, contest!.id).find(
+      (f) => f.personId === incumbentId,
+    )!;
     const incumbent = core!.people.get(incumbentFiling.personId)!;
     // A challenger from town files (by fee or signatures).
     const challenger = townResidentsByCash(core!, api).filter(
