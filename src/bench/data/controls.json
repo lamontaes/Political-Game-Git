@@ -831,7 +831,9 @@
     "openings": "Open in town",
     "hourly": "per hour",
     "noOpenings": "Nothing is open in town right now.",
-    "leaveJob": "Leave this job"
+    "leaveJob": "Leave this job",
+    "apply": "Apply",
+    "applied": "Applied"
   },
   "politics": {
     "seats": "Seats",
