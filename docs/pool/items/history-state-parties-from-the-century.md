@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/history-state-parties
-pr:
+pr: "#9962"
 after: history-parties-from-the-century
 blocked-on:
 lead: elections
