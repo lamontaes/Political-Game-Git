@@ -589,6 +589,10 @@
       "waitingOn": [],
       "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
+    "veterans-line-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts counts each household's veterans' benefits as income before it is set against its threshold, from the record the treasury's monthly close writes as it pays them (payVeterans in src/core2/law-reach/group-b-veterans.ts: a named veteran's household their benefit, a counted household its members' veteran share of it, both moved by the line in force); counted households read it through the residents engine's household income; the poverty share the web reads is that record"
+    },
     "welfare-spending-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"

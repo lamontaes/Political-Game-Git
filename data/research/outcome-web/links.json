@@ -6575,6 +6575,48 @@
       "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged. The cause is recorded (the state's higher education line, budget-line-added:higherEducation in src/core2/modules/outcome-web.ts) and the web runs the link, but no engine decides a graduate's completion: decideSchoolOutcome (src/core2/school-outcomes.ts) decides a senior's graduation and the jobs engine's schoolingOn (src/core2/modules/jobs.ts) holds every graduate at no college, so the link reads on the web's ledger only. The engine that would read it is a college step of the school engine, on the graduate's own rate (stopgap SG-SCHOOL-college-completion)."
     },
     {
+      "key": "veterans-line-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the federal veterans line is above its base",
+      "lagMonths": 0,
+      "group": "households with a veteran, named and counted",
+      "owner": "F",
+      "anchor": "\"The income used to compute poverty status includes (before taxes)\" a list that names \"Veterans' payments\". A benefit the line raises is income dollar for dollar against the household's poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Nov 17, 2026",
+      "evidence": "researched",
+      "from": "budget.veterans-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts counts each household's veterans' benefits as income before it is set against its threshold, from the record the treasury's monthly close writes as it pays them (payVeterans in src/core2/law-reach/group-b-veterans.ts: a named veteran's household their benefit, a counted household its members' veteran share of it, both moved by the line in force); counted households read it through the residents engine's household income; the poverty share the web reads is that record",
+      "why": [
+        "The federal veterans line pays veterans their benefits; the line in force over its base scales every benefit.",
+        "Veterans' payments are money income in the official poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household lives mainly on a veteran's benefit, just under its threshold."
+        ],
+        "weakerWhen": [
+          "The household has wages well above its threshold, or no veteran in it."
+        ],
+        "absentWhen": [
+          "The line is at its base, or no one in the place served."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back lowers each benefit from the next monthly close; the household's income falls with it.",
+      "who": "Veterans and their households, named and counted, who draw a benefit.",
+      "lagWhy": "A benefit follows the line from the next monthly close and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried."
+    },
+    {
       "key": "welfare-spending-to-poverty",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
