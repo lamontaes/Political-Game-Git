@@ -58,6 +58,7 @@
     "leanCarryShare": {
       "value": 0.5,
       "tag": "TUNABLE",
+      "role": "coefficient",
       "source": "How much of a counted place's own move in an election (the part of its result that came from its own conditions, with the national tide and the candidates cleared) stays in where its people stand at the next one. A strength of a relationship, not a level: nothing is steered toward any share. Checked across the spread: at 0 no place ever moves and at 1 a place's whole own move stays. To be sourced from how well one election's county swing against the nation predicts the next (pool item research-lean-carry-share).",
       "spread": [0, 1]
     },
