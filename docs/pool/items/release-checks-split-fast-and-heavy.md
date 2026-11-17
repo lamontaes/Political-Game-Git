@@ -19,8 +19,8 @@ root: none
 claimed-at: 2026-11-16T23:00:00.000Z
 ---
 
-**What.** No job runs the whole test suite, so nine guard tests and many unit tests never run after they merge. The unit job runs a large change's tests in one job and is cancelled at 45 minutes. Nothing stops a pull request from adding an expected-failure mark or a pinned town to pass.
-Seen: the run list of a large pull request, where the unit job shows cancelled at its 45 minute limit.
+**What.** No job runs the whole test suite, so nine guard tests and many unit tests never run after they merge. The unit job runs a large change's tests in one job and is canceled at 45 minutes. Nothing stops a pull request from adding an expected-failure mark or a pinned town to pass.
+Seen: the run list of a large pull request, where the unit job shows canceled at its 45 minute limit.
 
 **Cause.** Found in code: `.github/workflows/validate.yml`, the `unit` job, runs every changed test file in one job under `timeout-minutes: 45`; no workflow runs `vitest run` over the whole suite; `scripts/guards/index.ts` (`GUARDS`) has no guard that reads what a change adds to test files.
 
