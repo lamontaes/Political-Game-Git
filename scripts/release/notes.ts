@@ -10,7 +10,7 @@
  */
 
 import type { ChangeDeclaration, NotesSection, ParsedNotes } from "./model";
-import { NOTE_SECTIONS } from "./model";
+import { NOTE_AREAS, NOTE_SECTIONS } from "./model";
 
 const HEADING = /^## (.+)$/;
 const VERSION_IN_HEADING = /(\d+)\.(\d+)\.(\d+)/;
@@ -160,9 +160,21 @@ export function renderReleaseSection(
   const player = declarations.filter((entry) => entry.impact !== "none");
   const lines: string[] = [`## PRE-ALPHA ${version}`, ""];
   lines.push(`_Released ${formatReleaseDate(isoDate)}._`, "");
+  // Notes filed under an area come first, by area, each its title alone on
+  // one line (crew line, Nov 16: "Player notes by area, one short line each").
+  for (const area of NOTE_AREAS) {
+    const inArea = player
+      .filter((entry) => entry.area === area)
+      .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    if (inArea.length === 0) continue;
+    lines.push(`### ${area}`, "");
+    for (const entry of inArea) lines.push(`- ${(entry.title ?? "").trim()}`);
+    lines.push("");
+  }
+  // Older declarations, with no area, keep their section and their prose.
   for (const section of NOTE_SECTIONS) {
     const inSection = player
-      .filter((entry) => entry.section === section)
+      .filter((entry) => entry.section === section && entry.area === undefined)
       .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
     if (inSection.length === 0) continue;
     lines.push(`### ${section}`, "");
