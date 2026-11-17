@@ -120,6 +120,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
+- `crew-coordinator`: running a builder crew from a crew line: lanes, the watcher, relays, reading checks, the hourly merge list
 - `crew-messages`: how sessions message each other, and processes as skills
 - `cto`: the CTO role
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
