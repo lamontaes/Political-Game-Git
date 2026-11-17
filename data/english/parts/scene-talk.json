@@ -192106,81 +192106,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.money.i-can-t-talk-about-loan-now-give-me-a-day",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't talk about {loan} now. Give me a day.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["loan"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.money.not-now-i-ll-have-an-answer-by-due-next",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Not now. I'll have an answer by {due-next}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["due-next"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.money.give-me-a-day-i-know-we-re-behind",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Give me a day. I know we're {behind}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["behind"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.money.let-s-stop-before-this-gets-worse-we-ll-deal-with-loan-later",
       "move": "reply-leave",
       "kind": "spoken",
@@ -192307,32 +192232,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.money.okay-just-tell-me-next-time-loan-slips",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. Just tell me next time {loan} slips.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "requiresFacts": ["loan"],
-          "after": "apologize"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
         "key": "routine"
       }
     },
@@ -193120,31 +193019,6 @@
       }
     },
     {
-      "key": "scene-talk.close-react.money.name-lets-it-drop-for-now-and-watches-you-go",
-      "move": "close-react",
-      "kind": "spoken",
-      "text": "{name} lets it drop for now, and watches you go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "react",
-          "role": "asker",
-          "purpose": "owed-apology.money",
-          "key": "routine",
-          "after": "leave"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "react",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.close-react.money.name-says-due-next-had-better-be-the-answer",
       "move": "close-react",
       "kind": "spoken",
@@ -193793,81 +193667,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.close.i-can-t-talk-about-loan-right-now-i-ll-find-you-later",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I can't talk about {loan} right now. I'll find you later.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["loan"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.close.give-me-some-time-i-ll-tell-you-my-plan-by-due-next",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Give me some time. I'll tell you my plan by {due-next}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["due-next"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.close.give-me-some-time-i-know-we-re-behind",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Give me some time. I know we're {behind}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["behind"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.close.let-s-stop-before-this-gets-worse-we-ll-deal-with-loan-soon",
       "move": "reply-leave",
       "kind": "spoken",
@@ -193942,32 +193741,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.close.thank-you-for-saying-it-just-tell-me-if-loan-slips-again",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Thank you for saying it. Just tell me if {loan} slips again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "requiresFacts": ["loan"],
-          "after": "apologize"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "accept",
         "key": "routine"
       }
     },
@@ -194563,31 +194336,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "warn",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-react.close.name-nods-slowly-and-lets-you-go",
-      "move": "close-react",
-      "kind": "spoken",
-      "text": "{name} nods slowly, and lets you go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "react",
-          "role": "asker",
-          "purpose": "owed-apology.close",
-          "key": "routine",
-          "after": "leave"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "react",
         "key": "routine"
       }
     },
