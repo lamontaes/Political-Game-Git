@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/pins-housing-a2
-pr: 0
+pr: 9980
 blocked-on:
 after:
 lead: world
