@@ -16,7 +16,16 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { coreAPI } from "./state";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
+import {
+  OFFICIALS_MODULE_ID,
+  officialOf,
+  type OfficialRow,
+} from "./modules/officials";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
 import { OFFICIAL_PAY_MODULE_ID, officialSalary } from "./modules/official-pay";
 import { placeStateKey } from "./place-map";
 import { keepsWhy } from "./why-kept";
@@ -104,10 +113,35 @@ it(`every seated official is priced and has a pay row in ${place.name} (${place.
     unpaid,
     `${where}: seated officials who should be paid with no salary or no pay row`,
   ).toEqual([]);
-  const counted = seated.filter((row) => !paidFromStart.includes(row));
+  // Another state's officials no one has opened are read from their seat
+  // (`officialOf`, owner Nov 5): their pay is priced from the seat, and they
+  // hold no pay row, as a seated one the player doesn't know holds none.
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const drawn = (
+    offices
+      .table("terms")
+      .query("byStatus", ["serving"]) as unknown as TermRow[]
+  )
+    .filter(
+      (term) =>
+        !term.personId &&
+        isOutsideOffice(api, offices.table("offices").get(term.officeId)),
+    )
+    .map((term) => officialOf(api, `official:${term.id}`))
+    .filter((row): row is OfficialRow => row !== undefined);
+  const counted = [
+    ...seated.filter((row) => !paidFromStart.includes(row)),
+    ...drawn,
+  ];
   expect(counted.length, `${where}: other states' officials`).toBeGreaterThan(
     0,
   );
+  expect(
+    drawn
+      .filter((row) => officialSalary(row) === null)
+      .map((row) => `${row.id} (${row.officeKind})`),
+    `${where}: other states' officials read from the seat with no salary`,
+  ).toEqual([]);
   expect(
     counted.filter((row) => pay.get(row.id)).map((row) => row.id),
     `${where}: counted officials with a pay row`,
