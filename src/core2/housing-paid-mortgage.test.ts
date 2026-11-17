@@ -48,8 +48,8 @@ const cases = process.env.PAID_MORTGAGE_PLACE
         suffix: ".shortfall.json",
       },
     ];
-/** Places the shortfall case draws before it fails by name. */
-const SHORTFALL_DRAWS = 4;
+/** Places a drawn case plays before it fails by name. */
+const DRAWS = 4;
 type Loan = MortgageTerms & {
   id: string;
   missedMonths?: number;
@@ -180,10 +180,11 @@ function playYear(key: string, seed: string) {
 it.each(cases)(
   "$label: credits the household's own payment before and after fill-in",
   ({ replay, placeKey, requireShortfall, suffix }) => {
-    // A case that needs a shortfall draws places until one has it, naming
-    // each place passed over (drawn-place-tests); the others play once.
+    // A drawn case draws places until one has a paid counted mortgage (and,
+    // for the shortfall case, a group short beside a paid one), naming each
+    // place passed over (drawn-place-tests). A named place plays once.
     const tried: string[] = [];
-    const draws = placeKey || !requireShortfall ? 1 : SHORTFALL_DRAWS;
+    const draws = placeKey ? 1 : DRAWS;
     let world: ReturnType<typeof playYear> | undefined;
     for (let attempt = 0; attempt < draws; attempt++) {
       const place = drawPlace(
@@ -191,9 +192,12 @@ it.each(cases)(
         "paid-mortgage",
       );
       world = playYear(placeKey ?? place.key, placeKey ? replay : place.seed);
-      if (!requireShortfall || world.alongsideShortfall > 0) break;
+      const found =
+        world.checks.length > 0 &&
+        (!requireShortfall || world.alongsideShortfall > 0);
+      if (found) break;
       tried.push(
-        `${world.name} ${world.key} ${world.seed}: no group short beside a paid one`,
+        `${world.name} ${world.key} ${world.seed}: ${world.checks.length > 0 ? "no group short beside a paid one" : "no paid counted mortgage"}`,
       );
     }
     const {
@@ -211,7 +215,7 @@ it.each(cases)(
     } = world!;
     expect(
       checks.length,
-      `${name} ${key} ${replay}: no paid counted mortgage`,
+      `${name} ${key} ${replay}: no paid counted mortgage in ${tried.length + 1} drawn places (passed over: ${tried.join("; ") || "none"})`,
     ).toBeGreaterThan(0);
     // The shortfall case must expose the cross-group bug. A fresh town may
     // pay every bill; its exact per-loan assertions still all run.
