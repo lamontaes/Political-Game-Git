@@ -132,8 +132,8 @@
       }
     },
     "race-lost": {
-      "how": "writer",
-      "reason": "circumstance"
+      "how": "elections",
+      "recipe": "result"
     },
     "appointment": {
       "how": "writer",
@@ -168,8 +168,8 @@
       "reason": "circumstance"
     },
     "filing": {
-      "how": "writer",
-      "reason": "no-event"
+      "how": "elections",
+      "recipe": "file"
     },
     "layoff": {
       "how": "writer",
@@ -224,7 +224,7 @@
     },
     "party-recruit": {
       "how": "writer",
-      "reason": "journal-line"
+      "reason": "party-decides"
     },
     "party-welcome": {
       "how": "writer",
@@ -235,12 +235,12 @@
       "reason": "journal-line"
     },
     "family-filing": {
-      "how": "writer",
-      "reason": "no-event"
+      "how": "elections",
+      "recipe": "file"
     },
     "family-loss": {
-      "how": "writer",
-      "reason": "circumstance"
+      "how": "elections",
+      "recipe": "result"
     },
     "family-absence": {
       "how": "writer",
