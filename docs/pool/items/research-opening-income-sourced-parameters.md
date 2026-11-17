@@ -46,3 +46,5 @@ Findings Oct 20 (claude), not built: (1) `openingRetirementBenefitMonthlyMinor` 
 Deferred Oct 25: nothing on screen reads it yet.
 
 Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).
+
+Nov 17 (Laws and effects lane, measured): at Washington, D.C., replay ss02 of src/core2/social-security-line-poverty.test.ts (world seed 7805c1b8454721946f66e0a6f3230b1514361f111415c00ce1889fea136c0ab5), 4,665 of the 5,233 poor counted retirees live on Social Security alone within a tenth under their poverty line, several $1.68 under it ($15,043.32 a year against $15,045), because every opening award starts from the January 2021 average (`openingRetirementBenefitMonthlyMinor`, $1,543) times the covered-months factor. A fifth more on the federal line then lifts 5,096 of 17,006 poor people. The size of the response rests on where this parameter puts the awards; source it per year and with its spread.

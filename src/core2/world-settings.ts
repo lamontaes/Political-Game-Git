@@ -22,6 +22,12 @@ export interface WorldSettings {
     inflationPct?: number;
     policyRatePct?: number;
   };
+  /**
+   * Where day one comes from (owner, Nov 17, 2026, CTO line 6935086070 on #9747, point 5: "'Just
+   * like today' is the same engine with a new-game or dev-mode option that forces today's real
+   * record"): the century run from 1925 (the default), or today's real record.
+   */
+  history?: "century" | "today";
   /** Recorded for PEOPLE's views and GOV's elections to read. */
   politics?: {
     /** -1 (left) to +1 (right), added to residents' lean. */
@@ -69,6 +75,12 @@ export function checkSettings(settings: WorldSettings): void {
     settings.politics?.partyStrength ?? {},
   ))
     multiplier(value, `party strength (${party})`);
+  if (
+    settings.history !== undefined &&
+    settings.history !== "century" &&
+    settings.history !== "today"
+  )
+    throw new Error('World history must be "century" or "today".');
   const shift = settings.politics?.leanShift;
   if (shift !== undefined && !(shift >= -1 && shift <= 1))
     throw new Error("World lean shift must be between -1 and 1.");
