@@ -145,11 +145,14 @@ it(
         advanceCore(control, end);
         const sum = (core: typeof control) =>
           disasterAssistancePaid(coreAPI(core))
-            // Public assistance goes to governments; household aid (paid to the residents' account) is individual assistance the law does not touch.
+            // Public assistance goes to governments (a payment to an organization's own id); household aid
+            // (paid to a household's account, a counted group's or a named head's) is individual assistance the law does not touch.
             .filter(
               (r) =>
                 r.disaster === made.number &&
-                !r.orgId.startsWith("cash:residents:"),
+                core.organizations
+                  .get(r.orgId as never)
+                  ?.classification?.startsWith("service:") === true,
             )
             .reduce((n, r) => n + r.cents, 0);
         const withLaw = sum(lawWorld),
