@@ -174841,6 +174841,126 @@
         "move": "press",
         "key": "vote-wanted"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-about-bill-and-the-envelope-is-thicker-this-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back about {bill}, and the envelope is thicker this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed",
+          "key": "threat",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-back-for-your-vote-on-bill-money-in-hand-again",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come back for your vote on {bill}, money in hand again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed",
+          "key": "threat",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.state-press.same-ask-on-bill-first-more-money-this-time",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "Same ask on {bill}, {first}. More money this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.state-press.i-m-asking-again-on-bill-the-number-went-up",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "I'm asking again on {bill}. The number went up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "requiresFacts": ["bill", "favor-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.state-request.vote-with-me-on-bill-and-this-envelope-is-yours",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Vote with me on {bill}, and this envelope is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.state-request.nobody-has-to-know-your-vote-on-bill-and-the-money-s-yours",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody has to know. Your vote on {bill}, and the money's yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
     }
   ]
 }

@@ -144,18 +144,32 @@ const helpFacts: Record<string, Fact> = {
   agency: fact("the workforce office"),
   "respond-in": fact("in seven days"),
 };
+// What a bribe hands the scene (purpose-scene.ts, the bribe's record and
+// bribe-facts.ts): the money, what the giver wants it for (a vote on a bill,
+// said as `favor-vote` with the bill; a contract as `favor-contract`), the
+// envelope against the household's living in words, and the reads.
+const bribeFacts: Record<string, Fact> = {
+  ...generic,
+  money: fact("$2,500"),
+  bill: fact("Bill 14"),
+  wanted: fact("the vote on Bill 14"),
+  "favor-vote": fact("yes"),
+  "bribe-weight": fact("about a month of what the house spends"),
+};
 const factsOf = (family: string) =>
-  family === "donor-ask"
-    ? donorFacts
-    : family === "press-comment"
-      ? pressFacts
-      : family === "conflict-accuse"
-        ? accuseFacts
-        : family === "ask-vote"
-          ? voteFacts
-          : family === "constituent-help"
-            ? helpFacts
-            : generic;
+  family === "bribe-offer" || family === "bribe-pressed"
+    ? bribeFacts
+    : family === "donor-ask"
+      ? donorFacts
+      : family === "press-comment"
+        ? pressFacts
+        : family === "conflict-accuse"
+          ? accuseFacts
+          : family === "ask-vote"
+            ? voteFacts
+            : family === "constituent-help"
+              ? helpFacts
+              : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -349,13 +363,13 @@ describe("a kind with several arcs", () => {
     const first = new Set<string>();
     for (let n = 0; n < 12; n += 1)
       first.add(
-        compose("bribe-offer", "plain", generic, `cause-${n}`).state.text,
+        compose("bribe-offer", "plain", bribeFacts, `cause-${n}`).state.text,
       );
     expect(first.size).toBeGreaterThan(1);
     // The same cause says the same words.
     expect(
-      compose("bribe-offer", "friend", generic, "cause-z").state.text,
-    ).toBe(compose("bribe-offer", "friend", generic, "cause-z").state.text);
+      compose("bribe-offer", "friend", bribeFacts, "cause-z").state.text,
+    ).toBe(compose("bribe-offer", "friend", bribeFacts, "cause-z").state.text);
   });
 
   it("reads no kind's name: a kind without a row plays its one arc", () => {
