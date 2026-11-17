@@ -177944,7 +177944,7 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["office"],
-          "excludesFacts": ["signed"]
+          "excludesFacts": ["signed", "door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -177970,7 +177970,7 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["office"],
-          "excludesFacts": ["signed"]
+          "excludesFacts": ["signed", "door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -177996,7 +177996,7 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["knocked-before", "office"],
-          "excludesFacts": ["signed"]
+          "excludesFacts": ["signed", "door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178022,7 +178022,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["would-not-sign", "side-against", "about"],
-          "setsFacts": ["about-said"]
+          "setsFacts": ["about-said"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178048,7 +178049,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["would-not-sign", "side-for", "about"],
-          "setsFacts": ["about-said"]
+          "setsFacts": ["about-said"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178073,7 +178075,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "no-view", "office"]
+          "requiresFacts": ["would-not-sign", "no-view", "office"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178098,7 +178101,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "rival", "rival-signed"]
+          "requiresFacts": ["would-not-sign", "rival", "rival-signed"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178123,7 +178127,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "employer"]
+          "requiresFacts": ["would-not-sign", "employer"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178148,7 +178153,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "deadline"]
+          "requiresFacts": ["would-not-sign", "deadline"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178173,7 +178179,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "relative"]
+          "requiresFacts": ["would-not-sign", "relative"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178198,7 +178205,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "read-close"]
+          "requiresFacts": ["would-not-sign", "read-close"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178223,7 +178231,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "read-own-illness", "office"]
+          "requiresFacts": ["would-not-sign", "read-own-illness", "office"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178248,7 +178257,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178273,7 +178283,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["vote-day"]
+          "requiresFacts": ["vote-day"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178299,7 +178310,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["side-against", "about"],
-          "setsFacts": ["about-said"]
+          "setsFacts": ["about-said"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178325,7 +178337,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["side-for", "about"],
-          "setsFacts": ["about-said"]
+          "setsFacts": ["about-said"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178350,7 +178363,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["no-view", "office"]
+          "requiresFacts": ["no-view", "office"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178375,7 +178389,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["read-same-party", "office"]
+          "requiresFacts": ["read-same-party", "office"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178400,7 +178415,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["read-close"]
+          "requiresFacts": ["read-close"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -178425,7 +178441,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["read-own-illness", "office"]
+          "requiresFacts": ["read-own-illness", "office"],
+          "excludesFacts": ["door-pressed"]
         }
       ],
       "bearing": "guarded",
@@ -179213,7 +179230,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["stand", "about", "about-said"],
-          "setsFacts": ["stand-said"]
+          "setsFacts": ["stand-said", "door-pressed"]
         },
         {
           "subject": "scene",
@@ -179223,7 +179240,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["stand", "about", "about-said"],
-          "setsFacts": ["stand-said"]
+          "setsFacts": ["stand-said", "door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179249,7 +179266,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["stand", "about", "about-said"],
-          "setsFacts": ["stand-said"]
+          "setsFacts": ["stand-said", "door-pressed"]
         },
         {
           "subject": "scene",
@@ -179259,7 +179276,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["stand", "about", "about-said"],
-          "setsFacts": ["stand-said"]
+          "setsFacts": ["stand-said", "door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179285,7 +179302,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["stand", "about", "about-said"],
-          "setsFacts": ["stand-said"]
+          "setsFacts": ["stand-said", "door-pressed"]
         },
         {
           "subject": "scene",
@@ -179295,7 +179312,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["stand", "about", "about-said"],
-          "setsFacts": ["stand-said"]
+          "setsFacts": ["stand-said", "door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179320,7 +179337,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["rival", "about", "about-said"]
+          "requiresFacts": ["rival", "about", "about-said"],
+          "setsFacts": ["door-pressed"]
         },
         {
           "subject": "scene",
@@ -179329,7 +179347,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["rival", "about", "about-said"]
+          "requiresFacts": ["rival", "about", "about-said"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179354,7 +179373,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["rival"]
+          "requiresFacts": ["rival"],
+          "setsFacts": ["door-pressed"]
         },
         {
           "subject": "scene",
@@ -179363,7 +179383,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["rival"]
+          "requiresFacts": ["rival"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179388,7 +179409,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["voted-last", "vote-day"]
+          "requiresFacts": ["voted-last", "vote-day"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179413,7 +179435,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["sat-out-last", "vote-day"]
+          "requiresFacts": ["sat-out-last", "vote-day"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179438,7 +179461,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["voted-last", "vote-day"]
+          "requiresFacts": ["voted-last", "vote-day"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179463,7 +179487,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179488,7 +179513,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
@@ -179513,7 +179539,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "setsFacts": ["door-pressed"]
         }
       ],
       "bearing": "hopeful",
