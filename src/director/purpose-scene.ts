@@ -141,7 +141,7 @@ import {
 import { factsSetBy, type Fact } from "../english/scene-talk-words";
 import { bargainFacts } from "./bargain-facts";
 import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
-import { voteStandFacts } from "./vote-stand-facts";
+import { billReadsForPress, voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
@@ -715,6 +715,10 @@ function composeBinding(
   // the record holds.
   const votedOn = billId ?? said.enactedBy;
   if (votedOn) voteStandFacts(core, facts, votedOn, askedId, moment.causeId);
+  // A reporter's question about the bill leans on who wrote it, what it does
+  // and what the asked person has long wanted done (vote-stand-facts.ts).
+  if (votedOn && type.purpose === "press-comment")
+    billReadsForPress(core, facts, votedOn, askedId, moment.causeId, sayPerson);
   // The chair a committee's hold names, for a member who is asked to press them.
   const chair = said.chair
     ? core.people.get(said.chair as PersonId)
@@ -1325,6 +1329,18 @@ function composeBinding(
     record?.kind === "bill-held-in-committee";
   if (stopped)
     facts["stopped-it"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  // The veto itself, and a veto that held because the override vote fell
+  // short (its record says whether the override passed).
+  if (record?.kind === "executive-action" && said.action === "vetoed")
+    facts.vetoed = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  if (record?.kind === "veto-override" && said.passed === "false")
+    facts["veto-held"] = {
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };

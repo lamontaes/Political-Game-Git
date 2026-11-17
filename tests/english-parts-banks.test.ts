@@ -295,8 +295,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.follow-confront.not-after-tonight-you-re-not",
   "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
   "scene-talk.follow-warn.earn-it-again-tomorrow-tonight-be-gracious",
-  "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
-  "scene-talk.close-warn.it-s-running-tonight-with-or-without-you",
   "scene-talk.close-promise.i-ll-send-the-details-to-your-office-tonight",
   "scene-talk.follow-thank.tonight-thank-you",
   "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
