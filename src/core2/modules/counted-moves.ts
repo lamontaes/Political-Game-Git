@@ -1255,7 +1255,9 @@ function month(api: CoreAPI): void {
         home.usps,
         () => ({}),
         attractOf,
-        rt.restShare,
+        // The destination is the counted places: the state's people less the
+        // rest of the state's (the leavers' own side is restShare, above).
+        1 - rt.restShare,
       ).near;
       COARSE.forEach((_, band) =>
         due(

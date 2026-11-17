@@ -19,6 +19,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { countedMoves, countedStatePeople } from "./modules/counted-moves";
+import { countryAbroadArrivals } from "./modules/macro";
 import { enactLaw, lawChain } from "./modules/laws";
 import { residentsRuntime, townPlaceOf } from "./modules/residents";
 import { coreAPI } from "./state";
@@ -105,17 +106,28 @@ it("a place takes in people from abroad as the country tier's month brings them,
     placeKey: "1150000",
   });
   const start = townPeople(core);
-  advanceCore(core, addDays(makeIsoDate(core.date), 730));
+  // The tier's own arrivals to the state, month by month over two years: the
+  // counted places can take only their part of what the state was brought.
+  const seen = new Set<string>();
+  let stateArrived = 0;
+  for (let day = 0; day < 730; day += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const month = countryAbroadArrivals(coreAPI(core), "DC");
+    if (!month || seen.has(`${month.month}`)) continue;
+    seen.add(`${month.month}`);
+    stateArrived += month.byBand.reduce((n, v) => n + v, 0);
+  }
   const abroad = countedMoves(coreAPI(core)).filter(
     (row) => row.direction === "in" && row.fromPlace === "abroad",
   );
   const arrived = abroad.reduce((n, row) => n + row.people, 0);
+  const line = `arrived ${arrived} of ${Math.round(start)}; the tier brought the state ${Math.round(stateArrived)} over ${seen.size} months`;
+  process.stdout.write(`from abroad: ${line}\n`);
   expect(abroad.length, "moves in from abroad").toBeGreaterThan(0);
-  // Whole households arrive; a place takes no more than its people over two
-  // years could hold, and some.
-  expect(arrived, `arrived ${arrived} of ${Math.round(start)}`).toBeLessThan(
-    start * 0.1,
-  );
+  // Whole households arrive, so the place's count rounds up by at most a
+  // household; never more than the state was brought.
+  expect(seen.size, line).toBeGreaterThan(0);
+  expect(arrived, line).toBeLessThanOrEqual(stateArrived + 10);
   for (const row of abroad) {
     expect(row.reasons.fromAbroad).toBeGreaterThan(0);
     expect(row.reads?.fromAbroad).toEqual(["country-state:US-DC"]);
