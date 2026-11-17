@@ -39,11 +39,18 @@ it("campaign asks are answered in the speaker's own words on the bench", () => {
     for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
       advanceCore(core, addDays(makeIsoDate(core.date), 7));
     // A grown resident of the town files and plays (as election night's
-    // check does): the campaign is theirs.
+    // check does): the campaign is theirs. The asks go to the people the
+    // candidate knows, so the candidate is one who knows someone (at Banks,
+    // Alabama, seed 04a7be993b4e732c:0, the first resident who could file
+    // knew nobody, and nobody was asked).
     const townId = core.people.get(playerId!)?.placeId;
     const town = [...core.people.values()]
       .filter(
-        (p) => p.alive && p.placeId === townId && p.birthDate < "1990-01-01",
+        (p) =>
+          p.alive &&
+          p.placeId === townId &&
+          p.birthDate < "1990-01-01" &&
+          p.knownIds.size > 0,
       )
       .sort((a, b) => a.id.localeCompare(b.id))
       .slice(0, 30);
