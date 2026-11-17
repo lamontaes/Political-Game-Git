@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/happy-bell-8rj52e-pins-29
-pr:
+pr: 9967
 after:
 blocked-on:
 root: none
