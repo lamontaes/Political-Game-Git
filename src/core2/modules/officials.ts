@@ -47,14 +47,13 @@ import { drawOfficialIdentity } from "../officials-identity";
 import {
   drawOfficial,
   OFFICIALS_DATA,
-  ownStance,
   partyKey,
-  supportAt,
   uniform,
   type BodyKind,
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
+import { ownStance, supportAt } from "../law-consensus";
 import officialsData from "../data/officials/officials.json" with { type: "json" };
 import { nationalHomeState, recordPresident } from "../officials-president";
 import { researchedHolderParty } from "../offices-holder-parties";
@@ -2023,5 +2022,5 @@ export function temperamentOf(
 }
 
 /** A seat-holder's own stance and the President's record facts, read through the executive family's entry. */
-export { ownStance } from "../officials-roster";
+export { ownStance } from "../law-consensus";
 export { PRESIDENT_FACT } from "../officials-president";

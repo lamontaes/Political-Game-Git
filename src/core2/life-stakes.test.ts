@@ -159,7 +159,7 @@ describe("views from the person's own life", () => {
     expect(full, where(place)).toBeDefined();
     // At a centered lean, with no survey loading on a spending line, the
     // opening stance is the life term alone: no polled share is carried.
-    expect(personStance(0, HOUSING_LINE), where(place)).toBe(0);
+    expect(Math.abs(personStance(0, HOUSING_LINE)), where(place)).toBe(0);
     expect(
       ownOpeningStance(api, full!.id, HOUSING_LINE, 0),
       `${where(place)}: ${full!.id}`,

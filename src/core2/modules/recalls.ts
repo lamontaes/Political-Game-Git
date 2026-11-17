@@ -28,7 +28,7 @@ import type {
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { personLean } from "../campaign-views";
-import { supportAt } from "../officials-roster";
+import { supportAt } from "../law-consensus";
 import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";

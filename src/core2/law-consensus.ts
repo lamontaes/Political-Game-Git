@@ -8,7 +8,10 @@
  * question only federal law answers reads the world's latest roll call on it,
  * else the share of the sitting members of Congress whose lean alone favors it.
  * Real data sets none of it; it is kept per world while the laws (and, for the
- * members' share, the officials) are unchanged.
+ * members' share, the officials) are unchanged. The stance rules that read it
+ * live here too (`memberSupportAt`, `ownStance`, and voters' `supportAt`),
+ * apart from the roster's draw of who an official is, so the roster stays
+ * light enough for the engines that load it first.
  */
 import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
@@ -22,9 +25,10 @@ import {
 import { POLICY_SERIES_BY_LEVEL } from "./policy-answers";
 import { placeStateKeys } from "./places";
 import { axisOf } from "./campaign-data";
-import { questionAxis } from "./campaign-views";
+import { personStance, questionAxis } from "./campaign-views";
+import { opinionRest } from "./modules/views";
 import { officialsIn, OFFICIALS_MODULE_ID } from "./modules/officials";
-import { OFFICIALS_DATA } from "./officials-roster";
+import { OFFICIALS_DATA, type SignatureIssue } from "./officials-roster";
 import type { LawRowInput } from "./laws-starting";
 
 /** The world's consensus on a question: its "yes" share and what it was read from. */
@@ -172,4 +176,60 @@ export function recordLawConsensus(api: CoreAPI, series: string): void {
         ) / 1e4,
       lawIds,
     } as unknown as ModuleRow);
+}
+
+/**
+ * How strongly voters at a lean (a district's, a state's) support a
+ * question's "yes", read the way a voter's own stance is: their lean at the
+ * question's strength (`personStance`) plus what the world's people's own
+ * lives, faith, degree and news add beyond their leans this month
+ * (`opinionRest`), so a policy the world's people favor draws members of
+ * both parties.
+ */
+export function supportAt(
+  api: CoreAPI,
+  lean: number,
+  question: string,
+): number {
+  return personStance(lean, question) + opinionRest(api, question);
+}
+
+/**
+ * How strongly a member at a lean supports a question's "yes": their lean
+ * along the question's axis plus how widely the world's own governments have
+ * already made it law (`lawConsensus`: the share of the world's states whose
+ * law answers yes, or for a question only federal law answers, the world's
+ * latest roll call on it, else the sitting Congress's leans), the elite
+ * consensus members answer to, where voters answer to the polls
+ * (`supportAt`). A budget line has no such record and reads by lean alone.
+ */
+export function memberSupportAt(
+  api: CoreAPI,
+  lean: number,
+  question: string,
+): number {
+  const row = axisOf[question];
+  const consensus = row ? lawConsensus(api, question) : null;
+  // A member's lean reads along the question's measured direction among
+  // governments (what states enacted, how Congress voted), not the voters'.
+  return (
+    lean * questionAxis(question) +
+    (row && consensus ? Math.abs(row.axis) * (2 * consensus.share - 1) : 0)
+  );
+}
+
+/** A member's own stance on a question: their position, and their own tilt if it's one of their causes. */
+export function ownStance(
+  api: CoreAPI,
+  ideal: number,
+  signature: readonly SignatureIssue[],
+  question: string,
+): number {
+  const tilt = signature.find((s) => s.question === question)?.tilt ?? 0;
+  // On the voters' scale, no further out than the electorate's own ends.
+  const lean = Math.max(
+    -1,
+    Math.min(1, (ideal + tilt) * OFFICIALS_DATA.ideology.leanScale.value),
+  );
+  return memberSupportAt(api, lean, question);
 }

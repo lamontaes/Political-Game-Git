@@ -8,7 +8,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { standsAt } from "../director/opening-story";
 import { axisOf } from "./campaign-data";
 import { officialsIn } from "./modules/officials";
-import { ownStance } from "./officials-roster";
+import { ownStance } from "./law-consensus";
 import { coreAPI } from "./state";
 
 // Questions only federal law answers hold a direction measured from roll

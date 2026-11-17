@@ -8,7 +8,7 @@ import { coreAPI } from "../core2/state";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { officialsIn } from "../core2/modules/officials";
-import { ownStance } from "../core2/officials-roster";
+import { ownStance } from "../core2/law-consensus";
 import { historyMonths, type MacroMonth } from "../core2/macro-model";
 import { NAMED_QUESTIONS } from "../english/question-names";
 

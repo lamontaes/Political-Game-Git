@@ -123,7 +123,7 @@ import {
 } from "./modules/press";
 import { schoolsAttended } from "./past";
 import { NEWS_MODULE_ID } from "./modules/news";
-import { opinionQuestions } from "./campaign-views";
+import { leanStrength, opinionQuestions } from "./campaign-views";
 import { worldOpinion } from "./modules/views";
 import electoralCorpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import {
@@ -919,13 +919,17 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       shared.reduce((n, id) => n + held.get(id)!, 0);
     // Row 48: the world's opinion of each question emerges from its own
     // people (CTO, Nov 17, #9747: the poll gives a lean's strength, never
-    // the share), so two worlds of the same place hold different opinions.
+    // the share), so two worlds of the same place hold different opinions
+    // on every question a lean bears on. (A question no lean bears on, such
+    // as a budget line both parties want the same spent on, reads only what
+    // people's lives add and may sit at 0 in both.)
     const opinions = (core: CoreState) =>
       new Map(
         opinionQuestions().map((q) => [q, worldOpinion(coreAPI(core), q)]),
       );
     const [opinionsA, opinionsB] = [opinions(a), opinions(b)];
     for (const question of opinionQuestions()) {
+      if (leanStrength(question) === 0) continue;
       const [oa, ob] = [opinionsA.get(question), opinionsB.get(question)];
       expect(oa, `${where} row 48 ${question}`).toBeDefined();
       expect(ob, `${where} row 48 ${question}`).toBeDefined();

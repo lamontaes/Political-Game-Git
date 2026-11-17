@@ -24,7 +24,7 @@ import provisionQuestions from "../../data/research/legislature/provision-questi
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
-import { memberSupportAt } from "./officials-roster";
+import { memberSupportAt } from "./law-consensus";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { members } from "./modules/legislature";
 import {
