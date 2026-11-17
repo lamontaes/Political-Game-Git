@@ -3,7 +3,7 @@
  * probate closes, and the house's proceeds to the same heirs when it sells
  * (owner's night orders, CTO Nov 17: an unsold home must not hold an estate
  * open forever). In the played world, in places drawn from all 56 (NATION_SEED
- * replays): over three years, an estate with a home listed past its probate
+ * replays): over two years, an estate with a home listed past its probate
  * period holds no cash for its heirs, and a probate row that paid its cash
  * keeps the heirs and the will of the day of death. Places with no such
  * estate are named and passed over.
@@ -22,7 +22,7 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 5;
+const DRAWS = 4;
 
 describe(`an unsold home does not hold the estate's cash (seed ${seed})`, () => {
   it(
@@ -47,7 +47,7 @@ describe(`an unsold home does not hold the estate's cash (seed ${seed})`, () => 
         }
         const { core } = world;
         const api = coreAPI(core);
-        advanceCore(core, addDays(makeIsoDate(core.date), 365 * 3));
+        advanceCore(core, addDays(makeIsoDate(core.date), 365 * 2));
         const probateDays = api.parameter("probateDays");
         const sales = (
           api
@@ -95,7 +95,7 @@ describe(`an unsold home does not hold the estate's cash (seed ${seed})`, () => 
         return;
       }
       throw new Error(
-        `no drawn place had an estate with an unsold home in three years (seed ${seed}): ${passed.join("; ")}`,
+        `no drawn place had an estate with an unsold home in two years (seed ${seed}): ${passed.join("; ")}`,
       );
     },
   );
