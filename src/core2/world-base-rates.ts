@@ -1,7 +1,7 @@
 /**
  * Each world's base-rate tables (owner, Oct 27: realistic, not real): one
- * factor per published table (deaths, births, moves, chronic conditions, time
- * use, college enrollment, college completion), drawn once from the world's
+ * factor per published table (deaths, births, moves, chronic conditions,
+ * college enrollment, college completion), drawn once from the world's
  * seed by the shared world draw, that scales the whole table. A base rate checks totals and never picks one actor's
  * outcome; the factor only makes the world's own rates differ from the
  * published ones. The spreads are parameter rows.
@@ -14,7 +14,6 @@ const SPREAD = {
   natality: "worldBaseRateNatalitySpreadShare",
   movers: "worldBaseRateMoversSpreadShare",
   conditions: "worldBaseRateConditionsSpreadShare",
-  timeUse: "worldBaseRateTimeUseSpreadShare",
   collegeEnrollment: "worldBaseRateCollegeEnrollmentSpreadShare",
   collegeCompletion: "worldBaseRateCollegeCompletionSpreadShare",
 } as const;
