@@ -6552,6 +6552,48 @@
       "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried."
     },
     {
+      "key": "income-security-line-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the federal income security line is above its base",
+      "lagMonths": 0,
+      "group": "households drawing Supplemental Security Income, named and counted",
+      "owner": "F",
+      "anchor": "\"The income used to compute poverty status includes (before taxes)\" a list that names \"Supplemental Security Income\". A benefit the line raises is income dollar for dollar against the household's poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size. The line's food aid is a noncash benefit the measure leaves out.",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Nov 17, 2026",
+      "evidence": "researched",
+      "from": "budget.incomeSecurity-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Supplemental Security Income as income before it is set against its threshold, from the record the reach writes as it pays it (paySsi in src/core2/law-reach/group-b-money.ts: the federal benefit rate less countable income, moved by the income security line in force, for named households and counted records alike); the means test itself never reads it; the poverty share the web reads is that record",
+      "why": [
+        "The federal income security line pays SSI; the line in force over its base scales every benefit.",
+        "Supplemental Security Income is money income in the official poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household's aged members have little other income, just under its threshold."
+        ],
+        "weakerWhen": [
+          "The household's other income is near the federal benefit rate, so its benefit is small."
+        ],
+        "absentWhen": [
+          "The line is at its base, or no aged resident has income under the rate."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back lowers each benefit from the next monthly close; the household's income falls with it.",
+      "who": "Aged residents with little income and their households, named and counted.",
+      "lagWhy": "A benefit follows the line from the next monthly close and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. SNAP, which the line also funds, is a noncash benefit the official measure does not count."
+    },
+    {
       "key": "welfare-spending-to-poverty",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",

@@ -585,6 +585,10 @@
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts counts each household's veterans' benefits as income before it is set against its threshold, from the record the treasury's monthly close writes as it pays them (payVeterans in src/core2/law-reach/group-b-veterans.ts: a named veteran's household their benefit, a counted household its members' veteran share of it, both moved by the line in force); counted households read it through the residents engine's household income; the poverty share the web reads is that record"
     },
+    "income-security-line-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Supplemental Security Income as income before it is set against its threshold, from the record the reach writes as it pays it (paySsi in src/core2/law-reach/group-b-money.ts: the federal benefit rate less countable income, moved by the income security line in force, for named households and counted records alike); the means test itself never reads it; the poverty share the web reads is that record"
+    },
     "welfare-spending-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"
