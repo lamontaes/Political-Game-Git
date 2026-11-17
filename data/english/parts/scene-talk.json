@@ -176979,7 +176979,7 @@
       "key": "scene-talk.follow-accept.then-i-ll-earn-it-without-you-no-hard-feelings",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll earn it without you. No hard feelings.",
+      "text": "Then I'll earn {office} without you.",
       "uses": [
         {
           "subject": "scene",
@@ -176989,7 +176989,7 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "refuse",
-          "requiresFacts": ["against-your-ally"]
+          "requiresFacts": ["against-your-ally", "office"]
         }
       ],
       "origin": "authored",
@@ -177004,7 +177004,7 @@
       "key": "scene-talk.reply-refuse.yes-and-my-word-still-stands",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Yes, and my word still stands.",
+      "text": "Yes, and my word on {office} still stands.",
       "uses": [
         {
           "subject": "scene",
@@ -177014,7 +177014,7 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.does-against-your-ally-know-you-the-way-i-do",
-          "requiresFacts": ["against-your-ally"]
+          "requiresFacts": ["against-your-ally", "office"]
         },
         {
           "subject": "scene",
@@ -177024,7 +177024,7 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.did-against-your-ally-knock-doors-for-you-i-did",
-          "requiresFacts": ["against-your-ally"]
+          "requiresFacts": ["against-your-ally", "office"]
         }
       ],
       "origin": "authored",
@@ -177039,7 +177039,7 @@
       "key": "scene-talk.reply-refuse.that-s-not-the-question-my-word-s-given",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "That's not the question. My word's given.",
+      "text": "My word on {office} is given, whatever the question.",
       "uses": [
         {
           "subject": "scene",
@@ -177049,7 +177049,7 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.does-against-your-ally-know-you-the-way-i-do",
-          "requiresFacts": ["against-your-ally"]
+          "requiresFacts": ["against-your-ally", "office"]
         },
         {
           "subject": "scene",
@@ -177059,7 +177059,7 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.did-against-your-ally-knock-doors-for-you-i-did",
-          "requiresFacts": ["against-your-ally"]
+          "requiresFacts": ["against-your-ally", "office"]
         }
       ],
       "origin": "authored",
