@@ -90,7 +90,8 @@
     "term-left": "the years left in the speaker's term, in words ('four years'), from the offices engine's serving term",
     "story-disaster": "the year's disaster by its kind ('flood', 'severe storm'), from the national events or disasters engine's record",
     "disaster-where": "the state the year's latest disaster struck, by name, from the national events engine's record",
-    "prior-state": "the state the President governed or served in the Senate before, by name, from the career record (said only in the turn to the states)"
+    "prior-state": "the state the President governed or served in the Senate before, by name, from the career record (said only in the turn to the states)",
+    "last-point": "the address's final point by its question's plain name (question-names `about`), for a close where the speaker asks for no new law"
   },
   "maxWords": 40,
   "mining": {
@@ -6117,60 +6118,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-sta-crisis-core-with-vice-president-vice-president-here-i-come-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I come to report on a country under strain, and I will not soften the report.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-crisis-core-i-stand-here-with-vice-president-vice-president-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I stand here with {vice-president-object} to give you an honest account of a hard year, and to ask for your patience and your help.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-sta-crisis-core-i-come-before-you-with-hardest-weighing-on-families",
       "move": "salutation",
       "kind": "spoken",
@@ -6188,87 +6135,6 @@
       "voice": "polished",
       "bearing": "solemn",
       "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-combative-core-i-thank-vice-president-vice-president-and-i-will",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and I will not waste this chamber's time with pleasantries when so much has been left undone.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-combative-core-with-vice-president-vice-president-here-i-mean-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I mean to name what went wrong this year and who has stood in the way of fixing it.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-combative-core-i-greet-vice-president-vice-president-and-every-member",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I see {vice-president-object} and every member here, including those who have spent this year blocking the work the country sent us to do.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -6306,87 +6172,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-sta-hopeful-core-i-thank-vice-president-vice-president-and-i-come",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and I come before you with real reason for hope about the year ahead.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-hopeful-core-with-vice-president-vice-president-here-i-am-glad",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I am glad to report a country that has more to look forward to than it did a year ago.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-hopeful-core-i-greet-vice-president-vice-president-and-all-of",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I come to {vice-president-object} and all of you in a spirit of hope, because the work ahead of us is work worth doing.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-sta-hopeful-core-i-come-before-you-with-good-news-on-best",
       "move": "salutation",
       "kind": "spoken",
@@ -6404,60 +6189,6 @@
       "voice": "polished",
       "bearing": "glad",
       "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-victory-core-i-thank-vice-president-vice-president-who-has-shared",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, who has shared in the work of these years, and I am proud to report on what that work has built.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-victory-core-i-greet-vice-president-vice-president-and-this-chamber",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object} and this chamber, because together we have done much of what we promised.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -6495,87 +6226,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-sta-mourning-core-i-thank-vice-president-vice-president-and-before-anything",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and before anything else I ask this chamber to keep in mind the families who are grieving.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-mourning-core-with-vice-president-vice-president-here-i-begin-not",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I begin not with the business of government but with the people this country has lost.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-mourning-core-vice-president-vice-president-and-i-come-to-this",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I come to this chamber with heavy hearts, and I will speak of grief before I speak of work.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-sta-mourning-core-i-come-from-home-state-and-like-every-american",
       "move": "salutation",
       "kind": "spoken",
@@ -6593,87 +6243,6 @@
       "voice": "polished",
       "bearing": "tender",
       "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-policy-core-i-thank-vice-president-vice-president-and-i-will",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and I will use my time to set out the work before this Congress, one task at a time.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-policy-core-with-vice-president-vice-president-here-i-come-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I come to give a practical account of where things stand and what we should do next.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-policy-core-i-greet-vice-president-vice-president-and-every-member",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object} and every member here, and I ask you to judge what follows by whether it works.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -6711,87 +6280,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-sta-crisis-core-i-m-glad-vice-president-vice-president-is-here",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm glad {vice-president-object} is here, and I'll be straight with you: this has been a hard year.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-crisis-core-with-vice-president-vice-president-here-i-m-not",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'm not going to dress anything up; folks are hurting, and you all know it.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-crisis-core-vice-president-vice-president-and-i-didn-t-come",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I didn't come here to sugarcoat things; we came to tell you where we stand and what we need from you.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-sta-crisis-core-let-s-start-with-hardest-because-that-s-what",
       "move": "salutation",
       "kind": "spoken",
@@ -6809,87 +6297,6 @@
       "voice": "plain",
       "bearing": "braced",
       "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-combative-core-thanks-to-vice-president-vice-president-and-i-ll",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}, and I'll skip the niceties, because too much got left undone this year.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-combative-core-with-vice-president-vice-president-here-i-m-going",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'm going to say what went wrong this year and who's been standing in the way.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-combative-core-i-see-vice-president-vice-president-and-i-see",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I see {vice-president-object}, and I see a lot of folks in this room who've spent the year saying no to fixes that work.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -6927,60 +6334,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-sta-hopeful-core-it-s-good-to-have-vice-president-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "it's good to have {vice-president-object} here, and it's good to come before you with some real reason for hope.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-hopeful-core-i-m-glad-to-see-vice-president-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm glad to see {vice-president-object}, and I'm glad to be here in a year when folks have something to look forward to.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-sta-hopeful-core-i-ve-got-good-news-on-best-and-i",
       "move": "salutation",
       "kind": "spoken",
@@ -6998,87 +6351,6 @@
       "voice": "plain",
       "bearing": "glad",
       "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-victory-core-thanks-to-vice-president-vice-president-who-s-been",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}, who's been in the work with me and deserves a share of the credit for what we've done.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-victory-core-with-vice-president-vice-president-here-i-get-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I get to stand up and tell you we did a lot of what we said we'd do.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-victory-core-vice-president-vice-president-and-i-are-proud-of",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I are proud of this record, and we're not done adding to it.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -7116,87 +6388,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-sta-mourning-core-i-m-glad-vice-president-vice-president-is-here",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm glad {vice-president-object} is here, but before anything else, I want us to think of the families who are grieving.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-mourning-core-with-vice-president-vice-president-here-i-ll-start",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'll start with the people we lost, not with the business of this building.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-mourning-core-vice-president-vice-president-and-i-came-here-with",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I came here with heavy hearts, and the work can wait a minute while we remember.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-sta-mourning-core-i-m-from-home-state-and-like-everybody-else",
       "move": "salutation",
       "kind": "spoken",
@@ -7214,87 +6405,6 @@
       "voice": "plain",
       "bearing": "tender",
       "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-policy-core-thanks-to-vice-president-vice-president-and-let-s",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}, and let's get to work, because there's a lot on the list.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-policy-core-with-vice-president-vice-president-here-i-ll-lay",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'll lay out where things stand and what I'm asking you to do next.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-policy-core-i-m-glad-vice-president-vice-president-is-here",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm glad {vice-president-object} is here, and I'm asking all of you to judge what I say by whether it actually works.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -7524,33 +6634,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-crisis-core-i-thank-vice-president-vice-president-for-standing-with",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object} for standing with me, and I come to this office in a hard time with no illusions about it.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-crisis-core-i-am-grateful-to-speaker-speaker-and-to-the",
       "move": "salutation",
       "kind": "spoken",
@@ -7567,33 +6650,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-crisis-core-with-vice-president-vice-president-here-i-take-up",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I take up this office knowing the country is under strain and owed an honest account.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
       "addressKind": "crisis",
       "piece": {
         "of": "opening-salutation",
@@ -7632,60 +6688,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-combative-core-i-thank-vice-president-vice-president-and-i-will",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I will not spend this moment on ceremony when so much has gone wrong.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-combative-core-with-vice-president-vice-president-here-i-come-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I come to this office ready to fight for the fixes that others have blocked.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-combative-core-i-take-this-office-because-the-country-is-tired",
       "move": "salutation",
       "kind": "spoken",
@@ -7713,33 +6715,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-hopeful-core-i-thank-vice-president-vice-president-and-i-begin",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I begin this term with real hope for what this country can do.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-speaker-speaker-and-the-members-of-congress",
       "move": "salutation",
       "kind": "spoken",
@@ -7751,33 +6726,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["speaker-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-hopeful-core-with-vice-president-vice-president-here-i-take-up",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I take up this office glad for the chance and hopeful about the years ahead.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -7821,33 +6769,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-victory-core-i-thank-vice-president-vice-president-who-has-shared",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, who has shared this work, and I am proud to continue it.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-victory-core-i-greet-speaker-speaker-and-the-congress-with-thanks",
       "move": "salutation",
       "kind": "spoken",
@@ -7859,33 +6780,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["speaker-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-victory-core-with-vice-president-vice-president-here-i-take-up",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I take up this office proud of the record we have built together.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -7929,33 +6823,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-mourning-core-i-thank-vice-president-vice-president-and-i-ask",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I ask that we begin not with celebration but with the families who are grieving.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-with-a-heavy-heart-because",
       "move": "salutation",
       "kind": "spoken",
@@ -7972,33 +6839,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-mourning-core-vice-president-vice-president-and-i-take-up-this",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I take up this work with heavy hearts, and with the people we lost foremost in our minds.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
       "addressKind": "mourning",
       "piece": {
         "of": "opening-salutation",
@@ -8027,33 +6867,6 @@
       "voice": "polished",
       "bearing": "tender",
       "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-policy-core-i-thank-vice-president-vice-president-and-i-will",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I will keep this address to the work in front of us and how we mean to do it.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -8118,60 +6931,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-policy-core-with-vice-president-vice-president-here-i-mean-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I mean to spend this moment on plans rather than promises.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-crisis-core-i-m-grateful-vice-president-vice-president-is-standing",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm grateful {vice-president-object} is standing with me, because I'm taking this job in a hard time and I won't pretend otherwise.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-crisis-core-thanks-to-speaker-speaker-and-everybody-in-congress-because",
       "move": "salutation",
       "kind": "spoken",
@@ -8188,33 +6947,6 @@
       ],
       "voice": "plain",
       "bearing": "solemn",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-crisis-core-with-vice-president-vice-president-here-i-ll-tell",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'll tell you straight: the country's under strain, and you deserve to hear it from me.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
       "addressKind": "crisis",
       "piece": {
         "of": "opening-salutation",
@@ -8253,33 +6985,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-combative-core-thanks-to-vice-president-vice-president-and-i-ll",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-object} is here, and I'll keep the ceremony short, because a lot has gone wrong and it needs fixing.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-combative-core-i-see-speaker-speaker-and-the-congress-and-i",
       "move": "salutation",
       "kind": "spoken",
@@ -8291,33 +6996,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["speaker-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-combative-core-with-vice-president-vice-president-here-i-m-coming",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'm coming into this job ready to fight for the fixes that keep getting blocked.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -8361,33 +7039,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-hopeful-core-thanks-to-vice-president-vice-president-and-i-ll",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-object} is here, and I'm starting this job feeling hopeful about where we can go.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-hopeful-core-i-m-glad-to-see-speaker-speaker-and-the",
       "move": "salutation",
       "kind": "spoken",
@@ -8399,33 +7050,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["speaker-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-hopeful-core-with-vice-president-vice-president-here-i-m-glad",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'm glad to get the chance, and I think the years ahead can be good ones.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -8469,33 +7093,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-victory-core-thanks-to-vice-president-vice-president-who-s-carried",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-object}, who's carried a lot of this load and should be as proud of the record as I am.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-victory-core-i-m-glad-to-see-speaker-speaker-and-the",
       "move": "salutation",
       "kind": "spoken",
@@ -8507,33 +7104,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["speaker-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-victory-core-with-vice-president-vice-president-here-i-m-proud",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'm proud of what we've built, and I'm ready to keep going.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -8577,33 +7147,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-mourning-core-thanks-to-vice-president-vice-president-but-before-anything",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-object} is here, but before anything else, let's think of the families who are grieving.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-mourning-core-i-see-speaker-speaker-and-everybody-here-and-i",
       "move": "salutation",
       "kind": "spoken",
@@ -8620,33 +7163,6 @@
       ],
       "voice": "plain",
       "bearing": "solemn",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-mourning-core-vice-president-vice-president-and-i-are-starting-this",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I are starting this job with heavy hearts and with the people we lost on our minds.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
       "addressKind": "mourning",
       "piece": {
         "of": "opening-salutation",
@@ -8723,33 +7239,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["speaker"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-policy-core-with-vice-president-vice-president-here-i-d-rather",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, I'd rather spend this time on plans than on promises.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -35251,32 +33740,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-sta-crisis-core-i-thank-vice-president-vice-president-and-i-bring",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and I bring hard news tonight.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-sta-crisis-core-families-are-struggling-with-hardest-and-this-congress-has",
       "move": "salutation",
       "kind": "spoken",
@@ -35293,32 +33756,6 @@
       ],
       "voice": "polished",
       "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-combative-core-i-greet-vice-president-vice-president-and-then-i",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and then I turn to what failed.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "combative",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -35355,32 +33792,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-sta-hopeful-core-i-thank-vice-president-vice-president-and-i-bring",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and I bring a good report tonight.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-sta-hopeful-core-families-have-seen-progress-on-best-and-there-is",
       "move": "salutation",
       "kind": "spoken",
@@ -35397,32 +33808,6 @@
       ],
       "voice": "polished",
       "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-victory-core-vice-president-vice-president-and-i-have-a-record",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I have a record worth reporting tonight.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "victory",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -35459,32 +33844,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-sta-mourning-core-i-greet-vice-president-vice-president-and-my-thoughts",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and my thoughts are with the grieving.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-sta-mourning-core-in-home-state-and-everywhere-else-families-are-grieving",
       "move": "salutation",
       "kind": "spoken",
@@ -35501,32 +33860,6 @@
       ],
       "voice": "polished",
       "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sta-policy-core-i-thank-vice-president-vice-president-and-i-turn",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I thank {vice-president-object}, and I turn straight to the tasks.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "policy",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -35563,32 +33896,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-sta-crisis-core-thanks-to-vice-president-vice-president-and-i-wish",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}, and I wish I had better news.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-sta-crisis-core-folks-are-worried-sick-about-hardest-and-they-ve",
       "move": "salutation",
       "kind": "spoken",
@@ -35605,32 +33912,6 @@
       ],
       "voice": "plain",
       "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-combative-core-thanks-to-vice-president-vice-president-and-now-let",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}, and now let's talk about what broke.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "combative",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -35667,32 +33948,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-sta-hopeful-core-glad-you-re-here-vice-president-vice-president-because",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "glad you're here, {vice-president}, because I've got good news tonight.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-sta-hopeful-core-things-are-looking-up-on-best-and-folks-can",
       "move": "salutation",
       "kind": "spoken",
@@ -35709,32 +33964,6 @@
       ],
       "voice": "plain",
       "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-victory-core-vice-president-vice-president-and-i-get-to-bring",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I get to bring good news tonight.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "victory",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -35771,32 +34000,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-sta-mourning-core-thanks-to-vice-president-vice-president-but-first-let",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}, but first, let's remember who we lost.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-sta-mourning-core-from-home-state-to-every-other-state-folks-are",
       "move": "salutation",
       "kind": "spoken",
@@ -35813,32 +34016,6 @@
       ],
       "voice": "plain",
       "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sta-policy-core-thanks-to-vice-president-vice-president-i-ve-got",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks to {vice-president-object}; I've got a list, so let's start.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-union",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "policy",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -35917,32 +34094,6 @@
       ],
       "voice": "polished",
       "addressKind": "crisis",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-combative-core-i-thank-vice-president-vice-president-and-take-this",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object} and take this office ready to fight.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "combative",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -36083,32 +34234,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-mourning-core-i-thank-vice-president-vice-president-and-i-ask-x",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I ask for a moment of silence.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-mourning-core-i-greet-speaker-speaker-quietly-because-so-many-families",
       "move": "salutation",
       "kind": "spoken",
@@ -36239,32 +34364,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-combative-core-thanks-to-vice-president-vice-president-and-i-m",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-object} is here, and I'm ready to fight for you.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "combative",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-combative-core-the-days-of-shrugging-at-hardest-are-over",
       "move": "salutation",
       "kind": "spoken",
@@ -36359,32 +34458,6 @@
       ],
       "voice": "plain",
       "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-mourning-core-with-vice-president-vice-president-here-let-s-take",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "with {vice-president-object} here, let's take a minute for who we lost.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "mourning",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -45367,58 +43440,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-hopeful-core-vice-president-vice-president-and-i-are-ready-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president} and I are ready to begin, and glad to be here.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-victory-core-i-thank-vice-president-vice-president-and-i-am",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I am glad to keep going.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "victory",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-victory-core-the-progress-on-best-gives-this-second-term-a",
       "move": "salutation",
       "kind": "spoken",
@@ -45487,32 +43508,6 @@
       ],
       "voice": "polished",
       "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.polished-ina-policy-core-i-thank-vice-president-vice-president-and-i-will-x",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, and I will be brief and specific.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "policy",
       "piece": {
         "of": "opening-salutation",
         "part": "core",
@@ -45612,32 +43607,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["home-state"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "mourning",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-mourning-core-i-m-thankful-vice-president-vice-president-is-here",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm glad {vice-president-object} is here, because nobody should grieve alone.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -50067,32 +48036,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-hopeful-core-i-thank-vice-president-vice-president-who-will-work",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I welcome {vice-president-object}, who will work with me, and I am glad for the chance to serve.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-am-hopeful-about-the-work-i-will-share",
       "move": "salutation",
       "kind": "spoken",
@@ -50156,32 +48099,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["home-state"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-hopeful-core-i-ve-got-vice-president-vice-president-working-with",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I've got {vice-president-object} working with me, and I'm glad about that.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -63975,32 +61892,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-hopeful-core-i-am-grateful-to-vice-president-vice-president-and",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I am grateful to {vice-president-object} and hopeful for the country we serve.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "polished",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.polished-ina-hopeful-core-i-greet-this-congress-and-speaker-speaker-with-high",
       "move": "salutation",
       "kind": "spoken",
@@ -67627,32 +65518,6 @@
           "role": "salutation",
           "choice": "salutation",
           "requiresFacts": ["home-state"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-hopeful-core-thanks-for-coming-all-of-you-from-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "thanks for coming, all of you, from {vice-president-object} on down.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
           "tie": "record"
         }
       ],
@@ -94537,131 +92402,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.salutation.polished-inaugural-members-of-congress-my-fellow-citizens-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-addressed}, members of Congress, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.salutation.polished-inaugural-distinguished-guests-and-my-fellow-americans-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-addressed}, distinguished guests, and my fellow Americans.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.salutation.polished-inaugural-honored-guests-fellow-citizens-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-addressed}, honored guests, fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.salutation.plain-inaugural-folks-here-and-folks-back-home-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-addressed}, folks here, and folks back home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.salutation.plain-inaugural-and-everybody-watching-at-home-vice-president",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-addressed}, and everybody watching at home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.polished-inaugural-i-will-sign-a-repeal-of-the-day-stance-against-law-in-force-about",
       "move": "ask",
       "kind": "spoken",
@@ -97784,37 +95524,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.close.polished-state-of-the-state-thank-you-realm-bare-and-good-night",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you, {realm-bare}, and good night.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["realm-bare"],
-          "tie": "frame",
-          "onlyWhen": ["evening"]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["realm-bare"],
-          "tie": "frame",
-          "onlyWhen": ["evening"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder D (Claude Code), by the words lead's rule 41",
-      "date": "2026-11-14"
-    },
-    {
       "key": "opening-speech.close.polished-state-of-the-state-on-theme-short-you-have-my-word-thank-you-realm-bare",
       "move": "close",
       "kind": "spoken",
@@ -98022,37 +95731,6 @@
           "choice": "close",
           "requiresFacts": ["first-after", "speaker-addressed"],
           "tie": "law",
-          "onlyWhen": ["evening"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder D (Claude Code), by the words lead's rule 41",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.close.plain-state-of-the-state-thanks-realm-bare-and-good-night",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thanks, {realm-bare}, and good night.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["realm-bare"],
-          "tie": "frame",
-          "onlyWhen": ["evening"]
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["realm-bare"],
-          "tie": "frame",
           "onlyWhen": ["evening"]
         }
       ],
@@ -112795,35 +110473,6 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-thank-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["realm-bare"],
-          "tie": "frame"
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["realm-bare"],
-          "tie": "frame"
-        }
-      ],
-      "voice": ["plain", "polished"],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
-      "date": "2026-11-16"
-    },
-    {
       "key": "opening-speech.close.ld-you-know-what-i-m-asking-for-on-so-hold-me-to-it",
       "move": "close",
       "kind": "spoken",
@@ -118099,10 +115748,10 @@
       "date": "2026-11-17"
     },
     {
-      "key": "opening-speech.to-states.plain-unit3-prior-senator-i-represented-prior-state-in-the-senate-call-me",
+      "key": "opening-speech.to-states.plain-unit3-prior-senator-i-represented-prior-state-in-the-senate-my-door-stays-open",
       "move": "to-states",
       "kind": "spoken",
-      "text": "I represented {prior-state} in the Senate. Call me.",
+      "text": "I represented {prior-state} in the Senate, and my door stays open to the states.",
       "uses": [
         {
           "move": "to-states",
@@ -118656,6 +116305,128 @@
       "voice": "plain",
       "origin": "authored",
       "author": "Claude Opus 5.5 (Story builder, addresses unit 4; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.polished-lead-that-is-where-i-stand-on-last-point-and",
+      "move": "close",
+      "kind": "spoken",
+      "text": "That is where I stand on {last-point}, and that is where I will be when you need me. Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["last-point", "realm-bare"],
+          "tie": "record"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["last-point", "realm-bare"],
+          "tie": "record"
+        }
+      ],
+      "voice": "polished",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; written by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.close.plain-lead-that-s-where-i-stand-on-last-point-thank",
+      "move": "close",
+      "kind": "spoken",
+      "text": "That's where I stand on {last-point}. Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["last-point", "realm-bare"],
+          "tie": "record"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["last-point", "realm-bare"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 4; written by the Story lead Nov 17)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-senator-i-served-prior-state-in-the-senate-and-i-ll-answer",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "I served {prior-state} in the Senate, and I'll answer your calls.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "opening-speech.to-states.plain-unit3-prior-senator-my-senate-years-were-spent-on-prior-state",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "My Senate years went to {prior-state}, and I still take your calls.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        },
+        {
+          "move": "to-states",
+          "subject": "state-of-the-union",
+          "role": "to-states",
+          "choice": "to-states",
+          "requiresFacts": ["prior-senator", "prior-state"],
+          "tie": "record"
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-to-states",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (Story builder, addresses unit 3; draft for the Story lead)",
       "date": "2026-11-17"
     }
   ]

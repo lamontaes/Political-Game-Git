@@ -2438,6 +2438,18 @@ export function planSpeech(
       ...(asks.length
         ? {
             asked: fact("yes", cited),
+            // No ask for a new law: the close says where the speaker stands on
+            // the final point instead (the Story lead's ruling, Nov 17: a
+            // bare "Thank you, {realm-bare}." says nothing).
+            ...(!(first.stance > P.zero && !first.law.inForce) &&
+            questionAbout(pointStands.at(-P.one)!.question)
+              ? {
+                  "last-point": fact(
+                    questionAbout(pointStands.at(-P.one)!.question)!,
+                    `question:${pointStands.at(-P.one)!.question}`,
+                  ),
+                }
+              : {}),
             // An ask for a law not yet in force: a close may say "send me"
             // or "I'll sign it" only of that (unit 4).
             ...(first.stance > P.zero && !first.law.inForce
