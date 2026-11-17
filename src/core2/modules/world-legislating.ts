@@ -182,13 +182,8 @@ function questionForLevel(
       : levels.includes(level);
   // One label per rule at a level: a question this level reads as another
   // platform question's rule is that question's label here, not a decision.
-  return scoped && !labelOfAnotherAtLevel(question, level, platform());
+  return scoped && !labelOfAnotherAtLevel(question, level);
 }
-
-/** The platform questions as a set, built on first use: a load-order cycle can leave the list unset while modules load. */
-let platformSet: ReadonlySet<string> | undefined;
-const platform = (): ReadonlySet<string> =>
-  (platformSet ??= new Set(PLATFORM_QUESTIONS));
 
 /**
  * Whether the government an office belongs to may decide a policy question

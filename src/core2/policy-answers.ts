@@ -3,6 +3,7 @@
  * (`data/research/laws/starting-law-2026/`): read by the laws engine as law
  * rows in force at the opening, and by the legislature for authority.
  */
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import lawAgricultureNaturalResources from "../../data/research/laws/starting-law-2026/agriculture-natural-resources.json" with { type: "json" };
 import lawBusinessCommerce from "../../data/research/laws/starting-law-2026/business-commerce.json" with { type: "json" };
@@ -103,13 +104,17 @@ export function policySeriesAtLevel(question: string, level: string): string {
  * then it is that question's label at this level, not a decision of its own
  * (the states' wage question is Congress's federal wage question at the
  * federal level). One label per rule at each level; the data decides, never a
- * list of names. `platform` is the set of platform questions.
+ * list of names.
  */
 export function labelOfAnotherAtLevel(
   question: string,
   level: string,
-  platform: ReadonlySet<string>,
 ): boolean {
   const series = policySeriesAtLevel(question, level);
-  return series !== question && platform.has(series);
+  return series !== question && platform().has(series);
 }
+
+/** The platform questions as a set, built on first use: a load-order cycle can leave the list unset while modules load. */
+let platformSet: ReadonlySet<string> | undefined;
+const platform = (): ReadonlySet<string> =>
+  (platformSet ??= new Set(PLATFORM_QUESTIONS));

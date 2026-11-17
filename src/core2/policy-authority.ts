@@ -1,5 +1,4 @@
 /** Policy authority from the shared research catalog and current state laws. */
-import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { labelOfAnotherAtLevel, policySeriesAtLevel } from "./policy-answers";
 import type { GovernmentLevel } from "./government-level";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
@@ -61,10 +60,6 @@ function stateLaw(api: CoreAPI, question: string): LawRowInput | undefined {
 }
 
 /** A recorded unknown blocks introduction; it is never silently treated as a grant. */
-/** The platform questions as a set, built on first use (a load-order cycle can leave the list unset while modules load). */
-let platformSet: ReadonlySet<string> | undefined;
-const platform = (): ReadonlySet<string> =>
-  (platformSet ??= new Set(PLATFORM_QUESTIONS));
 
 export function policyAuthority(
   api: CoreAPI,
@@ -109,7 +104,7 @@ export function policyAuthority(
   // One label per rule at a level: where this level reads the question as
   // another platform question's rule, it decides that rule under that label
   // (the states' wage question is Congress's federal wage question).
-  if (labelOfAnotherAtLevel(question, level, platform()))
+  if (labelOfAnotherAtLevel(question, level))
     return result(
       false,
       "level-lacks-power",
