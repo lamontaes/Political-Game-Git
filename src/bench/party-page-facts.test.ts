@@ -22,14 +22,17 @@ import { policyNames } from "./words";
 import { drawPlace } from "../../scripts/core2-year/place";
 
 const seed = process.env.PARTY_PAGE_SEED || randomBytes(8).toString("hex");
-const DRAWS = 3;
+/** Places with parties to check, and the most places drawn to find them. */
+const CHECKED = 3;
+const MOST_DRAWS = 8;
 
 describe(`the Parties page holds each party's records (seed ${seed})`, () => {
   it("lists chair, members, next meeting and positions from the records", () => {
     setBookkeeping(false);
     const named = policyNames();
     const report: string[] = [];
-    for (let at = 0; at < DRAWS; at += 1) {
+    const passedOver: string[] = [];
+    for (let at = 0; report.length < CHECKED && at < MOST_DRAWS; at += 1) {
       const place = drawPlace(at ? `${seed}:${at}` : seed, "party-page");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -47,7 +50,17 @@ describe(`the Parties page holds each party's records (seed ${seed})`, () => {
         }
       >;
       const parties = partiesHere(api);
-      expect(parties.length, `${where}: parties here`).toBeGreaterThan(0);
+      // A place whose elections are nonpartisan keeps no party (openParties:
+      // "tables exist even where elections are nonpartisan"), and its page has
+      // nothing to list: it is passed over by name, not checked as a party page.
+      if (!parties.length) {
+        expect(
+          Object.keys(facts),
+          `${where}: party pages with no party`,
+        ).toEqual([]);
+        passedOver.push(`${where}: no party keeps records here`);
+        continue;
+      }
       for (const party of parties) {
         const row = facts[party.name.trim().toLowerCase()];
         expect(row, `${where}: ${party.name} has a page`).toBeDefined();
@@ -77,6 +90,12 @@ describe(`the Parties page holds each party's records (seed ${seed})`, () => {
         `${where}: ${parties.length} parties, next meeting ${nextPartyMeeting(api)}`,
       );
     }
-    console.log(report.join("\n"));
+    process.stdout.write(
+      `party-page: checked ${report.join("; ")}; passed over: ${passedOver.join("; ") || "none"}\n`,
+    );
+    if (report.length < CHECKED)
+      throw new Error(
+        `Only ${report.length} of ${CHECKED} drawn places keep parties (seed ${seed}); passed over: ${passedOver.join("; ")}`,
+      );
   }, 600_000);
 });
