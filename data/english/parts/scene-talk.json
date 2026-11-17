@@ -188050,32 +188050,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.bill-is-still-bill-stage-and-you-said-you-d-look",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "{bill} is still {bill-stage}, and you said you'd look.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-before", "donor-bill", "bill-stage"],
-          "after": "stall"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "confront",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-confront.i-m-not-threatening-anyone-i-m-telling-you-how-bill-looks-from-here",
       "move": "follow-confront",
       "kind": "spoken",
@@ -188808,7 +188782,7 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "purpose": "donor-ask",
+          "purpose": "donor-ask.large",
           "key": "favor-asked",
           "requiresFacts": ["gift-biggest"],
           "excludesFacts": ["kin", "tie-friend"]
@@ -188966,32 +188940,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-said-bill-was-moving-and-it-isn-t",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry. I said {bill} was moving, and it isn't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-bill", "lied"],
-          "after": "confront"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.good-i-ll-tell-the-others-where-bill-stands-with-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -189084,32 +189032,6 @@
           "key": "favor-asked",
           "requiresFacts": ["gift-biggest", "donor-bill"],
           "after": "stall"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable), drafted by Sonnet",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.give-me-a-reason-i-can-take-back-on-bill",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Give me a reason I can take back on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "donor-ask.large",
-          "key": "favor-asked",
-          "requiresFacts": ["gift-biggest", "donor-bill"],
-          "after": "decline"
         }
       ],
       "bearing": "braced",

@@ -553,7 +553,7 @@ const variants = () => {
       `the biggest givers, read as large (${row.donorId})`,
     );
   // The biggest giver is asked about again and again, so each of the variant's answers is said.
-  for (let n = 1; n <= 6 && rows[0]; n += 1)
+  for (let n = 1; n <= 10 && rows[0]; n += 1)
     compose(
       copyOf(gift, { donorId: rows[0].donorId, facts: size(900000000, 0.9) }),
       `the biggest giver, read as large again (${n})`,
