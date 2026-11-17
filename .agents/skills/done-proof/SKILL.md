@@ -66,7 +66,7 @@ The Long game lane splits the checks first, and builds the rule-1 guard in the s
 
 - A fast set runs on every push: build, typecheck, guards, and the tests for changed files.
 - A heavy set runs on a schedule and before the CTO merges: the full suite and the 20-year drawn-place run.
-- The full run must finish. Today it is cancelled at 45 minutes.
+- The full run must finish. Today it is canceled at 45 minutes.
 
 The fast set is `.github/workflows/validate.yml`; a large change's test files are dealt over up to six unit jobs. The heavy set is `.github/workflows/heavy.yml`: nightly on main, and by hand on a branch before a merge (Actions, "Heavy checks", "Run workflow", pick the branch). Its summary lists the slowest test files. The rule-1 guard is `check-changes` (`docs/design/guards.md`); run `npm run guards -- check-changes` before a push. Your role's skill still names the gate you run (`train-gate`, `checker`).
 
