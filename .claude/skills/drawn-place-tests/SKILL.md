@@ -88,6 +88,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
 - Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
 - Nov 17, 02:21Z (national-events, disaster-aid): tests counted disasters in fixed windows tied to real dates. Cause: disasters now come from each world's own risks. Stage one through the world's own hazard, or play until one occurs, and fail on zero.
+- Nov 17, 08:25Z (campaign-platform-played): a test drawn at a new place failed, and the draw looked guilty. Cause: the test is left out of the normal run (`vite.config.ts`, `npm run test:calibration`) and was already red on main at its own pinned town. Before blaming a draw, run main's unchanged test once.
 - Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
 
 ## More in this folder
