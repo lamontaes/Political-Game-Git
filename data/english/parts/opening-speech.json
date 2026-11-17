@@ -115253,7 +115253,7 @@
       "key": "opening-speech.close.polished-unit4-fed-the-first-thing-i-will-ask-of-this-congress",
       "move": "close",
       "kind": "spoken",
-      "text": "The first thing I will ask of this Congress is {asked-about}, and I will be watching every vote. God bless the United States of America.",
+      "text": "The first thing I will ask of this Congress is {asked-about}. I will be watching every vote, and may God keep this country.",
       "uses": [
         {
           "move": "close",
