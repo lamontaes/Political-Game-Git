@@ -22,7 +22,7 @@ checked:
 **What.** Every world opens with the researched 2026 answers to the 73 policy questions as its law in force, and each law's past roll call is padded with generated votes, or its date moved back, so that every real law passes.
 Seen: `laws.ts:230` loads the research's answers; `past-laws.ts:185` generates the missing votes and `:535` moves the date.
 
-**Cause.** Found in code: `openLaws` reads POLICY_QUESTIONS' answers for the state and the nation; `past-laws.ts` builds each law's enactment from the members serving now and fills the rest so the real law passes.
+**Cause.** Found in code: `src/core2/modules/laws.ts` `openLaws` reads POLICY_QUESTIONS' answers for the state and the nation; `past-laws.ts` builds each law's enactment from the members serving now and fills the rest so the real law passes.
 
 **Fix.**
 
