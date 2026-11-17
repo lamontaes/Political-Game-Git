@@ -20,7 +20,7 @@ source: Pins lane, Nov 17 (the CTO's LIFT THE PINS family 18 on issue 9747; plan
 
 **What.** Four pins held lawmakers and voters to 2026 figures in every world. A member's sense of the country read the share of real states with each law (`officials-roster.ts`); a state's pull toward its neighbors read their starting answers, though neighbors now legislate (`modules/world-legislating.ts`); public opinion was the published poll moved once per world and never again (`campaign-views.ts`); and a life stake was measured against the nation's real shares (`life-stake-rule.ts`). Each now reads the world's own laws, people and households, so two worlds can disagree. Seen: dev mode's Trace box opens `consensus:<question>` and the month's opinion row with their inputs.
 
-**Cause.** Found in code: src/core2/officials-roster.ts memberSupportAt, src/core2/modules/world-legislating.ts neighborPull, src/core2/campaign-views.ts supportShare and src/core2/life-stake-rule.ts stakeShift each read a published table.
+**Cause.** Found in code: src/core2/officials-roster.ts `memberSupportAt`, src/core2/modules/world-legislating.ts `neighborPull`, src/core2/campaign-views.ts `supportShare` and src/core2/life-stake-rule.ts `stakeShift` each read a published table.
 
 **Fix.** Consensus is the world's own share of states with the law (and Congress's last roll call), kept as a `consensus:<question>` row; neighbors read `answerIn`; opinion is the monthly mean of the world's people's own stances, the poll giving only a lean's strength (CTO 04:08Z); stake references are the world's own shares over the same people, kept for the month.
 
