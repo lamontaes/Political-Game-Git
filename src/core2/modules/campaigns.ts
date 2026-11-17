@@ -217,7 +217,24 @@ export interface CampaignRow {
     readonly outletId: string;
     readonly full: number;
     readonly counted: number;
+    /** What the buy paid, and the outlet's own price of one contact that day (press.ts `adContactPriceMinor`), for dev mode's trace. */
+    readonly paidMinor?: number;
+    readonly contactPriceMinor?: number;
   }[];
+  /**
+   * What the last turn's money followed, for dev mode's trace: the day, what
+   * a dollar was worth through each kind of reach (`channelWeights`), the
+   * room each had (`channelRoom`), what each got, and the case for showing a
+   * rival's record (`attackCase`) with the rival it was made against.
+   */
+  readonly lastSplit?: {
+    readonly date: string;
+    readonly worth: Readonly<Record<string, number>>;
+    readonly room: Readonly<Record<string, number>>;
+    readonly parts: Readonly<Record<string, number>>;
+    readonly attackCase?: number;
+    readonly attackFilingId?: string;
+  };
   /** The share of an event the town has been owed but not yet had (`heldInTown`), 0 up to one. */
   readonly townEventCredit?: number;
   /** The same for the interviews the town's outlets ask of the candidate (`interviewHeldInTown`). */
@@ -290,6 +307,16 @@ export interface GiftRow {
    * read per person (total over donors).
    */
   readonly donors?: number;
+  /**
+   * For an `outside:` row, the town's own like-minded adults its last gift
+   * was read from (`townGivingSample`): how many, how many of them would
+   * give, and their mean gift. For dev mode's trace.
+   */
+  readonly sample?: {
+    readonly asked: number;
+    readonly givers: number;
+    readonly eachMinor: number;
+  };
 }
 
 export interface ImpressionRow {
@@ -4620,6 +4647,11 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       totalMinor: given + paid,
       lastDate: api.state.date,
       donors: (giftOf(api, filingId, donorId)?.donors ?? 0) + donors,
+      sample: {
+        asked: sample.asked,
+        givers: sample.givers,
+        eachMinor: Math.round(sample.eachMinor),
+      },
     } satisfies GiftRow as unknown as ModuleRow);
     total += paid;
   }
@@ -5680,6 +5712,8 @@ export function runAd(
           outletId: media,
           full: viewers.length,
           counted: countedViewers,
+          paidMinor: amount,
+          contactPriceMinor: Math.round(adContactPrice(api)),
         },
       ],
     });
@@ -8398,6 +8432,10 @@ export function campaignTurn(
   else if (over > 0 && shares.mail > 0 && parts.mail < room.mail)
     parts.mail = Math.min(room.mail, parts.mail + over);
   const part = (k: keyof typeof shares) => parts[k];
+  save(api, {
+    ...campaignFor(api, filingId),
+    lastSplit: { date: api.state.date, worth, room, parts },
+  });
   let adReached = 0;
   let mailReached = 0;
   let eventAudience = 0;
@@ -8423,6 +8461,17 @@ export function campaignTurn(
           ),
         )
       : 0;
+    if (target) {
+      const row = campaignFor(api, filingId);
+      save(api, {
+        ...row,
+        lastSplit: {
+          ...row.lastSplit!,
+          attackCase: attackShare,
+          attackFilingId: target.filingId,
+        },
+      });
+    }
     const attackMinor = Math.floor(part("ad") * attackShare);
     if (target && attackMinor > 0) {
       const shown = runAd(api, {
