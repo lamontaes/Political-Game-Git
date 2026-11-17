@@ -180409,7 +180409,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["respond-in"]
+          "requiresFacts": ["respond-in"],
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -180438,7 +180439,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["respond-in"]
+          "requiresFacts": ["respond-in"],
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -181499,7 +181501,8 @@
           "step": "close",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["respond-in"]
+          "requiresFacts": ["respond-in"],
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -181528,7 +181531,8 @@
           "step": "close",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["respond-in"]
+          "requiresFacts": ["respond-in"],
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -181558,7 +181562,8 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-work"],
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["declined"]
         },
         {
           "subject": "scene",
@@ -181567,7 +181572,8 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-wage"],
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -181596,7 +181602,8 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["problem-work"]
+          "requiresFacts": ["problem-work"],
+          "excludesFacts": ["declined"]
         },
         {
           "subject": "scene",
@@ -181604,7 +181611,8 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["problem-wage"]
+          "requiresFacts": ["problem-wage"],
+          "excludesFacts": ["declined"]
         },
         {
           "subject": "scene",
@@ -181613,7 +181621,8 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-sick"],
-          "after": "leave"
+          "after": "leave",
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -181643,7 +181652,8 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-work"],
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["declined"]
         },
         {
           "subject": "scene",
@@ -181652,7 +181662,8 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-wage"],
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -181682,7 +181693,8 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-work"],
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["declined"]
         },
         {
           "subject": "scene",
@@ -181691,7 +181703,8 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-wage"],
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -189897,7 +189910,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["other-cases"],
-          "excludesFacts": ["problem-sick"]
+          "excludesFacts": ["problem-sick"],
+          "setsFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -189927,7 +189941,8 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["other-cases"],
-          "excludesFacts": ["problem-sick"]
+          "excludesFacts": ["problem-sick"],
+          "setsFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -189957,7 +189972,8 @@
           "move": "decline",
           "role": "asked",
           "onlyWhen": ["respond-in"],
-          "excludesFacts": ["problem-sick"]
+          "excludesFacts": ["problem-sick"],
+          "setsFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -190810,7 +190826,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["problem-sick"]
+          "requiresFacts": ["problem-sick"],
+          "setsFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -190839,7 +190856,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["problem-sick"]
+          "requiresFacts": ["problem-sick"],
+          "setsFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -190868,7 +190886,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["problem-sick"]
+          "requiresFacts": ["problem-sick"],
+          "setsFacts": ["declined"]
         }
       ],
       "origin": "authored",
@@ -191058,7 +191077,7 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-sick"],
-          "after": "answer"
+          "after": "scene-talk.reply-answer.case-help-sick-5"
         }
       ],
       "origin": "authored",
