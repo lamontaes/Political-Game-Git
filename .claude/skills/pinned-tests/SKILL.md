@@ -90,3 +90,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 ## Playing a controlled person through days
 
 `advanceCore` refuses a controlled person. To play days for the player in a test, build the world with `buildBenchWorld`, wrap the person in `BenchPlayer`, `select` them, and loop: on a `stop` packet vote their floor holds with `voteOnStateFloor(api, id, bill, "own")` and `resume`, on a `choice` packet `resume` with `own-choice`, otherwise `advance("day")`. `src/core2/bill-floor-date-holds.test.ts` is the worked case (Holiday Lakes, Texas, seed aa11, about a minute); a fix test should be run once with the fix stashed to see it fail where the defect was.
+
+## A lost-race test skips what the count seated
+
+In an at-large race one winner is named but several are seated; a filer inside the seats lost nothing. A test that treats every filer but `winnerId` as a loser plays a "lost the race" scene for a seated candidate (Walled Lake MI, losscan:25: 215 votes against a last seat of 200). Never skip them to get green: pin a place where one seat is filled for the gate, and have the played-file script name each seated filer (the result record's `outIds` lists who missed the cut) and print the seats, the candidate's votes and the last seat's votes so a reader can check the figure. A hand-set gift or a replay under other world seeds is not a played scene: a statement only a replay shows is deleted.

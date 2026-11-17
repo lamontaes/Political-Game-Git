@@ -4588,6 +4588,78 @@
           }
         }
       }
+    },
+    "family-loss": {
+      "variants": {
+        "plain": {
+          "purpose": "family-loss",
+          "base": 0.3
+        },
+        "small": {
+          "purpose": "family-loss.small",
+          "base": -0.35,
+          "onlyFor": {
+            "fact": "stake",
+            "is": "gave"
+          },
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.0,
+              "low": true
+            }
+          ],
+          "arc": {
+            "state": "comfort",
+            "replies": ["thank", "blame", "deflect", "promise"],
+            "follow": {
+              "thank": ["thank"],
+              "blame": ["comfort", "disagree"],
+              "deflect": ["plea"],
+              "promise": ["ask", "thank"],
+              "tell": ["comfort"]
+            },
+            "again": {
+              "comfort": ["thank", "tell", "promise"],
+              "disagree": ["thank", "tell"],
+              "plea": ["tell", "thank", "deflect"],
+              "ask": ["tell", "promise"]
+            },
+            "endings": [
+              {
+                "id": "together",
+                "label": "Together",
+                "keeps": "none",
+                "when": {
+                  "reply": ["thank", "tell", "promise"]
+                }
+              },
+              {
+                "id": "blame",
+                "label": "Looking for blame",
+                "keeps": "none",
+                "when": {
+                  "reply": ["blame"]
+                }
+              },
+              {
+                "id": "closed-off",
+                "label": "Closed off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
     }
   }
 }

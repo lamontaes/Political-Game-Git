@@ -54,8 +54,13 @@ const typeOf = (family: string) =>
 // asks the resident for a signature or a vote) play the asking tree, composed
 // with the resident's standing in door-variants.test.ts.
 const DOOR_FAMILIES = ["ask-signature", "ask-support"];
+// A family whose variants share one arc and differ in the words the record
+// asks for (family-loss: the gift's size); its variants are played with
+// the lost race's own facts in family-loss-stake-scene.test.ts.
+const WORDING_FAMILIES = ["family-loss"];
 const ASKED_OF_PLAYER = Object.entries(FAMILIES).filter(
-  ([family]) => !DOOR_FAMILIES.includes(family),
+  ([family]) =>
+    !DOOR_FAMILIES.includes(family) && !WORDING_FAMILIES.includes(family),
 );
 const played = (family: string, variant: string): PurposeType => {
   const type = typeOf(family);
@@ -145,17 +150,19 @@ const helpFacts: Record<string, Fact> = {
   "respond-in": fact("in seven days"),
 };
 const factsOf = (family: string) =>
-  family === "donor-ask"
-    ? donorFacts
-    : family === "press-comment"
-      ? pressFacts
-      : family === "conflict-accuse"
-        ? accuseFacts
-        : family === "ask-vote"
-          ? voteFacts
-          : family === "constituent-help"
-            ? helpFacts
-            : generic;
+  family === "family-loss"
+    ? lossFacts
+    : family === "donor-ask"
+      ? donorFacts
+      : family === "press-comment"
+        ? pressFacts
+        : family === "conflict-accuse"
+          ? accuseFacts
+          : family === "ask-vote"
+            ? voteFacts
+            : family === "constituent-help"
+              ? helpFacts
+              : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;

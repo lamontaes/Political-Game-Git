@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 973,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2360,19 +2360,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "17135bzf7zz": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
-        "scene-talk.reply-blame.i-should-have-asked-for-more-help-sooner-margin-is-not-much-to-lose-by",
-        "scene-talk.reply-deflect.not-tonight-ask-me-in-the-morning",
-        "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
-        "scene-talk.reply-tell.we-didnt-win",
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
-        "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day"
-      ],
-      "why": "'Couldn't have run it without you' and 'give me a day' repeat the first gave-your-time and not-tonight options, leaving only 'We didn't win' new."
-    },
     "17d14dl6ro9": {
       "keys": [
         "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
@@ -4372,5 +4359,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "2god6htn9kw"
 }

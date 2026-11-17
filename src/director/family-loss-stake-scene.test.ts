@@ -1,148 +1,76 @@
-import { randomBytes } from "node:crypto";
-import { expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
-import { setBookkeeping } from "../core2/bookkeeping";
-import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
-import {
-  campaignFor,
-  contributeOwnMoney,
-  enlistVolunteer,
-} from "../core2/modules/campaigns";
+import { appendFileSync, writeFileSync } from "node:fs";
+import { beforeAll, expect, it } from "vitest";
+import { playLife, type Presses } from "../../scripts/words/family-loss-life";
 import {
   CANDIDACY_MODULE_ID,
   candidacyReasons,
 } from "../core2/modules/candidacy";
-import {
-  ELECTIONS_MODULE_ID,
-  fileCandidacy,
-  openContests,
-  type ContestRow,
-  type FilingRow,
-} from "../core2/modules/elections";
-import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import { familyFactsOf } from "../core2/modules/people";
 import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
+import type { TreeNode } from "./scene-talk";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The talk at home after a lost race (scenes-from-life, household-after-the-loss):
-// staged only for a relative who put work or money into the race, opening on what
-// they put in and how close the count was, and what the player says about running
-// again is kept where the candidacy engine reads it for the next contest. Drawn
-// places and a fresh seed each run; the place and seed are in every message.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 24;
-const YEAR = 365;
+// staged only for a relative who put work or money into the race, and what the
+// player says about running again is kept where the candidacy engine reads it
+// for the next contest. The count is said once, in the narration (owner, Nov 14:
+// people do not say the figure).
+// Played lives, never staged: a new adult is the player, files through the
+// bench's own filing and presses only what the campaign page offers
+// (scripts/words/family-loss-life.ts), and the scene is read for that player
+// from the world's own count. The lives are pinned by seed (each is about a
+// minute and a half); the place is drawn from the seed.
+//
+// Re-pinned on the merged head (the old pin needs the CTO's line, done-proof):
+// the first pin, Ili'ili American Samoa at "losslife:5", filed for the
+// territory's at-large seat in a special election of 2025-05-13. Main's
+// later changes to special elections and the opening calendar (most likely the
+// empty-ballot special, #9741, or the vacancy and 18-or-older folds of Nov 16)
+// stopped it: the territory holds no race the player can file for within the first year (its
+// next filings open in 2026): "no race to file for (0 open)". The life
+// below loses a race on the merged head: Shiloh GA, a relative whose money
+// went in. The seed is one the Words read drew, not one found by a search for a
+// result. A second life (Stoneham MA, "read-9512-d", a relative who worked it)
+// plays the same way but needs more memory than a shared container gives a
+// test worker, so it is read in the pull request's played file instead.
+const LIVES: { seed: string; presses: Presses }[] = [
+  // Shiloh GA: volunteers asked and a quarter of the savings given.
+  { seed: "read-9512-f", presses: { volunteer: true, give: "quarter" } },
+];
 
-/** One drawn place: the loss scenes it showed, or why it could not. */
-const run = (drawSeed: string): { done: boolean; note: string } => {
-  const place = drawPlace(drawSeed, "family-loss-stake-scene");
-  const where = `${place.name} (${place.key}), seed ${drawSeed}`;
-  setBookkeeping(false);
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const { core, director } = world;
-  const api = coreAPI(core);
-  const end = addDays(makeIsoDate(core.date), YEAR);
-  for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
-    advanceCore(core, addDays(makeIsoDate(core.date), 7));
-  let contest: ContestRow | undefined;
-  const filings: FilingRow[] = [];
-  for (const race of [...openContests(api)]
-    .filter((row) => addDays(makeIsoDate(row.electionDate), 2) <= end)
-    .sort((a, b) => a.id.localeCompare(b.id))) {
-    const clerkId = filingClerkFor(api, race.id)?.personId;
-    const town = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.id !== core.playerId &&
-          p.id !== clerkId &&
-          (core.households.get(p.householdId)?.memberIds ?? []).some(
-            (id) =>
-              id !== p.id &&
-              core.people.get(id)?.alive &&
-              core.people.get(id)!.birthDate < "2005-01-01",
-          ),
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))
-      .slice(0, 40);
-    const homes = new Set<string>();
-    for (const person of town) {
-      if (filings.length >= 3) break;
-      // One filer to a household, so what one household put in is its own.
-      if (homes.has(person.householdId)) continue;
-      homes.add(person.householdId);
-      director.watch(core, person.id);
-      const result = fileCandidacy(api, {
-        personId: person.id,
-        contestId: race.id,
-        platform: [],
-      });
-      // Filing is a petition: the filer is on the ballot once the clerk
-      // counts their signatures.
-      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-        filings.push(result.filing);
-    }
-    if (filings.length) {
-      contest = race;
-      break;
-    }
+/** Every line under a node, with the reply that led to it. */
+function treeLines(node: TreeNode | null, path: string[], out: string[]): void {
+  if (!node) return;
+  for (const line of node.lines)
+    out.push(`${path.join(" > ")} => ${line.text}`);
+  if (node.end?.close)
+    out.push(`${path.join(" > ")} => ${node.end.close.text}`);
+  for (const reply of node.replies) {
+    out.push(`${path.join(" > ")} ? ${reply.line.text}`);
+    treeLines(reply.next, [...path, `"${reply.line.text}"`], out);
   }
-  if (!contest || filings.length < 2)
-    return { done: false, note: `${where}: fewer than two filers` };
-  advanceCore(core, addDays(makeIsoDate(core.date), 2));
+}
 
-  // The households' parts in the race, as the engines would have written them
-  // (a hand-set fixture for the edge: the first filer's household worked it,
-  // the second gave their own money, the rest did neither).
-  const adultMate = (filer: PersonId) =>
-    (core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [])
-      .map((id) => core.people.get(id)!)
-      .find((p) => p.id !== filer && p.alive && p.birthDate < "2005-01-01");
-  const [worked, gave, neither] = filings;
-  // Filers who live together share what is put in: pass the place over.
-  const homeOf = (filing: FilingRow) =>
-    core.people.get(filing.personId as PersonId)!.householdId;
-  if (new Set(filings.map(homeOf)).size < filings.length)
-    return { done: false, note: `${where}: filers share a household` };
-  const mateOf = adultMate(worked!.personId as PersonId);
-  if (!mateOf) return { done: false, note: `${where}: no adult at home` };
-  campaignFor(api, worked!.id);
-  expect(enlistVolunteer(api, worked!.id, mateOf.id), where).toBe(true);
-  // The filer who was worked for is in the circle the world keeps private
-  // records for, as the player is (a volunteer's shift is private).
-  core.focusPersonIds.add(worked!.personId as PersonId);
-  core.focusPersonIds.add(mateOf.id as PersonId);
-  campaignFor(api, gave!.id);
-  const giver = core.people.get(gave!.personId as PersonId)!;
-  const given = contributeOwnMoney(
-    api,
-    gave!.id,
-    Math.max(10000, giver.liquidMinor / 4),
-  );
-  if (!given) return { done: false, note: `${where}: nothing to give` };
-  // Each filer canvasses for signatures until the clerk's check.
-  gatherSignatures(core, ...filings.map((f) => f.id));
-
-  advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
+/** One pinned life: the loss scenes it showed, or why it could not. */
+const run = (life: (typeof LIVES)[number]): { done: boolean; note: string } => {
+  const file = process.env.PLAYED_FILE;
+  const out = playLife(life.seed, life.presses);
+  if (!("core" in out))
+    return { done: false, note: `${out.where}: ${out.note}` };
+  const { where, core, director, contest } = out;
+  const api = coreAPI(core);
   const result = resultOf(api, contest.id);
   if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
   // Someone the filer knows who walked doors (a relative, or anyone known by
   // name) is named in the filer's Journal, never "someone from my campaign"
   // (Storrs, Connecticut, storrs-1: a father).
   {
-    const filer = worked!.personId as PersonId;
+    const filer = out.me;
     const person = core.people.get(filer)!;
     const kin = familyFactsOf(person);
     const known = (pid: string) =>
@@ -174,29 +102,18 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   const causeId = `election-result:${contest.id}`;
   const lines: string[] = [];
   let promised = false;
-  for (const filing of [worked, gave, neither]) {
-    if (!filing) continue;
-    const filer = filing.personId as PersonId;
+  for (const filing of [out.filing]) {
+    const filer = out.me;
     const here = `${where}: ${filing.id}`;
-    if (result.winnerId === filer) continue;
-    const now = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow | undefined;
-    // Off the general's ballot (withdrawn, short of signatures, or out in a
-    // primary): the count names them nowhere.
-    if (now?.status !== "on-ballot") continue;
-    const outIds = JSON.parse(
-      String(
-        core.durableLog.get(`primary-result:${contest.id}`)?.facts?.outIds ??
-          "[]",
-      ),
+    // The player lost: the count's own list of who missed the cut names them.
+    const missed = JSON.parse(
+      String(core.durableLog.get(causeId)?.facts?.outIds ?? "[]"),
     ) as string[];
-    if (outIds.includes(filer)) continue;
+    expect(missed, `${here}: the player lost`).toContain(filer);
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
-        row.momentId.includes(`election-result:${contest!.id}`),
+        row.momentId.includes(`election-result:${contest.id}`),
       );
     expect(entry, `${here}: the count fired no moment`).toBeTruthy();
     const household =
@@ -225,11 +142,52 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     expect(part!.recordIds, here).toContain(causeId);
     // Worked it, or gave money: the relative says which.
     const margin = facts.find((row) => row.key === "margin")!;
-    expect(talk.state.text, here).toContain(margin.text);
-    if (filing === worked) {
-      expect(part!.key, here).toBe("stake-worked");
-      expect(askerId, here).toBe(mateOf.id);
-    }
+    // The count is said once, in the narration; nothing the relative or the
+    // player says repeats it, and no line asserts a size the count does not.
+    expect(
+      talk.narration.some((line) => line.text.includes(margin.text)),
+      `${here}: the narration says the count`,
+    ).toBe(true);
+    const said: string[] = [];
+    treeLines(talk.tree, [], said);
+    for (const text of [talk.state.text, ...said])
+      expect(text, `${here}: the count said again`).not.toContain(margin.text);
+    // People do not say the figure (owner, rule 101): no spoken line holds a
+    // dollar sign or a digit; the narration may say the sum once.
+    for (const line of [
+      talk.state.text,
+      ...said.map((row) => row.split("=> ").pop()!),
+    ])
+      expect(line, `${here}: a figure in a spoken line`).not.toMatch(/[$\d]/);
+    // What the count was, so a reader can judge "close": every candidate's
+    // votes, the winner's lead as a share of the votes cast, and (for money)
+    // what was given.
+    const countFacts = (() => {
+      const votes = Object.entries(
+        JSON.parse(
+          String(core.durableLog.get(causeId)?.facts?.totals ?? "{}"),
+        ) as Record<string, number>,
+      ).sort((a, b) => b[1] - a[1]);
+      const cast = votes.reduce((sum, row) => sum + row[1], 0);
+      const given = facts.find((row) => row.key === "given")?.text;
+      const seats =
+        Number(core.durableLog.get(causeId)?.facts?.seats ?? 1) || 1;
+      const own = Object.fromEntries(votes)[filer] ?? 0;
+      const last = votes[Math.min(seats, votes.length) - 1]?.[1] ?? own;
+      return `votes ${votes.map((row) => row[1]).join(", ")} of ${cast} cast, ${seats} seat${seats === 1 ? "" : "s"}, this candidate got ${own} and the last winning seat got ${last}, so ${Math.max(0, last - own)} short${given ? `, given ${given}` : ""}`;
+    })();
+    if (file)
+      appendFileSync(
+        file,
+        [
+          `### ${where}: ${filing.id}, ${countFacts}`,
+          ...talk.narration.map((line) => `Narration: ${line.text}`),
+          `They say: ${talk.state.text}`,
+          ...said.map((text) => `- ${text}`),
+          "",
+          "",
+        ].join("\n"),
+      );
     // The strongest part at home speaks: a relative who also worked it on
     // their own (the campaign enlisted them) outranks the money given.
     expect(part!.key, here).toBe(
@@ -251,6 +209,43 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     lines.push(
       `${here} (${part!.key}, lost by ${margin.text}): ${core.people.get(askerId)!.givenName}: "${talk.state.text}" / ${talk.tree.replies.map((row) => `${row.line.move}: "${row.line.text}"`).join(" | ")}`,
     );
+
+    // The concession call, from the same result; no line in it judges how
+    // close the count was (no cutoff decides that).
+    const callEntry = entry!;
+    if (callEntry.bindings.some((row) => row.typeKey === "race-lost")) {
+      const call = purposeScene(core, director, filer, callEntry, {
+        typeKey: "race-lost",
+      });
+      if (call?.kind === "composed") {
+        const heard: string[] = [];
+        treeLines(call.scene.talk.tree, [], heard);
+        for (const text of heard) {
+          expect(text, `${here}: a line nothing records`).not.toContain(
+            "Closer than anybody expected",
+          );
+        }
+        // A possessive takes the bare name, never an appositive: not
+        // "Anika Meadows, a member of the Select Board,'s team" (older than
+        // this pull request; src/english/possessive-appositive.test.ts).
+        for (const text of [call.scene.talk.state.text, ...heard])
+          expect(
+            text,
+            `${here}: an appositive inside a possessive`,
+          ).not.toMatch(/,['\u2019]s\b/);
+        if (file)
+          appendFileSync(
+            file,
+            [
+              `### ${where}: the concession call`,
+              `They say: ${call.scene.talk.state.text}`,
+              ...heard.map((text) => `- ${text}`),
+              "",
+              "",
+            ].join("\n"),
+          );
+      }
+    }
 
     // Say you will run again: the relative's answer is kept for the next contest.
     const at = talk.tree.replies.findIndex(
@@ -293,16 +288,23 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   return { done: promised, note: lines.join("\n") };
 };
 
-it(`the talk after a lost race is for the relative who put in work or money, and what is said about running again is read by the next contest (seed ${seed})`, () => {
-  const skipped: string[] = [];
-  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-    const out = run(`${seed}:${attempt}`);
-    if (out.done) {
-      process.stdout.write(`${out.note}\n`);
-      return;
-    }
-    skipped.push(out.note);
-    console.log(`not shown: ${out.note}`);
-  }
-  throw new Error(`no drawn place showed the talk: ${skipped.join("; ")}`);
-}, 3_600_000);
+beforeAll(() => {
+  const file = process.env.PLAYED_FILE;
+  if (file)
+    writeFileSync(
+      file,
+      `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
+    );
+});
+
+// One life to a test, so each is played and let go before the next (a life
+// holds a whole played world in memory).
+for (const life of LIVES)
+  it(`the talk after a lost race (${life.seed}) is for the relative who put in work or money, says the count once, places its size words by the count, and what is said about running again is read by the next contest`, () => {
+    const began = Date.now();
+    const out = run(life);
+    expect(out.done, out.note).toBe(true);
+    process.stdout.write(
+      `${out.note}\n${life.seed}: ${Math.round((Date.now() - began) / 1000)} s\n`,
+    );
+  }, 600_000);

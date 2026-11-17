@@ -13,6 +13,7 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { moneySaid, votesSaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
+import { votesShort } from "./race-margin";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
@@ -169,13 +170,8 @@ function lossStakeOf(
     .table("gifts")
     .get(`${filingId}|${filerId}`) as unknown as
     { totalMinor: number } | undefined;
-  const counted = JSON.parse(
-    String(record?.facts?.totals ?? record?.facts?.votes ?? "{}"),
-  ) as Record<string, number>;
-  const own = counted[filerId] ?? zero;
-  const best = Math.max(zero, ...Object.values(counted));
   const margin: StakeFact = {
-    text: votesSaid(best - own),
+    text: votesSaid(votesShort(core, causeId, filerId)),
     recordIds: [causeId],
   };
   if (campaign?.volunteerIds.includes(relativeId))
@@ -197,6 +193,12 @@ function lossStakeOf(
       facts: {
         margin,
         "stake-gave": { text: "gave", recordIds: [filingId, causeId] },
+        // The gift in minor units: what the family-loss variants read the
+        // gift's size from, against the relative's own year (gift-size).
+        amountMinor: {
+          text: String(gift!.totalMinor),
+          recordIds: [filingId],
+        },
         given: { text: moneySaid(gift!.totalMinor), recordIds: [filingId] },
       },
     };

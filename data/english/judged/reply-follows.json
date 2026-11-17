@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3194,
+  "judged": 3539,
   "no": {
     "000jt3f972v": {
       "keys": [
@@ -81,6 +81,13 @@
       ],
       "why": "\"That means a lot\" treats a refusal as agreement."
     },
+    "01nmsaat9xp": {
+      "keys": [
+        "scene-talk.reply-leave.not-yet-let-me-read-the-numbers-myself",
+        "scene-talk.close-accept.i-ll-be-right-here-when-you-come-back-in"
+      ],
+      "why": "The candidate wants to read the numbers, not step out, so \"when you come back in\" answers a departure that was not mentioned."
+    },
     "029hlixc6bp": {
       "keys": [
         "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
@@ -102,6 +109,13 @@
       ],
       "why": "M5 withdraws its earlier overrule: a second fresh reviewer also read \"Anyway\" as changing the subject after the player leaves. Two readers agree, so it fails; a plain close (\"Sure. Good luck.\") would follow."
     },
+    "03c6h9995mb": {
+      "keys": [
+        "scene-talk.follow-press.five-i-ll-hold-the-phone",
+        "scene-talk.reply-refuse.not-yet-i-m-not-ready"
+      ],
+      "why": "The aide has just granted five minutes and is waiting, so \"Not yet\" pushes back on a demand to call now that the line did not make."
+    },
     "04qttiyvz5v": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
@@ -115,6 +129,13 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A has already accepted the no with \"I understand,\" so telling A to let it go does not follow."
+    },
+    "06xxyel2g7b": {
+      "keys": [
+        "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost",
+        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
+      ],
+      "why": "The household member just said the spending was small and did not ask about money, so \"Don't ask me about the money\" answers a question nobody asked."
     },
     "07nhc2mdyc8": {
       "keys": [
@@ -150,6 +171,13 @@
         "scene-talk.reply-thank.thank-you"
       ],
       "why": "A bare \"Thank you\" after a no reads as thanks for a yes."
+    },
+    "0afzl1n7vg7": {
+      "keys": [
+        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
+        "scene-talk.reply-deflect.i-m-fine-really"
+      ],
+      "why": "M5 overrules the reviewer, as in earlier rounds: A reassures the filer and asks nothing, so \"I'm fine. Really.\" answers a how-are-you that was never asked."
     },
     "0bcyppjuo6s": {
       "keys": [
@@ -228,6 +256,13 @@
       ],
       "why": "A gave no finished plan; B reacts as if it did."
     },
+    "0f30qw22gfj": {
+      "keys": [
+        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
+        "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first"
+      ],
+      "why": "A asked what the filer has left to put in, and B re-announces running again without answering that question."
+    },
     "0fmfeznegq9": {
       "keys": [
         "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
@@ -270,6 +305,20 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
+    "0gwt8o7npc9": {
+      "keys": [
+        "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
+        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
+      ],
+      "why": "M5 overrules the reviewer, as in earlier rounds: A asks the filer to talk; nobody proposed adding up the money, so the put-off answers a request A never made."
+    },
+    "0gxv2part8v": {
+      "keys": [
+        "scene-talk.follow-press.you-didn-t-win-it-i-m-sorry-i-counted-twice",
+        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
+      ],
+      "why": "The aide says they counted twice and the race is lost, and \"Then we wait\" offers a consequence that line does not support."
+    },
     "0h06vooa3bi": {
       "keys": [
         "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
@@ -283,6 +332,13 @@
         "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
       ],
       "why": "The reply picks a job from a list the line before never gave."
+    },
+    "0h9qlm3ip0z": {
+      "keys": [
+        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
+        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
+      ],
+      "why": "A has already taken the new run as given and asked what is left, but B announces the run again and does not say what is left."
     },
     "0i8e0laa1yw": {
       "keys": [
@@ -389,6 +445,13 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
+    "0o5mp5oegy7": {
+      "keys": [
+        "scene-talk.follow-press.five-i-ll-hold-the-phone",
+        "scene-talk.reply-refuse.i-m-not-doing-it-on-anybody-s-schedule-but-mine"
+      ],
+      "why": "The aide has just given the candidate the five minutes asked for, so refusing to go on anybody's schedule answers a pressure that line did not apply."
+    },
     "0ondcdto6t5": {
       "keys": [
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
@@ -416,6 +479,13 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A has already accepted the no, so telling A to let it go does not follow."
+    },
+    "0peopz4ud59": {
+      "keys": [
+        "scene-talk.follow-press.five-i-ll-hold-the-phone",
+        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
+      ],
+      "why": "The aide has just granted the five minutes asked for, and \"Then we wait\" answers as if the aide had raised the count."
     },
     "0pisyi8c292": {
       "keys": [
@@ -494,6 +564,13 @@
       ],
       "why": "A promises to tell everything; B asks 'why vote at all', unconnected."
     },
+    "0u1l53bbsoe": {
+      "keys": [
+        "scene-talk.reply-tell.i-really-thought-we-had-it",
+        "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+      ],
+      "why": "Opening on how little was spent does not answer the filer's disbelief that they lost."
+    },
     "0ud331megm9": {
       "keys": [
         "scene-talk.follow-accept.alright-their-first-no-hard-feelings",
@@ -542,6 +619,13 @@
         "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
       ],
       "why": "A's 'I will' is no question or claim; B gives a rebuttal."
+    },
+    "0y7ausza23g": {
+      "keys": [
+        "scene-talk.follow-press.people-are-watching-what-you-do-tonight-more-than-they-watched-the-rac",
+        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
+      ],
+      "why": "\"Then we wait\" draws a conclusion that the aide's point about people watching tonight does not lead to."
     },
     "0y7fzy8grgo": {
       "keys": [
@@ -613,6 +697,20 @@
       ],
       "why": "A asks if B thought A would take it; B answers about the rule."
     },
+    "10dljzisj1r": {
+      "keys": [
+        "scene-talk.follow-press.take-the-minute-then-make-the-call-your-name-s-still-worth-something-t",
+        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
+      ],
+      "why": "The aide offers a minute and then the call, and \"Then we wait\" treats that as a reason to wait for a count no one mentioned."
+    },
+    "10jbgfun030": {
+      "keys": [
+        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
+        "scene-talk.reply-tell.we-didnt-win"
+      ],
+      "why": "\"We didn't win\" only restates the result and does not take up the reassurance that the loss isn't on the filer."
+    },
     "10jrh1fglio": {
       "keys": [
         "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
@@ -641,6 +739,13 @@
       ],
       "why": "A made no accusation; B excuses itself as if accused."
     },
+    "114bsd7jnd1": {
+      "keys": [
+        "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
+        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
+      ],
+      "why": "M5 overrules the reviewer, as in earlier rounds: A asks the filer to talk and never mentions the money, so \"Don't ask me about the money\" answers a question nobody asked."
+    },
     "11n04ca32jo": {
       "keys": [
         "scene-talk.follow-accept.not-against-me-i-ll-take-that",
@@ -654,6 +759,13 @@
         "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go"
       ],
       "why": "A has already accepted the no and is closing, so telling A to let it go does not follow."
+    },
+    "12c76hyjh1m": {
+      "keys": [
+        "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
+        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
+      ],
+      "why": "M5 overrules the reviewer, as in earlier rounds: A asks for one true thing and never mentions the money, so \"Don't ask me about the money\" answers a question nobody asked."
     },
     "12cdv3z4bcv": {
       "keys": [
@@ -697,6 +809,13 @@
       ],
       "why": "A asks what is in the way; B agrees as if told something."
     },
+    "16o13pxkioe": {
+      "keys": [
+        "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute",
+        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
+      ],
+      "why": "A invites the filer to sit down for a minute and B ignores the invitation to announce running again."
+    },
     "16scfax8sdc": {
       "keys": [
         "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
@@ -710,6 +829,13 @@
         "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
       ],
       "why": "The reply disagrees with something the line before never claimed."
+    },
+    "17amhguz2fw": {
+      "keys": [
+        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
+        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
+      ],
+      "why": "A has already accepted a new run and asked for a number in writing, but B re-announces running again and offers only to tell, not to write a number."
     },
     "186ucqdh56v": {
       "keys": [
@@ -949,6 +1075,13 @@
       ],
       "why": "Funerals appear nowhere in A"
     },
+    "1j3qvw7duz8": {
+      "keys": [
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
+        "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it"
+      ],
+      "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
+    },
     "1k7soz35rxr": {
       "keys": [
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
@@ -991,6 +1124,13 @@
       ],
       "why": "A responds to agreement; restating a refusal does not follow it."
     },
+    "1nt5lupmayd": {
+      "keys": [
+        "scene-talk.reply-leave.not-yet-let-me-read-the-numbers-myself",
+        "scene-talk.close-accept.ten-minutes-i-ll-be-outside-the-door"
+      ],
+      "why": "The candidate wants to read the numbers, not leave the room, so \"I'll be outside the door\" answers a request that was not made."
+    },
     "1o69lay5te0": {
       "keys": [
         "scene-talk.reply-agree.let-me-see-them-i-ll-read-them-now",
@@ -1018,6 +1158,13 @@
         "scene-talk.follow-thank.that-s-all-i-ask-thank-you"
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
+    },
+    "1phccvdjz71": {
+      "keys": [
+        "scene-talk.reply-blame.i-should-have-knocked-on-more-doors",
+        "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+      ],
+      "why": "The filer blames themselves for not knocking on more doors and the reply opens on how little was spent, skipping that self-blame."
     },
     "1q2j2b5iqu3": {
       "keys": [
@@ -1236,6 +1383,13 @@
       ],
       "why": "A comments on quiet people; B's bag remark answers nothing in A."
     },
+    "22pvrosxwzs": {
+      "keys": [
+        "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost",
+        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
+      ],
+      "why": "The household member has already said little was spent, so asking for a day before adding it up does not follow."
+    },
     "238fyxz5dig": {
       "keys": [
         "scene-talk.follow-confront.welcome-to-public-service",
@@ -1298,6 +1452,20 @@
         "scene-talk.follow-ask.then-why-vote-at-all"
       ],
       "why": "A offers to tell what happened; B questions voting, unrelated."
+    },
+    "266426wbomx": {
+      "keys": [
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
+        "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+      ],
+      "why": "The reply opens on how little was spent and never takes up the charge that the opponent ran a dirty race."
+    },
+    "26e2wk0k210": {
+      "keys": [
+        "scene-talk.follow-press.the-volunteers-already-know-they-re-waiting-on-you-to-say-it",
+        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
+      ],
+      "why": "\"Then we wait\" draws a conclusion that the aide's line about volunteers waiting to hear it does not lead to."
     },
     "26lbsocxqfj": {
       "keys": [
@@ -1369,6 +1537,13 @@
       ],
       "why": "A agrees to put something in; B answers with a refusal that ignores what A just agreed to."
     },
+    "2axb6r707rp": {
+      "keys": [
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
+        "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+      ],
+      "why": "The reply ignores the charge that the opponent ran a dirty race and opens fresh on the spending."
+    },
     "2bq8gn8gxuk": {
       "keys": [
         "scene-talk.state-request.their-first-you-know-me-i-want-you-beside-me-on-the-ballot-for-office-will-you-run-with-me",
@@ -1382,6 +1557,13 @@
         "scene-talk.follow-thank.call-before-nine-if-you-can-after-that-i-m-at-the-clinic"
       ],
       "why": "A refers them to a caseworker; B gives call timing as if A asked."
+    },
+    "2bxy341yprn": {
+      "keys": [
+        "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
+        "scene-talk.reply-agree.okay-for-them"
+      ],
+      "why": "\"For them\" has no one to point to, since the line before names no people, only that the call should be made tonight."
     },
     "2czd8diutpp": {
       "keys": [
@@ -1410,6 +1592,13 @@
         "scene-talk.close-thank.glad-you-re-joining-us-we-ll-do-paperwork-your-first-day"
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
+    },
+    "2ftsebxokji": {
+      "keys": [
+        "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
+        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
+      ],
+      "why": "M5 overrules the reviewer, as in earlier rounds: A asks for one true thing; nobody proposed adding up the money, so the put-off answers a request A never made."
     },
     "2fxwucgfci4": {
       "keys": [
@@ -1447,5 +1636,5 @@
       "why": "A says they changed their mind; a no with no correction does not follow."
     }
   },
-  "yesHash": "1vw8wenouy1"
+  "yesHash": "2ds0ju5hnig"
 }

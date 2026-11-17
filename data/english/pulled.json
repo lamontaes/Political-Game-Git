@@ -273,6 +273,10 @@
     "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in": [
+      "family-loss.small/promise",
+      "family-loss/promise"
+    ],
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
       "conflict-accuse.hearsay/deny",
@@ -323,6 +327,9 @@
     "scene-talk.follow-defer.take-the-time-you-need": ["ask-vote/relent"],
     "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
       "join-cause/decline"
+    ],
+    "scene-talk.follow-press.five-i-ll-hold-the-phone": [
+      "concession-call/refuse"
     ],
     "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
       "join-cause/decline"
@@ -388,6 +395,10 @@
     "scene-talk.reply-agree.i-m-with-you-on-bill": ["ask-vote/plea"],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.you-have-my-vote": ["ask-vote/plea"],
+    "scene-talk.reply-blame.opponent-ran-a-dirty-race": [
+      "family-loss.small/comfort",
+      "family-loss/comfort"
+    ],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"
     ],
@@ -402,6 +413,9 @@
     ],
     "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
       "ask-vote.watched/accept"
+    ],
+    "scene-talk.reply-leave.not-yet-let-me-read-the-numbers-myself": [
+      "concession-call/accept"
     ],
     "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y": [
       "conflict-accuse/accept"
@@ -425,6 +439,9 @@
       "conflict-accuse.taken/ask"
     ],
     "scene-talk.reply-thank.thank-you": ["ask-to-serve/decline"],
+    "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost": [
+      "family-loss.small/deflect"
+    ],
     "scene-talk.state-request.i-know-it-s-a-lot-to-ask-their-first-would-you-run-for-office-with-me": [
       "ask-to-serve/decline"
     ],
@@ -454,6 +471,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11503
+    "reply-second-move-follows-the-first (pairs)": 11274
   }
 }
