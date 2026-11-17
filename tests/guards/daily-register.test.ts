@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildBenchWorld } from "../../src/bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { officeActKits } from "../../src/core2/office-day-registry";
 import { worldRecords } from "../../src/core2/snapshot";
@@ -54,11 +54,38 @@ export const needsApproval = (entry: Entry): boolean =>
   entry.section === "steps" || /^grows\b/i.test(entry.cells[0] ?? "");
 
 describe("the daily register", () => {
-  const place = drawPlace(seed, "daily-register");
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
+  // A place where every adult lives in group quarters has no household to
+  // seat a player (`NoPlayerHereError`): draw again and name the place
+  // passed over, as the drawn-place tests do.
+  const passedOver: string[] = [];
+  const drawn = (() => {
+    for (let draw = 0; draw < 20; draw += 1) {
+      const place = drawPlace(
+        seed,
+        draw ? `daily-register:${draw}` : "daily-register",
+      );
+      try {
+        return {
+          place,
+          world: buildBenchWorld(place.seed, gameStartDate(), {
+            twoLevel: true,
+            placeKey: place.key,
+          }),
+        };
+      } catch (error) {
+        if (!(error instanceof NoPlayerHereError)) throw error;
+        passedOver.push(`${place.name} (${place.key})`);
+      }
+    }
+    throw new Error(
+      `No drawn place could seat a player; passed over: ${passedOver.join(", ")}`,
+    );
+  })();
+  const { place, world } = drawn;
+  if (passedOver.length)
+    process.stdout.write(
+      `daily register: passed over, no household to seat a player: ${passedOver.join(", ")}\n`,
+    );
   const core = world.core;
   const steps: string[] = [];
   for (const module of core.modules.values()) {
