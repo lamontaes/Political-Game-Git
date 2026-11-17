@@ -267,6 +267,9 @@ export interface BudgetRow {
   readonly baseSpendingMinor?: Readonly<Record<string, number>>;
   /** The world's people, prices, debt and yield this row's carried lines were written at; next year's lines move by the ratio. */
   readonly drivers?: BudgetDrivers;
+  /** The budget this row's lines were carried forward from, and the treasury months whose collections set its revenue plan: the records the Trace box opens behind it. */
+  readonly carriedFrom?: string;
+  readonly collectedMonths?: readonly string[];
   /** The month ("2026-04") the revenue plan stands for: the opening's, or the middle of the year whose collections set it. */
   readonly revenuePlanMonth?: string;
 }
@@ -1531,6 +1534,19 @@ function collectedLastYear(
   return months === treasuryMonthsPerYear() ? collected : undefined;
 }
 
+/** The treasury months of the fiscal year before `fy`, by id: the records a re-budgeted plan was set from. */
+function collectedMonthIds(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): string[] {
+  const from = `${fy - 1}-${gov.fiscalYearStart}`;
+  const to = `${fy}-${gov.fiscalYearStart}`;
+  return treasuryMonthsOf(api, gov.id)
+    .filter((m) => m.date >= from && m.date < to)
+    .map((m) => m.id);
+}
+
 function collectionsOverBase(
   api: CoreAPI,
   gov: GovernmentRow,
@@ -1671,6 +1687,10 @@ function legislatedBudget(
     revenueMinor: revenue,
     spendingMinor: spending,
     baseSpendingMinor: carried,
+    ...(prior ? { carriedFrom: prior.id } : {}),
+    ...(collected !== undefined
+      ? { collectedMonths: collectedMonthIds(api, gov, fy) }
+      : {}),
     ...(drivers ? { drivers } : {}),
     revenuePlanMonth: planMonth,
   };

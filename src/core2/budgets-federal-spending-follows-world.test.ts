@@ -10,6 +10,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { traceNode } from "../bench/dev-trace";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -76,6 +77,23 @@ describe("federal spending follows the world's own people and prices", () => {
           row.startsOn.slice(0, 7),
         );
       }
+      // Dev mode's Trace box shows a re-budgeted year's inputs: the budget it carried forward from, and the
+      // treasury months whose collections set its plan.
+      const latest = rows.filter((r) => r.collectedMonths?.length).at(-1);
+      expect(latest, `${where}: a re-budgeted federal year`).toBeDefined();
+      const kinds = new Set(
+        (traceNode(world.core, world.director, latest!.id).causes ?? []).map(
+          (c) => c.kind,
+        ),
+      );
+      expect(
+        kinds.has("budgets"),
+        `${where}: trace names the budget carried forward`,
+      ).toBe(true);
+      expect(
+        kinds.has("treasuryMonths"),
+        `${where}: trace names the treasury months`,
+      ).toBe(true);
       expect(checked, `${where}: federal years checked`).toBeGreaterThan(0);
       expect(moved, `${where}: lines that moved`).toBeGreaterThan(0);
     }, 1_200_000);
