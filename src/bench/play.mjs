@@ -5350,7 +5350,10 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // An announcement is not a filing: the race still offers its filing in the window.
+    const filedFor = new Set(
+      v.filings.filter((f) => f.status !== "announced").map((f) => f.contestId),
+    );
     // A filing for any seat of an at-large race is a filing for the race.
     const filed = {
       has: (contestId) =>
@@ -5416,6 +5419,44 @@ const sheets = {
       fileButton.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
+      // Run now, file on the date (owner, Nov 17): announce for a race whose
+      // filing opens later; the campaign starts today.
+      const announceButton = makeButton({
+        className: "action primary",
+        textContent: labels.announce,
+      });
+      announceButton.dataset.testid = "announce";
+      announceButton.addEventListener("click", async () => {
+        await post(
+          `/api/announce?${new URLSearchParams({ contestId: race.contestId })}`,
+        );
+        await refresh();
+        await openSheet("campaign");
+      });
+      // A race whose filing hasn't opened runs the world to that morning, as a
+      // calendar day does (owner, Nov 17: "so I don't have to figure out the
+      // filing thing"); what needs the player on the way stops it there.
+      const opensLater =
+        !race.filingClosed &&
+        !race.filingOpen &&
+        race.filingOpens &&
+        race.filingOpens > today();
+      const simButton = makeButton({
+        textContent: labels.simTo.replace(
+          "{date}",
+          dateWords(race.filingOpens, { month: "short", year: today() }),
+        ),
+      });
+      simButton.dataset.testid = "sim-to-filing";
+      simButton.addEventListener("click", () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
+      });
+      const tray = [
+        ...(mayFile && !cannotFile ? [fileButton] : []),
+        ...(race.mayAnnounce ? [announceButton] : []),
+        ...(opensLater ? [simButton] : []),
+      ];
       return [
         rosterTitle(
           race.title,
@@ -5495,10 +5536,14 @@ const sheets = {
                 },
               ]),
             ),
-            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(tray.length ? [buttonTray(...tray)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile && race.bar && labels.refusal[race.bar]
+              : !mayFile &&
+                  !race.mayAnnounce &&
+                  !race.announced &&
+                  race.bar &&
+                  labels.refusal[race.bar]
                 ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
@@ -5573,20 +5618,22 @@ const sheets = {
       // its page offers no filing, so its line must not either.
       aside: filed.has(race.contestId)
         ? status(race)
-        : own && race.cannotFile?.metOn
-          ? `${labels.filingOpens} ${dateWords(
-              race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                ? race.filingOpens
-                : race.cannotFile.metOn,
-              { year: today() },
-            )}`
-          : own && race.bar === "window-not-open" && race.filingOpens
-            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-            : own && race.playerMayFile && race.filingOpen
-              ? labels.fileForIt
-              : race.filers.length
-                ? status(race)
-                : "",
+        : race.announced
+          ? labels.youAnnounced
+          : own && race.cannotFile?.metOn
+            ? `${labels.filingOpens} ${dateWords(
+                race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                  ? race.filingOpens
+                  : race.cannotFile.metOn,
+                { year: today() },
+              )}`
+            : own && race.bar === "window-not-open" && race.filingOpens
+              ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+              : own && race.playerMayFile && race.filingOpen
+                ? labels.fileForIt
+                : race.filers.length
+                  ? status(race)
+                  : "",
       data: { contest: race.contestId },
       race,
     });
