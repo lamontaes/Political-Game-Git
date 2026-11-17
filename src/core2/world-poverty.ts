@@ -119,8 +119,19 @@ function retirementClaimIncome(
   const accounts = coreAPI(core).accounts();
   const rt = residentsRuntime(core);
   for (const [personId, claim] of claims) {
-    const obligation = accounts.obligation(claim.obligationId);
-    if (!obligation || obligation.endedAt) continue;
+    // A full claimant is paid by an obligation; a counted one by a monthly
+    // residents flow under the same id, which the line rerates the same way.
+    let monthlyMinor = 0;
+    if (claim.counted) {
+      const flow = rt?.flows.get(claim.obligationId);
+      if (!flow || flow.endedAt) continue;
+      monthlyMinor =
+        flow.amountByContract?.[claim.obligationId] ?? flow.amountMinor;
+    } else {
+      const obligation = accounts.obligation(claim.obligationId);
+      if (!obligation || obligation.endedAt) continue;
+      monthlyMinor = obligation.amountMinor;
+    }
     const named = core.people.get(personId)?.householdId;
     const m =
       named === undefined ? rt?.store.countedMember(personId) : undefined;
@@ -130,7 +141,7 @@ function retirementClaimIncome(
         ? undefined
         : rt!.store.households[rt!.store.household[m]!]?.id);
     if (household === undefined) continue;
-    out.set(household, (out.get(household) ?? 0) + obligation.amountMinor * 12);
+    out.set(household, (out.get(household) ?? 0) + monthlyMinor * 12);
   }
 }
 

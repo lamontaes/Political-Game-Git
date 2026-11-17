@@ -136,6 +136,39 @@ it(`a raise in the federal Social Security line raises retirees' income where po
       (h) => h.householdId === claimant!.householdId,
     )!.incomeMinor;
     expect(incomeAfter - incomeBefore).toBe(award.amountMinor * 12);
+    // A counted resident of claiming age claims the same way: their award
+    // is a monthly residents flow, and their counted household's income
+    // rises by a year of it.
+    const rt = residentsRuntime(core)!;
+    let countedClaimant: string | undefined;
+    let countedHousehold = "";
+    let countedBefore = 0;
+    search: for (const h of rt.store.liveHouseholds()) {
+      for (const m of rt.store.countedMembers(h)) {
+        const id = rt.store.ids[m]!;
+        if (age(rt.store.born[m]!) < 63 || retirementClaims(core).has(id))
+          continue;
+        const before = householdPoverty(core).find(
+          (row) => row.householdId === h.id,
+        );
+        if (!before || !claimRetirementNow(raised.api, id)) continue;
+        if (!retirementClaims(core).get(id)?.counted) continue;
+        countedClaimant = id;
+        countedHousehold = h.id;
+        countedBefore = before.incomeMinor;
+        break search;
+      }
+    }
+    expect(countedClaimant).toBeDefined();
+    const countedClaim = retirementClaims(core).get(countedClaimant!)!;
+    const flow = rt.flows.get(countedClaim.obligationId)!;
+    const countedAfter = householdPoverty(core).find(
+      (row) => row.householdId === countedHousehold,
+    )!.incomeMinor;
+    expect(countedAfter - countedBefore).toBe(
+      (flow.amountByContract?.[countedClaim.obligationId] ?? flow.amountMinor) *
+        12,
+    );
     const claims = [...retirementClaims(core).values()].filter((c) => {
       const o = raised.api.accounts().obligation(c.obligationId);
       return o && !o.endedAt;
@@ -158,6 +191,7 @@ it(`a raise in the federal Social Security line raises retirees' income where po
         openClaimsInPlay: claims,
         claimant: claimant!.id,
         claimMonthlyMinor: award.amountMinor,
+        countedClaimant,
         poorPeopleAlone: Math.round(poorAlone),
         poorPeopleRaised: Math.round(poorRaised),
       }),
