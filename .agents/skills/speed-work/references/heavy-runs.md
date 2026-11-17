@@ -63,4 +63,5 @@ Done when every row has its `.done` file with an exit code and seconds, its resu
 ## A gate script dies with its worker (Nov 15, F1)
 
 A background gate script dies if the worker restarts: check its log for `ALLDONE` and rerun what is missing, and keep temporary probe tests out of the tree while a gate is running.
+
 - **A check beside a test run counts as a second heavy run (Nov 17, Lives).** `npm run pool -- --check`, a typecheck (it needs `NODE_OPTIONS=--max-old-space-size=10240`; the default heap dies) or a second vitest started while a vitest batch of played worlds was running took the whole container down, and the batch's results with it. Commit first, then run them one after another; give a vitest batch of played worlds `--maxWorkers=2`.
