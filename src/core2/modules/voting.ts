@@ -7332,12 +7332,12 @@ function decide(
   const reasons = candidates.map((c) => candidateReasons(c, conditions));
   const sample = sampleFor(api, date);
   // The seat's party pays or gains for its state's own jobs against the nation's.
-  const raceConditions = ownConditionsOf(api, race.usps);
+  const ownRaceConditions = ownConditionsOf(api, race.usps);
   const countedPlaces = coarse(
     places,
     townsState,
     electorateChange(api),
-    side ? raceConditions.appeal : 0,
+    side ? ownRaceConditions.appeal : 0,
   );
   const counted = countPlaces(
     sample,
@@ -7389,7 +7389,7 @@ function decide(
       holderSide: side,
       counted: counted.places,
       sideOf: (id) => (id === "party:R" ? 1 : id === "party:D" ? -1 : 0),
-      conditions: raceConditions,
+      conditions: ownRaceConditions,
     });
   keepRace(
     api,
