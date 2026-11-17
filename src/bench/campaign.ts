@@ -777,7 +777,6 @@ export function campaignAct(
             ? controls.campaignGatherers.hired
                 .replace("{cost}", dollarsOf(setAsideMinor))
                 .replace("{due}", dateSaid(petition.due, core.date))
-                .replace("{signed}", petition.signed.toLocaleString("en-US"))
             : after.raisedMinor > 0
               ? controls.campaignGatherers.noMoney.replace(
                   "{raised}",

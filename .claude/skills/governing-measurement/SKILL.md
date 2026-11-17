@@ -1,15 +1,13 @@
 ---
 name: governing-measurement
 description: >
-  How the governing line measures the player's path and the world's elections
-  in drawn places: briefing the path-check runners, the re-election totals
-  script and its paired ablation, reading an ablation, knowing when a
-  measurement branch can show nothing new, running heavy commands on one
-  machine, and which campaign and voting records belong to a race or to a
-  person when someone asks who reads them. Use when measuring golden-path wins,
-  re-election totals or any calibration across drawn places, and when the speed
-  lead asks about a campaign or voting table. Not for proving one feature in a
-  played year (played-world-proof) or for timing a year (speed-work).
+  Measures the player's path and the world's elections in drawn places:
+  briefing path-check runners, the re-election totals script and its paired
+  ablation, reading an ablation, and which campaign and voting records belong
+  to a race or a person. Use when measuring golden-path wins, re-election
+  totals or a calibration across drawn places, or when the speed lead asks
+  about a campaign or voting table. Not for one feature's played-year proof
+  (played-world-proof) or timing (speed-work).
 ---
 
 # Governing measurement
@@ -34,10 +32,10 @@ Phase A's done-when is a count over drawn places (path-check wins a council seat
 
 ## Re-election totals and the paired ablation
 
-- **The script.** `scripts/core2-year/incumbency-totals.ts` (on the branch `governing/incumbency-calibration`, which was still unmerged on Nov 10: the script, `src/core2/incumbency-ablation.ts` and `docs/research/local-incumbency-2026-10-30.md` are not on main, so `git fetch` that branch to read them) runs the bench world with every module and no player. Options are `--seed`, `--places`, `--years` and `--ablation both|neither|no-trait|no-standing`. Three value knobs set a term's size instead of zeroing it: `--trait-weight`, `--recognition` and `--pledge-weight`. Each one left out reads the parameter, as play does. `--contests` adds one JSON line per contest, keyed by contest id, so two versions can be compared race by race. It prints one JSON line per place and a totals line against T1 to T6 of `docs/research/local-incumbency-2026-10-30.md`, with the holder-share quartiles (P1) and T3 by office kind (P6).
+- **The script.** `incumbency-totals.ts` under `scripts/core2-year/` on the branch `governing/incumbency-calibration` (still unmerged on Nov 16: the script, `incumbency-ablation.ts` under `src/core2/` and the research note `local-incumbency-2026-10-30.md` under `docs/research/` are only on that branch, so `git fetch` it to read them) runs the bench world with every module and no player. Options are `--seed`, `--places`, `--years` and `--ablation both|neither|no-trait|no-standing`. Three value knobs set a term's size instead of zeroing it: `--trait-weight`, `--recognition` and `--pledge-weight`. Each one left out reads the parameter, as play does. `--contests` adds one JSON line per contest, keyed by contest id, so two versions can be compared race by race. It prints one JSON line per place and a totals line against T1 to T6 of the branch's research note, with the holder-share quartiles (P1) and T3 by office kind (P6).
 - **One totals run at a time, in any container.** Two versions started together were both killed for memory (exit 137) after about 20 minutes and five or six places (Nov 1). Run both, then neither, one after the other, with `NODE_OPTIONS=--max-old-space-size=6000`.
 - **Pair the versions.** Use the same seed for every version, so every version plays the same places and the differences are the terms, not the draw. Use two runners on two seeds (`incumb-A`, `incumb-B`). At 6 places and 3 years, a version takes about 30 minutes.
-- **Measurement knobs** are module-level settings that default off and that nothing in play sets (`src/core2/incumbency-ablation.ts`). Never a parameter in play.
+- **Measurement knobs** are module-level settings that default off and that nothing in play sets (`incumbency-ablation.ts` on the branch above). Never a parameter in play.
 - **Count every stage the same way.** A holder who beats a primary rival and then runs alone in November had a contested race (review, Nov 1). Counties have their own bands, so total them apart from cities and townships.
 - **Read the ablation before you tune.** If removing either of two terms alone changes no winner, but removing both flips many, neither term is the double count: something amplifies any edge. Look for a feedback, such as a door yes adding to the very preference that produced it. On Nov 1, T3 (contested races the holder won) was 0.94 with both terms, 0.94 with no trait, 0.94 with no standing and 0.56 with neither. Tuning one term to hit a total then breaks again in the next place.
 - **A place that crashes in another engine.** Name it from its salt (`drawPlace(salt, "incumbency-totals")` in `scripts/core2-year/place.ts`), send it to red main with the error and a repro, and skip it by name. Never drop it silently. On Nov 1, Superior, Colorado died in finance's `closeEmployer`.
@@ -51,7 +49,7 @@ Used on Nov 1 for the campaign money share (`campaign-money-from-local-finance`,
 - **Hold seeds out.** Choose the value on one half of the run seeds and report the failure rate on the other half too.
 - **Size the test's pool from the resampled rate.** On Nov 1, 8-place pools failed 2.6% to 3.7% at the best value and 16-place pools 0.13% to 0.29%, so the test draws 16. A drawn place's band failure is then a finding, not noise.
 - **Break the total down by group before you trust the fit.** Total the money by kind of donor (named or counted, household with or without recorded costs, who seated them). On Nov 1, 631 of 10,990 gifts but 44.6% of the money came from press staff seated with no living cost. The fit leaned on a stopgap population, so the stopgap was registered and its fix filed (`people-press-staff-households`) before the PR opened.
-- **When a stopgap population leaves the fit, refit every knob together and size the pool again (to hold a measured total in band, never to make one behavior appear: standing-rules-self-check).** On Nov 2, once press staff carried a living cost, no share and month span held 16-place pools under 0.5% of band failures (best 3.1%, 3.7% held out), because poor towns fell under the hourly floor while rich towns' median gift passed its ceiling. 32-place pools gave 0.13% and 0.22%. Bring those numbers to the CTO before setting a value.
+- **When a stopgap population leaves the fit, refit every knob together and size the pool again (to hold a measured total in band, never to make one behavior appear: `done-proof`, section 9).** On Nov 2, once press staff carried a living cost, no share and month span held 16-place pools under 0.5% of band failures (best 3.1%, 3.7% held out), because poor towns fell under the hourly floor while rich towns' median gift passed its ceiling. 32-place pools gave 0.13% and 0.22%. Bring those numbers to the CTO before setting a value.
 - **Check that an engine change can reach the total before you build it.** Compare it on the same recorded seeds first. On Nov 2 a donor call list (the candidate's family and circle first) changed nothing: over ten weeks the calls reach everyone the campaign can reach, so the order did not change who gave ($526,967 against $526,589 on the same 24 seeds). It was dropped before the PR.
 
 ## Heavy commands on one machine
