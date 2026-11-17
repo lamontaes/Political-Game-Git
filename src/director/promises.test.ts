@@ -5,12 +5,16 @@
  * on the day the record that settles it lands (a missed payment, a talk
  * between the two) or when its window closes; the tie moves once, citing it.
  *
- * Pinned places: each test draws places from all 56 on a fixed seed (named
- * here and in each line it prints) and plays the first that has the case,
- * printing what it passed over. The pay-on-time test plays a pinned
- * borrower (`BANK_BORROWER`) whose loan and missed payments are the credit
- * engine's own. HAND-STAGED, labeled where they stand: the hire that brings
- * the new coworker (as meeting-scene.test.ts) and the townsperson met for
+ * Drawn places: each test draws places from all 56 (named in each line it
+ * prints) and plays the first that has the case, printing what it passed
+ * over. The pay-on-time test advances a drawn place until any borrower the
+ * credit engine bills misses a payment and the partnerships engine writes the
+ * quarrel over it (`findTownBorrower`, tests/support/real-borrower.ts): the
+ * promise engine is one rule for every person (CTO, Nov 17), so the case is
+ * whoever the engines name, and the loan and missed payments are the credit
+ * engine's own. HAND-STAGED, labeled where they stand: the borrower's choice
+ * to promise to pay on time (the reply record, as the apology scene writes
+ * it), the hire that brings the new coworker (as meeting-scene.test.ts) and the townsperson met for
  * the meeting ask. From there the scene, the reply, the record that settles
  * the promise and the tie are the engines' own.
  */
@@ -44,7 +48,7 @@ import { promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import {
   LOAN_SEED,
-  BANK_BORROWER,
+  findTownBorrower,
   play,
 } from "../../tests/support/real-borrower";
 import {
@@ -112,12 +116,15 @@ const BROKEN_COSTS: {
   closeness: [number, number];
 }[] = [];
 it(
-  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one (seed ${LOAN_SEED})`,
+  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one, felt by the one owed (seed ${LOAN_SEED})`,
   () => {
     setBookkeeping(false);
     try {
-      const done = [playPayOnTime(BANK_BORROWER, ok)];
-      process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
+      const found = findTownBorrower();
+      const done = [playPayOnTime(found, ok)];
+      process.stdout.write(
+        `PAY ON TIME (places passed over: ${found.passedOver.join("; ") || "none"})\n  ${done.join("\n  ")}\n`,
+      );
     } finally {
       setBookkeeping(true);
     }
