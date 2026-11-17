@@ -3,10 +3,14 @@
  * in a played town, a raise in the employer's Medicare tax shows on each
  * business's monthly bill under the new law row, counts in the costs the
  * staffing and closing decisions read, and leaves those businesses with more
- * months of revenue lost than the same town left alone. Pinned place and seed
- * (Center, North Dakota), two worlds side by side.
+ * months of revenue lost than the same town left alone. Two worlds side by
+ * side in drawn places from all 56 (BUSINESS_CHARGES_SEED replays one draw):
+ * in every place the raise lifts costs and loses no fewer months than the
+ * control, and in at least one drawn place it loses more.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -25,8 +29,9 @@ import {
 } from "./modules/business";
 import type { CoreState } from "./types";
 
-const PLACE = "3813180";
-const SEED = "lay-3813180";
+const seed =
+  process.env.BUSINESS_CHARGES_SEED || randomBytes(8).toString("hex");
+const DRAWS = 6;
 const MONTHS = 4;
 
 function townMonths(c: CoreState): BusinessTradingMonth[] {
@@ -41,11 +46,11 @@ function townMonths(c: CoreState): BusinessTradingMonth[] {
     });
 }
 
-function played(raise: boolean) {
+function played(raise: boolean, placeSeed: string, placeKey: string) {
   setBookkeeping(false);
-  const world = buildBenchWorld(SEED, gameStartDate(), {
+  const world = buildBenchWorld(placeSeed, gameStartDate(), {
     twoLevel: true,
-    placeKey: PLACE,
+    placeKey,
   });
   const c = world.core;
   const api = coreAPI(c);
@@ -74,43 +79,8 @@ function played(raise: boolean) {
   return { c, lawId, months: townMonths(c) };
 }
 
-describe("a business's month weighs what laws cost it", () => {
-  it("a payroll tax raise is on the bill, in the weighed costs and in the loss memory", () => {
-    const control = played(false);
-    const raised = played(true);
-    const where = `Center, North Dakota (${PLACE}), seed ${SEED}`;
-    expect(raised.months.length, where).toBeGreaterThan(0);
-
-    // Every month's weighed costs are exactly its weighed charges.
-    for (const month of [...control.months, ...raised.months]) {
-      const weighed = (month.charges ?? [])
-        .filter((charge) => charge.weighed)
-        .reduce((n, charge) => n + charge.minor, 0);
-      expect(month.costsMinor, `${month.id} at ${where}`).toBe(weighed);
-      expect(
-        (month.charges ?? []).every(
-          (charge) => charge.weighed === (charge.kind !== "profit-tax"),
-        ),
-        month.id,
-      ).toBe(true);
-    }
-
-    // The new law is named on the payroll-tax line of businesses that paid wages.
-    const named = raised.months.filter((month) =>
-      (month.charges ?? []).some(
-        (charge) =>
-          charge.kind === "payroll-taxes" &&
-          charge.weighed &&
-          charge.minor > 0 &&
-          charge.lawIds.includes(raised.lawId!),
-      ),
-    );
-    expect(
-      named.length,
-      `${where}: no bill names ${raised.lawId}`,
-    ).toBeGreaterThan(0);
-
-    // The raise reaches what the staffing and closing decisions read.
+describe(`a business's month weighs what laws cost it (seed ${seed})`, () => {
+  it("a payroll tax raise is on every bill, never loses fewer months, and in some place loses more", () => {
     const sum = (
       months: BusinessTradingMonth[],
       pick: (m: BusinessTradingMonth) => number,
@@ -119,12 +89,60 @@ describe("a business's month weighs what laws cost it", () => {
       (m.charges ?? [])
         .filter((charge) => charge.kind === "payroll-taxes")
         .reduce((n, charge) => n + charge.minor, 0);
-    expect(sum(raised.months, tax), where).toBeGreaterThan(
-      sum(control.months, tax),
-    );
+    const passed: string[] = [];
+    let more = 0;
+    for (let at = 0; at < DRAWS; at += 1) {
+      const drawn = drawPlace(at ? `${seed}:${at}` : seed, "business-charges");
+      const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}`;
+      const control = played(false, drawn.seed, drawn.key);
+      const raised = played(true, drawn.seed, drawn.key);
+      if (!raised.months.length) {
+        passed.push(`${where}: no business trades`);
+        continue;
+      }
+
+      // Every month's weighed costs are exactly its weighed charges.
+      for (const month of [...control.months, ...raised.months]) {
+        const weighed = (month.charges ?? [])
+          .filter((charge) => charge.weighed)
+          .reduce((n, charge) => n + charge.minor, 0);
+        expect(month.costsMinor, `${month.id} at ${where}`).toBe(weighed);
+        expect(
+          (month.charges ?? []).every(
+            (charge) => charge.weighed === (charge.kind !== "profit-tax"),
+          ),
+          month.id,
+        ).toBe(true);
+      }
+
+      // The new law is named on the payroll-tax line of businesses that paid wages.
+      const named = raised.months.filter((month) =>
+        (month.charges ?? []).some(
+          (charge) =>
+            charge.kind === "payroll-taxes" &&
+            charge.weighed &&
+            charge.minor > 0 &&
+            charge.lawIds.includes(raised.lawId!),
+        ),
+      );
+      if (!named.length) {
+        passed.push(`${where}: no business paid wages`);
+        continue;
+      }
+
+      // The raise reaches what the staffing and closing decisions read, and
+      // never loses fewer months than the same town left alone.
+      expect(sum(raised.months, tax), where).toBeGreaterThan(
+        sum(control.months, tax),
+      );
+      const lossRaised = sum(raised.months, (m) => m.lossMonths);
+      const lossControl = sum(control.months, (m) => m.lossMonths);
+      expect(lossRaised, where).toBeGreaterThanOrEqual(lossControl);
+      if (lossRaised > lossControl) more += 1;
+    }
     expect(
-      sum(raised.months, (m) => m.lossMonths),
-      where,
-    ).toBeGreaterThan(sum(control.months, (m) => m.lossMonths));
-  }, 90_000);
+      more,
+      `no drawn place lost more months with the raise; passed over: ${passed.join("; ") || "none"}`,
+    ).toBeGreaterThan(0);
+  }, 900_000);
 });
