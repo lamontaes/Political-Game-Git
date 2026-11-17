@@ -47,11 +47,13 @@ import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   groupStance,
   personLean,
+  opinionQuestions,
   personStance,
-  popularity,
   STANCE_LOADINGS,
   type StanceProfile,
 } from "../campaign-views";
+import { townLean } from "./campaigns";
+import { countedResidents } from "../electorate";
 import { currentCloseness } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
@@ -927,25 +929,6 @@ export function ownOpeningStance(
 }
 
 /**
- * The person's view of a question before what they have heard: their own
- * opening (`ownOpeningStance`) plus how popular the question is across their
- * world's country (`popularity`, the term a counted voter's stance carries
- * too), so a voter in a race, on a ballot measure and in a poll holds one
- * view.
- */
-export function openingStance(
-  api: CoreAPI,
-  personId: PersonId,
-  question: string,
-  lean: number,
-): number {
-  return (
-    ownOpeningStance(api, personId, question, lean) +
-    popularity(question, api.state.seed)
-  );
-}
-
-/**
  * What a full person's own circumstances add to their stance on a question
  * today (`src/core2/life-stakes.ts`): read from their records each day, so the stance
  * moves when their life does. Zero for a question no recorded circumstance
@@ -967,7 +950,7 @@ export function lifeShift(
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
  * question's axis, what their faith, degree and own circumstances add
- * (`openingStance`), plus how far what they have heard since has moved them.
+ * (`ownOpeningStance`), plus how far what they have heard since has moved them.
  */
 export function viewOn(
   api: CoreAPI,
@@ -979,7 +962,7 @@ export function viewOn(
     -v("one"),
     Math.min(
       v("one"),
-      openingStance(api, personId, question, lean) +
+      ownOpeningStance(api, personId, question, lean) +
         v("stanceViewWeight") * stanceOn(api, personId, question),
     ),
   );
@@ -1005,7 +988,6 @@ export function countedStanceProfile(
     const id = voter.id;
     kept = {
       ...profileFromAverage(voter, api.state.startedAt, api.state.seed),
-      seed: api.state.seed,
       // What their group has heard or lived since, read as a full person's
       // own stance is in `viewOn` (src/core2/counted-news-views.ts).
       heard: (question: string) => {
@@ -1061,7 +1043,6 @@ export function countedGroupViewOn(
     Math.min(
       v("one"),
       personStance(lean, question) +
-        popularity(question, api.state.seed) +
         v("stanceViewWeight") *
           (heard ? direction(heard.desiredChange) * heard.strength : v("zero")),
     ),
@@ -1277,10 +1258,11 @@ function keepStakeReferences(api: CoreAPI): void {
   const kept = table.get(STAKE_REFERENCES_ID) as unknown as
     { month?: string } | undefined;
   if (kept?.month === refs.month) return;
+  keepOpinions(api, refs.month);
   table.put({
     id: STAKE_REFERENCES_ID,
     month: refs.month,
-    people: refs.people,
+    people: Math.round(refs.people),
     facts: Object.fromEntries(
       Object.entries(refs.sums).map(([fact, { sum, of }]) => [
         fact,
@@ -1296,6 +1278,118 @@ function keepStakeReferences(api: CoreAPI): void {
 
 /** The id of the views engine's one row of this month's life-term references. */
 export const STAKE_REFERENCES_ID = "stake-references";
+
+/** What the world's people think of a question this month: the mean of their own stances, kept for the readers that ask how the public stands. */
+export interface WorldOpinion {
+  readonly id: string;
+  readonly question: string;
+  readonly month: string;
+  /** The real people counted: each full adult with a view once, each counted adult by the people their record stands for. */
+  readonly people: number;
+  /** Their mean stance, -1 to 1. */
+  readonly mean: number;
+  /** The part of it their leans alone make (`personStance`): the rest is their faith, degree, own lives and what they heard. */
+  readonly leanMean: number;
+  /** The share of those with a side who favor "yes". */
+  readonly share: number;
+}
+
+const opinionId = (question: string) => `opinion:${question}`;
+
+/** The world's opinion of a question as last kept (undefined before the first month's read). */
+export function worldOpinion(
+  api: CoreAPI,
+  question: string,
+): WorldOpinion | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  return api
+    .moduleState(VIEWS_MODULE_ID)
+    .table("opinions")
+    .get(opinionId(question)) as unknown as WorldOpinion | undefined;
+}
+
+/** What the world's people's own lives, faith, degree and news add to their stance on a question, beyond their leans: 0 before it is read. */
+export function opinionRest(api: CoreAPI, question: string): number {
+  const row = worldOpinion(api, question);
+  return row ? row.mean - row.leanMean : v("zero");
+}
+
+/**
+ * Keep this month's opinion of every question: the mean, over the world's
+ * adults whose stances are held (each full person with a view, each counted
+ * resident by the people their record stands for), of their own stance by
+ * the one rule (`groupStance`: lean at the question's strength, faith and
+ * degree, own life, what they heard). Read only: no view or opening record
+ * is formed for it. Nothing in a stance reads it back.
+ */
+function keepOpinions(api: CoreAPI, month: string): void {
+  const core = api.state as CoreState;
+  const questions = opinionQuestions();
+  const sum = new Float64Array(questions.length);
+  const leanSum = new Float64Array(questions.length);
+  const yes = new Float64Array(questions.length);
+  const sided = new Float64Array(questions.length);
+  let people = 0;
+  const town = townLean(api);
+  const adult = api.parameter("votingAge");
+  const add = (lean: number, profile: StanceProfile, weight: number) => {
+    people += weight;
+    questions.forEach((question, at) => {
+      const stance = groupStance(lean, question, profile);
+      sum[at]! += weight * stance;
+      leanSum[at]! += weight * personStance(lean, question);
+      if (stance !== v("zero")) {
+        sided[at]! += weight;
+        if (stance > v("zero")) yes[at]! += weight;
+      }
+    });
+  };
+  const views = viewsTable(api);
+  for (const person of core.people.values()) {
+    if (!person.alive || isDemoted(person)) continue;
+    if (ageOnDate(person.birthDate, core.date) < adult) continue;
+    const view = views.get(person.id) as unknown as PersonView | undefined;
+    if (!view) continue;
+    const id = person.id;
+    add(
+      personLean(core.people, person, town),
+      {
+        ...(view.faithFromAverage === undefined
+          ? {}
+          : {
+              faithFromAverage: view.faithFromAverage,
+              collegeFromAverage: view.collegeFromAverage ?? v("zero"),
+            }),
+        life: fullLifeStake(core, person),
+        heard: (question) =>
+          v("stanceViewWeight") * stanceOn(api, id, question),
+      },
+      v("one"),
+    );
+  }
+  for (const voter of countedResidents(core)) {
+    if (ageOnDate(voter.birthDate, core.date) < adult) continue;
+    add(
+      personLean(core.people, voter, town),
+      countedStanceProfile(api, voter),
+      voter.weight,
+    );
+  }
+  if (!people) return;
+  const table = api.moduleState(VIEWS_MODULE_ID).table("opinions");
+  const round = (n: number) => Math.round(n * 1e4) / 1e4;
+  questions.forEach((question, at) =>
+    table.put({
+      id: opinionId(question),
+      question,
+      month,
+      people: Math.round(people),
+      mean: round(sum[at]! / people),
+      leanMean: round(leanSum[at]! / people),
+      share: round(sided[at]! ? yes[at]! / sided[at]! : v("zero")),
+    } as unknown as ModuleRow),
+  );
+}
 const reviewing = new WeakSet<CoreState>();
 
 /** The first of next month, when everyone whose circumstances were read is read again. */
@@ -1333,6 +1427,8 @@ export const viewsModule: CoreModule = {
       people: {},
       /** This month's references every life term is measured against: one row (`keepStakeReferences`). */
       stakeReferences: {},
+      /** This month's opinion of each question: one row a question, rewritten (`keepOpinions`). */
+      opinions: {},
       countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       /** Groups of like full hearers nobody watches, and their member counts (`hearAsGroups`). */
       hearerGroups: {},

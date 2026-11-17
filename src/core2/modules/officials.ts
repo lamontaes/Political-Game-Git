@@ -38,7 +38,6 @@ import type {
 import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
-import { publicOffset } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
@@ -69,7 +68,7 @@ import {
   vacateUnheldSeat,
 } from "./offices";
 import { filingRequirements } from "./elections";
-import { VIEWS_DATA, stanceOn } from "./views";
+import { VIEWS_DATA, stanceOn, worldOpinion } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -1398,14 +1397,11 @@ export function officialParts(
   );
   const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
-    (sum, s) =>
-      sum +
-      supportAt(row.districtLean, s.question, api.state.seed) * s.position,
+    (sum, s) => sum + supportAt(api, row.districtLean, s.question) * s.position,
     0,
   );
   const state = stances.reduce(
-    (sum, s) =>
-      sum + supportAt(row.stateLean, s.question, api.state.seed) * s.position,
+    (sum, s) => sum + supportAt(api, row.stateLean, s.question) * s.position,
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
@@ -1477,7 +1473,8 @@ export function officialParts(
     weight("press") *
     visibility *
     stances.reduce(
-      (sum, s) => sum + publicOffset(s.question, api.state.seed) * s.position,
+      // How the world's people stand on it this month (their mean stance).
+      (sum, s) => sum + (worldOpinion(api, s.question)?.mean ?? 0) * s.position,
       0,
     );
   return {

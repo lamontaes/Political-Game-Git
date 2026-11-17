@@ -389,8 +389,6 @@ export interface CountedBallotsRow {
   readonly college?: readonly (number | null)[];
   /** How far what each voter's group has heard or lived has moved them on the field's platform questions, by question (null where nothing has; absent on rows kept before it was read). */
   readonly heard?: readonly (Readonly<Record<string, number>> | null)[];
-  /** The world whose country's view of each question the voters' stances carried (`popularity`; absent on rows kept before it was). */
-  readonly seed?: string;
   /** Each voter's circumstances and how much they weigh them, as the count read them (`stakeShift`; null where none; absent on rows kept before it was). */
   readonly life?: readonly (Omit<LifeStake, "reference"> | null)[];
   /** The world's references the voters' circumstances were measured against that day (`stakeReferences`; absent on rows kept before it was). */
@@ -4228,8 +4226,6 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
-    // The world whose view of each question every voter's stance carries.
-    seed: api.state.seed,
     ...kept,
     ...(stakeReference ? { stakeReference } : {}),
   } as unknown as ModuleRow);
@@ -5656,15 +5652,14 @@ function keptProfile(row: CountedBallotsRow, i: number): StanceProfile | null {
             : {}),
         }
       : null;
-  const kept = row.life?.[i];
+  const lived = row.life?.[i];
   const life =
-    kept && row.stakeReference
-      ? { ...kept, reference: row.stakeReference }
+    lived && row.stakeReference
+      ? { ...lived, reference: row.stakeReference }
       : undefined;
-  if (row.seed === undefined && !life && !heard) return faith;
+  if (!life && !heard) return faith;
   const kept: StanceProfile = {
     ...faith,
-    ...(row.seed === undefined ? {} : { seed: row.seed }),
     ...(life ? { life } : {}),
   };
   return heard ? keptHeard(kept, heard) : kept;

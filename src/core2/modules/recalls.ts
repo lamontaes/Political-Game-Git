@@ -27,7 +27,8 @@ import type {
 } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { personLean, publicSupport } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { supportAt } from "../officials-roster";
 import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
@@ -218,10 +219,10 @@ function grievance(
   enacted: number,
   memberVote: number,
 ): number {
-  const stance = publicSupport(
+  const stance = supportAt(
+    api,
     personLean(api.state.people, person, townLean(api)),
     question,
-    api.state.seed,
   );
   return -stance * enacted * memberVote;
 }

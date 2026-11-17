@@ -22,7 +22,7 @@ import {
 import { POLICY_SERIES_BY_LEVEL } from "./policy-answers";
 import { placeStateKeys } from "./places";
 import { axisOf } from "./campaign-data";
-import { personStance } from "./campaign-views";
+import { questionAxis } from "./campaign-views";
 import { officialsIn, OFFICIALS_MODULE_ID } from "./modules/officials";
 import { OFFICIALS_DATA } from "./officials-roster";
 import type { LawRowInput } from "./laws-starting";
@@ -101,7 +101,7 @@ function read(api: CoreAPI, question: string): LawConsensus | null {
   for (const body of FEDERAL_BODIES)
     for (const member of officialsIn(api, body)) {
       const lean = Math.max(-1, Math.min(1, member.ideal * scale));
-      const stance = personStance(lean, question);
+      const stance = lean * questionAxis(question);
       if (stance === 0) continue;
       counted += 1;
       if (stance > 0) yes += 1;

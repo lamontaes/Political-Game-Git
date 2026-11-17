@@ -1,165 +1,138 @@
 {
-  "about": "Each budget line's left-right direction: the Republican net share wanting more spent on it minus the Democratic one (increase minus decrease, leaners included). Positive means the right wants more. support: the national share wanting more spent among those wanting a change, the two parties weighed evenly (calibration only). Built by scripts/research/build-budget-line-axes.py from data/research/money/spending-preferences-by-party.json.",
+  "about": "Each budget line's left-right direction: the Republican net share wanting more spent on it minus the Democratic one (increase minus decrease, leaners included). Positive means the right wants more. It is the strength of a person's lean on their stance; the share wanting more emerges from each world's own people. Built by scripts/research/build-budget-line-axes.py from data/research/money/spending-preferences-by-party.json.",
   "lines": {
     "administration": {
       "axis": -0.19,
-      "support": 0.211,
       "estimate": true,
       "source": "estimate"
     },
     "agriculture": {
       "axis": 0.04,
-      "support": 0.681,
       "estimate": true,
       "source": "estimate"
     },
     "communityAndRegionalDevelopment": {
       "axis": -0.52,
-      "support": 0.362,
       "estimate": true,
       "source": "GSS 2024"
     },
     "corrections": {
       "axis": 0.15,
-      "support": 0.919,
       "estimate": true,
       "source": "GSS 2024"
     },
     "education": {
       "axis": -0.28,
-      "support": 0.91,
       "estimate": false,
       "source": "GSS 2024"
     },
     "fire": {
       "axis": 0.0,
-      "support": 0.938,
       "estimate": true,
       "source": "estimate"
     },
     "health": {
       "axis": -0.26,
-      "support": 0.894,
       "estimate": false,
       "source": "GSS 2024"
     },
     "healthAndHospitals": {
       "axis": -0.32,
-      "support": 0.852,
       "estimate": true,
       "source": "GSS 2024"
     },
     "higherEducation": {
       "axis": -0.36,
-      "support": 0.884,
       "estimate": true,
       "source": "GSS 2024"
     },
     "highways": {
       "axis": 0.04,
-      "support": 0.841,
       "estimate": false,
       "source": "GSS 2024"
     },
     "housing": {
       "axis": -0.39,
-      "support": 0.732,
       "estimate": true,
       "source": "GSS 2024"
     },
     "incomeSecurity": {
       "axis": -0.47,
-      "support": 0.868,
       "estimate": true,
       "source": "GSS 2024"
     },
     "interest": {
       "axis": 0.0,
-      "support": 0.5,
       "estimate": true,
       "source": "estimate"
     },
     "internationalAffairs": {
       "axis": -0.43,
-      "support": 0.131,
       "estimate": false,
       "source": "GSS 2024"
     },
     "localAid": {
       "axis": -0.52,
-      "support": 0.362,
       "estimate": true,
       "source": "GSS 2024"
     },
     "medicare": {
       "axis": -0.3,
-      "support": 1.0,
       "estimate": false,
       "source": "Pew Research Center, Mar 2019"
     },
     "nationalDefense": {
       "axis": 0.66,
-      "support": 0.516,
       "estimate": false,
       "source": "GSS 2024"
     },
     "naturalResources": {
       "axis": -0.59,
-      "support": 0.826,
       "estimate": true,
       "source": "GSS 2024"
     },
     "netInterest": {
       "axis": 0.0,
-      "support": 0.5,
       "estimate": true,
       "source": "estimate"
     },
     "otherPrograms": {
       "axis": -0.26,
-      "support": 0.784,
       "estimate": true,
       "source": "GSS 2024"
     },
     "parks": {
       "axis": -0.15,
-      "support": 0.914,
       "estimate": false,
       "source": "GSS 2022"
     },
     "police": {
       "axis": 0.54,
-      "support": 0.786,
       "estimate": false,
       "source": "GSS 2024"
     },
     "schools": {
       "axis": -0.28,
-      "support": 0.91,
       "estimate": false,
       "source": "GSS 2024"
     },
     "socialSecurity": {
       "axis": 0.0,
-      "support": 0.904,
       "estimate": false,
       "source": "GSS 2024"
     },
     "transportation": {
       "axis": 0.04,
-      "support": 0.841,
       "estimate": false,
       "source": "GSS 2024"
     },
     "veterans": {
       "axis": 0.0,
-      "support": 1.0,
       "estimate": false,
       "source": "Pew Research Center, Mar 2019"
     },
     "welfareAndMedicaid": {
       "axis": -0.72,
-      "support": 0.492,
       "estimate": true,
       "source": "GSS 2024"
     }

@@ -14,7 +14,8 @@ import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
-import { personStance, publicOffset } from "./campaign-views";
+import { personStance, questionAxis } from "./campaign-views";
+import { opinionRest } from "./modules/views";
 import { axisOf, PLATFORM_QUESTIONS } from "./campaign-data";
 import { lawConsensus } from "./law-consensus";
 import type { CoreAPI } from "./types";
@@ -275,17 +276,19 @@ export function drawOfficial(input: {
 }
 
 /**
- * How strongly someone at a lean supports a question's "yes": their lean
- * along the question's left-right axis plus how popular the policy is (the
- * same reading voters deciding a measure use, `publicSupport`), so a policy
- * most people favor draws members of both parties.
+ * How strongly voters at a lean (a district's, a state's) support a
+ * question's "yes", read the way a voter's own stance is: their lean at the
+ * question's strength (`personStance`) plus what the world's people's own
+ * lives, faith, degree and news add beyond their leans this month
+ * (`opinionRest`), so a policy the world's people favor draws members of
+ * both parties.
  */
 export function supportAt(
+  api: CoreAPI,
   lean: number,
   question: string,
-  seed: string,
 ): number {
-  return personStance(lean, question) + publicOffset(question, seed);
+  return personStance(lean, question) + opinionRest(api, question);
 }
 
 /**
@@ -304,8 +307,10 @@ export function memberSupportAt(
 ): number {
   const row = axisOf[question];
   const consensus = row ? lawConsensus(api, question) : null;
+  // A member's lean reads along the question's measured direction among
+  // governments (what states enacted, how Congress voted), not the voters'.
   return (
-    personStance(lean, question) +
+    lean * questionAxis(question) +
     (row && consensus ? Math.abs(row.axis) * (2 * consensus.share - 1) : 0)
   );
 }

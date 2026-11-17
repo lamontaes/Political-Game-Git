@@ -357,8 +357,8 @@ export function countedLifeStake(
 /**
  * The world's references this month: each fact's share (or, for the income
  * fifth, its mean) over the adults whose stances are counted, full people
- * and counted residents alike, each counting where their records hold the
- * fact. A fact no one's records hold stands at 0 and is read by no one.
+ * once and counted residents by the people their record stands for, each
+ * counting where their records hold the fact. A fact no one's records hold stands at 0 and is read by no one.
  */
 export interface StakeReferences {
   readonly month: string;
@@ -376,34 +376,34 @@ export function stakeReferences(core: CoreState): StakeReferences {
   const sums = Object.fromEntries(
     LIFE_FACTS.map((fact) => [fact, { sum: 0, of: 0 }]),
   ) as Record<LifeFact, { sum: number; of: number }>;
-  const add = (facts: LifeFacts) => {
+  const add = (facts: LifeFacts, weight: number) => {
+    people += weight;
     for (const fact of LIFE_FACTS) {
       const value = facts[fact];
       if (value === null) continue;
-      sums[fact].sum += value;
-      sums[fact].of += 1;
+      sums[fact].sum += weight * value;
+      sums[fact].of += weight;
     }
   };
+  let people = 0;
   const adult = coreAPI(core).parameter("votingAge");
   const index = monthIndex(core);
-  let people = 0;
   for (const person of core.people.values()) {
     if (!person.alive || isDemoted(person)) continue;
     if (!index.recorded.has(person.placeId)) continue;
     if (ageOnDate(person.birthDate, core.date) < adult) continue;
-    people += 1;
-    add(fullLifeFacts(core, index, person));
+    add(fullLifeFacts(core, index, person), 1);
   }
   const rt = residentsRuntime(core);
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       const byId = countedFacts(core, rt, h);
+      // Each counted record stands for the real people its household's weight counts.
+      const weight = rt.store.weightOf(h);
       for (const member of rt.store.countedMembers(h)) {
         if (ageOnDate(rt.store.born[member]!, core.date) < adult) continue;
         const facts = byId.get(rt.store.ids[member]!);
-        if (!facts) continue;
-        people += 1;
-        add(facts);
+        if (facts) add(facts, weight);
       }
     }
   const result: StakeReferences = {
