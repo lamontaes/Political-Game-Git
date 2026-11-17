@@ -3781,7 +3781,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -3822,7 +3823,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -3863,7 +3865,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -122322,7 +122325,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -122346,7 +122350,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -122371,7 +122376,8 @@
           "role": "asked",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -122395,7 +122401,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -122419,7 +122426,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -122443,7 +122451,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -122467,7 +122476,8 @@
           "move": "relent",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "guarded",
@@ -122491,7 +122501,8 @@
           "move": "relent",
           "role": "asked",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -123088,7 +123099,8 @@
           "role": "asked",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill", "earlier"]
+          "requiresFacts": ["bill", "earlier"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -123113,7 +123125,8 @@
           "role": "asked",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["earlier"]
+          "requiresFacts": ["earlier"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -123138,7 +123151,8 @@
           "role": "asked",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill", "earlier"]
+          "requiresFacts": ["bill", "earlier"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -123163,7 +123177,8 @@
           "role": "asked",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "braced",
@@ -123187,7 +123202,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote.trade",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -123334,7 +123350,8 @@
           "role": "asked",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["earlier"]
+          "requiresFacts": ["earlier"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -123358,7 +123375,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.trade",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -123382,7 +123400,8 @@
           "move": "relent",
           "role": "asked",
           "purpose": "ask-vote.trade",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -123406,7 +123425,8 @@
           "move": "relent",
           "role": "asked",
           "purpose": "ask-vote.trade",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "guarded",
@@ -123431,7 +123451,8 @@
           "role": "asked",
           "purpose": "ask-vote.trade",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -124150,7 +124171,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-for-bill"]
+          "requiresFacts": ["read-town-for-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -124175,7 +124197,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-against-bill"]
+          "requiresFacts": ["read-town-against-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "guarded",
@@ -124200,7 +124223,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-against-bill"]
+          "requiresFacts": ["read-town-against-bill"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -124225,7 +124249,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-against-bill"]
+          "requiresFacts": ["read-town-against-bill"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "braced",
@@ -124250,7 +124275,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -124396,7 +124422,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "excludesFacts": ["daytime"]
+          "excludesFacts": ["daytime"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -124420,7 +124447,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.watched",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -124445,7 +124473,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-against-bill"]
+          "requiresFacts": ["read-town-against-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "guarded",
@@ -125159,7 +125188,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -125183,7 +125213,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",
@@ -125207,7 +125238,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "tender",
@@ -125231,7 +125263,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -125255,7 +125288,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -125423,7 +125457,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -125447,7 +125482,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -125471,7 +125507,8 @@
           "move": "relent",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",
@@ -125495,7 +125532,8 @@
           "move": "relent",
           "role": "asked",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -175650,7 +175688,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["reason-own-view"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "firm",
@@ -175676,7 +175715,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["reason-party"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -175702,7 +175742,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["reason-group"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "braced",
@@ -175728,7 +175769,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["reason-next-election"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -175754,7 +175796,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["reason-sponsor"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "braced",
@@ -175780,7 +175823,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["reason-last-vote"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "firm",
@@ -175906,7 +175950,8 @@
           "move": "accept",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "steady",
@@ -175932,7 +175977,8 @@
           "move": "accept",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "guarded",
@@ -175958,7 +176004,8 @@
           "move": "accept",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -175984,7 +176031,8 @@
           "move": "accept",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "tired",
@@ -176082,7 +176130,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "request",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -176092,7 +176141,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -176102,7 +176152,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "firm",
@@ -176128,7 +176179,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "request",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -176138,7 +176190,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -176148,7 +176201,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -176174,7 +176228,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "request",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -176184,7 +176239,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "setsFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -176194,7 +176250,8 @@
           "move": "refuse",
           "role": "asked",
           "after": "bargain",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "braced",
@@ -176219,7 +176276,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-for-bill"]
+          "requiresFacts": ["read-town-for-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "steady",
@@ -176244,7 +176302,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-for-bill"]
+          "requiresFacts": ["read-town-for-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -176269,7 +176328,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-for-bill"]
+          "requiresFacts": ["read-town-for-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "tired",
@@ -176294,7 +176354,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-for-bill"]
+          "requiresFacts": ["read-town-for-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "guarded",
@@ -176319,7 +176380,8 @@
           "role": "asked",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "requiresFacts": ["read-town-for-bill"]
+          "requiresFacts": ["read-town-for-bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "steady",
@@ -191301,7 +191363,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["asked-before"]
+          "requiresFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ]
     },
@@ -192308,7 +192371,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["bill", "count-one"]
+          "requiresFacts": ["bill", "count-one", "said-yes"]
         }
       ],
       "bearing": "relieved",
@@ -192333,7 +192396,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["bill", "count-several"]
+          "requiresFacts": ["bill", "count-several", "said-yes"]
         }
       ],
       "bearing": "glad",
@@ -192358,7 +192421,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["vote-tomorrow"]
+          "requiresFacts": ["vote-tomorrow", "said-yes"]
         }
       ],
       "bearing": "glad",
@@ -192435,7 +192498,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["stand", "about"]
+          "requiresFacts": ["stand", "about"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -192460,7 +192524,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["stand", "about"]
+          "requiresFacts": ["stand", "about"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -192485,7 +192550,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["stand", "about"]
+          "requiresFacts": ["stand", "about"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -192511,7 +192577,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["stand-against", "about"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -192537,7 +192604,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["stand-against", "about"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "firm",
@@ -192563,7 +192631,8 @@
           "move": "refuse",
           "role": "asked",
           "requiresFacts": ["read-town-against-bill", "about"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -192640,7 +192709,8 @@
           "step": "reply",
           "move": "lie",
           "role": "asked",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -192665,7 +192735,8 @@
           "step": "reply",
           "move": "lie",
           "role": "asked",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -192740,7 +192811,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["stand-against"]
+          "requiresFacts": ["stand-against"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -192765,7 +192837,8 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["read-same-party"]
+          "requiresFacts": ["read-same-party"],
+          "setsFacts": ["said-no"]
         }
       ],
       "bearing": "guarded",
@@ -192790,7 +192863,8 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "tired",
@@ -192815,7 +192889,8 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
-          "requiresFacts": ["voted-with-before"]
+          "requiresFacts": ["voted-with-before"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -192840,7 +192915,8 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
-          "requiresFacts": ["read-same-party"]
+          "requiresFacts": ["read-same-party"],
+          "setsFacts": ["said-yes"]
         }
       ],
       "bearing": "tired",
@@ -192969,7 +193045,7 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["vote-tomorrow"]
+          "requiresFacts": ["vote-tomorrow", "said-yes"]
         }
       ],
       "bearing": "glad",
@@ -192994,7 +193070,7 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["vote-today"]
+          "requiresFacts": ["vote-today", "said-yes"]
         }
       ],
       "bearing": "glad",
@@ -193019,7 +193095,8 @@
           "step": "close",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["vote-tomorrow"]
+          "requiresFacts": ["vote-tomorrow"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -193044,7 +193121,8 @@
           "step": "close",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["vote-today"]
+          "requiresFacts": ["vote-today"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "braced",
@@ -193069,7 +193147,8 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "requiresFacts": ["voted-against-before"]
+          "requiresFacts": ["voted-against-before"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "firm",
@@ -193094,7 +193173,8 @@
           "step": "close",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["count-several"]
+          "requiresFacts": ["count-several"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "calm",
@@ -193119,7 +193199,8 @@
           "step": "close",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["bill", "count-one"]
+          "requiresFacts": ["bill", "count-one"],
+          "excludesFacts": ["said-yes"]
         }
       ],
       "bearing": "tired",
