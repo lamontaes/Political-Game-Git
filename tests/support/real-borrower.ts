@@ -26,10 +26,51 @@ import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 
 export const LOAN_SEED = "promises-real-loan-1";
-/** The player who takes a bank personal loan and misses its payment (draw and birthday on `LOAN_SEED`). */
-export const BANK_BORROWER = { draw: 16, birth: "1995-03-01" } as const;
 /** Days the player's clock may run before the first missed payment: the loan is written at a month's close and billed monthly. */
 const QUARREL_DAYS = 200;
+/** The creator birthdays a draw is played with: a player who heads a home with a grown housemate, then an older one. */
+export const BORROWER_BIRTHS: readonly string[] = ["1995-03-01", "1985-03-01"];
+/** How many places a search draws before it is a true red. */
+export const BORROWER_DRAWS = 4;
+
+/** A borrower found by drawing: the played world at its first money quarrel over a missed payment. */
+export interface FoundBorrower {
+  readonly core: CoreState;
+  readonly director: ReturnType<typeof buildBenchWorld>["director"];
+  readonly playerId: PersonId;
+  readonly where: string;
+  readonly quarrel: NonNullable<ReturnType<typeof playToQuarrel>>;
+  /** The draws played with no borrower, one line each. */
+  readonly passedOver: readonly string[];
+}
+
+/**
+ * Draws places on `LOAN_SEED` and plays each with each birthday until a
+ * household really borrows and misses a payment (CTO, Nov 17, on #10009:
+ * "take the pin out ... searches drawn places for any household that
+ * actually borrowed ... never passes on a draw with no borrower, and it
+ * prints how many places it drew"). Returns the first found, or undefined
+ * with every draw named: then the red is the world's (pool items
+ * credit-young-adult-at-home-never-borrows and
+ * world-loan-bill-before-first-payday-no-borrower-keeps).
+ */
+export function findBorrower(
+  draws: number = BORROWER_DRAWS,
+  births: readonly string[] = BORROWER_BIRTHS,
+): FoundBorrower | { readonly passedOver: readonly string[] } {
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < draws; draw += 1)
+    for (const birth of births) {
+      const { core, director, playerId, where } = borrowerWorld(draw, birth);
+      const id = playerId as PersonId;
+      director.watch(core, id);
+      const quarrel = playToQuarrel(core, id);
+      if (quarrel)
+        return { core, director, playerId: id, where, quarrel, passedOver };
+      passedOver.push(`${where}: no missed payment by ${core.date}`);
+    }
+  return { passedOver };
+}
 
 export function borrowerWorld(draw: number, birth: string) {
   const place = drawPlace(LOAN_SEED, `loan:${draw}`);

@@ -23,7 +23,7 @@ import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
 import type { ScheduleEntry } from "../../src/director/scheduling";
 import type { TreeNode } from "../../src/director/scene-talk";
 import { wordConversationMove } from "../../src/english/conversation-words";
-import { borrowerWorld, play, playToQuarrel } from "./real-borrower";
+import { findBorrower, play, type FoundBorrower } from "./real-borrower";
 
 /** A check that holds or stops the run with its message. */
 export type Check = (holds: boolean, message: string) => void;
@@ -309,14 +309,6 @@ function promiseToPay(
   );
   return { replyId, owedId: result.scene.askerId };
 }
-/** A borrower played to a pay-on-time promise: the place's draw and the creator's birthday. */
-export interface PayBorrower {
-  readonly draw: number;
-  readonly birth: string;
-  /** Days the player's clock may run to the first quarrel over a missed payment. */
-  readonly quarrelDays?: number;
-}
-
 /**
  * Plays the borrower from the New game creator's birthday to the quarrel over
  * their own missed payment, the apology answered with a promise to make it
@@ -325,16 +317,27 @@ export interface PayBorrower {
  * world-loan-bill-before-first-payday-no-borrower-keeps), and the talk that
  * brings it up. Returns the played record.
  */
-export function playPayOnTime(borrower: PayBorrower, check: Check): string {
-  const { draw, birth, quarrelDays } = borrower;
-  const { core, director, playerId, where } = borrowerWorld(draw, birth);
-  const id = playerId as PersonId;
-  director.watch(core, id);
-  // The longer run is the game's own: the player's days until the bank
-  // or the storefront lender writes the loan and the payment goes unpaid.
-  const quarrel = playToQuarrel(core, id, quarrelDays);
-  check(Boolean(quarrel), `${where}: no missed payment by ${core.date}`);
-  const missed = core.durableLog.get(String(quarrel!.facts?.missedId));
+export function playPayOnTime(check: Check, draws?: number): string {
+  // The borrower is found by drawing, never pinned (CTO, Nov 17, #10009):
+  // the loan and the missed payment are the credit engine's own, on the
+  // player's own clock.
+  const found = findBorrower(draws);
+  check(
+    "quarrel" in found,
+    `no household borrowed and missed a payment in ${found.passedOver.length} played draws (a red of the world: credit-young-adult-at-home-never-borrows, world-loan-bill-before-first-payday-no-borrower-keeps):\n    ${found.passedOver.join("\n    ")}`,
+  );
+  const {
+    core,
+    director,
+    playerId: id,
+    where,
+    quarrel,
+    passedOver,
+  } = found as FoundBorrower;
+  process.stdout.write(
+    `PAY ON TIME: borrower found after ${passedOver.length} draws passed over${passedOver.length ? `:\n    ${passedOver.join("\n    ")}` : ""}\n`,
+  );
+  const missed = core.durableLog.get(String(quarrel.facts?.missedId));
   check(
     missed?.kind === "credit.payment-missed",
     `${where}: quarrel over ${missed?.kind}`,
@@ -393,5 +396,5 @@ export function playPayOnTime(borrower: PayBorrower, check: Check): string {
     said.includes(name),
   );
   check(Boolean(payment), `${where}: payment not named: ${said}`);
-  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id} over the earlier missed payment ${String(quarrel!.facts?.missedId)}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`;
+  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel.id} over the earlier missed payment ${String(quarrel.facts?.missedId)}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`;
 }

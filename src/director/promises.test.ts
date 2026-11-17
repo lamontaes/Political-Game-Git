@@ -7,8 +7,9 @@
  *
  * Pinned places: each test draws places from all 56 on a fixed seed (named
  * here and in each line it prints) and plays the first that has the case,
- * printing what it passed over. The pay-on-time test plays a pinned
- * borrower (`BANK_BORROWER`) whose loan and missed payments are the credit
+ * printing what it passed over. The pay-on-time test draws places and plays
+ * each until a household really borrows and misses a payment (CTO, Nov 17:
+ * no pinned borrower); the loan and the missed payments are the credit
  * engine's own. HAND-STAGED, labeled where they stand: the hire that brings
  * the new coworker (as meeting-scene.test.ts) and the townsperson met for
  * the meeting ask. From there the scene, the reply, the record that settles
@@ -40,11 +41,7 @@ import { nextMeetingFacts } from "./meeting-facts";
 import { openConversation, say } from "./conversation";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
-import {
-  LOAN_SEED,
-  BANK_BORROWER,
-  play,
-} from "../../tests/support/real-borrower";
+import { LOAN_SEED, play } from "../../tests/support/real-borrower";
 import {
   type Check,
   pathTo,
@@ -72,28 +69,20 @@ function world(attempt: number, label: string) {
 }
 
 /**
- * The pay test plays the pinned borrower's days about nine months (the loan,
- * the missed payment, the promise's window): 135 seconds alone and 130 beside
- * the file's other cases on Nov 16, so twice the slower.
- *
- * Old premise, re-pinned Nov 16 (Account lead): a borrower who takes work
- * pays the next bill on time, so a second run took the next employer's call
- * and expected the promise kept. It stopped being true with #9532, which
- * more than doubled the living costs a personal loan is sized from (two
- * months of them, creditPersonalMonthsOfCosts): the bill falls on the
- * 1st and the first paycheck after taking work is smaller or later (Ragland:
- * $161 due Sep 1 at $0, first pay $614 on Sep 5). A one-hour hunt on the
- * Train found no played borrower who keeps it, so the kept case is a fault in
- * the world, pool item world-loan-bill-before-first-payday-no-borrower-keeps,
- * and comes back when that item lands.
+ * The pay test draws places on LOAN_SEED (four draws, two birthdays) and plays
+ * each about seven months until a household borrows and misses a payment;
+ * each played world is about two minutes. A run that finds no borrower is a
+ * true red whose cause is the world (credit-young-adult-at-home-never-borrows,
+ * world-loan-bill-before-first-payday-no-borrower-keeps), and it names every
+ * draw it played.
  */
-const PAY_TIMEOUT = 270_000;
+const PAY_TIMEOUT = 1_200_000;
 it(
   `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one (seed ${LOAN_SEED})`,
   () => {
     setBookkeeping(false);
     try {
-      const done = [playPayOnTime(BANK_BORROWER, ok)];
+      const done = [playPayOnTime(ok)];
       process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
     } finally {
       setBookkeeping(true);
