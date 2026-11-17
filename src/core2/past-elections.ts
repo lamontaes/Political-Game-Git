@@ -19,7 +19,7 @@
  * and the voting engine weighs them.
  */
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
-import { centuryRace } from "./modules/elections";
+import { centuryRace, centurySeatRace } from "./modules/elections";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
 import { partySide } from "./appointments";
@@ -449,12 +449,18 @@ export function buildPriorElections(
         if (!date || date >= town.opening) continue;
         const id = `prior-election:${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
-        // The presidency's races are the century's (century.ts): its share and votes cast are
-        // the count's, with no drift; "today" reads the real result.
-        const century =
+        // The presidency's and Congress's races are the century's (electorate-century.ts): its
+        // share and votes cast are the count's, with no drift; "today" reads the real result.
+        const century:
+          { id: string; winnerShare: number; votes: number } | undefined =
           office.kind === "president" || office.kind === "vice-president"
             ? centuryRace(town.seed, town.opening, Number(date.slice(0, 4)))
-            : undefined;
+            : centurySeatRace(
+                town.seed,
+                office,
+                seat,
+                Number(date.slice(0, 4)),
+              );
         const real = century
           ? { share: century.winnerShare, total: century.votes }
           : realResult({
@@ -612,7 +618,7 @@ export function buildPriorElections(
           source: century
             ? {
                 tag: "ESTIMATED",
-                citation: `The century's count of the ${date.slice(0, 4)} presidential election, ${century.id} (src/core2/electorate-century.ts)`,
+                citation: `The century's count of the ${date.slice(0, 4)} race, ${century.id} (src/core2/electorate-century.ts)`,
               }
             : real
               ? {

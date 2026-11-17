@@ -74,10 +74,19 @@ import {
 export type { OfficeInput, SeatInput };
 import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import {
+  centuryCongressSeat,
   centuryPresidency,
   centurySeatParty,
+  centurySeatRace,
+  senateClassNext,
   worldSeatParty,
 } from "./elections";
+
+/** A House seat's district code from its id (`seat:<state>:us-house:<district>`), null at large. */
+function seatDistrict(seatId: string): string | null {
+  const code = seatId.split(":").at(-1) ?? "";
+  return /^\d+$/.test(code) ? code : null;
+}
 // A screen reads which district a town votes in through this entry.
 // Another state's offices as plain definitions (titles, seats), for a view
 // that names them without creating them in the world.
@@ -630,8 +639,9 @@ export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
 
 /**
  * The offices with each seat held by the party that holds it in this world: the party the
- * century before day one left in it where the century runs the seat (century.ts; the
- * presidency so far), else the seat's own record moved by the world's swing.
+ * century before day one left in it where the century runs the seat (electorate-century.ts: the
+ * presidency and Congress so far), else the seat's own record moved by the world's swing. A
+ * Senate seat the century runs is up in its own class's next year.
  */
 function worldParties(
   seed: string,
@@ -640,12 +650,21 @@ function worldParties(
 ): OfficeWithSeats[] {
   return entries.map((entry) => ({
     ...entry,
-    seats: entry.seats.map((seat) => ({
-      ...seat,
-      party:
-        centurySeatParty(seed, date, entry.office) ??
-        worldSeatParty(seed, entry.office, seat),
-    })),
+    seats: entry.seats.map((seat) => {
+      const member =
+        entry.office.kind === "us-senate"
+          ? centuryCongressSeat(seed, date, entry.office, seat)
+          : undefined;
+      return {
+        ...seat,
+        party:
+          centurySeatParty(seed, date, entry.office, seat) ??
+          worldSeatParty(seed, entry.office, seat),
+        ...(member
+          ? { electionYear: senateClassNext(member.senateClass, date) }
+          : {}),
+      };
+    }),
   }));
 }
 
@@ -1104,8 +1123,16 @@ function pastTerms(
             : "localOfficialTenureYears";
   const mean = Math.max(0, tenureYears(tenureKey) / years - 0.5);
   const q = mean / (1 + mean);
-  const u = seededUnit(worldSeed, `${seat.id}:career`);
-  let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
+  // A seat the century ran: its holder's terms are the century's (electorate-century.ts).
+  const member = centuryCongressSeat(worldSeed, opening, office, seat);
+  let prior = member
+    ? member.termsWon - 1
+    : q > 0
+      ? Math.floor(
+          Math.log(1 - seededUnit(worldSeed, `${seat.id}:career`)) /
+            Math.log(q),
+        )
+      : 0;
   // No one first served younger than the minimum age.
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
@@ -1241,6 +1268,14 @@ function electionBehind(
         )
           .toISOString()
           .slice(0, 10);
+  // The century's race for the seat where the century ran it (electorate-century.ts).
+  const century = centurySeatRace(
+    worldSeed,
+    office,
+    { id: seatId, district: seatDistrict(seatId) },
+    Number(date.slice(0, 4)),
+  );
+  if (century) return { date, share: century.winnerShare };
   // The race's real result where the research has it (the 2024 House, the
   // Senate class last elected, the presidency), as this world drifts it.
   const recorded = office.jurisdiction.startsWith("US-")

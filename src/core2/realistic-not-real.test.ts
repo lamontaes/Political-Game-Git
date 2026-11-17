@@ -52,7 +52,7 @@ import { lawChain } from "./modules/laws";
 import { partyName } from "./appointments";
 import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { centuryOf } from "./modules/elections";
+import { centuryRecordVotes } from "./modules/elections";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
 import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
@@ -978,9 +978,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
             facts.contestId!,
             {
               recordId: facts.centuryRecordId!,
-              count: centuryOf(core.seed, core.startedAt).presidencies.find(
-                (row) => row.id === facts.centuryRecordId,
-              )?.votes,
+              count: centuryRecordVotes(core.seed, facts.centuryRecordId!),
             },
           ]),
       );

@@ -87,16 +87,23 @@ export {
 } from "../electorate-places";
 /** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
 export {
+  centuryCongressSeat,
   centuryOf,
   centuryPresidency,
   centuryRace,
+  centuryRecordVotes,
   centurySeatParty,
+  centurySeatRace,
+  senateClassNext,
   historyMode,
   presidencyPartyTerms,
   runCentury,
   setHistoryMode,
   type Century,
+  type CenturyCongress,
   type CenturyPresidency,
+  type CenturySeat,
+  type CenturySeatRace,
   type HistoryMode,
 } from "../electorate-century";
 

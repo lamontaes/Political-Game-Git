@@ -17,7 +17,14 @@ import {
   registerViewLeans,
 } from "./campaign-views";
 import { campaignParameter, type Stance } from "./campaign-data";
-import { electorateParameter } from "./electorate-inputs";
+import {
+  appealOfShare,
+  candidateReasons,
+  electorateParameter,
+  type CandidateInputs,
+  type CandidateReasons,
+  type RaceConditions,
+} from "./electorate-inputs";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
@@ -1084,6 +1091,60 @@ function coarseSample(sample: readonly SampleVoter[]): CoarseSample {
   };
   coarseBySample.set(sample, entry);
   return entry;
+}
+
+/**
+ * The field of a race between party candidates as every counted voter sees it: each candidate's
+ * public standing from their reasons (the one race rule), and, for a holder, the voters' own
+ * incumbent lean read against `incumbentLeanCenter` (the town's average, in play).
+ */
+export function partyFieldEntries(
+  reasons: readonly CandidateReasons[],
+  field: readonly CandidateInputs[],
+  incumbentLeanCenter?: number,
+): readonly CountedFieldEntry[] {
+  return field.map((c, i) => ({
+    id: c.id,
+    side: c.side,
+    isIncumbent: c.incumbent,
+    // The holder's standing carries the average incumbency advantage, so each
+    // voter's own incumbent lean is read against the town's average, as the
+    // town's own races read it.
+    ...(c.incumbent && incumbentLeanCenter !== undefined
+      ? { incumbentLeanCenter }
+      : {}),
+    standing: appealOfShare(reasons[i]!.total),
+    localStanding: 0,
+    recognition: 0,
+    platform: [],
+  }));
+}
+
+/**
+ * One race between party candidates in places counted from afar: each candidate's reasons by the
+ * one race rule (`candidateReasons`), then the places counted on the one count (`countPlaces`).
+ * The one path for the world's races in play (voting.ts `decide`, the electors' states) and the
+ * century before day one (electorate-century.ts), so both count a race the same way.
+ */
+export function countParties(
+  sample: readonly SampleVoter[],
+  places: readonly RacePlace[],
+  field: readonly CandidateInputs[],
+  conditions: RaceConditions,
+  incumbentLeanCenter?: number,
+): {
+  readonly reasons: readonly CandidateReasons[];
+  readonly counted: ReturnType<typeof countPlaces>;
+} {
+  const reasons = field.map((c) => candidateReasons(c, conditions));
+  return {
+    reasons,
+    counted: countPlaces(
+      sample,
+      places,
+      partyFieldEntries(reasons, field, incumbentLeanCenter),
+    ),
+  };
 }
 
 /**
