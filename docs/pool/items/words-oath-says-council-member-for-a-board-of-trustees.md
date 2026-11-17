@@ -33,4 +33,4 @@ Seen: Thompsonville, Illinois (1775159), seed 4276344481a2b078e70633cfee47d0cacc
 
 **Waits on.** Nothing.
 
-**Files.** src/director/swearing-in.ts, src/director/cause-facts.ts
+**Files.** `src/director/swearing-in.ts` (removed), src/director/cause-facts.ts
