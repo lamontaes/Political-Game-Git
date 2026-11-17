@@ -91,6 +91,8 @@ export interface EntryBoard {
   pending?: true;
   /** The day's pick. */
   picked?: true;
+  /** Its cause is the person's own record: weighed outside the pace's room, and not spending it. */
+  own?: true;
   /** Why the moment was not the day's pick. */
   cut?: BoardCut;
   /** The day's scenes from circumstance weighed beside it and never stored. */
@@ -535,20 +537,23 @@ export function ownCause(
   );
 }
 
-/** Scenes picked by the board over the trailing year: the life's room is its pace less these. */
+/**
+ * Scenes picked by the board over the trailing year whose cause was not the
+ * person's own record: the life's room is its pace less these. A consequence
+ * of what the person did is not rationed by the room (Story lead, Nov 17).
+ */
 export function picksInYear(
   library: SituationLibrary,
   book: PersonLedger,
   date: IsoDate,
 ): number {
   const since = addDays(makeIsoDate(date), -library.scheduling.trailingDays);
-  let picks = zero;
-  for (let at = book.schedule.length - one; at >= zero; at -= one) {
-    const entry = book.schedule[at]!;
-    if (entry.date <= since) break;
-    if (entry.board?.picked) picks += one;
-  }
-  return picks;
+  const days = book.boardPicks ?? [];
+  // The days are kept in order: those a year gone are dropped as they are read.
+  let gone = zero;
+  while (gone < days.length && days[gone]! <= since) gone += one;
+  if (gone) days.splice(zero, gone);
+  return days.length;
 }
 
 /**
@@ -558,7 +563,8 @@ export function picksInYear(
  * comes ahead of the day's others first of all; of equal amounts, a cause
  * that is the person's own record before one about someone else, then the
  * stable hash), its wordings checked, and the first whose wordings hold is picked
- * while the life has room. A scene met where the person is plays now; any
+ * while the life has room, or whatever the room when its cause is the
+ * person's own record. A scene met where the person is plays now; any
  * other waits for them, and while time is skipped only a scene met where they
  * are can stop the skip. Every candidate not picked keeps why on its entry.
  * Returns the pick, and the scene from circumstance staged first as the
@@ -655,7 +661,10 @@ export function pickFromBoard(
         score: candidate.score,
         cut,
       });
-    if (picked || room <= zero) {
+    // The room is for the world coming to the person unbidden: a candidate
+    // whose cause is their own record (a story of their vote, a law they
+    // passed reaching someone, an act of theirs) is weighed outside it.
+    if (picked || (room <= zero && !candidate.own)) {
       const cut = picked ? "outscored" : "no-room";
       if (candidate.entry) candidate.entry.board!.cut = cut;
       else cutOffer(cut);
@@ -687,6 +696,8 @@ export function pickFromBoard(
       continue;
     }
     entry.board.picked = true;
+    if (candidate.own) entry.board.own = true;
+    else (book.boardPicks ??= []).push(input.date);
     entry.outcome = now ? "scene-now" : "scene-waiting";
     entry.interrupt = now;
     if (now) entry.stopsBecause = ["met-here"];

@@ -525,6 +525,7 @@ export function createDirector(
       forgottenBroad: new Map(),
       backdropCounts: new Map(),
       schedule: [],
+      boardPicks: [],
       belowFloor: new Map(),
       quietDays: zero,
       observedDays: zero,

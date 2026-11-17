@@ -92,7 +92,7 @@
       "none": 1,
       "tag": "TUNABLE",
       "spread": [1, 4],
-      "note": "How many times its pace (paces, above) a life's year holds in scenes the director's board picks, by the person's standing (standing.ts holds words): serving in an office, filed in a contest ahead, neither. An officeholder's year holds more (the Story lead, Nov 17, on #9841: a stop from the player's own vote or law must not be starved to thin the stops from nothing they did). Checked against the played year of Elkhart, Texas (4823140), seed ba995bbcf319779c52e6d2a4d029838d, as a council member. A flat multiplier until the cards' weights decide what fills the room (SG-DIRECTOR-board-room-by-standing; pool item director-cards-require-and-weigh)."
+      "note": "How many times its pace (paces, above) a life's year holds in scenes the director's board picks, by the person's standing (standing.ts holds words): serving in an office, filed in a contest ahead, neither. An officeholder's year holds more (the Story lead, Nov 17, on #9841: a stop from the player's own vote or law must not be starved to thin the stops from nothing they did). Checked against the played year of Elkhart, Texas (4823140), seed ba995bbcf319779c52e6d2a4d029838d, as a council member. A candidate whose cause is the person's own record (a story of their vote, a law they passed reaching someone) is weighed outside the room and does not spend it (Story lead, Nov 17), so the office value likely settles lower once the cards' weights are in; for PR 5 to calibrate. A flat multiplier until the cards' weights decide what fills the room (SG-DIRECTOR-board-room-by-standing; pool item director-cards-require-and-weigh)."
     },
     "openDays": {
       "at-cause": 7,

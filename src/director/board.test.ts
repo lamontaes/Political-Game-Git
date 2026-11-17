@@ -3,7 +3,8 @@
  * candidate felt most whose wordings hold, a candidate that fails a gate is
  * cut with that gate, a life with no room left picks nothing, equal amounts
  * break by the stable hash whatever order they came in, a cause that is the
- * person's own record outranks an equal one about someone else, and over a
+ * person's own record outranks an equal one about someone else and is picked
+ * on a year with no room left without spending it, and over a
  * played stretch every watched person's day has at most one pick, every
  * candidate left on the board ends picked or cut, and no year holds more picks
  * than the life's room (its pace times what its standing holds). Places are
@@ -116,18 +117,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   );
   const full: PersonLedger = {
     ...book,
-    schedule: [
-      ...book.schedule,
-      ...Array.from({ length: pace }, (_, at) => ({
-        ...waitingEntry(`board:earlier:${at}`, date, 0.3),
-        board: {
-          cards: [],
-          reads: { impact: 0.3 },
-          score: 0.3,
-          picked: true as const,
-        },
-      })),
-    ],
+    boardPicks: Array.from({ length: pace }, () => date),
   };
   expect(
     picksInYear(SITUATION_LIBRARY, full, date),
@@ -181,7 +171,7 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
   const other = records.find((id) => !ownCause(core, playerId, id));
   expect(own, `${where}: a record naming ${playerId}`).toBeDefined();
   expect(other, `${where}: a record about someone else`).toBeDefined();
-  const open: PersonLedger = { ...book, schedule: [] };
+  const open: PersonLedger = { ...book, schedule: [], boardPicks: [] };
   for (const order of [
     [other!, own!],
     [own!, other!],
@@ -196,6 +186,43 @@ it(`the board picks the candidate felt most whose wordings hold, at a drawn plac
       }).picked?.momentId,
       `${where}: ${own} over ${other}`,
     ).toBe(`board:offer:${own}`);
+  // The room is for the world coming unbidden: on a year with no room left,
+  // a cause that is the person's own record is still picked, and it does not
+  // spend the room; one about someone else is not.
+  const fullNow: PersonLedger = {
+    ...book,
+    boardPicks: Array.from({ length: pace }, () => makeIsoDate(core.date)),
+  };
+  const whenFull = (causeId: string) =>
+    pickFromBoard(core, fullNow, {
+      date: makeIsoDate(core.date),
+      mode: "live",
+      pending: [],
+      offers: [offerOf(causeId)],
+      worded: () => undefined,
+    }).picked;
+  expect(whenFull(other!), `${where}: ${other} on a full year`).toBeUndefined();
+  const ownPick = whenFull(own!);
+  expect(ownPick?.momentId, `${where}: ${own} on a full year`).toBe(
+    `board:offer:${own}`,
+  );
+  expect(ownPick!.board!.own, where).toBe(true);
+  expect(
+    picksInYear(SITUATION_LIBRARY, fullNow, makeIsoDate(core.date)),
+    `${where}: an own pick spends no room`,
+  ).toBe(pace);
+  // A year later the room is back: the picks a year gone are not counted.
+  expect(
+    picksInYear(
+      SITUATION_LIBRARY,
+      fullNow,
+      addDays(
+        makeIsoDate(core.date),
+        SITUATION_LIBRARY.scheduling.trailingDays,
+      ),
+    ),
+    where,
+  ).toBe(0);
   let picks = 0;
   let cuts = 0;
   for (const [personId, watched] of director.ledger.people) {
