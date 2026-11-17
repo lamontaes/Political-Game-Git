@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { wordPrintedStory } from "../../bench/archive-words";
 import { buildBenchWorld } from "../../bench/world";
@@ -21,11 +22,10 @@ import { actionsOf, organizerOf } from "./public-action";
 // through the interest-group engine: the same group a bill's fiscal losers
 // form, with the organizer as its lobbyist, lobbying the next bill on its
 // question. A weak or small crowd never does.
-// Pinned to Lincoln, Vermont (a drawn place may have no crowd that founds one).
-const seed = "pa-seed-9320";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 setBookkeeping(false);
-const place = drawPlace(seed, "pa-b");
-const where = `${place.name} (${place.key}), seed ${seed}`;
+const place = drawPlace(`${seed}:0`, "public-action-movement");
+const where = `${place.name} (${place.key}), seed ${seed}:0`;
 const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
   placeKey: place.key,
