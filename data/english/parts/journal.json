@@ -11018,6 +11018,32 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-in-a-landslide",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost the race for {office} in a landslide.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
