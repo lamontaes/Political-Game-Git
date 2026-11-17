@@ -19,6 +19,7 @@ import { constituentFacts } from "./constituent-help-facts";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 import situationFile from "./data/situation-types.json" with { type: "json" };
+import SCENE_ENDINGS from "../core2/data/constituent-cases/scene-endings.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import sceneTalk from "../../data/english/parts/scene-talk.json" with { type: "json" };
@@ -65,16 +66,34 @@ const TYPE = (
 // drawn place makes in 45 days and checks every read against the records; the
 // probes after it are HAND-MADE records, one constituent each, labeled.
 it(`office hours plays the variant the constituent's records give (seed ${seed})`, () => {
-  // Every variant keeps the plain arc's endings and what each keeps (promise,
-  // meeting-set, relationship-strained, trust-lost), which is what the engines
-  // read downstream: data equality, so none can go unreachable.
-  expect(Object.keys(VARIANTS).sort()).toEqual(["eviction", "plain", "sick"]);
+  // Each case has steps and endings of its own (custody asks for the visit,
+  // illness ends in the honest no). What the cases engine reads is the ending
+  // id: every ending a variant names is one the cases engine decides on
+  // (scene-endings.json), or a plain ending that decides nothing, with the
+  // same keep as the plain arc. The eviction variant is left as it was: no
+  // case is opened for a rent notice yet (pool item
+  // office-hours-rent-case-waits-on-town-notices), so no visit can reach it.
+  expect(Object.keys(VARIANTS).sort()).toEqual([
+    "custody",
+    "eviction",
+    "plain",
+    "sick",
+  ]);
+  const decided = new Set([...SCENE_ENDINGS.help, ...SCENE_ENDINGS.decline]);
+  const plainKeeps = new Map(PLAIN_ENDINGS.map((e) => [e.id, e.keeps]));
   for (const [name, row] of Object.entries(VARIANTS)) {
-    if (!row.arc) continue;
+    if (!row.arc || name === "eviction") continue;
+    for (const ending of row.arc.endings) {
+      if (decided.has(ending.id)) continue;
+      expect(plainKeeps.get(ending.id), `${name} ${ending.id}`).toBe(
+        ending.keeps,
+      );
+      expect(ending.keeps, `${name} ${ending.id}`).toBe("none");
+    }
     expect(
-      row.arc.endings.map((e) => [e.id, e.keeps]),
-      `${name} keeps the plain endings`,
-    ).toEqual(PLAIN_ENDINGS.map((e) => [e.id, e.keeps]));
+      row.arc.endings.some((e) => SCENE_ENDINGS.decline.includes(e.id)),
+      `${name} has its no`,
+    ).toBe(true);
   }
 
   // The route needs a town where a resident brought a problem to an official;
@@ -371,8 +390,8 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         name: fact("Pat Rivera", askerId),
         first: fact(core.people.get(asked)!.givenName, asked),
         // What the case on the office's books gives every visit (caseFacts):
-        // where the office refers it, and when it decides.
-        agency: fact("the workforce office", askerId),
+        // its problem, and when the office decides it.
+        "problem-work": fact("yes", askerId),
         "respond-in": fact("in seven days", askerId),
         ...extra,
       };

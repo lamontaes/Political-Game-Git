@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 975,
+  "judged": 971,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -250,19 +250,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, question about the source or push-back in new words."
-    },
-    "04ikzmt54hp": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
-        "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
-        "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
-        "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
-        "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
-        "scene-talk.reply-offer.sit-down-with-the-caseworker-and-bring-your-lease-together-you-can-read-what-tha",
-        "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help"
-      ],
-      "why": "Legal aid, the caseworker and 'I can't stop a landlord' are the first legal aid, caseworker and town-can't-pay options again."
     },
     "04wpjmu3gn0": {
       "keys": [
@@ -2414,19 +2401,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "18v4qkjpnxf": {
-      "keys": [
-        "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
-        "scene-talk.reply-promise.i-ll-call-the-clinic-s-social-worker-myself-and-ask-her-to-see-you-this-week",
-        "scene-talk.reply-ask.who-is-helping-you-right-now-and-who-isn-t",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-medical-bills-i-can-tell-you-who-does",
-        "scene-talk.reply-offer.my-caseworker-can-sit-down-with-you-and-the-bills-bring-all-of-them-even-the-one",
-        "scene-talk.reply-promise.i-ll-ask-the-county-health-department-who-can-come-to-your-house-and-i-ll-call-y",
-        "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
-        "scene-talk.reply-decline.health-coverage-is-the-state-s-not-mine-i-can-send-you-to-the-people-who-can-loo"
-      ],
-      "why": "The caseworker and 'health coverage is the state's' restate the first caseworker and town-doesn't-pay options, leaving only the home-visit line new."
-    },
     "193xo94kjb7": {
       "keys": [
         "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
@@ -2973,20 +2947,6 @@
         "scene-talk.reply-leave.i-can-t-decide-this-right-now"
       ],
       "why": "Taking the job, passing on {position} and not deciding now restate the first yes, no and talk-it-over options."
-    },
-    "1iw6wfbpfns": {
-      "keys": [
-        "scene-talk.follow-answer.the-landlord-s-agent-signed-it-he-told-me-in-the-hallway-there-s-nothing-to-talk",
-        "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
-        "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
-        "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
-        "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
-        "scene-talk.reply-offer.leave-the-notice-with-my-staff-they-ll-copy-it-and-call-the-landlord-s-office-to",
-        "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help",
-        "scene-talk.reply-leave.i-have-people-waiting-but-you-re-not-leaving-empty-go-to-the-desk-and-my-staff-w"
-      ],
-      "why": "Legal aid, staff calling the landlord and 'I can't stop a landlord' restate the first legal aid, caseworker call and town-can't-pay options."
     },
     "1ja1tvhd9zt": {
       "keys": [
@@ -4372,5 +4332,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0552gvs6vpx"
+  "yesHash": "2efc357z26y"
 }

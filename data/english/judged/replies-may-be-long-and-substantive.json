@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 1003,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -4155,5 +4155,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "16hhpw4h379"
 }

@@ -11,16 +11,23 @@
  */
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
-import { careNeedOf } from "../core2/modules/health";
+import { careNeedOf, seriousIllnessOf } from "../core2/modules/health";
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
+import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   CASES_MODULE_ID,
+  caseLoad,
   openCasesOf,
   type CaseRow,
 } from "../core2/modules/offices";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
-import { countSaid, daysSaid } from "../english/count-words";
+import { lawInForce } from "../core2/modules/laws";
+import { JUSTICE_MODULE_ID, type CustodyRow } from "../core2/modules/justice";
+import { familyFactsOf } from "../core2/closeness";
+import { JOURNAL_WORDS } from "../english/journal-words";
+import { daysSaid } from "../english/count-words";
 import rules from "./data/constituent-help-facts.json" with { type: "json" };
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { dollars } from "../english/bill-sections";
@@ -28,6 +35,32 @@ import { spanSaid } from "../english/span-words";
 import type { Fact } from "../english/scene-talk-words";
 import { organizationName, spokenDate } from "./words";
 import type { VariantChoice } from "./arc-variant";
+
+/** The fact that says which problem a case was opened for, one per problem. */
+const PROBLEM_FACT: Record<CaseRow["problem"], string> = {
+  "looking-for-work": "problem-work",
+  "paid-under-minimum-wage": "problem-wage",
+  "family-in-custody": "problem-custody",
+  "caring-for-someone-ill": "problem-sick",
+};
+
+/** The law that covers adults by income through the state's program (law-reach group B, medicaid-coverage). */
+const EXPANSION =
+  "us-policy-positions:health-human-services.expand-medicaid-eligibility";
+
+/** What another person is to someone, as the journal's relation word ("brother", "mother"), from the family record. */
+function relationSaid(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  otherId: PersonId,
+): string | undefined {
+  const person = core.people.get(personId);
+  const kinKey = person ? familyFactsOf(person).get(otherId)?.relation : null;
+  const forms = kinKey ? JOURNAL_WORDS.relationWords[kinKey] : undefined;
+  if (!forms) return undefined;
+  const gender = core.people.get(otherId)?.looks?.gender ?? "other";
+  return forms[gender as keyof typeof forms] ?? forms.other;
+}
 
 /** The job a person lost most recently before a day: the jobs module's newest layoff row. */
 export function lastLayoff(
@@ -58,13 +91,17 @@ export function lastLayoff(
  * What the constituent's case on the office's books says (constituent-cases.ts
  * CaseRow), for the moves of the case-help set (data/english/scene-move-sets.json):
  *
- * - `problem-work` / `problem-wage`: the problem the case was opened for;
- * - `agency`: the office the official refers it to by taking it up;
+ * - `problem-work` / `problem-wage` / `problem-custody`: the problem the case
+ *   was opened for (out of work, paid under the floor, a relative in custody);
  * - `respond-in`: when the office decides it if nobody does sooner ("in
  *   seven days"), from the case's deadline;
  * - `employer` and `since` (a job seeker's last layoff), `money-left` (how
  *   their savings stand, in words), `pay` and `floor` (a wage complaint);
- * - `other-cases`: the official's other open cases; `staffer`: the aide who
+ *   `relative`, `relation`, `held-for` and `out-in` (a relative in custody:
+ *   their first name, what they are to the resident, and how long they have
+ *   been held and have left, each a bare span such as "two years");
+ * - `other-cases`: the official's other open cases are many, by the cases
+ *   engine's own load (`caseLoad`); `staffer`: the aide who
  *   would take the case, where the official has staff.
  *
  * A fact is set only where its record is on the books.
@@ -83,13 +120,7 @@ export function caseFacts(
   if (!row) return facts;
   const ids = [caseId];
   const said = (text: string) => ({ text, sourceRecordIds: ids });
-  facts[
-    row.problem === "paid-under-minimum-wage" ? "problem-wage" : "problem-work"
-  ] = said("yes");
-  const agency = (rules.agencyByProblem.value as Record<string, string>)[
-    row.problem
-  ];
-  if (agency) facts.agency = said(agency);
+  facts[PROBLEM_FACT[row.problem]] = said("yes");
   facts["respond-in"] = said(
     daysSaid(Math.max(P.one, daysBetweenText(cause.date, row.respondBy))),
   );
@@ -98,7 +129,74 @@ export function caseFacts(
     const floor = Number(row.facts.floorMinor ?? P.zero);
     if (hourly > P.zero) facts.pay = said(dollars(hourly));
     if (floor > P.zero) facts.floor = said(dollars(floor));
-  } else {
+  } else if (row.problem === "family-in-custody") {
+    // The relative in custody: who they are to the resident, their name, and
+    // how long they have been held and have left, from the custody record.
+    const kinId = String(row.facts.relativeId ?? "") as PersonId;
+    const kin = core.people.get(kinId);
+    const custody = coreAPI(core as CoreState)
+      .moduleState(JUSTICE_MODULE_ID)
+      .table("custody")
+      .get(String(row.facts.custodyId ?? "")) as unknown as
+      CustodyRow | undefined;
+    const relation = relationSaid(core, askerId, kinId);
+    if (kin)
+      facts.relative = { text: kin.givenName, sourceRecordIds: [kin.id] };
+    if (relation && kin)
+      facts.relation = { text: relation, sourceRecordIds: [askerId, kin.id] };
+    if (custody) {
+      const ids = [custody.id];
+      if (custody.from < cause.date)
+        facts["held-for"] = {
+          text: spanSaid(daysBetweenText(custody.from, cause.date)),
+          sourceRecordIds: ids,
+        };
+      if (custody.until > cause.date)
+        facts["out-in"] = {
+          text: spanSaid(daysBetweenText(cause.date, custody.until)),
+          sourceRecordIds: ids,
+        };
+    }
+  } else if (row.problem === "caring-for-someone-ill") {
+    // Who is ill (the resident or a relative at home), and whether anyone in
+    // the household holds a plan, from the health and coverage records.
+    const illId = String(row.facts.illId ?? "") as PersonId;
+    const ill = core.people.get(illId);
+    // What they have, from the health record's condition, said as the
+    // relative-news words say it; a condition the words do not name leaves the
+    // fact out and the lines that ask about it unoffered (rule 108).
+    const condition = seriousIllnessOf(core as CoreState, illId);
+    const illness = condition
+      ? RELATIVE_NEWS_WORDS.illnesses[condition]
+      : undefined;
+    if (illness)
+      facts.illness = { text: illness, sourceRecordIds: [illId] };
+    if (illId === askerId) facts["sick-self"] = said("yes");
+    else if (ill) {
+      facts["sick-relation"] = { text: "yes", sourceRecordIds: [ill.id] };
+      const relation = relationSaid(core, askerId, illId);
+      if (relation)
+        facts.relation = { text: relation, sourceRecordIds: [askerId, ill.id] };
+    }
+    const home = core.households.get(
+      core.people.get(askerId)?.householdId ?? "",
+    );
+    if (
+      core.modules.has(COVERAGE_MODULE_ID) &&
+      home &&
+      !home.memberIds.some((id) => {
+        const plan = coverageOf(api, id)?.plan;
+        return plan !== undefined && plan !== "none";
+      })
+    )
+      facts["no-plan"] = { text: "yes", sourceRecordIds: [home.id] };
+    if (
+      lawInForce(api, EXPANSION).levels.some(
+        (level) => (level.row?.value ?? P.zero) > P.zero,
+      )
+    )
+      facts.expansion = said("yes");
+  } else if (row.problem === "looking-for-work") {
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;
     if (loss) {
@@ -121,15 +219,11 @@ export function caseFacts(
     );
     if (band && row.severity > P.zero) facts["money-left"] = said(band.said);
   }
+  // A full desk: the office's other open cases weigh on its answer at least
+  // as much as everything else (the cases engine's own `caseLoad`, half at
+  // `caseLoadHalf`), so "too many" is true when the line says it.
   const others = openCasesOf(api, row.officialId, row.id);
-  if (others > P.zero) {
-    const words = rules.otherCases.value;
-    facts["other-cases"] = said(
-      others === P.one
-        ? words.one
-        : words.more.replace("{count}", countSaid(others)),
-    );
-  }
+  if (caseLoad(api, others) >= P.half) facts["other-cases"] = said("yes");
   if (core.modules.has(STAFF_MODULE_ID)) {
     const aide = servingStaffOf(api, row.officialId)
       .map((staffer) => core.people.get(staffer.personId))

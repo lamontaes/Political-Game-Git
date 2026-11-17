@@ -2953,40 +2953,77 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["promise", "ask", "decline", "offer"],
+            "replies": ["ask", "decline", "leave"],
             "follow": {
-              "promise": ["thank", "press"],
               "ask": ["answer"],
-              "decline": ["plea", "accept"],
-              "offer": ["thank", "press"]
+              "decline": ["press", "accept"]
             },
             "again": {
-              "answer": ["promise", "offer", "decline", "leave"],
-              "plea": ["promise", "offer", "decline"],
-              "press": ["apologize", "leave", "lie"]
+              "answer": ["ask", "decline", "leave"],
+              "press": ["answer", "leave"]
             },
             "repeatable": {
-              "answer": ["promise", "offer"]
+              "answer": ["ask"]
             },
             "endings": [
               {
-                "id": "will-call",
-                "settles": "help",
-                "opens": "office",
-                "label": "You'll make the call",
-                "keeps": "promise",
+                "id": "cant-help",
+                "settles": "decline",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
                 "when": {
-                  "anyReply": ["promise", "apologize"]
+                  "anyReply": ["decline"]
                 }
               },
               {
-                "id": "caseworker",
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "custody": {
+          "purpose": "constituent-help.custody",
+          "base": 1.0,
+          "onlyFor": {
+            "fact": "problem",
+            "is": "family-in-custody"
+          },
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "leave"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "press", "accept"]
+            },
+            "again": {
+              "answer": ["promise", "ask", "decline", "leave"],
+              "plea": ["promise", "decline"],
+              "press": ["apologize", "leave"]
+            },
+            "repeatable": {
+              "answer": ["promise", "ask"]
+            },
+            "endings": [
+              {
+                "id": "visit-asked",
                 "settles": "help",
                 "opens": "office",
-                "label": "Handed to a caseworker",
-                "keeps": "meeting-set",
+                "label": "Asked for the visit",
+                "keeps": "promise",
                 "when": {
-                  "anyReply": ["offer"]
+                  "anyReply": ["promise", "apologize"]
                 }
               },
               {
@@ -2996,22 +3033,6 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["decline"]
-                }
-              },
-              {
-                "id": "caught",
-                "label": "Caught in a lie",
-                "keeps": "trust-lost",
-                "when": {
-                  "caught": true
-                }
-              },
-              {
-                "id": "false-call",
-                "label": "A call you never made",
-                "keeps": "promise",
-                "when": {
-                  "believed": true
                 }
               },
               {

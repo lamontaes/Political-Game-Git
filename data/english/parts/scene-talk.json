@@ -158,7 +158,6 @@
     "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections.",
     "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
     "fee": "The sum a place's law charges to file, as people say money, from the filing rules (\"$75\").",
-    "agency": "The office a constituent's case is referred to when the official takes it up (\"the workforce office\"), by the case's problem in the constituent-cases record.",
     "staffer": "The first name of an aide serving on the official's staff, from the staff record.",
     "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
     "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
@@ -171,7 +170,11 @@
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
     "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
-    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
+    "held-for": "How long a relative has been held, as a span (\"three months\"), from the custody record.",
+    "relation": "How the person in the scene is related to someone in their case (\"brother\", \"daughter\"), from the family records.",
+    "out-in": "How long until a held relative is due out, as a bare span (\"two years\"), from the custody record.",
+    "illness": "The illness a person in the case has on the health record (\"cancer\", \"diabetes\"), as the relative-news words say it."
   },
   "maxWords": 70,
   "parts": [
@@ -17114,7 +17117,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "excludesFacts": ["agency"]
+          "excludesFacts": ["respond-in"]
         }
       ],
       "bearing": "nervous",
@@ -61062,7 +61065,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "after": "press",
-          "excludesFacts": ["agency"]
+          "excludesFacts": ["respond-in"]
         }
       ],
       "bearing": "guarded",
@@ -61088,7 +61091,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "after": "answer",
-          "excludesFacts": ["agency"]
+          "excludesFacts": ["respond-in"]
         }
       ],
       "bearing": "guarded",
@@ -145987,393 +145990,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll call the housing office myself and ask them to hold the filing until you've been seen.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-find-out-today-whether-the-town-has-any-rent-help-left-and-i-ll-tell-you-th",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll find out today whether the town has any rent help left, and I'll tell you the name of the person I spoke to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll ask the legal aid office to take your notice before the date on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.when-did-the-notice-come-and-have-you-paid-anything-since",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "When did the notice come, and have you paid anything since?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who signed it, and has the landlord said anything to you in person?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-did-you-tell-the-landlord-and-what-did-they-say-back",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did you tell the landlord, and what did they say back?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "My caseworker can call the landlord with you in the room. Stay for that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.leave-the-notice-with-my-staff-they-ll-copy-it-and-call-the-landlord-s-office-to",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Leave the notice with my staff. They'll copy it and call the landlord's office tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.sit-down-with-the-caseworker-and-bring-your-lease-together-you-can-read-what-tha",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Sit down with the caseworker and bring your lease. Together you can read what that notice has to follow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't stop a landlord from filing. I can tell you where tenants get free help.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "The town doesn't pay rent. I wish it did. Legal aid takes cases like yours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-people-waiting-but-you-re-not-leaving-empty-go-to-the-desk-and-my-staff-w",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have people waiting, but you're not leaving empty. Go to the desk and my staff will start a file.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.i-started-with-what-i-can-t-do-read-me-the-notice-line-by-line",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I started with what I can't do. Read me the notice, line by line.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-came-last-week-i-paid-what-i-had-on-the-third-and-they-gave-me-a-receipt-that",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It came last week. I paid what I had on the third, and they gave me a receipt that says partial.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.when-did-the-notice-come-and-have-you-paid-anything-since"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-landlord-s-agent-signed-it-he-told-me-in-the-hallway-there-s-nothing-to-talk",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The landlord's agent signed it. He told me in the hallway there's nothing to talk about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-told-him-i-get-paid-on-the-fifteenth-he-said-the-notice-doesn-t-care-when-i-ge",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I told him I get paid on the fifteenth. He said the notice doesn't care when I get paid.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help.eviction",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.what-did-you-tell-the-landlord-and-what-did-they-say-back"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-plea.then-where-do-people-go-i-m-not-the-only-one-on-my-floor-with-one-of-these",
       "move": "follow-plea",
       "kind": "spoken",
@@ -146675,1003 +146291,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "constituent-help.eviction",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-checks-a-phone-all-through-the-wait-and-puts-it-face-down-on-the-table",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} checks a phone all through the wait and puts it face down on the table.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-sits-down-with-a-pharmacy-bag-and-doesn-t-set-it-aside",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} sits down with a pharmacy bag and doesn't set it aside.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-says-relative-s-name-twice-in-the-first-minute-before-saying-why-they-came",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} says {relative}'s name twice in the first minute, before saying what the visit is about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "requiresFacts": ["relative"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-only-have-twenty-minutes-someone-has-to-be-home-by-four",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I only have twenty minutes. Someone has to be home by four.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-left-relative-with-a-neighbor-i-can-t-be-gone-long",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I left {relative} with a neighbor. I can't be gone long.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "requiresFacts": ["relative"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-haven-t-slept-much-bear-with-me",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I haven't slept much. Bear with me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "excludesFacts": ["relative"]
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.relative-has-been-sick-for-a-long-time-and-i-m-the-one-home-with-them-i-can-t-wo",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{relative} has been sick for a long time, and I'm the one home with them. I can't work the hours I used to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "requiresFacts": ["relative"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-take-relative-to-every-appointment-and-the-bills-come-faster-than-i-can-open-t",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I take {relative} to every appointment, and the bills come faster than I can open them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "requiresFacts": ["relative"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.relative-needs-somebody-there-all-day-i-ve-used-up-the-days-i-had",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{relative} needs somebody there all day. I've used up the days I had.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "requiresFacts": ["relative"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-ve-been-sick-and-the-bills-don-t-know-it-what-does-the-town-have-for-people-in",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I've been sick, and the bills don't know it. What does the town have for people in my spot?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "excludesFacts": ["relative"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.my-doctor-says-i-can-t-go-back-full-time-yet-nothing-comes-in-on-the-days-i-m-ou",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "My doctor says I can't go back to work full time yet. Nothing comes in on the days I'm out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "excludesFacts": ["relative"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.somebody-in-my-house-is-very-sick-and-i-can-t-keep-up-with-it-i-need-to-know-wha",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Somebody in my house is very sick, and I can't keep up with it. I need to know what help there is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-ask-the-county-health-department-who-can-come-to-your-house-and-i-ll-call-y",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll ask the county health department who can come to your house, and I'll call you with a name.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll find out what the town and the state pay for in-home help, and I'll have it in writing for you this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-call-the-clinic-s-social-worker-myself-and-ask-her-to-see-you-this-week",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll call the clinic's social worker myself and ask her to see you this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-the-doctor-say-the-treatment-will-take-and-for-how-long",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does the doctor say the treatment will take, and for how long?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-is-helping-you-right-now-and-who-isn-t",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who is helping you right now, and who isn't?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.which-bills-are-you-most-afraid-of",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Which bills are you most afraid of?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.my-caseworker-can-sit-down-with-you-and-the-bills-bring-all-of-them-even-the-one",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "My caseworker can sit down with you and the bills. Bring all of them, even the ones you've stopped opening.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.leave-me-a-number-where-you-can-answer-at-odd-hours-my-staff-will-call-when-ther",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Leave me a number where you can answer at odd hours. My staff will call when there's something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Stay with my caseworker. She'll go through what you may qualify for and fill out the first forms with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.the-town-doesn-t-pay-medical-bills-i-can-tell-you-who-does",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "The town doesn't pay medical bills. I can tell you who does.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.health-coverage-is-the-state-s-not-mine-i-can-send-you-to-the-people-who-can-loo",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Health coverage is the state's, not mine. I can send you to the people who can look at yours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-to-take-the-next-person-leave-your-number-and-the-best-hour-to-call",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to take the next person. Leave your number and the best hour to call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.i-jumped-to-the-forms-tell-me-how-things-are-at-home-today",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I jumped to the forms. Tell me how things are at home today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.they-don-t-know-how-long-at-every-appointment-they-say-wait-for-the-next-test",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "They don't know how long. At every appointment they say wait for the next test.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.what-does-the-doctor-say-the-treatment-will-take-and-for-how-long"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.my-sister-drives-out-on-sundays-the-rest-is-me",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "My sister drives out on Sundays. The rest is me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.who-is-helping-you-right-now-and-who-isn-t"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-pharmacy-first-then-the-electric-the-letters-from-everybody-else-are-stackin",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The pharmacy first, then the electric. The letters from everybody else are stacking up by the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.which-bills-are-you-most-afraid-of"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Then where do I take it? I can't get to three different offices with someone who can't be left alone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "after": "decline"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.then-who-helps-people-like-us-i-m-trying-not-to-lose-everything-else-on-top-of-t",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Then who helps people like us? I'm trying not to lose everything else on top of this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked",
-          "after": "decline"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.call-before-nine-if-you-can-after-that-i-m-at-the-clinic",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Call before nine if you can. After that I'm at the clinic.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-ll-leave-my-phone-on-at-the-pharmacy-counter-reception-is-bad-there",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'll leave my phone on at the pharmacy counter. Reception is bad there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.write-the-name-down-for-me-i-forget-things-this-month",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Write the name down for me. I forget things this month.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.how-soon-we-have-an-appointment-thursday-that-i-can-t-pay-for",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "How soon? We have an appointment Thursday that I can't pay for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.the-last-office-said-a-week-it-was-a-month",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "The last office said a week. It was a month.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-ll-ask-the-clinic-s-social-worker-myself-she-at-least-knows-our-name",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll ask the clinic's social worker myself. She at least knows our name.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-ll-stand-in-the-other-line-then",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll stand in the other line, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.there-are-families-on-my-street-doing-this-alone-they-notice-who-helps",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "There are families on my street doing this alone. They notice who helps.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.call-me-before-that-appointment-i-d-like-to-know-i-m-not-going-alone",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Call me before that appointment. I'd like to know I'm not going alone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-for-hearing-all-of-it-even-the-part-about-the-bills",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you for hearing all of it, even the part about the bills.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.i-ll-keep-the-bills-in-order-and-bring-them-next-time",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "I'll keep the bills in order and bring them next time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "constituent-help.sick",
           "key": "favor-asked"
         }
       ],
@@ -158973,40 +157592,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "promise",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-ask-the-workforce-office-what-they-have-and-bring-it-to-you-no-strings",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll ask the workforce office what they have and bring it to you. No strings.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "ask-signature.lost-job",
-          "key": "door",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "ask-support.lost-job",
-          "key": "door",
-          "after": "tell"
-        }
-      ],
-      "bearing": "hopeful",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -181285,35 +179870,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.case-help-2",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I need a job. What I saved is {money-left}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-work", "money-left"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.state-request.case-help-3",
       "move": "state-request",
       "kind": "spoken",
@@ -181512,441 +180068,6 @@
       "bearing": "anxious",
       "piece": {
         "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-1",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll send your case to {agency} today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-2",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll call {agency} about it before the day is out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.case-help-3",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "This goes from my office to {agency} today, with my name on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "promise",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-1",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "{staffer} on my staff will take your case to {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-2",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Sit down with {staffer}. My office files it with {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-3",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "{staffer} handles cases like yours. It goes to {agency} from here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["staffer", "agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-4",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Leave your details at the desk. My office files it with {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-5",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Give the desk your number, and my office will take it to {agency}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.case-help-6",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Write it all down for the desk. It goes to {agency} from my office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "offer",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-1",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't take this one on right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-2",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't take it on right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-3",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not this one. My hands are full.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-4",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You'll have to go to {agency} yourself. My office can't carry it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-5",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "{agency} takes these directly. I'm not taking it on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.case-help-6",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't take this one. {agency} is where it goes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "decline",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-decline",
         "part": "core",
         "required": true
       }
@@ -182190,7 +180311,7 @@
       "key": "scene-talk.follow-answer.case-help-4",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's {pay} an hour, and the minimum wage is {floor}.",
+      "text": "It's {pay} an hour. The law says more than that, and they know it.",
       "uses": [
         {
           "subject": "scene",
@@ -182220,7 +180341,7 @@
       "key": "scene-talk.follow-answer.case-help-5",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{pay} an hour. The law says {floor}.",
+      "text": "{pay} an hour. The law says they owe me more.",
       "uses": [
         {
           "subject": "scene",
@@ -182250,7 +180371,7 @@
       "key": "scene-talk.follow-answer.case-help-6",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{pay}, every check, when the minimum wage is {floor}.",
+      "text": "{pay}, every check. That's less than the law lets them pay.",
       "uses": [
         {
           "subject": "scene",
@@ -182277,184 +180398,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.case-help-1",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I already called them about your case.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "lie",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.case-help-2",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "They have your case already. I sent it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "lie",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.case-help-3",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I talked to them about this last week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "lie",
-        "key": "case-help"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "case-help.reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.case-help-1",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "You're right. I'll call them while you're sitting here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "apologize",
-        "key": "case-help"
-      },
-      "bearing": "contrite",
-      "piece": {
-        "of": "case-help.reply-apologize",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.case-help-2",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "That's fair. I'll put it to them myself, today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "apologize",
-        "key": "case-help"
-      },
-      "bearing": "contrite",
-      "piece": {
-        "of": "case-help.reply-apologize",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.case-help-3",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "I'm sorry. They get your case from me before you leave.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "apologize",
-        "key": "case-help"
-      },
-      "bearing": "contrite",
-      "piece": {
-        "of": "case-help.reply-apologize",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.case-help-1",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have people waiting. My office will decide your case {respond-in}.",
+      "text": "I have people waiting. You'll have my office's answer in writing {respond-in}.",
       "uses": [
         {
           "subject": "scene",
@@ -182483,7 +180430,7 @@
       "key": "scene-talk.reply-leave.case-help-2",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to take the next person. You'll hear from my office {respond-in}.",
+      "text": "I have to take the next person. My office will write you {respond-in}.",
       "uses": [
         {
           "subject": "scene",
@@ -182492,35 +180439,6 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["respond-in"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "leave",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.case-help-3",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Leave it with the desk. My office will get back to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "requiresFacts": ["agency"]
         }
       ],
       "origin": "authored",
@@ -182549,7 +180467,16 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["problem-wage"],
           "after": "answer"
         }
       ],
@@ -182580,7 +180507,7 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
         }
       ],
       "origin": "authored",
@@ -182610,7 +180537,25 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -182640,7 +180585,25 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -182760,7 +180723,16 @@
           "move": "thank",
           "role": "asker",
           "after": "offer",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["problem-wage"]
         }
       ],
       "origin": "authored",
@@ -182790,7 +180762,16 @@
           "move": "thank",
           "role": "asker",
           "after": "offer",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "offer",
+          "requiresFacts": ["problem-wage"]
         }
       ],
       "origin": "authored",
@@ -182820,37 +180801,16 @@
           "move": "thank",
           "role": "asker",
           "after": "offer",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-10",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll wait to hear from them, then.",
-      "uses": [
+          "requiresFacts": ["problem-work"]
+        },
         {
           "subject": "scene",
           "set": "case-help",
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
+          "after": "offer",
+          "requiresFacts": ["problem-wage"]
         }
       ],
       "origin": "authored",
@@ -182863,96 +180823,6 @@
       "bearing": "anxious",
       "piece": {
         "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.case-help-11",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I didn't know they already had it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "thank",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-1",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Alright. If they have it, I'll wait.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.case-help-2",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll wait on them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "lie",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "accept",
-        "key": "case-help"
-      },
-      "bearing": "guarded",
-      "piece": {
-        "of": "case-help.follow-accept",
         "part": "core",
         "required": true
       }
@@ -183029,7 +180899,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
           "after": "decline"
         },
         {
@@ -183038,7 +180908,25 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-wage"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work"],
+          "after": "leave"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"],
           "after": "leave"
         }
       ],
@@ -183068,7 +180956,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
           "after": "decline"
         },
         {
@@ -183077,7 +180965,25 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-wage"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work"],
+          "after": "leave"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"],
           "after": "leave"
         }
       ],
@@ -183107,7 +181013,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
           "after": "decline"
         },
         {
@@ -183116,7 +181022,25 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-wage"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-work"],
+          "after": "leave"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"],
           "after": "leave"
         }
       ],
@@ -183303,29 +181227,8 @@
           "move": "plea",
           "role": "asker",
           "after": "decline",
-          "requiresFacts": ["agency"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 5, case-help move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "plea",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.follow-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.case-help-2",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Then I go it alone? Nobody there knows my name.",
-      "uses": [
+          "requiresFacts": ["problem-work"]
+        },
         {
           "subject": "scene",
           "set": "case-help",
@@ -183333,7 +181236,16 @@
           "move": "plea",
           "role": "asker",
           "after": "decline",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183363,7 +181275,16 @@
           "move": "plea",
           "role": "asker",
           "after": "decline",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-wage"]
         }
       ],
       "origin": "authored",
@@ -183453,7 +181374,25 @@
           "move": "accept",
           "role": "asker",
           "after": "decline",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183483,7 +181422,16 @@
           "move": "accept",
           "role": "asker",
           "after": "decline",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-wage"]
         }
       ],
       "origin": "authored",
@@ -183513,7 +181461,16 @@
           "move": "accept",
           "role": "asker",
           "after": "decline",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-wage"]
         }
       ],
       "origin": "authored",
@@ -183600,7 +181557,16 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"],
           "outcome": "resolved"
         }
       ],
@@ -183630,7 +181596,24 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -183659,7 +181642,16 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"],
           "outcome": "resolved"
         }
       ],
@@ -183689,7 +181681,16 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
-          "requiresFacts": ["agency"],
+          "requiresFacts": ["problem-work"],
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"],
           "outcome": "resolved"
         }
       ],
@@ -183719,7 +181720,23 @@
           "step": "close",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183748,7 +181765,23 @@
           "step": "close",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["agency"]
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -191502,6 +189535,1565 @@
         "move": "decline",
         "key": "serve-asked"
       }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-oh-1",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put in a word with employers for you today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-oh-2",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call around today and tell employers to look at you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-oh-3",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Your name goes to employers today, with mine behind it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-oh-4",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "A boss can't pay under the minimum wage. I'll take it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-oh-5",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take your complaint up myself, starting today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-oh-6",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll press it until your pay comes up to the law.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-oh-1",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "{staffer} on my staff will take your case from here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["staffer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-oh-2",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Sit down with {staffer}. My office takes it up today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["staffer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-oh-3",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "{staffer} handles cases like yours and will start on it today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "requiresFacts": ["staffer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-oh-4",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave your details at the desk. My office takes it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "onlyWhen": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-oh-5",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Give the desk your number, and my office will take it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "onlyWhen": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.case-help-oh-6",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Write it all down for the desk. My office takes it from there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "onlyWhen": ["respond-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-offer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-oh-1",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take your case. My office has too many open already.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["other-cases"],
+          "excludesFacts": ["problem-sick"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-oh-2",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My office is carrying all it can. I can't add yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["other-cases"],
+          "excludesFacts": ["problem-sick"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-oh-3",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take your case on. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "excludesFacts": ["problem-sick"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.case-help-oh-1",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I'll make the calls while you're sitting here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "apologize",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.case-help-oh-2",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "That's fair. I'll take it up myself, today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "apologize",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.case-help-oh-3",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I'll start on your case before you leave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours after the owner's Nov 15 read, rules 136 to 140), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "apologize",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-1",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask that you be allowed a visit, today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-2",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put in for the visit myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-3",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take it up today and ask for your visit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-custody-1",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Every week I wait is a week I don't see them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"],
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-custody-1",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. I only want to see them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"],
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-4",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My {relation} is locked up, and I can't get a visit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-5",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to visit my {relation} in jail. I don't know who to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-custody-1",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relation", "relative"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-custody-2",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long has your {relation} been in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relation", "held-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-custody-3",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When does your {relation} get out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relation", "out-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-custody-1",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "My {relation}, {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation", "relative"],
+          "after": "scene-talk.reply-ask.case-help-custody-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-custody-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{held-for} now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation", "held-for"],
+          "after": "scene-talk.reply-ask.case-help-custody-2"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-custody-3",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not for {out-in}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation", "out-in"],
+          "after": "scene-talk.reply-ask.case-help-custody-3"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-4",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask that you be allowed to see {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relative"],
+          "after": "scene-talk.follow-answer.case-help-custody-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-sick-1",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm sick, and I have no insurance. The bills keep coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "constituent-help.sick",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-sick", "sick-self", "no-plan"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-sick-2",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My {relation} is sick, and we have no insurance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "constituent-help.sick",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": [
+            "problem-sick",
+            "sick-relation",
+            "relation",
+            "no-plan"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-sick-3",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The medical bills are more than we can pay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "constituent-help.sick",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-sick-1",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who is sick?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-sick", "illness"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-sick-1",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I am. It's {illness}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-sick", "sick-self", "illness"],
+          "after": "scene-talk.reply-ask.case-help-sick-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-sick-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "My {relation}. It's {illness}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": [
+            "problem-sick",
+            "sick-relation",
+            "relation",
+            "illness"
+          ],
+          "after": "scene-talk.reply-ask.case-help-sick-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-sick-2",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do you have any coverage now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-sick", "no-plan"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-sick-3",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "None.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-sick", "no-plan"],
+          "after": "scene-talk.reply-ask.case-help-sick-2"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-sick-1",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Coverage comes from a job or from the state. My office can't give it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["problem-sick"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-sick-2",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't pay a medical bill from this office. I wish I could.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["problem-sick"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.case-help-sick-3",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "This office has no say over insurance. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["problem-sick"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "case-help"
+      },
+      "bearing": "guarded",
+      "piece": {
+        "of": "case-help.reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-sick-1",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then who do I ask?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-sick-2",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The bills don't wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.case-help-sick-1",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I thought you could do something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.close-accept",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.case-help-sick-4",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "The state's program checks every month. If you qualify, it starts on its own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["problem-sick", "expansion"],
+          "after": "scene-talk.follow-press.case-help-sick-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, each case its own steps, Nov 15 23:40Z and Nov 16 00:00Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.case-help-sick-5",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I don't have a program to send you to. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "requiresFacts": ["problem-sick"],
+          "after": "press",
+          "excludesFacts": ["expansion"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead rules 108 and 126 (fixer of PR 9623, Nov 17)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-sick-1",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for telling me. I'll look elsewhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-sick"],
+          "after": "scene-talk.reply-answer.case-help-sick-5"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead rule 126 (fixer of PR 9623, Nov 17)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk.follow-thank.case-help-sick-2",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll watch for it. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["problem-sick", "expansion"],
+          "after": "scene-talk.reply-answer.case-help-sick-4"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "case-help"
+      },
+      "bearing": "guarded"
     },
     {
       "key": "scene-talk.state-tell.your-petition-for-office-is-thin-and-time-is-short",
