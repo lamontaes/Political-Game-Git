@@ -241,13 +241,18 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // the share voting yes is the part of that range whose view favors it.
   const low = 2 * rightShare - 2;
   const slope = personStance(1, measure.question) * direction;
+  // Only the played area's people have a kept opinion: another state's
+  // people vote their leans alone until outside places keep their own.
+  // stopgapId: SG-GOV-outside-measure-opinion
+  if (!home) api.stopgap("SG-GOV-outside-measure-opinion");
   const yesFraction = shareFavoring(
     low,
     low + 2,
     slope,
-    // What the world's people's own lives, faith, degree and news add
-    // beyond their leans this month: the unnamed share them too.
-    opinionRest(api, measure.question) * direction,
+    // What the played area's people's own lives, faith, degree and news
+    // add beyond their leans this month: the unnamed of their state share
+    // them too.
+    (home ? opinionRest(api, measure.question) : 0) * direction,
   );
   groups.yes = Math.round(unnamed * yesFraction);
   groups.no = unnamed - groups.yes;

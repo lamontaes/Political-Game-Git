@@ -181,17 +181,23 @@ export function recordLawConsensus(api: CoreAPI, series: string): void {
 /**
  * How strongly voters at a lean (a district's, a state's) support a
  * question's "yes", read the way a voter's own stance is: their lean at the
- * question's strength (`personStance`) plus what the world's people's own
+ * question's strength (`personStance`) plus, where those voters include the
+ * played area's people (`townOpinion`), what the played area's people's own
  * lives, faith, degree and news add beyond their leans this month
- * (`opinionRest`), so a policy the world's people favor draws members of
- * both parties.
+ * (`opinionRest`), so a policy they favor draws members of both parties. The
+ * opinion row is read from the played area alone, so voters elsewhere read
+ * their lean alone until outside places keep their own opinion.
  */
 export function supportAt(
   api: CoreAPI,
   lean: number,
   question: string,
+  townOpinion: boolean,
 ): number {
-  return personStance(lean, question) + opinionRest(api, question);
+  return (
+    personStance(lean, question) +
+    (townOpinion ? opinionRest(api, question) : 0)
+  );
 }
 
 /**

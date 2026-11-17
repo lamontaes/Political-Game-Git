@@ -1362,6 +1362,31 @@ function bodyRead(api: CoreAPI, body: string, stances: Stances): BodyRead {
 }
 
 /**
+ * Whether an official's constituency holds the played area, whose people's
+ * opinion is the one the views engine keeps (`worldOpinion`): its state's
+ * legislature and statewide executives, its own member of the House (the
+ * seat that covers the town) and its state's senators. Every other official,
+ * the President included, answers to voters the world keeps no opinion of
+ * yet and reads their district by its lean alone.
+ */
+export function answersToTown(api: CoreAPI, row: OfficialRow): boolean {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  if (row.bodyKind === "us-house")
+    return (
+      (
+        offices.table("seats").get(row.seatId) as unknown as
+          { coversTown?: boolean } | undefined
+      )?.coversTown === true
+    );
+  const town = offices.table("loaded").get("town") as unknown as
+    { stateKey?: string } | undefined;
+  if (!town?.stateKey) return false;
+  return row.bodyKind === "us-senate"
+    ? row.stateKey === town.stateKey
+    : row.body.startsWith(`${town.stateKey}:`);
+}
+
+/**
  * An official's own reasons on a bill's questions: their views, their
  * district, their party's leadership (or their caucus's, for an independent
  * who keeps one), their wing, their ambition and the next election, and the
@@ -1395,12 +1420,19 @@ export function officialParts(
     0,
   );
   const views = weight("views") * (own + moved) + reasonPull;
+  // Only the played area's people have a kept opinion: an official elected
+  // elsewhere reads their district and state by its lean alone.
+  // stopgapId: SG-OFFICIALS-outside-opinion
+  const town = answersToTown(api, row);
+  if (!town) api.stopgap("SG-OFFICIALS-outside-opinion");
   const district = stances.reduce(
-    (sum, s) => sum + supportAt(api, row.districtLean, s.question) * s.position,
+    (sum, s) =>
+      sum + supportAt(api, row.districtLean, s.question, town) * s.position,
     0,
   );
   const state = stances.reduce(
-    (sum, s) => sum + supportAt(api, row.stateLean, s.question) * s.position,
+    (sum, s) =>
+      sum + supportAt(api, row.stateLean, s.question, town) * s.position,
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
@@ -1472,8 +1504,11 @@ export function officialParts(
     weight("press") *
     visibility *
     stances.reduce(
-      // How the world's people stand on it this month (their mean stance).
-      (sum, s) => sum + (worldOpinion(api, s.question)?.mean ?? 0) * s.position,
+      // How the played area's people stand on it this month (their mean
+      // stance), for an official they elect.
+      (sum, s) =>
+        sum +
+        (town ? (worldOpinion(api, s.question)?.mean ?? 0) : 0) * s.position,
       0,
     );
   return {

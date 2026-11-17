@@ -219,10 +219,12 @@ function grievance(
   enacted: number,
   memberVote: number,
 ): number {
+  // A resident of the played town: their people's opinion is the kept one.
   const stance = supportAt(
     api,
     personLean(api.state.people, person, townLean(api)),
     question,
+    true,
   );
   return -stance * enacted * memberVote;
 }
