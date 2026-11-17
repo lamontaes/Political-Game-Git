@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/blockers-vacancy-appointment
-pr:
+pr: #9823
 after:
 blocked-on:
 lead: governing
