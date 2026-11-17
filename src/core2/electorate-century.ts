@@ -53,7 +53,7 @@ const PARAMS = (
   data as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
 
-/** A century parameter (data/history/century.json). */
+/** A century parameter (`src/core2/data/history/century.json`). */
 export function centuryParameter(key: string): number {
   const row = PARAMS[key];
   if (!row) throw new Error(`Unknown century parameter: ${key}`);
