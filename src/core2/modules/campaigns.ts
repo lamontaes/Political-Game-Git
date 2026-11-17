@@ -2072,7 +2072,8 @@ function minutesAtWork(
 
 /**
  * A rival's own filing in a campaign's race: the person's filing standing in
- * the same contest (on its ballot, or with its petition out) when they are
+ * the same contest, or another seat of the same at-large race (on its
+ * ballot, or with its petition out) when they are
  * not the campaign's candidate, else null. Someone running for a seat
  * campaigns for themselves, so a rival never volunteers for or runs another
  * candidate's campaign, hosts or comes to their donor meeting, or endorses
@@ -2085,9 +2086,18 @@ export function rivalFiling(
   personId: string,
 ): FilingRow | null {
   if (personId === campaign.candidateId) return null;
-  return (
-    ballot(api, campaign.contestId).find((f) => f.personId === personId) ?? null
-  );
+  // The at-large seats up that day are one race (`atLargeGroup`): a filing
+  // for any of its seats runs against every candidate in it.
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  const contestIds = contest
+    ? atLargeGroup(api, contest).map((row) => row.id)
+    : [campaign.contestId];
+  for (const contestId of contestIds) {
+    const own = ballot(api, contestId).find((f) => f.personId === personId);
+    if (own) return own;
+  }
+  return null;
 }
 
 /**

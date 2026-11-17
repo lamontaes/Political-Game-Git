@@ -10,7 +10,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { fileForOffice } from "../bench/government";
+import { fileForOffice, localRaces } from "../bench/government";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -24,13 +24,12 @@ import {
 } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
-  playerFilingBar,
   standing,
-  type ContestRow,
   type FilingRow,
 } from "./modules/elections";
 import { acceptJobOffer, jobOffersFor } from "./modules/jobs";
 import { coreAPI, type CoreAPI } from "./state";
+import type { CoreState } from "./types";
 
 const seed = process.env.RIVAL_ASK_SEED || randomBytes(8).toString("hex");
 /** Places drawn in turn until one has the case (a list length and a run length, not model values). */
@@ -38,23 +37,34 @@ const DRAWS = 6;
 const STEP = 15;
 const MOST = 760;
 
-/** A rival's campaign in a race the player may file for today that asks the player, or null. */
-function rivalAsk(api: CoreAPI, playerId: string) {
-  const contests = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .rows() as unknown as ContestRow[];
-  for (const contest of contests) {
-    if (contest.electionDate < api.state.date) continue;
-    if (playerFilingBar(api, contest.id)) continue;
-    const filings = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .query("byContest", [contest.id]) as unknown as FilingRow[];
-    for (const filing of filings) {
-      if (filing.personId === playerId || !standing(filing)) continue;
-      if (askPlayerForMoney(api, filing.id, playerId))
-        return { contest, filing };
+/**
+ * A rival's campaign in a race Elections offers the player today (its own
+ * office, filing open, nothing in the way: `localRaces`, the page's rows) that
+ * asks the player through the engine's own call, or null. The race's seats
+ * are read together, as an at-large race is one race.
+ */
+function rivalAsk(core: CoreState, api: CoreAPI, playerId: string) {
+  const { races } = localRaces(core) as unknown as {
+    races: readonly {
+      contestId: string;
+      contestIds?: readonly string[];
+      filingOpen: boolean;
+      playerMayFile: boolean;
+      cannotFile: unknown;
+    }[];
+  };
+  for (const race of races) {
+    if (!race.filingOpen || !race.playerMayFile || race.cannotFile) continue;
+    for (const contestId of race.contestIds ?? [race.contestId]) {
+      const filings = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byContest", [contestId]) as unknown as FilingRow[];
+      for (const filing of filings) {
+        if (filing.personId === playerId || !standing(filing)) continue;
+        if (askPlayerForMoney(api, filing.id, playerId))
+          return { contestId: race.contestId, filing };
+      }
     }
   }
   return null;
@@ -73,13 +83,13 @@ describe("a candidate's ask for money and a rival in the same race", () => {
       const api = coreAPI(core);
       const playerId = core.playerId!;
       let tookJob = false;
-      let found = rivalAsk(api, playerId);
+      let found = rivalAsk(core, api, playerId);
       for (let day = 0; !found && day < MOST; day += STEP) {
         advanceCore(core, addDays(makeIsoDate(core.date), STEP));
         // Taking the job offered is the player's own act; with pay they have something to be asked for.
         const offer = tookJob ? undefined : jobOffersFor(api, playerId)[0];
         if (offer && acceptJobOffer(api, offer.id)) tookJob = true;
-        found = rivalAsk(api, playerId);
+        found = rivalAsk(core, api, playerId);
       }
       const where = `${place.name} (${place.key}), place seed ${place.seed}, run seed ${seed}`;
       if (!found) {
@@ -88,16 +98,22 @@ describe("a candidate's ask for money and a rival in the same race", () => {
         );
         continue;
       }
-      const { contest, filing } = found;
+      const { contestId, filing } = found;
       const campaignId = filing.id;
       expect(
         donationAsksFor(api, playerId).some((a) => a.campaignId === campaignId),
         `${where}: the ask is open before the player files`,
       ).toBe(true);
-      fileForOffice(core, playerId, contest.id);
+      const filed = fileForOffice(core, playerId, contestId) as {
+        readonly status: string;
+        readonly filing?: FilingRow;
+      };
+      expect(filed.status, `${where}: the clerk took the filing`).not.toBe(
+        "refused",
+      );
       expect(
         donationAsksFor(api, playerId).some((a) => a.campaignId === campaignId),
-        `${where}: the ask from ${campaignFor(api, campaignId).candidateId} is still open after the player filed against them`,
+        `${where}: the ask from ${campaignFor(api, campaignId).candidateId} (contest ${campaignFor(api, campaignId).contestId}) is still open after the player filed against them (filing ${filed.status}, contest ${filed.filing?.contestId}, status ${filed.filing?.status})`,
       ).toBe(false);
       expect(
         donationAnswer(api, campaignId, playerId, { suggestOnly: true }),
