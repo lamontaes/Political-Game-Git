@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-outside-chambers-unseated
-pr:
+pr: #9807
 after:
 blocked-on:
 root: none
