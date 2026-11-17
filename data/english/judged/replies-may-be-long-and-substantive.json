@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1007,
+  "judged": 997,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1227,14 +1227,6 @@
         "scene-talk.reply-leave.that-s-enough-for-now-we-ll-finish-this-later"
       ],
       "why": "A trial stay, an unexplained can't and an exit give no reason."
-    },
-    "0n93maexxrv": {
-      "keys": [
-        "scene-talk.follow-press.that-s-what-you-always-say",
-        "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end",
-        "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind"
-      ],
-      "why": "\"It was. Most of it.\" plus a box chore and a car exit carry no reason."
     },
     "0nal7k9g0i8": {
       "keys": [
@@ -2539,14 +2531,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "1hxmi3k2pcg": {
-      "keys": [
-        "scene-talk.follow-press.you-ve-had-half-of-it-already",
-        "scene-talk.reply-tell.fine-yes-i-m-going-to-miss-it",
-        "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental"
-      ],
-      "why": "\"Fine. Yes. I'm going to miss it\" and a sentimental exit are bare answers with no reason."
-    },
     "1hzvgqy2ppz": {
       "keys": [
         "scene-talk.follow-confront.some-don-t-the-ones-who-ask-that-on-day-one-usually-do",
@@ -2631,14 +2615,6 @@
         "scene-talk.reply-leave.i-m-done-for-today-my-office-will-send-a-statement"
       ],
       "why": "\"When you called my office\" answers the date with no reason, and the other three set conditions or leave."
-    },
-    "1isbdhr206s": {
-      "keys": [
-        "scene-talk.follow-press.that-s-what-you-always-say",
-        "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end",
-        "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental"
-      ],
-      "why": "A short yes with a chore and an exit give no reason or argument."
     },
     "1iz4ftoyf5x": {
       "keys": [
@@ -3610,15 +3586,6 @@
       ],
       "why": "\"Let me tell you what I meant\" only promises meaning and the other reply pauses the talk."
     },
-    "25olfoxn361": {
-      "keys": [
-        "scene-talk.follow-answer.if-they-ll-have-me-somebody-has-to-remember-where-the-files-are",
-        "scene-talk.reply-tell.then-do-me-a-favor-tell-them-the-truth-about-me-the-good-and-the-rest",
-        "scene-talk.reply-promise.then-i-ll-call-you-when-i-need-to-find-a-file-which-will-be-next-week",
-        "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind"
-      ],
-      "why": "A favor request, a joke about files and a car exit hold no argument or reason."
-    },
     "25vlr7waa8d": {
       "keys": [
         "scene-talk.follow-promise.i-won-t-forget-this-count-on-me-for-whatever-the-house-needs",
@@ -4075,15 +4042,6 @@
       ],
       "why": "Going over tonight, a question and two deflections carry no reason."
     },
-    "2emiwidsl94": {
-      "keys": [
-        "scene-talk.follow-answer.i-ll-be-fine-i-trained-you-didn-t-i",
-        "scene-talk.reply-tell.you-did-tell-the-next-one-i-said-to-listen-to-you",
-        "scene-talk.reply-promise.then-i-ll-still-call-you-when-i-can-t-find-something",
-        "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind"
-      ],
-      "why": "An endorsement, a plan to call and a car exit are stances and closers without an argument."
-    },
     "2erb6mjxv42": {
       "keys": [
         "scene-talk.follow-confront.welcome-to-public-service",
@@ -4155,5 +4113,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "11t0vhxmd63"
+  "yesHash": "12kl0kfm8gn"
 }

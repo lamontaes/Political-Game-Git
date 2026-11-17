@@ -111,6 +111,7 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { LAST_DAY_TYPE, lastDayFacts } from "./last-day-facts";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence, workHeld } from "../core2/person-work";
@@ -1000,6 +1001,17 @@ function composeBinding(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
     facts[key] = fact;
+  // A last day (a school year finished, a job left): the school or the job,
+  // how long, where next and why, each from its own record.
+  if (binding.typeKey === LAST_DAY_TYPE)
+    Object.assign(
+      facts,
+      lastDayFacts(core, {
+        causeId: moment.causeId,
+        askerId,
+        askedId,
+      }),
+    );
   // A letter from a relative elsewhere (kin-contact.ts's `family.contact`):
   // how long, where they live, what changed in their life and what the tie
   // records, each cited. stopgapId: SG-WORDS-letter-ask-unrecorded

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1172,
+  "judged": 1160,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -398,13 +398,6 @@
       ],
       "why": "Both say the speaker has heard enough, a rewording."
     },
-    "072khcsxx4y": {
-      "keys": [
-        "scene-talk.close-accept.go-on-i-ll-get-the-door",
-        "scene-talk.close-accept.too-late-for-that-go-on"
-      ],
-      "why": "Both lines simply tell the other person to go, with no difference in what is said or what it depends on."
-    },
     "072oxsg5cv6": {
       "keys": [
         "scene-talk.follow-threaten.don-t-count-on-my-help-next-time",
@@ -432,13 +425,6 @@
         "scene-talk.follow-accept.it-s-all-right"
       ],
       "why": "Both lines accept an apology in other words."
-    },
-    "07hayvwrh6u": {
-      "keys": [
-        "scene-talk.narrate-narrate.it-s-your-last-day-your-office-is-packed-into-boxes-and-name-leans-in-",
-        "scene-talk.narrate-narrate.your-last-box-is-taped-shut-name-hangs-back-in-the-doorway-with-two-cu"
-      ],
-      "why": "Both narrate packed boxes and someone in the doorway, the same scene reworded."
     },
     "07iho7m3uh7": {
       "keys": [
@@ -750,13 +736,6 @@
         "scene-talk.follow-ask.then-why-say-it"
       ],
       "why": "Both lines ask the same question, why the official said otherwise, in shorter and longer wording."
-    },
-    "0bnp3b3ie1d": {
-      "keys": [
-        "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next",
-        "scene-talk.reply-ask.are-you-staying-on-with-whoever-s-next"
-      ],
-      "why": "Both lines ask whether the other person will stay on under whoever comes next, the same question in other words."
     },
     "0bt5qr38tx4": {
       "keys": [
@@ -1237,13 +1216,6 @@
       ],
       "why": "Both lines say I do and thank someone, with nothing in the world to choose between them."
     },
-    "0ko2z7raqvh": {
-      "keys": [
-        "scene-talk.follow-accept.fair-it-s-a-lot",
-        "scene-talk.follow-accept.that-s-fair-it-s-a-lot"
-      ],
-      "why": "Both say it is fair that it is a lot, nearly identical."
-    },
     "0kobzqb1370": {
       "keys": [
         "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
@@ -1559,13 +1531,6 @@
       ],
       "why": "Both lines say I'm sorry in other words."
     },
-    "0plkzq4npph": {
-      "keys": [
-        "scene-talk.close-promise.i-ll-hold-you-to-that-so-don-t-forget",
-        "scene-talk.close-promise.you-d-better-mean-that"
-      ],
-      "why": "Both tell the other person to keep the promise."
-    },
     "0pobfgnliwo": {
       "keys": [
         "scene-talk.close-promise.we-ll-be-in-touch-about-the-details",
@@ -1786,13 +1751,6 @@
         "scene-talk.state-request.we-d-like-to-offer-you-the-job-you-d-start-as-position-at-pay-an-hour"
       ],
       "why": "Both lines make the same job offer with the same {position} and {pay}, reworded."
-    },
-    "0th6x2coxvo": {
-      "keys": [
-        "scene-talk.close-thank.thanks-for-this-really",
-        "scene-talk.close-thank.this-meant-a-lot-thank-you"
-      ],
-      "why": "Both are thanks for the time together."
     },
     "0tivyoo64zi": {
       "keys": [
@@ -3171,13 +3129,6 @@
       ],
       "why": "Both lines agree to carry the bill in other words."
     },
-    "1ffjxblzxj5": {
-      "keys": [
-        "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental",
-        "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind"
-      ],
-      "why": "Both say the speaker should leave before getting emotional, only reworded."
-    },
     "1fhwp112qmy": {
       "keys": [
         "scene-talk.follow-accept.okay-i-m-holding-you-to-that",
@@ -3212,13 +3163,6 @@
         "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years"
       ],
       "why": "Both say waiting lets someone else take the seat."
-    },
-    "1fvcsvbpl6u": {
-      "keys": [
-        "scene-talk.reply-deflect.ask-me-after-the-coffee",
-        "scene-talk.reply-deflect.help-me-with-this-box-and-i-ll-tell-you"
-      ],
-      "why": "Both put the answer off until after a small task, coffee or a box, with no fact choosing between them."
     },
     "1g57kq3h0e7": {
       "keys": [
@@ -4751,13 +4695,6 @@
       ],
       "why": "The second line is the first with a good luck added."
     },
-    "27x1l7vtwh8": {
-      "keys": [
-        "scene-talk.reply-ask.and-you-you-go-first",
-        "scene-talk.reply-ask.what-about-you-you-go-first"
-      ],
-      "why": "Both turn the question back on the other person, nearly identical."
-    },
     "280xrxg8jkt": {
       "keys": [
         "scene-talk.narrate-narrate.name-gets-straight-to-it",
@@ -5232,13 +5169,6 @@
       ],
       "why": "Both say the player must return library books before closing."
     },
-    "2f6knq21flz": {
-      "keys": [
-        "scene-talk.follow-press.come-on-give-me-a-guess",
-        "scene-talk.follow-press.come-on-not-even-a-guess"
-      ],
-      "why": "Both press for a guess, nearly identical."
-    },
     "2f880bsgzab": {
       "keys": [
         "scene-talk.follow-thank.thank-you-i-ll-write-it-down-so-i-don-t-ramble",
@@ -5298,5 +5228,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0spyj8ykgf3"
+  "yesHash": "210u573eu93"
 }

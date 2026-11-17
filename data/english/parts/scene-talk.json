@@ -61,7 +61,7 @@
     "for": "Present when the visitor is the bill's sponsor, from the bill record.",
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
-    "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
+    "employer": "An employer: the one making a job offer, from the jobs engine's offer record; a donor's own, from their job and its organization; or the one a job just ended at, said as people say an employer, from the ended job's organization.",
     "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
     "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
@@ -171,7 +171,10 @@
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
     "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
-    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record).",
+    "job": "The title of the job a person just left, as people say a job inside a sentence (\"stocker\"), from the ended job's record; a title that names a group is not said.",
+    "next-employer": "The employer the person left for, from the player's new job's organization, set only where the jobs engine wrote the end as a quit (hired elsewhere).",
+    "years-there": "How long the person held the job they just left, as people say a span (\"two years\", \"about ten years\"), from the day the job was taken to the day it ended."
   },
   "maxWords": 70,
   "parts": [
@@ -13520,15 +13523,6 @@
           "purpose": "family-filing",
           "key": "news-received",
           "after": "scene-talk.reply-promise.i-won-t-let-it-take-over-our-lives"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-deflect.ask-me-over-a-drink-sometime-not-today"
         },
         {
           "subject": "scene",
@@ -29317,425 +29311,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.so-that-s-it-then",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "So that's it, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.off-the-record-now-that-it-doesn-t-matter-was-it-worth-it",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Off the record, now that it doesn't matter. Was it worth it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.most-days-no-the-days-it-was-it-was-worth-all-the-rest-you-know-which-",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Most days, no. The days it was, it was worth all the rest. You know which ones I mean.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.are-you-staying-on-with-whoever-s-next",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Are you staying on with whoever's next?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.ask-me-in-a-year-over-lunch-i-m-buying",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Ask me in a year, over lunch. I'm buying.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.help-me-with-this-box-and-i-ll-tell-you",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Help me with this box, and I'll tell you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.which-one-would-you-do-over",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Which one would you do over?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "tell"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.if-they-ll-have-me-somebody-has-to-remember-where-the-files-are",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "If they'll have me. Somebody has to remember where the files are.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.a-year-i-m-writing-it-down",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "A year. I'm writing it down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-promise.ask-me-in-a-year-over-lunch-i-m-buying"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.that-s-what-you-always-say",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That's what you always say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.the-first-budget-i-said-yes-too-fast-and-i-ve-been-paying-for-it-since",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "The first budget. I said yes too fast, and I've been paying for it since.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-ask.which-one-would-you-do-over"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.then-do-me-a-favor-tell-them-the-truth-about-me-the-good-and-the-rest",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Then do me a favor. Tell them the truth about me, the good and the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "answer"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.then-i-ll-call-you-when-i-need-to-find-a-file-which-will-be-next-week",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Then I'll call you when I need to find a file. Which will be next week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It was. Most of it. Now grab the other end.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "press"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'd better go before I get sentimental.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.too-late-for-that-go-on",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Too late for that. Go on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.go-on-don-t-look-back-at-the-building-nobody-ever-does",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Go on. Don't look back at the building. Nobody ever does.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.it-s-past-eleven-the-numbers-on-the-screen-stopped-moving-an-hour-ago-",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -30846,31 +30421,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.everybody-s-got-one-yours-was-a-good-one-to-have",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Everybody's got one. Yours was a good one to have.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.the-first-budget-i-said-yes-too-fast-and-i-ve-been-paying-for-it-since"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.then-you-ve-told-the-right-people-the-rest-can-wait-a-week",
       "move": "follow-thank",
       "kind": "spoken",
@@ -31628,31 +31178,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-will-mostly-the-good",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I will. Mostly the good.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.then-do-me-a-favor-tell-them-the-truth-about-me-the-good-and-the-rest"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.we-start-monday-they-ll-love-it",
       "move": "follow-accept",
       "kind": "spoken",
@@ -32077,80 +31602,6 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.it-s-your-last-day-your-office-is-packed-into-boxes-and-name-leans-in-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "It's your last day. Your office is packed into boxes, and {name} leans in the doorway, same as every morning for years.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.ask-me-over-a-drink-sometime-not-today",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Ask me over a drink sometime. Not today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-ask.which-one-would-you-do-over"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.next-week-i-ll-keep-the-coffee-on",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Next week. I'll keep the coffee on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-promise.then-i-ll-call-you-when-i-need-to-find-a-file-which-will-be-next-week"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "departure"
       }
     },
     {
@@ -36831,649 +36282,6 @@
       "tag": {
         "move": "warn",
         "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.your-last-box-is-taped-shut-name-hangs-back-in-the-doorway-with-two-cu",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Your last box is taped shut. {name} hangs back in the doorway with two cups of coffee.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.figured-you-could-use-one-more-of-these",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Figured you could use one more of these.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.so-are-you-going-to-miss-it-or-is-that-a-dumb-question",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "So. Are you going to miss it, or is that a dumb question?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-m-going-to-miss-the-people-the-rest-of-it-not-so-much",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'm going to miss the people. The rest of it, not so much.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Are you going to be all right with whoever comes in next?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.ask-me-in-six-months-i-ll-know-by-then",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Ask me in six months. I'll know by then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.ask-me-after-the-coffee",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Ask me after the coffee.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-don-t-know-what-i-m-doing-next-that-s-the-part-that-keeps-me-up",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I don't know what I'm doing next. That's the part that keeps me up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "requiresFacts": ["asked_out_of_work"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.you-ll-land-you-always-do-call-me-if-you-need-someone-to-say-it-twice",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "You'll land. You always do. Call me if you need someone to say it twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.i-don-t-know-what-i-m-doing-next-that-s-the-part-that-keeps-me-up"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.which-people",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Which people?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.i-m-going-to-miss-the-people-the-rest-of-it-not-so-much"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-ll-be-fine-i-trained-you-didn-t-i",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'll be fine. I trained you, didn't I?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.six-months-i-m-putting-it-on-the-calendar",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Six months. I'm putting it on the calendar.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-promise.ask-me-in-six-months-i-ll-know-by-then"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.you-ve-had-half-of-it-already",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "You've had half of it already.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-deflect.ask-me-after-the-coffee"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.you-mostly-don-t-let-it-go-to-your-head",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "You, mostly. Don't let it go to your head.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-ask.which-people"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.everybody-who-never-made-me-feel-stupid-for-asking",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Everybody who never made me feel stupid for asking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-ask.which-people"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.too-late-already-went",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Too late. Already went.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.you-mostly-don-t-let-it-go-to-your-head"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.that-s-a-short-list-around-here-thank-you",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "That's a short list around here. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-deflect.everybody-who-never-made-me-feel-stupid-for-asking"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.then-i-ll-still-call-you-when-i-can-t-find-something",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Then I'll still call you when I can't find something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-answer.i-ll-be-fine-i-trained-you-didn-t-i"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.you-did-tell-the-next-one-i-said-to-listen-to-you",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "You did. Tell the next one I said to listen to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-answer.i-ll-be-fine-i-trained-you-didn-t-i"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.you-d-better",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "You'd better.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-promise.then-i-ll-still-call-you-when-i-can-t-find-something"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-ll-tell-them-they-won-t-but-i-ll-tell-them",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll tell them. They won't, but I'll tell them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.you-did-tell-the-next-one-i-said-to-listen-to-you"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.fine-yes-i-m-going-to-miss-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Fine. Yes. I'm going to miss it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.follow-press.you-ve-had-half-of-it-already"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.knew-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Knew it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.fine-yes-i-m-going-to-miss-it"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I should get these to the car before I change my mind.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.go-on-i-ll-get-the-door",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Go on. I'll get the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.don-t-be-a-stranger",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Don't be a stranger.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "departure"
       }
     },
     {
@@ -44955,1150 +43763,6 @@
       "tag": {
         "move": "leave",
         "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-ll-miss-walking-in-here-and-knowing-exactly-where-everything-is",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'll miss walking in here and knowing exactly where everything is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.more-than-i-thought-i-would",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "More than I thought I would.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "ask"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.it-ll-still-be-here-we-won-t-move-a-thing",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "It'll still be here. We won't move a thing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.i-ll-miss-walking-in-here-and-knowing-exactly-where-everything-is"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.me-too-don-t-tell-anybody",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Me too. Don't tell anybody.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "scene-talk.reply-tell.more-than-i-thought-i-would"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "departure"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-spent-the-year-at-the-same-school-and-isn-t-ready-to-just-say-see-you-around",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} spent the year at the same school and isn't ready to just say see you around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.it-s-the-last-day-of-the-school-year-name-has-been-meaning-to-say-something",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "It's the last day of the school year. {name} has been meaning to say something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-went-to-school-with-you-all-year-and-wants-a-word-before-everyone-scatters",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} went to school with you all year, and wants a word before everyone scatters.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.last-day-can-you-believe-it",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Last day. Can you believe it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-didn-t-want-today-to-go-by-without-saying-something",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I didn't want today to go by without saying something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.well-that-s-the-year",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Well, that's the year.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.got-a-second-it-s-kind-of-now-or-never",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Got a second? It's kind of now or never.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.so-that-s-it-i-guess",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "So that's it, I guess.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.so-what-happens-now-for-you-i-mean",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "So what happens now? For you, I mean.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.are-you-going-to-stay-around-here-after",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Are you going to stay around here, after?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.tell-me-you-ve-got-a-plan-because-i-don-t",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Tell me you've got a plan, because I don't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.what-s-the-first-thing-you-re-doing-now-that-it-s-over",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "What's the first thing you're doing now that it's over?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.do-you-know-what-you-re-doing-next",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Do you know what you're doing next?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-m-going-to-work-i-want-my-own-money-for-a-while",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'm going to work. I want my own money for a while.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-m-staying-in-town-there-s-a-lot-i-want-to-do-right-here",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'm staying in town. There's a lot I want to do right here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-about-you-you-go-first",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What about you? You go first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.whatever-happens-let-s-not-lose-touch",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Whatever happens, let's not lose touch.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.give-me-your-number-i-mean-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Give me your number. I mean it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.honestly-i-m-not-thinking-about-it-today",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Honestly? I'm not thinking about it today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deflect",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.here-really-what-would-you-even-do",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Here? Really? What would you even do?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.that-sounds-like-you-what-made-you-decide",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "That sounds like you. What made you decide?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.good-you-ll-be-good-at-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Good. You'll be good at it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-ll-know-where-to-find-you",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll know where to find you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "tell"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-don-t-know-yet-maybe-that-s-fine-for-now",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I don't know yet. Maybe that's fine for now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "nervous",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.getting-a-job-and-a-place-of-my-own",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Getting a job and a place of my own.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.anything-but-another-year-of-this",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Anything but another year of this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-d-like-that",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'd like that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "promise"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.deal-don-t-make-me-chase-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Deal. Don't make me chase you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "promise"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.come-on-not-even-a-guess",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Come on. Not even a guess?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-it-s-a-lot",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair. It's a lot.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.something-worth-doing-i-ll-know-it-when-i-see-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Something worth doing. I'll know it when I see it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-tell-you-when-i-figure-it-out",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll tell you when I figure it out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.ask-me-in-a-month",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Ask me in a month.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deflect",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-to-go-good-luck-really",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to go. Good luck, really.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.that-s-more-of-a-plan-than-i-ve-got",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "That's more of a plan than I've got.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.then-we-ll-figure-it-out-at-the-same-time-call-me",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Then we'll figure it out at the same time. Call me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-should-go-take-care-of-yourself",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I should go. Take care of yourself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.fine-i-want-to-do-something-that-matters-here",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Fine. I want to do something that matters here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "press"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.not-today-see-you-around",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Not today. See you around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "press"
-        }
-      ],
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.see-you-around-then",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "See you around, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thanks-for-this-really",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thanks for this. Really.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.you-d-better-mean-that",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You'd better mean that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.go-on-good-luck",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Go on. Good luck.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "leave"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
       }
     },
     {
@@ -147831,56 +145495,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "close-accept",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "leave"
-        }
-      ],
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.close-accept.okay-take-care-of-yourself",
-      "text": "Okay. Take care of yourself.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-accept",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "leave"
-        }
-      ],
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.close-accept.okay-don-t-be-a-stranger",
-      "text": "Okay. Don't be a stranger.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "follow-accept",
       "kind": "spoken",
       "uses": [
@@ -148326,56 +145940,6 @@
       "key": "scene-talk.reply-decline.that-helps-but-my-answer-stays-no-i-m-sorry",
       "text": "That helps, but my answer stays no. I'm sorry.",
       "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-leave",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-leave.i-should-go-take-care-okay",
-      "text": "I should go. Take care, okay?",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-leave",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-leave.i-have-to-run-i-wish-you-the-best",
-      "text": "I have to run. I wish you the best.",
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
       "date": "2026-11-10"
@@ -149265,54 +146829,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.close-promise.i-ll-hold-you-to-that-so-don-t-forget",
-      "text": "I'll hold you to that, so don't forget.",
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.close-promise.then-i-ll-expect-it-don-t-forget",
-      "text": "Then I'll expect it. Don't forget.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "follow-press",
       "kind": "spoken",
       "uses": [
@@ -149358,54 +146874,6 @@
       "key": "scene-talk.follow-press.it-matters-to-all-of-us-what-s-getting-in-the-way",
       "text": "It matters to all of us. What's getting in the way?",
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-thank",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "tag": {
-        "move": "thank",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.close-thank.this-meant-a-lot-thank-you",
-      "text": "This meant a lot. Thank you.",
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "close-thank",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "tag": {
-        "move": "thank",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.close-thank.thank-you-for-everything-really",
-      "text": "Thank you for everything. Really.",
-      "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 2)",
       "date": "2026-11-10"
@@ -150501,354 +147969,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "reply-ask",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-ask.and-you-you-go-first",
-      "text": "And you? You go first.",
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-ask",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye"
-        }
-      ],
-      "tag": {
-        "move": "ask",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-ask.what-are-you-doing-you-go-first",
-      "text": "What are you doing? You go first.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "deflect",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-deflect.ask-me-again-in-a-month",
-      "text": "Ask me again in a month.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "deflect",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-deflect.check-back-in-a-month",
-      "text": "Check back in a month.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-leave",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-leave.i-have-to-go-take-care-of-yourself",
-      "text": "I have to go. Take care of yourself.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-leave",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-leave.i-should-head-out-take-care-of-yourself",
-      "text": "I should head out. Take care of yourself.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-promise.i-ll-let-you-know-once-i-figure-it-out",
-      "text": "I'll let you know once I figure it out.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-promise.when-i-know-you-ll-know",
-      "text": "When I know, you'll know.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-promise.then-we-ll-work-it-out-together-call-me",
-      "text": "Then we'll work it out together. Call me.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-promise",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "promise",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-promise.we-can-both-figure-it-out-as-we-go-call-me",
-      "text": "We can both figure it out as we go. Call me.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-tell",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-tell.something-worth-doing-i-ll-know-it-when-i-find-it",
-      "text": "Something worth doing. I'll know it when I find it.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-tell",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "ask"
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-tell.something-that-matters-i-ll-know-it-when-i-see-it",
-      "text": "Something that matters. I'll know it when I see it.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-tell",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-tell.that-s-more-of-a-plan-than-i-have",
-      "text": "That's more of a plan than I have.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-tell",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "answer"
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-tell.you-re-ahead-of-me-i-don-t-have-a-plan",
-      "text": "You're ahead of me. I don't have a plan.",
-      "bearing": "tired",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "close-thank",
       "kind": "spoken",
       "uses": [
@@ -150892,56 +148012,6 @@
       "key": "scene-talk.close-thank.good-i-ll-tell-the-others-you-ve-said-yes-first",
       "text": "Good. I'll tell the others you've said yes.",
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-press",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "deflect"
-        }
-      ],
-      "tag": {
-        "move": "press",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.follow-press.come-on-give-me-a-guess",
-      "text": "Come on, give me a guess.",
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-press",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "deflect"
-        }
-      ],
-      "tag": {
-        "move": "press",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.follow-press.not-even-a-rough-idea",
-      "text": "Not even a rough idea?",
-      "bearing": "tender",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
@@ -151047,106 +148117,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "reply-leave",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-leave.not-today-i-ll-see-you-around",
-      "text": "Not today. I'll see you around.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-leave",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "leave",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-leave.not-today-take-care",
-      "text": "Not today. Take care.",
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-tell",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-tell.fine-i-want-to-do-something-that-counts-here",
-      "text": "Fine. I want to do something that counts here.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-tell",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "press"
-        }
-      ],
-      "tag": {
-        "move": "tell",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.reply-tell.okay-i-want-my-work-here-to-matter",
-      "text": "Okay. I want my work here to matter.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "close-accept",
       "kind": "spoken",
       "uses": [
@@ -151190,56 +148160,6 @@
       "key": "scene-talk.close-accept.okay-we-ll-work-it-out",
       "text": "Okay. We'll work it out.",
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-accept",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "deflect"
-        }
-      ],
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.follow-accept.that-s-fair-it-s-a-lot",
-      "text": "That's fair. It's a lot.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-accept",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "deflect"
-        }
-      ],
-      "tag": {
-        "move": "accept",
-        "key": "school-goodbye"
-      },
-      "key": "scene-talk.follow-accept.okay-it-is-a-lot-to-decide",
-      "text": "Okay. It is a lot to decide.",
-      "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
@@ -192870,6 +189790,1556 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-last-shift-at-employer-is-over-name-waits-by-the-door-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your last shift at {employer} is over. {name} waits by the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.this-is-the-last-day-of-years-there-at-employer-name-is-waiting-at-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "This is the last day of {years-there} at {employer}. {name} is waiting at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "years-there"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-leaving-employer-for-good-name-walks-you-to-the-door-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You are leaving {employer} for good. {name} walks you to the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "left-work"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-at-the-door-of-employer-it-is-your-last-day-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you at the door of {employer}. It is your last day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-you-re-really-going-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So you're really going.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["coworker-still-there"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-heard-you-found-another-job-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I heard you found another job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["next-employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-you-re-really-done-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So you're really done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["left-work"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.retired-from-employer-i-still-can-t-say-it-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Retired from {employer}. I still can't say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["why-retire", "employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-s-next-employer-paying-you-to-leave-us-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What's {next-employer} paying you to leave us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["next-employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.years-there-here-what-made-you-go-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{years-there} here. What made you go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["years-there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.is-it-really-over-at-employer-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Is it really over at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "left-work"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-new-place-pays-better-that-s-all-of-it-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The new place pays better. That's all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["why-pay"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-other-place-asked-and-i-said-yes-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The other place asked, and I said yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["why-other"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-done-my-years-years-there-here-closes-them-out-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've done my years. {years-there} here closes them out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["why-retire", "years-there"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-over-and-that-s-all-i-know-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's over, and that's all I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["left-work"],
+          "excludesFacts": ["why-retire"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-name-you-made-employer-bearable-",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, {name}. You made {employer} bearable.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.years-there-here-went-faster-with-you-",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "{years-there} here went faster with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "years-there"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.you-staying-on-at-employer-",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "You staying on at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "coworker-still-there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.you-staying-put-at-employer-",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "You staying put at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer", "coworker-still-there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go-be-kind-to-whoever-takes-my-job-shifts-",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go. Be kind to whoever takes my {job} shifts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["job"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-d-better-go-next-employer-is-waiting-on-me-",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd better go. {next-employer} is waiting on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["next-employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go-that-s-the-last-time-i-walk-out-of-here-",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go. That's the last time I walk out of here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["left-work"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go-say-goodbye-to-the-others-at-employer-",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go. Say goodbye to the others at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-i-d-leave-for-that-too-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair. I'd leave for that too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "scene-talk.reply-tell.the-new-place-pays-better-that-s-all-of-it-"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.they-picked-a-good-one-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "They picked a good one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "scene-talk.reply-tell.the-other-place-asked-and-i-said-yes-"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.you-earned-every-bit-of-it-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You earned every bit of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "scene-talk.reply-tell.i-ve-done-my-years-years-there-here-closes-them-out-"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-go-don-t-look-back-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then go. Don't look back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "scene-talk.reply-tell.it-s-over-and-that-s-all-i-know-"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-staying-put-somebody-has-to-hold-it-down-",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm staying put. Somebody has to hold it down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "ask",
+          "requiresFacts": ["employer", "coworker-still-there"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.it-won-t-be-the-same-without-you-",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "It won't be the same without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "thank",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.good-luck-at-next-employer-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Good luck at {next-employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["next-employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.enjoy-not-setting-an-alarm-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Enjoy not setting an alarm.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["left-work"],
+          "excludesFacts": ["why-retire"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.enjoy-every-minute-of-it-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Enjoy every minute of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["why-retire"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-we-ll-manage-without-you-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. We'll manage without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-everything-at-employer-",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for everything at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-last-bell-rings-at-school-name-finds-you-before-the-hall-empties-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The last bell rings at {school}. {name} finds you before the hall empties.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"],
+          "excludesFacts": ["passed", "failed"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-walk-out-of-school-a-graduate-name-is-waiting-on-the-steps-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You walk out of {school} a graduate. {name} is waiting on the steps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school", "passed"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-year-at-school-is-over-name-finds-you-outside-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The year at {school} is over. {name} finds you outside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school", "failed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-is-the-last-day-of-school-name-finds-you-in-the-hall-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It is the last day of school. {name} finds you in the hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "narrate",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-passed-i-knew-you-would-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You passed. I knew you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.doesn-t-matter-what-the-paper-says-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Doesn't matter what the paper says.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-this-is-it-then-",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So this is it, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "greet",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-now-after-school-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So what now, after {school}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.will-you-miss-school-or-only-the-people-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Will you miss {school}, or only the people?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school", "classmate-leaving"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-passed-the-rest-i-ll-find-out-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I passed. The rest I'll find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.state-ask.so-what-now-after-school-",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didn-t-pass-the-rest-i-ll-find-out-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't pass. The rest I'll find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.state-ask.so-what-now-after-school-",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-people-mostly-the-people-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The people. Mostly the people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.state-ask.will-you-miss-school-or-only-the-people-",
+          "requiresFacts": ["classmate-leaving"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-name-you-made-school-bearable-",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks, {name}. You made {school} bearable.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.you-back-at-school-next-year-",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "You back at {school} next year?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school", "same-school-next"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.are-you-done-at-school-too-",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are you done at {school} too?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school", "classmate-leaving"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "ask",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-take-a-last-look-at-school-for-me-",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Take a last look at {school} for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go-good-luck-at-school-next-year-",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go. Good luck at {school} next year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "requiresFacts": ["school", "same-school-next"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "leave",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.you-earned-it-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.reply-tell.i-passed-the-rest-i-ll-find-out-"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-paper-doesn-t-know-you-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That paper doesn't know you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.reply-tell.i-didn-t-pass-the-rest-i-ll-find-out-"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.the-people-will-miss-you-too-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "The people will miss you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.reply-tell.the-people-mostly-the-people-"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.back-in-the-fall-same-as-always-",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Back in the fall, same as always.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.reply-ask.you-back-at-school-next-year-",
+          "requiresFacts": ["school", "same-school-next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.done-same-as-you-we-made-it-out-",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Done, same as you. We made it out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "scene-talk.reply-ask.are-you-done-at-school-too-",
+          "requiresFacts": ["classmate-leaving"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "answer",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.it-was-better-with-you-in-it-",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "It was better with you in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "thank",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.tell-me-how-it-is-out-there-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Tell me how it is out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["same-school-next"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.we-made-it-out-take-care-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We made it out. Take care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["classmate-leaving"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-it-for-school-then-",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's it for {school}, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["school", "passed"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "accept",
+        "key": "school-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-being-there-at-school-",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for being there at {school}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye",
+          "outcome": "resolved",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead's builder, Sonnet",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
       }
     }
   ]

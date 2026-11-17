@@ -1995,41 +1995,22 @@
     },
     "last-day-farewell": {
       "state": "ask",
-      "replies": ["tell", "ask", "promise", "deflect"],
+      "replies": ["tell", "thank", "ask", "leave"],
       "follow": {
-        "tell": ["ask", "accept"],
-        "ask": ["answer"],
-        "promise": ["thank"],
-        "deflect": ["press", "accept"]
+        "tell": ["accept"],
+        "thank": ["thank"],
+        "ask": ["answer"]
       },
       "again": {
-        "ask": ["tell", "promise", "deflect", "leave"],
-        "answer": ["tell", "promise", "leave"],
-        "press": ["tell", "leave"]
+        "answer": ["leave"]
       },
       "endings": [
-        {
-          "id": "another-day",
-          "label": "You'll tell it another day",
-          "when": {
-            "reply": ["deflect"],
-            "asker": ["accept"]
-          }
-        },
         {
           "id": "slipped-out",
           "label": "Slipped out",
           "keeps": "none",
           "when": {
-            "reply": ["leave", "deflect"]
-          }
-        },
-        {
-          "id": "kept-in-touch",
-          "label": "You'll stay in touch",
-          "keeps": "promise",
-          "when": {
-            "anyReply": ["promise"]
+            "reply": ["leave"]
           }
         },
         {
@@ -2038,6 +2019,14 @@
           "keeps": "none",
           "when": {
             "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "thanked",
+          "label": "You thanked them",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["thank"]
           }
         },
         {
