@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>In-game HUD · Our Civic Duty</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+body {background-image:url(../art/house-suburban-living__night.jpg);text-shadow:0 2px 4px #160f0b}
+.rail {position:absolute;left:28px;bottom:193px;display:grid;gap:6px}
+.rail .control {display:grid;place-items:center;width:51px;height:47px;padding:0;background:radial-gradient(ellipse,#4b3c2bdb,#201913d9 68%,transparent 75%)}
+.rail img {width:30px;height:30px;filter:drop-shadow(0 1px 3px #120c08)}
+.tip {position:absolute;left:56px;opacity:0;pointer-events:none;padding:4px 9px;color:var(--cream);background:#211910e8}
+.rail button:is(:hover,:focus-visible) .tip {opacity:1}
+.unread {position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:100%;background:#ffdc88;box-shadow:0 0 7px #ffce73}
+.player-card {left:28px;bottom:27px;width:445px;height:145px;display:grid;grid-template-columns:111px 1fr;align-items:center;padding-right:17px}
+.player-card .portrait {height:122px}
+.player-card h1 {font-size:26px}
+.player-card time {display:block;font-size:16px;color:var(--cream)}
+.player-card p {font-size:16px}
+.actions {margin-top:7px;gap:6px}
+.actions button {font-size:15px;padding:4px 12px}
+.here {position:absolute;right:29px;bottom:27px;display:flex;gap:9px;align-items:center;padding:4px 16px 4px 1px;background:radial-gradient(ellipse,#221912ee 30%,#211913c9 51%,transparent 77%)}
+.here .portrait {width:79px;height:99px}
+.here .label {margin-bottom:3px}
+.here h2 {font-size:19px}
+.here small {color:var(--cream)}
+.toasts {position:absolute;right:28px;top:29px;width:319px;display:grid;gap:9px}
+.toast {display:grid;grid-template-columns:27px 1fr;gap:10px;padding:11px 16px 13px 12px;background:url(../art/toast.svg) center/100% 100% no-repeat}
+.toast img {width:25px;height:25px;margin-top:2px}
+.toast p {font-size:16px;line-height:1.32}
+</style>
+<body class="hud">
+<main aria-label="In-game HUD">
+  <nav class="rail" aria-label="Game menus">
+    <button class="control" aria-label="You"><img src="../art/you.svg" alt=""><span class="tip">You</span></button>
+    <button class="control" aria-label="Journal, unread"><img src="../art/journal.svg" alt=""><span class="unread"></span><span class="tip">Journal</span></button>
+    <button class="control" aria-label="Calendar"><img src="../art/calendar.svg" alt=""><span class="tip">Calendar</span></button>
+    <button class="control" aria-label="Money"><img src="../art/money.svg" alt=""><span class="tip">Money</span></button>
+    <button class="control" aria-label="Politics"><img src="../art/politics.svg" alt=""><span class="tip">Politics</span></button>
+    <button class="control" aria-label="News, unread"><img src="../art/news.svg" alt=""><span class="unread"></span><span class="tip">News</span></button>
+    <button class="control" aria-label="People"><img src="../art/people.svg" alt=""><span class="tip">People</span></button>
+    <button class="control" aria-label="Travel"><img src="../art/travel.svg" alt=""><span class="tip">Travel</span></button>
+    <button class="control" aria-label="Guide"><img src="../art/guide.svg" alt=""><span class="tip">Guide</span></button>
+  </nav>
+  <section class="panel player-card">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner br"></i><i class="corner bl"></i>
+    <span class="portrait"><img src="../art/tracy.webp" alt=""></span>
+    <div>
+      <h1>Tracy Lucas</h1>
+      <p>Grano, North Dakota</p>
+      <time datetime="2025-01-20T20:00">Monday, January 20, 2025 · 8:00 PM</time>
+      <div class="actions" aria-label="Advance time">
+        <button class="control lit">Hour</button><button class="control">Day</button><button class="control">Week</button>
+      </div>
+    </div>
+  </section>
+  <section class="here">
+    <span class="portrait"><img src="../art/ashley.webp" alt=""></span>
+    <div><span class="label">Here now</span><h2>Ashley Lucas</h2><small>Partner</small></div>
+  </section>
+  <aside class="toasts" aria-label="Notifications">
+    <div class="toast"><img src="../art/news.svg" alt=""><div><span class="label">News</span><p>Allen Schultz named mayor pro tem</p></div></div>
+    <div class="toast"><img src="../art/journal.svg" alt=""><div><span class="label">Journal</span><p>Shane Harrison, who I work with, won a seat on the council.</p></div></div>
+  </aside>
+</main>
+</body>
+</html>

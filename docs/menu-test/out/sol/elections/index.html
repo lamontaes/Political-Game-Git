@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Elections · Our Civic Duty</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+body {background-image:url(../art/county-elections-office__midday.jpg)}
+.layout {display:grid;grid-template-columns:249px minmax(0,1fr) 276px;gap:38px;align-items:start;margin-top:48px}
+.offices {padding-top:15px}
+.office {display:block;width:100%;margin:11px 0;padding:13px 15px}
+.office strong,.office small {display:block}
+.offices .player {margin-top:40px}
+.race {text-align:center}
+.race h1 {margin-top:5px;white-space:nowrap}
+.ballot {height:290px;margin:12px auto 9px;background:radial-gradient(ellipse closest-side,#d6a3603d,transparent)}
+.ballot img {width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 15px 14px #110a06a0)}
+.election-day {font-size:46px;font-weight:600;color:var(--cream);line-height:1.08;margin:5px 0 8px}
+.race p {margin-top:13px}
+.actions {justify-content:center;margin-top:25px;gap:12px}
+.actions button {padding:10px 21px}
+.calendar {padding-top:20px}
+.calendar .label {margin-bottom:16px}
+.milestone {display:grid;grid-template-columns:27px 1fr;gap:8px;margin-bottom:22px}
+.milestone::before {content:"";width:20px;height:20px;margin-top:5px;background:url(../art/calendar.svg) center/contain no-repeat}
+.milestone strong,.milestone small {display:block}
+.previous {margin-top:33px}
+.previous h2 {margin-bottom:4px}
+</style>
+<body>
+<main class="panel menu">
+  <i class="corner tl"></i><i class="corner tr"></i><i class="corner br"></i><i class="corner bl"></i>
+  <header class="top">
+    <span class="plate">Politics</span>
+    <nav aria-label="Politics">
+      <button class="control">Government</button><button class="control lit" aria-current="page">Elections</button><button class="control">Parties</button><button class="control">Issues</button><button class="control">Bills</button><button class="control">Budgets</button><button class="control">Metrics</button>
+    </nav>
+    <span class="date muted">Monday, January 20, 2025</span>
+  </header>
+  <div class="layout">
+    <aside class="offices">
+      <span class="label">Offices you can run for</span>
+      <button class="control office lit"><strong>Council member</strong><small>Filing opens Jan 29, 2026</small></button>
+      <button class="control office"><strong>Mayor</strong><small>Filing opens Jan 29, 2026</small></button>
+      <div class="player"><strong>Tracy Lucas</strong><p>Grano, North Dakota</p></div>
+    </aside>
+    <section class="race">
+      <span class="label">Elections</span>
+      <h1>Council member</h1>
+      <figure class="ballot"><img src="../art/ballot.webp" alt=""></figure>
+      <span class="label">Election day</span>
+      <div class="election-day">June 2, 2026</div>
+      <span class="label">3 seats to fill</span>
+      <p>Filing hasn’t opened yet.</p>
+      <div class="actions"><button class="control lit">Announce</button><button class="control">Sim to Jan 29</button></div>
+    </section>
+    <aside class="calendar">
+      <span class="label">Key dates</span>
+      <div class="milestone"><div><strong>Filing opens</strong><small>Jan 29, 2026</small></div></div>
+      <div class="milestone"><div><strong>Filing closes</strong><small>Mar 30, 2026</small></div></div>
+      <div class="milestone"><div><strong>Election day</strong><small>Jun 2, 2026</small></div></div>
+      <div class="previous"><img src="../art/leaf.svg" width="90" height="23" alt=""><span class="label">Last election · May 1, 2022</span><h2>Shirley Pratt</h2><p><strong>54%</strong> of the vote</p></div>
+    </aside>
+  </div>
+</main>
+</body>
+</html>
