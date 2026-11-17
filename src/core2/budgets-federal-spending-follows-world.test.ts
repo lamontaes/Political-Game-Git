@@ -1,0 +1,83 @@
+/**
+ * The federal budget's spending follows the world, not the first plan (pins budgets.ts:861 and :1526, family 17).
+ * Each year's lines start from the last adopted budget, carried at this year's cost: lines paid to households move
+ * with the people the country's households hold and the world's prices, net interest with the debt and its yield,
+ * every other line with prices. Receipts are measured from the middle of the year whose collections set the plan, so
+ * growth is counted once. Fails on the code that rebuilt every year from the published file (spending equal to the
+ * dollar year after year).
+ * Places: three drawn per run (GOLDEN_PATH_SEED replays a run), each named in every message.
+ */
+import { randomBytes } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { advanceCore } from "./life";
+import federalLines from "./data/country/federal-lines.json" with { type: "json" };
+import { budgetsOf, governments } from "./modules/budgets";
+import { coreAPI } from "./state";
+
+const run = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const destination = federalLines.lines as Record<string, string>;
+
+describe("federal spending follows the world's own people and prices", () => {
+  for (const draw of [0, 1, 2]) {
+    it(`draw ${draw}`, () => {
+      setBookkeeping(false);
+      const place = drawPlace(
+        draw === 0 ? run : `${run}:${draw}`,
+        "federal-spending",
+      );
+      const where = `${place.name} (${place.key}), seed ${place.seed}, run ${run}`;
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(world.core);
+      advanceCore(world.core, "2026-11-01" as never);
+      const us = governments(api).find((g) => g.level === "federal")!;
+      const rows = budgetsOf(api, us.id)
+        .slice()
+        .sort((a, b) => a.fiscalYear - b.fiscalYear);
+      let checked = 0;
+      let moved = 0;
+      for (let i = 1; i < rows.length; i += 1) {
+        const prior = rows[i - 1]!;
+        const row = rows[i]!;
+        if (!prior.drivers || !row.drivers) continue;
+        const people = row.drivers.people / prior.drivers.people;
+        const prices = row.drivers.prices / prior.drivers.prices;
+        for (const [line, was] of Object.entries(prior.baseSpendingMinor!)) {
+          const now = row.baseSpendingMinor![line]!;
+          if (line === "netInterest") {
+            expect(now, `${where}: ${row.id} ${line}`).toBe(
+              Math.round(
+                was *
+                  (row.drivers.debt / prior.drivers.debt) *
+                  (row.drivers.yield / prior.drivers.yield),
+              ),
+            );
+          } else {
+            expect(now, `${where}: ${row.id} ${line}`).toBe(
+              Math.round(
+                was *
+                  (destination[line] === "households"
+                    ? people * prices
+                    : prices),
+              ),
+            );
+          }
+          checked += 1;
+          if (now !== was) moved += 1;
+        }
+        // A plan re-budgeted from a year's collections stands at that year's middle, not at the plan's first day.
+        expect(row.revenuePlanMonth, `${where}: ${row.id} plan month`).not.toBe(
+          row.startsOn.slice(0, 7),
+        );
+      }
+      expect(checked, `${where}: federal years checked`).toBeGreaterThan(0);
+      expect(moved, `${where}: lines that moved`).toBeGreaterThan(0);
+    }, 600_000);
+  }
+});
