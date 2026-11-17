@@ -1,5 +1,5 @@
 ---
-id: golden-path-m3-09-times-out-quick-budget-spent-by-earlier-specs
+id: golden-path-each-spec-own-clock
 impact: none
 ---
 
