@@ -41,6 +41,6 @@ claimed-at:
 
 **Waits on.** Nothing. It changes .github/workflows/pool-done-on-merge.yml, so it merges outside a build window and by the CTO's hand or word.
 
-**Files.** scripts/pool/index.ts, scripts/pool/index.test.ts, scripts/pool/next.test.ts, .github/workflows/pool-done-on-merge.yml, .github/workflows/pool-index.yml, docs/pool/README.md, docs/pool/START-A-BUILDER.md, .agents/skills/session-start/SKILL.md, .agents/skills/pool-notes/SKILL.md, .agents/skills/merge-trains/SKILL.md
+**Files.** scripts/pool/index.ts, scripts/pool/index.test.ts, scripts/pool/next.test.ts, .github/workflows/pool-done-on-merge.yml, .github/workflows/pool-index.yml, docs/pool/README.md, docs/pool/START-A-BUILDER.md, .agents/skills/session-start/SKILL.md, .agents/skills/pool-notes/SKILL.md, .agents/skills/merger/references/merge-trains.md
 
 **Notes.** Written by the lead (Fable B), Nov 11, 14:10 UTC, at the CTO's request ("claims shouldn't touch main. They can go on pool/notes or be read from the PR"). Chosen over reading claims from open pull requests: a cloud session can search GitHub but cannot list pull requests cheaply, and a claim is made before any pull request exists. Until this is built, the rule is in the merge-trains skill: during a build window nobody runs a pool command that pushes.

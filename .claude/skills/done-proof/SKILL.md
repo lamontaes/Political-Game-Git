@@ -3,12 +3,13 @@ name: done-proof
 description: >
   How done is proven (CTO, Nov 16, from the owner's rule "fix the cause, don't
   loosen the check"): what a pull request never adds without a CTO line, the
-  screenshot from the running game, the feature map, three strikes, repeats
-  that become checks, the verification stamp, and a one-line answer for each
-  standing rule. Use before opening a pull request or marking one ready, and
-  whenever loosening a red check looks easier than fixing it. Not for the
-  second session's check (seen-in-game) or the gate's commands (train-gate,
-  checker).
+  screenshot from the running game, the feature map, three strikes, repeats that
+  become checks, the verification stamp, a one-line answer for each standing
+  rule, and the skills policy (update the job's skill first; a new skill retires
+  one). Use before opening a pull request or marking one ready, whenever
+  loosening a red check looks easier than fixing it, and when a lesson should
+  become a skill line. Not for the second session's check (seen-in-game) or the
+  gate's commands (merger).
 ---
 
 # How done is proven
@@ -21,7 +22,7 @@ A pull request adds none of these unless a CTO line on the crew's thread approve
 
 - `it.fails`, `.skip`, `.only` or `todo`;
 - a raised baseline or budget, or a widened tolerance;
-- a test pinned to a named town or seed (a test draws its place: `drawn-place-tests`; an approved pin is written as `pinned-tests` says).
+- a test pinned to a named town or seed (a test draws its place: `drawn-place-tests`; an approved pin is written as `drawn-place-tests` (pinned-tests part) says).
 
 Ask for the line before you build on it: the pull request, the check, and why the fix cannot be at the cause. A guard will enforce this; it reads its rules from main, never from the pull request.
 
@@ -69,7 +70,7 @@ The Long game lane splits the checks first, and builds the rule-1 guard in the s
 - A heavy set runs on a schedule and before the CTO merges: the full suite and the 20-year drawn-place run.
 - The full run must finish. Today it is canceled at 45 minutes.
 
-The fast set is `.github/workflows/validate.yml`; a large change's test files are dealt over up to six unit jobs. The heavy set is `.github/workflows/heavy.yml`: nightly on main, and by hand on a branch before a merge (Actions, "Heavy checks", "Run workflow", pick the branch). Its summary lists the slowest test files. The rule-1 guard is `check-changes` (`docs/design/guards.md`); run `npm run guards -- check-changes` before a push. Your role's skill still names the gate you run (`train-gate`, `checker`).
+The fast set is `.github/workflows/validate.yml`; a large change's test files are dealt over up to six unit jobs. The heavy set is `.github/workflows/heavy.yml`: nightly on main, and by hand on a branch before a merge (Actions, "Heavy checks", "Run workflow", pick the branch). Its summary lists the slowest test files. The rule-1 guard is `check-changes` (`docs/design/guards.md`); run `npm run guards -- check-changes` before a push. Your role's skill still names the gate you run (`merger` (train-gate part), `merger` (checker part)).
 
 ## 8. Stamp it
 
@@ -103,3 +104,29 @@ Before a PR opens, answer each line below in the PR body in one sentence, or wri
 
 - **Weights are not re-fit to make a behavior appear (Account lead, Nov 15), even when a citation is named.** Size things from the record, and bring the lead what is weighed against what. A cap or count set to what the world happens to give is a tuned number.
 - **No count, span or flag stands in for a rule (Account lead, Nov 15).** A number of years, a count of rows or a boolean that approximates what a person, law or place would do is a stand-in; build the rule from the records that decide it, or register the stopgap naming the engine you could not find (`remove-a-stopgap`).
+
+## 10. Skills: update the job's skill, retire before you add
+
+Owner, Nov 16: "Let's go ahead", on the CTO's stricter skills policy (AGENTS.md, "Skills").
+
+- A lesson goes into the skill for the job, as one Gotchas line with its date and cause; never into a lane's own skill.
+- A new skill needs a reason in its pull request body and retires or merges an old one. The repo keeps about 40.
+- A rule that must hold every time becomes a GitHub check, not more skill text. The CTO keeps the list on #9747.
+- A skill nobody loads is cut; the owner's rules in it move word for word into the skill that takes its job.
+- Skills and docs pull requests merge straight to main (CTO, Nov 17). `references/skill-lessons.md` has the method for turning a repeated cause into a skill line.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 16, 23:52Z (#9749): one British spelling ("canceled" written with a double l) in this skill turned `guards` red on every open pull request. Cause: the English guard reads every tracked file, skills included. Run `npm run spelling` on every skill or doc you change.
+- Nov 17, 00:00Z (#9754): a test asserted that the player's job never changes, and a layoff on record failed it. Cause: the assertion tested the wrong claim. Rewrite it to the real claim (no hire without an application) as a test that was wrong (category c), not as a loosening.
+- Nov 16, 23:49Z (#9757): raising a count can be the stricter change, when it recounts lines an old excuse let through. Cause: a count is judged by what it counts. Ask for the CTO line and say why it is stricter.
+- Nov 17, 02:44Z (row 46, Glasgow, Delaware): an ask to exempt a case hid a real fault, two races with the identical share. Cause: the case was the check working. Never exempt a case that found a fault; fix the cause.
+- Nov 17, 01:22Z (#9795): a check that does not pass yet cannot ride in a pull request. Cause: under rule 1 a check ships in the pull request that makes it pass. Split the work and let the next pull request carry the check.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/skill-lessons.md`: when a lesson repeats and should become a skill line, and on the scheduled skill-lessons job.

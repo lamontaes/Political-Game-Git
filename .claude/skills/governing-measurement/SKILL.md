@@ -12,7 +12,7 @@ description: >
 
 # Governing measurement
 
-Phase A's done-when is a count over drawn places (path-check wins a council seat in at least 7 of 10), and calibration is a count over drawn places (the world's re-election totals against the research bands). Both are long runs (`heavy-runs` has the memory, heap and exit-file habits), so they go to the runners (`docs/coordination/CREW.md`) one place at a time, and the lead reads the lines. Real rates check totals; they never pick one actor's outcome (no dice).
+Phase A's done-when is a count over drawn places (path-check wins a council seat in at least 7 of 10), and calibration is a count over drawn places (the world's re-election totals against the research bands). Both are long runs (`speed-work` (heavy-runs part) has the memory, heap and exit-file habits), so they go to the runners (`docs/coordination/CREW.md`) one place at a time, and the lead reads the lines. Real rates check totals; they never pick one actor's outcome (no dice).
 
 ## Path-check runners
 
