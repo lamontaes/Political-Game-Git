@@ -1,6 +1,9 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import laborLaw from "../../data/research/laws/starting-law-2026/labor-workforce.json";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { placeLocalities, placeStateKeys } from "../core2/places";
 import {
   amendmentsOn,
   billOf,
@@ -15,33 +18,37 @@ import { buildBenchWorld } from "./world";
 
 // An amendment is its own record: the section struck and the one inserted, the bill's
 // estimate with it, the body's roll call by member, and the bill rewritten only when the
-// body adopts it. Played at the pinned place below.
-// Pinned (Nov 16). Before, the seed came at run time from BILL_AMEND_SEED,
-// GOLDEN_PATH_SEED or randomBytes, and the case drew up to twelve places until
-// one let a member draft the local minimum-wage ordinance. Most draws land in
-// states whose law gives towns no minimum-wage authority, where the draft is
-// rightly blocked (12 of 12 at seed pin-bill-amendment on the Train at
-// 6d12556a; Brookfield Center CT, Grenloch NJ and Beatty NV read
-// "state-gives-no-local-minimum-wage"). The place below is the old loop's
-// 25th draw at seed pin-bill-amendment, Fulton, Illinois, in a state whose
-// row grants the authority (law:US-IL local-minimum-wage-authority, value 1);
-// its council of five drafts the ordinance.
-// Limit: the case took 38 s, run beside two other test files (Nov 16, Train 544056f5); its limit is about twice that, 80 s.
-const seed = "pin-bill-amendment";
-const PLACE = {
-  key: "1728144",
-  name: "Fulton, Illinois",
-  seed: "8ef1f310c74ca4c558ddc233d0deafd9f197641b84fe62caf59434102cb9f176",
-};
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:24`, "bill-amend")).toMatchObject(PLACE);
-});
+// body adopts it. Drawn again (CTO, Nov 17: tests draw their place; it was
+// pinned to Fulton, Illinois on Nov 16). The draw takes only localities in a
+// state whose starting law grants towns a minimum-wage power (the research
+// answer the laws engine starts from); elsewhere the draft is rightly refused
+// ("state-gives-no-local-minimum-wage"), which is not this test's case.
+// GOLDEN_PATH_SEED replays one.
+const seed =
+  process.env.BILL_AMEND_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
+const DRAWS = 8;
+const grantAnswers = (
+  laborLaw.questions as unknown as Record<
+    string,
+    { answers: Record<string, { answer?: string }> }
+  >
+)["us-policy-positions:labor-workforce.local-minimum-wage-authority"]!.answers;
+const granted = new Set(
+  placeStateKeys()
+    .filter((state) => grantAnswers[state]?.answer === "yes")
+    .flatMap((state) => placeLocalities(state).map((row) => row.key)),
+);
 
 describe(`an amendment (seed ${seed})`, () => {
   it("is voted by the body's own positions and rewrites the bill only when adopted", () => {
     let proved = false;
-    for (const draw of [PLACE]) {
+    const passed: string[] = [];
+    for (let i = 0; i < DRAWS && !proved; i += 1) {
+      const draw = drawPlace(`${seed}:${i}`, "bill-amend", (key) =>
+        granted.has(key),
+      );
       const world = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: draw.key,
@@ -55,9 +62,16 @@ describe(`an amendment (seed ${seed})`, () => {
       ).find((o) =>
         ["council", "township-board", "county-board"].includes(o.kind),
       );
-      if (!council) continue;
+      const where = `${draw.name} (${draw.key}, seed ${draw.seed})`;
+      if (!council) {
+        passed.push(`${where}: no council`);
+        continue;
+      }
       const seated = members(api, council.id);
-      if (seated.length < 3) continue;
+      if (seated.length < 3) {
+        passed.push(`${where}: ${seated.length} seated`);
+        continue;
+      }
       const sponsor = memberKey(seated[0]!);
       const wage = seatView(world.core, sponsor).amounts.find(
         (a) => a.series === "minimum-wage",
@@ -68,7 +82,10 @@ describe(`an amendment (seed ${seed})`, () => {
         series: "minimum-wage",
         value: (wage?.current ?? 0) + 200,
       }) as { id: string; status: string };
-      if (bill.status !== "drafted") continue;
+      if (bill.status !== "drafted") {
+        passed.push(`${where}: draft ${bill.status}`);
+        continue;
+      }
       const drafted = billOf(api, bill.id);
       const section = drafted.provisions[0]!;
       const moved = moveAmendment(api, {
@@ -98,10 +115,13 @@ describe(`an amendment (seed ${seed})`, () => {
         yes > no ? section.value + 100 : section.value,
       );
       console.log(
-        `amendment: ${draw.name} (${draw.key}, seed ${draw.seed}) ${moved.id} ${done.status} ${yes}-${no}`,
+        `amendment: ${where} ${moved.id} ${done.status} ${yes}-${no}; passed over: ${passed.join("; ") || "none"}`,
       );
       proved = true;
     }
-    expect(proved, "a place where an amendment is voted").toBe(true);
-  }, 80_000);
+    expect(
+      proved,
+      `a place where an amendment is voted; passed over: ${passed.join("; ")}`,
+    ).toBe(true);
+  }, 600_000);
 });
