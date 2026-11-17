@@ -6463,14 +6463,15 @@ export function electoralCollege(
     let resultId = own === null ? null : town!.resultId;
     if (share === null) {
       const stateConditions = ownConditionsOf(api, key.slice(3));
+      const statePlacesCounted = coarse(
+        places,
+        key === stateKey,
+        change,
+        holder ? stateConditions.appeal : 0,
+      );
       const { reasons, counted } = countParties(
         sample,
-        coarse(
-          places,
-          key === stateKey,
-          change,
-          holder ? stateConditions.appeal : 0,
-        ),
+        statePlacesCounted,
         field,
         { ...conditions, raceVotes: votes },
         townIncumbentLean(api),
@@ -7319,14 +7320,16 @@ function decide(
   );
   // The seat's party pays or gains for its state's own jobs against the nation's.
   const ownRaceConditions = ownConditionsOf(api, race.usps);
+  const sample = sampleFor(api, date);
+  const countedPlaces = coarse(
+    places,
+    townsState,
+    electorateChange(api),
+    side ? ownRaceConditions.appeal : 0,
+  );
   const { reasons, counted } = countParties(
-    sampleFor(api, date),
-    coarse(
-      places,
-      townsState,
-      electorateChange(api),
-      side ? ownRaceConditions.appeal : 0,
-    ),
+    sample,
+    countedPlaces,
     candidates,
     conditions,
     townIncumbentLean(api),
