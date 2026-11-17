@@ -175,6 +175,7 @@ import {
 import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
+  announceForOffice,
   fileForOffice,
   governmentView,
   joinPartyAs,
@@ -2614,6 +2615,24 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           state.player.personId,
           url.searchParams.get("partyId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  // Announce for a race whose filing opens later (owner, Nov 17: "Run now,
+  // file on the date").
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/announce",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        announceForOffice(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("contestId") ?? "",
         ),
       );
       return;

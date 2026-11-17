@@ -144,6 +144,7 @@ import {
   registerWardResidency,
   keepPetitionCheck,
   openPetition,
+  resizePetition,
   petitionOf,
   petitionSigners,
   petitionSignatures,
@@ -509,9 +510,10 @@ export const VOTING_MODULE: CoreModule = {
     },
   },
   onCalendarWork: votingCalendarWork,
-  // A filing's petition opens the day it is filed, and the clerk's check of
-  // it goes on the calendar (`openFilingPetition`).
-  eventKinds: ["candidate-filed", "concession"],
+  // A filing's petition opens the day it is filed, or the day its candidate
+  // announced, and the clerk's check of it goes on the calendar once it is
+  // filed (`openFilingPetition`).
+  eventKinds: ["candidate-filed", "candidate-announced", "concession"],
   onEvent: (api, event) => {
     if (event.kind === "concession") {
       answerRecountOffer(api, event);
@@ -520,6 +522,7 @@ export const VOTING_MODULE: CoreModule = {
     const filingId = event.facts?.filingId;
     if (typeof filingId !== "string") return;
     openFilingPetition(api, filingId);
+    if (event.kind === "candidate-announced") return;
     // A governor candidate whose state's law joins the ticket at filing
     // files with a running mate.
     const contestId = event.facts?.contestId;
@@ -675,9 +678,17 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .get(filingId) as unknown as FilingRow | undefined;
-  if (filing?.status !== "petitioning") return;
+  if (filing?.status !== "petitioning" && filing?.status !== "announced")
+    return;
   const held = petitionOf(api, filingId);
-  if (held && !held.check && held.opened === filing.filedOn) return;
+  // The petition an announced candidate circulated is the one they file:
+  // its signatures stand, and the law of the side they file on sizes it.
+  const carried =
+    !!held &&
+    !held.check &&
+    !!filing.announcedOn &&
+    held.opened === filing.announcedOn;
+  if (held && !held.check && held.opened === filing.filedOn && !carried) return;
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -687,10 +698,12 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
     contest,
     filingSideFor(api, contest, filing.party),
   ).petition;
-  const petition = openPetition(api, filing, {
-    rule,
-    needed: petitionNeededHere(api, contest, rule, filing.party ?? null),
-  });
+  const needed = petitionNeededHere(api, contest, rule, filing.party ?? null);
+  const petition = carried
+    ? resizePetition(api, held!, { rule, needed })
+    : openPetition(api, filing, { rule, needed });
+  // The clerk checks a petition only once it is filed.
+  if (filing.status === "announced") return;
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
   if (petition.needed === 0) {
