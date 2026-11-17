@@ -180401,7 +180401,7 @@
       "key": "scene-talk.reply-leave.case-help-1",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have people waiting. My office will decide your case {respond-in}.",
+      "text": "I have people waiting. You'll have my office's answer in writing {respond-in}.",
       "uses": [
         {
           "subject": "scene",
@@ -180409,8 +180409,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["respond-in"],
-          "excludesFacts": ["declined"]
+          "requiresFacts": ["respond-in"]
         }
       ],
       "origin": "authored",
@@ -180431,7 +180430,7 @@
       "key": "scene-talk.reply-leave.case-help-2",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to take the next person. You'll hear from my office {respond-in}.",
+      "text": "I have to take the next person. My office will write you {respond-in}.",
       "uses": [
         {
           "subject": "scene",
@@ -180439,8 +180438,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["respond-in"],
-          "excludesFacts": ["declined"]
+          "requiresFacts": ["respond-in"]
         }
       ],
       "origin": "authored",
@@ -181501,8 +181499,7 @@
           "step": "close",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["respond-in"],
-          "excludesFacts": ["declined"]
+          "requiresFacts": ["respond-in"]
         }
       ],
       "origin": "authored",
@@ -181531,8 +181528,7 @@
           "step": "close",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["respond-in"],
-          "excludesFacts": ["declined"]
+          "requiresFacts": ["respond-in"]
         }
       ],
       "origin": "authored",
@@ -181562,8 +181558,7 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-work"],
-          "outcome": "resolved",
-          "excludesFacts": ["declined"]
+          "outcome": "resolved"
         },
         {
           "subject": "scene",
@@ -181572,8 +181567,7 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-wage"],
-          "outcome": "resolved",
-          "excludesFacts": ["declined"]
+          "outcome": "resolved"
         }
       ],
       "origin": "authored",
@@ -181602,8 +181596,7 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["problem-work"],
-          "excludesFacts": ["declined"]
+          "requiresFacts": ["problem-work"]
         },
         {
           "subject": "scene",
@@ -181611,8 +181604,7 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["problem-wage"],
-          "excludesFacts": ["declined"]
+          "requiresFacts": ["problem-wage"]
         },
         {
           "subject": "scene",
@@ -181621,8 +181613,7 @@
           "move": "thank",
           "role": "asker",
           "requiresFacts": ["problem-sick"],
-          "after": "leave",
-          "excludesFacts": ["declined"]
+          "after": "leave"
         }
       ],
       "origin": "authored",
@@ -181652,8 +181643,7 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-work"],
-          "outcome": "resolved",
-          "excludesFacts": ["declined"]
+          "outcome": "resolved"
         },
         {
           "subject": "scene",
@@ -181662,8 +181652,7 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-wage"],
-          "outcome": "resolved",
-          "excludesFacts": ["declined"]
+          "outcome": "resolved"
         }
       ],
       "origin": "authored",
@@ -181693,8 +181682,7 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-work"],
-          "outcome": "resolved",
-          "excludesFacts": ["declined"]
+          "outcome": "resolved"
         },
         {
           "subject": "scene",
@@ -181703,8 +181691,7 @@
           "move": "warn",
           "role": "asker",
           "requiresFacts": ["problem-wage"],
-          "outcome": "resolved",
-          "excludesFacts": ["declined"]
+          "outcome": "resolved"
         }
       ],
       "origin": "authored",
@@ -189910,8 +189897,7 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["other-cases"],
-          "excludesFacts": ["problem-sick"],
-          "setsFacts": ["declined"]
+          "excludesFacts": ["problem-sick"]
         }
       ],
       "origin": "authored",
@@ -189941,8 +189927,7 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["other-cases"],
-          "excludesFacts": ["problem-sick"],
-          "setsFacts": ["declined"]
+          "excludesFacts": ["problem-sick"]
         }
       ],
       "origin": "authored",
@@ -189972,8 +189957,7 @@
           "move": "decline",
           "role": "asked",
           "onlyWhen": ["respond-in"],
-          "excludesFacts": ["problem-sick"],
-          "setsFacts": ["declined"]
+          "excludesFacts": ["problem-sick"]
         }
       ],
       "origin": "authored",
@@ -190826,8 +190810,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["problem-sick"],
-          "setsFacts": ["declined"]
+          "requiresFacts": ["problem-sick"]
         }
       ],
       "origin": "authored",
@@ -190856,8 +190839,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["problem-sick"],
-          "setsFacts": ["declined"]
+          "requiresFacts": ["problem-sick"]
         }
       ],
       "origin": "authored",
@@ -190886,8 +190868,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["problem-sick"],
-          "setsFacts": ["declined"]
+          "requiresFacts": ["problem-sick"]
         }
       ],
       "origin": "authored",
@@ -190987,15 +190968,6 @@
           "role": "asker",
           "requiresFacts": ["problem-sick"],
           "after": "press"
-        },
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["problem-sick", "declined"],
-          "after": "leave"
         }
       ],
       "origin": "authored",
