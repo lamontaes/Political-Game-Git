@@ -178879,6 +178879,315 @@
         "move": "press",
         "key": "vote-wanted"
       }
+    },
+    {
+      "key": "scene-talk.state-confront.you-offered-me-money-on-wanted-i-turned-it-down-and-reported-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You offered me money on {wanted}. I turned it down and reported it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.state-confront.my-complaint-about-the-money-on-wanted-is-with-the-prosecutor-now",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "My complaint about the money on {wanted} is with the prosecutor now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-deny.i-never-offered-you-a-dime-on-wanted",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "I never offered you a dime on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-made-the-offer-on-wanted-it-was-wrong",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I made the offer on {wanted}. It was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-for-the-offer-on-wanted-there-s-no-excuse",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry for the offer on {wanted}. There's no excuse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-confront.you-took-it-to-the-prosecutor-before-you-came-to-me-about-wanted",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You took it to the prosecutor before you came to me about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.follow-confront.you-offered-the-money-on-wanted-that-s-the-whole-of-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You offered the money on {wanted}. That's the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.follow-press.i-have-the-offer-on-wanted-written-down-with-the-date",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I have the offer on {wanted} written down, with the date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "after": "deny"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.follow-ask.what-did-you-want-on-wanted-badly-enough-to-pay-for-it",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What did you want on {wanted} badly enough to pay for it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-the-first-honest-word-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's the first honest word about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "after": "tell"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.follow-accept.then-say-that-to-the-prosecutor-about-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then say that to the prosecutor about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "after": "apologize"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.follow-press.sorry-doesn-t-undo-the-offer-on-wanted",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry doesn't undo the offer on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "after": "apologize"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done-talking-about-wanted",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done talking about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "requiresFacts": ["wanted"],
+          "after": "ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-leave.say-what-you-want-about-wanted-i-m-leaving",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Say what you want about {wanted}. I'm leaving.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-leave.write-it-down-then-i-m-done-with-wanted",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Write it down, then. I'm done with {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "press",
+          "requiresFacts": ["wanted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Claude, Fable)",
+      "date": "2026-11-17"
     }
   ]
 }
