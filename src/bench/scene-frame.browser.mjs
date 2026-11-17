@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, getComputedStyle */
 // The frame a scene is shown in (owner, Nov 16 and 17): the strip is as wide as
 // the people on it, silent people are never shown big (only the speaker is), and
 // every named person on it opens their card. Plays a new life in a drawn place,
@@ -48,6 +48,22 @@ try {
       room.strip <= room.people * 260 + 120,
       `the strip is ${room.strip}px for ${room.people} people`,
     );
+    // The label never lies over a name.
+    const clash = await page.evaluate(() => {
+      const label = document.querySelector("#here .busts-label");
+      if (!label || getComputedStyle(label).display === "none") return false;
+      const a = label.getBoundingClientRect();
+      return [...document.querySelectorAll("#here .busts-name")].some((n) => {
+        const b = n.getBoundingClientRect();
+        return (
+          a.left < b.right &&
+          b.left < a.right &&
+          a.top < b.bottom &&
+          b.top < a.bottom
+        );
+      });
+    });
+    assert.equal(clash, false, "the Here label is over a name");
     if (shots) await page.screenshot({ path: `${shots}/scene-frame-room.png` });
 
     // In a talk only the speaker is big.

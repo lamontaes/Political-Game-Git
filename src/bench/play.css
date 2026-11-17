@@ -339,8 +339,9 @@ ol {
   text-transform: uppercase;
   color: var(--gold);
 }
-/* One or two people fill the strip with their names: no room for the label. */
-.bust-strip:is([data-count="1"], [data-count="2"]) .busts-label {
+/* One to three people fill the strip with their names: no room for the label. */
+.bust-strip:is([data-count="1"], [data-count="2"], [data-count="3"])
+  .busts-label {
   display: none;
 }
 .bust-strip .busts-row {
