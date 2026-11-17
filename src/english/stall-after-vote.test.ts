@@ -7,6 +7,10 @@ import { fitting, type SceneMove } from "./scene-talk-words";
 // two weeks."); before it, those lines still play. The packet is
 // the one the reporter's call built in play: Salem, Ohio (3969834), seed
 // rank-m4 (src/director/press-comment-context.test.ts), Nov 15.
+// The Nov 17 cut deleted every reply, press and close line of the reporter's
+// call that no record composed, so nothing is left to offer in these spots
+// but one answer before the vote; what holds now is that no line offered after
+// the vote says it is ahead, and no vote-already-cast line plays before it.
 // Old premise: that packet as play built it before #9433, with no `acted`.
 // New premise (Account lead, Nov 15 12:50Z): after the vote it carries
 // `acted`, as play now sets it for a member who voted on the call's bill
@@ -111,28 +115,14 @@ describe("after the vote, no reply says the vote is still ahead", () => {
   );
   const AFTER = [undefined, "press", "ask", "confront", "deflect", "refuse"];
   for (const spot of SPOTS)
-    it(`${spot.step} ${spot.move}: none after the vote, and every turn still offers two`, () => {
+    it(`${spot.step} ${spot.move}: none after the vote says it is ahead, none before says it is cast`, () => {
       for (const facts of [voted, votedYes])
         for (const a of AFTER) {
           const after = offered(spot, facts, a);
           expect(after.filter((text) => AHEAD.includes(text))).toEqual([]);
-          if (after.length) expect(new Set(after).size).toBeGreaterThan(1);
+          if (after.length > 1) expect(new Set(after).size).toBeGreaterThan(1);
         }
-      expect(AFTER.some((a) => offered(spot, voted, a).length)).toBe(true);
       const ahead = AFTER.flatMap((a) => offered(spot, before, a));
-      expect(ahead.some((text) => AHEAD.includes(text))).toBe(true);
       expect(ahead.filter((text) => AFTER_VOTE.includes(text))).toEqual([]);
     });
-  it("the bill speaks for itself only after a yes, the vote only after a no", () => {
-    const deflects = (facts: Record<string, Fact>) =>
-      AFTER.flatMap((a) => offered(SPOTS[1]!, facts, a));
-    expect(deflects(voted)).not.toContain(
-      "I'll let the bill speak for itself.",
-    );
-    expect(deflects(votedYes)).not.toContain(
-      "I'll let my vote speak for itself.",
-    );
-    expect(deflects(voted)).toContain("I'll let my vote speak for itself.");
-    expect(deflects(votedYes)).toContain("I'll let the bill speak for itself.");
-  });
 });
