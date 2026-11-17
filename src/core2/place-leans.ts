@@ -46,7 +46,25 @@ export interface LeanRow {
     /** The part of the result that was the place's own. */
     readonly ownMove: number;
     readonly strength: number;
+    /** Why it moved: the conditions the own move came from, as the count read them. */
+    readonly conditions?: LeanConditions;
   };
+}
+
+/**
+ * The conditions a contest's own moves came from, kept on each row it moved for dev
+ * mode's trace: the state's and the nation's change in unemployment over the same twelve
+ * months, the records they were read from, and the side of the party that held the seat
+ * (it pays where the state did worse than the nation and gains where it did better).
+ */
+export interface LeanConditions {
+  readonly month: string | null;
+  /** Points over twelve months. */
+  readonly stateChange: number;
+  readonly nationChange: number;
+  readonly recordIds: readonly string[];
+  /** 1 right, -1 left, 0 no holder (then nothing of a place's own is at stake). */
+  readonly holderSide: number;
 }
 
 /** The voting module's `leans` table, as this file reads and writes it. */
@@ -130,6 +148,8 @@ export function carryLeans(
     readonly contestId: string;
     /** How much of a place's own move stays with it to the next election, 0 to 1. */
     readonly strength: number;
+    /** The conditions the contest's own moves came from, for the trace. */
+    readonly conditions?: LeanConditions;
     readonly places: readonly {
       readonly placeId: string;
       /** The lean the contest counted the place on. */
@@ -175,6 +195,7 @@ export function carryLeans(
         result: place.result,
         ownMove: place.ownMove,
         strength: input.strength,
+        ...(input.conditions ? { conditions: input.conditions } : {}),
       },
     };
     rows.put(row);

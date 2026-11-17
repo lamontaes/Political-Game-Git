@@ -6462,11 +6462,12 @@ export function electoralCollege(
       const reasons = field.map((c) =>
         candidateReasons(c, { ...conditions, raceVotes: votes }),
       );
+      const stateConditions = ownConditionsOf(api, key.slice(3));
       const statePlacesCounted = coarse(
         places,
         key === stateKey,
         change,
-        holder ? ownConditionsOf(api, key.slice(3)).appeal : 0,
+        holder ? stateConditions.appeal : 0,
       );
       const counted = countPlaces(
         sample,
@@ -6482,6 +6483,7 @@ export function electoralCollege(
         holderSide: holder,
         counted: counted.places,
         sideOf: (id) => field.find((c) => c.id === id)?.side ?? 0,
+        conditions: stateConditions,
       });
       // The state's popular vote is a count like any other: kept by the one
       // writer, its winner the side its electors go to.
@@ -7163,15 +7165,25 @@ function carryCount(
     readonly holderSide: number;
     readonly counted: readonly PlaceResult[];
     readonly sideOf: (candidateId: string) => number;
+    /** What the places' own conditions were read from (`ownConditionsOf`), for the trace. */
+    readonly conditions: ReturnType<typeof ownConditionsOf>;
   },
 ): void {
   const moves = ownMoves(input.sample, input.places, input.holderSide);
   if (!moves.size) return;
+  const { month, stateChange, nationChange, recordIds } = input.conditions;
   carryLeans(table(api, "leans"), {
     date: input.date,
     election: String(input.election),
     contestId: input.contestId,
     strength: electorateParameter("leanCarryShare"),
+    conditions: {
+      month,
+      stateChange,
+      nationChange,
+      recordIds,
+      holderSide: input.holderSide,
+    },
     places: input.places.map((place, at) => {
       const row = input.counted[at];
       let right = 0,
@@ -7320,11 +7332,12 @@ function decide(
   const reasons = candidates.map((c) => candidateReasons(c, conditions));
   const sample = sampleFor(api, date);
   // The seat's party pays or gains for its state's own jobs against the nation's.
+  const raceConditions = ownConditionsOf(api, race.usps);
   const countedPlaces = coarse(
     places,
     townsState,
     electorateChange(api),
-    side ? ownConditionsOf(api, race.usps).appeal : 0,
+    side ? raceConditions.appeal : 0,
   );
   const counted = countPlaces(
     sample,
@@ -7376,6 +7389,7 @@ function decide(
       holderSide: side,
       counted: counted.places,
       sideOf: (id) => (id === "party:R" ? 1 : id === "party:D" ? -1 : 0),
+      conditions: raceConditions,
     });
   keepRace(
     api,

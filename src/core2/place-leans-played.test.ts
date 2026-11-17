@@ -81,6 +81,14 @@ it("carries each counted place's own move into its lean, and the next count read
     const own = ownConditionsOf(api, usps);
     if (!own.appeal) continue;
     signed += 1;
+    // The trace: the row says why it moved, from the same records the count read.
+    expect(row.last!.conditions, said).toEqual({
+      month: own.month,
+      stateChange: own.stateChange,
+      nationChange: own.nationChange,
+      recordIds: own.recordIds,
+      holderSide: side,
+    });
     expect(
       Math.sign(row.last!.ownMove),
       `${said}; ${race.id} held by ${String(race.incumbentParty)}; ${usps} unemployment moved ${own.stateChange.toFixed(2)} points against the nation's ${own.nationChange.toFixed(2)}`,

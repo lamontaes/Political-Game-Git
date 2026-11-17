@@ -39,6 +39,14 @@ describe(`a place's kept lean: ${where}`, () => {
   const move = 0.04 * (drawn("move") - 0.5);
   const strength = 0.1 + 0.8 * drawn("strength");
   const place = { id: "county:XX|Drawn", rightShare: lean };
+  // What a count read the move from, as the trace keeps it.
+  const conditions = {
+    month: "2028-11",
+    stateChange: 2 * drawn("state") - 1,
+    nationChange: 2 * drawn("nation") - 1,
+    recordIds: ["country-state-month:00:2028-11", "macro-month:2028-11"],
+    holderSide: drawn("holder") < 0.5 ? -1 : 1,
+  };
 
   it("stays where it is through fifty elections with nothing of its own at stake", () => {
     const rows = rowsOf();
@@ -104,6 +112,7 @@ describe(`a place's kept lean: ${where}`, () => {
       election: "2028",
       contestId: "race:president",
       strength,
+      conditions,
       places: [
         { placeId: place.id, lean: afterDay, ownMove: move, result: null },
       ],
@@ -119,6 +128,7 @@ describe(`a place's kept lean: ${where}`, () => {
       contestId: "race:president",
       countedOn: afterDay,
       ownMove: move,
+      conditions,
     });
   });
 
