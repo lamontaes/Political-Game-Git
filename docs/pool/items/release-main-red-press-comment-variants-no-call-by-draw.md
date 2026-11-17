@@ -35,3 +35,5 @@ Guards: the train's unit job.
 **Waits on.** nothing.
 
 **Files.** src/director/press-comment-variants.test.ts
+
+- Nov 17, Red main: the cause is not slow bodies. The test drafted only the town's four most settled questions, and where the body may decide none of them the draft is blocked and never voted. Fixed in the test without a pin, on the CTO's Nov 16 rules: the member brings the most settled question the body may decide. The same pull request fixes the national probe, red at Chetopa, Kansas (seed 9e06037dac12a152).

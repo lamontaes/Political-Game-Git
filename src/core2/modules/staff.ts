@@ -58,6 +58,7 @@ import {
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { lineHourlyMinor, startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import {
@@ -422,6 +423,13 @@ export function staffCandidates(
   const owners = openBusinessOwnerIds(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
+    // The person the player controls is never hired by the engine's choice
+    // (owner, Oct 14: the engine offers, the player decides).
+    if (
+      person.id === state.playerId ||
+      isExplicitlyControlledPersonV1(state, person.id)
+    )
+      continue;
     if (owners.has(person.id)) continue;
     if (roomOutsideLaborForce(state, person.householdId)) continue;
     const facts = personFacts(api, person, minimum, review);
