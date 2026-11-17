@@ -144,5 +144,16 @@
     "addedBy": "claude/pins-16-amounts-read-the-law",
     "addedAt": "2026-11-17",
     "replacement": "History's laws from 1925 leave an official-salary:<office> law row in force for every office on day one; officialSalary then reads only the law, and the table and this stopgap are deleted."
+  },
+  {
+    "id": "SG-LAWS-teacher-floor-opening-amount",
+    "kind": "approximation",
+    "file": "src/core2/public-pay-floor.ts",
+    "line": 78,
+    "whatItFakes": "Where the teacher minimum is law but no act in the world has set its amount, the minimum is the research's $50,000 (teacherMinimumSalaryDollars), a real figure, not an amount the world's bodies chose.",
+    "why": "The world's own acts come from its history: History's bodies enact the laws from 1925 (pull request 5 of 6), which is not built yet. An amount a body enacts in play (teacher-minimum-salary at the same level) is read first.",
+    "addedBy": "claude/pins-16-amounts-read-the-law",
+    "addedAt": "2026-11-17",
+    "replacement": "Every teacher minimum in force on day one carries its teacher-minimum-salary amount row from History's century; teacherFloor reads only the law, and this stopgap and the parameter's use here are deleted."
   }
 ]
