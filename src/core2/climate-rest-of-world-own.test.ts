@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
@@ -14,6 +15,9 @@ const SMALL_TOWN = 30;
 
 /** One world with the same laws as any other, run two years; its climate month. */
 function run(worldSeed: string) {
+  // Bookkeeping (read tracing, validation, frozen copies) is a debug switch
+  // (AGENTS.md, "Keep it simple"); a played-world check runs without it.
+  setBookkeeping(false);
   const place = drawPlace(worldSeed, "climate-own");
   const core = createLifeCore(
     buildPopulation({
