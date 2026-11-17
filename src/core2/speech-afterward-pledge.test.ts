@@ -8,17 +8,15 @@
  * in town; the first campaign speech heard in person whose candidate is
  * running in a race still ahead is replied to with an accepting move.
  *
- * Pinned (pool item speech-afterward-pledge-test-red-choose-variant): three
- * places, each the place its run seed drew, played from the game's start to
- * the month its speech comes. A world opened later has none of these speeches
- * (no campaign under way; pool item
- * opening-world-holds-causes-lived-before-its-start), so each plays from Jan
- * 20, 2025. Each case's time is the game's own played days, not the test's:
- * Gilliam MO plays 20 months (speech on Sep 7, 2026; about 82 s), Barton MD 21
- * (Oct 6, 2026; about 150 s) and Wilton IA 20 (Aug 19, 2026; about 88 s), and
- * each limit sits near twice its measured time. GOLDEN_PATH_SEED adds a run in
- * places drawn from all 56 on that seed, for up to two years.
+ * A world opened later has none of these speeches (no campaign under way;
+ * pool item opening-world-holds-causes-lived-before-its-start), so each place
+ * plays from Jan 20, 2025, for up to two years, until its first such speech
+ * (20 to 21 months at the three places it was pinned to, 82 to 150 s each).
+ * Drawn (CTO, Nov 17: tests draw their place; it was pinned to Gilliam MO,
+ * Barton MD and Wilton IA): up to four places drawn from all 56, each passed
+ * over and named when no campaign speech comes. GOLDEN_PATH_SEED replays one.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -33,51 +31,14 @@ import { ACCEPTING_MOVES } from "./modules/press";
 import { coreAPI } from "./state";
 import type { CoreState, PersonId } from "./types";
 
-const drawnSeed = process.env.GOLDEN_PATH_SEED;
+const drawnSeed =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const MONTHS = 24;
 interface Place {
   readonly name: string;
   readonly key: string;
   readonly seed: string;
 }
-/** Each place its run seed drew, and the month (from Jan 20, 2025) its speech comes. */
-const PINNED: readonly {
-  readonly runSeed: string;
-  readonly place: Place;
-  readonly months: number;
-  readonly limit: number;
-}[] = [
-  {
-    runSeed: "1a6d44d1147f10e5",
-    place: {
-      name: "Gilliam, Missouri",
-      key: "2927028",
-      seed: "53a4a04aa5cce8c364ead5828f0c15569e8e360f4edf96fbb8e4ee784c7d2076",
-    },
-    months: 20,
-    limit: 180_000,
-  },
-  {
-    runSeed: "5c1e0f2a9b7d4e36",
-    place: {
-      name: "Barton, Maryland",
-      key: "2404625",
-      seed: "d51d0bbe823b805cbf9f7a242f759cbe55ad83a9e06aa6edd1c0f11298e70b92",
-    },
-    months: 21,
-    limit: 300_000,
-  },
-  {
-    runSeed: "e2a4c07d81f3b965",
-    place: {
-      name: "Wilton, Iowa",
-      key: "1986070",
-      seed: "42517cd6481f3187fab6ac8877e4e969fbab9e6d60417dee2382d376fe2d73a1",
-    },
-    months: 20,
-    limit: 180_000,
-  },
-];
 const IN_PERSON = new Set(["town-hall", "speech"]);
 const TIES = 25;
 
@@ -177,41 +138,22 @@ function pledgeAfterSpeech(
   return false;
 }
 
-for (const pin of PINNED)
-  it(
-    `an accepting reply to a candidate after a speech is the listener's word, citing the scene.reply: ${pin.place.name}, run seed ${pin.runSeed}`,
-    () => {
-      setBookkeeping(false);
-      const tried: string[] = [];
-      try {
-        expect(
-          pledgeAfterSpeech(pin.place, pin.months, pin.runSeed, tried),
-          tried.join("; "),
-        ).toBe(true);
-      } finally {
-        setBookkeeping(true);
-      }
-    },
-    pin.limit,
-  );
-
-if (drawnSeed)
-  it(`an accepting reply to a candidate after a speech is the listener's word, citing the scene.reply (drawn, seed ${drawnSeed})`, () => {
-    setBookkeeping(false);
-    const tried: string[] = [];
-    try {
-      for (let attempt = 0; attempt < 4; attempt += 1)
-        if (
-          pledgeAfterSpeech(
-            drawPlace(drawnSeed, `speech-afterward-pledge:${attempt}`),
-            MONTHS,
-            drawnSeed,
-            tried,
-          )
+it(`an accepting reply to a candidate after a speech is the listener's word, citing the scene.reply (drawn, seed ${drawnSeed})`, () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  try {
+    for (let attempt = 0; attempt < 4; attempt += 1)
+      if (
+        pledgeAfterSpeech(
+          drawPlace(drawnSeed, `speech-afterward-pledge:${attempt}`),
+          MONTHS,
+          drawnSeed,
+          tried,
         )
-          return;
-      expect.fail(`seed ${drawnSeed}: ${tried.join("; ")}`);
-    } finally {
-      setBookkeeping(true);
-    }
-  }, 3_600_000);
+      )
+        return;
+    expect.fail(`seed ${drawnSeed}: ${tried.join("; ")}`);
+  } finally {
+    setBookkeeping(true);
+  }
+}, 1_200_000);
