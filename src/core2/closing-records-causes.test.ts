@@ -1,7 +1,7 @@
 /**
  * A closing records what made its losing months (docs/pool item
  * industry-closing-reason-names-no-law): in a played year of a drawn place with
- * the employer's Medicare share raised, every closure row of the year carries
+ * the employer's Medicare share raised, every closure row for losses carries
  * `causes`, the costs of its losing months largest first, and the closing
  * event carries them as facts. Places are drawn until one closes a business in
  * the year; the ones passed over are named. Seed printed (CLOSING_SEED
@@ -64,20 +64,30 @@ describe(`Closings keep their causes (seed ${seed})`, () => {
             .rows() as unknown as {
             id: string;
             date: string;
+            cause?: string;
             causes?: { costs: unknown[] };
           }[]
         ).filter((row) => row.date >= gameStartDate());
-        if (!closures.length) {
-          passed.push(`${where}: no closing in the year`);
+        // A closing for losses names what made its losing months; one for
+        // another reason (an owner retiring, no successor) has no losing months
+        // and names that reason instead.
+        const forLosses = closures.filter((row) => row.cause === "losses-kept");
+        if (!forLosses.length) {
+          passed.push(`${where}: no closing for losses in the year`);
           continue;
         }
-        for (const row of closures)
+        for (const row of forLosses)
           expect(
             row.causes?.costs.length ?? 0,
-            `${where}: ${row.id} closed on ${row.date} with no recorded costs`,
+            `${where}: ${row.id} closed on ${row.date} for losses with no recorded costs`,
           ).toBeGreaterThan(0);
+        for (const row of closures.filter((r) => r.cause !== "losses-kept"))
+          expect(
+            row.cause,
+            `${where}: ${row.id} closed on ${row.date} with no recorded reason`,
+          ).toBeTypeOf("string");
         console.log(
-          `${where}: ${closures.length} closings, each with causes; passed over: ${passed.join("; ") || "none"}`,
+          `${where}: ${forLosses.length} closings for losses with causes of ${closures.length}; passed over: ${passed.join("; ") || "none"}`,
         );
         return;
       }
