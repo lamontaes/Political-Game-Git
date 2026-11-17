@@ -30,6 +30,7 @@ import { opinionRest } from "./modules/views";
 import { officialsIn, OFFICIALS_MODULE_ID } from "./modules/officials";
 import { OFFICIALS_DATA, type SignatureIssue } from "./officials-roster";
 import type { LawRowInput } from "./laws-starting";
+import { PAST_MODULE_ID } from "./past-module";
 
 /** The world's consensus on a question: its "yes" share and what it was read from. */
 export interface LawConsensus {
@@ -51,7 +52,11 @@ interface Held {
 }
 const held = new WeakMap<CoreState, Held>();
 
-/** What the consensus is read from changes only when a law is written or, for the members' share, an official is. */
+/**
+ * What the consensus is read from changes only when a law is written, a
+ * law's roll calls are (the past's law histories, built after the opening's
+ * terms have read it), or, for the members' share, an official is.
+ */
 function keyOf(api: CoreAPI): string {
   const laws = api.moduleState(LAWS_MODULE_ID);
   const order = laws.table("chain").get("enactment-order") as unknown as
@@ -59,7 +64,10 @@ function keyOf(api: CoreAPI): string {
   const officials = api.state.modules.has(OFFICIALS_MODULE_ID)
     ? api.moduleState(OFFICIALS_MODULE_ID).writes
     : 0;
-  return `${laws.table("laws").size}:${order?.next ?? 0}:${officials}`;
+  const histories = api.state.modules.has(PAST_MODULE_ID)
+    ? api.moduleState(PAST_MODULE_ID).table("laws").size
+    : 0;
+  return `${laws.table("laws").size}:${order?.next ?? 0}:${officials}:${histories}`;
 }
 
 const isStateQuestion = (question: string): boolean =>
@@ -90,10 +98,12 @@ function read(api: CoreAPI, question: string): LawConsensus | null {
       ? { share: yes / counted, from: "states", yes, counted }
       : null;
   }
-  // A question only federal law answers: the world's latest roll call on it.
+  // A question only federal law answers: the world's latest roll call on
+  // it, where a vote count is on record (a law set without one, as dev
+  // mode's, reads the sitting members' leans below).
   const row = latestRow(api, question, "US");
   const passed = row ? enactmentOf(api, row) : null;
-  if (row && passed) {
+  if (row && passed?.counted) {
     const forSide = (1 + passed.margin) / 2;
     const share = row.value === 1 ? forSide : 1 - forSide;
     return { share, from: "roll call", yes: share, counted: 1, lawId: row.id };
@@ -144,7 +154,7 @@ function questionOfSeries(series: string): string | undefined {
  * Keep the consensus a law row just changed, for the trace: the
  * `consensus:<question>` row in the laws engine's `consensus` table, with the
  * law rows each state's answer was read from. Written when a law is enacted
- * or repealed, never on a read.
+ * (`enactLaw`), never on a read.
  */
 export function recordLawConsensus(api: CoreAPI, series: string): void {
   const question = questionOfSeries(series);

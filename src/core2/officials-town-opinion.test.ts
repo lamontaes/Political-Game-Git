@@ -5,16 +5,22 @@
  * played town's people alone, so moving it moves the reasons of one of the
  * town's own state legislators (the seat that covers the town) and leaves
  * those of a legislator of another state where they were, who reads their
- * district by its lean alone (SG-OFFICIALS-outside-opinion). A random place
- * and seed each run, named in every message (GOLDEN_PATH_SEED replays one).
+ * district by its lean alone (SG-OFFICIALS-outside-opinion). In the same
+ * world, a federal law set with no vote count on record (as dev mode sets
+ * one) leaves Congress's consensus to the sitting members' leans rather than
+ * an even split. A random place and seed each run, named in every message
+ * (GOLDEN_PATH_SEED replays one).
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
+import { axisOf } from "./campaign-data";
 import { opinionQuestions, leanStrength } from "./campaign-views";
 import { gameStartDate } from "./game-start";
+import { lawConsensus } from "./law-consensus";
+import { enactLaw, POLICY_QUESTIONS } from "./modules/laws";
 import {
   allOfficials,
   answersToTown,
@@ -98,6 +104,23 @@ it(
         for (const row of allOfficials(api))
           if (row.stateKey !== town)
             expect(answersToTown(api, row), `${where}: ${row.id}`).toBe(false);
+        // A federal law with no vote count on record.
+        const federal = Object.keys(axisOf)
+          .filter((key) => !POLICY_QUESTIONS[key])
+          .sort()[0]!;
+        enactLaw(api, {
+          jurisdiction: "US",
+          level: "federal",
+          series: federal,
+          value: 1,
+          effectiveDate: api.state.date,
+          measureId: "officials-town-opinion",
+          citation: "officials-town-opinion.test.ts",
+          terms: { provenance: "officials-town-opinion.test.ts" },
+        });
+        expect(lawConsensus(api, federal)?.from, `${where}: ${federal}`).toBe(
+          "members' leans",
+        );
         return;
       }
     } finally {

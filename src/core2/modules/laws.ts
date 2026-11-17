@@ -508,14 +508,22 @@ export function enactmentOf(
 ): {
   passedOn: string;
   margin: number;
+  /** Whether a vote count gives the margin (else it reads 0). */
+  counted: boolean;
   body: string | null;
   session: Readonly<Record<string, string>> | null;
 } | null {
   if (row.terms?.enactedBy) {
-    const margin = Number(row.terms.margin);
+    const given = row.terms.margin;
+    const margin =
+      given === undefined || given === null || given === ""
+        ? Number.NaN
+        : Number(given);
+    const counted = Number.isFinite(margin);
     return {
       passedOn: row.retrieved,
-      margin: Number.isFinite(margin) ? margin : 0,
+      margin: counted ? margin : 0,
+      counted,
       body: null,
       session: null,
     };
@@ -528,6 +536,7 @@ export function enactmentOf(
   return {
     passedOn: history.enactedOn,
     margin: margins.length ? Math.min(...margins) : 0,
+    counted: margins.length > 0,
     body: history.body,
     session: history.session,
   };
