@@ -843,7 +843,6 @@ function openingSeats(
   seed: string,
   leans: Readonly<Record<string, number>>,
   districtLeans: Record<string, number>,
-  startDate: string,
 ): Map<string, CenturySeat> {
   const first = centuryParameter("centuryFirstYear");
   const seats = new Map<string, CenturySeat>();
@@ -1313,7 +1312,7 @@ export function* runCentury(
   const opening = centuryOpening(seed);
   const leans: Record<string, number> = { ...opening.leans };
   const districtLeans: Record<string, number> = {};
-  const seats = openingSeats(seed, leans, districtLeans, startDate);
+  const seats = openingSeats(seed, leans, districtLeans);
   const voters = centuryVoters();
   const presidencies: CenturyPresidency[] = [];
   const congresses: CenturyCongress[] = [];
