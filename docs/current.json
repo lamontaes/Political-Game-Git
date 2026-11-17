@@ -1082,12 +1082,6 @@
       "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
     },
     {
-      "old": "src/director/home-alone-arrival.test.ts",
-      "now": "removed; nothing replaces it (restore from commit d85b621c51)",
-      "when": "2026-11-17",
-      "why": "Deleted with its scene kind: the owner ruled on Nov 17 that every scene the English engine did not compose from the world's own records is deleted (story-cut-deleted-scene-kinds; the kept kinds are listed in src/director/data/kept-scene-kinds.json)."
-    },
-    {
       "old": "src/director/home-damaged-scene.test.ts",
       "now": "removed; nothing replaces it (restore from commit d85b621c51)",
       "when": "2026-11-17",
