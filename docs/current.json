@@ -576,6 +576,24 @@
       "now": "art/backdrops (the three White House paintings, white-house-exterior__morning, __night and __rain, with their manifest rows)",
       "when": "2026-11-17",
       "why": "The last Firefly paintings waiting there were admitted to the game for the title's 14 (owner's title approval page, Nov 16), and the incoming folder emptied."
+    },
+    {
+      "old": ".agents/skills/standing-rules-self-check",
+      "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
+      "when": "2026-11-16",
+      "why": "Most of it repeated AGENTS.md's standing rules; its eight lines and the Account lead's two moved word for word into done-proof, which runs at the same moment, before a pull request opens."
+    },
+    {
+      "old": ".claude/skills/standing-rules-self-check",
+      "now": ".claude/skills/done-proof (section 9, the standing rules one line each)",
+      "when": "2026-11-16",
+      "why": "The mirror of the skill above, removed with it."
+    },
+    {
+      "old": ".agents/rules/git-worktrees.md",
+      "now": ".agents/rules/storage-and-workspaces.md (section Branches and takeovers)",
+      "when": "2026-11-16",
+      "why": "Its branch, takeover and publishing lines moved word for word into the storage rules; its workspace line repeated that file and AGENTS.md."
     }
   ]
 }
