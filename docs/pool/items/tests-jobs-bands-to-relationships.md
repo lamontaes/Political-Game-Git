@@ -22,7 +22,7 @@ source: Pins lane, Nov 17 (the CTO's calibration audit, family 32, on issue 9747
 
 **Cause.** Found in code: src/core2/commuting-shares.test.ts (line 60) compares a national share with a fixed band.
 
-**Fix.** The band goes. The check reads the relationship the files carry: across every sourced place, the share of working residents who work at home rises with the jobs the place holds per working resident (Spearman rank correlation, ties at their mean rank, above zero; 0.64 over 29,941 places). A table whose shares were one copied figure has no order and fails. Incumbents: those 70 and over must stand again less often than those under 60, the age relationship `votingStandAgainAgeWeight` stands for (97.6% against 23.1% at seed candidacy-a); with the weight at zero the check fails. The rest of Long game's jobs-and-economy list stays open here; each converts in its own commit.
+**Fix.** The band goes. The check reads the relationship the files carry: across every sourced place, the share of working residents who work at home rises with the jobs the place holds per working resident (Spearman rank correlation, ties at their mean rank, above zero; 0.64 over 29,941 places). A table whose shares were one copied figure has no order and fails. Incumbents: those 70 and over must stand again less often than those under 60, the age relationship `votingStandAgainAgeWeight` stands for (97.6% against 23.1% at seed candidacy-a); with the weight at zero the check fails. Bribes (`corruption-calibration.test.ts`) and shaded answers (`press-shade-calibration.test.ts`): the overall share is printed, not held in a survey's band; the honesty ratio, the larger bribe's pull, the town's stand and the trait weight's strength stay checked. The rest of Long game's jobs-and-economy list stays open here; each converts in its own commit.
 
 **Time box.** 1 hour for this check.
 
@@ -32,4 +32,4 @@ source: Pins lane, Nov 17 (the CTO's calibration audit, family 32, on issue 9747
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/commuting-shares.test.ts, src/core2/candidacy.test.ts
+**Files.** src/core2/commuting-shares.test.ts, src/core2/candidacy.test.ts, src/core2/corruption-calibration.test.ts, src/core2/press-shade-calibration.test.ts
