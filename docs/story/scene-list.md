@@ -54,7 +54,7 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 ### Running for office: doors, filing, the campaign, election night
 
 - The clerk at the counter checks your papers when you file to run. At stake: the office and your petition. Candidates. [filing]
-- Your family reacts when you file: their savings and time are at stake. At home. Candidates. [family-filing]
+- Your family reacts when you file: pride, worry, who drives you, what it costs the house, said only when the household's books turn on it (owner, Nov 17: the stock "two weeks of savings" came out of context; the money line waits for a real shortfall). At home. Candidates. Graded Nov 17. [family-filing]
 - A voter opens the door to your canvass, the first time or again; their view of your platform decides how it goes. At stake: their vote. Candidates. [door-ask]
 - A voter at the door is asked to sign your petition while it circulates, and says yes or no. Candidates. [door-signature]
 - At a petition table in town, someone asks about your petition and may sign it. Candidates. [petition-short]
@@ -80,12 +80,12 @@ One line each: who comes to you or whom you meet, where, what is at stake, and w
 
 - A reporter catches you in the hallway after a vote, a bill, a veto or an act, and asks for comment. Officeholders. [press-interview]
 - A paper exposes you or your office, and a reporter asks for your side: confess, refuse, or lie. Officeholders. [scandal]
-- A resident stops you in the street about a vote you cast or a law that just reached them. Officeholders and candidates. [constituent-stop]
+- A resident stops you in the street about a vote you cast or a law that just reached them. Fires far too often today (owner, Nov 17); each stop needs its cause on record and a cooldown, and the board picks a few. Officeholders and candidates. Graded Nov 17. [constituent-stop]
 - Recall petitioners corner you at a table or by phone and ask you to answer for your record. Officeholders. [recall]
 - Someone with the power to appoint offers you a seat on a board or a post. Anyone offered a post. [appointment]
 - At the swearing-in, the officiant reads the oath and you take it. Anyone who just won or was appointed. [swearing-in]
 - A department head asks you to fight a budget cut, or to accept it. At stake: the cut and your votes. Officeholders. [budget-cut]
-- A constituent comes to office hours with a lost job, rent trouble, a relative in custody or an illness, and asks for help. Officeholders. [office-hours]
+- A constituent comes to office hours with a lost job, rent trouble, a relative in custody or an illness, and asks for help. Fires far too often today (owner, Nov 17); same rule: a cause on record, a cooldown, the board picks a few. Officeholders. Graded Nov 17. [office-hours]
 - Someone offers you a bribe at your office or a venue for a favor; you can take it, refuse it, or report it. Officeholders. [bribe-offer]
 - After you refuse, the same person presses harder. Officeholders. [bribe-pressed]
 - A donor asks for your support on a bill. Officeholders and candidates. [donor-ask]
@@ -134,7 +134,7 @@ Each line says who, where, what is at stake, and what it unlocks. "Unlocks" mean
 ### Not in office: a year with no race open (owner: work for someone else's campaign, a party committee or an appointed board until a race opens)
 
 - A candidate in town, or their manager, asks you to help their campaign: doors, phones, a Saturday. Unlocks: knocking doors for someone else (the door scenes with their name on your card), their race night, their endorsement ask when you run. (building, with the Blockers lane)
-- Your first door for someone else's campaign: the resident asks why you are working for that candidate. Unlocks: that resident remembers you when you run.
+- Your first door for someone else's campaign: the resident asks why you are working for that candidate. Unlocks: that resident remembers you when you run. (Owner, Nov 17: "This is good.")
 - The party's local committee meets: a slate, an endorsement, a chair's election; you are asked to take a post (precinct captain, secretary, treasurer). Unlocks: the committee asks you to run; the chair's favor later. (planned, with Blockers)
 - Someone with appointing power offers you a seat on a town board (planning, library, housing). Unlocks: the board's own meetings and votes; the first time someone asks you for a favor because of the seat. (planned, with Blockers)
 - A council seat is going unopposed and someone who knows you says you should file. Unlocks: filing, the family's reaction.
@@ -145,17 +145,17 @@ Each line says who, where, what is at stake, and what it unlocks. "Unlocks" mean
 - The door that closes on you: the resident cuts you off or shuts the door, for a reason on their record (a grievance, a bad hour, your platform). Unlocks: the same resident at a town hall; a second knock weeks later that goes differently.
 - The resident who will not let you go: one long turn after another, and your afternoon of doors gets shorter. Unlocks: nothing but time lost, which the campaign feels.
 - The door that tells you something you did not know: a lost job, an eviction notice, a closed clinic, a road never finished; the resident asks what you will do, and your answer is a promise on the record. Unlocks: the same resident at office hours after you win; the recall table if the promise breaks.
-- Your papers have a problem: the clerk finds signatures that do not count. Unlocks: going back out, or a challenge.
+- Your papers have a problem: the clerk checks every name on your petition against the voter roll on the due day and strikes the ones that are not registered voters of the race's own electorate (moved away, never registered, signed twice, dead); if fewer stand than the law requires, the filing is marked short and you are off the ballot unless you have days left to go back out. The check is a public record the paper prints. Unlocks: going back out, or a challenge. (Answered for the owner, Nov 17.)
 - Someone challenges your petition, or you challenge theirs, and the board rules. Unlocks: a rival off the ballot and their grudge; a press story.
 - The incumbent who said they would step aside files at the last hour, against their own word to you. Unlocks: the lie remembered in the race.
 - Other candidates filing the same day at the clerk's counter; a party official watching who files; a reporter checking the list at closing. Unlocks: the first rival word.
 - A long-time volunteer or staffer asks for your endorsement to run on their own (the owner's example). Unlocks: their race night; an ally on the body; or, refused, they leave your campaign and may run against someone you back. (planned)
 - A friend signs you up for a group that would help the campaign; at the first meeting the organizer names the price. Unlocks: the favor called in.
 - The heckler who says you are not one of us, and the friend in the room who answers them. Unlocks: the friend's standing with you; the heckler at the next door.
-- Answer for a vote you once cast: an opponent says you once voted for the other side; you own it, explain it, or deny it (a denial the record contradicts is a lie). Unlocks: the press if the lie is caught.
+- Answer for a vote you once cast: an opponent says you once voted for the other side; you own it, explain it, or deny it (a denial the record contradicts is a lie). Unlocks: the press if the lie is caught. Owner, Nov 17: "pretty thin. i have never seen consequences"; it must fire from the roll and change something he can see before it is listed as built.
 - A death opens a seat; within days you decide whether to run in the special election, and someone with money asks to be the one who funds it. Unlocks: the donor's favor.
 - The count is close: a recount, a missing box, the board that rules. Unlocks: the recount night; the concession call that waits.
-- The convention keynote: 10 to 20 clicks of short sentences, no two speeches in one format. Unlocks: the press the next morning; who heard it in the room.
+- The convention keynote: as many clicks as the occasion and the speaker call for (rules 127 and 133; no fixed count, owner, Nov 17), short sentences, no two speeches in one format. Unlocks: the press the next morning; who heard it in the room.
 - The precinct that votes for you and the county that does not: the morning after, a neighbor says "We all voted for you here." Unlocks: the next run's decision.
 
 ### Holding a local office
@@ -189,13 +189,13 @@ Each line says who, where, what is at stake, and what it unlocks. "Unlocks" mean
 ### Industries, laws and the effect web (every level)
 
 - A factory, a clinic or a store in town is losing money under a law or a tax, and its owner comes to you, the one who can change it, with what the books say. Unlocks: the bill you file; the closing if nothing changes; the layoffs people bring up at the door.
-- A law you passed reaches someone: a paycheck, a price, a service; they bring it up in the street, at the door, at home. Unlocks: the next vote they ask for; the recall if it hurt.
+- A law you passed reaches someone: a paycheck, a price, a service; they bring it up in the street, at the door, at home. Unlocks: the next vote they ask for; the recall if it hurt. Owner, Nov 17: never seen; the law's reach record (law.effect-learned) must exist in a played year and the stop must fire from it before this counts.
 - The case for a law nobody has written: someone the law would change stops you and asks for a law your own level can make, as a council member, a state legislator or a private person. Unlocks: the bill introduced, the order, or the case joined. (planned)
 - A law from another level lands on your town: the state preempts your ordinance, or Congress sends money with strings. Unlocks: the letter, the lawsuit, the rally.
 
 ### Home, while in politics
 
-- Your partner, after your filing: what it costs the house, in time and money, and whether you asked. Unlocks: the manager offer; the family's night on election night.
+- Your partner, after your filing: what it costs the house, in time and money, and whether you asked. Fires every filing today (owner, Nov 17: "this happens like every time"); it plays only when the books or the calendar give the partner something to say. Unlocks: the manager offer; the family's night on election night.
 - The child who repeats what a classmate's parent said about you. Unlocks: the door at that parent's house.
 - The relative who asks you for a job or a contract now that you hold the seat. Unlocks: the press if you say yes; the grievance if you say no.
 - The divorce that comes in two scenes: a feeler, then the talk. (Owner, Nov 14: "if there's like a feeler scene, you know, or an exposition scene... that unlocks more scenes.")
