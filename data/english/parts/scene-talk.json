@@ -192685,30 +192685,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-filed-for-office-this-week-and-wants-a-minute",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} filed for {office} and wants a minute.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-on-the-ballot-for-office-now-and-has-a-question-for-you",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -192783,31 +192759,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-reason.years-with-you-of-knocking-doors-for-you-i-ve-learned-the-job",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "{years-with-you} of knocking doors for you. I've learned the job.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["years-with-you"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-tell-reason.i-keep-coming-back-to-carries-cause-nobody-s-carrying-it-so-i-will",
       "move": "state-tell-reason",
       "kind": "spoken",
@@ -192854,181 +192805,6 @@
       "date": "2026-11-17",
       "tag": {
         "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-reason.somebody-has-to-stand-up-on-carries-cause-i-filed-to-do-it",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "Somebody has to stand up on {carries-cause}. I filed to do it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["carries-cause"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-reason.i-lost-my-job-lost-job-ago-i-m-done-waiting-on-somebody-else",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "I lost my job {lost-job} ago. I'm done waiting on somebody else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["lost-job"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-reason.lost-job-without-work-taught-me-what-this-town-needs-so-i-filed",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "{lost-job} without work taught me what this town needs. So I filed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["lost-job"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-reason.i-ran-once-ran-before-ago-this-time-i-want-your-name-beside-mine",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "I ran once, {ran-before} ago. This time I want your name beside mine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["ran-before"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-reason.i-ve-been-on-a-ballot-before-ran-before-back-i-know-what-i-m-asking",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "I've been on a ballot before, {ran-before} back. I know what I'm asking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["ran-before"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-need.we-re-both-same-party-say-it-first-and-others-will-follow",
-      "move": "state-tell-need",
-      "kind": "spoken",
-      "text": "We're both {same-party}. Say it first, and others will follow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-need",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["same-party"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-need",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-need.same-party-same-fights-i-d-like-the-first-word-to-be-yours-as-a-same-party",
-      "move": "state-tell-need",
-      "kind": "spoken",
-      "text": "Same party, same fights. I'd like the first word to be yours, as a {same-party}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-need",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["same-party"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "tell-need",
         "key": "favor-asked"
       }
     },
@@ -193478,31 +193254,6 @@
       "move": "state-request",
       "kind": "spoken",
       "text": "I'm running for {office}, and I want your name behind me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "requiresFacts": ["office"],
-          "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.my-name-s-on-the-ballot-for-office-i-m-asking-for-yours-beside-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "My name's on the ballot for {office}. I'm asking for yours beside it.",
       "uses": [
         {
           "subject": "scene",
