@@ -28,11 +28,14 @@ import {
   policySeriesAtLevel,
 } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
+export { minimumHourlyAt } from "../wage-floor";
+export { PAID_LEAVE_PREMIUM } from "../paid-leave";
 import {
   holdPublicPay,
   holdTeacherPay,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
+  TEACHER_FLOOR_AMOUNT,
 } from "../public-pay-floor";
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
@@ -1331,7 +1334,9 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     },
   });
   if (row.series === "minimum-wage") raiseToFloor(api, work.source);
-  if (row.series === PUBLIC_PAY_FLOOR) recordPublicPay(api, work.source);
+  // A floor, or the teacher minimum's amount, raises the jobs under it the day it takes effect.
+  if (row.series === PUBLIC_PAY_FLOOR || row.series === TEACHER_FLOOR_AMOUNT)
+    recordPublicPay(api, work.source);
 }
 
 /**

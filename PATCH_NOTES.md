@@ -296,6 +296,247 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.113.0
+
+_Released November 17, 2026._
+
+### Added
+
+- **The jobs sheet lets the player apply for each opening** A jobless player saw
+  the town's openings with pay and hours but could not act on them. Each opening
+  now has an Apply button that reads Applied once pressed, and an offer from
+  that employer follows the application.
+
+- **Word of what you do gets around.** When you speak against a paper or snub a
+  reporter, the people it was done to may tell their families and friends, and
+  those who believe them know it was you.
+
+### Improved
+
+- **Offices you can't run for now say why.** On the Elections page, an office
+  you can't run for says why, and names the offices that are yours to run for
+  instead.
+
+- **The calendar names what is on each day.** The calendar's month now names
+  what is on each day, such as a meeting, a birthday or a filing deadline,
+  instead of showing only a small icon.
+
+- **Every menu now sits on the textured panel with a slim brass edge.** Menus,
+  notes and the player card no longer sit on a flat dark block. Each one wears
+  the textured panel with its slim brass edge and small corners, and a row or
+  button you point at lights with a soft halo.
+
+- **A person's card on People now fills the panel, with the name beside a larger
+  portrait.** A person's card on People no longer leaves half of it empty. Their
+  portrait is larger, their name sits beside it, and what you know of them is
+  set in two columns.
+
+### Fixed
+
+- **A law passed in dev mode keeps the law's own unit, such as dollars a month,
+  instead of a percent.** A bill that changes an amount, such as SSI's monthly
+  benefit, now enacts the new amount in the same unit as the law it changes.
+  Before, a bill filed from dev mode recorded it as a percent.
+
+- **SSI, child care help and home energy help are now worked out on the day the
+  treasury pays them.** Who gets Supplemental Security Income, child care help
+  and home energy help, and how much, is now worked out from the laws in force
+  on the day the government pays each month. This is how food aid and the other
+  benefits already worked. Before, these three were rechecked on a monthly date
+  of their own.
+
+- **A federal surplus pays down the national debt** When the country takes in
+  more than it spends, the U.S. Treasury now pays down the national debt with
+  the difference instead of keeping it, so a long game no longer stops in its
+  thirteenth year.
+
+- **A campaign in a town with nothing to buy locally no longer stops the game.**
+  A campaign in a small town that no one in town or outside had sold to yet
+  stopped with an error when it bought postage or printing. It now buys from
+  outside the town, as every other purchase there does.
+
+- **Office-hours replies are cited** A case you settle at office hours now
+  records the reply you gave, and the resident's view of you cites it.
+
+- **Party asks reach a member outside the chair's home** A party chair's ask to
+  run goes to a member who lives apart from the chair, so the visit scene plays
+  instead of falling to the journal.
+
+- **When Congress raises federal transportation, your state and town get more
+  aid.** A raise or cut in a federal grant line, such as transportation, health,
+  education or community development, now moves the aid your state, county and
+  town receive each month by that line's share. Before, the extra money left the
+  country's books and no government here saw it.
+
+- **A new game skips a town where everyone lives in group quarters.** A town
+  where every adult lives in group quarters, such as a colony, no longer gets a
+  made-up household for the player. A new game drawn there opens in the same
+  state's next town, as it did before.
+
+- **A federal benefit raise that Congress undoes no longer shows as still
+  reaching people.** When Congress raised Medicare, veterans' benefits or income
+  support and a later bill put the line back, the first bill still showed as
+  reaching the people it had paid. It now stops reaching them once the line is
+  back.
+
+- **Congress's Labor list shows the federal minimum wage once** Congress now
+  drafts and votes on the federal minimum wage under one question, its own. The
+  states' question about the same rule no longer appears as a second federal
+  question, and a draft filed under it at the federal level is refused.
+
+- **When Congress raises Medicare, its members' medical bills fall and their
+  households leave less unpaid.** A change to the federal Medicare line now
+  shows where it lands: each person on Medicare pays a smaller share of their
+  care, and their household owes less on its medical bills, for named and
+  counted residents alike. The law table can now follow the line to those bills.
+
+- **Lawmakers weigh what ending a tax would cost their own budget.** Congress
+  could vote away the federal income tax in the first spring, and paychecks
+  stopped withholding it. Every lawmaker now weighs the hole a bill would leave
+  in the budget their own body must pass. A tax that carries half the budget is
+  not repealed on a whim; a small one still can be.
+
+- **A race you filed for now says you are running.** On the Elections page, a
+  race you filed for says "You are running" instead of still offering "File for
+  it".
+
+- **Options stays open when a scene comes due.** If you open Options as play
+  starts, the opening's scene waits behind it, and Quit to title still works.
+
+- **Your rivals stop asking you for money once you run against them.** When you
+  file for a race, the candidates you now run against stop asking you for
+  donations, and nobody running in a race gives money to a rival in it.
+
+- **A scene no longer hides behind an open menu.** When something happens while
+  a menu is open, the menu closes and the scene plays, so the game no longer
+  looks stuck.
+
+- **A second game's election night opens.** Starting a new game from the same
+  world in one session no longer hides that game's election night. You see your
+  own returns after you vote.
+
+- **Election night's last page fits the window.** The governor races elsewhere
+  now sit in columns across the election night board, so every state and the
+  Close button are on screen.
+
+- **When Congress raises Social Security, retirees' incomes rise and fewer are
+  counted poor.** A change to federal Social Security now reaches every
+  retiree's income where poverty is counted, including retirees the town counts
+  as a group and people who claim during play. Before, only some retirees'
+  checks moved and the poverty count did not follow.
+
+- **Everyone you ask to volunteer or endorse you now answers with their name and
+  their own words** When you ask the people you know to volunteer or to endorse
+  you, someone you know only in passing is now met properly, so their answer
+  shows who they are and what they said instead of a blank line.
+
+- **When Congress raises veterans' benefits, veterans' households have more
+  income where poverty is counted.** A change to federal veterans' benefits now
+  reaches every veteran's household where poverty is counted, including
+  households the town counts as a group. Before, the benefits were paid but the
+  poverty count did not see them.
+
+- **The door knock asks from the petition and the race, and the resident answers
+  with a reason** At a door the resident now signs or declines as the petition
+  record says and gives a reason from their own life or from where you stand on
+  their question, instead of the same stock answer at every door.
+
+- **The loading screen says the world ran two months on its own, and a
+  lawmaker's vote can show the hole a bill leaves in their budget** The loading
+  line now says the country, the state and the town ran two months on their own
+  before your first evening. On a bill's page and in the Trace box, a member who
+  votes against a tax cut can show "The hole it leaves in their budget" as the
+  reason, and a sponsor asked for a vote hears it as "it would take money out of
+  the budget they have to pass".
+
+- **Life stories put a comma after the year again.** A person's story on their
+  card read "In 2012 I first went to school" with no comma after the opening
+  year or age. Every opening phrase now keeps its comma.
+
+- **People who work out of town now say so when you ask what they do.** Ask a
+  neighbor whose job is out of town what they do, and they answer with their job
+  and that the work is elsewhere ("Out of town. I'm a mail carrier."), naming
+  the town when it is known, instead of the question going nowhere.
+
+- **The rest of the world's CO2 follows each world's own trend, not a real
+  published path** Every world's rest-of-world emissions used to follow the same
+  published scenario line, so two worlds with the same laws warmed identically.
+  Each world now draws its own steady trend when it opens, and its warming and
+  hazard levels follow from it.
+
+- **A world's disasters come from its own exposures, not FEMA's real days** The
+  country's disasters used to happen on the days FEMA recorded real ones, so
+  every world had the same list. Each state's exposure to flood, storm and
+  wildfire now starts from the world's own seed and grows with its climate, and
+  a disaster happens when an exposure holds one more whole one. Two worlds with
+  the same laws now differ.
+
+- **A job offer now comes only through someone you know or an opening you
+  applied for** A job offer to the player now comes through a person they know
+  at the employer, or from an opening they applied for.
+
+- **A town's first departures follow each age band's rate, not only who their
+  records push hardest** In a new town the first months of moves were mostly the
+  oldest adults, whose records push them out, so age did not shape who left.
+  Adults are now ordered within their own age band, so how many of each age
+  leave follows that age's rate and their records decide who goes first within
+  it.
+
+- **A new game starts you at 18 unless you pick another age, and you are always
+  registered to vote** A new game's player is 18 unless another age is picked,
+  and the player is always on the voter rolls.
+
+- **The opening night's clock shows the hour the household gets home** The clock
+  on the opening evening now reads the hour the household gets home, not 12:00
+  AM.
+
+- **A person card names the employer of every past job** A person card names an
+  employer for every past job, an estimated one where the world keeps none.
+
+- **Metrics no longer shows a rent of zero for years before a town had any
+  lease** Years with no lease or home owned read as unknown on Metrics, not as a
+  zero rent or home value.
+
+- **The campaign screens no longer show a count of petition signatures** The
+  campaign board and the doors results no longer show petition signature counts;
+  they say whether the petition is short or enough.
+
+- **A state's prices no longer jump when only its mix of businesses changes.**
+  Your state's price level now follows the prices its own businesses charge.
+  Before, a town taking people and jobs out of a state could make that state's
+  prices climb by themselves.
+
+- **Travel lists the town's biggest workplaces across every kind of work**
+  Travel lists the places tied to you first, then the town's biggest workplaces
+  across every kind of work.
+
+### Changed
+
+- **Congress on the first day is the one your world's own history elected.**
+  Every House seat and the Senate are elected through your world's history from
+  1926, so who holds each seat, and which party controls each chamber, differs
+  from world to world. Senators and representatives carry their own careers from
+  that history.
+
+- **Every world now has its own history since 1925, and its President is the one
+  that history elected.** A new world runs every presidential election from 1928
+  to 2024 before you arrive. The President you meet on the first day won the
+  last of them, so a world may open with either party in the White House, after
+  a long run of one party or after many changes. A new world can still start
+  from today's real record instead.
+
+- **Governors and statewide officers on the first day are the ones your world's
+  history elected.** Every governor, attorney general and other partisan
+  statewide officer is elected through your world's history from 1925, in their
+  own office's years and under its term limits, so the states you meet differ
+  from world to world.
+
+- **The President's address opens on what the country has been through, and
+  stops announcing what it will do.** The President now opens on the country's
+  last four years, warning where prices outran paychecks and taking credit where
+  pay got ahead, each address in its own order. Lines that only announced ("I'll
+  tell you plainly", "now I'll go do it", "on the books") are gone.
+
 ## PRE-ALPHA 0.112.0
 
 _Released November 16, 2026._

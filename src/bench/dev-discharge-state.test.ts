@@ -52,7 +52,9 @@ describe(`a state chamber's discharge petition (seed ${seed})`, () => {
               bodyOfficeId: body.id,
               sponsorId: body.members[0]!.key,
               series: "minimum-wage",
-              value: 30 + n,
+              // A cut and a raise in turn (whole cents): a chair holds unheard the bills against their own
+              // position, whichever way that runs, so one direction alone can find no held bill.
+              value: n % 2 === 0 ? 30 + n : 1500 + n,
             });
             if (bill.status === "blocked") continue;
             const result = dev.decideAt(bill.id, 40, {
