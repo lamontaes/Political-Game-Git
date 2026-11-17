@@ -6,6 +6,7 @@
  * facts its news banks word. Every fact cites the printed story and the record
  * it came from. A record whose facts can't be said is left unworded here.
  */
+import { billLevelOf } from "../director/bill-level";
 import { governmentProperName } from "../core2/government-proper-name";
 import { rememberedOf } from "../director/address-render";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
@@ -31,7 +32,6 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
-  billReach,
   bodyOf,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
@@ -54,8 +54,10 @@ import { placeNameSaid, coreStateName } from "../core2/place-lookup";
 import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
+import { governmentOfJurisdiction } from "../core2/modules/budgets";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
+  billLevelWord,
   billNameFor,
   billNameOf,
   spokenDesignation,
@@ -572,7 +574,7 @@ class Reader {
       return number ? { designation: this.fact(number, id ?? "") } : {};
     const named = billNameOf({
       ...bill,
-      level: billReach(this.api, bill).level,
+      level: billLevelOf(this.api, bill),
     });
     return {
       ...(named
@@ -842,7 +844,16 @@ const lawTookEffect: Builder = (read, f) => {
       ["measure", "to"],
     );
   }
-  const named = billNameFor(series, form, ended, undefined, f.level);
+  const named = billNameFor(
+    series,
+    form,
+    ended,
+    undefined,
+    billLevelWord(
+      f.level,
+      governmentOfJurisdiction(read.api, f.jurisdiction ?? "")?.name,
+    ),
+  );
   if (!named) return rule(read, f, base);
   return story(
     "law",
@@ -968,7 +979,16 @@ export function archivedLawPassedFacts(
     );
   }
   const ended = Number(row.value) === 0;
-  const named = billNameFor(row.series, form, ended, undefined, row.level);
+  const named = billNameFor(
+    row.series,
+    form,
+    ended,
+    undefined,
+    billLevelWord(
+      row.level,
+      governmentOfJurisdiction(read.api, row.jurisdiction)?.name,
+    ),
+  );
   if (!named) return null;
   return story(
     "law-passed",

@@ -7,6 +7,7 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { billLevelOf } from "./bill-level";
 import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
@@ -41,7 +42,6 @@ import {
   type VetoReason,
   votesOn,
   type StudyRow,
-  billReach,
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
@@ -1516,7 +1516,7 @@ function composeBinding(
     const does = named
       ? billNameOf({
           ...named,
-          level: billReach(coreAPI(core as CoreState), named).level,
+          level: billLevelOf(coreAPI(core as CoreState), named),
         })?.purpose
       : undefined;
     if (does)
@@ -3123,7 +3123,7 @@ function deskFacts(
   if (!bill) return;
   // The bill as the visitor says it: by its name and what it does, never by
   // its number alone (the number sits on the desk's paper).
-  const title = billTitleOf({ ...bill, level: billReach(api, bill).level });
+  const title = billTitleOf({ ...bill, level: billLevelOf(api, bill) });
   if (title) {
     facts.bill = {
       text: billTitleSaid(title.title),

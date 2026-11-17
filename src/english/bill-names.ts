@@ -7,6 +7,7 @@
  * Act or Ordinance word comes from the bill's own form, and the sentence is
  * composed by the legislation bank.
  */
+import { governmentClassWord } from "./said-as";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 
 /** What a budget line is for, as people say it: the bill catalog's budget row, its purpose for a raise or its repeal purpose for a cut. */
@@ -22,19 +23,31 @@ export function budgetPurposeSaid(line: string, cut: boolean): string | null {
 }
 
 /**
- * A row's `{level}` slot said: the level word of the body the bill is before
- * ("federal", "state", "county", "city"), from the book's one list. A bill whose
- * level is not known says no level word ("the income tax", true at any level),
- * and the space the slot leaves is closed.
+ * The level word a bill's body goes by, said once for the bill's whole text: the
+ * level's word from the book's list ("federal", "state", "county", "township"),
+ * and for a town's own body the class word its government's record carries
+ * ("village", "borough", "town", "city", from `governmentClassWord`), so the same
+ * row reads "the village income tax" at a village. Empty where the level is
+ * not known.
  */
-export function levelSaid(
-  text: string,
-  level?: string | null,
+export function billLevelWord(
+  level: string | null | undefined,
+  governmentName?: string | null,
   book: BillNameBook = billNames as BillNameBook,
 ): string {
-  if (!text.includes("{level}")) return text;
   const word = (level ? book.levels?.[level] : undefined) ?? "";
-  return text.replace("{level}", word).replace(/ {2,}/g, " ");
+  if (level !== "city" || !governmentName) return word;
+  return governmentClassWord(governmentName) ?? word;
+}
+
+/**
+ * A row's `{level}` slot said: the bill's level word (`billLevelWord`). A bill
+ * whose level is not known says no level word ("the income tax", true at any
+ * level), and the space the slot leaves is closed.
+ */
+export function levelSaid(text: string, word?: string | null): string {
+  if (!text.includes("{level}")) return text;
+  return text.replace("{level}", word ?? "").replace(/ {2,}/g, " ");
 }
 
 export interface BillNameBook {
@@ -104,7 +117,7 @@ export function billNameFor(
   formKind: string,
   repeal: boolean,
   book: BillNameBook = billNames as BillNameBook,
-  /** The level of the body the bill is before (`billReach`), for a purpose's `{level}` slot. */
+  /** The bill's level word (`billLevelWord`), for a purpose's `{level}` slot. */
   level?: string | null,
 ): BillName | null {
   const row = book.policies[question];
@@ -113,12 +126,12 @@ export function billNameFor(
   return repeal
     ? {
         title: `${row.repealName} ${form}`,
-        purpose: levelSaid(row.repealPurpose, level, book),
+        purpose: levelSaid(row.repealPurpose, level),
         reverses: true,
       }
     : {
         title: `${row.name} ${form}`,
-        purpose: levelSaid(row.purpose, level, book),
+        purpose: levelSaid(row.purpose, level),
         reverses: false,
       };
 }
@@ -146,7 +159,7 @@ const REVERSING = new Set(["repeal", "lower", "restrict"]);
 export function billNameOf(
   bill: {
     readonly form: { readonly kind: string };
-    /** The level of the body the bill is before (`billReach`), so a purpose says whose tax or agency it is. */
+    /** The bill's level word (`billLevelWord`), so a purpose says whose tax or agency it is. */
     readonly level?: string | null;
     readonly provisions: readonly NamedSection[];
     /** Set on a government's annual budget bill: whose budget, for which year. */

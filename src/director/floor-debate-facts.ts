@@ -11,10 +11,10 @@
  * floor as the reason (Words lead, rule 103 and ruling Nov 14); that cause
  * stays on the record for the player to find another way.
  */
+import { billLevelOf } from "./bill-level";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {
   billOf,
-  billReach,
   LEGISLATURE_MODULE_ID,
   memberPosition,
   bodyReach,
@@ -118,7 +118,7 @@ export function floorDebateFacts(
   // it does, from the bill's own sections (the number stays in narration).
   const named = billNameOf({
     ...(bill as never),
-    level: billReach(api, bill).level,
+    level: billLevelOf(api, bill),
   });
   if (named) {
     facts["bill-name"] = {

@@ -70,7 +70,7 @@ export interface BillWordsInput {
   readonly id: string;
   readonly number: string;
   readonly form: { readonly kind: string; readonly enactingClause: string };
-  /** The level of the body the bill is before (`billReach`): the word a row's `{level}` slot says. */
+  /** The bill's level word (`billLevelWord`): the word a row's `{level}` slot says. */
   readonly level?: string | null;
   /** Set on a government's annual budget bill (the bill's own record). */
   readonly budgetFor?: unknown;

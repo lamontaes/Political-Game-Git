@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import { composeBill } from "./bill-sections";
-import { billTitleOf, type BillNameBook } from "./bill-names";
+import { billLevelWord, billTitleOf, type BillNameBook } from "./bill-names";
 
 /**
  * A bill's composed title names its own level (Words, Nov 17): the one row of
@@ -60,5 +60,38 @@ describe("a bill's title says the level of its body", () => {
       BOOK,
     )!;
     expect(titled.purpose).toBe("a higher income tax rate");
+  });
+
+  // A town's own body goes by its government's class word, from the record's name.
+  for (const [name, word] of [
+    ["Village of Mutual", "village"],
+    ["Pine Borough", "borough"],
+    ["Town of Edgar", "town"],
+    ["Springfield", "city"],
+  ] as const) {
+    it(`a body of ${name} says "${word}"`, () => {
+      const level = billLevelWord("city", name, BOOK);
+      expect(level).toBe(word);
+      const bill = {
+        id: `b:${word}`,
+        number: "1",
+        form: { kind: "ordinance", enactingClause: "Be it ordained" },
+        level,
+        provisions: [provision("income-tax")],
+      };
+      expect(composeBill(bill)!.title).toBe(
+        `An ordinance to set the rate of the ${word} income tax.`,
+      );
+      expect(billTitleOf(bill, BOOK)!.purpose).toBe(
+        `a higher ${word} income tax rate`,
+      );
+    });
+  }
+
+  it("keeps the federal, state, county and township words whatever the government's name", () => {
+    expect(billLevelWord("federal", "Village of Mutual", BOOK)).toBe("federal");
+    expect(billLevelWord("state", "Pine Borough", BOOK)).toBe("state");
+    expect(billLevelWord("county", "Lake County", BOOK)).toBe("county");
+    expect(billLevelWord("township", "Town of Edgar", BOOK)).toBe("township");
   });
 });

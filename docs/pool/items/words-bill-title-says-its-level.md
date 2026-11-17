@@ -36,4 +36,4 @@ effort: medium
 
 **Notes.**
 
-- A village or a township says "city" or "township" from its level; the town's own class word (village, town) is not read yet.
+- A town's own body goes by its government's class word (village, borough, town, city) from `billLevelOf` in `src/director/bill-level.ts`; county and township keep their level words.
