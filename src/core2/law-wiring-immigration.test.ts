@@ -94,6 +94,10 @@ describe("local immigration enforcement reaches workers' pull to work", () => {
             webReach(api, town, UNDOCUMENTED).factor === 1
           )
             advanceCore(lawWorld, addDays(makeIsoDate(lawWorld.date), 1));
+          // The jobs engine caches whether the web moves a place for the day
+          // it runs, before that day's month row is read, so measure the
+          // morning after the row first reads the law.
+          advanceCore(lawWorld, addDays(makeIsoDate(lawWorld.date), 1));
           advanceCore(control, lawWorld.date);
           // A state law that forbids local partnerships keeps a city's out.
           const governing = lawInForce(api, LAW);
