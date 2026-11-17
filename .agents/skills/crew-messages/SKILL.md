@@ -1,14 +1,14 @@
 ---
 name: crew-messages
 description: >
-  How Our Civic Duty's sessions message each other: the one tool that reaches
-  another session, who gets which message (builder to checker, checker to
-  merger, a red to red main, a question for the owner to the CTO, a seam to the
-  session that owns it), what every message carries, what must also go into the
-  record, and the rule that a process is written as a skill, never explained in
-  a message. Use before sending any message to another session and whenever you
-  are about to explain how to do something. Not for the shared files themselves
-  (.agents/rules/how-we-talk.md) or for reports to the owner (civic-reports).
+  How sessions message each other: the one tool that reaches another session,
+  who gets which message, what a message carries and what also goes in the
+  record, the address rule across the threads, and passing the owner's words on
+  verbatim, where an example he gives is a generality and the work is the system
+  behind it. Use before messaging another session, before explaining a process
+  in a message (a process is a skill), and whenever you pass something the owner
+  said to a thread, helper or reviewer. Not for the shared files
+  (.agents/rules/how-we-talk.md) or owner reports (civic-reports).
 ---
 
 # Crew messages
@@ -111,3 +111,18 @@ Two Words builders each had an item that said "the engine joins a sentence from 
 - `list_threads` with `since` and a limit of 100 shows only threads active since then. Running = total minus this thread, minus done, failed and resolved; say in the report when the list is partial. `list_prs` is truncated, so a PR count is a carried-over estimate and is labeled as one.
 - When several hourly fires pile up after a usage limit or a restart, post one comment, not one per fire.
 - After a usage-limit stop many threads show "failed" until their wake triggers resume them; report that to the coordinator once and do not count them as running.
+
+## Gotchas (Nov 16 and 17)
+
+One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
+
+- Nov 17, 03:17Z: the address rule across the threads. Start every line with your name; to reach someone write "<you>: for <them>" on the thread the reader watches (#9747 builder lanes and Pins, #9750 Story); every watcher reads both. Cause: lines for another account's lane were missed.
+- Nov 17, 01:57Z: the parties ruling was first relayed with the owner's examples as specs ("once in a million", "ranked choice in the 80s"). Cause: examples read literally; the owner: "I don't mean it literally... just conceptually." Build the system, not the example.
+- Nov 17, 01:51Z to 01:53Z: the boards build was canceled, kept as background, then scoped down, in three minutes. Cause: acting on the first of several corrections. Read every later CTO line on the subject before you build.
+- Nov 17, 01:03Z (#9752): a pull request sat red for an hour while messages queued behind a long turn. Cause: the lane read messages only between turns. Check for messages at every push.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/owners-words-to-threads.md`: whenever you pass something the owner said to a thread, helper or reviewer, or read an ask that names one case.
