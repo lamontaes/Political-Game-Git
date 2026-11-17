@@ -24,7 +24,7 @@ import { seatLastMargin } from "./modules/voting";
 import { coreAPI } from "./state";
 
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 6;
+const DRAWS = 10;
 const WANT_PLACES = 3;
 
 describe(`a challenger's odds follow the seat's last race (seed ${seed})`, () => {
@@ -82,8 +82,14 @@ describe(`a challenger's odds follow the seat's last race (seed ${seed})`, () =>
           });
         }
         const rows = [...seen.values()];
-        if (rows.length < 2) {
-          passed.push(`${where}: ${rows.length} counted seats with a holder`);
+        // A seat the holder won with no one against (a lead of the whole vote)
+        // shows nothing about how a lead protects it: the case needs seats
+        // whose leads differ.
+        const leads = new Set(rows.map((row) => row.lead.toFixed(6)));
+        if (rows.length < 2 || leads.size < 2) {
+          passed.push(
+            `${where}: ${rows.length} counted seats with a holder, ${leads.size} different leads`,
+          );
           continue;
         }
         checked += 1;
