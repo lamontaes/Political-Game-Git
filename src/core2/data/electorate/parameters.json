@@ -20,6 +20,7 @@
       "spread": [0.005, 0.04]
     },
     "spendingContactsPerVoteAtEven": {
+      "role": "coefficient",
       "value": 2.5,
       "tag": "TUNABLE",
       "source": "How many times a campaign must be able to reach each of its race's voters, at this world's own price of a contact (the cheaper of the town outlet's ad price from its books and a mailed piece), for its spending to move its share neither up nor down (candidateReasons). A strength inside the spending formula, never a dollar level: the dollars it stands for move with the outlet's costs and audience and with the price of mail. It replaced a table of published dollars per vote by office (Nov 17, 2026, owner: 'Everything comes from the simulation. Stop pegging things to real numbers'); 2.5 is where that table's legislative and local row ($2.50 a vote) sat at a contact price of about a dollar. Checked as a relationship: the same dollars move a candidate's share more where a contact is cheap than where it is dear (src/core2/campaign-money-own-actors.test.ts).",
@@ -30,6 +31,13 @@
       "tag": "TUNABLE",
       "source": "Coverage, a party label and the ballot itself reach voters even for a candidate who spends nothing, so spending counts from a floor of this share of the typical race's spending. Checked against Jacobson's finding that challengers spending almost nothing still win about a third of the two-party vote in districts their party could compete in.",
       "spread": [0.01, 0.2]
+    },
+    "timeForChangeShare": {
+      "value": 0.0543,
+      "tag": "SOURCED",
+      "role": "coefficient",
+      "source": "The two-party share a party loses when it seeks a third straight term or more in the White House, against one seeking its second (the time-for-change factor): -5.432 points of the major-party vote, standard error 2.092, over 18 presidential elections 1932 to 2004, with incumbency in the same model 0.613 and not significant (Abramowitz, 'Forecasting the 2008 Presidential Election with the Time-for-Change Model', PS: Political Science & Politics 41(4), 2008, pp. 691-695, doi 10.1017/S1049096508081249, Table 3). Read only in a race for President (electorate-inputs.ts candidateReasons, from partyTermsHeld).",
+      "spread": [0.0125, 0.096]
     },
     "approvalVoteShare": {
       "value": 0.003,

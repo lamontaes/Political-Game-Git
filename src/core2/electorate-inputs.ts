@@ -10,7 +10,9 @@
  */
 import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
-import { partySide } from "./appointments";
+import { nationalParty, partySide } from "./appointments";
+// The national party of a side, for the century's count (electorate-century.ts).
+export { nationalParty };
 import { approvalGapPoints } from "./modules/national-opinion";
 import { campaignParameter } from "./campaign-data";
 import {
@@ -26,6 +28,7 @@ import { crimeChange } from "./modules/crime";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
 import type { CoreAPI, PersonState } from "./types";
+import { presidencyPartyTerms } from "./electorate-century";
 
 const PARAMS = (
   data as unknown as { parameters: Record<string, { value: number }> }
@@ -60,6 +63,11 @@ export interface CandidateInputs {
   readonly presidentsParty: boolean;
   /** Of the party holding this seat. */
   readonly seatPartyHolder: boolean;
+  /**
+   * How many straight terms the candidate's party has held the presidency, the sitting term
+   * included; read only in a race for President (0 or absent elsewhere).
+   */
+  readonly partyTermsHeld?: number;
 }
 
 /** The exact jobs reading a race consumed, even if the web row is later refreshed. */
@@ -109,6 +117,8 @@ export interface CandidateReasons {
   readonly record: number;
   readonly economy: number;
   readonly midterm: number;
+  /** A party seeking a third straight term or more for the White House (the time-for-change factor). */
+  readonly timeForChange: number;
   /** Felt by the town's own voters (and the place around it) only. */
   readonly local: number;
   readonly localUnemployment?: UnemploymentReading & {
@@ -190,6 +200,12 @@ export function candidateReasons(
     record: p("recordShareWeight") * candidate.record,
     economy,
     midterm,
+    // Voters weigh a party's time in the White House: a party that has held it two terms or
+    // more does worse than one seeking its second (Abramowitz, PS 41(4), 2008, Table 3).
+    timeForChange:
+      candidate.presidentsParty && (candidate.partyTermsHeld ?? 0) >= 2
+        ? -p("timeForChangeShare")
+        : 0,
   };
   const total = Object.values(parts).reduce((a, b) => a + b, 0);
   return {
@@ -212,6 +228,39 @@ export function candidateReasons(
     total,
   };
 }
+
+/**
+ * How many straight terms a side has held the White House: the century before day one, then the
+ * presidency's races in play (the voting engine's `races` rows for the office), read by id, never
+ * imported, so this file keeps out of the voting engine's import cycle.
+ */
+function presidencyTermsOf(api: CoreAPI, side: number): number {
+  const played = api.state.modules.has(VOTING_RACES_MODULE)
+    ? (
+        api
+          .moduleState(VOTING_RACES_MODULE)
+          .table("races")
+          .rows() as unknown as {
+          office?: string;
+          year?: number;
+          winnerParty?: string;
+        }[]
+      )
+        .filter((row) => row.office === "president" && row.year !== undefined)
+        .map((row) => ({
+          year: row.year!,
+          winnerSide: partySide(row.winnerParty),
+        }))
+        .sort((a, b) => a.year - b.year)
+    : [];
+  return presidencyPartyTerms(
+    api.state.seed,
+    api.state.startedAt,
+    side,
+    played,
+  );
+}
+const VOTING_RACES_MODULE = "core2-voting-v1";
 
 /** The election laws' cost and the barred share at the opening, per world. */
 const openings = new WeakMap<object, { lawCost: number; barred: number }>();
@@ -384,6 +433,8 @@ export function candidateInputs(
     readonly side?: number;
     /** The seat holder's side, where it isn't the party label's. */
     readonly seatSide?: number;
+    /** A race for President: the party's straight terms in the White House are read (time for a change). */
+    readonly presidency?: boolean;
   },
 ): CandidateInputs {
   const side = input.side ?? partySide(input.party);
@@ -423,5 +474,8 @@ export function candidateInputs(
       side !== 0 &&
       input.seatParty !== null &&
       side === (input.seatSide ?? partySide(input.seatParty)),
+    ...(input.presidency && side !== 0 && side === president
+      ? { partyTermsHeld: presidencyTermsOf(api, side) }
+      : {}),
   };
 }
