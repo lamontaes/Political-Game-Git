@@ -10,7 +10,11 @@ import { closenessBetween } from "../../src/core2/closeness";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { restoreWorld, snapshotWorld } from "../../src/core2/snapshot";
 import { applyCoreEvent, coreAPI } from "../../src/core2/state";
-import type { CoreEventInput, CoreState, PersonId } from "../../src/core2/types";
+import type {
+  CoreEventInput,
+  CoreState,
+  PersonId,
+} from "../../src/core2/types";
 import { openConversation, say } from "../../src/director/conversation";
 import { paymentSaid } from "../../src/english/payment-words";
 import type { Director } from "../../src/director/ledger";
@@ -241,8 +245,6 @@ export function pathTo(tree: TreeNode, ending: string): number[] | undefined {
   });
 }
 
-
-
 /** A promise the engines took, and the one who made it. */
 interface Staged {
   readonly quarrel: CoreEventInput;
@@ -311,7 +313,9 @@ export function playPayOnTime(
   // written here.
   const stage = (quarrel: CoreEventInput) => {
     const borrowerId = String(quarrel.facts!.owes) as PersonId;
-    const owedId = quarrel.personIds.find((id) => id !== borrowerId) as PersonId;
+    const owedId = quarrel.personIds.find(
+      (id) => id !== borrowerId,
+    ) as PersonId;
     const variant = chooseVariant(core, {
       family: "owed-apology",
       askerId: owedId,

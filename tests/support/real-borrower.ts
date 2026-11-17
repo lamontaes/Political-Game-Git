@@ -24,14 +24,19 @@ import {
 } from "../../src/core2/modules/office-day";
 import { advancePlayerV1, resumePlayerV1 } from "../../src/core2/player-v1";
 import { coreAPI } from "../../src/core2/state";
-import type { CoreEventInput, CoreState, PersonId } from "../../src/core2/types";
+import type {
+  CoreEventInput,
+  CoreState,
+  PersonId,
+} from "../../src/core2/types";
 
 /** Days the player's clock may run in one place before it is passed over: the loan is written at a month's close and billed monthly. */
 const QUARREL_DAYS = 400;
 /** Places drawn before the search fails by name. */
 const MAX_PLACES = 8;
 /** The seed a run draws its places from; a failed run is replayed with `GOLDEN_PATH_SEED`. */
-export const LOAN_SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+export const LOAN_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 /** A money quarrel the credit engine's missed payment started, in a drawn place, and the world it happened in. */
 export interface TownBorrower {
@@ -148,7 +153,9 @@ export function findTownBorrower(
       continue;
     }
     const borrowerId = String(quarrel.facts!.owes) as PersonId;
-    const owedId = quarrel.personIds.find((id) => id !== borrowerId) as PersonId;
+    const owedId = quarrel.personIds.find(
+      (id) => id !== borrowerId,
+    ) as PersonId;
     return {
       core,
       director: built.director,
