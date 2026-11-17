@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/history-states
-pr:
+pr: #9838
 after:
 blocked-on:
 lead: elections
