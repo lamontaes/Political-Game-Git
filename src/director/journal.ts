@@ -111,6 +111,8 @@ const SCHOOL_FINISHED = "event:school.finished";
 /** The facts that say when, not what: two tellings differing only in these are one. */
 /** The facts that say how old the person was, which an age frame has already said. */
 const AGE_FACTS = new Set(["age", "age-then"]);
+/** The memoir fields that say what a job paid. */
+const PAY_FIELDS = new Set(["firstPay", "againPay", "letGoPay", "movedPay"]);
 const TIME_FACTS = new Set(["age", "span", "when", "held"]);
 const zero = P.zero;
 const one = P.one;
@@ -1722,8 +1724,14 @@ export function composeJournal(
     // The person's own illness or hospital stay: how old they were, so the
     // sentence has a time of its own ("When I was 34, I got sick.").
     if (
-      moment.causeKind === "event:health.serious-illness" &&
-      !moment.counterpartIds.length
+      (moment.causeKind === "event:health.hospital-stay" ||
+        moment.causeKind === "event:partner.separated" ||
+        (moment.causeKind === "event:health.serious-illness" &&
+          !moment.counterpartIds.length)) &&
+      !(
+        moment.causeKind === "event:health.hospital-stay" &&
+        moment.counterpartIds.length
+      )
     )
       facts["age-then"] = ageThen(person.birthDate, person.id);
     // A child born to them: how old they were, and whether the first.
@@ -2024,6 +2032,17 @@ export function composeJournal(
       // Paying more is the bill going up (the record keeps refund less pay).
       facts.direction = {
         text: moved < zero ? "up" : "down",
+        sourceRecordIds: [moment.causeId],
+      };
+    }
+    // A partnership that ended before the start is a name on the record, never
+    // a person in the world: the former partner is said by their first name.
+    if (moment.causeKind === "event:partner.separated") {
+      const event = lifeById.get(moment.causeId);
+      const full = String(event?.facts?.partnerName ?? "").trim();
+      if (!full) return null;
+      facts.named = {
+        text: full.split(/\s+/)[zero]!,
         sourceRecordIds: [moment.causeId],
       };
     }
@@ -3013,6 +3032,8 @@ export function composeJournal(
       );
       for (const named of unit.row.follow ?? []) {
         for (const field of named.split("|")) {
+          // A line about the pay is told only where the record holds a pay.
+          if (PAY_FIELDS.has(field) && !followFacts.wage) continue;
           const follow = render(
             { part: "memoir", field: field as MemoirField },
             followFacts,

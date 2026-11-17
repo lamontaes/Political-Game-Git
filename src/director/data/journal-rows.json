@@ -319,6 +319,18 @@
       "framesAge": true
     },
     {
+      "kindPrefix": "event:health.hospital-stay",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "event:partner.separated",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
       "kindPrefix": "event:office.replied",
       "turn": false,
       "eventFacts": {

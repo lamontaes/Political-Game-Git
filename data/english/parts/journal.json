@@ -10592,6 +10592,432 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.memoir-work-pay-up.the-pay-was-better-than-the-last-place",
+      "move": "memoir-work-pay-up",
+      "kind": "spoken",
+      "text": "The pay was better than the last place.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-up",
+          "subject": "memoir",
+          "role": "workPayUp",
+          "choice": "pay-up",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayUp"
+            }
+          ],
+          "requiresFacts": ["wage-from", "wage-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-up.it-paid-better-than-i-was-used-to",
+      "move": "memoir-work-pay-up",
+      "kind": "spoken",
+      "text": "It paid better than I was used to.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-up",
+          "subject": "memoir",
+          "role": "workPayUp",
+          "choice": "pay-up",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayUp"
+            }
+          ],
+          "requiresFacts": ["wage-from", "wage-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-down.the-pay-was-a-step-down-but-it-was-work",
+      "move": "memoir-work-pay-down",
+      "kind": "spoken",
+      "text": "The pay was a step down, but it was work.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-down",
+          "subject": "memoir",
+          "role": "workPayDown",
+          "choice": "pay-down",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayDown"
+            }
+          ],
+          "requiresFacts": ["wage-from", "wage-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-work-pay-down.the-pay-never-caught-up-with-the-rent",
+      "move": "memoir-work-pay-down",
+      "kind": "spoken",
+      "text": "The pay never caught up with the rent.",
+      "uses": [
+        {
+          "move": "memoir-work-pay-down",
+          "subject": "memoir",
+          "role": "workPayDown",
+          "choice": "pay-down",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "workPayDown"
+            }
+          ],
+          "requiresFacts": ["wage-from", "wage-to"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-first-pay.it-was-my-first-real-paycheck",
+      "move": "memoir-first-pay",
+      "kind": "spoken",
+      "text": "It was my first real paycheck.",
+      "uses": [
+        {
+          "move": "memoir-first-pay",
+          "subject": "memoir",
+          "role": "first-pay",
+          "choice": "first-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ],
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-pay.the-pay-went-with-it",
+      "move": "memoir-let-go-pay",
+      "kind": "spoken",
+      "text": "The pay went with it.",
+      "uses": [
+        {
+          "move": "memoir-let-go-pay",
+          "subject": "memoir",
+          "role": "let-go-pay",
+          "choice": "let-go-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ],
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.named-spent-a-long-afternoon-knocking-do",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "{named} spent a long afternoon knocking doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "named-spent-an-afternoon",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.i-knocked-doors-until-the-light-went",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "I knocked doors until the light went.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "knocked-doors-until-the-light-went",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["doors"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.partner-line-separated.named-and-i-separated",
+      "move": "partner-line-separated",
+      "kind": "spoken",
+      "text": "{named} and I separated.",
+      "uses": [
+        {
+          "move": "partner-line-separated",
+          "subject": "partner",
+          "role": "line",
+          "choice": "separated",
+          "journal": [
+            {
+              "kindPrefix": "event:partner.separated",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.partner-line-separated.named-and-i-went-our-separate-ways",
+      "move": "partner-line-separated",
+      "kind": "spoken",
+      "text": "{named} and I went our separate ways.",
+      "uses": [
+        {
+          "move": "partner-line-separated",
+          "subject": "partner",
+          "role": "line",
+          "choice": "separated",
+          "journal": [
+            {
+              "kindPrefix": "event:partner.separated",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.thats-when-i-met-named",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "That's when I met {named}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.i-met-named-that-year",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I met {named} that year.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.health-line-hospital.i-spent-some-time-in-the-hospital",
+      "move": "health-line-hospital",
+      "kind": "spoken",
+      "text": "I spent some time in the hospital.",
+      "uses": [
+        {
+          "move": "health-line-hospital",
+          "subject": "health",
+          "role": "line",
+          "choice": "hospital",
+          "journal": [
+            {
+              "kindPrefix": "event:health.hospital-stay",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["age-then"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.health-line-hospital.i-was-in-the-hospital-for-a-stretch",
+      "move": "health-line-hospital",
+      "kind": "spoken",
+      "text": "I was in the hospital for a stretch.",
+      "uses": [
+        {
+          "move": "health-line-hospital",
+          "subject": "health",
+          "role": "line",
+          "choice": "hospital",
+          "journal": [
+            {
+              "kindPrefix": "event:health.hospital-stay",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["age-then"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.i-moved-here-that-year",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "I moved here that year.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["age-then"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.i-moved-here",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "I moved here.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

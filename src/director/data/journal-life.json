@@ -54,7 +54,7 @@
       "life": "health",
       "what": "hospital-stay",
       "record": "health.hospital-stay",
-      "kind": "event:health.serious-illness"
+      "kind": "event:health.hospital-stay"
     },
     {
       "life": "home",
@@ -93,6 +93,12 @@
       "what": "took-office",
       "record": "took-office",
       "kind": "event:took-office"
+    },
+    {
+      "life": "partner",
+      "what": "separated",
+      "record": "family.partnership-ended",
+      "kind": "event:partner.separated"
     }
   ]
 }
