@@ -1,4 +1,4 @@
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, NoPlayerHereError } from "./world";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -27,10 +27,23 @@ describe(`bodies meet on real calendars (seed ${seed})`, () => {
     const report: string[] = [];
     for (let i = 0; i < 4; i += 1) {
       const place = drawPlace(`${seed}:${i}`, "body-calendars");
-      const world = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      // A place whose adults all live in group quarters has no one to play
+      // (the new game passes over it the same way): it is named and passed
+      // over (a Texas place, 4841422, with 446 adults in group quarters, on
+      // #9802's CI run).
+      let world: ReturnType<typeof buildBenchWorld>;
+      try {
+        world = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+      } catch (error) {
+        if (!(error instanceof NoPlayerHereError)) throw error;
+        report.push(
+          `passed over ${place.name} (${place.key}, seed ${place.seed}): no one to play`,
+        );
+        continue;
+      }
       const dev = new DevMode(
         world.core,
         world.director,
@@ -68,6 +81,6 @@ describe(`bodies meet on real calendars (seed ${seed})`, () => {
       }
     }
     expect(levels.size, "levels of government drawn").toBeGreaterThan(2);
-    console.log(report.join("\n"));
+    process.stdout.write(`${report.join("\n")}\n`);
   }, 1_800_000);
 });
