@@ -82,12 +82,8 @@ import {
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
-<<<<<<< HEAD
 import { CAUSE_INVITE_TYPE, causeInviteFacts } from "./cause-invite-facts";
-import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
-=======
 import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
->>>>>>> origin/train/nov17b
 import {
   causeTopicSaid,
   questionSubject,
