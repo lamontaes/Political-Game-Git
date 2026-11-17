@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr:
+pr: 9853
 blocked-on:
 source: crew line item 4, the campaign board mock (docs/mocks/2026-11-04), on the first-election path the CTO put first (Nov 17, 03:25Z)
 after:
@@ -27,7 +27,7 @@ Seen: the board after filing, on main, beside the mock.
 
 **Time box.** 2 hours for one session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Screen to mock: a part in `src/bench/ui/`, named sizes. No new words: the labels are the board's and Elections' own. Signature counts stay off the board's header (owner, Nov 16).
+**Rules.** Screen to mock: the header is a part in `src/bench/ui/` and its sizes are named tokens. No hand-written player text: the labels are the board's and Elections' own words. Replace, never layer: Raised leaves the money column when it moves to the header.
 
 **Done when.** A second session files for a race in a drawn place, opens Politics > Campaign and reads the race's office, its election day and the money raised across the top of the board.
 
