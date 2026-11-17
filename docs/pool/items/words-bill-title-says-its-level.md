@@ -9,7 +9,7 @@ status: in-pr
 standard: 2
 root: none
 claimed-by: story/bill-title-level
-pr:
+pr: #9930
 after:
 blocked-on:
 lead: words
