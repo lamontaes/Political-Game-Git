@@ -1,7 +1,7 @@
 /**
  * The address's montage (owner, Oct 29 02:35): one beat per part of the
  * speech, each with its picture and people from the records. In places drawn
- * from all 56: the speaker in the chamber and on the colonnade, the town's own
+ * from all 56: the speaker in the chamber, the town's own
  * people along a route, the key people named by office, and the household at
  * home (Words' address is 7 to 11 parts, each sentence carrying its level).
  */
@@ -39,7 +39,7 @@ it("keys the beats to each part's role: the chamber first, home last, the level 
     ]),
   ).toEqual([
     "chamber",
-    "colonnade",
+    "chamber",
     "america",
     "officials",
     "officials",
@@ -122,8 +122,8 @@ it.each(["a", "b", "c"])(
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
-    // The speaker is the one in the chamber (and on the colonnade when it cuts there).
-    for (const kind of ["chamber", "colonnade"])
+    // The speaker is the one in the chamber.
+    for (const kind of ["chamber"])
       for (const beat of beats.filter((row) => row.kind === kind))
         expect(
           beat.people.map((person) => person.personId),

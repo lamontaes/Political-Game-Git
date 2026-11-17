@@ -4,7 +4,7 @@ import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
 import { backdropFor, homeOf, peopleHere } from "./scene";
 
-/** A place painted in any light (the colonnade is painted in the morning only). */
+/** A place painted in any light (some are painted in one light only). */
 const hasBackdrop = (place: string) =>
   (manifest.backdrops as readonly { place: string }[]).some(
     (record) => record.place === place,
@@ -19,8 +19,7 @@ const DATA = montage as unknown as {
   mostAmerica: number;
 };
 
-export type BeatKind =
-  "chamber" | "colonnade" | "officials" | "state" | "america" | "home";
+export type BeatKind = "chamber" | "officials" | "state" | "america" | "home";
 
 /** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
 export interface MontageBeat {
@@ -35,7 +34,7 @@ export interface MontageBeat {
 /**
  * The kind of each part of an address from its role: the desk first, home
  * last, and between them the beat its first sentence's level keys to
- * (occasion: the colonnade; country and people: America; congress, the Vice
+ * (occasion: the chamber; country and people: America; congress, the Vice
  * President: the officials; the states: the player's state; the families:
  * home). A varied
  * address still finds its beats, since they follow the role, not the position.
@@ -89,7 +88,7 @@ export function namedInParts(
 
 /**
  * The address as its montage: one beat per part, each a picture with its
- * people from the records: the speaker at the desk and on the colonnade, the
+ * people from the records: the speaker in the chamber, the
  * player's own circle across the town, the key people (the Vice President,
  * the chambers' leaders, the player's governor) named by office in the
  * capitol hallway, and the household at home.
@@ -190,7 +189,7 @@ export function addressMontage(
       role?: string;
     }[] = [];
     const records: string[] = [];
-    if ((kind === "chamber" || kind === "colonnade") && speaker) {
+    if (kind === "chamber" && speaker) {
       cast.push({ id: speakerId, name: speaker, reason: "moment" });
       records.push(speakerId);
     } else if (kind === "officials") {

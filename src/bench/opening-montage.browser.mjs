@@ -3,8 +3,8 @@
 // "supposed to start with the president, like in the Oval Office or something,
 // and then doing like a montage. But here it's just like I'm just clicking
 // continue"): each Continue is the next part of the address with its own
-// picture and people: the President at the desk, the town along a route, the
-// colonnade, the officials named by office, and home at the end. Run against
+// picture and people: the President in the chamber, the town along a route, the
+// officials named by office, and home at the end. Run against
 // a fresh bench: node src/bench/opening-montage.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";

@@ -289,10 +289,9 @@ function drawTalkStrip() {
  * their name and Live over it. Anything else clears it.
  */
 let tvRequest = 0;
-async function drawTv(speech, name) {
+async function drawTv(speech, name, on) {
   const request = ++tvRequest;
   const set = $("tv");
-  const on = speech?.heardOn;
   set.hidden = true;
   set.replaceChildren();
   if (!on || on.medium !== "television") return;
@@ -310,6 +309,16 @@ async function drawTv(speech, name) {
   );
   set.hidden = false;
 }
+
+// Each Continue clears the set before the next part draws its own, so the
+// narration after a speech is never under it (capture runs before the button's own handler).
+$("talk").addEventListener(
+  "click",
+  (event) => {
+    if (event.target.closest("#talk-next")) drawTv();
+  },
+  true,
+);
 
 /**
  * That night's news at home, as a toast top right: it fades by itself after
@@ -2583,7 +2592,16 @@ async function showStory(momentId) {
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
-      drawTv(story.speech, story.names[story.speech.speakerId]);
+      // The address cuts away from the chamber to the country and to homes:
+      // there it is heard on a set, the speaker on it with Live over them.
+      drawTv(
+        story.speech,
+        story.names[story.speech.speakerId],
+        on ??
+          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
+            ? { medium: "television" }
+            : undefined),
+      );
       fillTalk({
         lines: [
           talkLine({
