@@ -178,6 +178,61 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     ).toEqual([]);
   });
 
+  it("refuses a skill added without retiring one, and lets a swap pass", () => {
+    const skill = (
+      name: string,
+      before: string | null,
+      after: string | null,
+    ) => ({
+      path: `.agents/skills/${name}/SKILL.md`,
+      before,
+      after,
+    });
+    const found = (changes: Parameters<typeof checkChanges>[0]) =>
+      checkChanges(changes, rules).map((f) => f.id);
+    expect(found([skill("new-one", null, "x")])).toEqual(["skill-added"]);
+    expect(
+      found([skill("new-one", null, "x"), skill("old-one", "x", null)]),
+    ).toEqual([]);
+    expect(found([skill("same", "x", "y")])).toEqual([]);
+  });
+
+  it("refuses a new guard test the guard list does not run", () => {
+    const guard = {
+      path: "tests/guards/new-rule.test.ts",
+      before: null,
+      after: plain,
+    };
+    const listed = (text: string) => () => text;
+    expect(
+      checkChanges(
+        [guard],
+        rules,
+        listed('vitest("tests/guards/old.test.ts")'),
+      ).map((f) => f.id),
+    ).toEqual(["guard-unlisted"]);
+    expect(
+      checkChanges(
+        [guard],
+        rules,
+        listed('vitest("tests/guards/new-rule.test.ts")'),
+      ).map((f) => f.id),
+    ).toEqual([]);
+    expect(
+      checkChanges(
+        [
+          guard,
+          {
+            path: rules.guardList,
+            before: "",
+            after: 'vitest("tests/guards/new-rule.test.ts")',
+          },
+        ],
+        rules,
+      ).map((f) => f.id),
+    ).toEqual([]);
+  });
+
   it("refuses a change to its own rules, script or workflow", () => {
     for (const file of rules.ownFiles)
       expect(ids(file, "a", "b")).toContain("own-rules");

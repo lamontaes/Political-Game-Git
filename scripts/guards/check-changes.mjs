@@ -45,7 +45,7 @@ const ASSERTIONS = "\\b(?:expect(?:\\.soft)?|assert(?:\\.\\w+)?)\\s*\\(";
  * @param {any} rules
  * @returns {Finding[]}
  */
-export function checkChanges(changes, rules) {
+export function checkChanges(changes, rules, readHead = () => null) {
   /** @type {Finding[]} */
   const findings = [];
   const isTest = new RegExp(rules.testFiles);
@@ -99,6 +99,54 @@ export function checkChanges(changes, rules) {
         );
     }
   }
+  findings.push(...wholeChangeFindings(changes, rules, readHead));
+  return findings;
+}
+
+/**
+ * Rules read across the whole change, not file by file (skills policy, Nov
+ * 17: rules that must always hold become checks). A change that adds a skill
+ * retires as many in the same change, so the count never grows; and a new
+ * guard test file is named in the guard list, so every guard runs.
+ * @param {readonly Change[]} changes
+ * @param {any} rules
+ * @param {(path: string) => string | null} readHead the file as the change leaves it
+ * @returns {Finding[]}
+ */
+function wholeChangeFindings(changes, rules, readHead) {
+  /** @type {Finding[]} */
+  const findings = [];
+  const isSkill = new RegExp(rules.skillFiles);
+  const added = changes.filter(
+    (c) => isSkill.test(c.path) && c.before === null && c.after !== null,
+  );
+  const retired = changes.filter(
+    (c) => isSkill.test(c.path) && c.before !== null && c.after === null,
+  ).length;
+  if (added.length > retired)
+    for (const change of added)
+      findings.push({
+        path: change.path,
+        id: "skill-added",
+        says: `adds a skill without retiring one (${added.length} added, ${retired} retired)`,
+      });
+  const isGuard = new RegExp(rules.guardTests);
+  const list =
+    changes.find((c) => c.path === rules.guardList)?.after ??
+    readHead(rules.guardList) ??
+    "";
+  for (const change of changes)
+    if (
+      isGuard.test(change.path) &&
+      change.before === null &&
+      change.after !== null &&
+      !list.includes(change.path)
+    )
+      findings.push({
+        path: change.path,
+        id: "guard-unlisted",
+        says: `adds a guard test that no guard runs (not named in ${rules.guardList})`,
+      });
   return findings;
 }
 
@@ -237,7 +285,9 @@ function main() {
       "utf8",
     ),
   );
-  const findings = checkChanges(changesBetween(base, head), rules);
+  const findings = checkChanges(changesBetween(base, head), rules, (file) =>
+    show(head, file),
+  );
   if (findings.length === 0) {
     console.log("check-changes: this change loosens no check.");
     return;
