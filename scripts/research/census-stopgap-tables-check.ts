@@ -9,9 +9,8 @@
  * - census-SG-WORLD-property-tax-rate.json: the game's state property-tax
  *   rates (src/core2/data/housing/property-tax.json) sit inside the table's
  *   own 1-year and 5-year range, and every state and territory is covered;
- * - census-SG-WORLD-housing-county-estimate.json: the game's county rent and
- *   value for each patched county is the value it had when the patch was
- *   computed, or the patch itself once applied (drift reads neither);
+ * - census-SG-WORLD-housing-county-estimate.json: its island-area rows cover
+ *   every island area (the game keeps no county rent or value to compare);
  * - census-household-pulse-homeschool-replicate-errors-2023.json, the kin,
  *   moves, partnership-start, partnership-model and district-placement
  *   tables: every state and island area is present, every figure is finite
@@ -141,32 +140,15 @@ for (const [state, row] of Object.entries<any>(tax.states)) {
 }
 report("property-tax-rate", `${taxChecked} state rates held to the table`);
 
-// County rent and value: unchanged since the patch, or the patch applied.
+// The game no longer keeps county rents and values (day one's come from each
+// place's own pay); only the patch's island-area coverage is still checked.
 const patch = read(`${CENSUS}census-SG-WORLD-housing-county-estimate.json`);
-const housing = read("src/core2/data/housing/housing.json");
-let patched = 0;
-for (const [fips, row] of Object.entries<any>(patch.patch)) {
-  const game = housing.countyRentValue?.[fips] as number[] | undefined;
-  if (!game) continue;
-  patched += 1;
-  const same = (a: number | null, b: number | null) => a === null || a === b;
-  const before =
-    same(row.gameCurrent[0], game[0]) && same(row.gameCurrent[1], game[1]);
-  const after = row.rentValue[0] === game[0] && row.rentValue[1] === game[1];
-  if (!before && !after)
-    fail(
-      `housing-county-estimate ${fips}: the game's ${JSON.stringify(game)} is neither its value when patched ${JSON.stringify(row.gameCurrent)} nor the patch ${JSON.stringify(row.rentValue)}`,
-    );
-}
 covers(
   "housing-county-estimate island areas",
   Object.keys(patch.islandAreas2020),
   ISLAND_AREAS,
 );
-report(
-  "housing-county-estimate",
-  `${patched} counties held to the game's data`,
-);
+report("housing-county-estimate", "island areas covered");
 
 // Homeschool share and its replicate errors.
 const homeschool = read(

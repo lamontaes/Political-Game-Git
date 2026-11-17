@@ -876,6 +876,30 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "src/core2/housing-world.test.ts",
+      "now": "src/core2/housing-day-one-from-pay.test.ts",
+      "when": "2026-11-17",
+      "why": "Day one's rents and home values come from each place's own pay (owner, Nov 16: everything comes from the simulation); the published county medians are no longer read."
+    },
+    {
+      "old": "src/core2/housing-county-neighbors.test.ts",
+      "now": "src/core2/housing-day-one-from-pay.test.ts",
+      "when": "2026-11-17",
+      "why": "Day one's rents and home values come from each place's own pay (owner, Nov 16: everything comes from the simulation); the published county medians are no longer read."
+    },
+    {
+      "old": "src/core2/tooling/rent-sourced-table.ts",
+      "now": "src/core2/tooling/m1-05-check.ts (prints the town's own median rent and value)",
+      "when": "2026-11-17",
+      "why": "Day one's rents and home values come from each place's own pay (owner, Nov 16: everything comes from the simulation); the published county medians are no longer read."
+    },
+    {
+      "old": "src/core2/data/housing/housing.json countyRentValue",
+      "now": "src/core2/modules/housing.ts (levelFromPay) and housingRentShareOfPay, housingValuePayMultiple in src/core2/data/housing/parameters.json",
+      "when": "2026-11-17",
+      "why": "Day one's rents and home values come from each place's own pay (owner, Nov 16: everything comes from the simulation); the published county medians are no longer read."
     }
   ]
 }

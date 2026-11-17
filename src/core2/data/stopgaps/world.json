@@ -355,7 +355,7 @@
     "why": "Resolved Oct 19 (gov-standins-housing): a county the ACS withholds takes the household-weighted median of its neighboring counties (Census county adjacency, src/core2/data/housing/county-neighbors.json); the state and nation stand in only if no neighbor publishes. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home. world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
     "addedBy": "CLAUDE-WORLD",
     "addedAt": "2026-10-16",
-    "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
+    "replacement": "Removed Nov 17 (family 25 of the pins, housing-day-one-rents-and-values-from-pay): day one's rents and home values come from each place's own pay (`levelFromPay` in src/core2/modules/housing.ts), so no county median is read and no county is without one; the county rent and value table and its fallbacks are deleted. Was: The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
     "status": "resolved"
   },
   {

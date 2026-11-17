@@ -25,7 +25,6 @@ import {
   daysBetweenText,
   makeIsoDate,
 } from "../kernel/dates";
-import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { decisionLean } from "../trait-decisions";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
@@ -69,11 +68,15 @@ import {
 } from "../housing-construction";
 import { countUnmetBuyer, takeHomes } from "../housing-listings";
 import {
-  ACS_VALUE_DATE,
   housingWorldOffset,
+  loanPerPayment,
   type PriceLevel,
 } from "../housing-prices";
-import { economyMonthBefore } from "../housing-price-path";
+import {
+  economyMonthBefore,
+  pastLogLevel,
+  pricePathTo,
+} from "../housing-price-path";
 import {
   countBuyer,
   homeValueToday,
@@ -101,6 +104,16 @@ import {
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import countryParameters from "../data/country/parameters.json" with { type: "json" };
+import { historyMonths } from "../macro-model";
+import {
+  openingRegionMonths,
+  REGIONS,
+  stateFigures,
+  type RegionMonth,
+} from "../regional-model";
+import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
+import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import {
   countedOwnersBehind,
@@ -135,10 +148,6 @@ export const HOUSING_PARAMETERS = housingParameters as unknown as Readonly<
 >;
 type Steps = (typeof housingData.eviction)[keyof typeof housingData.eviction];
 const EVICTION = housingData.eviction as Record<string, Steps>;
-const RENT_VALUE = housingData.countyRentValue as unknown as Record<
-  string,
-  [number | null, number | null]
->;
 const COUNTY_NEIGHBORS = countyNeighbors.neighbors as Record<string, string[]>;
 const PLACE_TENURE = housingData.placeTenure as unknown as Record<
   string,
@@ -150,36 +159,18 @@ const COUNTY_TENURE = housingData.countyTenure as unknown as Record<
 >;
 const LEASE_KIND = "household-purchase";
 const NATION = "nation";
-/** The nation's owner share and household-weighted county median rent and value, for places no county table covers. */
+/** The nation's owner share, for places no county table covers. */
 const NATIONAL = (() => {
   let homes = 0,
-    owned = 0,
-    rent = 0,
-    value = 0,
-    weight = 0;
-  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    owned = 0;
+  for (const row of Object.values(COUNTY_TENURE)) {
     homes += row[0];
     owned += row[1];
-    const rv = RENT_VALUE[county];
-    if (rv?.[0] && rv[1]) {
-      rent += rv[0] * row[0];
-      value += rv[1] * row[0];
-      weight += row[0];
-    }
   }
-  return {
-    tenure: [homes, owned] as [number, number],
-    rentValue: [Math.round(rent / weight), Math.round(value / weight)] as [
-      number,
-      number,
-    ],
-  };
+  return { tenure: [homes, owned] as [number, number] };
 })();
 interface IslandArea {
   readonly ownerShare: number;
-  readonly medianRentUsd: number;
-  readonly medianValueUsd: number;
-  readonly valueDate: string;
 }
 const ISLAND_AREAS = (
   housingData as unknown as {
@@ -192,10 +183,6 @@ function islandAreaOf(county: string): IslandArea | undefined {
     ? ISLAND_AREAS[`US-${county.slice(NATION.length + 1)}`]
     : undefined;
 }
-/** The date a county's median home value stands at: the census for an island area, else the ACS window's middle. */
-export function valueDateOf(county: string): string {
-  return islandAreaOf(county)?.valueDate ?? ACS_VALUE_DATE;
-}
 function nationTenure(town: { county: string }): [number, number] | undefined {
   if (!town.county.startsWith(`${NATION}:`)) return undefined;
   const island = islandAreaOf(town.county);
@@ -204,32 +191,6 @@ function nationTenure(town: { county: string }): [number, number] | undefined {
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
-/** Each state's household-weighted county median rent and value, for a county the ACS gives no median for. */
-const STATE_RENT_VALUE = (() => {
-  const sums = new Map<
-    string,
-    { rent: number; value: number; weight: number }
-  >();
-  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
-    const rv = RENT_VALUE[county];
-    if (!rv?.[0] || !rv[1]) continue;
-    const state = county.slice(0, 2);
-    const sum = sums.get(state) ?? { rent: 0, value: 0, weight: 0 };
-    sum.rent += rv[0] * row[0];
-    sum.value += rv[1] * row[0];
-    sum.weight += row[0];
-    sums.set(state, sum);
-  }
-  return new Map(
-    [...sums].map(([state, sum]) => [
-      state,
-      [
-        Math.round(sum.rent / sum.weight),
-        Math.round(sum.value / sum.weight),
-      ] as [number, number],
-    ]),
-  );
-})();
 /** Each state's homes and owned homes over its counties, for a county the ACS tenure table does not list. */
 const STATE_TENURE = (() => {
   const sums = new Map<string, [number, number]>();
@@ -258,75 +219,118 @@ function fallbackTenure(county: string): [number, number] | undefined {
   if (homes > 0) return [homes, owned];
   return STATE_TENURE.get(county.slice(0, 2));
 }
-/**
- * The household-weighted median rent and value of the neighboring counties
- * that publish both (Census county adjacency), for a county the ACS withholds.
- */
-function neighborRentValue(county: string): [number, number] | undefined {
-  let rent = 0;
-  let value = 0;
-  let weight = 0;
-  for (const near of COUNTY_NEIGHBORS[county] ?? []) {
-    const rv = RENT_VALUE[near];
-    const homes = COUNTY_TENURE[near]?.[0];
-    if (!rv?.[0] || !rv[1] || !homes) continue;
-    rent += rv[0] * homes;
-    value += rv[1] * homes;
-    weight += homes;
-  }
-  return weight
-    ? [Math.round(rent / weight), Math.round(value / weight)]
-    : undefined;
-}
-/**
- * A county's median gross rent and owner home value in this world: the
- * published ACS medians moved once by the world's own offsets, drawn from
- * its seed (owner, Oct 27: realistic, not real; the medians calibrate).
- */
-export function rentValueOf(
-  county: string,
-  seed: string,
-): [number | null, number | null] {
-  const [rent, value] = publishedRentValueOf(county);
-  const moved = (median: number | null, part: string) =>
-    median === null
-      ? null
-      : median *
-        (housingMacroParameter("one") +
-          housingWorldOffset(
-            seed,
-            `${county}:${part}`,
-            "housingWorldRentValueSpreadShare",
-          ));
-  return [moved(rent, "rent"), moved(value, "value")];
+/** A place's typical monthly rent and typical home value, in cents. */
+export interface HousingLevel {
+  readonly rentMinor: number;
+  readonly valueMinor: number;
+  /** The median household pay a day the level was set from, where it was set from pay. */
+  readonly payDailyMinor?: number;
 }
 
 /**
- * A county's median rent and home value. Where the ACS withholds one (a county
- * with too few households), the neighboring counties' household-weighted
- * median stands in, then the state's, then the nation's; never zero, which
- * would leave every owner without a home.
+ * The rent and the home value a place's own pay supports on day one (owner,
+ * Nov 16, 2026: "Everything comes from the simulation. Stop pegging things to
+ * real numbers"). `payDailyMinor` is the place's median household pay a day.
  *
- * Calibration only: play reads `rentValueOf`, this world's medians.
+ * - Rent is the share of pay rent takes (`housingRentShareOfPay`).
+ * - Value is the price rule's own anchor, what pay and the 30-year rate
+ *   support (housing-prices.ts): pay times `housingValuePayMultiple`, moved by
+ *   this world's price path against the loan a payment carried at the rate
+ *   the multiple was fitted at.
+ *
+ * The two strengths are fitted once on national figures; no place's
+ * published median is read, so a place's level moves with its own pay.
  */
-export function publishedRentValueOf(
-  county: string,
-): [number | null, number | null] {
-  if (county.startsWith(`${NATION}:`)) {
-    const island = islandAreaOf(county);
-    return island
-      ? [island.medianRentUsd, island.medianValueUsd]
-      : NATIONAL.rentValue;
+export function levelFromPay(
+  payDailyMinor: number,
+  world: { readonly startedAt: string; readonly seed: string },
+): HousingLevel {
+  const p = housingMacroParameter;
+  const yearMinor = payDailyMinor * DAYS_PER_YEAR;
+  const path = pricePathTo(world, p);
+  const fitted =
+    pv("housingPriceRateResponse") *
+    Math.log(loanPerPayment(pv("housingValueFitRatePct"), p));
+  return {
+    rentMinor: Math.round(
+      (pv("housingRentShareOfPay") * yearMinor) / p("macroMonthsPerYear"),
+    ),
+    valueMinor: Math.round(
+      pv("housingValuePayMultiple") *
+        yearMinor *
+        Math.exp(pastLogLevel(path, world.startedAt) - fitted),
+    ),
+    payDailyMinor,
+  };
+}
+
+/**
+ * Each state's average pay a day at the world's opening, in cents, as the
+ * country tier opens the state (the regions' opening months, the same rows
+ * `openedTier` in modules/macro.ts reads), by state FIPS. Held per world
+ * (its seed and start).
+ */
+const openingRegions = new Map<string, RegionMonth[]>();
+function statePayDailyMinor(
+  world: { readonly startedAt: string; readonly seed: string },
+  usps: string,
+): number | undefined {
+  const fips = REGIONS.find((row) => row.stateUsps === usps)?.stateFips;
+  if (!fips) return undefined;
+  const key = `${world.seed}:${world.startedAt}`;
+  // The regions' parameters beside housing's, the economy's and credit's.
+  const p = (name: string) =>
+    (regionalParameters as Record<string, { value: number } | undefined>)[name]
+      ?.value ?? housingMacroParameter(name);
+  let rows = openingRegions.get(key);
+  if (!rows) {
+    const opening = historyMonths(world.startedAt, world.seed, p).at(-1)!;
+    rows = openingRegionMonths(opening, world.startedAt, world.seed, p);
+    // A few worlds at once (tests build several); the oldest goes first.
+    if (openingRegions.size >= 8)
+      openingRegions.delete(openingRegions.keys().next().value!);
+    openingRegions.set(key, rows);
   }
-  const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
-  if (row?.[0] && row[1]) return row;
-  const state =
-    neighborRentValue(county) ??
-    STATE_RENT_VALUE.get(county.slice(0, 2)) ??
-    NATIONAL.rentValue;
-  return [row?.[0] || state[0], row?.[1] || state[1]];
+  const pay =
+    (stateFigures(rows, fips).hourlyEarnings *
+      p("macroHundred") *
+      countryParameters.countryHoursPerYear.value) /
+    DAYS_PER_YEAR;
+  return pay > 0 ? pay : undefined;
+}
+
+/**
+ * The level a place outside the played town opens on: what its state's pay
+ * supports. Its few named households (officials, kin) are no market, so their
+ * own pay would set nothing a place's rents follow; a place in no state reads
+ * the economy's pay.
+ */
+function outsideLevel(
+  world: { readonly startedAt: string; readonly seed: string },
+  usps: string,
+): HousingLevel {
+  return levelFromPay(
+    statePayDailyMinor(world, usps) ?? economyPayDailyMinor(world),
+    world,
+  );
+}
+
+/** The economy's pay a day on day one, in cents: the pay of a place whose own people the game does not keep. */
+function economyPayDailyMinor(world: {
+  readonly startedAt: string;
+  readonly seed: string;
+}): number {
+  const p = housingMacroParameter;
+  return (
+    (pricePathTo(world, p).payAtStart *
+      p("macroHundred") *
+      countryParameters.countryHoursPerYear.value) /
+    DAYS_PER_YEAR
+  );
 }
 const DWELLINGS_KEY = "housingDwellings";
+/** The opening's typical rent and home value for the town, in cents, and the median household pay a day they came from: `[rent, value, pay]`. */
+const TYPICAL_KEY = "housingTypical";
 /** The year each owner bought its home (the opening's draw from ACS B25038), read by the housing history. */
 const HOME_BOUGHT_KEY = "housingHomeBought";
 /** Housing's numbers with the economy's and credit's beside them (the price path and the mortgages read both). */
@@ -579,8 +583,8 @@ function publishedTenureOfTown(town: {
 /**
  * The renter households the place's housing records expect among `homes`
  * (household ids of the town's dwellings): the homes less the owners its
- * owner share gives them, as `withHousing` seeds them. Zero where a median
- * rent is missing (no rents are seeded) or the share leaves every home owned.
+ * owner share gives them, as `withHousing` seeds them. Zero where the share
+ * leaves every home owned.
  */
 export function expectedRenterHouseholds(
   c: CoreState,
@@ -593,8 +597,32 @@ export function expectedRenterHouseholds(
   } as unknown as CoreInput);
   if (!town) return 0;
   const tenure = tenureOfTown(town, c.seed);
-  if (!tenure || !rentValueOf(town.county, c.seed)[0]) return 0;
+  if (!tenure) return 0;
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
+}
+
+/**
+ * What the town bank's capital lets it hold in mortgages on day one: the
+ * rule credit lends by (its equity times the limits it may carry), less the
+ * business lines it has already extended. Mortgages take the room that is
+ * left; a bank with less capital, or more lines out, holds fewer of them.
+ */
+export function openingMortgageRoom(
+  bank: { id: string; liquidMinor: number },
+  facilities: readonly {
+    lenderId: string;
+    active: boolean;
+    limitMinor: number;
+  }[],
+): number {
+  const lines = facilities
+    .filter((row) => row.lenderId === bank.id && row.active)
+    .reduce((n, row) => n + row.limitMinor, 0);
+  return Math.max(
+    0,
+    bank.liquidMinor * housingMacroParameter("creditMaxLimitsPerEquity") -
+      lines,
+  );
 }
 
 export function withHousing(input: CoreInput): CoreInput {
@@ -603,10 +631,18 @@ export function withHousing(input: CoreInput): CoreInput {
   return withHousingAt(input, town);
 }
 
-function withHousingAt(input: CoreInput, town: Town): CoreInput {
+/**
+ * `level` is the place's typical rent and home value where it already keeps
+ * them (a household arriving in a place with homes); without it the place's
+ * level comes from its own households' pay.
+ */
+function withHousingAt(
+  input: CoreInput,
+  town: Town,
+  level?: HousingLevel,
+): CoreInput {
   const tenure = tenureOfTown(town, input.seed);
-  const [medianRent] = rentValueOf(town.county, input.seed);
-  if (!tenure || !medianRent) return input;
+  if (!tenure) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
@@ -669,6 +705,16 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     .filter((income) => income > 0)
     .sort((a, b) => a - b);
   const medianIncome = incomes[Math.floor(incomes.length / 2)] ?? 0;
+  // The place's level: the one it already keeps, else what its households'
+  // median pay supports; a place with no recorded pay takes the economy's.
+  const world = { startedAt: input.startedAt, seed: input.seed };
+  const typical =
+    level ??
+    levelFromPay(
+      medianIncome > 0 ? medianIncome : economyPayDailyMinor(world),
+      world,
+    );
+  if (!(typical.rentMinor > 0)) return input;
   const rank = new Map(
     [...households]
       .sort(
@@ -686,7 +732,9 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     tag: "ESTIMATED",
     asOf: input.startedAt,
     citation: housingData.source.citation,
-    estimatedFrom: `The town's ACS owner share (${tenure[1]} of ${tenure[0]} homes) and county ${town.county}'s median gross rent (${medianRent} dollars), scaled by each household's income.`,
+    estimatedFrom: level
+      ? `The town's ACS owner share (${tenure[1]} of ${tenure[0]} homes) and the place's own typical rent (${typical.rentMinor} cents) and home value, scaled by each household's income.`
+      : `The town's ACS owner share (${tenure[1]} of ${tenure[0]} homes) and what the place's median household pay (${Math.round(medianIncome)} cents a day) supports in rent (${typical.rentMinor} cents) and home value, scaled by each household's income.`,
   };
   const offset = medianIncome * pv("housingIncomeOffsetShare");
   // A home's value and rent scale with its household's income; with no recorded income in town, the median.
@@ -709,13 +757,13 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   const bank = input.organizations.find(
     (row) => row.kind === "bank" && row.placeId === town.placeId,
   );
-  const medianValue = rentValueOf(town.county, input.seed)[1] ?? 0;
+  const typicalValueMinor = typical.valueMinor;
   const outside = townOutsideOf(input.organizations, town.placeId);
   // Each household's home: owners with today's value, renters with their rent.
   const dwellings: [string, "own" | "rent", number][] = [];
   const owning = households.filter((row) => rank.get(row.id)! < owners);
-  // The sourced value is the owners' median, so each home scales by its
-  // household's income relative to the owners' own median scale.
+  // The place's typical value is its typical owned home's, so each home
+  // scales by its household's income relative to the owners' own median scale.
   const ownerScales = owning
     .map((row) => incomeScale(row.income))
     .sort((a, b) => a - b);
@@ -728,15 +776,14 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     oldest: row.oldest,
     liquidMinor: row.liquidMinor,
     valueMinor: Math.round(
-      // The census median is the typical home's value on day one (the
-      // calibration point, as the census rent is the rents'); this world's
-      // price level walks the past back from it.
-      medianValue * 100 * (incomeScale(row.income) / ownerMedianScale),
+      // What the place's pay supports is the typical home's value on day
+      // one; this world's price level walks the past back from it.
+      typicalValueMinor * (incomeScale(row.income) / ownerMedianScale),
     ),
   }));
   for (const row of ownerRows) dwellings.push([row.id, "own", row.valueMinor]);
   const mortgages =
-    bank && medianValue > 0
+    bank && typicalValueMinor > 0
       ? openingMortgages({
           owners: ownerRows,
           startedAt: makeIsoDate(input.startedAt),
@@ -746,11 +793,10 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
           // The county's own ACS shares (a whole-state or island row reads its state's, else the nation's).
           ...(/^\d{5}$/.test(town.county) ? { county: town.county } : {}),
           seed: input.seed,
-          // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
-          bankRoomMinor:
-            bank.liquidMinor *
-            housingMacroParameter("creditMaxLimitsPerEquity") *
-            pv("housingBankMortgageShareOfLoans"),
+          bankRoomMinor: openingMortgageRoom(
+            bank,
+            input.finance?.facilities ?? [],
+          ),
           ...(outside ? { outsideId: outside.id } : {}),
           ...(account ? { account } : {}),
           placeId: town.placeId,
@@ -760,9 +806,9 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
       : { contracts: [], flows: [], terms: [], boughtYears: {} };
   leases.push(...mortgages.contracts);
   flows.push(...mortgages.flows);
-  // The sourced rent is the renters' median (ACS B25064), so each rent scales
-  // by its household's income relative to the renters' own median scale, as
-  // each home's value does for owners above.
+  // The place's typical rent is its typical renter's, so each rent scales by
+  // its household's income relative to the renters' own median scale, as each
+  // home's value does for owners above.
   const renterScales = households
     .filter((row) => rank.get(row.id)! >= owners)
     .map((row) => incomeScale(row.income))
@@ -773,7 +819,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     if (rank.get(row.id)! < owners) continue;
     // Every renter owes rent, with or without income of its own (owner, Oct 14): a household its group's money or its own cash can't carry falls behind like any other.
     const scale = incomeScale(row.income) / renterMedianScale;
-    const amountMinor = Math.round(medianRent * 100 * scale);
+    const amountMinor = Math.round(typical.rentMinor * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)
       leases.push({
@@ -865,6 +911,13 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         housingState: town.usps,
         housingTown: town.placeId,
         housingCounty: town.county,
+        [TYPICAL_KEY]: JSON.stringify([
+          typical.rentMinor,
+          typical.valueMinor,
+          ...(typical.payDailyMinor === undefined
+            ? []
+            : [Math.round(typical.payDailyMinor)]),
+        ]),
         [DWELLINGS_KEY]: JSON.stringify([
           ...withKinds(input, town.county, households, dwellings),
           ...groupDwellings(input, town.placeId),
@@ -881,6 +934,53 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
 
 function store(api: CoreAPI) {
   return api.moduleState(HOUSING_MODULE_ID);
+}
+
+/** The typical rent and value an opening wrote for its place, if it housed anyone. */
+function typicalOf(input: {
+  placeMetadata?: Record<string, string | undefined>;
+}): HousingLevel | undefined {
+  const raw = input.placeMetadata?.[TYPICAL_KEY];
+  if (!raw) return undefined;
+  const [rentMinor, valueMinor, payDailyMinor] = JSON.parse(raw) as [
+    number,
+    number,
+    number?,
+  ];
+  return {
+    rentMinor,
+    valueMinor,
+    ...(payDailyMinor === undefined ? {} : { payDailyMinor }),
+  };
+}
+
+/**
+ * A place's typical rent and home value as the world keeps them: today's
+ * price level and median rent once its stock is open, else the level its
+ * opening wrote. Undefined for a place with no homes yet.
+ */
+function placeLevel(api: CoreAPI, placeId: string): HousingLevel | undefined {
+  const level = placePriceLevel(api, placeId);
+  const rent = level ? townRentMinor(api, placeId) : 0;
+  if (level && rent > 0) return { rentMinor: rent, valueMinor: level.now };
+  const row = store(api).table("state").get(`housing-place:${placeId}`) as
+    | {
+        typicalRentMinor?: number;
+        typicalValueMinor?: number;
+        typicalPayDailyMinor?: number;
+      }
+    | undefined;
+  if (row?.typicalRentMinor && row.typicalValueMinor)
+    return {
+      rentMinor: row.typicalRentMinor,
+      valueMinor: row.typicalValueMinor,
+      ...(row.typicalPayDailyMinor === undefined
+        ? {}
+        : { payDailyMinor: row.typicalPayDailyMinor }),
+    };
+  return api.state.placeMetadata?.housingTown === placeId
+    ? typicalOf(api.state)
+    : undefined;
 }
 const core = (api: CoreAPI) => api.state as CoreState;
 
@@ -959,10 +1059,31 @@ function openMissingHomes(api: CoreAPI): void {
           placeId,
       },
     };
-    const housed = withHousingAt(input, { placeId, geoid, county, usps });
+    // A place that already keeps homes houses the newcomers at its own level;
+    // a place outside the played town opens at what its state's pay supports.
+    const kept =
+      placeLevel(api, placeId) ??
+      (placeId === c.placeMetadata?.housingTown
+        ? undefined
+        : outsideLevel({ startedAt: c.date, seed: c.seed }, usps));
+    const housed = withHousingAt(input, { placeId, geoid, county, usps }, kept);
+    const typical = kept ?? typicalOf(housed);
     store(api)
       .table("state")
-      .put({ id: `housing-place:${placeId}`, usps, county });
+      .put({
+        id: `housing-place:${placeId}`,
+        usps,
+        county,
+        ...(typical
+          ? {
+              typicalRentMinor: typical.rentMinor,
+              typicalValueMinor: typical.valueMinor,
+              ...(typical.payDailyMinor === undefined
+                ? {}
+                : { typicalPayDailyMinor: typical.payDailyMinor }),
+            }
+          : {}),
+      });
     for (const organization of housed.organizations)
       if (!c.organizations.has(organization.id))
         api.addOrganization(organization);
@@ -1424,7 +1545,7 @@ function typicalRentReader(api: CoreAPI): (placeId: string) => number {
  * The home a renter's rent stands for: the town's typical home (its price
  * level, the web's factor on home values in it) times its rent over the
  * town's typical rent, as rent scales with income. Undefined where the
- * county has no published value.
+ * place keeps no homes.
  */
 export function rentHomeValue(
   api: CoreAPI,
@@ -1432,13 +1553,14 @@ export function rentHomeValue(
   rentMinor: number,
   typicalRent: (placeId: string) => number = typicalRentReader(api),
 ): number | undefined {
-  const town = rentValueOf(housingPlace(api, placeId).county, api.state.seed);
-  if (!town?.[1]) return undefined;
   const level = placePriceLevel(api, placeId);
   const rentHere = typicalRent(placeId);
-  return level && rentHere > 0
-    ? level.now * (rentMinor / rentHere)
-    : town[1] * 100 * (rentMinor / ((town[0] ?? 1) * 100 || 1));
+  if (level && rentHere > 0) return level.now * (rentMinor / rentHere);
+  // No price level or no other renter yet: the level the place's opening wrote.
+  const opened = placeLevel(api, placeId);
+  return opened
+    ? opened.valueMinor * (rentMinor / opened.rentMinor)
+    : undefined;
 }
 
 /**
@@ -2882,12 +3004,22 @@ export function openHousing(api: CoreAPI): void {
       // None yet at the opening: the economy keeps its first month after it.
       macroPrices(api) ? (macroPrices(api)!(api.state.date) ?? 0) : 1,
     );
-    // The place's home price level on day one: the census median, with this
-    // world's path walking the past back from it.
-    const county = housingPlace(api, landlord.placeId).county;
+    // The place's home price level on day one: what its own pay supports
+    // (the opening's typical value), with this world's path walking the past
+    // back from it.
+    // A place whose homes were not opened here (its leases came with the
+    // world) has no level written: the pay its typical rent implies, by the
+    // same strength, supports its typical value.
+    const opened = placeLevel(api, landlord.placeId);
     openPriceLevel(api, landlord.placeId, {
-      medianValueMinor: (rentValueOf(county, api.state.seed)[1] ?? 0) * 100,
+      typicalValueMinor: opened?.valueMinor ?? town.homeValueMinor,
       townPayMinor: town.monthlyPayMinor,
+      ...(opened?.payDailyMinor === undefined
+        ? {}
+        : {
+            householdPayDailyMinor: opened.payDailyMinor,
+            typicalRentMinor: opened.rentMinor,
+          }),
     });
   }
   scheduleReview(api);

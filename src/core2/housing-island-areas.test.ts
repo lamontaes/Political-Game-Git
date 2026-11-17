@@ -1,7 +1,8 @@
 /**
  * The four island areas with no ACS housing table start from their own
- * Census 2020 owner share, rent and home value (SG-WORLD-housing-island-areas),
- * in a played world: a place of one island area drawn by seed, played for a
+ * Census 2020 owner share (SG-WORLD-housing-island-areas), and from the rent
+ * and home value their own pay supports, as every place does, in a played
+ * world: a place of one island area drawn by seed, played for a
  * year. Places are drawn until one has enough households for a one-point
  * owner-share check; none having them fails by name.
  */
@@ -13,12 +14,7 @@ import housingParameters from "./data/housing/parameters.json" with { type: "jso
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import {
-  ownedHomes,
-  publishedRentValueOf,
-  rentValueOf,
-  valueDateOf,
-} from "./modules/housing";
+import { ownedHomes } from "./modules/housing";
 import { searchCorePlaces } from "./place-lookup";
 import { coreAPI } from "./state";
 
@@ -27,12 +23,7 @@ const seed =
   createHash("sha256").update(`island-housing:${Date.now()}`).digest("hex");
 const areas = housingData.islandAreas.areas as Record<
   string,
-  {
-    ownerShare: number;
-    medianRentUsd: number;
-    medianValueUsd: number;
-    valueDate: string;
-  }
+  { ownerShare: number }
 >;
 const pick = <T>(list: readonly T[], salt: string): T =>
   list[
@@ -46,8 +37,8 @@ const MIN_HOMES = 100;
 const median = (values: number[]): number =>
   [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]!;
 
-describe("an island area's housing starts from its own Census 2020 row", () => {
-  it(`owner share, rent and value come from the area's row, and the year plays (seed ${seed})`, () => {
+describe("an island area's housing starts from its own owner share and its own pay", () => {
+  it(`the owner share comes from the area's row, rent and value from the town's pay, and the year plays (seed ${seed})`, () => {
     const tried: string[] = [];
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const state = pick(Object.keys(areas).sort(), `state:${attempt}`);
@@ -89,34 +80,26 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
           Math.min(row.ownerShare, 1 - row.ownerShare) +
           0.01,
       );
-      // Rent and value come from the area's own row, and the value is dated
-      // at the census (April 2020), so the price index moves it from there to
-      // the start for every owner's home.
-      expect(publishedRentValueOf(`nation:${state.slice(3)}`), where).toEqual([
-        row.medianRentUsd,
-        row.medianValueUsd,
-      ]);
-      expect(valueDateOf(`nation:${state.slice(3)}`), where).toBe(
-        row.valueDate,
-      );
       expect(
         dwellings.filter((d) => d[1] === "own").every((d) => d[2] > 0) &&
           dwellings.filter((d) => d[1] === "rent").every((d) => d[2] > 0),
         `${where}: every home has a value or a rent`,
       ).toBe(true);
-      // Owners' median value at the opening is this world's value (drawn
-      // around the census one): the census median is day one's typical value,
-      // and the world's price level walks the past back from it.
+      // Owners' median value at the opening is the typical value the town's
+      // own pay supports (the opening's `housingTypical`): each home scales
+      // with its household's income around it, to the cent rounding allows.
       const openingValue = median(
         dwellings.filter((d) => d[1] === "own").map((d) => d[2]),
       );
-      // Each home still scales with its household's income; the owners'
-      // median is the census value, to the minor unit its rounding allows.
-      const indexed =
-        rentValueOf(`nation:${state.slice(3)}`, core.seed)[1]! * 100;
+      const [typicalRent, typicalValue] = JSON.parse(
+        String(core.placeMetadata?.housingTypical ?? "[0,0]"),
+      ) as [number, number];
+      expect(typicalRent, `${where}: the town's typical rent`).toBeGreaterThan(
+        0,
+      );
       expect(
-        Math.abs(openingValue - indexed),
-        `${where}: opening median value ${openingValue} against ${indexed}`,
+        Math.abs(openingValue - typicalValue),
+        `${where}: opening median value ${openingValue} against ${typicalValue}`,
       ).toBeLessThanOrEqual(1);
       expect(
         new Set(dwellings.filter((d) => d[1] === "own").map((d) => d[2])).size,
@@ -148,7 +131,7 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
       );
       expect(paid.length, `${where}: renter leases settled`).toBeGreaterThan(0);
       process.stdout.write(
-        `ISLAND HOUSING ${where}: ${own} of ${dwellings.length} homes owned (row ${row.ownerShare}); owners' median ${openingValue} against ${Math.round(indexed)} indexed; ${endValue} a year in; ${paid.length} renter leases settled, first ${paid[0]![0]}\n`,
+        `ISLAND HOUSING ${where}: ${own} of ${dwellings.length} homes owned (row ${row.ownerShare}); owners' median ${openingValue} against the town's typical ${typicalValue}; ${endValue} a year in; ${paid.length} renter leases settled, first ${paid[0]![0]}\n`,
       );
       return;
     }
