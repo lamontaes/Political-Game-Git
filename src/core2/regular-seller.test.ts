@@ -70,7 +70,8 @@ describe("a buyer's regular seller", () => {
     // places until one has a kind with two sellers households buy from, and
     // name the ones passed over.
     const passed: string[] = [];
-    for (let attempt = 0; attempt < 40; attempt += 1) {
+    let built = 0;
+    for (let attempt = 0; attempt < 400 && built < 4; attempt += 1) {
       const place = drawPlace(`${DRAW_SEED}:${attempt}`, "regular-seller");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       // Two stores of a kind take a town with the demand for them: a place of at least ten thousand people.
@@ -82,6 +83,7 @@ describe("a buyer's regular seller", () => {
         passed.push(`${where}: under ten thousand people`);
         continue;
       }
+      built += 1;
       let world: ReturnType<typeof buildBenchWorld>;
       try {
         world = buildBenchWorld(place.seed, gameStartDate(), {
