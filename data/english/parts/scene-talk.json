@@ -179818,10 +179818,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.ask-body-the-members-agreed-with-me",
+      "key": "scene-talk.reply-answer.body-couldnt-override-my-veto-ask-them-why",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Ask {body}. The members agreed with me.",
+      "text": "{body} couldn't override my veto. Ask them why.",
       "uses": [
         {
           "subject": "scene",
@@ -179843,10 +179843,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-said-it-was-wrong-the-votes-to-override-never-came",
+      "key": "scene-talk.reply-answer.it-was-wrong-so-i-vetoed-it-body-couldnt-override-me",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I said it was wrong. The votes to override never came.",
+      "text": "It was wrong, so I vetoed it. {body} couldn't override me.",
       "uses": [
         {
           "subject": "scene",
@@ -179855,7 +179855,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["veto-held"]
+          "requiresFacts": ["veto-held", "body"]
         }
       ],
       "bearing": "steady",
