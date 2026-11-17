@@ -68,6 +68,10 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* A week's row in the calendar's month: room for two things named on a day. */
+  --month-row: 96px;
+  /* A thing named on its day in the calendar's month. */
+  --t-cell: 12px;
   color-scheme: dark;
   /* The one menu panel (owner, Nov 5; MENU-LOOK.md): the approved texture, 78%
      solid, about #1C1A17 under it, with its slim brass edge and small corners
@@ -2054,7 +2058,7 @@ body:not(.dev) .dev-only {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: auto;
-  grid-auto-rows: 74px;
+  grid-auto-rows: var(--month-row);
   gap: 0 8px;
   min-height: 0;
   max-height: 640px;
@@ -2077,7 +2081,7 @@ body:not(.dev) .dev-only {
   min-height: 0;
   height: auto;
   margin: 0;
-  padding: 5px 7px;
+  padding: 5px 5px;
   overflow: hidden;
   text-align: left;
   font-weight: 400;
@@ -2106,10 +2110,32 @@ body:not(.dev) .dev-only {
 .month .day::after {
   display: none;
 }
-.month .marks {
+/* A thing on its day: its icon, then its own line, cut to the cell's width. */
+#sheet-body .month .day {
+  justify-content: flex-start;
+}
+.month .mark {
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-start;
   gap: 3px;
+  min-width: 0;
+  font: 500 var(--t-cell) var(--ui);
+  line-height: 1.2;
+}
+.month .mark .what {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.month .mark .day-icon {
+  width: var(--t-cell);
+  height: var(--t-cell);
+  margin-top: 1px;
+}
+.month .mark.own .what {
+  color: var(--gold);
 }
 .month .day-icon,
 .calendar-entry .day-icon {
