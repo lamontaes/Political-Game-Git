@@ -20,7 +20,7 @@ import {
   type Provision,
 } from "./modules/legislature";
 import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
-import { policyAuthority } from "./modules/laws";
+import { labelOfAnotherAtLevel, policyAuthority } from "./modules/laws";
 import {
   budgetsOf,
   chargedServicesOf,
@@ -82,6 +82,7 @@ const subjects = (
 ).subjects;
 
 /** What a body at this level can draft, menu by menu. */
+
 export function billCatalog(
   api: CoreAPI,
   level: Level,
@@ -127,6 +128,16 @@ export function billCatalog(
       supported: topic.supported,
       policies: topic.policies
         .filter((p) => p.levels.includes(level))
+        // One label per rule at a level: a question this level reads as
+        // another platform question's rule is offered once, under that one.
+        .filter(
+          (p) =>
+            !(
+              p.kind === "policy-question" &&
+              p.question &&
+              labelOfAnotherAtLevel(p.question, level)
+            ),
+        )
         // A fee is offered only where that government's own charges row holds
         // the service it sets (a government with no toll is not offered one).
         .filter(
