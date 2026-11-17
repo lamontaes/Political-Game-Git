@@ -37,18 +37,16 @@ const KEY_OF_LABEL: Record<string, string> = {
   [WORK]: "work-mentor",
   [PARTY]: "party-mentor",
 };
-/** The `mentor-advice` key each piece serves, by piece key. */
-const KEYS = new Map(
-  (
-    sceneTalkBank as unknown as {
-      parts: { key: string; uses: { purpose?: string; key?: string }[] }[];
-    }
-  ).parts.flatMap((part) =>
-    part.uses
-      .filter((use) => use.purpose === "mentor-advice")
-      .map((use) => [part.key, use.key] as const),
-  ),
-);
+/** The `mentor-advice` keys each piece serves, by piece key. */
+const KEYS = new Map<string, Set<string>>();
+for (const part of (
+  sceneTalkBank as unknown as {
+    parts: { key: string; uses: { purpose?: string; key?: string }[] }[];
+  }
+).parts)
+  for (const use of part.uses)
+    if (use.purpose === "mentor-advice")
+      KEYS.set(part.key, (KEYS.get(part.key) ?? new Set()).add(use.key ?? ""));
 
 /** Every piece said anywhere in a talk's tree. */
 function piecesOf(node: TreeNode, out: string[] = []): string[] {
@@ -139,9 +137,9 @@ function findAdvice(label: string, months: number, tries: number) {
  * A party's mentor weighs in only for the person the player controls, the
  * day after a chair's ask, and a party asks the day a partisan seat's filing
  * opens. So each drawn place opens a few days before its first such window
- * (the elections engine's own calendar), runs two weeks to read who was asked
- * and taken under a wing, and each of them is played again as the controlled
- * person through the week after the ask (the first choice of each offer
+ * (the elections engine's own calendar) and runs day by day to the first
+ * member asked and taken under a wing, who is then played as the controlled
+ * person through the days after the ask (the first choice of each offer
  * taken), until the advice scene is composed.
  */
 function findPartyAdvice(tries: number) {
@@ -173,8 +171,20 @@ function findPartyAdvice(tries: number) {
       continue;
     }
     const start = addDays(makeIsoDate(opens), -3);
-    const { core } = build(start);
+    const { core, director } = build(start);
     const api = coreAPI(core);
+    // The asks are kept in the durable log only for the player's circle: the
+    // party's members in town are held as such while the window opens.
+    const town = corePlaceByKey(place.key)?.context.jurisdiction.id;
+    for (const tie of api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .rows() as unknown as { personId: string; tie: string }[])
+      if (
+        tie.tie === "party" &&
+        core.people.get(tie.personId as PersonId)?.placeId === town
+      )
+        core.focusPersonIds.add(tie.personId as PersonId);
     const written: {
       id: string;
       date: string;
@@ -195,67 +205,62 @@ function findPartyAdvice(tries: number) {
           });
       },
     );
-    advanceCore(core, addDays(makeIsoDate(core.date), 14));
-    const asks = written.filter((row) =>
-      partyMentorOf(api, row.personId, row.partyId),
-    );
-    if (!asks.length) {
+    // Day by day to the first member asked and taken under a wing; that
+    // member is then played as the controlled person, and the mentor weighs
+    // in the next day.
+    let ask: (typeof written)[number] | undefined;
+    for (let day = 0; day < 14 && !ask; day += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), P.one));
+      ask = written.find(
+        (row) =>
+          core.durableLog.has(row.id) &&
+          partyMentorOf(api, row.personId, row.partyId),
+      );
+    }
+    if (!ask) {
       passed.push(
         `${where}: no member asked and taken under a wing by ${core.date} (${written.length} asks)`,
       );
       continue;
     }
-    for (const ask of asks.slice(0, 3)) {
-      const again = build(start);
-      advanceCore(again.core, addDays(makeIsoDate(ask.date), -1));
-      again.core.focusPersonIds.add(ask.personId);
-      again.director.watch(again.core, ask.personId);
-      const book = again.director.ledger.people.get(ask.personId)!;
-      const composedFor = () => {
-        for (const entry of book.schedule) {
-          const moment = book.momentsById.get(entry.momentId);
-          if (moment?.label !== PARTY) continue;
-          if (!entry.bindings.some((row) => row.typeKey === "advice")) continue;
-          const result = purposeScene(
-            again.core,
-            again.director,
-            ask.personId,
-            entry,
-            {
-              typeKey: "advice",
-            },
-          );
-          if (result?.kind === "composed")
-            return { scene: result.scene, causeId: moment.causeId };
-        }
-        return null;
-      };
-      let found: ReturnType<typeof composedFor> = null;
-      let packet = advancePlayerV1(again.core, {
-        controlledPersonId: ask.personId,
-        through: {
-          date: addDays(makeIsoDate(ask.date), 6),
-          minuteOfDay: P.zero,
-        },
-      });
-      while (packet.kind !== "complete" && !(found = composedFor()))
-        packet =
-          packet.kind === "stop"
-            ? resumePlayerV1(again.core, {
-                kind: "stop",
-                pauseId: packet.pauseId,
-              })
-            : resumePlayerV1(again.core, {
-                kind: "choice",
-                pauseId: packet.pauseId,
-                offerId: packet.offers[P.zero]!.offerId,
-              });
-      found ??= composedFor();
-      if (found) return { core: again.core, ...found, where, passed };
-      passed.push(
-        `${where}: ${ask.id} played, no advice scene by ${again.core.date}`,
-      );
-    }
+    const asked = ask;
+    director.watch(core, asked.personId);
+    const book = director.ledger.people.get(asked.personId)!;
+    const composedFor = () => {
+      for (const entry of book.schedule) {
+        const moment = book.momentsById.get(entry.momentId);
+        if (moment?.label !== PARTY) continue;
+        if (!entry.bindings.some((row) => row.typeKey === "advice")) continue;
+        const result = purposeScene(core, director, asked.personId, entry, {
+          typeKey: "advice",
+        });
+        if (result?.kind === "composed")
+          return { scene: result.scene, causeId: moment.causeId };
+      }
+      return null;
+    };
+    let found: ReturnType<typeof composedFor> = null;
+    let packet = advancePlayerV1(core, {
+      controlledPersonId: asked.personId,
+      through: {
+        date: addDays(makeIsoDate(asked.date), 4),
+        minuteOfDay: P.zero,
+      },
+    });
+    while (packet.kind !== "complete" && !(found = composedFor()))
+      packet =
+        packet.kind === "stop"
+          ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
+          : resumePlayerV1(core, {
+              kind: "choice",
+              pauseId: packet.pauseId,
+              offerId: packet.offers[P.zero]!.offerId,
+            });
+    found ??= composedFor();
+    if (found) return { core, ...found, where, passed };
+    passed.push(
+      `${where}: ${asked.id} played, no advice scene by ${core.date}`,
+    );
   }
   throw new Error(`no ${PARTY} scene: ${passed.join("; ")}`);
 }
@@ -275,7 +280,9 @@ function expectOwnKey(
   ];
   expect(said.length, here).toBeGreaterThan(P.zero);
   for (const key of said)
-    expect(KEYS.get(key), `${here}: ${key}`).toBe(KEY_OF_LABEL[label]);
+    expect([...(KEYS.get(key) ?? [])], `${here}: ${key}`).toContain(
+      KEY_OF_LABEL[label],
+    );
 }
 
 describe("the mentor's advice reads the records behind its cause", () => {

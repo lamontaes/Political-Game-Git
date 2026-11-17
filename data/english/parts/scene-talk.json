@@ -192905,10 +192905,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.here-s-what-nobody-tells-a-new-job-ask-questions-early",
+      "key": "scene-talk.state-tell.here-s-what-nobody-tells-you-ask-questions-early",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Here's what nobody tells a new {job}: ask questions early.",
+      "text": "Here's what nobody tells you: ask questions early.",
       "uses": [
         {
           "subject": "scene",
