@@ -1,0 +1,575 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "floor-debate",
+    "purpose": "floor-debate",
+    "title": "Floor debate"
+  },
+  "world": {
+    "place": "Rhododendron, Oregon",
+    "placeKey": "4161550",
+    "seed": "story-batch-3",
+    "date": "2025-02-11"
+  },
+  "player": {
+    "name": "Jennifer Silva",
+    "standing": "legislature-lower at Rhododendron, Oregon"
+  },
+  "cause": {
+    "id": "floor-debate:bill:office:US-OR:legislature-upper:2025-01-21:official:term:seat:US-OR:upper:029:0:2025-01-20:3:office:US-OR:legislature-lower",
+    "label": "circumstance:floor-debate-against"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "official:term:seat:US-OR:lower:048:0:2025-01-20",
+      "name": "Amy Monroe"
+    },
+    {
+      "role": "asked",
+      "id": "official:term:seat:US-OR:lower:052:0:2025-01-20",
+      "name": "Jennifer Silva"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "The chair recognizes Amy on SB 1.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.the-chair-recognizes-name-on-bill"
+      ],
+      "wordings": [],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 2,
+    "speaker": "Amy Monroe",
+    "role": "asker",
+    "text": "Thank you, Chair. I can't support the Abortion Restrictions Act. It goes against what I believe.",
+    "move": "tell",
+    "pieces": [
+      "scene-talk.state-tell.thank-you-presiding-i-can-t-support-bill-name-it-goes-against"
+    ],
+    "wordings": [],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 3,
+          "speaker": "You",
+          "role": "player",
+          "text": "I stand with the member on this.",
+          "move": "agree",
+          "pieces": ["scene-talk.reply-agree.i-stand-with-the-member-on-this"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-agree.i-ll-be-voting-with-the-member",
+              "text": "I'll be voting with the member."
+            },
+            {
+              "key": "scene-talk.reply-agree.the-member-has-my-support",
+              "text": "The member has my support."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 6,
+              "speaker": "Amy Monroe",
+              "role": "asker",
+              "text": "I appreciate my colleague's support.",
+              "move": "thank",
+              "pieces": [
+                "scene-talk.follow-thank.i-appreciate-my-colleague-s-support"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.i-thank-the-member-for-the-support",
+                  "text": "I thank the member for the support."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "stood-with",
+              "label": "You stood with the speaker",
+              "keeps": "promise"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "I can't go along with that.",
+          "move": "disagree",
+          "pieces": ["scene-talk.reply-disagree.i-can-t-go-along-with-that"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-disagree.i-respectfully-disagree-with-the-member",
+              "text": "I respectfully disagree with the member."
+            },
+            {
+              "key": "scene-talk.reply-disagree.i-am-not-able-to-support-that-and-i-will-say-so",
+              "text": "I am not able to support that, and I will say so."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 7,
+              "speaker": "Amy Monroe",
+              "role": "asker",
+              "text": "I ask my colleague to reconsider.",
+              "move": "press",
+              "pieces": [
+                "scene-talk.follow-press.i-ask-my-colleague-to-reconsider"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 8,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll be voting with the member.",
+                "move": "agree",
+                "pieces": [
+                  "scene-talk.reply-agree.i-ll-be-voting-with-the-member"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.the-member-has-my-support",
+                    "text": "The member has my support."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 11,
+                    "speaker": "Amy Monroe",
+                    "role": "asker",
+                    "text": "I appreciate my colleague's support.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.i-appreciate-my-colleague-s-support"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.i-thank-the-member-for-the-support",
+                        "text": "I thank the member for the support."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "stood-with",
+                    "label": "You stood with the speaker",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 9,
+                "speaker": "You",
+                "role": "player",
+                "text": "I respectfully disagree with the member.",
+                "move": "disagree",
+                "pieces": [
+                  "scene-talk.reply-disagree.i-respectfully-disagree-with-the-member"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-disagree.i-am-not-able-to-support-that-and-i-will-say-so",
+                    "text": "I am not able to support that, and I will say so."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "held-against",
+                    "label": "You held your ground",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 12,
+                    "speaker": "Amy Monroe",
+                    "role": "asker",
+                    "text": "I hope the body will remember this when the roll is called.",
+                    "move": "warn",
+                    "pieces": [
+                      "scene-talk.close-warn.i-hope-the-body-will-remember-this-when-the-roll-is-called"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "I will hear the rest, and I yield back.",
+                "move": "leave",
+                "pieces": [
+                  "scene-talk.reply-leave.i-will-hear-the-rest-and-i-yield-back"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.i-yield-back",
+                    "text": "I yield back."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "heard-out",
+                    "label": "You heard the speaker out",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 13,
+                    "speaker": "Amy Monroe",
+                    "role": "asker",
+                    "text": "I hope the body will remember this when the roll is called.",
+                    "move": "warn",
+                    "pieces": [
+                      "scene-talk.close-warn.i-hope-the-body-will-remember-this-when-the-roll-is-called"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "Would the member say what the bill does?",
+          "move": "ask",
+          "pieces": [
+            "scene-talk.reply-ask.would-the-member-say-what-the-bill-does"
+          ],
+          "wordings": [],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 14,
+              "speaker": "Amy Monroe",
+              "role": "asker",
+              "text": "It's limits on abortion, and I can't vote for it.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.it-s-bill-purpose-and-i-can-t-vote-for-it"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 15,
+                "speaker": "You",
+                "role": "player",
+                "text": "The member has my support.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.the-member-has-my-support"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.i-ll-be-voting-with-the-member",
+                    "text": "I'll be voting with the member."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 18,
+                    "speaker": "Amy Monroe",
+                    "role": "asker",
+                    "text": "I appreciate my colleague's support.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.i-appreciate-my-colleague-s-support"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.i-thank-the-member-for-the-support",
+                        "text": "I thank the member for the support."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "stood-with",
+                    "label": "You stood with the speaker",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 16,
+                "speaker": "You",
+                "role": "player",
+                "text": "I am not able to support that, and I will say so.",
+                "move": "disagree",
+                "pieces": [
+                  "scene-talk.reply-disagree.i-am-not-able-to-support-that-and-i-will-say-so"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-disagree.i-respectfully-disagree-with-the-member",
+                    "text": "I respectfully disagree with the member."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 19,
+                    "speaker": "Amy Monroe",
+                    "role": "asker",
+                    "text": "I ask my colleague to reconsider.",
+                    "move": "press",
+                    "pieces": [
+                      "scene-talk.follow-press.i-ask-my-colleague-to-reconsider"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 20,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll be voting with the member.",
+                      "move": "agree",
+                      "pieces": [
+                        "scene-talk.reply-agree.i-ll-be-voting-with-the-member"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 23,
+                          "speaker": "Amy Monroe",
+                          "role": "asker",
+                          "text": "I thank the member for the support.",
+                          "move": "thank",
+                          "pieces": [
+                            "scene-talk.follow-thank.i-thank-the-member-for-the-support"
+                          ],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.i-appreciate-my-colleague-s-support",
+                              "text": "I appreciate my colleague's support."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "stood-with",
+                          "label": "You stood with the speaker",
+                          "keeps": "promise"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 21,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I respectfully disagree with the member.",
+                      "move": "disagree",
+                      "pieces": [
+                        "scene-talk.reply-disagree.i-respectfully-disagree-with-the-member"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "held-against",
+                          "label": "You held your ground",
+                          "keeps": "relationship-strained"
+                        },
+                        "close": {
+                          "n": 24,
+                          "speaker": "Amy Monroe",
+                          "role": "asker",
+                          "text": "I hope the body will remember this when the roll is called.",
+                          "move": "warn",
+                          "pieces": [
+                            "scene-talk.close-warn.i-hope-the-body-will-remember-this-when-the-roll-is-called"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 22,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I will hear the rest, and I yield back.",
+                      "move": "leave",
+                      "pieces": [
+                        "scene-talk.reply-leave.i-will-hear-the-rest-and-i-yield-back"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "heard-out",
+                          "label": "You heard the speaker out",
+                          "keeps": "none"
+                        },
+                        "close": {
+                          "n": 25,
+                          "speaker": "Amy Monroe",
+                          "role": "asker",
+                          "text": "I hope the body will remember this when the roll is called.",
+                          "move": "warn",
+                          "pieces": [
+                            "scene-talk.close-warn.i-hope-the-body-will-remember-this-when-the-roll-is-called"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "line": {
+                "n": 17,
+                "speaker": "You",
+                "role": "player",
+                "text": "I yield back.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.i-yield-back"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.i-will-hear-the-rest-and-i-yield-back",
+                    "text": "I will hear the rest, and I yield back."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "heard-out",
+                    "label": "You heard the speaker out",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 26,
+                    "speaker": "Amy Monroe",
+                    "role": "asker",
+                    "text": "I hope the body will remember this when the roll is called.",
+                    "move": "warn",
+                    "pieces": [
+                      "scene-talk.close-warn.i-hope-the-body-will-remember-this-when-the-roll-is-called"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "stood-with": 4,
+    "held-against": 2,
+    "heard-out": 3
+  },
+  "depth": 3,
+  "gaps": ["floor-debate/reply/deflect after tell"]
+}
