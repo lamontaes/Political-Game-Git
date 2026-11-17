@@ -594,7 +594,9 @@ export function buildPriorElections(
           winnerId,
           candidates,
           totalVotes: total,
-          sourceVotes: Math.round(center),
+          ...(century
+            ? { centuryRecordId: century.id }
+            : { sourceVotes: Math.round(center) }),
           townGroups: groupSplit(
             api,
             town,
