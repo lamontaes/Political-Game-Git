@@ -2406,6 +2406,8 @@ export function applySocialSecurityLevel(
   };
   const accounts = api.accounts();
   for (const [personId, claim] of retirementClaims(core)) {
+    // A counted claimant's award is a pooled flow, rerated below with the
+    // other counted awards.
     if (claim.counted) continue;
     const obligation = accounts.obligation(claim.obligationId);
     if (!obligation || obligation.endedAt) continue;
