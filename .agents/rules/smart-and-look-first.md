@@ -32,7 +32,7 @@ Any session may research before building or asking: fetch real pages, read `data
 
 ## Review is by a different session, not a different program
 
-"Adversarial review" means the session that checks a change is not the session that wrote it. Any model and any program qualify, on any account. What makes it real: a fresh context, the changed-file checks run on the merged result, the PR body read against the item's done-when, and one attempt to break the claim (another seed, another drawn place, the break-it run). Nobody merges their own PR. A merger that merges without running the checks is a defect found by `merge-audit`.
+"Adversarial review" means the session that checks a change is not the session that wrote it. Any model and any program qualify, on any account. What makes it real: a fresh context, the changed-file checks run on the merged result, the PR body read against the item's done-when, and one attempt to break the claim (another seed, another drawn place, the break-it run). Nobody merges their own PR. A merger that merges without running the checks is a defect found by `merger` (merge-audit part).
 
 ## The crew (owner, Oct 26)
 
