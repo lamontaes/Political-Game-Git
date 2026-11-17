@@ -1705,9 +1705,17 @@ export function stepCountry(
     const floor = law.wageFloorYear(state) * rules.lowPayOverFloor;
     let statePriced = 0,
       stateSales = 0;
+    // A state's price level moves by what its sectors' own prices did, weighted by what each sold
+    // last month. A level averaged over this month's sales also moved when only the mix did: a
+    // played part takes a state's people and jobs, the rest left behind weighs leisure far more,
+    // and the state's prices rose about 2.7% a month on a sector mix alone (Puerto Rico).
+    const weightsBefore = plans.map((plan) => plan.row.sales);
+    const weightTotal = sum(weightsBefore);
+    let priceMove = 0;
     const jobsAdded: number[] = [];
-    for (const plan of plans) {
+    for (const [at, plan] of plans.entries()) {
       const { row } = plan;
+      const priceBefore = row.price;
       const b = books(row, plan.sold, state, law, rules);
       if (row.sector === PUBLIC) {
         // What the public sector buys beyond its payroll.
@@ -1732,6 +1740,11 @@ export function stepCountry(
             (rules.priceBusyPerYear / months) * Math.log(Math.max(busy, TINY)),
         );
       }
+      if (priceBefore > 0 && row.price > 0)
+        priceMove +=
+          (weightTotal > 0
+            ? weightsBefore[at]! / weightTotal
+            : 1 / plans.length) * Math.log(row.price / priceBefore);
       if (row.expectedSales > 0) {
         const grew = plan.sold / row.expectedSales - 1;
         // perception: what a sector's firms expect of their sales follows the sales they have had
@@ -1757,7 +1770,7 @@ export function stepCountry(
     }
     salesTotal += stateSales;
     pricedTotal += statePriced;
-    if (stateSales > 0) state.prices = statePriced / stateSales;
+    if (stateSales > 0) state.prices *= Math.exp(priceMove);
     // The ledger: what it took in, and what it paid for its own work, benefits and the lines passed on.
     const modeledRevenue =
       wanted.incomes.stateTaxes + wanted.salesTax + profitTax;
