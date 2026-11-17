@@ -42092,6 +42092,75 @@
       "origin": "authored",
       "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
       "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-make-wage-an-hour-do-the-math",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I make {wage} an hour. Do the math.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.own-view-back-core.wage-an-hour-doesn-t-stretch-far",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "{wage} an hour doesn't stretch far.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.own-view-back-core.you-try-living-on-wage-an-hour",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "You try living on {wage} an hour.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "bearing": "braced"
     }
   ]
 }
