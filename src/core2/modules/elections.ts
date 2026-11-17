@@ -99,6 +99,7 @@ export {
 /** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
 export {
   centuryCongressSeat,
+  centuryLegislatures,
   centuryOf,
   centuryPresidency,
   centuryRace,
@@ -109,6 +110,7 @@ export {
   historyMode,
   presidencyPartyTerms,
   runCentury,
+  runLegislatures,
   setHistoryMode,
   type Century,
   type CenturyCongress,
