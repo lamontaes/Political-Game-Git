@@ -14,7 +14,8 @@ import { countedChoice } from "./electorate";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI, registerModule } from "./state";
 import { openOffices, townSeats } from "./modules/offices";
 import { openLaws } from "./modules/laws";
@@ -22,6 +23,7 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   fileCandidacy,
+  filingWindowOpens,
   openElections,
   type ContestRow,
 } from "./modules/elections";
@@ -54,6 +56,8 @@ import { setKeepEveryonesWhy } from "./why-kept";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
+/** How long a draw waits for a held race's filing window to open. */
+const WAIT_DAYS = 120;
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`record:${Date.now()}`).digest("hex");
@@ -125,20 +129,45 @@ describe("M4-06 the record follows you", () => {
           )
           .map((s) => s.seat.id),
       );
-      contest = (
+      // The town's held seats up for election, by the day their filing
+      // window opens. Nobody can file before it does: at seed rec-probe-4 the
+      // November races opened on January 12, a week after the start, and the
+      // first race in table order was a 2027 one. So the test waits, playing
+      // the world on to the soonest window within WAIT_DAYS, and an incumbent
+      // who decides not to run leaves no record on the ballot to weigh: try
+      // the next race, then draw again.
+      const races = (
         api
           .moduleState(ELECTIONS_MODULE_ID)
           .table("contests")
           .rows() as unknown as ContestRow[]
-      ).find((c) => held.has(c.seatId) && c.incumbentTermId);
-      // An incumbent who decides not to run leaves no record on the ballot
-      // to weigh: draw again.
-      if (contest) {
+      )
+        .filter(
+          (c) =>
+            held.has(c.seatId) &&
+            c.incumbentTermId &&
+            c.filingDeadline >= core!.date,
+        )
+        .sort(
+          (a, b) =>
+            filingWindowOpens(a).localeCompare(filingWindowOpens(b)) ||
+            a.id.localeCompare(b.id),
+        );
+      const waitUntil = addDays(makeIsoDate(START), WAIT_DAYS);
+      for (const race of races) {
+        const opens = filingWindowOpens(race);
+        if (opens > waitUntil) break;
+        if (opens > core.date) advanceCore(core, makeIsoDate(opens));
         // Who runs is candidacy's: the incumbent weighs standing again, and
         // whoever runs files when the window opens.
-        weighContest(api, contest);
-        fileRunners(api, contest);
-        if (!ballot(api, contest.id).length) contest = undefined;
+        if (!ballot(api, race.id).length) {
+          weighContest(api, race);
+          fileRunners(api, race);
+        }
+        if (ballot(api, race.id).length) {
+          contest = race;
+          break;
+        }
       }
       place = key;
     }
@@ -432,7 +461,9 @@ describe("M4-06 the record follows you", () => {
     throw new Error(
       `No race close enough for the record to matter: ${tried.join("; ")}`,
     );
-  });
+    // Each draw builds and plays a world, so the search carries a limit for
+    // its draws, not the 30-second default.
+  }, 300_000);
 
   it("the rival's own campaign turn buys an attack ad that names a real vote, and a ballot it reached cites that vote", () => {
     const tried: string[] = [];
@@ -445,7 +476,7 @@ describe("M4-06 the record follows you", () => {
       return;
     }
     throw new Error(`No rival's turn ran an attack ad: ${tried.join("; ")}`);
-  });
+  }, 300_000);
 });
 
 describe("a vote by a member who isn't a full person", () => {
