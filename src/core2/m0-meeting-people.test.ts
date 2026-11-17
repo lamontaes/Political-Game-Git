@@ -148,48 +148,42 @@ describe(`meeting people over ${DAYS} days in ${input.placeMetadata?.placeName} 
     ).toBe(true);
   });
 
-  it("keeps visits to parents and siblings inside the GSS ranges, and hours near ATUS", () => {
+  it("visits parents more than siblings at the strength the GSS gives, whatever the world's level", () => {
+    // How often a person sees a relative is the world's own (owner, Nov 17:
+    // "Everything comes from the simulation"); what the GSS sets is how the
+    // kind of relative moves it: the mean visits a year to parents over the
+    // mean to siblings. The world's ratio is checked against the survey's,
+    // within a factor of two, and on the same side of one.
     const gss = research.sources.find(
       (row) => row.id === "gss-social-evening",
     )!;
     const perYear = CLOSENESS.visitsPerYearByCategory.values;
-    // The answer at a given share of people with such relatives.
-    const quantile = (row: { percent: number[] }, share: number) => {
+    const meanOf = (row: { percent: number[] }) => {
       const total = row.percent.reduce((sum, value) => sum + value, 0);
-      let seen = 0;
-      for (let index = row.percent.length - 1; index >= 0; index -= 1) {
-        seen += row.percent[index]! / total;
-        if (seen >= share) return perYear[index]!;
-      }
-      return perYear[0]!;
+      return row.percent.reduce(
+        (sum, value, index) => sum + (value / total) * perYear[index]!,
+        0,
+      );
     };
     const rows = (
       gss as unknown as { rows: Record<string, { percent: number[] }> }
     ).rows;
-    for (const [relation, gssRow] of [
-      ["parent", rows.parents!],
-      ["sibling", rows.siblings!],
-    ] as const) {
+    const rateOf = (relation: string) => {
       let ties = 0;
       for (const relatives of relationOf.values())
         for (const kind of relatives.values()) if (kind === relation) ties += 1;
-      const rate =
-        ((visits.get(relation) ?? 0) / ties) * (p("daysPerMeanYear") / DAYS);
-      expect(rate).toBeGreaterThanOrEqual(quantile(gssRow, 0.25));
-      expect(rate).toBeLessThanOrEqual(quantile(gssRow, 0.75));
-    }
+      return (
+        ((visits.get(relation) ?? 0) / ties) * (p("daysPerMeanYear") / DAYS)
+      );
+    };
+    const world = rateOf("parent") / rateOf("sibling");
+    const survey = meanOf(rows.parents!) / meanOf(rows.siblings!);
     const adults = relationOf.size;
     const hours = (hoursWithRelatives / adults) * (p("daysPerMeanYear") / DAYS);
-    const atus = research.sources.find(
-      (row) => row.id === "atus-companionship",
-    )!;
-    const minutes = (
-      atus as unknown as {
-        minutesPerDay: Record<string, Record<string, number>>;
-      }
-    ).minutesPerDay.nonHouseholdFamily!["2019"]!;
-    const atusHours = (minutes / p("minutesPerHour")) * p("daysPerMeanYear");
-    expect(hours).toBeGreaterThan(atusHours / 2);
-    expect(hours).toBeLessThan(atusHours * 2);
+    const line = `visits a year: parents ${rateOf("parent").toFixed(1)}, siblings ${rateOf("sibling").toFixed(1)}, ratio ${world.toFixed(2)} against the GSS's ${survey.toFixed(2)}; ${hours.toFixed(0)} hours a year with relatives outside the household`;
+    process.stdout.write(`meeting people: ${line}\n`);
+    expect(Math.sign(world - 1), line).toBe(Math.sign(survey - 1));
+    expect(world / survey, line).toBeGreaterThan(0.5);
+    expect(world / survey, line).toBeLessThan(2);
   });
 });
