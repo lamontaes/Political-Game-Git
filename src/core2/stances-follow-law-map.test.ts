@@ -4,7 +4,7 @@
  * world's own law map (Pins family 18, owner: "Everything comes from the
  * simulation"): enact a question the world's states split on in three more
  * states through dev mode's own law call, one of them bordering the town's
- * state, and an outside official's stance rises by the consensus term's
+ * state, and a sitting legislator's stance (another state's where its chamber is seated as rows, else the town's own) rises by the consensus term's
  * change, |axis| x 2 x 3 / answered, while the town's state's pull from its
  * neighbors rises by 2 / the neighbors answering. On main both read real
  * 2026 tables (the share of real states with the law, each neighbor's
@@ -68,44 +68,69 @@ it(
       const no = (state: string, q: string) =>
         answerIn(api, state, q, true) === -1;
       // A question the world's states split on, with a neighbor and two
-      // other states (neither the town's nor a neighbor) answering no.
-      const question = Object.keys(POLICY_QUESTIONS)
-        .filter((q) => axisOf[q] && catalog.has(q))
-        .sort()
-        .find((q) => {
-          const c = lawConsensus(api, q);
-          if (!c || c.share <= 0 || c.share >= 1) return false;
-          const others = placeStateKeys().filter(
-            (s) => s !== town && !neighbors.includes(s) && no(s, q),
+      // other states (neither the town's nor a neighbor) answering no, and an
+      // outside legislator in a fourth state whose stance is not at the
+      // scale's end, so the change shows whole. Questions with no such
+      // legislator are passed over and named.
+      const skipped: string[] = [];
+      let found:
+        | {
+            q: string;
+            enacted: string[];
+            before: NonNullable<ReturnType<typeof lawConsensus>>;
+            step: number;
+            official: ReturnType<typeof allOfficials>[number];
+          }
+        | undefined;
+      for (const q of Object.keys(POLICY_QUESTIONS)
+        .filter((key) => axisOf[key] && catalog.has(key))
+        .sort()) {
+        const c = lawConsensus(api, q);
+        if (!c || c.share <= 0 || c.share >= 1) continue;
+        const others = placeStateKeys().filter(
+          (st) => st !== town && !neighbors.includes(st) && no(st, q),
+        );
+        const neighbor = neighbors.find((st) => no(st, q));
+        if (!neighbor || others.length < 2) continue;
+        const enacted = [neighbor, others[0]!, others[1]!];
+        const step =
+          (Math.abs(axisOf[q]!.axis) * 2 * enacted.length) / c.counted;
+        // Any sitting legislator outside the three enacting states reads the
+        // consensus term. One from another state is preferred; where other
+        // states' chambers are not seated as rows (they are seated from the
+        // century as counts), the town's own state's legislators are.
+        const sitting = allOfficials(api)
+          .filter(
+            (row) =>
+              row.ended === null &&
+              row.bodyKind === "legislature" &&
+              !enacted.includes(row.stateKey),
+          )
+          .sort(
+            (a, b) =>
+              Number(a.stateKey === town) - Number(b.stateKey === town) ||
+              a.id.localeCompare(b.id),
           );
-          return neighbors.some((s) => no(s, q)) && others.length >= 2;
+        const official = sitting.find((row) => {
+          const st = officialStance(api, row.id, q);
+          return st !== null && st > -1 + 1e-9 && st + step < 1 - 1e-9;
         });
-      expect(question, `${where}: a question the states split on`).toBeTruthy();
-      const q = question!;
-      const neighbor = neighbors.find((s) => no(s, q))!;
-      const [second, third] = placeStateKeys().filter(
-        (s) => s !== town && !neighbors.includes(s) && no(s, q),
-      );
-      const enacted = [neighbor, second!, third!];
-      const before = lawConsensus(api, q)!;
-      const step =
-        (Math.abs(axisOf[q]!.axis) * 2 * enacted.length) / before.counted;
-      // An outside official in a fourth state, whose stance is not at the
-      // scale's end, so the change shows whole.
-      const official = allOfficials(api)
-        .filter(
-          (row) =>
-            row.ended === null &&
-            row.bodyKind === "legislature" &&
-            row.stateKey !== town &&
-            !enacted.includes(row.stateKey),
-        )
-        .sort((a, b) => a.id.localeCompare(b.id))
-        .find((row) => {
-          const s = officialStance(api, row.id, q);
-          return s !== null && s > -1 + 1e-9 && s + step < 1 - 1e-9;
-        });
-      expect(official, `${where}: an outside official on ${q}`).toBeTruthy();
+        if (!official) {
+          skipped.push(
+            `${q} (${sitting.length} sitting legislators, every one at the scale's end)`,
+          );
+          continue;
+        }
+        found = { q, enacted, before: c, step, official };
+        break;
+      }
+      expect(
+        found,
+        `${where}: a split question with a sitting legislator off the scale's end; passed over: ${skipped.join("; ") || "none"}`,
+      ).toBeTruthy();
+      const { q, enacted, before, step, official } = found!;
+      if (skipped.length)
+        process.stdout.write(`${where}: passed over ${skipped.join("; ")}\n`);
       const stanceBefore = officialStance(api, official!.id, q)!;
       const pullBefore = neighborPull(api, q, 1, town);
       const answered = neighbors.filter(
