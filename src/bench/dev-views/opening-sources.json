@@ -190,10 +190,6 @@
       "what": "Voters' support in campaign views (stand-in, SG-GOV-views-stand-in)",
       "replace": "Views from life records, on the world's seeded unit keyed by the record's id"
     },
-    "src/core2/campaign-views.ts#supportShare": {
-      "made": "world-offset",
-      "what": "Support share in campaign views"
-    },
     "src/core2/central-bank-board.ts#generateBoard": {
       "made": "ad-hoc-draw",
       "what": "Central bank governors: age, birthday, career, name",
