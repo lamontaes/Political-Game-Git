@@ -572,6 +572,18 @@
       "why": "It tested saved-identity-proof.mjs, deleted with it."
     },
     {
+      "old": "src/bench/creator-random-name.browser.mjs",
+      "now": "src/bench/creator-person.browser.mjs (the one Random for the whole person)",
+      "when": "2026-11-16",
+      "why": "The creator's separate Randomize name and Random place buttons were replaced by one Random (owner, Nov 16)."
+    },
+    {
+      "old": "src/bench/creator-random-place.browser.mjs",
+      "now": "src/bench/creator-person.browser.mjs (the one Random for the whole person)",
+      "when": "2026-11-16",
+      "why": "The creator's separate Randomize name and Random place buttons were replaced by one Random (owner, Nov 16)."
+    },
+    {
       "old": ".agents/skills/standing-rules-self-check",
       "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
       "when": "2026-11-16",

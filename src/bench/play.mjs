@@ -362,6 +362,20 @@ $("news-reader-close").addEventListener("click", () =>
 // open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
 // restores focus; when none is open, it opens the session menu"). In order: a person's card, the
 // news reader, a term's card, the open menu. A talk or a scene is not one of them.
+/**
+ * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
+ * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
+ * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
+ */
+function closeCards() {
+  if (!$("person").hidden) closePerson();
+  show("news-reader", false);
+  show("tip", false);
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
+}
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
@@ -667,6 +681,7 @@ async function refresh(scene = {}) {
     `/api/election-night?id=${encodeURIComponent(me.id)}`,
   );
   if (night) {
+    closeCards();
     await electionNight(night);
     // That night, once the returns close: the scene of your own result (the
     // concession call or the victory), when the director staged one.
@@ -695,6 +710,13 @@ async function act(path) {
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    // The clock is held (a scene, a meeting, the polls): no menu stays open over it.
+    if (
+      result.packet?.kind === "stop" ||
+      result.pollingPlace ||
+      result.candidateMorning
+    )
+      closeCards();
     if (result.pollingPlace || result.candidateMorning) {
       // Election morning: canvass if you're running, then vote or stay home
       // (or, with no ballot here, go on with the day).
@@ -2037,13 +2059,6 @@ async function campaignParts() {
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
-        // How many signed at the doors, a day of none included (owner, Nov 14:
-        // "Tab total and each outing"), outside the dialogue.
-        result.signed === null || result.signed === undefined
-          ? ""
-          : result.signed === 0
-            ? controls.campaignResults.signedNone
-            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.reached &&
         (result.votesAsked === null ||
           result.votesAsked === undefined ||
@@ -2171,22 +2186,9 @@ async function campaignParts() {
               ? [why]
               : choice.outing === "doors" && petition?.gatherTarget
                 ? [
-                    (petition.asksAtDoors
+                    petition.asksAtDoors
                       ? T.askingWhySignatures
-                      : T.askingWhyVotes
-                    )
-                      .replace(
-                        "{signed}",
-                        petition.signed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{needed}",
-                        petition.needed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{target}",
-                        petition.gatherTarget.toLocaleString("en-US"),
-                      ),
+                      : T.askingWhyVotes,
                   ]
                 : [],
           }),
@@ -2389,10 +2391,7 @@ async function campaignParts() {
                       value: (petition.signed >= petition.needed
                         ? labelsC.signaturesEnough
                         : labelsC.signaturesHeld
-                      )
-                        .replace("{signed}", String(petition.signed))
-                        .replace("{needed}", String(petition.needed))
-                        .replace("{date}", dateWords(petition.due)),
+                      ).replace("{date}", dateWords(petition.due)),
                     },
                   ]
                 : []),
@@ -2504,6 +2503,8 @@ async function showStory(momentId) {
     `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
+  // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
+  closeCards();
   $("backdrop").src = story.backdrop.url;
   drawHere(story);
   show("talk", true);
@@ -2675,6 +2676,24 @@ function storyStop(value) {
     : undefined;
 }
 
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
+}
+
 // ---- The person card: only what you could know about them ----
 let personRequest = 0;
 let personOpener;
@@ -2819,15 +2838,24 @@ async function personCardNode(
     // playtest, Nov 8).
     ...(c.history?.length
       ? [
-          stripSection(
-            5,
-            capital(heading("lifeStory", "lifeStoryThey")),
-            ...lifeParagraphs(c.history),
+          markLife(
+            stripSection(
+              5,
+              capital(heading("lifeStory", "lifeStoryThey")),
+              ...lifeParagraphs(c.history),
+            ),
           ),
         ]
       : []),
   ];
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
+  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
+  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2867,12 +2895,23 @@ async function personCardNode(
     node: stripScreen({
       name: c.name,
       role,
+      nameBeside: true,
+      // The approved card's bust stands as tall as its sections (pl-people).
+      bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
   };
+}
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 440;
+/** A card's life story section, marked so the card can set it in its second column. */
+function markLife(node) {
+  node.dataset.life = "1";
+  return node;
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -3071,9 +3110,10 @@ async function officeParts() {
                       if (asked.packet) renderPacket(asked.packet);
                       const moment = storyStop(asked.packet);
                       closeSheet();
+                      // The sit-down plays with nothing over it; with no scene, back to Office.
                       if (asked.story) await showStory(asked.story);
                       else if (moment) await showStory(moment.recordId);
-                      await openSheet("office");
+                      else await openSheet("office");
                     },
                   }),
                 ),
@@ -4351,6 +4391,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -5462,7 +5518,7 @@ const sheets = {
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
               : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
+                ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
         ),
@@ -7042,6 +7098,7 @@ for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
 function pickGender(g) {
   setup.gender = g;
+  noGenderYet();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
@@ -7051,16 +7108,8 @@ function pickGender(g) {
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
-$("cr-random-name").addEventListener("click", async () => {
-  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
-  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
-  if (!setup.gender) {
-    document
-      .querySelector("[data-gender]")
-      ?.closest(".group")
-      ?.classList.add("missing");
-    return;
-  }
+/** A name drawn for the chosen gender (owner, Nov 1), part of the one Random. */
+async function randomName() {
   setup.nameDraws++;
   const name = await api(
     `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
@@ -7069,7 +7118,7 @@ $("cr-random-name").addEventListener("click", async () => {
   $("cr-family").value = name.familyName;
   filledIn();
   nameFigure();
-});
+}
 async function randomBirthday() {
   setup.birthdayDraws++;
   const b = await api(
@@ -7080,7 +7129,6 @@ async function randomBirthday() {
   $("cr-day").value = String(b.day);
   await fillYears(b.year);
 }
-$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
 
 /** Opens the creator for Start a life. */
 async function openCreator() {
@@ -7090,8 +7138,16 @@ async function openCreator() {
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  // A bust stands in the creator from its first frame, before a gender is chosen.
-  void openLook();
+  // Nobody is shown until a gender is chosen (owner, Nov 16: "a person
+  // shouldn't even pop up until I pick a gender"): the bust and How I look
+  // wait for it, and the screen holds only what can be filled in yet.
+  noGenderYet();
+  if (setup.gender) void openLook();
+}
+/** The creator before a gender: no bust, no look. */
+function noGenderYet() {
+  $("cr-screen").classList.toggle("no-gender", !setup.gender);
+  if (!setup.gender) $("cr-bust").replaceChildren();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -7192,7 +7248,8 @@ $("cr-town-search").addEventListener("input", () => void listTowns());
 // Random place: the world's own draw of a state and town from all 56, then
 // on to the look, as picking the town does (owner, Oct 28: "Add a Random
 // button to picking where you live").
-$("cr-place-random").addEventListener("click", async () => {
+/** A state and town drawn from all 56, part of the one Random. */
+async function randomPlace() {
   setup.placeDraws++;
   const { state, town } = await api(
     `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
@@ -7203,7 +7260,7 @@ $("cr-place-random").addEventListener("click", async () => {
   showPlaceName();
   filledIn();
   await showStates();
-});
+}
 
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
@@ -7214,11 +7271,14 @@ function showLook(view) {
   setup.lookView = view;
   const tab = setup.lookTab;
   $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
+    drawFace(view.faces[tab], { shape: "bust", column: 290 }),
   );
   const row = (r) =>
     lookRow(r, {
       onMove: (id, by) => void moveLook(id, by),
+      onPick: (id, key) => void pickLook(id, key),
+      drawPicture: (picture) =>
+        drawFace(picture.face, { shape: "round", alt: picture.label }),
       arrowLabel: (by, it) =>
         controls.creator[by < 0 ? "previous" : "next"].replace(
           "{row}",
@@ -7290,6 +7350,14 @@ async function moveLook(row, by) {
   setup.previous = [...setup.previous, setup.recipe].slice(-20);
   showLook(view);
 }
+/** A swatch or a picture clicked: the row set to that choice. */
+async function pickLook(row, key) {
+  const view = await post(
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, pick: key })}`,
+  );
+  setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(view);
+}
 async function setLook(recipe, keepHistory) {
   if (keepHistory)
     setup.previous = [...setup.previous, setup.recipe].slice(-20);
@@ -7299,8 +7367,17 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
+/**
+ * The one Random (owner, Nov 16: "one Random for the whole person"): a name
+ * for the chosen gender, a birthday, a place and a look, all drawn from the
+ * world's seed. It stands under the bust, so like the bust it waits for a
+ * gender (owner, Nov 1: "Randomized name shouldn't work until you choose a
+ * gender").
+ */
 $("cr-randomize").addEventListener("click", async () => {
+  if (!setup.gender) return;
   setup.appearanceDraws++;
+  await Promise.all([randomName(), randomBirthday(), randomPlace()]);
   const view = await api(`/api/creator/appearance?${lookQuery({})}`);
   await setLook(view.recipe, true);
 });

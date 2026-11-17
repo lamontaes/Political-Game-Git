@@ -8,6 +8,7 @@
 // art/busts/v1/manifest.json: it says which pieces a person is and where each
 // piece's file is. The screen stacks them (ui/bust.mjs).
 import { readFileSync } from "node:fs";
+import { PNG } from "pngjs";
 
 export const BUST_PACK = "v1";
 const PACK_DIR = new URL(`../../art/busts/${BUST_PACK}/`, import.meta.url);
@@ -339,6 +340,9 @@ export function bustTopColors(
   const style = set && styleOf(set, "top", top);
   return Object.keys(style?.files ?? {}).map(named);
 }
+/** The creator's word for a style or a color the manifest names. */
+export const bustChoiceLabel = (key: string): string | undefined =>
+  MANIFEST.names[key];
 /** The creator's word for a person's skin. */
 export const skinLabel = (person: BustPerson) =>
   MANIFEST.names[person.toneName] ?? "";
@@ -362,4 +366,70 @@ const KNOWN = new Set(bustPieces());
 export function bustPath(pathname: string): URL {
   if (!KNOWN.has(pathname)) throw new Error("Unknown bust piece.");
   return new URL(pathname.slice("/art/busts/".length), PACK_DIR);
+}
+
+/** A piece's swatch color, read once from its own painted pixels. */
+const SWATCHES = new Map<string, string>();
+/** How many pixels in from each edge a swatch reads, and every how many pixels. Engineering values. */
+const SWATCH_STEP = 3;
+/**
+ * The color a creator swatch shows for one painted piece: the middle tones of
+ * its painted pixels, so the outline and the shine are left out. Read from the
+ * picture itself, never typed, so a repainted piece brings its own swatch.
+ */
+function swatchOf(set: BustSet, file: string): string {
+  const key = `${set.dir}/${file}`;
+  const known = SWATCHES.get(key);
+  if (known) return known;
+  const png = PNG.sync.read(readFileSync(new URL(key, PACK_DIR)));
+  const lit: number[][] = [];
+  for (let y = 0; y < png.height; y += SWATCH_STEP)
+    for (let x = 0; x < png.width; x += SWATCH_STEP) {
+      const at = (y * png.width + x) * 4;
+      if (png.data[at + 3]! < 230) continue;
+      lit.push([png.data[at]!, png.data[at + 1]!, png.data[at + 2]!]);
+    }
+  const luma = (c: number[]) => 0.299 * c[0]! + 0.587 * c[1]! + 0.114 * c[2]!;
+  lit.sort((a, b) => luma(a) - luma(b));
+  const middle = lit.slice(
+    Math.floor(lit.length * 0.4),
+    Math.ceil(lit.length * 0.75),
+  );
+  const mean = [0, 1, 2].map((i) =>
+    Math.round(
+      middle.reduce((sum, c) => sum + c[i]!, 0) / Math.max(1, middle.length),
+    ),
+  );
+  const hex = `#${mean.map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+  SWATCHES.set(key, hex);
+  return hex;
+}
+
+/**
+ * The swatch for a creator choice that is a color (owner, Nov 16: "Hair and
+ * facial hair as pictures, with skin and colors as swatches"): a skin by the
+ * person who wears it, a hair color, and a color of the shirt, the tie, the
+ * jacket or the everyday top. Undefined for a choice the set does not paint.
+ */
+export function bustSwatch(
+  person: BustPerson,
+  kind: "skin" | "hairColor" | "shirt" | "tie" | "jacket" | "top",
+  key: string,
+  top?: string,
+): string | undefined {
+  const set = MANIFEST.sets[person.sex];
+  if (!set) return undefined;
+  if (kind === "skin") {
+    const wearer = BY_ID.get(key);
+    const head = wearer && set.heads[wearer.toneName]?.adult;
+    return head ? swatchOf(set, head) : undefined;
+  }
+  if (kind === "hairColor") {
+    const style = set.hair.find((row) => row.files[key]);
+    return style ? swatchOf(set, style.files[key]!) : undefined;
+  }
+  const style =
+    kind === "top" ? styleOf(set, "top", top) : set.clothes[kind][0];
+  const file = style?.files[key];
+  return file ? swatchOf(set, file) : undefined;
 }
