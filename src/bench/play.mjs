@@ -5152,7 +5152,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5162,8 +5162,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
