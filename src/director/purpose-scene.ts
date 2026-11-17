@@ -83,6 +83,7 @@ import {
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { voteAskFacts } from "./vote-ask-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -322,6 +323,8 @@ export function purposeScene(
     typeKey?: string;
     /** The moment's next scene: the first the player has not answered. */
     next?: boolean;
+    /** Dev mode and the words walks: the variant of the purpose to play, by name (arc-variant.ts `play`). */
+    variant?: string;
   } = {},
 ): PurposeSceneResult | null {
   const book = director.ledger.people.get(personId);
@@ -587,7 +590,7 @@ function composeBinding(
   personId: PersonId,
   moment: Moment,
   binding: ScheduleEntry["bindings"][number],
-  options: { includeHeld?: boolean; stopMinute?: number },
+  options: { includeHeld?: boolean; stopMinute?: number; variant?: string },
 ): PurposeSceneResult {
   const type = typeForCause(
     TYPES.get(binding.typeKey) as PurposeType,
@@ -2105,6 +2108,12 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [moment.causeId],
     };
+  // The ask the evening before the roll (legislature.ts askBeforeTheRoll):
+  // what the bill is about and where the member asked stands on it, whether
+  // the sponsor needs only them or goes down a list, and how they voted on the
+  // sponsor's last bill (vote-ask-facts.ts).
+  if (record?.kind === "vote-ahead")
+    Object.assign(facts, voteAskFacts(core, moment.causeId, said, personLean));
   // "Morning." is said before noon, "this afternoon" is still ahead only in
   // the daytime, and "tonight" is true of the present only in the evening:
   // the hour is the player's clock as the scene plays.
@@ -2427,6 +2436,7 @@ function composeBinding(
           },
           setting: binding.setting.kind,
           ...(door?.knock.first === "false" ? { nextDown: true } : {}),
+          ...(options.variant ? { play: options.variant } : {}),
         })
       : null;
   // What the records gave the variant, for the lines that say it: every read
