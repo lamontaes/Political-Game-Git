@@ -23462,7 +23462,7 @@
       "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-votes-you",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "We'll see who's right once {decider} votes.",
+      "text": "Then we'll see who's right when {decider} votes.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
