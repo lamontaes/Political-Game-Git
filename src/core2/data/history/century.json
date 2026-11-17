@@ -34,6 +34,13 @@
       "role": "coefficient",
       "source": "How many voters, evenly spaced along the lean order at the typical readiness of a presidential year, stand for a place when the century counts it (stopgap SG-HIST-century-voters). The count's rule is the engine's own (electorate.ts countPlaces, each record dividing over its own stretch of the order); the number only sets how finely turnout is weighed along it. Measured against 400 (the town's coarse sample size, coarseSampleVoters) at seeds a1, b2 and c3 on Nov 17, 2026, with the record-stretch count: the century's 25 presidential winners matched at 100, 40 and 20 voters in a1 and b2, and at 100 and 40 in c3 (20 moved 10); day one's 541 seats in Congress matched at 100, and differed in 1, 0 and 0 at 40, and 2, 2 and 10 at 20. A century cost 4.7 to 5.3 s at 400, 1.5 to 1.6 s at 100 and 0.76 to 1.0 s at 40."
     },
+    "centuryHiddenVoters": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How many voters, evenly spaced along the lean order, stand for a district of another state's legislature, counted as results until someone opens its member (the played town's state and Congress keep centuryVoters). The count's rule is the engine's own; the number only sets how finely turnout is weighed. Measured against 40 on Nov 17, 2026 (seeds named in the pull request): at seeds leg-a, leg-b and leg-c (town states Texas, Texas, Ohio), 20 voters ended the century with 33, 32 and 44 of 7,419 legislative seats on the other side than 40 did (under half a percent), no two races sharing a share at either, and the legislatures' pass took 3.0 to 3.3 s against 4.7 to 5.5 s. #9883's golden-path spec M2-07 had timed out by half a second at 40.",
+      "spread": [12, 40]
+    },
     "presidentialTermYears": {
       "value": 4,
       "tag": "SOURCED",
