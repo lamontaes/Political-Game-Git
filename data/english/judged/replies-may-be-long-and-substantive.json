@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 955,
+  "judged": 944,
   "no": {
     "00ad5h63sx7": {
       "keys": [
@@ -597,15 +597,6 @@
         "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it"
       ],
       "why": "The replies offer to explain, apologize, challenge or exit, but none actually states a reason or argument."
-    },
-    "0dc6y92gooi": {
-      "keys": [
-        "scene-talk.follow-ask.and-if-it-doesn-t-last-the-remaining",
-        "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the",
-        "scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first",
-        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends"
-      ],
-      "why": "A dinner promise, an apology and asking for help with {child} answer 'if it doesn't last?' without a reason."
     },
     "0ds0o16lzdr": {
       "keys": [
@@ -1873,15 +1864,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "17p18xwwr9y": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-work-the-phones-i-won-t-touch-the-money",
-        "scene-talk.reply-thank.thank-you-i-mean-it",
-        "scene-talk.reply-accept.that-s-fair-let-s-try-it",
-        "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
-      ],
-      "why": "Thanks, 'That's fair' and stepping out carry no reason."
-    },
     "17txsq8g0p4": {
       "keys": [
         "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well",
@@ -1956,15 +1938,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "193hwe1rh4l": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.thank-you-i-mean-it",
-        "scene-talk.reply-accept.that-s-fair-let-s-try-it",
-        "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
-      ],
-      "why": "Thanks, 'That's fair. Let's try it' and stepping out for air carry no reason."
     },
     "19bvc409afc": {
       "keys": [
@@ -2457,15 +2430,6 @@
       ],
       "why": "\"Point taken\" and \"not planning on being the third\" are a concession and a bare stance with no reason."
     },
-    "1jzixdbr8fs": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.that-makes-it-easier-thank-you",
-        "scene-talk.follow-accept.that-s-all-i-m-asking",
-        "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
-      ],
-      "why": "'That makes it easier. Thank you', 'That's all I'm asking' and stepping out are thanks and exits."
-    },
     "1kmyu17m21v": {
       "keys": [
         "scene-talk.state-congratulate.so-the-diploma-s-done-what-s-the-plan",
@@ -2492,15 +2456,6 @@
         "scene-talk.reply-leave.we-re-done-here"
       ],
       "why": "\"When you called my office\" is a bare date and \"We're done here\" ends the talk."
-    },
-    "1mfq2dc8qcx": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.thank-you-i-mean-it",
-        "scene-talk.follow-accept.that-s-all-i-m-asking",
-        "scene-talk.reply-leave.let-s-talk-about-it-tomorrow-once-we-ve-both-cooled-off"
-      ],
-      "why": "Thanks, 'That's all I'm asking' and putting it off until tomorrow give no reason."
     },
     "1mj9sajbx3y": {
       "keys": [
@@ -3015,15 +2970,6 @@
         "scene-talk.reply-leave.i-m-going-to-go-lie-down-for-a-while"
       ],
       "why": "\"I mean it. Thank you\" and lying down carry no reason."
-    },
-    "1z3opqxsjy4": {
-      "keys": [
-        "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
-        "scene-talk.reply-thank.i-appreciate-that-more-than-you-know",
-        "scene-talk.reply-accept.good-i-can-plan-around-that",
-        "scene-talk.reply-leave.i-m-going-to-bed-we-ll-talk-in-the-morning"
-      ],
-      "why": "Gratitude, 'I can plan around that' and going to bed give no reason."
     },
     "1z48o64jf2f": {
       "keys": [
@@ -3775,348 +3721,7 @@
         "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
       ],
       "why": "Thanks and a promise to call carry no reason."
-    },
-    "0038nen24jy": {
-      "keys": [
-        "scene-talk.follow-press.staff-will-skim-it-i-d-rather-say-it-to-your-face",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "A yes, neither yes nor no, and a call-me exit carry no argument."
-    },
-    "02ryk9nkzfk": {
-      "keys": [
-        "scene-talk.follow-plea.a-hearing-is-all-i-want-when",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Looking again, promising a hearing instead of a vote, refusing to talk today and leaving are all stances or exits, and none says why."
-    },
-    "03rmwnpfp3z": {
-      "keys": [
-        "scene-talk.follow-plea.a-hearing-is-all-i-want-when",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Looking again, a hearing promise, a deferral and a floor exit carry no argument."
-    },
-    "08e0tq94seu": {
-      "keys": [
-        "scene-talk.follow-plea.a-hearing-is-all-i-want-when",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'All right', the deferral without a hearing, 'not a conversation for today' and the floor exit give no reason for the position taken."
-    },
-    "0daajsdmurg": {
-      "keys": [
-        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-deflect.let-s-not-get-into-that-over-the-phone",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Looking again, a hearing promise, avoiding the phone and an exit carry no reason."
-    },
-    "0diidpv4o4j": {
-      "keys": [
-        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.let-s-talk-over-dinner-not-here"
-      ],
-      "why": "Agreeing, asking for the best argument and moving to dinner give no reason for any position."
-    },
-    "0fttykrh54l": {
-      "keys": [
-        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote",
-        "scene-talk.reply-agree.ten-minutes-in-person-pick-a-day-and-i-ll-clear-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
-        "scene-talk.reply-leave.i-have-a-meeting-waiting-write-to-my-office"
-      ],
-      "why": "A ten-minute meeting, a request for their argument, a deferral and an exit carry no reason."
-    },
-    "0gduh3gre3s": {
-      "keys": [
-        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-deflect.let-s-not-get-into-that-over-the-phone",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "'You can count on me', the vote-versus-hearing promise, the phone deflection and the exit are positions with no reason attached."
-    },
-    "0jdrk4hg7jt": {
-      "keys": [
-        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote",
-        "scene-talk.reply-agree.ten-minutes-in-person-pick-a-day-and-i-ll-clear-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-deflect.let-s-not-get-into-that-over-the-phone",
-        "scene-talk.reply-leave.i-have-a-meeting-waiting-write-to-my-office"
-      ],
-      "why": "A meeting offer, a request for their argument, avoiding the phone and an exit carry no reason."
-    },
-    "0kzs2i2snwe": {
-      "keys": [
-        "scene-talk.follow-press.staff-will-skim-it-i-d-rather-say-it-to-your-face",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Agreeing, a hearing promise and a call-me exit state no reason."
-    },
-    "0n73d5iwm8y": {
-      "keys": [
-        "scene-talk.follow-threaten.other-candidates-in-this-town-return-calls",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-ll-let-you-know"
-      ],
-      "why": "'All right', asking for the best argument without giving one, and 'I'll let you know' carry no reason of the player's own."
-    },
-    "0q1u2tv0u9l": {
-      "keys": [
-        "scene-talk.follow-plea.then-i-ll-stand-up-at-the-next-meeting-and-say-it-there",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-deflect.let-s-not-get-into-that-over-the-phone",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "\"All right. I'll do it\", a hearing promise, avoiding the phone and an exit carry no reason."
-    },
-    "0qv9e19hk0u": {
-      "keys": [
-        "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Agreeing, promising a hearing instead of a vote and asking for things in writing carry no reason."
-    },
-    "0qyjw6nzayv": {
-      "keys": [
-        "scene-talk.follow-plea.i-ve-stood-by-you-from-the-start",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Answering 'I've stood by you' with yes, a hearing-not-vote promise or a floor exit gives the friend no reason."
-    },
-    "0rgb4s4q8ym": {
-      "keys": [
-        "scene-talk.follow-plea.i-m-not-asking-you-to-vote-i-m-asking-you-to-read-it-first",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.let-s-talk-over-dinner-not-here"
-      ],
-      "why": "'You can count on me', the deferral until heard out and 'over dinner, not here' give no reason."
-    },
-    "0zd5w2nrqrt": {
-      "keys": [
-        "scene-talk.follow-press.how-many-more-weeks",
-        "scene-talk.reply-agree.you-re-right-to-ask-again-i-ll-go-through-it-this-week-and-call-you",
-        "scene-talk.reply-decline.i-ve-thought-about-it-the-vote-is-a-no-a-hearing-is-a-yes",
-        "scene-talk.reply-bargain.if-i-give-you-the-hearing-will-you-stop-calling-my-office",
-        "scene-talk.reply-leave.that-s-all-i-have-today"
-      ],
-      "why": "Asked how many more weeks, the player gets a promise, a bare vote-no-hearing-yes, a bargaining question or an exit, with no reason."
-    },
-    "10qpszkpq42": {
-      "keys": [
-        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "'I'll look at it again', a request for the best argument and an exit carry no reason or argument of the player's own."
-    },
-    "13mhsrq5gp7": {
-      "keys": [
-        "scene-talk.follow-plea.i-don-t-need-a-promise-i-need-you-to-hear-it-before-the-vote",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-deflect.let-s-not-get-into-that-over-the-phone",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "A yes, neither yes nor no, avoiding the phone and a floor exit carry no reason."
-    },
-    "1akny3r01my": {
-      "keys": [
-        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "Looking again, asking for the best argument and the five-minute exit are stances or exits with no reason."
-    },
-    "1chs9ombzfo": {
-      "keys": [
-        "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "A flat yes, a request for the best argument and asking for things in writing give the friend no reason."
-    },
-    "1em073516r4": {
-      "keys": [
-        "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
-        "scene-talk.reply-relent.all-right-you-win-i-m-in",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "Giving in, a promise of a hearing, listening without promise and an exit carry no reason."
-    },
-    "1mcr98k08q2": {
-      "keys": [
-        "scene-talk.follow-plea.then-i-ll-stand-up-at-the-next-meeting-and-say-it-there",
-        "scene-talk.reply-agree.ten-minutes-in-person-pick-a-day-and-i-ll-clear-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
-        "scene-talk.reply-leave.i-have-a-meeting-waiting-write-to-my-office"
-      ],
-      "why": "A meeting offer, a request for their argument, a deferral and an exit state no reason."
-    },
-    "1opnyyi95wo": {
-      "keys": [
-        "scene-talk.follow-press.a-hearing-isn-t-a-vote-why-not-the-vote",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-bargain.i-ll-look-at-it-if-you-ll-look-at-my-side-too",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "Asked 'Why not the vote?', the player can agree, defer, set a condition or say 'I'll tell you before the vote', and none of these gives a reason."
-    },
-    "1q6pukuosnw": {
-      "keys": [
-        "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
-      ],
-      "why": "Looking again, deferring until heard out and asking for things in writing are stances and exits with no reason given."
-    },
-    "1s190m2ms9k": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk",
-        "scene-talk.reply-leave.i-can-t-do-this-right-now-i-ll-call-you"
-      ],
-      "why": "Asked what would change their mind, the player only agrees, asks for an argument, asks what the donor can live with or leaves, and gives no reason."
-    },
-    "1tsgytnwg8l": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk",
-        "scene-talk.reply-leave.i-can-t-do-this-right-now-i-ll-call-you"
-      ],
-      "why": "Agreeing, the hearing promise, 'show me what you can live with' and 'I'll call you' offer no reason."
-    },
-    "1txr5lucmpj": {
-      "keys": [
-        "scene-talk.follow-plea.sleep-on-it-at-least-call-me",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.let-s-talk-over-dinner-not-here"
-      ],
-      "why": "Answering 'Sleep on it' with a yes, a deferral or a dinner deflection gives no reason or argument."
-    },
-    "1y4kv7jaskh": {
-      "keys": [
-        "scene-talk.follow-press.a-hearing-isn-t-a-vote-why-not-the-vote",
-        "scene-talk.reply-agree.you-re-right-to-ask-again-i-ll-go-through-it-this-week-and-call-you",
-        "scene-talk.reply-decline.i-ve-thought-about-it-the-vote-is-a-no-a-hearing-is-a-yes",
-        "scene-talk.reply-bargain.if-i-give-you-the-hearing-will-you-stop-calling-my-office",
-        "scene-talk.reply-leave.that-s-all-i-have-today"
-      ],
-      "why": "The donor asks 'Why not the vote?' and the replies give the decision ('the vote is a no') or a bargain or a promise, but never the reason."
-    },
-    "1zq3wp71in5": {
-      "keys": [
-        "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "'I'll look at it again', the hearing promise and the floor exit say what the player will do but never why."
-    },
-    "201xqzmxptv": {
-      "keys": [
-        "scene-talk.follow-press.staff-will-skim-it-i-d-rather-say-it-to-your-face",
-        "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.i-ll-tell-you-before-the-vote"
-      ],
-      "why": "Looking again, neither yes nor no, and a later answer carry no argument."
-    },
-    "20en1r6g04r": {
-      "keys": [
-        "scene-talk.follow-press.then-give-me-a-reason-i-can-take-back-to-the-people-who-chipped-in",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk",
-        "scene-talk.reply-leave.we-re-done-for-today-my-next-meeting-is-waiting"
-      ],
-      "why": "The donor asks for a reason, but the replies only agree, promise a hearing, ask what they can live with or end the meeting."
-    },
-    "2211yqin5jw": {
-      "keys": [
-        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-leave.let-s-talk-over-dinner-not-here"
-      ],
-      "why": "Asked for anything small, the player can only say yes, promise a hearing or move to dinner, and none gives a reason."
-    },
-    "2bzgcqxdtbw": {
-      "keys": [
-        "scene-talk.follow-press.staff-will-skim-it-i-d-rather-say-it-to-your-face",
-        "scene-talk.reply-agree.ten-minutes-in-person-pick-a-day-and-i-ll-clear-it",
-        "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
-        "scene-talk.reply-leave.i-have-a-meeting-waiting-write-to-my-office"
-      ],
-      "why": "Offering ten minutes in person, saying 'not in a position to commit' and pointing to a waiting meeting all lack an argument or reason."
-    },
-    "2c2ugdknvwc": {
-      "keys": [
-        "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
-      ],
-      "why": "A bare 'I'll do it', a deferral and the floor exit answer the dinner invitation without any reason."
-    },
-    "2cp9f03r4ue": {
-      "keys": [
-        "scene-talk.follow-press.staff-will-skim-it-i-d-rather-say-it-to-your-face",
-        "scene-talk.reply-agree.all-right-i-ll-do-it",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "The replies are a bare yes, a deferral that only says it won't say no without a hearing, and a phone exit, with no reason given."
-    },
-    "2ebwinge2vx": {
-      "keys": [
-        "scene-talk.follow-press.i-ve-waited-long-enough-name-a-day",
-        "scene-talk.reply-agree.yes-you-can-count-on-me",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-      ],
-      "why": "A flat yes, the hearing-not-vote promise and 'call me tonight' leave the donor with no reason, only a stance or an exit."
     }
   },
-  "yesHash": "1gtb62natxz"
+  "yesHash": "2auzvlf7ujl"
 }
