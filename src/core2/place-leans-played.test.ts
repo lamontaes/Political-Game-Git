@@ -49,6 +49,12 @@ it("carries each counted place's own move into its lean, and the next count read
     `${where}: ${String(leans.length)} places hold a kept lean on ${core.date}, ${String(moved.length)} of them moved\n`,
   );
   expect(moved.length, `${where}: no place's lean moved`).toBeGreaterThan(0);
+  const sizes = moved
+    .map((row) => Math.abs(row.rightShare - row.opening))
+    .sort((a, b) => a - b);
+  process.stderr.write(
+    `${where}: a moved place's lean moved ${(100 * sizes[Math.floor(sizes.length / 2)]!).toFixed(3)} points at the middle and ${(100 * sizes.at(-1)!).toFixed(3)} at the most\n`,
+  );
   const strength = electorateParameter("leanCarryShare");
   const races = new Map(racesOf(api).map((race) => [race.id, race]));
   let signed = 0;
