@@ -317,6 +317,54 @@
       "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker."
     }
   },
+  "jobsLetGoBaseline": {
+    "value": -4.63,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "The logit of a month's pull to let go a worker valued at the typical tenure, at a firm whose staff matches its sales and that is not losing money. Fitted once to the inflow into unemployment from losing a job (BLS Current Population Survey gross flows, employment to unemployment, FRED LNS17400000, Jan 2023 to Oct 2026: about 0.96% of employment a month, logit -4.63). The worker's value and the firm's own books move every worker's pull from there; no rate picks a worker.",
+    "spread": {
+      "low": -4.85,
+      "high": -4.5,
+      "unit": "logit of a month's pull to be let go",
+      "citation": "CPS employment-to-unemployment flows, 0.85% to 1.1% of employment a month across 2023-2026."
+    }
+  },
+  "jobsLetGoValueWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How steeply an employer's pull to let a worker go falls with what it values in them (tenure with it and how they work, in years of tenure): each log step of value below the typical tenure raises the pull. Jobs end far more often in their first year than after five (Farber 1999, Handbook of Labor Economics 3B, 'Mobility and stability'); the same size as the quit side's tenure weight.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "logit per log-year of value below the typical tenure",
+      "citation": "Working range beside jobsQuitTenureWeight; research item jobs-let-go-weights-sourced fits it."
+    }
+  },
+  "jobsLetGoStaffOverWeight": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How strongly a firm holding more staff than its sales call for moves its pull to let a worker go, per unit share of staff over (below zero when it is short of staff). Layoff rates rise steeply with how fast an establishment is shrinking and fall at growing ones (Davis, Faberman and Haltiwanger 2012, Journal of Monetary Economics, 'Labor market flows in the cross section and over time').",
+    "spread": {
+      "low": 4,
+      "high": 12,
+      "unit": "logit per unit share of staff over what sales call for",
+      "citation": "Working range, not yet fitted to the published cross-section; research item jobs-let-go-weights-sourced fits it."
+    }
+  },
+  "jobsLetGoLossWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How strongly a firm's months of loss in a row move its pull to let a worker go: the weight on months over one plus months, the same loss memory its staffing review reads (affordableStaff).",
+    "spread": {
+      "low": 0.5,
+      "high": 2.5,
+      "unit": "logit at a long run of losses",
+      "citation": "Working range; research item jobs-let-go-weights-sourced fits it."
+    }
+  },
   "jobsTypicalTenureYears": {
     "value": 3.9,
     "tag": "SOURCED",

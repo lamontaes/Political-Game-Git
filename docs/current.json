@@ -588,6 +588,12 @@
       "now": ".agents/rules/storage-and-workspaces.md (section Branches and takeovers)",
       "when": "2026-11-16",
       "why": "Its branch, takeover and publishing lines moved word for word into the storage rules; its workspace line repeated that file and AGENTS.md."
+    },
+    {
+      "old": "src/core2/town-turnover.test.ts",
+      "now": "src/core2/employer-keep-review.test.ts",
+      "when": "2026-11-17",
+      "why": "The town's layoffs at a national pace (reviewTurnover) were replaced by each employer's own review of its workers (reviewKeeping); the test of the pace went with it."
     }
   ]
 }

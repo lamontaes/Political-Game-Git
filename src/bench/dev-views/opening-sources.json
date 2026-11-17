@@ -370,9 +370,14 @@
       "what": "How far along a worker's pull to leave is on day one",
       "replace": "Demand from the world's own records"
     },
-    "src/core2/modules/jobs.ts#reviewTurnover": {
+    "src/core2/modules/jobs.ts#reviewKeeping": {
       "made": "ad-hoc-draw",
-      "what": "Turnover pull: who quits or is let go (SG-LABOR-turnover-fixed-rate)",
+      "what": "How far along an employer's pull to let a worker go is on day one",
+      "replace": "Demand from the world's own records"
+    },
+    "src/core2/modules/jobs.ts#reviewRegionalTurnover": {
+      "made": "ad-hoc-draw",
+      "what": "Turnover pull for work in the wider region (SG-LABOR-turnover-fixed-rate)",
       "replace": "Demand from the world's own records"
     },
     "src/core2/modules/jobs.ts#seasonalStaffing": {

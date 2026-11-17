@@ -60,18 +60,18 @@ function drawPlace(): { key: string; state: string } {
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
 /**
- * The same data with no layoff turnover: the test of how postings follow
- * demand reads the staffing decision alone, and a worker let go by the
- * turnover pull (jobs.ts reviewTurnover) would open a replacement of its own.
- * The turnover has its own test (town-turnover.test.ts).
+ * The same data with the employer's keep review switched off: the test of how
+ * postings follow demand reads the staffing decision alone, and a worker let
+ * go by the keep review (jobs.ts reviewKeeping) would open a replacement of
+ * its own. The keep review has its own test (employer-keep-review.test.ts).
  */
 const noTurnoverData = {
   ...data,
   parameters: {
     ...data.parameters,
-    pastWorkLayoffsPerQuarter: {
-      ...data.parameters.pastWorkLayoffsPerQuarter!,
-      value: 0,
+    jobsLetGoBaseline: {
+      ...data.parameters.jobsLetGoBaseline!,
+      value: -60,
     },
   },
 };
