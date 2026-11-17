@@ -249,10 +249,18 @@ function employerStakes(api: CoreAPI, b: BillRow): readonly EmployerStake[] {
     // What a law costs a business by its own books: energy laws by the price
     // engine's arithmetic, a data privacy law by the business engine's cost
     // review.
-    const lawCost = (otherCostsMinor: number): number | null =>
+    const lawCost = (
+      otherCostsMinor: number,
+      salesMinor: number,
+    ): number | null =>
       businessEnergyCostYear(api, p.question!, otherCostsMinor) ??
-      businessDataPrivacyCostYear(api, p.question!, otherCostsMinor);
-    const priced = lawCost(1) !== null;
+      businessDataPrivacyCostYear(
+        api,
+        p.question!,
+        otherCostsMinor,
+        salesMinor,
+      );
+    const priced = lawCost(1, 0) !== null;
     // Any other bound policy still stands on an estimated share of payroll.
     if (!priced)
       // stopgapId: SG-GOV-bound-employer-cost-estimate (a share of payroll stands for what the law costs)
@@ -264,7 +272,10 @@ function employerStakes(api: CoreAPI, b: BillRow): readonly EmployerStake[] {
           job.organizationId,
         );
         costs.set(job.organizationId, {
-          annualMinor: lawCost(book?.annualOtherCostsMinor ?? 0)!,
+          annualMinor: lawCost(
+            book?.annualOtherCostsMinor ?? 0,
+            book?.annualDemandMinor ?? 0,
+          )!,
         });
       } else
         costs.set(job.organizationId, {

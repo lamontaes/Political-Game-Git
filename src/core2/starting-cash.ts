@@ -70,7 +70,7 @@ export function medianTransactionBalance(
 
 /**
  * A household's opening cash shared among its adults: the median balance at
- * its pay, its workers times the place's earnings, where a household with no
+ * its pay times its own savings draw, its workers times the place's earnings, where a household with no
  * recorded worker keeps that of one earner. The county's sampled households
  * and the relatives placed around the town open by this one rule. Returns
  * each adult's share in cents, in the order given.
@@ -80,16 +80,20 @@ export function householdOpeningCash(
   workers: number,
   adults: number,
   seed: string,
+  /** The household's own savings draw against the median (`householdBalanceDraw`, household-balance-draw.ts). */
+  draw: number,
   /** The household's oldest adult's age, when known. */
   headAge?: number,
 ): number[] {
   if (adults <= p("zero")) return [];
   const reserve = Math.round(
-    medianTransactionBalance(
-      earnings * Math.max(p("one"), workers),
-      seed,
-      headAge,
-    ) * p("minorPerDollar"),
+    draw *
+      medianTransactionBalance(
+        earnings * Math.max(p("one"), workers),
+        seed,
+        headAge,
+      ) *
+      p("minorPerDollar"),
   );
   return Array.from(
     { length: adults },

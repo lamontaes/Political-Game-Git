@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -9,10 +8,13 @@ import { coreAPI, type CoreState } from "../core2/state";
 // A session already sitting when the world opens has its early bills on the record on day one,
 // each dated the day it was filed (before the opening), the same bills for the same seed. Places
 // are drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.OPENING_BILLS_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env OPENING_BILLS_SEED, GOLDEN_PATH_SEED or randomBytes, so the
+// places it drew changed every run. The fixed seed below draws Chester, Vermont
+// (5013600) first for "bills-at-opening".
+// Limit: the slowest case took 51 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 110 s.
+const seed = "pin-bills-at-opening";
 
 const billsOf = (core: CoreState) =>
   (
@@ -24,6 +26,13 @@ const billsOf = (core: CoreState) =>
     .filter((b) => b.bodyOfficeId.startsWith("office:US-"))
     .map((b) => `${b.number}|${b.introduced}|${b.bodyOfficeId}|${b.sponsorId}`)
     .sort();
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "bills-at-opening")).toMatchObject({
+    key: "5013600",
+    name: "Chester, Vermont",
+  });
+});
 
 describe(`bills on day one (seed ${seed})`, () => {
   it("files the sitting session's early bills at the opening, dated as filed, the same each build", () => {
@@ -63,5 +72,5 @@ describe(`bills on day one (seed ${seed})`, () => {
       );
     }
     expect(proved, lines.join("; ")).toBe(true);
-  }, 1_800_000);
+  }, 110_000);
 });

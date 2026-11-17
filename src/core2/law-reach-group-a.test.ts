@@ -117,7 +117,7 @@ function openTown(): void {
       }),
     );
     openLaws(c);
-    openOffices(c, seed);
+    openOffices(c, seed, c.date);
     openElections(c);
     openCampaigns(c);
     openRecord(c);

@@ -45,6 +45,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { playedNode, type TreeNode } from "./scene-talk";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const PLACE = "1930630";
 const SEED = "reporters-call-1";
@@ -238,20 +239,16 @@ it("the story prints the official's own answer on the call, a decline, or nothin
     const member = members[next++]!;
     const who = member.id as PersonId;
     core.playerId = who;
-    const offerer = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.id !== who &&
-          p.placeId === member.placeId &&
-          !staff.has(p.id) &&
-          !members.some((m) => m.id === p.id) &&
-          // A relative of the member pays only where the call asks for one.
-          member.familyIds.has(p.id) === Boolean(c.close),
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      )[0]!;
+    const offerer = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.id !== who &&
+        p.placeId === member.placeId &&
+        !staff.has(p.id) &&
+        !members.some((m) => m.id === p.id) &&
+        // A relative of the member pays only where the call asks for one.
+        member.familyIds.has(p.id) === Boolean(c.close),
+    )[0]!;
     expect(offerer, `${c.name}: one who pays`).toBeTruthy();
     const seat = seatView(core, who);
     let bill = { id: "", status: "blocked" };
