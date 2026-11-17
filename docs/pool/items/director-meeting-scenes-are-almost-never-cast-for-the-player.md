@@ -49,4 +49,4 @@ The tie causes are partly an artifact of the measurement: these runs talked to n
 
 **Waits on.** The opener pull request from claude/director-waiting-next-together (fix 3 of director-a-waiting-scene-is-never-played), so a scene that waits can open.
 
-**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/meeting-facts.ts, src/bench/waiting-scene.ts (new), scripts/play-walks/
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/bench/waiting-scene.ts (new), scripts/play-walks/ (a file it named was deleted with its scene kind on Nov 17)

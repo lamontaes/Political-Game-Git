@@ -33,4 +33,4 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/offices/executives.json (new), src/core2/offices-executives.ts (new), src/core2/office-day-acts.ts, src/core2/modules/office-day.ts, src/core2/modules/executive.ts, src/bench/government-bodies.ts, src/core2/modules/disasters.ts, src/director/swearing-in.ts, src/director/data/swearing-in.json, src/director/data/local-address.json, src/director/local-address.ts
+**Files.** src/core2/data/offices/executives.json (new), src/core2/offices-executives.ts (new), src/core2/office-day-acts.ts, src/core2/modules/office-day.ts, src/core2/modules/executive.ts, src/bench/government-bodies.ts, src/core2/modules/disasters.ts, src/director/data/swearing-in.json, src/director/data/local-address.json, src/director/local-address.ts (a file it named was deleted with its scene kind on Nov 17)

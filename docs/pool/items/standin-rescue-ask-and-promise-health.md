@@ -32,7 +32,7 @@ root: design-life-record
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/rescue.ts, src/core2/modules/health.ts, src/director/rescue-facts.ts, src/director/purpose-scene.ts, src/director/data/stopgaps.json
+**Files.** src/core2/modules/rescue.ts, src/core2/modules/health.ts, src/director/purpose-scene.ts, src/director/data/stopgaps.json (a file it named was deleted with its scene kind on Nov 17)
 
 **Notes.**
 

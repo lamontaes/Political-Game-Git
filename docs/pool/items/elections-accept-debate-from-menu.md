@@ -1,7 +1,7 @@
 ---
 id: elections-accept-debate-from-menu
 title: "A waiting debate invitation is accepted from the Elections or Campaign screen"
-area: screens
+area: elections
 kind: feature
 priority: 1
 size: S
