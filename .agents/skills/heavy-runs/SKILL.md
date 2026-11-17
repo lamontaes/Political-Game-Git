@@ -57,6 +57,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 
 - **In a Claude cloud container, `free -g` does not show the limit that kills a run (Nov 12).** The limit that counts is the shared bash memory group, about 14.3 GB for every shell and helper together: read its use at `/sys/fs/cgroup/memory/process_api/*/claude-code-bash/memory.usage_in_bytes` and its limit at `memory.limit_in_bytes` beside it, and wait before a heavy run while less than 5 GB of that limit is free. A vitest worker that ends with "Worker exited unexpectedly" can have been killed for memory, but that message is generic (a SIGTERM or a crash prints it too): call it a memory kill only when `dmesg` shows a matching `oom-kill` line naming `oom_memcg=/process_api/.../claude-code-bash` at that time. Without that record, read the worker's exit and stderr and leave the failure unresolved. A confirmed memory kill is neither a test failure nor a pass: rerun the file alone when the group has room.
 
+- **A vitest `vi.mock` of a module inside an import cycle may not reach the module you test (Nov 17, Speed).** Mocking `modules/legislature` to count `members` counted 0 calls from `leadership.ts`, because loading the real module through the mock's `importOriginal` loaded leadership first, bound to the real export. Count with a small diagnostic export on the module (`membershipRebuilds` in `leadership.ts`), and show the check failing on the old code with only that count added.
+
 ## After the run
 
 - **Compare only like with like:** the same place, seed and key on both heads. Diff the outputs line by line first. Two heads that give identical output for a place (Salida on m5 and m6) mean the change did nothing there, so don't spend an hour reading them.

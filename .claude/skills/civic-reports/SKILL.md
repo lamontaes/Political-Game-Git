@@ -46,6 +46,12 @@ descriptions) keep steps 1, 2, 4 and 5. A pull request description follows
 `.github/PULL_REQUEST_TEMPLATE.md`: its first lines are the pool item and the
 gate line, which the tooling reads, and its lead then says what changed for
 the player, with "Before:" and "After:" where that helps.
+`report:check` reads everything before the first `##` heading as the lead,
+the pool line and the gate line included: put the body's sections under
+`##` headings, keep the lead under 120 words, and keep code, hashes, PR
+numbers and clock times out of the gate line and the player paragraph
+(Nov 17, Speed: a body of bold paragraphs with no headings read as a
+705-word lead).
 
 ## What every report carries
 
