@@ -1,0 +1,76 @@
+seed 1e1f80b6fe13e0bc place Los Llanos, Puerto Rico me Deborah O'Brien
+  scene 1: Kai O'Brien Parker O'Brien It's late on January 20. You stay in. Continue
+day one rows: ["contest:seat:municipio:72043:executive:0:2028-11-07 :: Mayor · County office Filing opens June 15, 2028","contest:seat:municipio:72043:board:3:2028-11-07 :: Municipal Legislator (District 4) · County office Filing opens June 15, 2028"]
+local-races: [{"c":"contest:seat:municipio:72043:executive:0:2028-11-07","t":"Mayor","may":true,"bar":"window-not-open","opens":"2028-06-15","el":"2028-11-07"},{"c":"contest:seat:municipio:72043:board:3:2028-11-07","t":"Municipal Legislator (District 4)","may":true,"bar":"window-not-open","opens":"2028-06-15","el":"2028-11-07"}]
+shot 01-elections-day-one
+race contest:seat:municipio:72043:executive:0:2028-11-07 Mayor
+race page day one: buttons ["announce:Announce","sim-to-filing:Sim to Jun 15, 2028"] | MayorNovember 7, 2028 Who's running No one has filed Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Jun 15, 2028 Filing opens Aug 14, 2028 Filing closes Nov 7, 2028 Election day Announce Sim to Jun 15, 2028
+shot 02-race-day-one
+after Announce: tabs ["Government","Elections","Campaign","Parties","Issues","Bills","Budgets","Metrics"] | Where the race stands Nobody has heard from you yet. Voters decide on November 7, 2028. No one else has filed for mayor yet. Filing closes August 14, 2028. Asking 50 voters in a poll would cost $2,250. The money $0.00 Raised $0.00 Spent $0.00 Volunteers 0 Doors knocked 0 Go out on the trail
+shot 03-campaign-after-announce
+campaign buttons: ["Go out on the trail"]
+race page announced: buttons ["sim-to-filing:Sim to Jun 15, 2028"] | MayorNovember 7, 2028 Who's running No one has filed Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Jun 15, 2028 Filing opens Aug 14, 2028 Filing closes Nov 7, 2028 Election day Sim to Jun 15, 2028
+shot 04-race-announced
+press Sim to (Sim to Jun 15, 2028)
+  advance answered at {"date":"2025-01-22","minuteOfDay":420} kind stop
+  scene 2: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 3: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 15, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 4: Cynthia Valdez First thing on March 2nd, out and about, you stop to talk with Cynthia Valdez. Cynthia crosses the street to catch you. Continue
+  scene 5: Cynthia Valdez First thing on March 23rd, Cynthia Valdez walks up to you on the street. Cynthia recognizes you on the street. Continue
+  scene 6: Diego O'Brien First thing on April 2nd, the mail brings a letter from Diego O'Brien. A letter from Diego has come from Coamo Municipio, with something to ask you. Continue
+  scene 7: Kai O'Brien It's early on May 13. The house is quiet. Your mother has something to tell you the moment you're in. Continue
+  scene 8: Cynthia Valdez First thing on June 8th, Cynthia Valdez walks up to you on the street. Cynthia recognizes you on the street. Continue
+  scene 9: Kai O'Brien It's early on June 19. You stay in. Your mother has news for you. Continue
+  scene 10: Sherry Dean First thing on July 15th, your phone lights up with Sherry Dean's name. The phone rings. It's Sherry, from Ortega Supply Company. Continue
+  scene 11: Cynthia Valdez First thing on August 24th, you run into Cynthia Valdez on the street. Cynthia crosses the street to catch you. Continue
+  scene 12: Cynthia Valdez First thing on September 28th, Cynthia Valdez walks up to you on the street. Cynthia recognizes you on the street. Continue
+  scene 13: Cynthia Valdez First thing on October 12th, out and about, you stop to talk with Cynthia Valdez. Cynthia crosses the street to catch you. Continue
+  scene 14: Kai O'Brien Parker O'Brien It's early on November 12. You stay in. Roland turned 9, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 15: Kai O'Brien Parker O'Brien It's early on December 24. You stay in. You turned 19, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 16: Diego O'Brien First thing on January 2nd, a letter comes from Diego O'Brien. A letter from Diego has come from Coamo Municipio, with something to ask you. Continue
+  scene 17: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 18: Debra Stafford First thing on February 3rd, at work, you talk with Debra Stafford. Debra has just started as a sales representative at Ortega Supply Company and has come over to say hello. Continue
+  scene 19: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 16, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 20: Kai O'Brien Parker O'Brien It's early on February 11. The house is quiet. Last night you watched County Executive Jimmy Strickland's yearly address on WZIH-TV. Continue
+  scene 21: Diego O'Brien First thing on April 2nd, the mail brings a letter from Diego O'Brien. A letter has come from Diego, who was missing from your birthday table and has something to ask you. Continue
+  scene 22: Debra Stafford First thing on May 2nd, your phone lights up with Debra Stafford's name. Debra catches you on the street. Continue
+  scene 23: Kyle Monroe First thing on June 2nd, the phone rings. It's Kyle Monroe. Kyle catches you on the street. Continue
+  scene 24: Robert Richmond First thing on July 28th, you run into Robert Richmond on the street. Robert crosses the street to catch you. Continue
+  scene 25: Robert Richmond First thing on August 25th, out and about, you stop to talk with Robert Richmond. Robert recognizes you on the street. Continue
+  scene 26: Kai O'Brien It's early on August 30. The house is quiet. Your mother has been waiting for you to get home. Continue
+  scene 27: Cynthia Valdez First thing on October 11th, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 28: Cynthia Valdez First thing on October 25th, Cynthia Valdez walks up to you on the street. Cynthia crosses the street to catch you. Continue
+  scene 29: Kai O'Brien Parker O'Brien It's early on November 12. You stay in. Roland turned 10, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 30: Devon Rojas First thing on December 7th, out and about, you stop to talk with Devon Rojas. Devon crosses the street to catch you. Continue
+  scene 31: Kai O'Brien Parker O'Brien It's early on December 24. You stay in. You turned 20, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 32: Robert Richmond First thing on January 5th, Robert Richmond walks up to you on the street. Robert crosses the street to catch you. Continue
+  scene 33: Donna Morales Late in the morning on January 21st, you knock on Donna Morales's door. Donna is moving away, and has come to say goodbye in person. Continue
+  scene 34: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 35: Diego O'Brien First thing on February 2nd, you open a letter from Diego O'Brien. A letter from Diego has come from Coamo Municipio, with something to ask you. Continue
+  scene 36: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 17, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 37: Kai O'Brien Parker O'Brien It's early on February 11. The house is quiet. Last night you watched County Executive Jimmy Strickland's yearly address on WZIH-TV. Continue
+  scene 38: Cynthia Valdez First thing on March 21st, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 39: Cynthia Valdez First thing on May 2nd, Cynthia Valdez walks up to you on the street. Cynthia recognizes you on the street. Continue
+  scene 40: Thomas Raymond First thing on June 2nd, the phone rings. It's Thomas Raymond. Thomas catches you on the street. Continue
+  scene 41: Cynthia Valdez First thing on August 1st, you run into Cynthia Valdez on the street. Cynthia recognizes you on the street. Continue
+  scene 42: Alexis McLeod First thing on August 17th, the phone rings. It's Alexis McLeod. Alexis from Whitley Family Clinic is calling about the opening. Continue
+  scene 43: William Rojas First thing on August 29th, William Rojas walks up to you on the street. William recognizes you on the street. Continue
+  scene 44: Alexis McLeod First thing on October 2nd, Alexis McLeod calls. Alexis catches you on the street. Continue
+  scene 45: Kai O'Brien Parker O'Brien It's early on November 12. You stay in. Roland turned 11, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 46: Kai O'Brien Parker O'Brien It's early on December 24. You stay in. You turned 21, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 47: Kai O'Brien Parker O'Brien It's early on January 22. The house is quiet. Last night you watched Governor Dorothy López's State of the State address on WZIH-TV. Continue
+  scene 48: Kai O'Brien It's early on February 8. The house is quiet. Parker turned 18, and Diego wasn't at the table. Kai wants to talk to you about it. Continue
+  scene 49: Kai O'Brien Parker O'Brien It's early on February 11. The house is quiet. Last night you watched County Executive Jimmy Strickland's yearly address on WZIH-TV. Continue
+  scene 50: Diego O'Brien First thing on April 2nd, a letter comes from Diego O'Brien. A letter has come from Diego, who was missing from your birthday table and has something to ask you. Continue
+  scene 51: Isabel Ellis Late in the morning on April 2nd, you knock on Isabel Ellis's door. Isabel has come by one last time before going. Continue
+after 1 Sim to press(es), 51 scenes: race {"open":true,"opens":"2028-06-15","may":true,"bar":null}; header date ""
+race page at filing: buttons ["file-for-it:File for it"] | MayorNovember 7 Who's running No one has filed Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Aug 14 Filing closes Nov 7 Election day File for it
+shot 05-race-filing-open
+shot 06-counter
+  counter: County clerk DEBORAH O'BRIEN I want to run for mayor. Alright, then. You're the first one in for mayor. It's 4 years if you win. No primary, just the one election, November 7. It's a county office. You'd answer to everyone in the county, not just Los Llanos. Y
+  replies ["Where do I sign for mayor?","Did anybody in Los Llanos beat me to it?","Not today. I'll be back at the county clerk soon."] -> Where do I sign for mayor?
+rows after filing: ["contest:seat:municipio:72043:executive:0:2028-11-07 :: Mayor · County office You are running","contest:seat:municipio:72043:board:3:2028-11-07 :: Municipal Legislator (District 4) · County office File for it"]
+shot 07-elections-after-filing
+race page after filing: MayorNovember 7 Who's running Deborah O'Brien Last time November 5, 2024 Jimmy Strickland Share of the vote 55 percent Dates Aug 14 Filing closes Nov 7 Election day
+shot 08-race-after-filing
+errors []
