@@ -27089,10 +27089,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-written-after-the-birthday-you-spent-without-name",
+      "key": "scene-talk.narrate-narrate.name-has-written-after-missing-your-birthday",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has written, after the birthday you spent without {name}.",
+      "text": "{name} has written, after missing your birthday.",
       "uses": [
         {
           "subject": "scene",
@@ -27384,10 +27384,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-have-a-new-baby-new-child-could-you-come-and-meet-new-child",
+      "key": "scene-talk.state-request.we-have-a-new-baby-new-child-could-you-come-and-meet-the-baby",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We have a new baby, {new-child}. Could you come and meet {new-child}?",
+      "text": "We have a new baby, {new-child}. Could you come and meet the baby?",
       "uses": [
         {
           "subject": "scene",
@@ -27434,10 +27434,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.there-s-another-baby-named-new-child-and-i-d-love-you-to-hold-new-child-will-you",
+      "key": "scene-talk.state-request.we-ve-had-another-baby-new-child-will-you-come-and-hold-the-baby",
       "move": "state-request",
       "kind": "spoken",
-      "text": "There's another baby, named {new-child}, and I'd love you to hold {new-child}. Will you come?",
+      "text": "We've had another baby, {new-child}. Will you come and hold the baby?",
       "uses": [
         {
           "subject": "scene",
@@ -27459,10 +27459,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-married-married-will-you-come-and-meet-married",
+      "key": "scene-talk.state-request.i-married-married-will-you-come-and-meet-us-both",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I married {married}. Will you come and meet {married}?",
+      "text": "I married {married}. Will you come and meet us both?",
       "uses": [
         {
           "subject": "scene",
@@ -27484,10 +27484,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.married-and-i-were-married-since-i-last-wrote-will-you-come-and-meet-married",
+      "key": "scene-talk.state-request.married-and-i-got-married-since-i-last-wrote-will-you-come-and-see-us",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{married} and I were married since I last wrote. Will you come and meet {married}?",
+      "text": "{married} and I got married since I last wrote. Will you come and see us?",
       "uses": [
         {
           "subject": "scene",
@@ -32088,10 +32088,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-helps-yes-i-ll-show-you-the-parts-of-employer-nobody-explains",
+      "key": "scene-talk.reply-agree.then-i-ll-show-you-the-parts-of-employer-nobody-explains",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That helps. Yes, I'll show you the parts of {employer} nobody explains.",
+      "text": "Then I'll show you the parts of {employer} nobody explains.",
       "uses": [
         {
           "subject": "scene",
