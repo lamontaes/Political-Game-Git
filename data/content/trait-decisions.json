@@ -332,6 +332,31 @@
       ]
     },
     {
+      "id": "candidacy.announce-way",
+      "site": "src/core2/modules/candidacy.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "traitWeightParameter": "traitWeightCandidacyAnnounceWay",
+      "options": [
+        {
+          "id": "candidacy-announce-word",
+          "actKinds": ["keep-same", "play-safe"]
+        },
+        {
+          "id": "candidacy-announce-party-office",
+          "actKinds": ["commit", "engage"]
+        },
+        {
+          "id": "candidacy-announce-public",
+          "actKinds": ["speak-out", "take-risk"]
+        },
+        {
+          "id": "candidacy-announce-asking",
+          "actKinds": ["engage", "speak-out"]
+        }
+      ]
+    },
+    {
       "id": "speech.retell",
       "site": "src/core2/modules/speech.ts",
       "owner": "OPUS-PEOPLE",

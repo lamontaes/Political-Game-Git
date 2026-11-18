@@ -118,6 +118,20 @@
     "citation": "How often a runner who has not yet said so weighs it again until filing opens. Spread 14 to 60 days. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
     "stopgapId": "SG-P15-candidacy-weights"
   },
+  "candidacyAnnounceWayReachWeight": {
+    "role": "coefficient",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly the number of people a way reaches (to candidacyStandingCircle) draws a runner to it. Spread 0.5 to 2. How a runner chooses the way they say they are running (owner, Nov 17: \"There needs to be a bunch of different ways\"). Candidates for local office first tell family and friends and their party before they go public (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceWayPartyWeight": {
+    "role": "coefficient",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly the party roles a runner holds draw them to say so at the party's office. Spread 0.5 to 2. How a runner chooses the way they say they are running (owner, Nov 17: \"There needs to be a bunch of different ways\"). Candidates for local office first tell family and friends and their party before they go public (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "candidacyDecisionLeadDays": {
     "value": 365,
     "tag": "ESTIMATED",
