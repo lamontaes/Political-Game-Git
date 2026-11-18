@@ -1,15 +1,13 @@
 ---
 name: lives
 description: >
-  How Our Civic Duty simulates the lives of people outside the played town
-  (owner, Nov 1: "EVERY. LIFE. IS. SIMULATED."): the relatives and town leavers
-  of the inactive "husk" tier, kept minimal until met, run through the engines
-  that already run the town's people at a coarse cadence, and how a unit is
-  proved (the real-rate check, the played-world record, the speed bar). Use
-  for any core-every-life-* item, for a husk's moves, work, partnership,
-  births, illness or death, and when a talk or paper reads a relative's news.
-  Not for filling a person in (two-level population, state.ts) or for wording
-  the news (words-engine).
+  Simulates the lives of people outside the played town (owner, Nov 1: "EVERY.
+  LIFE. IS. SIMULATED."): relatives and town leavers in the inactive husk
+  tier, kept minimal until met and run through the town's own engines at a
+  coarse cadence, and how a unit is proved. Use for any core-every-life-*
+  item, a husk's moves, work, partnership, births, illness or death, and when
+  a talk or paper reads a relative's news. Not for filling a person in
+  (state.ts) or wording the news (words-engine).
 ---
 
 # Lives

@@ -57,15 +57,8 @@ import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import { saidOf } from "./address-render";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
-import {
-  closeDuePromises,
-  indexPromise,
-  promiseOfEvent,
-  promiseHeldBySecond,
-  settlePromisesOnEvent,
-  settlePromisesOnTie,
-  promiseParam,
-} from "./promises";
+import { promisesBetween } from "../core2/modules/promises";
+import { coreAPI } from "../core2/state";
 import type {
   BackdropEntry,
   CallbackLink,
@@ -288,8 +281,6 @@ export function createDirector(
     broadEvents: new Map(),
     hitBy: new Map(),
     liesByLearner: new Map(),
-    promisesBySettle: new Map(),
-    promisesDue: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
@@ -1423,6 +1414,20 @@ export function createDirector(
           ),
         );
       }
+      // A promise between the two (the promises engine's rows), oldest
+      // first: due the day it settled.
+      for (const promise of [
+        ...promisesBetween(coreAPI(core as CoreState), book.personId, otherId),
+      ].reverse())
+        moment.echoes.push(
+          link(
+            promise.id,
+            "kept-fact",
+            otherId,
+            promise.endedAt === date ? "kept-fact-due" : "kept-fact-open",
+            impact,
+          ),
+        );
       // An anniversary: a broad event that hit both people links back, most
       // strongly near its date (owner answer 7). It never stages a scene.
       for (const shared of pairHistory(book, otherId)) {
@@ -2163,18 +2168,7 @@ export function createDirector(
         return row.equals === undefined ? !!value : value === row.equals;
       });
       if (!kind.producedBy.includes(event.kind) && !byFact) continue;
-      const promise =
-        kind.endsOn === "settling-record"
-          ? promiseOfEvent(event, promiseParam)
-          : null;
-      if (kind.endsOn === "settling-record" && !promise) continue;
-      // The word was given by the first person on the reply, or, where the
-      // promise was the price of a yes, by the second (promise-kinds.json).
-      const [first, second] = event.personIds;
-      const [holderId, otherId] =
-        promise && promiseHeldBySecond(promise.kind)
-          ? [second, first]
-          : [first, second];
+      const [holderId, otherId] = event.personIds;
       if (!holderId || !otherId) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
@@ -2185,10 +2179,8 @@ export function createDirector(
         sinceBasis: "recorded",
         sourceId: event.id,
         ...(event.topic ? { concernsKey: event.topic } : {}),
-        ...(promise ? { promise } : {}),
       };
       keepFact(book, fact);
-      if (promise) indexPromise(ledger, book.keptFacts.get(fact.id)!);
       if (kind.endsOn === "contradicting-fact-learned" && fact.concernsKey) {
         const key = `${otherId}|${fact.concernsKey}`;
         let set = ledger.liesByLearner.get(key);
@@ -2231,7 +2223,6 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
-      settlePromisesOnEvent(api, ledger, event, promiseParam);
       if (circumstanceRows.has(event.kind)) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -2253,7 +2244,6 @@ export function createDirector(
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
-      settlePromisesOnTie(api, ledger, notice, promiseParam);
       for (const id of [notice.actorId, notice.otherId]) {
         if (!ledger.people.has(id)) continue;
         let queue = tieNotices.get(id);
@@ -2271,8 +2261,6 @@ export function createDirector(
       if (!started && warming) return;
       if (!started)
         throw new Error("The story director was installed but not started.");
-      // Promises whose window closes today end as their kind says.
-      closeDuePromises(api, ledger, promiseParam);
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
       // Election day (the polling-place type's producer): the eve's close
@@ -2388,8 +2376,6 @@ export function createDirector(
       refill(ledger.broadEvents, fromLedger.broadEvents);
       refill(ledger.hitBy, fromLedger.hitBy);
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
-      refill(ledger.promisesBySettle, fromLedger.promisesBySettle ?? new Map());
-      refill(ledger.promisesDue, fromLedger.promisesDue ?? new Map());
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);
