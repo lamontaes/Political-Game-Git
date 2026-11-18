@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** core-country-tier-town-joins-its-state-part-2-outside-buyers-follow-the-sector, core-country-tier-town-joins-its-state-part-3-a-sellers-share-follows-its-books.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps/labor.json, scripts/world-proofs/jobs-24-months.ts
+
+**Notes.** 2026-11-17 (Labor, claude/pins-labor-employer-review): the town half of `reviewTurnover` is replaced by the employer's keep review (pool item jobs-employer-keep-review-replaces-national-layoff-pace), under the owner's Nov 16 order to lift the pins. What is left for this item: the review's fitted baseline (stopgap SG-LABOR-let-go-baseline), which is refit to discharges for the worker's own record once parts 2 and 3 make a seller's sales move on its own books.

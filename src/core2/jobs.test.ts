@@ -60,18 +60,18 @@ function drawPlace(): { key: string; state: string } {
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
 /**
- * The same data with no layoff turnover: the test of how postings follow
- * demand reads the staffing decision alone, and a worker let go by the
- * turnover pull (jobs.ts reviewTurnover) would open a replacement of its own.
- * The turnover has its own test (town-turnover.test.ts).
+ * The same data with the employer's keep review switched off: the test of how
+ * postings follow demand reads the staffing decision alone, and a worker let
+ * go by the keep review (jobs.ts reviewKeeping) would open a replacement of
+ * its own. The keep review has its own test (employer-keep-review.test.ts).
  */
 const noTurnoverData = {
   ...data,
   parameters: {
     ...data.parameters,
-    pastWorkLayoffsPerQuarter: {
-      ...data.parameters.pastWorkLayoffsPerQuarter!,
-      value: 0,
+    jobsLetGoBaseline: {
+      ...data.parameters.jobsLetGoBaseline!,
+      value: -60,
     },
   },
 };
@@ -86,6 +86,14 @@ const filingData = {
   parameters: {
     ...data.parameters,
     benefitsFileBase: { ...data.parameters.benefitsFileBase!, value: 2 },
+  },
+};
+/** The filing base, with the keep review off: the layoff in the benefits test follows the shortfall in sales (the staffing review), later than the keep review would let a worker go. */
+const filingNoTurnoverData = {
+  ...noTurnoverData,
+  parameters: {
+    ...noTurnoverData.parameters,
+    benefitsFileBase: filingData.parameters.benefitsFileBase,
   },
 };
 const start = "2021-01-01",
@@ -422,6 +430,12 @@ describe("jobs", () => {
   it("fills a declined player opening with the next willing applicant", () => {
     const fixture = input();
     fixture.playerId = "s2";
+    // An employer offers the player a job only through someone on its staff who
+    // knows them (owner, Nov 16: "I didn't even apply for one"), so the player
+    // knows a worker at the shop.
+    fixture.people = fixture.people.map((row) =>
+      row.id === "s2" ? { ...row, knownIds: ["w1"] } : row,
+    );
     const core = createLifeCore(fixture, { data, modules: [JOBS_MODULE] });
     const api = coreAPI(core);
     withBooks(core, 2);
@@ -507,7 +521,11 @@ describe("jobs", () => {
     }
   });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
-    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+    // The staffing decision alone: a firm this far over its sales is also shedding through its keep review (employer-keep-review.test.ts).
+    const core = createLifeCore(input(), {
+        data: noTurnoverData,
+        modules: [JOBS_MODULE],
+      }),
       api = coreAPI(core),
       total = money(core);
     withBooks(core, 0.25);
@@ -574,7 +592,7 @@ describe("jobs", () => {
           ],
           placeMetadata: { placeKey: drawn.key },
         } as CoreInput,
-        { data: filingData, modules: [JOBS_MODULE] },
+        { data: filingNoTurnoverData, modules: [JOBS_MODULE] },
       ),
       api = coreAPI(core);
     openLaws(core);

@@ -365,6 +365,20 @@
       "source": "Pew Research Center (2024), 'Changing Partisan Coalitions in a Politically Divided Nation': about 7% of adults neither identify with nor lean toward a party.",
       "spread": [0.05, 0.1]
     },
+    "partyIdentityReach": {
+      "value": 0.55,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "In a world whose day one is the century's, how far toward its side's party a person's own lean must reach (as a share of the party's position on the voters' scale, stanceLean) for them to take the party. Checked against Gallup's 2024 party identification (56% identify; partyIdentifierShare): at four drawn century worlds on Nov 17, 2026 (Channel Lake IL, South Windham CT, Long Hill CT, Fort Washakie WY), 0.55 gave 55.2% to 57.2%. It sets only the strength; how many take a party moves with how far the world's own parties stand from its people.",
+      "spread": [0.45, 0.65]
+    },
+    "noPartyReach": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "In a world whose day one is the century's, the noPartyScore (how firmly someone leans plus a little for careful thinking) at or under which a person who takes no party has no party at all rather than calling themselves independent. Checked against Pew 2024's 7% (noPartyShare): at the same four drawn century worlds, 0.02 put 5.5% to 7.5% of adults under it. It sets only the strength; the count moves with the people.",
+      "spread": [0.0, 0.04]
+    },
     "noPartyDeliberationWeight": {
       "value": 0.1,
       "tag": "TUNABLE",
@@ -1341,6 +1355,13 @@
       "tag": "TUNABLE",
       "source": "Days before a special election its filing closes where the place's own deadline isn't read; state special-election calendars commonly close filing six to eight weeks ahead.",
       "spread": [20, 75]
+    },
+    "specialShortNoticeFilingShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The share of the days between a special election's call and its election day that filing stays open when the usual close (specialFilingDaysBefore) has already passed, so a special called on short notice still gives a petition days to circulate. State special-election calendars set election day 30 to 90 days after the vacancy and close filing in the first part of that time.",
+      "spread": [0.25, 0.75]
     },
     "turnoutEngagementWeight": {
       "value": 5,
