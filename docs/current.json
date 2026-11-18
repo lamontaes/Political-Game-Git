@@ -1488,6 +1488,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed a housemate to open from the day with a point of the address; the address-talk lines are deleted and no housemate has a point to raise."
+    },
+    {
+      "old": "src/director/interview-invite-seat.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its two pinned cases needed the reporter's interview invitation to reach the player and name the seat; the invite-interview scene has no narration since the cut, so no invitation reaches anyone."
     }
   ]
 }
