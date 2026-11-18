@@ -108,10 +108,15 @@ export default defineConfig({
       // The year-long platform calibration reads three played years (about 20
       // minutes). It runs on purpose with `npm run test:calibration`, and the
       // hosted full run does not carry it (pool item
-      // tests-campaign-platform-played-calibration-is-slow).
+      // tests-campaign-platform-played-calibration-is-slow). The same lane
+      // carries the Washington, D.C. counted-moves worlds.
       ...(process.env.OCD_CALIBRATION
         ? []
-        : ["src/core2/campaign-platform-played.test.ts"]),
+        : [
+            "src/core2/campaign-platform-played.test.ts",
+            // Washington, D.C.'s three worlds take 734 to 1,555 seconds each.
+            "src/core2/counted-moves-balance-dc.test.ts",
+          ]),
     ],
   },
 });
