@@ -176,7 +176,8 @@
     "gift-weight": "How a donor's gift ranks among the campaign's gifts, in words and never a figure (\"the biggest check you've had\"), from the campaign's gift rows.",
     "your-side": "Which side of a bill the listener's own recorded view puts them on, \"for\" or \"against\", from the views engine.",
     "bill-stage": "Where a bill is, as people say it after \"is\" (\"just filed\", \"held up in committee\"), from the committee and floor records.",
-    "bribe-weight": "How big a bribe's envelope is against what the listener's household spends to live, in words and never a figure (\"a month of bills\"), from the corruption engine's crime record."
+    "bribe-weight": "How big a bribe's envelope is against what the listener's household spends to live, in words and never a figure (\"a month of bills\"), from the corruption engine's crime record.",
+    "nearby": "The county or state that holds both the reader's town and the writer's, said as its name, set only when the writer's place is not truly elsewhere, from the writer's person record."
   },
   "maxWords": 70,
   "parts": [
@@ -26752,6 +26753,78 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.a-letter-has-come-from-name-postmarked-nearby",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A letter has come from {name}, postmarked {nearby}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["nearby"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-envelope-from-name-is-postmarked-nearby-not-far-off",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The envelope from {name} is postmarked {nearby}, not far off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["nearby"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-written-from-nearby",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has written from {nearby}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["nearby"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.a-letter-has-come-from-name-with-news-of-a-new-baby-named-new-child",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -26764,7 +26837,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child", "hometown"]
+          "requiresFacts": ["new-child"]
         }
       ],
       "origin": "authored",
@@ -26776,10 +26849,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-written-from-hometown-and-the-first-page-is-about-the-baby-new-child",
+      "key": "scene-talk.narrate-narrate.name-has-written-and-the-first-page-is-about-the-baby-new-child",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has written from {hometown}, and the first page is about the baby, {new-child}.",
+      "text": "{name} has written, and the first page is about the baby, {new-child}.",
       "uses": [
         {
           "subject": "scene",
@@ -26788,7 +26861,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child", "hometown"]
+          "requiresFacts": ["new-child"]
         }
       ],
       "origin": "authored",
@@ -26812,7 +26885,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married", "hometown"]
+          "requiresFacts": ["married"]
         }
       ],
       "origin": "authored",
@@ -26824,10 +26897,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-written-from-hometown-about-a-wedding-to-married",
+      "key": "scene-talk.narrate-narrate.name-has-written-about-a-wedding-to-married",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has written from {hometown} about a wedding, to {married}.",
+      "text": "{name} has written about a wedding, to {married}.",
       "uses": [
         {
           "subject": "scene",
@@ -26836,7 +26909,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married", "hometown"]
+          "requiresFacts": ["married"]
         }
       ],
       "origin": "authored",
@@ -26860,7 +26933,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer", "hometown"]
+          "requiresFacts": ["new-employer"]
         }
       ],
       "origin": "authored",
@@ -26872,10 +26945,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-written-from-hometown-about-the-new-job-at-new-employer",
+      "key": "scene-talk.narrate-narrate.name-has-written-about-the-new-job-at-new-employer",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has written from {hometown} about the new job at {new-employer}.",
+      "text": "{name} has written about the new job at {new-employer}.",
       "uses": [
         {
           "subject": "scene",
@@ -26884,7 +26957,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer", "hometown"]
+          "requiresFacts": ["new-employer"]
         }
       ],
       "origin": "authored",
@@ -26908,7 +26981,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["ill", "hometown"]
+          "requiresFacts": ["ill"]
         }
       ],
       "origin": "authored",
@@ -26920,10 +26993,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-written-from-hometown-after-a-serious-illness",
+      "key": "scene-talk.narrate-narrate.name-has-written-after-a-serious-illness",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has written from {hometown} after a serious illness.",
+      "text": "{name} has written after a serious illness.",
       "uses": [
         {
           "subject": "scene",
@@ -26932,7 +27005,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["ill", "hometown"]
+          "requiresFacts": ["ill"]
         }
       ],
       "origin": "authored",
@@ -26968,6 +27041,30 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-has-moved-and-the-new-letter-is-postmarked-nearby",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has moved, and the new letter is postmarked {nearby}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["moved", "nearby"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.a-letter-has-come-from-name-who-was-missing-from-your-birthday-table",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -26980,7 +27077,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["missed-birthday", "hometown"]
+          "requiresFacts": ["missed-birthday"]
         }
       ],
       "origin": "authored",
@@ -26992,10 +27089,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-written-from-hometown-after-the-birthday-you-spent-without-name",
+      "key": "scene-talk.narrate-narrate.name-has-written-after-the-birthday-you-spent-without-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has written from {hometown}, after the birthday you spent without {name}.",
+      "text": "{name} has written, after the birthday you spent without {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -27004,7 +27101,7 @@
           "role": "narrator",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["missed-birthday", "hometown"]
+          "requiresFacts": ["missed-birthday"]
         }
       ],
       "origin": "authored",
@@ -27162,31 +27259,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-know-it-s-a-trip-to-hometown-could-you-make-it-for-a-few-days",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I know it's a trip to {hometown}. Could you make it for a few days?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-request.come-and-stay-a-few-days-in-hometown-i-d-like-the-company",
       "move": "state-request",
       "kind": "spoken",
@@ -27212,60 +27284,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.out-here-in-hometown-i-hardly-hear-how-you-are-would-you-write-back-and-tell-me",
+      "key": "scene-talk.state-request.i-know-it-s-a-trip-to-hometown-could-you-make-it-for-a-few-days",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Out here in {hometown} I hardly hear how you are. Would you write back and tell me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.could-you-call-me-in-hometown-when-you-have-a-minute-i-d-like-to-hear-your-voice",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Could you call me in {hometown} when you have a minute? I'd like to hear your voice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.from-hometown-i-can-t-tell-how-you-re-doing-would-you-write-and-let-me-know",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "From {hometown} I can't tell how you're doing. Would you write and let me know?",
+      "text": "I know it's a trip to {hometown}. Could you make it for a few days?",
       "uses": [
         {
           "subject": "scene",
@@ -27287,10 +27309,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-have-a-new-baby-new-child-could-you-come-out-to-hometown-and-meet-new-child",
+      "key": "scene-talk.state-request.we-re-still-in-nearby-not-so-far-will-you-come-see-us-some-weekend",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We have a new baby, {new-child}. Could you come out to {hometown} and meet {new-child}?",
+      "text": "We're still in {nearby}, not so far. Will you come see us some weekend?",
       "uses": [
         {
           "subject": "scene",
@@ -27299,7 +27321,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child", "hometown"]
+          "requiresFacts": ["nearby"]
         }
       ],
       "bearing": "warm",
@@ -27312,10 +27334,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.new-child-was-born-since-i-last-wrote-will-you-come-to-hometown-and-meet-the-bab",
+      "key": "scene-talk.state-request.it-s-only-nearby-and-we-hardly-see-you-would-you-come-by-for-a-visit",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{new-child} was born since I last wrote. Will you come to {hometown} and meet the baby?",
+      "text": "It's only {nearby}, and we hardly see you. Would you come by for a visit?",
       "uses": [
         {
           "subject": "scene",
@@ -27324,7 +27346,82 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-child", "hometown"]
+          "requiresFacts": ["nearby"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-re-not-far-from-us-in-nearby-could-you-come-for-a-meal-one-of-these-days",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You're not far from us in {nearby}. Could you come for a meal one of these days?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["nearby"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-have-a-new-baby-new-child-could-you-come-and-meet-new-child",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We have a new baby, {new-child}. Could you come and meet {new-child}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["new-child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.new-child-was-born-since-i-last-wrote-will-you-come-and-meet-the-baby",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{new-child} was born since I last wrote. Will you come and meet the baby?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["new-child"]
         }
       ],
       "bearing": "glad",
@@ -27337,10 +27434,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-married-married-will-you-come-out-to-hometown-and-meet-married",
+      "key": "scene-talk.state-request.there-s-another-baby-named-new-child-and-i-d-love-you-to-hold-new-child-will-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I married {married}. Will you come out to {hometown} and meet {married}?",
+      "text": "There's another baby, named {new-child}, and I'd love you to hold {new-child}. Will you come?",
       "uses": [
         {
           "subject": "scene",
@@ -27349,7 +27446,32 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["married", "hometown"]
+          "requiresFacts": ["new-child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-married-married-will-you-come-and-meet-married",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I married {married}. Will you come and meet {married}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["married"]
         }
       ],
       "bearing": "warm",
@@ -27362,10 +27484,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-ve-started-at-new-employer-and-my-days-out-in-hometown-are-full-will-you-write",
+      "key": "scene-talk.state-request.married-and-i-were-married-since-i-last-wrote-will-you-come-and-meet-married",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've started at {new-employer}, and my days out in {hometown} are full. Will you write and tell me about yours?",
+      "text": "{married} and I were married since I last wrote. Will you come and meet {married}?",
       "uses": [
         {
           "subject": "scene",
@@ -27374,7 +27496,32 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["new-employer", "hometown"]
+          "requiresFacts": ["married"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-started-at-new-employer-will-you-write-and-tell-me-about-your-work",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've started at {new-employer}. Will you write and tell me about your work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "requiresFacts": ["new-employer"]
         }
       ],
       "bearing": "calm",
@@ -27387,10 +27534,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-ve-been-seriously-ill-and-it-made-me-want-to-hear-from-you-could-you-call-me-i",
+      "key": "scene-talk.state-request.my-new-job-at-new-employer-keeps-me-busy-would-you-write-and-tell-me-how-you-are",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I've been seriously ill, and it made me want to hear from you. Could you call me in {hometown} when you can?",
+      "text": "My new job at {new-employer} keeps me busy. Would you write and tell me how you are?",
       "uses": [
         {
           "subject": "scene",
@@ -27399,10 +27546,10 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["ill", "hometown"]
+          "requiresFacts": ["new-employer"]
         }
       ],
-      "bearing": "tender",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27437,10 +27584,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.let-me-make-up-for-the-birthday-i-missed-i-could-come-from-hometown-and-see-you",
+      "key": "scene-talk.state-request.i-ve-moved-and-i-m-in-nearby-now-will-you-come-see-the-new-place",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Let me make up for the birthday I missed. I could come from {hometown} and see you.",
+      "text": "I've moved, and I'm in {nearby} now. Will you come see the new place?",
       "uses": [
         {
           "subject": "scene",
@@ -27449,82 +27596,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "requiresFacts": ["missed-birthday", "hometown"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.my-birthday-is-near-and-it-would-mean-a-great-deal-to-hear-from-you-here-in-home",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "My birthday is near, and it would mean a great deal to hear from you here in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["birthday-near", "hometown"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-i-d-like-us-to-be-closer-and-a-trip-out-to-hometown-is-a-place-to-start",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. I'd like us to be closer, and a trip out to {hometown} is a place to start.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-do-it-i-don-t-want-to-be-a-stranger-to-the-people-out-in-hometown",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll do it. I don't want to be a stranger to the people out in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "requiresFacts": ["moved", "nearby"]
         }
       ],
       "bearing": "calm",
@@ -27532,15 +27604,15 @@
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
-        "move": "agree",
+        "move": "request",
         "key": "news-received"
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-d-like-that-tell-me-what-would-suit-you-best-out-in-hometown",
+      "key": "scene-talk.reply-agree.yes-gladly",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, I'd like that. Tell me what would suit you best out in {hometown}.",
+      "text": "Yes, gladly.",
       "uses": [
         {
           "subject": "scene",
@@ -27548,8 +27620,55 @@
           "move": "agree",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-d-like-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'd like that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received"
         }
       ],
       "bearing": "glad",
@@ -27562,10 +27681,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-ve-thought-about-writing-out-to-hometown-myself-and-never-got-around-to-it",
+      "key": "scene-talk.reply-agree.i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I've thought about writing out to {hometown} myself and never got around to it.",
+      "text": "I'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -27573,11 +27692,10 @@
           "move": "agree",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
         }
       ],
-      "bearing": "contrite",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27587,10 +27705,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-mean-the-most-to-you-out-in-hometown",
+      "key": "scene-talk.reply-ask.what-s-wrong",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would mean the most to you, out in {hometown}?",
+      "text": "What's wrong?",
       "uses": [
         {
           "subject": "scene",
@@ -27598,8 +27716,55 @@
           "move": "ask",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-needed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's needed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received"
         }
       ],
       "bearing": "curious",
@@ -27612,10 +27777,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-are-things-in-hometown-i-d-like-to-know-what-is-behind-this-before-i-answer",
+      "key": "scene-talk.reply-ask.what-s-this-about",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How are things in {hometown}? I'd like to know what is behind this before I answer.",
+      "text": "What's this about?",
       "uses": [
         {
           "subject": "scene",
@@ -27623,11 +27788,10 @@
           "move": "ask",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
         }
       ],
-      "bearing": "guarded",
+      "bearing": "curious",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27637,60 +27801,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.has-something-happened-in-hometown-tell-me-what-you-re-hoping-for",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Has something happened in {hometown}? Tell me what you're hoping for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.how-much-of-this-is-about-getting-me-out-to-hometown-and-how-much-is-about-the-t",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How much of this is about getting me out to {hometown}, and how much is about the two of us?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-do-that-right-now-reaching-you-out-in-hometown-isn-t-easy-and-i-m-sorry",
+      "key": "scene-talk.reply-decline.not-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't do that right now. Reaching you out in {hometown} isn't easy, and I'm sorry.",
+      "text": "Not right now.",
       "uses": [
         {
           "subject": "scene",
@@ -27698,33 +27812,7 @@
           "move": "decline",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.not-now-i-can-t-promise-anything-about-hometown-right-now",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Not now. I can't promise anything about {hometown} right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
         }
       ],
       "bearing": "calm",
@@ -27737,10 +27825,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-say-yes-it-s-hard-to-promise-anything-about-hometown-from-here",
+      "key": "scene-talk.reply-decline.i-can-t-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could say yes. It's hard to promise anything about {hometown} from here.",
+      "text": "I can't, sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -27748,8 +27836,7 @@
           "move": "decline",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
         }
       ],
       "bearing": "contrite",
@@ -27762,10 +27849,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-more-than-i-can-give-right-now-i-m-not-ready-to-take-that-step-with-you-o",
+      "key": "scene-talk.reply-decline.not-this-time",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's more than I can give right now. I'm not ready to take that step with you out in {hometown}.",
+      "text": "Not this time.",
       "uses": [
         {
           "subject": "scene",
@@ -27773,8 +27860,31 @@
           "move": "decline",
           "role": "asked",
           "purpose": "letter-ask",
-          "key": "news-received",
-          "requiresFacts": ["hometown"]
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-ready",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received"
         }
       ],
       "bearing": "braced",
@@ -27787,10 +27897,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-means-a-great-deal-it-will-feel-less-quiet-out-here-in-hometown",
+      "key": "scene-talk.follow-thank.thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That means a great deal. It will feel less quiet out here in {hometown}.",
+      "text": "Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -27799,8 +27909,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "agree",
-          "requiresFacts": ["hometown"]
+          "after": "agree"
         }
       ],
       "bearing": "warm",
@@ -27813,10 +27922,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-was-hoping-for-a-yes-that-s-the-best-news-i-ve-had-out-here-in-hometown-in-a-w",
+      "key": "scene-talk.follow-thank.i-m-so-glad",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I was hoping for a yes. That's the best news I've had out here in {hometown} in a while.",
+      "text": "I'm so glad.",
       "uses": [
         {
           "subject": "scene",
@@ -27825,8 +27934,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "agree",
-          "requiresFacts": ["hometown"]
+          "after": "agree"
         }
       ],
       "bearing": "glad",
@@ -27839,10 +27947,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-wasn-t-sure-how-you-would-answer-writing-from-hometown",
+      "key": "scene-talk.follow-thank.that-means-everything",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I wasn't sure how you would answer, writing from {hometown}.",
+      "text": "That means everything.",
       "uses": [
         {
           "subject": "scene",
@@ -27851,11 +27959,10 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "agree",
-          "requiresFacts": ["hometown"]
+          "after": "agree"
         }
       ],
-      "bearing": "hopeful",
+      "bearing": "tender",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27865,10 +27972,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-i-ll-leave-the-rest-to-you-and-wait-here-in-hometown",
+      "key": "scene-talk.follow-accept.wonderful-then",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Good. I'll leave the rest to you, and wait here in {hometown}.",
+      "text": "Wonderful, then.",
       "uses": [
         {
           "subject": "scene",
@@ -27877,60 +27984,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "agree",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.alright-tell-me-what-suits-you-and-i-ll-fit-hometown-around-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Alright. Tell me what suits you, and I'll fit {hometown} around it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "agree",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.that-s-what-i-had-hoped-you-would-say-there-s-room-for-you-in-hometown",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "That's what I had hoped you would say. There's room for you in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "agree",
-          "requiresFacts": ["hometown"]
+          "after": "agree"
         }
       ],
       "bearing": "warm",
@@ -27943,36 +27997,60 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mostly-i-want-us-to-be-in-touch-again-it-gets-quiet-in-hometown-when-nobody-writ",
-      "move": "follow-answer",
+      "key": "scene-talk.follow-accept.i-ll-be-waiting",
+      "move": "follow-accept",
       "kind": "spoken",
-      "text": "Mostly I want us to be in touch again. It gets quiet in {hometown} when nobody writes.",
+      "text": "I'll be waiting.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
-          "move": "answer",
+          "move": "accept",
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "ask",
-          "requiresFacts": ["hometown"]
+          "after": "agree"
         }
       ],
-      "bearing": "tender",
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
-        "move": "answer",
+        "move": "accept",
         "key": "news-received"
       }
     },
     {
-      "key": "scene-talk.follow-answer.nothing-is-wrong-i-want-to-hear-from-you-that-s-all-out-here-in-hometown",
+      "key": "scene-talk.follow-accept.good-i-m-relieved",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good, I'm relieved.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-is-wrong",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Nothing is wrong. I want to hear from you, that's all, out here in {hometown}.",
+      "text": "Nothing is wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -27981,8 +28059,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "ask",
-          "requiresFacts": ["hometown"]
+          "after": "ask"
         }
       ],
       "bearing": "calm",
@@ -27995,10 +28072,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.whatever-you-can-give-a-letter-a-call-or-a-visit-to-hometown-in-your-own-time",
+      "key": "scene-talk.follow-answer.whatever-you-can",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever you can give. A letter, a call, or a visit to {hometown}, in your own time.",
+      "text": "Whatever you can.",
       "uses": [
         {
           "subject": "scene",
@@ -28007,8 +28084,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "ask",
-          "requiresFacts": ["hometown"]
+          "after": "ask"
         }
       ],
       "bearing": "warm",
@@ -28021,10 +28097,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-d-like-to-be-part-of-your-life-again-and-i-don-t-know-another-way-to-say-it-fr",
+      "key": "scene-talk.follow-answer.only-word-really",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd like to be part of your life again, and I don't know another way to say it from {hometown}.",
+      "text": "Only word, really.",
       "uses": [
         {
           "subject": "scene",
@@ -28033,8 +28109,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "ask",
-          "requiresFacts": ["hometown"]
+          "after": "ask"
         }
       ],
       "bearing": "tender",
@@ -28047,10 +28122,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-understand-but-this-matters-to-me-is-something-in-the-way-besides-the-trip-to",
+      "key": "scene-talk.follow-press.is-it-me",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I understand, but this matters to me. Is something in the way, besides the trip to {hometown}?",
+      "text": "Is it me?",
       "uses": [
         {
           "subject": "scene",
@@ -28059,8 +28134,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "decline",
-          "requiresFacts": ["hometown"]
+          "after": "decline"
         }
       ],
       "bearing": "hurt",
@@ -28073,10 +28147,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.is-it-something-i-did-i-d-rather-know-than-wonder-out-here-in-hometown",
+      "key": "scene-talk.follow-press.why-not-though",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Is it something I did? I'd rather know than wonder out here in {hometown}.",
+      "text": "Why not, though?",
       "uses": [
         {
           "subject": "scene",
@@ -28085,8 +28159,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "decline",
-          "requiresFacts": ["hometown"]
+          "after": "decline"
         }
       ],
       "bearing": "hurt",
@@ -28099,10 +28172,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.could-you-tell-me-what-would-make-it-possible-i-d-take-a-small-step-over-nothing",
+      "key": "scene-talk.follow-press.why-though",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Could you tell me what would make it possible? I'd take a small step over nothing, out here in {hometown}.",
+      "text": "Why, though?",
       "uses": [
         {
           "subject": "scene",
@@ -28111,8 +28184,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "decline",
-          "requiresFacts": ["hometown"]
+          "after": "decline"
         }
       ],
       "bearing": "anxious",
@@ -28125,10 +28197,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-understand-maybe-another-time-when-a-trip-to-hometown-seems-easier",
+      "key": "scene-talk.follow-accept.i-understand",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I understand. Maybe another time, when a trip to {hometown} seems easier.",
+      "text": "I understand.",
       "uses": [
         {
           "subject": "scene",
@@ -28137,8 +28209,16 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "decline",
-          "requiresFacts": ["hometown"]
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "outcome": "refused"
         }
       ],
       "bearing": "calm",
@@ -28151,10 +28231,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-won-t-ask-again-right-away-my-door-in-hometown-stays-open",
+      "key": "scene-talk.follow-accept.maybe-another-time",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I won't ask again right away. My door in {hometown} stays open.",
+      "text": "Maybe another time.",
       "uses": [
         {
           "subject": "scene",
@@ -28163,34 +28243,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "decline",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.alright-i-ll-let-it-rest-for-now-and-you-know-where-to-find-me-in-hometown",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Alright. I'll let it rest for now, and you know where to find me in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "decline",
-          "requiresFacts": ["hometown"]
+          "after": "decline"
         }
       ],
       "bearing": "calm",
@@ -28203,10 +28256,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-re-right-to-push-yes-i-ll-do-it-i-let-things-with-you-out-in-hometown-go-qui",
+      "key": "scene-talk.follow-accept.i-ll-wait-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll wait, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "after": "decline"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You're right to push. Yes, I'll do it. I let things with you out in {hometown} go quiet for too long.",
+      "text": "You're right. Yes.",
       "uses": [
         {
           "subject": "scene",
@@ -28215,8 +28293,7 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "press",
-          "requiresFacts": ["hometown"]
+          "after": "press"
         }
       ],
       "bearing": "contrite",
@@ -28229,10 +28306,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-yes-it-s-not-you-and-it-s-not-the-trip-out-to-hometown-i-ve-just-been-sl",
+      "key": "scene-talk.reply-agree.alright-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, yes. It's not you, and it's not the trip out to {hometown}. I've just been slow to answer.",
+      "text": "Alright, yes.",
       "uses": [
         {
           "subject": "scene",
@@ -28241,8 +28318,32 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "press",
-          "requiresFacts": ["hometown"]
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-m-sorry",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "after": "press"
         }
       ],
       "bearing": "contrite",
@@ -28255,36 +28356,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-had-been-putting-this-off-and-you-deserved-better-than-that-out-in-hometow",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. I had been putting this off, and you deserved better than that out in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "press",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-can-t-settle-this-in-one-letter-give-me-time-and-i-ll-write-to-hometown-when-i",
+      "key": "scene-talk.reply-leave.let-me-think",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't settle this in one letter. Give me time, and I'll write to {hometown} when I can.",
+      "text": "Let me think.",
       "uses": [
         {
           "subject": "scene",
@@ -28293,8 +28368,32 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "press",
-          "requiresFacts": ["hometown"]
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.give-me-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "after": "press"
         }
       ],
       "bearing": "guarded",
@@ -28307,10 +28406,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-d-rather-not-argue-on-paper-with-you-out-in-hometown-i-ll-write-when-i-ve-thou",
+      "key": "scene-talk.reply-leave.i-ll-write-later",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'd rather not argue on paper, with you out in {hometown}. I'll write when I've thought it through.",
+      "text": "I'll write later.",
       "uses": [
         {
           "subject": "scene",
@@ -28319,8 +28418,7 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "press",
-          "requiresFacts": ["hometown"]
+          "after": "press"
         }
       ],
       "bearing": "guarded",
@@ -28333,36 +28431,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.that-s-more-than-i-can-answer-right-now-let-me-think-and-i-ll-write-back-to-home",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "That's more than I can answer right now. Let me think, and I'll write back to {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "press",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.that-helps-yes-i-ll-do-it-i-didn-t-know-that-was-all-you-wanted-out-there-in-hom",
+      "key": "scene-talk.reply-agree.then-yes-gladly",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That helps. Yes, I'll do it. I didn't know that was all you wanted, out there in {hometown}.",
+      "text": "Then yes, gladly.",
       "uses": [
         {
           "subject": "scene",
@@ -28371,34 +28443,7 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "answer",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.thank-you-for-telling-me-yes-i-ll-do-what-i-can-to-reach-you-out-in-hometown",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Thank you for telling me. Yes, I'll do what I can to reach you out in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "answer",
-          "requiresFacts": ["hometown"]
+          "after": "answer"
         }
       ],
       "bearing": "warm",
@@ -28411,10 +28456,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-s-less-than-i-feared-yes-i-d-like-that-and-i-ll-make-the-effort-even-out-to",
+      "key": "scene-talk.reply-agree.that-s-easy-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That's less than I feared. Yes, I'd like that, and I'll make the effort, even out to {hometown}.",
+      "text": "That's easy. Yes.",
       "uses": [
         {
           "subject": "scene",
@@ -28423,8 +28468,7 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "answer",
-          "requiresFacts": ["hometown"]
+          "after": "answer"
         }
       ],
       "bearing": "glad",
@@ -28437,10 +28481,35 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.thank-you-for-explaining-i-still-can-t-and-i-m-sorry-reaching-out-to-hometown-is",
+      "key": "scene-talk.reply-agree.i-can-manage",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I can manage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.still-i-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Thank you for explaining. I still can't, and I'm sorry. Reaching out to {hometown} isn't something I can do yet.",
+      "text": "Still, I can't.",
       "uses": [
         {
           "subject": "scene",
@@ -28449,8 +28518,7 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "answer",
-          "requiresFacts": ["hometown"]
+          "after": "answer"
         }
       ],
       "bearing": "contrite",
@@ -28463,10 +28531,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-understand-now-and-i-still-have-to-say-no-i-hope-you-can-forgive-that-out-in-h",
+      "key": "scene-talk.reply-decline.still-no-truly",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I understand now, and I still have to say no. I hope you can forgive that, out in {hometown}.",
+      "text": "Still no, truly.",
       "uses": [
         {
           "subject": "scene",
@@ -28475,8 +28543,32 @@
           "role": "asked",
           "purpose": "letter-ask",
           "key": "news-received",
-          "after": "answer",
-          "requiresFacts": ["hometown"]
+          "after": "answer"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.still-no-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Still no, sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "after": "answer"
         }
       ],
       "bearing": "guarded",
@@ -28489,36 +28581,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-does-help-me-understand-my-answer-stays-no-for-now-and-i-m-sorry-out-there",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "That does help me understand. My answer stays no for now, and I'm sorry, out there in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "answer",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-for-writing-back-it-feels-less-quiet-here-in-hometown-than-it-did",
+      "key": "scene-talk.close-thank.thank-you-truly",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for writing back. It feels less quiet here in {hometown} than it did.",
+      "text": "Thank you, truly.",
       "uses": [
         {
           "subject": "scene",
@@ -28527,8 +28593,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "resolved",
-          "requiresFacts": ["hometown"]
+          "outcome": "resolved"
         }
       ],
       "bearing": "warm",
@@ -28541,10 +28606,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-m-glad-you-answered-that-s-the-best-mail-i-ve-had-in-hometown-in-a-long-time",
+      "key": "scene-talk.close-thank.i-m-glad",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'm glad you answered. That's the best mail I've had in {hometown} in a long time.",
+      "text": "I'm glad.",
       "uses": [
         {
           "subject": "scene",
@@ -28553,8 +28618,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "resolved",
-          "requiresFacts": ["hometown"]
+          "outcome": "resolved"
         }
       ],
       "bearing": "glad",
@@ -28567,10 +28631,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-i-ll-read-your-answer-twice-over-here-in-hometown",
+      "key": "scene-talk.close-thank.write-soon",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll read your answer twice over here in {hometown}.",
+      "text": "Write soon.",
       "uses": [
         {
           "subject": "scene",
@@ -28579,8 +28643,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "resolved",
-          "requiresFacts": ["hometown"]
+          "outcome": "resolved"
         }
       ],
       "bearing": "tender",
@@ -28593,10 +28656,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-i-won-t-ask-again-soon-i-ll-be-in-hometown-if-you-change-your-mind",
+      "key": "scene-talk.close-accept.maybe-someday",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I won't ask again soon. I'll be in {hometown} if you change your mind.",
+      "text": "Maybe someday.",
       "uses": [
         {
           "subject": "scene",
@@ -28605,34 +28668,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "refused",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.i-understand-if-that-changes-you-know-where-hometown-is",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "I understand. If that changes, you know where {hometown} is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "outcome": "refused",
-          "requiresFacts": ["hometown"]
+          "outcome": "refused"
         }
       ],
       "bearing": "guarded",
@@ -28645,10 +28681,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-i-ll-let-it-be-and-i-hope-we-re-in-better-touch-when-you-next-think-of-m",
+      "key": "scene-talk.close-accept.then-another-time",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I'll let it be, and I hope we're in better touch when you next think of me out in {hometown}.",
+      "text": "Then another time.",
       "uses": [
         {
           "subject": "scene",
@@ -28657,8 +28693,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "refused",
-          "requiresFacts": ["hometown"]
+          "outcome": "refused"
         }
       ],
       "bearing": "hurt",
@@ -28671,10 +28706,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-it-over-and-let-me-know-what-you-decide-i-ll-be-here-in-hometown",
+      "key": "scene-talk.close-press.think-it-over",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think it over, and let me know what you decide. I'll be here in {hometown}.",
+      "text": "Think it over.",
       "uses": [
         {
           "subject": "scene",
@@ -28683,8 +28718,7 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "open",
-          "requiresFacts": ["hometown"]
+          "outcome": "open"
         }
       ],
       "bearing": "calm",
@@ -28697,10 +28731,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.there-s-no-rush-but-i-d-like-an-answer-when-you-re-ready-i-ll-be-waiting-in-home",
+      "key": "scene-talk.close-press.take-your-time",
       "move": "close-press",
       "kind": "spoken",
-      "text": "There's no rush, but I'd like an answer when you're ready. I'll be waiting in {hometown}.",
+      "text": "Take your time.",
       "uses": [
         {
           "subject": "scene",
@@ -28709,37 +28743,35 @@
           "role": "asker",
           "purpose": "letter-ask",
           "key": "news-received",
-          "outcome": "open",
-          "requiresFacts": ["hometown"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.take-your-time-i-d-rather-have-a-real-answer-later-than-a-hurried-one-out-here-i",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Take your time. I'd rather have a real answer later than a hurried one, out here in {hometown}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "outcome": "open",
-          "requiresFacts": ["hometown"]
+          "outcome": "open"
         }
       ],
       "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.no-rush",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "No rush.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "letter-ask",
+          "key": "news-received",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -29230,6 +29262,81 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.absent-is-still-in-nearby-not-so-far-could-you-call-or-even-drive-over",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{absent} is still in {nearby}, not so far. Could you call, or even drive over?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "nearby"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.absent-is-only-in-nearby-and-we-hardly-see-them-would-you-reach-out-and-visit",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{absent} is only in {nearby}, and we hardly see them. Would you reach out and visit?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "nearby"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.with-absent-so-near-in-nearby-a-visit-would-be-easy-would-you-go",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "With {absent} so near in {nearby}, a visit would be easy. Would you go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "nearby"]
+        }
+      ],
+      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
