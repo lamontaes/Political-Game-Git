@@ -20,7 +20,7 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 2. **Look for something to build on** before writing anything: `look-first`, open PRs that touch the same files (`mcp__github__list_pull_requests`, the train branch), the engine that already owns the mechanic (AGENTS.md rule 0: every system is already built; wire through it).
 3. **Build the replacement through that engine.** No new stopgap, no new tracking system. If something cannot be done, say what is missing in the PR; do not swap one stand-in for another.
 4. **Unregister only when the replacement is real:** delete the marker and set the row `resolved` with the replacement named. Count what was removed in the PR body.
-5. **Prove it in a played world** (`played-world-proof`): another engine reads the new record, named by id.
+5. **Prove it in a played world** (`done-proof` (played-world-proof part)): another engine reads the new record, named by id.
 
 ## Traps
 
