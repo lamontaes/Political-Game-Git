@@ -124,7 +124,13 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       // raisedOn; place 4963240, seed d9e16b44…: listed to the player at 19.73
       // an hour, the posting raised from 17.97 to 25.54 on May 1, the call on
       // May 5 at 28.04).
-      if (offer.hourlyMinor !== listed.get(offer.positionId)) {
+      // An opening posted after the player applied was never on the list they
+      // applied from (the employer's standing opening of
+      // January 21): the Jobs list's pay when the call comes is its whole claim.
+      if (
+        listed.has(offer.positionId) &&
+        offer.hourlyMinor !== listed.get(offer.positionId)
+      ) {
         const position = jobs
           .table("positions")
           .get(offer.positionId) as unknown as { raisedOn?: string };
