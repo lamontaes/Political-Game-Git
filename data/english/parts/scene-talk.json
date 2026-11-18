@@ -171547,6 +171547,535 @@
       "origin": "authored",
       "author": "Story lead (Claude, Fable)",
       "date": "2026-11-17"
+    },
+    {
+      "key": "scene-talk.reply-refuse.then-we-ll-both-be-here-a-long-time-still-no-on-wanted",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then we'll both be here a long time. Still no on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "press",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.say-that-once-more-and-the-clerk-hears-about-wanted",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Say that once more and the clerk hears about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "press",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-ve-had-your-say-on-wanted-let-s-leave-it-there",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You've had your say on {wanted}. Let's leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "press",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-m-going-keep-wanted-to-yourself",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'm going. Keep {wanted} to yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "press",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-with-an-envelope-the-answer-on-wanted-stands",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked with an envelope. The answer on {wanted} stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "deflect",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-asked-about-wanted-with-money-on-the-desk-i-report-that",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You asked about {wanted} with money on the desk. I report that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "deflect",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.we-re-done-talking-about-wanted-tonight",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "We're done talking about {wanted} tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "deflect",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-sorry-it-s-come-to-that-wanted-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry it's come to that. {wanted} is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "plea",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.begging-doesn-t-change-what-the-envelope-was-i-m-reporting-wanted",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Begging doesn't change what the envelope was. I'm reporting {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "plea",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.go-home-we-ll-talk-about-wanted-another-way",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Go home. We'll talk about {wanted} another way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "plea",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-help-you-with-wanted-goodnight",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't help you with {wanted}. Goodnight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "plea",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.someday-you-ll-want-someone-to-remember-how-bill-went",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Someday you'll want someone to remember how {bill} went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed",
+          "requiresFacts": ["favor-vote", "bill"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.remember-it-however-you-like-wanted-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Remember it however you like. {wanted} is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "threaten",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-a-threat-on-top-of-a-bribe-both-go-in-the-report-on-wanted",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's a threat on top of a bribe. Both go in the report on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "threaten",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-pretend-i-didn-t-hear-that-about-wanted",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll pretend I didn't hear that about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "threaten",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ll-watch-myself-wanted-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll watch myself. {wanted} is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "warn",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.warn-me-again-and-the-paper-hears-about-wanted",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Warn me again and the paper hears about {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "warn",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.we-re-done-here-keep-your-money-and-wanted",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "We're done here. Keep your money and {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "after": "warn",
+          "requiresFacts": ["wanted"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-telling-the-clerk-what-you-just-offered-on-wanted",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm telling the clerk what you just offered on {wanted}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "after": "warn",
+          "requiresFacts": ["wanted"],
+          "setsFacts": ["turned-down"],
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.there-s-bribe-weight-in-here-all-it-costs-you-is-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "There's {bribe-weight} in here. All it costs you is {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "requiresFacts": ["favor-vote", "bill", "bribe-weight"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
     }
   ]
 }
