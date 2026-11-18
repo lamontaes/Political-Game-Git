@@ -54,6 +54,7 @@
 /src/core2/modules/candidacy.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
 /src/core2/filing-rule-office.ts @lamontaes
+/src/core2/voting-module-id.ts @lamontaes
 /src/core2/modules/serve-asks.ts @lamontaes
 /src/core2/recount-rules.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
@@ -306,6 +307,7 @@
 /src/core2/life-stake-rule.ts @lamontaes
 /src/core2/life-stakes.ts @lamontaes
 /src/core2/coverage-module-id.ts @lamontaes
+/src/core2/modules/promises.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes

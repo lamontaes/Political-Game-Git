@@ -1028,6 +1028,9 @@ export function rightPartOfRecord(
  * would split as the place did. Everything that moves in play (standing,
  * conditions, laws, the cycle) moves the vote from there.
  */
+/** Points on the lean order where a sample's share is worked out once for placing places (engineering value). */
+const PLACEMENT_GRID = 512;
+
 function orderPlacement(
   voters: readonly SampleVoter[],
 ): (target: number) => number {
@@ -1060,27 +1063,34 @@ function orderPlacement(
     }
     return all ? r / all : right;
   };
-  // Every place's bisection starts from the same midpoints, so the share at
-  // each one is worked out once.
-  const sums = new Map<number, number>();
+  // The share at each place on the order rises smoothly with it (each record
+  // divides over its own stretch, `rightPartOfRecord`), so it is worked out
+  // once on a fine grid and each place's position read from it, rising
+  // linearly between two grid points: a count of many places with their own
+  // leans (the century's districts) no longer searches the order for each.
+  let grid: Float64Array | undefined;
   const cache = new Map<number, number>();
   return (target) => {
     if (!voters.length) return target;
     const hit = cache.get(target);
     if (hit !== undefined) return hit;
+    if (!grid) {
+      grid = new Float64Array(PLACEMENT_GRID + 1);
+      for (let i = 0; i <= PLACEMENT_GRID; i += 1)
+        grid[i] = shareAt(i / PLACEMENT_GRID);
+    }
     let lo = 0,
-      hi = 1;
-    for (let i = 0; i < 24; i += 1) {
-      const mid = (lo + hi) / 2;
-      let sum = sums.get(mid);
-      if (sum === undefined) {
-        sum = shareAt(mid);
-        sums.set(mid, sum);
-      }
-      if (sum < target) lo = mid;
+      hi = PLACEMENT_GRID;
+    if (target <= grid[0]!) return 0;
+    if (target >= grid[hi]!) return 1;
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1;
+      if (grid[mid]! < target) lo = mid;
       else hi = mid;
     }
-    const right = (lo + hi) / 2;
+    const span = grid[hi]! - grid[lo]!;
+    const right =
+      (lo + (span > 0 ? (target - grid[lo]!) / span : 0.5)) / PLACEMENT_GRID;
     cache.set(target, right);
     return right;
   };

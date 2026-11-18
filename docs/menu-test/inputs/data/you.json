@@ -1,0 +1,1862 @@
+{
+  "world": {
+    "tag": {
+      "value": "v0.113.0",
+      "source": "git tag"
+    },
+    "seed": {
+      "value": "4da16a2f-da10-45c7-b308-18f79c4f5388",
+      "source": "/api/newlife → bench/handler.seed"
+    },
+    "placeKey": {
+      "value": "3832580",
+      "source": "/api/newlife → bench/handler.placeKey"
+    },
+    "place": {
+      "value": "Grano, North Dakota",
+      "source": "/api/newlife → bench/handler.placeName"
+    },
+    "date": {
+      "value": "January 20, 2025",
+      "source": "core.date"
+    },
+    "playerId": {
+      "value": "person_9a7ae1159f2f4e86",
+      "source": "/api/newlife → bench/handler.personId"
+    }
+  },
+  "card": {
+    "id": {
+      "value": "person_9a7ae1159f2f4e86",
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).id"
+    },
+    "name": {
+      "value": "Tracy Lucas",
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).name"
+    },
+    "face": {
+      "bust": {
+        "layers": [
+          {
+            "value": "/art/busts/men/front/head-light-adult.png",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.layers[0]"
+          },
+          {
+            "value": "/art/busts/men/front/top-sweater-green.png",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.layers[1]"
+          },
+          {
+            "value": "/art/busts/men/front/hair-textured-black.png",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.layers[2]"
+          }
+        ],
+        "head": [
+          {
+            "value": 83,
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.head[0]"
+          },
+          {
+            "value": 614,
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.head[1]"
+          },
+          {
+            "value": 423,
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.head[2]"
+          }
+        ],
+        "size": {
+          "value": 1254,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).face.bust.size"
+        }
+      }
+    },
+    "birthDate": {
+      "value": "February 14, 1980",
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).birthDate"
+    },
+    "age": {
+      "value": 44,
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).age"
+    },
+    "alive": {
+      "value": true,
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).alive"
+    },
+    "home": {
+      "householdId": {
+        "value": "household_35218b4c2e4bb483",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.householdId"
+      },
+      "members": [
+        {
+          "personId": {
+            "value": "person_9a7ae2159f2f5039",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].personId"
+          },
+          "name": {
+            "value": "Ashley Lucas",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].name"
+          },
+          "relation": {
+            "value": "partner",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].relation"
+          },
+          "groups": [
+            {
+              "value": "family",
+              "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].groups[0]"
+            }
+          ],
+          "alive": {
+            "value": true,
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].alive"
+          },
+          "face": {
+            "bust": {
+              "layers": [
+                {
+                  "value": "/art/busts/women/front/head-light-adult.png",
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.layers[0]"
+                },
+                {
+                  "value": "/art/busts/women/front/shirt-dress-white.png",
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.layers[1]"
+                },
+                {
+                  "value": "/art/busts/women/front/jacket-blazer-charcoal.png",
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.layers[2]"
+                },
+                {
+                  "value": "/art/busts/women/front/hair-bob-black.png",
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.layers[3]"
+                }
+              ],
+              "head": [
+                {
+                  "value": 99,
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.head[0]"
+                },
+                {
+                  "value": 626,
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.head[1]"
+                },
+                {
+                  "value": 436,
+                  "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.head[2]"
+                }
+              ],
+              "size": {
+                "value": 1254,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).home.members[person_9a7ae2159f2f5039].face.bust.size"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "job": {
+      "jobId": {
+        "value": "work-relationship_0aaacbeb0c31a70d",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).job.jobId"
+      },
+      "title": {
+        "value": "Works outside Grano, North Dakota",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).job.title"
+      },
+      "wageDailyMinor": {
+        "value": 15377,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).job.wageDailyMinor"
+      },
+      "hoursDaily": {
+        "value": 6.428571428571429,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).job.hoursDaily"
+      },
+      "leave": {
+        "value": null,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).job.leave"
+      }
+    },
+    "noJob": {
+      "value": null,
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).noJob"
+    },
+    "liquidMinor": {
+      "value": 0,
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).liquidMinor"
+    },
+    "town": {
+      "population": {
+        "value": 13,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).town.population"
+      },
+      "arrivals": {
+        "value": 0,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).town.arrivals"
+      },
+      "departures": {
+        "value": 0,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).town.departures"
+      },
+      "recordIds": {
+        "value": [],
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).town.recordIds"
+      }
+    },
+    "dwelling": {
+      "id": {
+        "value": "dwelling:household_35218b4c2e4bb483",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.id"
+      },
+      "householdId": {
+        "value": "household_35218b4c2e4bb483",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.householdId"
+      },
+      "tenure": {
+        "value": "own",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.tenure"
+      },
+      "kind": {
+        "value": "house",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.kind"
+      },
+      "valueMinor": {
+        "value": 17287750,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.valueMinor"
+      },
+      "loanHolderId": {
+        "value": "organization:bank:jurisdiction_ad78e3acbc5a0330",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.loanHolderId"
+      },
+      "since": {
+        "value": "December 26, 2016",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.since"
+      },
+      "basis": {
+        "value": "opening",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).dwelling.basis"
+      }
+    },
+    "traits": [
+      {
+        "label": {
+          "value": "Deliberation",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[0].label"
+        },
+        "word": {
+          "value": "Acts on impulse",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[0].word"
+        }
+      },
+      {
+        "label": {
+          "value": "Sociability",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[1].label"
+        },
+        "word": {
+          "value": "Outgoing",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[1].word"
+        }
+      },
+      {
+        "label": {
+          "value": "Handling disagreement",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[2].label"
+        },
+        "word": {
+          "value": "Conciliatory",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[2].word"
+        }
+      },
+      {
+        "label": {
+          "value": "Keeping commitments",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[3].label"
+        },
+        "word": {
+          "value": "Lets things slip",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[3].word"
+        }
+      },
+      {
+        "label": {
+          "value": "Risk",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[4].label"
+        },
+        "word": {
+          "value": "Takes chances",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traits[4].word"
+        }
+      }
+    ],
+    "traitLines": [
+      {
+        "label": {
+          "value": "Conciliatory",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[0].label"
+        },
+        "strength": {
+          "value": "strong",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[0].strength"
+        }
+      },
+      {
+        "label": {
+          "value": "Acts on impulse",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[1].label"
+        },
+        "strength": {
+          "value": "strong",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[1].strength"
+        }
+      },
+      {
+        "label": {
+          "value": "Outgoing",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[2].label"
+        },
+        "strength": {
+          "value": "strong",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[2].strength"
+        }
+      },
+      {
+        "label": {
+          "value": "Lets things slip",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[3].label"
+        },
+        "strength": {
+          "value": "strong",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[3].strength"
+        }
+      },
+      {
+        "label": {
+          "value": "Takes chances",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[4].label"
+        },
+        "strength": {
+          "value": "strong",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).traitLines[4].strength"
+        }
+      }
+    ],
+    "view": {
+      "value": "conservative",
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).view"
+    },
+    "ties": [
+      {
+        "personId": {
+          "value": "person_9a7ae2159f2f5039",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].personId"
+        },
+        "name": {
+          "value": "Ashley Lucas",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].kind"
+        },
+        "relation": {
+          "value": "partner",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.9916775214279744,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].level"
+        },
+        "lastContactDate": {
+          "value": "January 20, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].lastContactDate"
+        },
+        "recordId": {
+          "value": "person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].recordId"
+        },
+        "face": {
+          "bust": {
+            "layers": [
+              {
+                "value": "/art/busts/women/front/head-light-adult.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.layers[0]"
+              },
+              {
+                "value": "/art/busts/women/front/shirt-dress-white.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.layers[1]"
+              },
+              {
+                "value": "/art/busts/women/front/jacket-blazer-charcoal.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.layers[2]"
+              },
+              {
+                "value": "/art/busts/women/front/hair-bob-black.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.layers[3]"
+              }
+            ],
+            "head": [
+              {
+                "value": 99,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.head[0]"
+              },
+              {
+                "value": 626,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.head[1]"
+              },
+              {
+                "value": 436,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.head[2]"
+              }
+            ],
+            "size": {
+              "value": 1254,
+              "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].face.bust.size"
+            }
+          }
+        },
+        "latestChange": {
+          "date": {
+            "value": "January 20, 2025",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].latestChange.date"
+          },
+          "cause": {
+            "value": "care",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_9a7ae2159f2f5039].latestChange.cause"
+          }
+        }
+      },
+      {
+        "personId": {
+          "value": "person_c840d6cfe62e7e40",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].personId"
+        },
+        "name": {
+          "value": "Laura Summers",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].kind"
+        },
+        "relation": {
+          "value": "daughter",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.9489537383533345,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].level"
+        },
+        "lastContactDate": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].lastContactDate"
+        },
+        "recordId": {
+          "value": "person_9a7ae1159f2f4e86:person_c840d6cfe62e7e40",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].recordId"
+        },
+        "face": {
+          "bust": {
+            "layers": [
+              {
+                "value": "/art/busts/women/front/head-medium-adult.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.layers[0]"
+              },
+              {
+                "value": "/art/busts/women/front/top-henley-maroon.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.layers[1]"
+              },
+              {
+                "value": "/art/busts/women/front/hair-curls-black.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.layers[2]"
+              }
+            ],
+            "head": [
+              {
+                "value": 99,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.head[0]"
+              },
+              {
+                "value": 626,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.head[1]"
+              },
+              {
+                "value": 436,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.head[2]"
+              }
+            ],
+            "size": {
+              "value": 1254,
+              "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].face.bust.size"
+            }
+          }
+        },
+        "latestChange": {
+          "date": {
+            "value": "December 20, 2024",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].latestChange.date"
+          },
+          "cause": {
+            "value": "opening-family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_c840d6cfe62e7e40].latestChange.cause"
+          }
+        }
+      },
+      {
+        "personId": {
+          "value": "person_271236681a4e749e",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].personId"
+        },
+        "name": {
+          "value": "Monique Summers",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].kind"
+        },
+        "relation": {
+          "value": "mother",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.7823299714974981,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].level"
+        },
+        "lastContactDate": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].lastContactDate"
+        },
+        "recordId": {
+          "value": "person_271236681a4e749e:person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].recordId"
+        },
+        "face": {
+          "bust": {
+            "layers": [
+              {
+                "value": "/art/busts/women/front/head-medium-older.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.layers[0]"
+              },
+              {
+                "value": "/art/busts/women/front/top-denim.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.layers[1]"
+              },
+              {
+                "value": "/art/busts/women/front/hair-shoulder-gray.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.layers[2]"
+              }
+            ],
+            "head": [
+              {
+                "value": 99,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.head[0]"
+              },
+              {
+                "value": 626,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.head[1]"
+              },
+              {
+                "value": 436,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.head[2]"
+              }
+            ],
+            "size": {
+              "value": 1254,
+              "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].face.bust.size"
+            }
+          }
+        },
+        "latestChange": {
+          "date": {
+            "value": "December 20, 2024",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].latestChange.date"
+          },
+          "cause": {
+            "value": "opening-family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_271236681a4e749e].latestChange.cause"
+          }
+        }
+      },
+      {
+        "personId": {
+          "value": "person_00a8d9851d59a3a5",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].personId"
+        },
+        "name": {
+          "value": "Ashley Lucas",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].kind"
+        },
+        "relation": {
+          "value": "sister",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.7146958103688835,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].level"
+        },
+        "lastContactDate": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].lastContactDate"
+        },
+        "recordId": {
+          "value": "person_00a8d9851d59a3a5:person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].recordId"
+        },
+        "face": {
+          "bust": {
+            "layers": [
+              {
+                "value": "/art/busts/women/front/head-medium-adult.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.layers[0]"
+              },
+              {
+                "value": "/art/busts/women/front/top-denim.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.layers[1]"
+              },
+              {
+                "value": "/art/busts/women/front/hair-bob-black.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.layers[2]"
+              }
+            ],
+            "head": [
+              {
+                "value": 99,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.head[0]"
+              },
+              {
+                "value": 626,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.head[1]"
+              },
+              {
+                "value": 436,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.head[2]"
+              }
+            ],
+            "size": {
+              "value": 1254,
+              "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].face.bust.size"
+            }
+          }
+        },
+        "latestChange": {
+          "date": {
+            "value": "December 20, 2024",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].latestChange.date"
+          },
+          "cause": {
+            "value": "opening-family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_00a8d9851d59a3a5].latestChange.cause"
+          }
+        }
+      },
+      {
+        "personId": {
+          "value": "person_75729d931e7db678",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].personId"
+        },
+        "name": {
+          "value": "Shane Harrison",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].name"
+        },
+        "kind": {
+          "value": "contact",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].kind"
+        },
+        "relation": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].relation"
+        },
+        "groups": [
+          {
+            "value": "work",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.4547986498220169,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].level"
+        },
+        "lastContactDate": {
+          "value": "January 20, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].lastContactDate"
+        },
+        "recordId": {
+          "value": "person_75729d931e7db678:person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].recordId"
+        },
+        "face": {
+          "bust": {
+            "layers": [
+              {
+                "value": "/art/busts/men/front/head-medium-adult.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.layers[0]"
+              },
+              {
+                "value": "/art/busts/men/front/shirt-dress-cream.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.layers[1]"
+              },
+              {
+                "value": "/art/busts/men/front/tie-silk-forestgreen.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.layers[2]"
+              },
+              {
+                "value": "/art/busts/men/front/jacket-suit-brown.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.layers[3]"
+              },
+              {
+                "value": "/art/busts/men/front/face-mustache-darkbrown.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.layers[4]"
+              },
+              {
+                "value": "/art/busts/men/front/hair-swept-darkbrown.png",
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.layers[5]"
+              }
+            ],
+            "head": [
+              {
+                "value": 83,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.head[0]"
+              },
+              {
+                "value": 614,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.head[1]"
+              },
+              {
+                "value": 423,
+                "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.head[2]"
+              }
+            ],
+            "size": {
+              "value": 1254,
+              "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].face.bust.size"
+            }
+          }
+        },
+        "latestChange": {
+          "date": {
+            "value": "January 20, 2025",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].latestChange.date"
+          },
+          "cause": {
+            "value": "worked the same hours at one employer",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).ties[person_75729d931e7db678].latestChange.cause"
+          }
+        }
+      }
+    ],
+    "known": [
+      {
+        "personId": {
+          "value": "person_9a7ae2159f2f5039",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_9a7ae2159f2f5039].personId"
+        },
+        "name": {
+          "value": "Ashley Lucas",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_9a7ae2159f2f5039].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_9a7ae2159f2f5039].kind"
+        },
+        "relation": {
+          "value": "partner",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_9a7ae2159f2f5039].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_9a7ae2159f2f5039].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.9916775214279744,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_9a7ae2159f2f5039].level"
+        }
+      },
+      {
+        "personId": {
+          "value": "person_c840d6cfe62e7e40",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_c840d6cfe62e7e40].personId"
+        },
+        "name": {
+          "value": "Laura Summers",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_c840d6cfe62e7e40].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_c840d6cfe62e7e40].kind"
+        },
+        "relation": {
+          "value": "daughter",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_c840d6cfe62e7e40].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_c840d6cfe62e7e40].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.9489537383533345,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_c840d6cfe62e7e40].level"
+        }
+      },
+      {
+        "personId": {
+          "value": "person_271236681a4e749e",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_271236681a4e749e].personId"
+        },
+        "name": {
+          "value": "Monique Summers",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_271236681a4e749e].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_271236681a4e749e].kind"
+        },
+        "relation": {
+          "value": "mother",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_271236681a4e749e].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_271236681a4e749e].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.7823299714974981,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_271236681a4e749e].level"
+        }
+      },
+      {
+        "personId": {
+          "value": "person_00a8d9851d59a3a5",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_00a8d9851d59a3a5].personId"
+        },
+        "name": {
+          "value": "Ashley Lucas",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_00a8d9851d59a3a5].name"
+        },
+        "kind": {
+          "value": "family",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_00a8d9851d59a3a5].kind"
+        },
+        "relation": {
+          "value": "sister",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_00a8d9851d59a3a5].relation"
+        },
+        "groups": [
+          {
+            "value": "family",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_00a8d9851d59a3a5].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.7146958103688835,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_00a8d9851d59a3a5].level"
+        }
+      },
+      {
+        "personId": {
+          "value": "person_75729d931e7db678",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_75729d931e7db678].personId"
+        },
+        "name": {
+          "value": "Shane Harrison",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_75729d931e7db678].name"
+        },
+        "kind": {
+          "value": "contact",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_75729d931e7db678].kind"
+        },
+        "relation": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_75729d931e7db678].relation"
+        },
+        "groups": [
+          {
+            "value": "work",
+            "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_75729d931e7db678].groups[0]"
+          }
+        ],
+        "level": {
+          "value": 0.4547986498220169,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).known[person_75729d931e7db678].level"
+        }
+      }
+    ],
+    "schools": {
+      "value": [],
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).schools"
+    },
+    "schoolNow": {
+      "value": null,
+      "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).schoolNow"
+    },
+    "lawEffects": [
+      {
+        "id": {
+          "value": "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "law:US-ND:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "law-reach-group-b-payments",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "pension-contribution-funded",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "law:US-ND:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "us-policy-positions:government-operations.same-day-voter-registration",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "core2-voting-v1",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "registers-at-polls",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|us-policy-positions:government-operations.same-day-voter-registration|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].id"
+        },
+        "lawId": {
+          "value": "law:US-ND:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2024-12-20",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].lawId"
+        },
+        "question": {
+          "value": "budget-line:retirementContributions",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].question"
+        },
+        "kind": {
+          "value": "service",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].kind"
+        },
+        "what": {
+          "value": "pension-funding-level",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].what"
+        },
+        "since": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:retirementContributions|person_9a7ae1159f2f4e86|2024-12-20].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].id"
+        },
+        "lawId": {
+          "value": "law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].lawId"
+        },
+        "question": {
+          "value": "us-policy-positions:labor-workforce.right-to-work",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].question"
+        },
+        "kind": {
+          "value": "right",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].kind"
+        },
+        "what": {
+          "value": "may not be required to pay a union as a condition of work",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].what"
+        },
+        "since": {
+          "value": "December 20, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[reach:law:US-ND:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_9a7ae1159f2f4e86:2024-12-20].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "law:US:federal:social-security-delayed-credit-age:general:starting",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "social-security-delayed-credit-age",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "core2-retirement-claims-v1",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "retirement-claim-age-set",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "December 21, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-delayed-credit-age|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "law:US:federal:social-security-earliest-claim-age:general:starting",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "social-security-earliest-claim-age",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "core2-retirement-claims-v1",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "retirement-claim-age-set",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "December 21, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-earliest-claim-age|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "law:US:federal:social-security-full-retirement-age:general:starting",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "social-security-full-retirement-age",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "core2-retirement-claims-v1",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "retirement-claim-age-set",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "December 21, 2024",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|social-security-full-retirement-age|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "applied|local-sales-tax-average|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "estimate:US-ND:state:local-sales-tax-average:general:2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "local-sales-tax-average",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "core2-purchase-tax-v1",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "sales-tax-paid",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|local-sales-tax-average|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "applied|sales-tax|person_9a7ae1159f2f4e86",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].id"
+        },
+        "lawId": {
+          "value": "law:US-ND:state:sales-tax:general:2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].lawId"
+        },
+        "question": {
+          "value": "sales-tax",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].question"
+        },
+        "kind": {
+          "value": "core2-purchase-tax-v1",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].kind"
+        },
+        "what": {
+          "value": "sales-tax-paid",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[applied|sales-tax|person_9a7ae1159f2f4e86].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].id"
+        },
+        "lawId": {
+          "value": "budget:place:3832580:2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].lawId"
+        },
+        "question": {
+          "value": "budget-line:healthAndHospitals",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].question"
+        },
+        "kind": {
+          "value": "service",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].kind"
+        },
+        "what": {
+          "value": "public-health-service-level",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:healthAndHospitals|person_9a7ae1159f2f4e86|2025-01-01].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].id"
+        },
+        "lawId": {
+          "value": "budget:place:3832580:2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].lawId"
+        },
+        "question": {
+          "value": "budget-line:highways",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].question"
+        },
+        "kind": {
+          "value": "service",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].kind"
+        },
+        "what": {
+          "value": "road-service-level",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:highways|person_9a7ae1159f2f4e86|2025-01-01].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].id"
+        },
+        "lawId": {
+          "value": "budget:place:3832580:2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].lawId"
+        },
+        "question": {
+          "value": "budget-line:naturalResources",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].question"
+        },
+        "kind": {
+          "value": "service",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].kind"
+        },
+        "what": {
+          "value": "resource-protection-level",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:naturalResources|person_9a7ae1159f2f4e86|2025-01-01].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].id"
+        },
+        "lawId": {
+          "value": "budget:place:3832580:2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].lawId"
+        },
+        "question": {
+          "value": "budget-line:parks",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].question"
+        },
+        "kind": {
+          "value": "service",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].kind"
+        },
+        "what": {
+          "value": "parks-service-level",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[budget-line:parks|person_9a7ae1159f2f4e86|2025-01-01].endedOn"
+        }
+      },
+      {
+        "id": {
+          "value": "income-tax|person_9a7ae1159f2f4e86|2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].id"
+        },
+        "lawId": {
+          "value": "law:US-ND:state:income-tax:general:2025-01-01",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].lawId"
+        },
+        "question": {
+          "value": "income-tax",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].question"
+        },
+        "kind": {
+          "value": "price",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].kind"
+        },
+        "what": {
+          "value": "income-tax-withheld",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].what"
+        },
+        "since": {
+          "value": "January 1, 2025",
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].since"
+        },
+        "endedOn": {
+          "value": null,
+          "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).lawEffects[income-tax|person_9a7ae1159f2f4e86|2025-01-01].endedOn"
+        }
+      }
+    ],
+    "at": {
+      "date": {
+        "value": "January 20, 2025",
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).at.date"
+      },
+      "minuteOfDay": {
+        "value": 1200,
+        "source": "/api/card → bench/card.personCard(person_9a7ae1159f2f4e86).at.minuteOfDay"
+      }
+    }
+  },
+  "life": {
+    "personId": {
+      "value": "person_9a7ae1159f2f4e86",
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).personId"
+    },
+    "name": {
+      "value": "Tracy Lucas",
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).name"
+    },
+    "summary": [
+      {
+        "value": "You work outside Grano, North Dakota.",
+        "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).summary[0]"
+      },
+      {
+        "value": "You were born in Bismarck, North Dakota in 1980.",
+        "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).summary[1]"
+      }
+    ],
+    "summaryFirst": [
+      {
+        "value": "I work outside Grano, North Dakota.",
+        "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).summaryFirst[0]"
+      },
+      {
+        "value": "I was born in Bismarck, North Dakota in 1980.",
+        "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).summaryFirst[1]"
+      }
+    ],
+    "relation": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).relation"
+    },
+    "relationRecordId": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).relationRecordId"
+    },
+    "age": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).age"
+    },
+    "alive": {
+      "value": true,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).alive"
+    },
+    "placeName": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).placeName"
+    },
+    "school": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).school"
+    },
+    "traitLines": {
+      "value": [],
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).traitLines"
+    },
+    "view": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).view"
+    },
+    "viewUnknown": {
+      "value": true,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).viewUnknown"
+    },
+    "viewAbout": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).viewAbout"
+    },
+    "pronouns": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).pronouns"
+    },
+    "work": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).work"
+    },
+    "tie": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).tie"
+    },
+    "known": {
+      "value": false,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).known"
+    },
+    "shared": {
+      "value": [],
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).shared"
+    },
+    "seats": {
+      "value": [],
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).seats"
+    },
+    "history": [
+      {
+        "date": {
+          "value": "August 26, 1985",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.started:person_9a7ae1159f2f4e86:1985].date"
+        },
+        "text": {
+          "value": "At age 5, I grew up going to school in Bismarck, North Dakota.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.started:person_9a7ae1159f2f4e86:1985].text"
+        },
+        "kind": {
+          "value": "school",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.started:person_9a7ae1159f2f4e86:1985].kind"
+        },
+        "recordId": {
+          "value": "school.started:person_9a7ae1159f2f4e86:1985",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.started:person_9a7ae1159f2f4e86:1985].recordId"
+        },
+        "records": [
+          {
+            "value": "school.started:person_9a7ae1159f2f4e86:1985",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.started:person_9a7ae1159f2f4e86:1985].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.school.elsewhere.i.w2",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.started:person_9a7ae1159f2f4e86:1985].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "April 21, 1994",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[justice.arrested-before:person_9a7ae1159f2f4e86].date"
+        },
+        "text": {
+          "value": "I was arrested in 1994.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[justice.arrested-before:person_9a7ae1159f2f4e86].text"
+        },
+        "kind": {
+          "value": "law",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[justice.arrested-before:person_9a7ae1159f2f4e86].kind"
+        },
+        "recordId": {
+          "value": "justice.arrested-before:person_9a7ae1159f2f4e86",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[justice.arrested-before:person_9a7ae1159f2f4e86].recordId"
+        },
+        "records": [
+          {
+            "value": "justice.arrested-before:person_9a7ae1159f2f4e86",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[justice.arrested-before:person_9a7ae1159f2f4e86].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.law.arrested.i",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[justice.arrested-before:person_9a7ae1159f2f4e86].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "August 24, 1998",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-started:person_9a7ae1159f2f4e86].date"
+        },
+        "text": {
+          "value": "I began college in 1998.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-started:person_9a7ae1159f2f4e86].text"
+        },
+        "kind": {
+          "value": "school",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-started:person_9a7ae1159f2f4e86].kind"
+        },
+        "recordId": {
+          "value": "school.college-started:person_9a7ae1159f2f4e86",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-started:person_9a7ae1159f2f4e86].recordId"
+        },
+        "records": [
+          {
+            "value": "school.college-started:person_9a7ae1159f2f4e86",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-started:person_9a7ae1159f2f4e86].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.school.college.i.w3",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-started:person_9a7ae1159f2f4e86].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "November 1, 2001",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039].date"
+        },
+        "text": {
+          "value": "In 2001, I started a life with Ashley Lucas.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039].text"
+        },
+        "kind": {
+          "value": "partner",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039].kind"
+        },
+        "recordId": {
+          "value": "family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039].recordId"
+        },
+        "records": [
+          {
+            "value": "family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.partner.home.i.w4",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[family.partnered:person_9a7ae1159f2f4e86:person_9a7ae2159f2f5039].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "November 1, 2001",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40].date"
+        },
+        "text": {
+          "value": "In 2001, Laura was born.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40].text"
+        },
+        "kind": {
+          "value": "child",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40].kind"
+        },
+        "recordId": {
+          "value": "person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40].recordId"
+        },
+        "records": [
+          {
+            "value": "person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.child.born.any.w4",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person_9a7ae1159f2f4e86:family:person_c840d6cfe62e7e40].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "May 29, 2002",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-ended:person_9a7ae1159f2f4e86].date"
+        },
+        "text": {
+          "value": "I got a college degree in 2002.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-ended:person_9a7ae1159f2f4e86].text"
+        },
+        "kind": {
+          "value": "school",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-ended:person_9a7ae1159f2f4e86].kind"
+        },
+        "recordId": {
+          "value": "school.college-ended:person_9a7ae1159f2f4e86",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-ended:person_9a7ae1159f2f4e86].recordId"
+        },
+        "records": [
+          {
+            "value": "school.college-ended:person_9a7ae1159f2f4e86",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-ended:person_9a7ae1159f2f4e86].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.school.degree.i.w4",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[school.college-ended:person_9a7ae1159f2f4e86].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "July 4, 2002",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:1].date"
+        },
+        "text": {
+          "value": "I moved to a new home in North Dakota in 2002.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:1].text"
+        },
+        "kind": {
+          "value": "moved",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:1].kind"
+        },
+        "recordId": {
+          "value": "person.moved-within:person_9a7ae1159f2f4e86:1",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:1].recordId"
+        },
+        "records": [
+          {
+            "value": "person.moved-within:person_9a7ae1159f2f4e86:1",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:1].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.moved.within.i",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:1].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "August 10, 2004",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-in:person_9a7ae1159f2f4e86].date"
+        },
+        "text": {
+          "value": "Then in 2004, I put down roots in Grano, North Dakota.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-in:person_9a7ae1159f2f4e86].text"
+        },
+        "kind": {
+          "value": "moved",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-in:person_9a7ae1159f2f4e86].kind"
+        },
+        "recordId": {
+          "value": "person.moved-in:person_9a7ae1159f2f4e86",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-in:person_9a7ae1159f2f4e86].recordId"
+        },
+        "records": [
+          {
+            "value": "person.moved-in:person_9a7ae1159f2f4e86",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-in:person_9a7ae1159f2f4e86].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.moved.in.i.w6",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-in:person_9a7ae1159f2f4e86].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "December 25, 2007",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[health.hospital-stay:person_9a7ae1159f2f4e86].date"
+        },
+        "text": {
+          "value": "I had a hospital stay in 2007.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[health.hospital-stay:person_9a7ae1159f2f4e86].text"
+        },
+        "kind": {
+          "value": "health",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[health.hospital-stay:person_9a7ae1159f2f4e86].kind"
+        },
+        "recordId": {
+          "value": "health.hospital-stay:person_9a7ae1159f2f4e86",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[health.hospital-stay:person_9a7ae1159f2f4e86].recordId"
+        },
+        "records": [
+          {
+            "value": "health.hospital-stay:person_9a7ae1159f2f4e86",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[health.hospital-stay:person_9a7ae1159f2f4e86].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.health.hospital.i.w3",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[health.hospital-stay:person_9a7ae1159f2f4e86].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "May 13, 2010",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:2].date"
+        },
+        "text": {
+          "value": "I changed homes within Grano, North Dakota in 2010.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:2].text"
+        },
+        "kind": {
+          "value": "moved",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:2].kind"
+        },
+        "recordId": {
+          "value": "person.moved-within:person_9a7ae1159f2f4e86:2",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:2].recordId"
+        },
+        "records": [
+          {
+            "value": "person.moved-within:person_9a7ae1159f2f4e86:2",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:2].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.moved.within.i.w3",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[person.moved-within:person_9a7ae1159f2f4e86:2].piece"
+        }
+      },
+      {
+        "date": {
+          "value": "November 8, 2022",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86].date"
+        },
+        "text": {
+          "value": "In 2022, I lost the race for commissioner.",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86].text"
+        },
+        "kind": {
+          "value": "office",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86].kind"
+        },
+        "recordId": {
+          "value": "election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86].recordId"
+        },
+        "records": [
+          {
+            "value": "election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86].records[0]"
+          }
+        ],
+        "piece": {
+          "value": "person-history.story.office.lost.i",
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).history[election.lost-before-start:prior-election:seat:gus2025:171336:board:6:2022-11-08:person_9a7ae1159f2f4e86].piece"
+        }
+      }
+    ],
+    "colleagues": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).colleagues"
+    },
+    "publicKnowledge": {
+      "value": null,
+      "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).publicKnowledge"
+    },
+    "face": {
+      "bust": {
+        "layers": [
+          {
+            "value": "/art/busts/men/front/head-light-adult.png",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.layers[0]"
+          },
+          {
+            "value": "/art/busts/men/front/top-sweater-green.png",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.layers[1]"
+          },
+          {
+            "value": "/art/busts/men/front/hair-textured-black.png",
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.layers[2]"
+          }
+        ],
+        "head": [
+          {
+            "value": 83,
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.head[0]"
+          },
+          {
+            "value": 614,
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.head[1]"
+          },
+          {
+            "value": 423,
+            "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.head[2]"
+          }
+        ],
+        "size": {
+          "value": 1254,
+          "source": "/api/known → bench/card.knownCard(person_9a7ae1159f2f4e86,person_9a7ae1159f2f4e86).face.bust.size"
+        }
+      }
+    }
+  },
+  "labels": {
+    "title": {
+      "value": "You",
+      "source": "src/bench/data/controls.json.titles.who"
+    },
+    "who": {
+      "value": {
+        "age": "Age",
+        "born": "Born",
+        "home": "Home",
+        "householdHome": "Your household's home",
+        "work": "Work",
+        "school": "School",
+        "money": "Money",
+        "family": "Family",
+        "whoIAm": "Who I am",
+        "whatImLike": "What I'm like",
+        "myPeople": "My people",
+        "myLife": "My life",
+        "strong": "Strong",
+        "mild": "Moderate",
+        "views": "Politics",
+        "viewUnknown": "You don't know where {lower} stands yet.",
+        "viewUnknownThey": "You don't know where they stand yet.",
+        "viewAbout": "Cares most about {about}.",
+        "townPeople": "Population {n}",
+        "townMoves": "{in} moved in, {out} moved out this year"
+      },
+      "source": "src/bench/data/controls.json.who"
+    },
+    "lifeGroups": {
+      "value": [
+        ["partner", "child"],
+        ["school"],
+        ["work", "business"],
+        ["moved", "home"],
+        ["health"],
+        ["law"],
+        ["office"],
+        ["loss"]
+      ],
+      "source": "src/bench/data/controls.json.lifeGroups"
+    },
+    "leanWords": {
+      "value": {
+        "veryLiberal": "Very liberal",
+        "liberal": "Liberal",
+        "moderate": "Moderate",
+        "conservative": "Conservative",
+        "veryConservative": "Very conservative",
+        "notSure": "Not sure yet"
+      },
+      "source": "src/bench/data/controls.json.leanWords"
+    }
+  },
+  "not_in_game": []
+}

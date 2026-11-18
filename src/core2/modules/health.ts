@@ -33,7 +33,7 @@ import {
   remainingDaysAfterOnset,
   SUBSTANCE_CONDITION,
 } from "../death-cause";
-import { incomeBandOf } from "../counted-income-fifth";
+import { incomeBandOn } from "../counted-income-fifth";
 import {
   combineOwn,
   coverageSpellsNow,
@@ -521,12 +521,9 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const own =
       [...plan.own].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
-    // This world's life table: the published hazard times its mortality
-    // factor, the same one counted people die by (one model, two tiers).
-    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web * own * world),
+      micros: Math.round(plan.micros * housing * evicted * web * own),
     };
   });
 }
@@ -691,7 +688,7 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       monthly == null ||
       api.state.households.get(person.householdId)?.quarters !== undefined
         ? undefined
-        : incomeBandOf(monthly * p("monthsPerYear"));
+        : incomeBandOn(api, monthly * p("monthsPerYear"));
     plan.fifth = fifth;
     const age = Math.floor(exactAge(api, person.birthDate, today));
     const mine = spells?.get(id);

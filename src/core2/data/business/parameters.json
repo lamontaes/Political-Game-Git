@@ -32,17 +32,6 @@
       "citation": "Owners smooth draws rather than take everything (IRS SOI sole proprietor and S-corporation distributions against net income)."
     }
   },
-  "businessCushionMonths": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016).",
-    "spread": {
-      "low": 0.5,
-      "high": 3,
-      "unit": "months of payroll",
-      "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016)."
-    }
-  },
   "businessDaysPerMonth": {
     "value": 30.4,
     "tag": "SOURCED",

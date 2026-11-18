@@ -73,6 +73,10 @@ The trait and calibration tests (`src/core2/modules/*.traits.test.ts`) draw a fr
 
 A drawn place can name a business after a person, so a check that counts the player's name in a line must match the whole word (`\bSam\b`), or "Sampson's Market" counts as saying "Sam" (Nov 15, the coworker test at Anderson Island WA, seed 666aac4c9a33aa4fddd8). When a drawn test goes red, rerun that file pinned to the failing seed (`GOLDEN_PATH_SEED=<seed>`) before and after the fix. That shows the fix, not a new draw, turned it green.
 
+## A test drawn by state: sweep all 56 before you push
+
+A pure-model test that draws a state (`COUNTRY_STATE` in `src/core2/country-model.test.ts`) has only seen the handful of states your runs drew. Before you push, run it once for every state and territory: `for st in AL AK … MP; do COUNTRY_STATE=$st npx vitest run <file> -t "<name>"; done`, about ten minutes for a file that plays 120 months. On Nov 17 a new test required every sector to hold jobs and was red at the District of Columbia, which has no mining; and an old test in the same file turned out to be red on main whenever the draw is Puerto Rico. A case the place cannot have (a sector with no jobs) is left out of the case by the test and named, as a town with no race is passed over.
+
 ## The case is there, but the test asked for the wrong one (Nov 17)
 
 - **A scenario choice can be the luck.** `src/director/press-comment-variants.test.ts` brought "the town's four most settled questions" to a town body. In most drawn towns those are a state's or the country's to decide, so the draft was blocked for want of authority and never voted, and the test reported a slow body 12 places out of 12. Take the first case the place's own rules allow (the most settled question the body may decide), trying each in order, and pass over by name a place that allows none.
@@ -80,10 +84,16 @@ A drawn place can name a business after a person, so a check that counts the pla
 - **Following whoever the case happens to, then replaying the town as that person, can fail by tier.** A townsperson who misses a loan payment opens with a loan and no cash; the same person as the player opens with cash and no loan, and never misses. Check that the case survives the rebuild before building a test on it, and file the tier difference when it does not.
 - **A build by the runner's drawn key is a draw.** A place where no player can live is passed over by the build itself when the key is the golden-path runner's (`passOver` in `src/bench/world.ts`); a test that draws its own key catches `NoPlayerHereError`, names the place and draws again, as `src/core2/past-votes-by-level.test.ts` does.
 
+## A case the player never reaches (Handoff, Nov 17)
+
+When the case happens to townspeople and not to the player (a borrower who misses a payment: the player's home opens with cash and no loan, so ten drawn places and six birthdays found none), the test finds the person the engines name in the drawn place, as `findTownBorrower` does, and stages only that person's choice, labeled where it stands. It follows them from day one (the director watches, and `focusPersonIds` keeps their records), and it reads what a non-player's record says the day it happens, since the engine forgets a person outside the player's circle after a week (`circleDecisionDetailDays`). That the player cannot reach the case is a gap for the lane that owns the player's choices, posted as "for Blockers".
+
 ## Gotchas (Nov 16 and 17)
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
+- Nov 17, 12:20Z (press-comment-variants, Bondurant, Wyoming): a scandal probe asked a town's reporters for a scandal arc, and every one of them leaned friendly. Cause: an arc's score is its records times one plus the asker's pull, so no record can win where every asker's temper refuses it. Pass over a town with no asker whose traits allow the case (#9959).
+- Nov 17, 13:45Z (business-charges, Calvin, North Dakota): a town total fell with a tax raise because a TV station sold more in the raised twin. Cause: twin worlds drift apart. Compare one business at a time, only where its inputs are equal in both twins, and add the exact half (the charge equals the rate times its own wages, to the cent).
 - Nov 17, 03:47Z (pay-on-time, apology-variants): a test pinned to one borrower in Ragland, Alabama went red when the world changed and she stopped missing payments. Cause: it was pinned to a town where the case need not happen. Draw places, advance until any borrower misses, and name the places passed over.
 - Nov 17, 03:23Z (moves by age, Gisela, Arizona): a test ranked the whole town by net push, where the engine ranks within each age band. Cause: a whole-town ranking mixed the bands. Assert the order within each band.
 - Nov 17, 01:25Z: 42 checks failed a world for leaving a real band. Cause: the band was a target, which makes every world the same. Check the relationship's strength instead (`references/relationship-checks.md`).
@@ -91,7 +101,9 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 04:26Z (estates-played-heirs, Pins 31): once wills followed savings and family, the pinned Dennis test found an intestate decedent whose heirs were parents, and the law gives a dead parent's share to the surviving parent. Cause: a lifted pin moved which case the search found first. Narrow the search to the case the assertion is about (an heir among the children), say why in the test, and leave the assertion alone.
 - Nov 17, 05:20Z (estates-played-heirs, Pins 31): probate never closed in 270 days at two drawn places. Cause: a last owner's home holds probate open until it sells. Wait for the settlement itself, and pass over by name an estate with a home to sell when the test is about heirs.
 - Nov 17, 05:30Z (estates-played-heirs, Pins 31): a decedent picked as having no will closed probate by will. Cause: the search read the will before the death, and probate uses the will kept on the row at death. Classify each candidate by the record the engine keeps at the event, not by a reading taken before it.
+- Nov 17, 13:12Z (dev-discharge, dev-chair, dev-discharge-state; #9970, Fagamalo, American Samoa): 60 tries found no bill a committee held. Cause: every try proposed a minimum-wage cut, and a chair holds only what goes against their own position, so a chair who favors a cut heard all 60. When a search looks for a held, refused or defeated bill, alternate the two directions (a cut and a raise) and let the members' own positions decide which one is held.
 - Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
+- Nov 17, 17:35Z (school-outcomes fill-in, Lake Viking, Missouri, seed cbf9c13751481f75): the test took the first counted student whose household's income moves its fifth, and met them, but the student was in the inactive "husk" tier, which the school counts leave out on purpose. Cause: a counted record's members can carry an inactive tier (they live away), and meeting one does not make them active. Choose the case's person among the active-tier members (`!inactiveTiers.has(p.tier ?? "")`), change no assertion.
 
 ## More in this folder
 

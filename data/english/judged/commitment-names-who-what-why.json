@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 455,
+  "judged": 454,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -379,21 +379,6 @@
         "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no"
       ],
       "why": "'If this doesn't go my way' never names the vote or decision begged for."
-    },
-    "0c9hb78wbv0": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off",
-        "scene-talk.state-request.this-is-the-second-time-i-m-asking-i-d-like-a-yes-or-a-no",
-        "scene-talk.reply-stall.i-m-still-waiting-on-the-committee-s-numbers-i-ll-call-when-i-have-th",
-        "scene-talk.follow-press.how-many-more-weeks",
-        "scene-talk.reply-decline.i-ve-thought-about-it-the-vote-is-a-no-a-hearing-is-a-yes",
-        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
-        "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
-        "scene-talk.follow-press.a-hearing-isn-t-a-vote-why-not-the-vote",
-        "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
-        "scene-talk.follow-threaten.i-ve-asked-twice-i-won-t-ask-a-third-time"
-      ],
-      "why": "The donor's ask is 'the vote', but what the vote is on is never named."
     },
     "0cmpuexi5bp": {
       "keys": [
@@ -2337,5 +2322,5 @@
       "why": "Bribe for 'it goes my way'; what 'it' is never appears."
     }
   },
-  "yesHash": "0zz0dfmyn9m"
+  "yesHash": "1zv8ckh96m6"
 }
