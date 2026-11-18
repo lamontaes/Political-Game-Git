@@ -1,0 +1,11 @@
+seed 8975281e9de7 place Trenton, Georgia
+month 0 (Monday, January 20, 202511:30 PM): 2 races, announced on []
+month 1 (Wednesday, February 19, 202512:00 AM): 2 races, announced on []
+month 2 (Friday, March 21, 202512:00 AM): 2 races, announced on []
+month 3 (Sunday, April 20, 202512:00 AM): 2 races, announced on []
+month 4 (Tuesday, May 20, 202512:00 AM): 2 races, announced on []
+month 5 (Thursday, June 19, 202512:00 AM): 2 races, announced on []
+month 6 (Saturday, July 19, 202512:00 AM): 2 races, announced on []
+month 7 (Monday, August 18, 202512:00 AM): 2 races, announced on []
+month 8 (Wednesday, September 17, 202512:00 AM): 2 races, announced on []
+found false; errors []

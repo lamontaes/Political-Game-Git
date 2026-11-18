@@ -1,0 +1,4 @@
+seed 8975281e9de7 place Trenton, Georgia
+  page: ON MY BALLOT OFFICES YOU CAN RUN FOR Council member Filing opens June 23 Mayor Filing opens June 23 Council memberNovember 4 Who's running Joseph Hunter Announced POLICE PROTECTION For AID TO OTHER GOVERNMENTS Against WELFARE AND MEDICAID Against Seats Seats to fill 3 Last time November 2, 2021 Reese Warner Share of the vote 69 percent Dates Jun 23 Filing opens Aug 22 Filing closes Nov 4 Election day Announce Sim to Jun 23
+month 0 (Monday, January 20, 202511:30 PM): 2 races, announced on ["contest:seat:gus2025:161849:council:0:2025-11-04","contest:seat:gus2025:161849:mayor:0:2025-11-04"]
+found true; errors []
