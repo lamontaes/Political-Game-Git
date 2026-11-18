@@ -172818,20 +172818,21 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-yours-for-mine-i-m-a-yes-on-bill",
-      "move": "reply-agree",
+      "key": "scene-talk.reply-relent.fine-yours-for-mine-i-m-a-yes-on-bill",
+      "move": "reply-relent",
       "kind": "spoken",
       "text": "Fine. Yours for mine. I'm a yes on {bill}.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "agree",
+          "move": "relent",
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "requiresFacts": ["bill"],
-          "setsFacts": ["said-yes"]
+          "setsFacts": ["said-yes"],
+          "after": "bargain"
         }
       ],
       "bearing": "calm",
@@ -172839,7 +172840,7 @@
       "author": "Story lead (Fable)",
       "date": "2026-11-17",
       "tag": {
-        "move": "agree",
+        "move": "relent",
         "key": "vote-wanted"
       }
     },
@@ -172856,7 +172857,7 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "stand"],
           "setsFacts": ["said-yes"]
         }
       ],
@@ -173491,6 +173492,110 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-hear-you-and-i-m-still-not-promising-my-vote-on-bill",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I hear you, and I'm still not promising my vote on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["donor-bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.pleading-won-t-move-me-on-bill-my-vote-isn-t-for-sale",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Pleading won't move me on {bill}. My vote isn't for sale.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["donor-bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-heard-the-people-at-employer-out-my-answer-on-bill-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've heard the people at {employer} out. My answer on {bill} is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["employer", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-heard-you-out-on-about-and-the-answer-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've heard you out on {about}, and the answer is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
       }
     }
   ]
