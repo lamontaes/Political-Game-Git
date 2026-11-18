@@ -1,0 +1,9 @@
+visit 1: title painting state-capitol-vt__winter.jpg; New game faces: head-olive-adult top-chambray-olive hair-balding-darkbrown head-light-adult shirt-dress-lightblue jacket-blazer-charcoal hair-cornrows-blond head-long-brown-adult shirt-dress-cream tie-silk-navystripe jacket-suit-brown face-beard-long-darkbrown hair-curls-darkbrown head-round-dark-adult shirt-dress-lightblue jacket-blazer-navy hair-updo-black
+creator opened: {"figureImgs":0,"gender":[],"given":"","family":"","birthday":"January 1 2007 (age 18)","place":"","randomButtons":["Random"],"lookRows":0,"swatches":0,"pics":0}
+after Male: {"figureImgs":139,"gender":[],"given":"","family":"","birthday":"January 1 2007 (age 18)","place":"","randomButtons":["Random"],"lookRows":8,"swatches":17,"pics":135}
+after Random 1: {"figureImgs":139,"gender":[],"given":"Jacob","family":"Roberts","birthday":"June 22 1992 (age 32)","place":"Trevorton, Pennsylvania","randomButtons":["Random"],"lookRows":8,"swatches":17,"pics":135}
+after Random 2: {"figureImgs":99,"gender":[],"given":"Phoebe","family":"Tyson","birthday":"September 25 1984 (age 40)","place":"Burnett, Wisconsin","randomButtons":["Random Lake, Wisconsin1,531 people","Random"],"lookRows":7,"swatches":17,"pics":96}
+began: status 200 place Burnett, Wisconsin
+card: Phoebe Tyson | Monday, January 20, 202511:30 PM
+You sheet: Phoebe Tyson Production worker, Harper Manufacturing Who I am I work as a production worker at Harper Manufacturing. I was born in Burnett, Wisconsin in 1984. Politics Moderate What I'm like Conciliatory STRONG Follows through STRONG My people James Tyson (partner) My life At age 4, I started out at
+errors []

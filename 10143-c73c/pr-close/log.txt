@@ -1,0 +1,7 @@
+seed 9132a88e781f3 place Kurtistown, Hawaii
+who names ["Garrett Shah","Patrick Shah","Barbara Shah","Victoria Shah","Chad Shah"]
+Patrick Shah: {"found":true,"id":"person-close","cx":1261,"cy":65,"onTop":true,"at":"BUTTON.glyph#person-close"}; after a mouse click on the close mark the card is closed
+Barbara Shah: {"found":true,"id":"person-close","cx":1261,"cy":65,"onTop":true,"at":"BUTTON.glyph#person-close"}; after a mouse click on the close mark the card is closed
+Victoria Shah: {"found":true,"id":"person-close","cx":1261,"cy":144,"onTop":true,"at":"BUTTON.glyph#person-close"}; after a mouse click on the close mark the card is closed
+Chad Shah: {"found":true,"id":"person-close","cx":1261,"cy":88,"onTop":true,"at":"BUTTON.glyph#person-close"}; after a mouse click on the close mark the card is closed
+errors []

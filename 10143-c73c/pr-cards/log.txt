@@ -1,0 +1,7 @@
+seed 9132a88e781f3 place Kurtistown, Hawaii
+who names ["Garrett Shah","Patrick Shah","Barbara Shah","Victoria Shah","Chad Shah"]
+Patrick Shah: {"bottom":876,"over":[],"secs":[["Who he isWorks",200,508],["How I see himF",304,508],["PoliticsYou do",380,508],["Between usLive",455,508],["His storyAt ag",873,508]],"head":"Patrick Shah"}
+Barbara Shah: {"bottom":876,"over":[],"secs":[["Who she isWork",200,508],["How I see herO",304,508],["PoliticsYou do",380,508],["Between usLive",455,508],["Her storyAt 5,",847,508]],"head":"Barbara Shah"}
+Victoria Shah: {"bottom":797,"over":[],"secs":[["Her storyAt ag",767,162],["Who she isA st",280,508],["How I see herA",448,508],["PoliticsYou do",523,508],["Between usLive",625,508]],"head":"Victoria Shah"}
+Chad Shah: {"bottom":853,"over":[],"secs":[["Who he isWorks",224,508],["How I see himC",360,508],["PoliticsYou do",435,508],["Between usLive",510,508],["His storyAt 5,",823,508]],"head":"Chad Shah"}
+errors []

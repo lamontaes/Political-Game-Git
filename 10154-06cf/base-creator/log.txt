@@ -1,0 +1,9 @@
+visit 1: title painting state-capitol-vt__winter.jpg; New game faces: head-long-medium-adult top-tee-gray hair-bangs-black head-square-olive-adult shirt-dress-white jacket-suit-charcoal face-beard-square-darkbrown hair-sidepart-darkbrown head-square-medium-adult shirt-dress-lightblue jacket-blazer-navy hair-bob-square-black head-narrow-olive-adult shirt-dress-lightblue tie-silk-navy jacket-suit-brown hair-cornrows-darkbrown
+creator opened: {"figureImgs":0,"gender":[],"given":"","family":"","birthday":"January 1 2007 (age 18)","place":"","randomButtons":["Random place","Random"],"lookRows":0,"swatches":0,"pics":0}
+after Male: {"figureImgs":103,"gender":[],"given":"","family":"","birthday":"January 1 2007 (age 18)","place":"","randomButtons":["Random place","Random"],"lookRows":8,"swatches":17,"pics":100}
+after Random 1: {"figureImgs":99,"gender":[],"given":"Nina","family":"Conway","birthday":"July 16 1984 (age 40)","place":"Braddock, Pennsylvania","randomButtons":["Random place","Random"],"lookRows":6,"swatches":13,"pics":96}
+after Random 2: {"figureImgs":99,"gender":[],"given":"Evelyn","family":"Ware","birthday":"August 4 1992 (age 32)","place":"Washington, District of Columbia","randomButtons":["Random place","Random"],"lookRows":7,"swatches":17,"pics":96}
+began: status 200 place Washington, District of Columbia
+card: Evelyn Ware | Monday, January 20, 20259:00 PM
+You sheet: Evelyn Ware Age 32 Who I am I live in Washington, District of Columbia. I was born in Chicago, Illinois in 1992. Politics Very liberal What I'm like Cautious STRONG My people Julia Rich, Amanda Vincent My life In 1997, I went to school back in Chicago, Illinois. I began college in 2010. I moved to a
+errors []

@@ -1,0 +1,22 @@
+seed 9132a88e781f3 place Kurtistown, Hawaii
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x382 w676 of 1440; Chad Shah[] h111; Victoria Shah[] h111; Patrick Shah[] h111; Barbara Shah[] h111"]
+shot 02-room.png
+room strips: ["talk: strip x382 w676 of 1440; Patrick Shah[] h111; Barbara Shah[] h111; Victoria Shah[] h111; Chad Shah[] h111"]
+room people 4; talkable 3; named-not-talkable 0
+click failed locator.click: Timeout 5000ms exceeded.
+shot 03-room-click-Victoria-Shah.png
+after clicking Victoria Shah (not talkable): sheet false card text  /          /          /          /       
+card open false name 
+close probe {"r":[0,0,0,0],"xs":[],"at":"<img id=\"backdrop-next\" alt=\"\">"}
+title box null
+after a mouse click on the close mark: card still open false
+talkable click: locator.click: Timeout 10000ms exceeded.; pressing it from the page
+shot 04-talk-with-Patrick-Shah.png
+talk strips: ["talk: strip x382 w676 of 1440; Patrick Shah[speaking] h129; Barbara Shah[quiet] h111; Victoria Shah[quiet] h111; Chad Shah[quiet] h111"]
+shot 05-talk-click-Patrick-Shah.png
+after clicking Patrick Shah [busts-person speaking] on the talk strip: sheet false text  /          /          /          /       
+card open false name 
+shot 06-after-card-closed.png
+after closing the card: talk visible true replies 2
+errors []
