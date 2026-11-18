@@ -24,7 +24,7 @@ import { partySide } from "../appointments";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { centuryParties, centuryStateVote } from "../electorate-century";
 import { stanceLean } from "./officials";
-import { partyLean } from "../campaign-stances";
+import { partyLean, partyPosition } from "../campaign-stances";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import type {
   CoreAPI,
@@ -1269,6 +1269,47 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         leftIds: left.get(party.id) ?? [],
       } satisfies PartyMeetingRow as unknown as ModuleRow);
   }
+}
+
+/**
+ * The date of the town's next party committee meeting, read from the
+ * calendar's own pending work (every party in town meets that day), or null
+ * when none is scheduled.
+ */
+export function nextPartyMeeting(api: CoreAPI): string | null {
+  const calendar = api.moduleCalendar(PARTIES_MODULE_ID);
+  for (let day = 0; day <= value("partyMeetingDays"); day += 1) {
+    const date = addDays(makeIsoDate(api.state.date), day);
+    if (calendar.get(`party-meeting:${date}`)?.status === "pending")
+      return date;
+  }
+  return null;
+}
+
+/**
+ * The questions a party takes the strongest side on, strongest first (ties by
+ * name), from its position on each platform question as the campaign stances
+ * read it; `listed` limits the list to questions the caller can word.
+ */
+export function partyStands(
+  api: CoreAPI,
+  party: Readonly<PartyRow>,
+  listed: (question: string) => boolean,
+  limit: number,
+): { question: string; favors: boolean }[] {
+  return PLATFORM_QUESTIONS.filter(listed)
+    .map((question) => ({
+      question,
+      position: partyPosition(api, party.name, question) ?? 0,
+    }))
+    .filter((entry) => entry.position !== 0)
+    .sort(
+      (a, b) =>
+        Math.abs(b.position) - Math.abs(a.position) ||
+        a.question.localeCompare(b.question),
+    )
+    .slice(0, limit)
+    .map((entry) => ({ question: entry.question, favors: entry.position > 0 }));
 }
 
 export function partyMeetings(
