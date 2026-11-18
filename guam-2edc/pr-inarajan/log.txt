@@ -1,0 +1,15 @@
+seed e5700cfd53d5 place Inarajan, Guam me Evan Hurst
+  scene 1: James Hurst Lana Hurst Cynthia Hurst It's around noon on January 20. You stay in. Continue
+day one rows: ["contest:seat:island:GU:inarajan:mayor:0:2028-11-07 :: Mayor Filing opens March 8, 2028"]
+local-races: [{"c":"contest:seat:island:GU:inarajan:mayor:0:2028-11-07","t":"Mayor","may":false,"bar":"window-not-open","opens":"2028-03-08","el":"2028-11-07"}]
+shot 01-elections-day-one
+race contest:seat:island:GU:inarajan:mayor:0:2028-11-07 Mayor
+race page day one: buttons ["sim-to-filing:Sim to Mar 8, 2028"] | MayorNovember 7, 2028 Who's running No one has filed Last time November 5, 2024 Darlene Miles Share of the vote 57 percent Dates Mar 8, 2028 Filing opens May 7, 2028 Filing closes Nov 7, 2028 Election day Sim to Mar 8, 2028 Filing for this race hasn't opened yet.
+shot 02-race-day-one
+no Announce on the race page
+press Sim to (Sim to Mar 8, 2028)
+  advance answered at {"date":"2025-01-22","minuteOfDay":420} kind stop
+  scene 2: James Hurst Lana Hurst Cynthia Hurst It's early on January 22. You stay in. You caught Governor Richard Cook's State of the State address on KARC-TV last night. Continue
+  scene 3: Jasmine Hurst Late in the morning on April 25th, you go over to see Jasmine Hurst. Jasmine is moving away, and has come to say goodbye in person. Continue
+  scene 4: Lana Hurst It's early on June 12. You stay in. You finished school yesterday. Lana wants to mark it. Continue
+  scene 5: James Hurst Lana Hurst Cynthia Hurst Emerson Hurst It's early on January 13. The house is quiet. The household has gathered to celebrate Lana's new job at Gallagher's Market. Cynthia finds you in the crowd with a questio

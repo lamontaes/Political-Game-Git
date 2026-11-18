@@ -1,0 +1,17 @@
+seed 950e19477ced place Merizo, Guam me Paige Wiley
+  scene 1: Carl Wiley Kathleen Wiley Anya Wiley Olivia Wiley It's late on January 20. You stay in. Continue
+day one rows: ["contest:seat:island:GU:merizo:mayor:0:2028-11-07 :: Mayor Filing opens March 8, 2028"]
+local-races: [{"c":"contest:seat:island:GU:merizo:mayor:0:2028-11-07","t":"Mayor","may":false,"bar":"window-not-open","opens":"2028-03-08","el":"2028-11-07"}]
+shot 01-elections-day-one
+race contest:seat:island:GU:merizo:mayor:0:2028-11-07 Mayor
+race page day one: buttons ["sim-to-filing:Sim to Mar 8, 2028"] | MayorNovember 7, 2028 Who's running No one has filed Last time November 5, 2024 Lori Yoder Share of the vote 69 percent Dates Mar 8, 2028 Filing opens May 7, 2028 Filing closes Nov 7, 2028 Election day Sim to Mar 8, 2028 Filing for this race hasn't opened yet.
+shot 02-race-day-one
+no Announce on the race page
+press Sim to (Sim to Mar 8, 2028)
+  advance answered at {"date":"2025-01-22","minuteOfDay":420} kind stop
+  scene 2: Carl Wiley Kathleen Wiley Anya Wiley Olivia Wiley It's early on January 22. The house is quiet. Last night you watched Governor Theresa Jenkins's State of the State address on KAQP-TV. Continue
+  scene 3: Olivia Wiley It's early on June 12. You stay in. You finished school yesterday. Olivia wants to mark it. Continue
+  scene 4: Carl Wiley Kathleen Wiley Anya Wiley Olivia Wiley It's early on January 22. The house is quiet. Last night you watched Governor Theresa Jenkins's State of the State address on KAQP-TV. Continue
+  scene 5: Kathleen Wiley It's early on April 2. The house is quiet. Your mother has been waiting for you to get home. Continue
+  scene 6: Dorothy Riley First thing on April 6th, you meet Dorothy Riley downtown. The chairs are emptying when Dorothy walks over. Continue
+  scene 7: Michael McCormick First thing on June 14th, Michael McCormick, a member of the Legislature of Guam, is waiting for you downtown. After the speech, Michael comes over and shakes your hand. Continue

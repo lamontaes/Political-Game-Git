@@ -1,0 +1,4 @@
+seed 950e19477ced place Merizo, Guam me Paige Wiley
+  scene 1: Carl Wiley Kathleen Wiley Anya Wiley Olivia Wiley It's late on January 20. You stay in. Continue
+shot 01-elections-no-rows
+no rows: No local election is on the calendar
