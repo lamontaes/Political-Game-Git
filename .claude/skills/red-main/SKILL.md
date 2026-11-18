@@ -96,6 +96,8 @@ Every two hours write a block at the top of `## Red main` in `docs/coordination/
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
 - Nov 17, 02:18Z (golden-path M3-09): the last spec timed out on pull requests that never touched it. Cause: the specs shared one quick-budget clock, so the earlier ones starved it. Give each spec its own measured clock (#9832); never raise the total or skip the spec.
+- Nov 17, 20:30Z (#9881, #9915): six reds on a pull request's unit run were mostly the train's. Replay each at CI's seed (the test's own variable, `GOLDEN_PATH_SEED` or `DEV_MODE_SEED`) on the train's head before calling it yours. A red on a pull request that changes only tests is the train's engine.
+- Nov 17, 20:50Z (dev-discharge, #9881): a probe that called `chairHears` before the vote turned a held bill into a heard one. Cause: the early read changed what the committee decided later, so the probe measured a different world. Print a decision's reasons from the record it wrote, after the step runs, never by calling the reader early.
 - Nov 16, 23:52Z: five lanes chased the same `guards` red. Cause: it came from a skill on main. Read one failing log before sending lanes to look, then name the commit on main that fixes it.
 
 ## More in this folder

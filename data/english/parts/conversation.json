@@ -2479,6 +2479,449 @@
       "origin": "authored",
       "author": "Words lead (words-out-of-town-work-has-a-true-answer)",
       "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.greet-opener.hello",
+      "move": "greet-opener",
+      "kind": "spoken",
+      "text": "Hello?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "opener",
+          "requiresFacts": ["by-phone"],
+          "move": "greet-opener"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-opener.yeah-hello",
+      "move": "greet-opener",
+      "kind": "spoken",
+      "text": "Yeah, hello?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "opener",
+          "requiresFacts": ["by-phone"],
+          "move": "greet-opener"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-opener.hello-yes",
+      "move": "greet-opener",
+      "kind": "spoken",
+      "text": "Hello, yes?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "opener",
+          "requiresFacts": ["by-phone"],
+          "move": "greet-opener"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.oh-hi",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh, hi.",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "excludesFacts": ["name"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.oh-hi-there",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh. Hi there.",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "excludesFacts": ["name"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.hey-what-s-up",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey, what's up?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "excludesFacts": ["name"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.oh-name-hi",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Oh, {name}. Hi.",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "name"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.name-hi",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}! Hi.",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "name"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.hey-name-what-s-up",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Hey, {name}. What's up?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "name"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.we-haven-t-talked-since-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "We haven't talked since {when}.",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "name", "when-long", "when-since"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.not-since-when-huh",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Not since {when}, huh?",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "name", "when-long", "when-since"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-core.last-we-talked-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Last we talked was {when}.",
+      "uses": [
+        {
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "name", "when-long", "when-since"],
+          "move": "greet-core"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.hey-it-s-me",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hey, it's me.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["kin-or-household"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.it-s-just-me",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "It's just me.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["kin-or-household"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.hi-it-s-me",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hi, it's me.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["close-tie"],
+          "excludesFacts": ["kin-or-household"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.yeah-it-s-me",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Yeah, it's me.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["close-tie"],
+          "excludesFacts": ["kin-or-household"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.hi-it-s-player-first",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hi, it's {player-first}.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["kin-or-household", "close-tie"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.hello-it-s-player-first",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "Hello, it's {player-first}.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["kin-or-household", "close-tie"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.greet-phone-self.it-s-player-first-calling",
+      "move": "greet-phone-self",
+      "kind": "spoken",
+      "text": "It's {player-first} calling.",
+      "uses": [
+        {
+          "subject": "greet-phone-self",
+          "role": "core",
+          "stages": ["default"],
+          "excludesFacts": ["kin-or-household", "close-tie"],
+          "move": "greet-phone-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.farewell-core.thanks-for-calling",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Thanks for calling.",
+      "uses": [
+        {
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true,
+          "move": "farewell-core"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.farewell-core.okay-bye-now",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay, bye now.",
+      "uses": [
+        {
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone"],
+          "closesTalk": true,
+          "move": "farewell-core"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.farewell-core.call-anytime",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Call anytime.",
+      "uses": [
+        {
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "kin-or-household"],
+          "closesTalk": true,
+          "move": "farewell-core"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.farewell-core.call-me-anytime",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Call me anytime.",
+      "uses": [
+        {
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["by-phone", "close-tie"],
+          "closesTalk": true,
+          "move": "farewell-core"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
     }
   ]
 }

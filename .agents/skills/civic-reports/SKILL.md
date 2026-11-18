@@ -11,7 +11,7 @@ description: >
 
 **Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
-**Play first (owner, Oct 24):** every status report leads with how far he can play now toward the one acceptance. **Only done counts (owner, Nov 3):** a report counts an item as done only when a second session has seen it in the running game (`seen-in-game`); everything else is "merged, not yet seen" or "in review".
+**Play first (owner, Oct 24):** every status report leads with how far he can play now toward the one acceptance. **Only done counts (owner, Nov 3):** a report counts an item as done only when a second session has seen it in the running game (`done-proof` (seen-in-game part)); everything else is "merged, not yet seen" or "in review".
 
 The owner reads reports between other things, often on a phone, and acts on
 them. A report is finished when a reader who was not there can say what

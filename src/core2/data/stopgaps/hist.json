@@ -340,5 +340,16 @@
     "addedAt": "2026-11-17",
     "replacement": "The territory's people counted from its own population (the people engine's counts, family 5), so it opens where its people stand.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-century-founding-cost",
+    "kind": "tunable",
+    "file": "src/core2/electorate-century.ts",
+    "whatItFakes": "What it costs to stand a new party in the century's history is one number (centuryFoundingCost) against the founding pressure, not the election rules in force (ballot access, fusion, ranked choice); a founded party is a record on the century (foundings) that the dev view reads, and the count does not yet field its nominees.",
+    "why": "None of the 73 policy questions carries ballot access, fusion or ranked choice, and the count takes a candidate's side only as -1, 0 or 1; family 9b parts 2 and 3 add the position and the merges.",
+    "addedBy": "History lane (claude/history-party-founding)",
+    "addedAt": "2026-11-18",
+    "replacement": "The election-rules questions in the laws data (Laws and effects' area; pool item to file), read by the founding step; the founded party fielding nominees on the one count with its position (9b part 2).",
+    "status": "open"
   }
 ]
