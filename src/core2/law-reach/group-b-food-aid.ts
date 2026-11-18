@@ -167,7 +167,7 @@ export function runFoodAid(
       if (unit <= 0) continue;
       const dollars = foodAidDollars(
         stopped.length ? { ...household, size: unit } : household,
-        povertyLineDollars(chain.stateKey, household.size),
+        povertyLineDollars(chain.stateKey, household.size, facts.priceIndex),
         allotment,
       );
       if (dollars <= 0) continue;

@@ -1,6 +1,10 @@
 import { governmentProperName } from "../core2/government-proper-name";
 import { outputReads, readOutputNumber } from "../core2/output-number-readers";
-import { METRICS_SECTIONS, OUTPUT_NUMBERS } from "../core2/output-numbers";
+import {
+  keptOutputHistory,
+  METRICS_SECTIONS,
+  OUTPUT_NUMBERS,
+} from "../core2/output-numbers";
 import type { CoreState } from "../core2/types";
 
 /**
@@ -26,9 +30,25 @@ export function metricsView(core: CoreState, placeId: string) {
         const { government, governmentId } = read.inputs;
         if (typeof government === "string" && typeof governmentId === "string")
           name = governmentProperName(government, governmentId);
+        // The years behind the figure, oldest first, for the timeline a measure opens: the
+        // registry's year rows where it keeps them, otherwise last year and this one.
+        const kept = number.kept
+          ? keptOutputHistory(reads.core, reads.api, number.id, placeId)
+          : [];
+        const thisYear = Number(reads.core.date.slice(0, 4));
+        const history =
+          kept.length > 1
+            ? kept
+            : read.before === null
+              ? []
+              : [
+                  { year: thisYear - 1, value: read.before },
+                  { year: thisYear, value: read.now },
+                ];
         return [
           {
             key: shown.key,
+            history,
             unit: shown.unit,
             now: read.now,
             before: read.before,

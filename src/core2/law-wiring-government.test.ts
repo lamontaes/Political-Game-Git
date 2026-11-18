@@ -141,7 +141,7 @@ const open = (api: CoreAPI, key: string) =>
   appliedOn(api, key).filter((r) => !r.endedOn);
 
 describe(`government operations laws are applied by their engines (seed ${seed})`, () => {
-  it("applies each law, moves the money, moves the outcome, and a repeal ends it", () => {
+  it("applies each law, moves the money, moves the outcome, and a repeal ends it (just like today: needs the state's real government-operations laws)", () => {
     const tried: string[] = [];
     const posts: { id: string; gross: number }[] = [];
     setJournalTrace((input) => {
@@ -166,6 +166,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
         const core = buildBenchWorld(drawn.seed, gameStartDate(), {
           twoLevel: true,
+          settings: { history: "today" },
           placeKey: drawn.key,
         }).core as CoreState;
         const api = coreAPI(core);
@@ -732,7 +733,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
     }
   }, 300_000);
 
-  it("a cost owed by a treasury short of cash is still paid after the law is repealed", () => {
+  it("a cost owed by a treasury short of cash is still paid after the law is repealed (just like today: needs the state's real government-operations laws)", () => {
     const tried: string[] = [];
     const posts: { id: string; gross: number }[] = [];
     setJournalTrace((input) => {
@@ -753,6 +754,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
         const core = buildBenchWorld(drawn.seed, gameStartDate(), {
           twoLevel: true,
+          settings: { history: "today" },
           placeKey: drawn.key,
         }).core as CoreState;
         const api = coreAPI(core);
@@ -884,7 +886,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
     }
   }, 300_000);
 
-  it("the public pay floor raises every public job under it, named and counted, and its repeal ends their rows", () => {
+  it("the public pay floor raises every public job under it, named and counted, and its repeal ends their rows (just like today: needs the state's real government-operations laws)", () => {
     const tried: string[] = [];
     const posts: { id: string; date: string; gross: number }[] = [];
     setJournalTrace((input) => {
@@ -904,6 +906,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
         const core = buildBenchWorld(drawn.seed, gameStartDate(), {
           twoLevel: true,
+          settings: { history: "today" },
           placeKey: drawn.key,
         }).core as CoreState;
         const api = coreAPI(core);
@@ -1058,11 +1061,12 @@ const PINNED_ADMINISTRATION = [
 
 describe("a raise to the city's administration line is hired on whatever the county's line does", () => {
   for (const { key, worldSeed } of PINNED_ADMINISTRATION)
-    it(`hires on the raise at place ${key} (world seed ${worldSeed.slice(0, 8)})`, () => {
+    it(`hires on the raise at place ${key} (world seed ${worldSeed.slice(0, 8)}) (just like today: needs the state's real government-operations laws)`, () => {
       const priorBookkeeping = setBookkeeping(false);
       try {
         const core = buildBenchWorld(worldSeed, gameStartDate(), {
           twoLevel: true,
+          settings: { history: "today" },
           placeKey: key,
         }).core as CoreState;
         const api = coreAPI(core);
