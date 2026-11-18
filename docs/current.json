@@ -1374,6 +1374,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the recall-confront scene at the petition table to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/debate-opponent-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the after-the-debate scene (the other candidate comes over) to compose; it is skipped unworded since the cut."
     }
   ]
 }
