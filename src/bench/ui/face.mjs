@@ -4,8 +4,8 @@
 // record the server gives for that person (scene.ts faceOf, or the creator's
 // look through appearance.ts portraitFace): their bust (ui/bust.mjs stacks its
 // pieces). Three crops of the same bust, never a second picture:
-// - `round`: the round headshot, the head filling the middle of the circle so
-//   every face takes the same share of the frame at every size (no box; owner,
+// - `round`: the headshot, the head filling the middle of a soft-edged square so
+//   every face takes the same share of the frame at every size (no circle, no box; owner,
 //   Oct 28);
 // - `bust`: across a screen's left column, ending in a soft fade on the chest
 //   (the approved strip screens);
