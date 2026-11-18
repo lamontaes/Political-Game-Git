@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: claude/story-address-point-reasons
 pr:
 after:
 blocked-on:

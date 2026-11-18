@@ -99,7 +99,10 @@
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
     "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk).",
-    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
+    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json).",
+    "relative": "The relative in the house a point touches: the family word when the listener shares the tie (\"Mom\"), else their first name.",
+    "relative-kin": "The relative in the house as the speaker calls them (\"my mother\").",
+    "story-ran": "When the story the speaker read ran, as people say it (\"yesterday\")."
   },
   "maxWords": 10,
   "lineWords": {
@@ -40617,6 +40620,621 @@
         }
       ],
       "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-lease.we-rent-and-the-rent-here-keeps-climbing",
+      "move": "address-point-reason-lease",
+      "kind": "spoken",
+      "text": "We rent, and the rent here keeps climbing.",
+      "uses": [
+        {
+          "move": "address-point-reason-lease",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-lease"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-lease.when-rent-is-most-of-the-month-you-notice-that",
+      "move": "address-point-reason-lease",
+      "kind": "spoken",
+      "text": "When rent is most of the month, you notice that.",
+      "uses": [
+        {
+          "move": "address-point-reason-lease",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-lease"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-lease.rent-takes-most-of-what-comes-into-this-house",
+      "move": "address-point-reason-lease",
+      "kind": "spoken",
+      "text": "Rent takes most of what comes into this house.",
+      "uses": [
+        {
+          "move": "address-point-reason-lease",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-lease"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-kin-on-medicare-i-hear-that-part",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative-kin} on Medicare, I hear that part.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-medicare"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-on-medicare-here-i-hear-that-part",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative} on Medicare here, I hear that part.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative", "relative-medicare"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-kin-in-school-that-part-matters-in-this-house",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative-kin} in school, that part matters in this house.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-school"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-in-school-here-that-part-matters-in-this-house",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative} in school here, that part matters in this house.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative", "relative-school"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-kin-retired-i-think-about-that-one",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative-kin} retired, I think about that one.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": [
+            "why-relative",
+            "relative-kin",
+            "relative-retirement"
+          ]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-retired-here-i-think-about-that-one",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative} retired here, I think about that one.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative", "relative-retirement"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-kin-in-college-that-one-hits-home",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative-kin} in college, that one hits home.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-student"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-relative.with-relative-in-college-here-that-one-hits-home",
+      "move": "address-point-reason-relative",
+      "kind": "spoken",
+      "text": "With {relative} in college here, that one hits home.",
+      "uses": [
+        {
+          "move": "address-point-reason-relative",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-relative", "relative", "relative-student"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-story.there-was-a-story-on-it-in-outlet-story-ran",
+      "move": "address-point-reason-story",
+      "kind": "spoken",
+      "text": "There was a story on it in {outlet} {story-ran}.",
+      "uses": [
+        {
+          "move": "address-point-reason-story",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-story", "outlet", "story-ran"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-story.i-read-what-outlet-had-on-it-story-ran",
+      "move": "address-point-reason-story",
+      "kind": "spoken",
+      "text": "I read what {outlet} had on it {story-ran}.",
+      "uses": [
+        {
+          "move": "address-point-reason-story",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-story", "outlet", "story-ran"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-story.i-saw-it-laid-out-in-outlet-story-ran",
+      "move": "address-point-reason-story",
+      "kind": "spoken",
+      "text": "I saw it laid out in {outlet} {story-ran}.",
+      "uses": [
+        {
+          "move": "address-point-reason-story",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-story", "outlet", "story-ran"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.try-paying-rent-in-place-on-what-we-bring-in",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Try paying rent in {place} on what we bring in.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-lease", "place"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.most-of-what-we-make-goes-to-rent-in-place",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Most of what we make goes to rent in {place}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-lease", "place"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.ask-relative-kin-medicare-is-the-difference-for-us",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Ask {relative-kin}. Medicare is the difference for us.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-medicare"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-watch-relative-kin-count-on-medicare-every-month",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I watch {relative-kin} count on Medicare every month.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-medicare"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-see-what-relative-kin-brings-home-from-school",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I see what {relative-kin} brings home from school.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-school"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-watch-relative-kin-live-on-a-retirement-check",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I watch {relative-kin} live on a retirement check.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": [
+            "why-relative",
+            "relative-kin",
+            "relative-retirement"
+          ]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-see-what-college-costs-relative-kin",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I see what college costs {relative-kin}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative-kin", "relative-student"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-watch-relative-count-on-medicare-every-month",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I watch {relative} count on Medicare every month.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative", "relative-medicare"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-see-what-relative-brings-home-from-school",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I see what {relative} brings home from school.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative", "relative-school"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-watch-relative-live-on-a-retirement-check",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I watch {relative} live on a retirement check.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative", "relative-retirement"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-see-what-college-costs-relative",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I see what college costs {relative}.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-relative", "relative", "relative-student"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.i-read-the-story-in-outlet-story-ran-that-s-why",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "I read the story in {outlet} {story-ran}, that's why.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-story", "outlet", "story-ran"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-view-back-core.it-was-in-outlet-story-ran-read-it-yourself",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "It was in {outlet} {story-ran}. Read it yourself.",
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-story", "outlet", "story-ran"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"
