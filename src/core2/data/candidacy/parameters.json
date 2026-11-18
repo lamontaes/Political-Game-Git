@@ -69,6 +69,55 @@
     "citation": "Weight on the person's recorded relationship with the incumbent (-1 to 1): a friend of the officeholder stays out, someone at odds with them is drawn to run. Challengers emerge most against incumbents they see as vulnerable or opposed to them (Maestas, Fulton, Maisel and Stone 2006, American Political Science Review 100(2):195-208). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
+  "candidacyAnnounceAmbitionWeight": {
+    "role": "coefficient",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly a runner's own ambition draws them to say so early. Spread 0.5 to 2. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceStandingWeight": {
+    "role": "coefficient",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly the number of people who know a runner (to candidacyStandingCircle) draws them to say so early: the circle that hears first. Spread 0.5 to 2. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceOpenSeatWeight": {
+    "role": "coefficient",
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "What an open seat (no one serving it) adds to saying so early, to claim it before others do. Spread 0.25 to 1. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceBuiltWeight": {
+    "role": "coefficient",
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly the party and civic roles a runner already holds draw them to say so early: they have people to tell. Spread 0.5 to 2. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceNearWeight": {
+    "role": "coefficient",
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How strongly the filing window's nearness draws a runner to say so: nothing a decision lead's length away, the full weight on the eve of filing. Spread 1 to 3. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceWaitPull": {
+    "role": "coefficient",
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "What waiting to file is worth against announcing: a runner with every draw at its middle weighs the two about evenly near the window. Spread 1.5 to 4. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAnnounceEveryDays": {
+    "role": "coefficient",
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "How often a runner who has not yet said so weighs it again until filing opens. Spread 14 to 60 days. Weighs a runner's announcing before filing opens against waiting to file (owner, Nov 17: \"Of course, other people should be able to do it early\"). Candidates for local office commonly make their candidacy known months before they file, starting with the people around them and their party (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5).",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "candidacyDecisionLeadDays": {
     "value": 365,
     "tag": "ESTIMATED",

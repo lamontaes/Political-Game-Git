@@ -23,22 +23,15 @@ import {
 import { VIEWS_MODULE_ID, viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId, PersonState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
-import { questionAbout } from "../english/question-names";
+import { billQuestionRead, type LeanOf } from "./bill-question-facts";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { employerSaid } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { businessNameSaid } from "./words";
 
 /** The situation type that reads these facts. */
-/** How far left or right a person leans (the campaign views' `personLean`). */
-type LeanOf = (
-  people: CoreState["people"],
-  person: Readonly<PersonState>,
-  townLean: number,
-) => number;
-
 export const DONOR_ASK_TYPE = "donor-ask";
 
 /**
@@ -53,11 +46,7 @@ export function donorAskFacts(
   causeId: string,
   billId: string | undefined,
   /** How far left or right a person leans (the campaign views' `personLean`, handed in so this file reaches no other engine's insides). */
-  leanOf: (
-    people: CoreState["people"],
-    person: Readonly<PersonState>,
-    townLean: number,
-  ) => number,
+  leanOf: LeanOf,
 ): Record<string, Fact> {
   const facts: Record<string, Fact> = {};
   const donor = core.people.get(donorId);
@@ -87,21 +76,14 @@ export function donorAskFacts(
     facts.bill = said;
     facts["donor-bill"] = said;
   }
-  const provision = bill?.provisions[P.zero];
-  const stance = provision ? provisionStance(api, provision) : null;
-  const about = stance ? questionAbout(stance.question) : null;
-  if (!stance || !about) return facts;
-  facts.about = { text: about, sourceRecordIds: [billId, causeId] };
-  const view = viewOn(
-    api,
-    donorId,
-    stance.question,
-    leanOf(core.people, donor, townLean(api)),
-  );
-  const leaning = view * stance.position;
-  if (leaning !== P.zero)
-    facts[leaning > P.zero ? "side-for" : "side-against"] = {
-      text: leaning > P.zero ? "for" : "against",
+  // What the bill is about and the donor's side of it (bill-question-facts.ts,
+  // the read a colleague's ask for a vote shares).
+  const read = bill ? billQuestionRead(core, donorId, billId, leanOf) : null;
+  if (!read) return facts;
+  facts.about = { text: read.about, sourceRecordIds: [billId, causeId] };
+  if (read.leaning !== P.zero)
+    facts[read.leaning > P.zero ? "side-for" : "side-against"] = {
+      text: read.leaning > P.zero ? "for" : "against",
       sourceRecordIds: [billId, donorId, causeId],
     };
   return facts;

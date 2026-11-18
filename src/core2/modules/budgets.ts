@@ -20,6 +20,7 @@
  *   each government's account through the journal on payday.
  */
 import { taxIndexOf } from "../tax-index";
+import { budgetPassThroughs } from "../budgets-line-payers";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
@@ -273,6 +274,12 @@ export interface BudgetRow {
   readonly collectedMonths?: readonly string[];
   /** The month ("2026-04") the revenue plan stands for: the opening's, or the middle of the year whose collections set it. */
   readonly revenuePlanMonth?: string;
+  /**
+   * What other governments' bills added to these lines (a federal grant line a bill raised, spent by the state,
+   * county or town that receives it), already in `spendingMinor` and not in `baseSpendingMinor`, so it reads as a
+   * raise. Kept so a later change is applied as the difference.
+   */
+  readonly passThroughMinor?: Readonly<Record<string, number>>;
 }
 
 interface WithholdingRecord {
@@ -1650,6 +1657,49 @@ function carriedLines(
   return { spending, drivers, collected, prior };
 }
 
+/** The sum of what every registered pass-through adds to each line of a government's budget (`budgetPassThroughs`). */
+function passThroughOf(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  revenueMinor: Readonly<Record<string, number>>,
+): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const through of budgetPassThroughs)
+    for (const [line, delta] of Object.entries(through(api, gov, revenueMinor)))
+      if (delta !== 0) out[line] = (out[line] ?? 0) + delta;
+  return out;
+}
+
+/**
+ * A federal bill moved a grant line: each state, county and town's budget in
+ * force takes the difference in what it spends that grant on, the same day,
+ * so the line it pays from changes when the extra aid starts to arrive.
+ */
+function refreshPassThroughs(api: CoreAPI): void {
+  for (const gov of governments(api)) {
+    if (gov.level === "federal") continue;
+    const budget = budgetsOf(api, gov.id)
+      .filter((b) => b.startsOn <= api.state.date)
+      .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
+    if (!budget) continue;
+    const next = passThroughOf(api, gov, budget.revenueMinor);
+    const was = budget.passThroughMinor ?? {};
+    const spending = { ...budget.spendingMinor };
+    let changed = false;
+    for (const line of new Set([...Object.keys(next), ...Object.keys(was)])) {
+      const delta = (next[line] ?? 0) - (was[line] ?? 0);
+      if (!delta) continue;
+      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+      changed = true;
+    }
+    if (!changed) continue;
+    const row: Record<string, unknown> = { ...budget, spendingMinor: spending };
+    if (Object.keys(next).length) row["passThroughMinor"] = next;
+    else delete row["passThroughMinor"];
+    table(api, "budgets").put(row as unknown as ModuleRow);
+  }
+}
+
 function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
@@ -1687,6 +1737,9 @@ function legislatedBudget(
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  const through = passThroughOf(api, gov, revenue);
+  for (const [line, delta] of Object.entries(through))
+    spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
   // A plan set from a year's collections stands at that year's middle; a plan that was not re-budgeted keeps its month.
   const planMonth =
     collected !== undefined
@@ -1699,6 +1752,7 @@ function legislatedBudget(
     revenueMinor: revenue,
     spendingMinor: spending,
     baseSpendingMinor: carried,
+    ...(Object.keys(through).length ? { passThroughMinor: through } : {}),
     ...(prior ? { carriedFrom: prior.id } : {}),
     ...(collected !== undefined
       ? { collectedMonths: collectedMonthIds(api, gov, fy) }
@@ -2648,6 +2702,7 @@ export function amendBudget(
     },
   };
   table(api, "budgets").put(amended as unknown as ModuleRow);
+  if (gov.level === "federal" && !revenue) refreshPassThroughs(api);
   // The change reaches whatever that line pays for (law-effects handlers).
   api.emit({
     id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
@@ -2863,3 +2918,5 @@ export {
 } from "./employer-taxes";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";
+// The director reads the awards a government made (and their bids) through this entry.
+export { awardsOn } from "./contracts";
