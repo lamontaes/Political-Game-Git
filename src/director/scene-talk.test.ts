@@ -63,7 +63,6 @@ const CUT_PURPOSES = new Set<string>([
   "scandal",
   "constituent-stop",
   "filing",
-  "layoff",
   "door-signature",
   "serve-sought",
   "bill-carry",

@@ -23497,6 +23497,1650 @@
         "move": "refuse",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-you-to-come-into-the-back-office-and-closes-the-door-behind-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks you to come into the back office and closes the door behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-at-the-end-of-the-hall-with-a-folder-and-nobody-in-the-room-will",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting at the end of the hall with a folder, and nobody in the room will look at you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-calls-you-in-and-the-folder-on-the-desk-is-already-open",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} calls you in, and the folder on the desk is already open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-says-your-name-once-quietly-and-waits-until-the-door-is-shut",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} says your name once, quietly, and waits until the door is shut.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-coming-in-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for coming in, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.sit-down-first-this-will-take-a-few-minutes",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sit down, {first}. This will take a few minutes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-and-close-the-door-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in and close the door, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-first-the-company-is-letting-you-go-and-i-wanted-you-to-hear-it-from-m",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry, {first}. The company is letting you go, and I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-am-sorry-first-your-position-is-being-eliminated-and-what-we-can-offer-is-in-t",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I am sorry, {first}. Your position is being eliminated, and what we can offer is in this folder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.work-has-dried-up-across-place-and-we-are-letting-people-go-you-are-one-of-them",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Work has dried up across {place}, and we are letting people go. You are one of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.this-was-not-my-decision-but-i-m-the-one-who-has-to-tell-you-i-m-sorry-first-you",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "This was not my decision, but I'm the one who has to tell you. I'm sorry, {first}. Your last day is coming up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-company-is-cutting-positions-and-yours-is-one-of-them-i-wanted-you-to-hear-i",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The company is cutting positions, and yours is one of them. I wanted you to hear it from me before it went around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-sorry-i-can-t-tell-you-more-first-the-decision-came-from-above-me-and-the-te",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm sorry I can't tell you more, {first}. The decision came from above me, and the terms are in this folder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-know-how-hard-it-is-to-find-work-around-place-right-now-what-i-can-tell-you-is",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I know how hard it is to find work around {place} right now. What I can tell you is in this folder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.please-read-it-through-before-you-decide-anything-every-question-you-have-i-will",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Please read it through before you decide anything. Every question you have, I will answer as well as I can, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-putting-it-to-me-straight-first-i-will-take-it-upstairs-and-push-f",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for putting it to me straight, {first}. I will take it upstairs and push for a better offer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-go-back-up-the-line-and-ask-for-more-people-around-place-know-what-you-put",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll go back up the line and ask for more. People around {place} know what you put into this job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-t-promise-anything-but-i-ll-ask-please-give-me-a-little-time-first-and-i-l",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can't promise anything, but I'll ask. Please give me a little time, {first}, and I'll come right back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-asked-and-i-m-sorry-first-the-terms-are-what-they-are-and-they-will-not-change",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I asked, and I'm sorry, {first}. The terms are what they are, and they will not change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-took-it-up-the-line-and-i-m-sorry-to-say-the-answer-is-no-first-this-is-all-th",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I took it up the line and I'm sorry to say the answer is no, {first}. This is all they will do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-understand-why-you-asked-first-and-i-m-sorry-but-the-answer-from-upstairs-is-n",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I understand why you asked, {first}, and I'm sorry, but the answer from upstairs is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.you-have-every-right-to-be-angry-first-i-m-sorry-it-should-not-have-gone-this-wa",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "You have every right to be angry, {first}. I'm sorry. It should not have gone this way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-m-sorry-you-had-to-hear-it-like-this-if-it-were-up-to-me-you-would-be-staying",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry you had to hear it like this. If it were up to me, you would be staying, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.that-s-fair-and-i-am-sorry-i-should-have-warned-you-sooner-please-believe-i-didn",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "That's fair, and I am sorry. I should have warned you sooner. Please believe I didn't know until this week, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.please-let-s-keep-this-about-what-happens-next-the-decision-is-not-mine-to-chang",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Please, let's keep this about what happens next. The decision is not mine to change, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-understand-the-decision-was-made-above-me-and-i-can-only-talk-about-the-terms",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I understand. The decision was made above me, and I can only talk about the terms. Please, let's go through them before the news goes around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-m-not-the-one-who-made-this-call-and-i-m-sorry-that-you-re-angry-at-me-let-s-t",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I'm not the one who made this call, and I'm sorry that you're angry at me. Let's talk about the terms, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.thank-you-for-taking-it-this-way-first-i-ll-write-you-a-strong-reference-and-any",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Thank you for taking it this way, {first}. I'll write you a strong reference, and anyone who calls will hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-will-vouch-for-you-with-anyone-around-place-who-asks-you-have-earned-that-much",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I will vouch for you with anyone around {place} who asks. You have earned that much, and more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.please-use-my-name-when-you-apply-anywhere-i-ll-tell-them-exactly-how-good-you-w",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Please use my name when you apply anywhere. I'll tell them exactly how good you were at this, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-this-your-decision-name-or-did-it-come-from-above",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is this your decision, {name}, or did it come from above?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.are-people-being-let-go-all-over-place-or-just-here",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are people being let go all over {place}, or just here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-you-known-about-this-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you known about this, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-you-asking-me-to-sign-name-and-what-do-i-get-for-the-years-i-put-in",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are you asking me to sign, {name}, and what do I get for the years I put in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-gave-this-place-a-lot-name-i-m-asking-for-more-than-this-folder-says-and-i-thi",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I gave this place a lot, {name}. I'm asking for more than this folder says, and I think I've earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-think-about-signing-but-not-on-these-terms-can-you-ask-them-for-more-before",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll think about signing, but not on these terms. Can you ask them for more before I put my name down, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.anybody-in-place-will-tell-you-what-i-put-into-this-job-take-that-upstairs-and-b",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Anybody in {place} will tell you what I put into this job. Take that upstairs, and bring me a better offer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-won-t-sign-this-as-it-stands-go-back-and-ask-for-a-better-offer-and-i-ll-liste",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I won't sign this as it stands. Go back and ask for a better offer, and I'll listen, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-called-me-in-name-to-tell-me-this-after-everything-i-ve-done-for-this-place",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You called me in, {name}, to tell me this after everything I've done for this place?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.after-all-the-extra-i-put-in-this-is-what-i-get-i-won-t-forget-how-this-was-done",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "After all the extra I put in, this is what I get? I won't forget how this was done, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-tell-me-you-re-sorry-name-you-still-have-a-job-and-i-just-lost-mine",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't tell me you're sorry, {name}. You still have a job, and I just lost mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.people-in-place-will-hear-how-this-company-treated-the-ones-who-stayed",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "People in {place} will hear how this company treated the ones who stayed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.alright-i-ll-sign-it-name-i-d-rather-leave-on-good-terms-than-fight",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll sign it, {name}. I'd rather leave on good terms than fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.i-understand-name-it-isn-t-what-i-wanted-but-i-ll-take-the-terms-and-go-quietly",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "I understand, {name}. It isn't what I wanted, but I'll take the terms and go quietly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.if-that-s-how-it-has-to-be-i-ll-take-what-you-re-offering-and-start-looking-arou",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "If that's how it has to be, I'll take what you're offering and start looking around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.thank-you-for-telling-me-yourself-name-i-ll-sign-and-clear-out-my-things",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me yourself, {name}. I'll sign and clear out my things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-heard-enough-i-m-going-to-go-name-and-think-about-what-i-ll-do",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've heard enough. I'm going to go, {name}, and think about what I'll do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-i-ll-read-it-at-home-and-get-back-to-you-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. I'll read it at home and get back to you, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done-talking-about-it-for-now-i-ll-get-back-to-you-on-the-paperwork-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done talking about it for now. I'll get back to you on the paperwork, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-sit-here-any-longer-name-i-m-going-home-to-tell-my-family-before-anyone",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't sit here any longer, {name}. I'm going home to tell my family before anyone else does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-name-a-good-word-from-you-will-mean-a-lot-around-place",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, {name}. A good word from you will mean a lot around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-appreciate-that-more-than-you-know-name-i-ll-use-your-name",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I appreciate that more than you know, {name}. I'll use your name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-that-name-it-helps-to-hear-someone-say-i-did-the-work-well",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for that, {name}. It helps to hear someone say I did the work well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-being-straight-with-me-first-i-m-sorry-again-that-it-came-to-this",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for being straight with me, {first}. I'm sorry again that it came to this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-how-you-handled-this-first-i-ll-see-the-paperwork-goes-through-cle",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for how you handled this, {first}. I'll see the paperwork goes through cleanly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-out-the-people-around-place-are-lucky-to-have-had-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out. The people around {place} are lucky to have had you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-have-the-paperwork-ready-and-the-reference-written-you-have-my-word-first-a",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll have the paperwork ready and the reference written. You have my word, {first}, and my apology.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-see-that-your-last-check-and-your-reference-are-ready-first-please-call-me",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll see that your last check and your reference are ready, {first}. Please call me if anything is missing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-have-the-paperwork-and-my-word-on-the-reference-i-m-sorry-again-first",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have the paperwork and my word on the reference. I'm sorry again, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-if-that-s-your-decision-i-ll-have-the-papers-set-aside-for-you-first-sor",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. If that's your decision, I'll have the papers set aside for you, {first}. Sorry it ended this way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-the-offer-stays-as-it-is-if-you-change-your-mind-and-i-m-sorry-we-c",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. The offer stays as it is if you change your mind, and I'm sorry we couldn't do more, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-won-t-press-you-take-the-folder-and-come-find-me-when-you-re-ready-please-don",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I won't press you. Take the folder, and come find me when you're ready. Please don't be a stranger around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.if-you-don-t-sign-by-the-date-in-the-folder-the-offer-is-gone-and-i-m-sorry-to-s",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If you don't sign by the date in the folder, the offer is gone, and I'm sorry to say that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-understand-that-walking-out-doesn-t-change-the-date-the-offer-in-this-fol",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please understand that walking out doesn't change the date. The offer in this folder ends without a signature, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-sorry-first-but-the-terms-in-that-folder-expire-and-after-that-there-is-noth",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm sorry, {first}, but the terms in that folder expire, and after that there is nothing more I can do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-your-time-with-it-but-i-do-need-an-answer-soon-first-i-m-sorry-to-rush-you",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take your time with it, but I do need an answer soon, {first}. I'm sorry to rush you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-read-it-over-and-let-me-know-the-offer-won-t-wait-forever-and-neither-wil",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please read it over and let me know. The offer won't wait forever, and neither will the paperwork, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-need-to-know-where-we-stand-before-the-news-reaches-place-think-it-over-and-co",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I need to know where we stand before the news reaches {place}. Think it over and come back to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "layoff-terms",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
     }
   ]
 }
