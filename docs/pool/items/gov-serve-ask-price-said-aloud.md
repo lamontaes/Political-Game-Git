@@ -5,8 +5,8 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/project-thread-d5qa0q
+status: open
+claimed-by:
 pr:
 after: gov-serve-ask-price-end
 blocked-on:
@@ -16,6 +16,8 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+claimed-at:
+branch: claude/project-thread-d5qa0q
 ---
 
 **What.** A player who promised a running mate to hold their side on a question, and then voted or signed with it or against it, keeps or breaks that promise on the record, and the tie between them moves. But when they next talk, the running mate never brings it up. Seen: in a talk with the running mate after a vote on their question.
@@ -38,3 +40,5 @@ The player answers from the promise talk's existing answers (own-it, explain, de
 **Waits on.** gov-serve-ask-price-end.
 
 **Files.** data/english/parts/conversation.json, src/director/promise-talk.ts, src/director/serve-price-scene.test.ts
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-d5qa0q since 2026-11-16 02:32 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-d5qa0q.
