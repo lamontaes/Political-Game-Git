@@ -1,15 +1,13 @@
 ---
 name: done-proof
 description: >
-  How done is proven (CTO, Nov 16, from the owner's rule "fix the cause, don't
-  loosen the check"): what a pull request never adds without a CTO line, the
-  screenshot from the running game, the feature map, three strikes, repeats that
-  become checks, the verification stamp, a one-line answer for each standing
-  rule, and the skills policy (update the job's skill first; a new skill retires
-  one). Use before opening a pull request or marking one ready, whenever
-  loosening a red check looks easier than fixing it, and when a lesson should
-  become a skill line. Not for the second session's check (seen-in-game) or the
-  gate's commands (merger).
+  How done is proven: what a pull request never adds without a CTO line, the
+  screenshot from the running game, the builder's played-world proof, the second
+  session's check that makes an item done, a one-line answer for each standing
+  rule, and the skills policy. Use before opening or readying a pull request,
+  before calling anything done or checking a merged item in the game, and when
+  loosening a check looks easier than fixing it. Not for the gate's commands
+  (merger).
 ---
 
 # How done is proven
@@ -32,7 +30,7 @@ A screen or feature counts as done only when the pull request shows a screenshot
 
 - Take the screenshot from a build of your own head, not from a mock page or a composed scene. `verify --screen <tab>/<button>` reaches the screen by playing and saves it.
 - Put the mock or the owner's quote beside it, and say how you reached the screen: the clicks, or the dev mode control.
-- This is the builder's proof. After the merge, a second session still checks the item on main before it is `done` (`seen-in-game`).
+- This is the builder's proof. After the merge, a second session still checks the item on main before it is `done` (`done-proof` (seen-in-game part)).
 
 ## 3. The feature map
 
@@ -70,7 +68,9 @@ The Long game lane splits the checks first, and builds the rule-1 guard in the s
 - A heavy set runs on a schedule and before the CTO merges: the full suite and the 20-year drawn-place run.
 - The full run must finish. Today it is canceled at 45 minutes.
 
-Skill `verify` runs the fast set in one command: `node .claude/skills/verify/scripts/verify.mjs`, plus `--screen` for the screenshot rule 2 asks for. Until that lands, run the gate your role's skill names (`merger` (train-gate part), `merger` (checker part)).
+The fast set is `.github/workflows/validate.yml`; a large change's test files are dealt over up to six unit jobs. The heavy set is `.github/workflows/heavy.yml`: nightly on main, and by hand on a branch before a merge (Actions, "Heavy checks", "Run workflow", pick the branch). It also runs the calibration lane (`npm run test:calibration`), and it runs on a pull request from a train branch into main. Its summary lists the slowest test files. The rule-1 guard is `check-changes` (`docs/design/guards.md`); run `npm run guards -- check-changes` before a push. Your role's skill still names the gate you run (`merger` (train-gate part), `merger` (checker part)).
+
+Skill `verify` runs the fast set in one command: `node .claude/skills/verify/scripts/verify.mjs`, plus `--screen` for the screenshot rule 2 asks for.
 
 ## 8. Stamp it
 
@@ -94,11 +94,11 @@ Before a PR opens, answer each line below in the PR body in one sentence, or wri
 5. **The chain is the acceptance (owner, Oct 14).** A bill, a budget line or an executive act is finished when one dollar or one rule is followed to a named person and back out, by record id: the record, the law in force changing, the payment or price, the person, the choice or view that moved, the director's scene or journal line.
 6. **Owner decisions are flagged, never waited on (owner, Oct 14).** Build the simplest version that follows AGENTS.md, register a stopgap of kind `owner-decision`, and write the question under OWNER DECISIONS NEEDED in the PR body, after the reading line of `look-first`. English the owner can read: no office or tax jargon.
 7. **American English everywhere.** `npm run spelling` lists what the guard would flag; `tests/guards/english/` enforces it.
-8. **Every effect can be triggered from the game's own code in dev mode and its effect seen and traced there (owner, Nov 14: "every single one of those should be able to be triggered using the game code and advanced in order to see the effect").** Dev mode and advanced are the same thing. Traces a session makes by script or by reading code belong there too (`dev-tester`). **Link it to everything else (owner, Nov 16, 01:58Z: "you have to link it to everything else. This stuff can't exist independently. That goes for everything in this game."):** a record, view or screen that no other engine reads or shows is unfinished. For each effect the change adds (a law at town, county, state or country level, a budget line, an executive act, an event, a scene), name the dev mode control that causes it through the game's own calls and the Trace or "What came of it" line where its effect shows. A build that adds an effect dev mode cannot trigger and trace is not done: the missing control is part of the build, or its own pool item that this PR names under Waits on. "Could not reach it" in `seen-in-game` is a finding, never a pass.
+8. **Every effect can be triggered from the game's own code in dev mode and its effect seen and traced there (owner, Nov 14: "every single one of those should be able to be triggered using the game code and advanced in order to see the effect").** Dev mode and advanced are the same thing. Traces a session makes by script or by reading code belong there too (`dev-tester`). **Link it to everything else (owner, Nov 16, 01:58Z: "you have to link it to everything else. This stuff can't exist independently. That goes for everything in this game."):** a record, view or screen that no other engine reads or shows is unfinished. For each effect the change adds (a law at town, county, state or country level, a budget line, an executive act, an event, a scene), name the dev mode control that causes it through the game's own calls and the Trace or "What came of it" line where its effect shows. A build that adds an effect dev mode cannot trigger and trace is not done: the missing control is part of the build, or its own pool item that this PR names under Waits on. "Could not reach it" in `done-proof` (seen-in-game part) is a finding, never a pass.
 
 ### Rules with their own skill
 
-`no-dice`, `one-rule-all-places`, `estimate-not-unknown`, `wire-to-the-world` (self-checks in `.agents/rules/standing-skills/`); `ask-why`, `look-first`, `day-one-in-motion`, `researcher`, `speed-work`, `scene-pictures`, `scene-standard`, `player-screen-text`, `seen-in-game`, `remove-a-stopgap`, `current-pointers`.
+`no-dice`, `one-rule-all-places`, `estimate-not-unknown`, `wire-to-the-world` (self-checks in `.agents/rules/standing-skills/`); `ask-why`, `look-first`, `day-one-in-motion`, `researcher`, `speed-work`, `scene-pictures`, `scene-standard`, `player-screen-text`, `done-proof` (seen-in-game part), `remove-a-stopgap`, `current-pointers`.
 
 ### Two more lines (Account lead, Nov 15)
 
@@ -130,3 +130,6 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 Read each file here when its moment comes:
 
 - `references/skill-lessons.md`: when a lesson repeats and should become a skill line, and on the scheduled skill-lessons job.
+- `references/seen-in-game.md`: when writing an item's Done when, before reporting anything as done, and when taking a merged item to check in the running game (the old `seen-in-game` skill).
+- `references/played-world-proof.md`: before calling a feature, law or module finished: the one-year played-world proof, named by record id (the old `played-world-proof` skill).
+- `references/labor-market-proof.md`: for any jobs, wage, firm-demand or layoff change: 24 months in a played town, inflow and outflow (moved here with `played-world-proof`).

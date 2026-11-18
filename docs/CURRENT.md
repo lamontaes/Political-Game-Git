@@ -116,6 +116,7 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 - `PATCH_NOTES.md`
 - `docs/current.json`
 - `docs/CURRENT.md`
+- `docs/words-lead-handoff-2026-11-16/`
 
 ## Replaced or removed, kept forever
 
@@ -175,8 +176,8 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `.claude/skills/pinned-tests` | `.claude/skills/drawn-place-tests/references/pinned-tests.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/relationship-checks` | `.agents/skills/drawn-place-tests/references/relationship-checks.md` | 2026-11-17 | Merged into the drawn-place-tests skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
 | `.claude/skills/relationship-checks` | `.claude/skills/drawn-place-tests/references/relationship-checks.md` | 2026-11-17 | The mirror of the row above, removed with it. |
-| `.agents/skills/labor-market-proof` | `.agents/skills/played-world-proof/references/labor-market-proof.md` | 2026-11-17 | Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
-| `.claude/skills/labor-market-proof` | `.claude/skills/played-world-proof/references/labor-market-proof.md` | 2026-11-17 | The mirror of the row above, removed with it. |
+| `.agents/skills/labor-market-proof` | `.agents/skills/done-proof/references/labor-market-proof.md` | 2026-11-17 | Merged into the played-world-proof skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
+| `.claude/skills/labor-market-proof` | `.claude/skills/done-proof/references/labor-market-proof.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/trace-audit` | `.agents/skills/wiring-audit/references/trace-audit.md` | 2026-11-17 | Merged into the wiring-audit skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
 | `.claude/skills/trace-audit` | `.claude/skills/wiring-audit/references/trace-audit.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/scene-first-report` | `.agents/skills/scene-standard/references/scene-first-report.md` | 2026-11-17 | Merged into the scene-standard skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
@@ -185,8 +186,8 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `.claude/skills/speech-planner` | `.claude/skills/words-engine/references/speech-planner.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/term-read` | `.agents/skills/words-engine/references/term-read.md` | 2026-11-17 | Merged into the words-engine skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
 | `.claude/skills/term-read` | `.claude/skills/words-engine/references/term-read.md` | 2026-11-17 | The mirror of the row above, removed with it. |
-| `.agents/skills/owners-words-to-threads` | `.agents/skills/crew-messages/references/owners-words-to-threads.md` | 2026-11-17 | Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
-| `.claude/skills/owners-words-to-threads` | `.claude/skills/crew-messages/references/owners-words-to-threads.md` | 2026-11-17 | The mirror of the row above, removed with it. |
+| `.agents/skills/owners-words-to-threads` | `.agents/skills/crew-coordinator/references/owners-words-to-threads.md` | 2026-11-17 | Merged into the crew-messages skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
+| `.claude/skills/owners-words-to-threads` | `.claude/skills/crew-coordinator/references/owners-words-to-threads.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/heavy-runs` | `.agents/skills/speed-work/references/heavy-runs.md` | 2026-11-17 | Merged into the speed-work skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
 | `.claude/skills/heavy-runs` | `.claude/skills/speed-work/references/heavy-runs.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/cadence-and-summaries` | `.agents/skills/speed-work/references/cadence-and-summaries.md` | 2026-11-17 | Merged into the speed-work skill when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body and references moved word for word into that file. |
@@ -207,4 +208,10 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `.claude/skills/skill-lessons` | `.claude/skills/done-proof/references/skill-lessons.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/play-walks` | `.agents/skills/verify/references/play-walks.md` | 2026-11-17 | Merged into the verify skill, which drives the running game from a script, when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body moved word for word. |
 | `.claude/skills/play-walks` | `.claude/skills/verify/references/play-walks.md` | 2026-11-17 | The mirror of the row above, removed with it. |
+| `.agents/skills/crew-messages` | `.agents/skills/crew-coordinator/references/crew-messages.md` | 2026-11-17 | Merged into the crew-coordinator skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into crew-coordinator/references/. |
+| `.claude/skills/crew-messages` | `.claude/skills/crew-coordinator/references/crew-messages.md` | 2026-11-17 | The mirror of the row above, removed with it. |
+| `.agents/skills/seen-in-game` | `.agents/skills/done-proof/references/seen-in-game.md` | 2026-11-17 | Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/. |
+| `.claude/skills/seen-in-game` | `.claude/skills/done-proof/references/seen-in-game.md` | 2026-11-17 | The mirror of the row above, removed with it. |
+| `.agents/skills/played-world-proof` | `.agents/skills/done-proof/references/played-world-proof.md` | 2026-11-17 | Merged into the done-proof skill when the CTO capped the skills at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747); its body and references moved word for word into done-proof/references/. |
+| `.claude/skills/played-world-proof` | `.claude/skills/done-proof/references/played-world-proof.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `src/core2/world-races-no-district.test.ts` | `src/core2/town-in-every-district.test.ts` | 2026-11-17 | Its premise (a town the district files place in no district) cannot arise: every town sits in a district of each chamber its state has. The new test proves that and fails on a fixture where a town is dropped from the join. |
