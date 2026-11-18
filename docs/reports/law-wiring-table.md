@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 147 of 187 (38 partly, 2 on a stopgap). Research links reaching people or carried by an engine: 175 of 246 (21 the research finds about zero, 50 unread, 0 of them with no stopgap).
+Laws wired: 153 of 191 (37 partly, 1 on a stopgap). Research links reaching people or carried by an engine: 175 of 246 (21 the research finds about zero, 50 unread, 0 of them with no stopgap).
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -8,7 +8,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | ----------------------------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | --- | ------- | ------ | --------- | ---------- | ----------------------------------- |
 | Spending: highways                                                | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | Spending: Federal transportation                                  | infrastructure     | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
-| fare free transit                                                 | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
+| fare free transit                                                 | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | Local power: fare free transit                                    | infrastructure     | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | mileage fee replaces fuel tax                                     | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | Local power: mileage fee replaces fuel tax                        | infrastructure     | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
@@ -18,7 +18,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: shift highway funds to transit                       | infrastructure     | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | Medicare tax rate                                                 | healthcare         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | Medicaid federal match                                            | healthcare         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
-| Spending: Medicare                                                | healthcare         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
+| Spending: Medicare                                                | healthcare         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | none                                |
 | expand Medicaid eligibility                                       | healthcare         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Local power: expand Medicaid eligibility                          | healthcare         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | Medicaid work requirement                                         | healthcare         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, News           |
@@ -53,6 +53,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: exempt groceries from sales tax                      | taxes-finance      | n/a    | yes    | n/a   | yes     | n/a   | n/a | yes     | n/a    | n/a       | wired      | none                                |
 | graduated income tax                                              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | Local power: graduated income tax                                 | taxes-finance      | n/a    | yes    | n/a   | yes     | n/a   | n/a | yes     | n/a    | n/a       | wired      | none                                |
+| Park and recreation fees                                          | taxes-finance      | NO     | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
+| Sewer and trash fees                                              | taxes-finance      | NO     | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
+| Public hospital charges                                           | taxes-finance      | NO     | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
+| Tuition and school fees                                           | taxes-finance      | NO     | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
 | balanced operating budget                                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | Local power: balanced operating budget                            | taxes-finance      | n/a    | yes    | n/a   | yes     | n/a   | n/a | yes     | n/a    | n/a       | wired      | none                                |
 | pay for a higher debt limit                                       | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly     | none                                |
@@ -63,18 +67,18 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | SNAP maximum benefit                                              | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | Spending: welfare and Medicaid                                    | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | Spending: Income security programs                                | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
-| Child care income limit (family of three)                         | assistance         | yes    | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
-| SSI federal benefit rate (individual)                             | assistance         | yes    | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
+| Child care income limit (family of three)                         | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
+| SSI federal benefit rate (individual)                             | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Federal unemployment tax rate                                     | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Your office                         |
 | State unemployment tax rate                                       | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Your office                         |
 | Unemployment insurance program                                    | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | n/a    | yes       | wired      | Issues, Calendar                    |
 | Unemployment weekly maximum                                       | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, Calendar       |
-| Social Security earliest claim age                                | assistance         | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
-| Social Security full retirement age                               | assistance         | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
+| Social Security earliest claim age                                | assistance         | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      | none                                |
+| Social Security full retirement age                               | assistance         | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      | none                                |
 | Social Security delayed credit age                                | assistance         | yes    | yes    | yes   | yes     | n/a   | NO  | yes     | yes    | yes       | partly     | none                                |
 | Social Security tax rate                                          | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
-| Spending: Social Security                                         | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
-| Home energy assistance income limit (percent of the poverty line) | assistance         | yes    | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly     | none                                |
+| Spending: Social Security                                         | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | none                                |
+| Home energy assistance income limit (percent of the poverty line) | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | allow multifamily in single family zones                          | housing            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Local power: allow multifamily in single family zones             | housing            | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired      | none                                |
 | Spending: housing                                                 | housing            | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
@@ -189,7 +193,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Spending: parks                                                   | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | admit more immigrants                                             | immigration        | yes    | yes    | NO    | yes     | NO    | NO  | yes     | NO     | NO        | partly     | none                                |
 | Spending: National defense                                        | defense-veterans   | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
-| Spending: Veterans benefits and services                          | defense-veterans   | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
+| Spending: Veterans benefits and services                          | defense-veterans   | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      | none                                |
 | Spending: International affairs and foreign aid                   | foreign-trade      | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     | none                                |
 | raise tariffs                                                     | foreign-trade      | yes    | yes    | NO    | NO      | NO    | yes | yes     | NO     | NO        | partly     | none                                |
 | local-minimum-wage-authority                                      | starting law       | yes    | yes    | yes   | yes     | n/a   | yes | yes     | yes    | yes       | wired      | none                                |
@@ -199,10 +203,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Spending: Federal transportation** (`budget-line:transportation`)
 
 - web: no researched outcome-web link starts from this law
-
-**fare free transit** (`us-policy-positions:transportation-infrastructure.fare-free-transit`)
-
-- web: no production reader: fare-free-transit-to-ridership (SG-WEB-fare-free-riders-unread) move only the web's ledger
 
 **Local power: fare free transit** (`local-power:us-policy-positions:transportation-infrastructure.fare-free-transit`)
 
@@ -255,10 +255,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Medicaid federal match** (`medicaid-match`)
 
 - web: the federal medical assistance percentage (section 1396d(b) of title 42 of the United States Code) fixes the federal government's share of each state's Medicaid spending for the people covered. By its terms it moves who pays, not who is covered or what care they get; the expansion and the work requirement set those (their links medicaid-expansion-to-coverage, medicaid-expansion-to-mortality, medicaid-expansion-to-medical-debt and work-requirement-to-coverage). The researched response to the subsidy is in the states' own spending: an elasticity of Medicaid spending per enrollee of -0.494 to -0.579 with respect to the after-subsidy price (Bundorf and Kessler 2021, NBER Working Paper 29492, abstract). That is a budget decision of the state's body, not a place outcome the web keeps. The dollars the match moves are on the journal (the money link): the federal treasury's share of Medicaid's part of each covered member's care, paid to the medical seller at the match in force.
-
-**Spending: Medicare** (`budget-line:medicare`)
-
-- web: no researched outcome-web link starts from this law
 
 **Local power: expand Medicaid eligibility** (`local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility`)
 
@@ -397,6 +393,50 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: A grant reaches no one, so repealing it stops nothing of its own. The state's bill that withdraws it is the same bill route as any law: state legislature, both chambers, the governor. It was run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058). The grants took effect on July 1, 2025 and a second bill unwound them (`docs/reports/dev-tests/2026-11-08.md`). What a town stops doing is graded on the town law.
 - allPlaces: A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law.
 
+**Park and recreation fees** (`fee-level:parks-and-recreation`)
+
+- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
+- reach: not run
+- systems: not run
+- money: not run
+- web: not run
+- knowing: not run
+- repeal: not run
+- allPlaces: not run
+
+**Sewer and trash fees** (`fee-level:sewerage-and-solid-waste`)
+
+- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
+- reach: not run
+- systems: not run
+- money: not run
+- web: not run
+- knowing: not run
+- repeal: not run
+- allPlaces: not run
+
+**Public hospital charges** (`fee-level:hospitals`)
+
+- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
+- reach: not run
+- systems: not run
+- money: not run
+- web: not run
+- knowing: not run
+- repeal: not run
+- allPlaces: not run
+
+**Tuition and school fees** (`fee-level:education`)
+
+- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
+- reach: not run
+- systems: not run
+- money: not run
+- web: not run
+- knowing: not run
+- repeal: not run
+- allPlaces: not run
+
 **Local power: balanced operating budget** (`local-power:us-policy-positions:fiscal.balanced-operating-budget`)
 
 - exists: A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law.
@@ -439,23 +479,11 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Child care income limit (family of three)** (`child-care-income-limit`)
 
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- web: no researched outcome-web link starts from this law
 
 **SSI federal benefit rate (individual)** (`ssi-federal-benefit-rate`)
 
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- web: no researched outcome-web link starts from this law
 
 **Federal unemployment tax rate** (`federal-unemployment-tax`)
 
@@ -472,12 +500,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Social Security earliest claim age** (`social-security-earliest-claim-age`)
 
 - money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
-- web: no researched outcome-web link starts from this law
 
 **Social Security full retirement age** (`social-security-full-retirement-age`)
 
 - money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
-- web: no researched outcome-web link starts from this law
 
 **Social Security delayed credit age** (`social-security-delayed-credit-age`)
 
@@ -488,19 +514,9 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**Spending: Social Security** (`budget-line:socialSecurity`)
-
-- web: no researched outcome-web link starts from this law
-
 **Home energy assistance income limit (percent of the poverty line)** (`energy-assistance-income-limit`)
 
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- web: no researched outcome-web link starts from this law
 
 **Local power: allow multifamily in single family zones** (`local-power:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones`)
 
@@ -1175,10 +1191,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - allPlaces: reaches nobody anywhere
 
 **Spending: National defense** (`budget-line:nationalDefense`)
-
-- web: no researched outcome-web link starts from this law
-
-**Spending: Veterans benefits and services** (`budget-line:veterans`)
 
 - web: no researched outcome-web link starts from this law
 

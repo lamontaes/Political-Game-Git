@@ -1,14 +1,12 @@
 ---
 name: crew-coordinator
 description: >
-  How one session runs a builder crew for Our Civic Duty from a work list on a
-  crew issue: one session per lane and a watcher, the loop of light and full
-  checks, relaying lines between lanes, reading the checks on every pull request
-  posted ready, sending reds back, keeping lanes from stopping, and the hourly
-  status with one merge list for the CTO; also a lead session that owns one
-  family's matrix. Use when started as a coordinator or a lead, or told to run
-  lanes from a crew line. Not for merging (merger) or ruling (cto); a
-  coordinator never merges, rules or writes player lines.
+  How one session runs a builder crew from a crew line: one session per lane,
+  checks, relaying and reds, keeping lanes from stopping, the hourly status, how
+  sessions message each other, and a lead session. Use when running lanes or a
+  lead, and before sending any message to another session. Not for merging
+  (merger) or ruling (cto); a coordinator never merges, rules or writes player
+  lines.
 ---
 
 # Coordinating a builder crew
@@ -54,10 +52,13 @@ First used Nov 16, 2026, on crew line #9747: six lanes and a watcher, 20 pull re
 - **A hold can lift minutes after it is posted.** Before relaying a hold, freeze or train cut to every lane, read the newest five comments on the line. On Nov 17 a push hold was relayed at 14:10Z, the CTO lifted it at 14:15Z, and every lane had been told to wait until 14:40Z.
 - **Two free fixers can take the same red.** Before giving a red to a fixer, read every fixer's `task_summary` in `list_sessions`. On Nov 17 a red given to one fixer was already being traced by the other, and the hand-out had to be swapped.
 - **Hold nothing for a build.** On Nov 17 a push hold for the Mac build stopped every lane until the owner said "everyone's supposed to keep building, just start a new train." When a train freezes for a build, lanes keep building and push to the next train; only fixes for the build's own reds go on the frozen one.
+- **Every GitHub list read paginates; a count of exactly 100 is a warning.** Nov 17: the CTO's fold desk read only the first 100 of 156 open pull requests, and one the owner was waiting on sat for three hours (CTO, 01:30Z). A list helper reads every page, and a crew-line read that returns exactly 100 comments goes on to the next page.
+- **List a pull request as ready only from its lane's own ready line.** Nov 17: an hourly status listed two pull requests as ready because the CTO had written that they fold "once green"; neither lane had posted ready, and the status had to be corrected.
+- **Check a helper's copied table against the source before posting it.** Nov 17: a helper retyped 169 pull-request heads for the handoff by hand. Compare every head with `git ls-remote origin 'refs/pull/*/head'` and refresh them from it right before you post; four had moved since the helper read them.
 
 ## The hourly status
 
-One comment on the crew line, starting "Coordinator:". In order: what is ready with finished green checks, as one table in the order to merge, each with what the owner would see and anything that must merge with it; what waits on the CTO; what waits on Story; what each lane is doing now; what is not solved. Count nothing as done: merged is the CTO's word and done is a second session's (`seen-in-game`).
+One comment on the crew line, starting "Coordinator:". In order: what is ready with finished green checks, as one table in the order to merge, each with what the owner would see and anything that must merge with it; what waits on the CTO; what waits on Story; what each lane is doing now; what is not solved. Count nothing as done: merged is the CTO's word and done is a second session's (`done-proof` (seen-in-game part)).
 
 ## Before the account runs out
 
@@ -68,3 +69,5 @@ Tell every lane to push its work and post what is left, then post the coordinato
 Read each file here when its moment comes:
 
 - `references/lead-session.md`: when started with a lead prompt or a work order under docs/work-orders/.
+- `references/crew-messages.md`: when you send any message to another session, pass on the owner's words, or are about to explain a process in a message (the old `crew-messages` skill).
+- `references/owners-words-to-threads.md`: when an owner's words must reach a thread or a lane verbatim (moved here with `crew-messages`).

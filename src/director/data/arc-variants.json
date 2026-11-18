@@ -1845,7 +1845,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         },
         "trade": {
@@ -1956,7 +1960,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         },
         "watched": {
@@ -1980,7 +1988,7 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "replies": ["agree", "refuse", "bargain", "deflect", "lie"],
             "again": {
               "ask": ["answer", "refuse", "leave"]
             },
@@ -2071,7 +2079,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         },
         "friend": {
@@ -2091,7 +2103,7 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "replies": ["agree", "relent", "bargain", "stall", "lie"],
             "again": {
               "ask": ["answer", "refuse", "leave"]
             },
@@ -2182,7 +2194,11 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "follow": {
+              "accept": ["thank"],
+              "press": ["accept"]
+            }
           }
         }
       }

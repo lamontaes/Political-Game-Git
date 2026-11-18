@@ -14,26 +14,11 @@
       "plain-american-reads-stiff"
     ]
   },
-  "noReplyFollows": {
-    "scene-talk.follow-ask.why-is-source-wrong": [
-      "ask-vote.friend/refuse",
-      "ask-vote.trade/refuse",
-      "ask-vote.watched/refuse",
-      "ask-vote.whip/refuse",
-      "ask-vote/refuse"
-    ],
-    "scene-talk.reply-agree.i-m-with-you-on-bill": ["ask-vote/plea"],
-    "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again": [
-      "ask-vote/request"
-    ],
-    "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet": [
-      "ask-vote/request"
-    ]
-  },
+  "noReplyFollows": {},
   "barred": {},
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 121
+    "reply-second-move-follows-the-first (pairs)": 318
   }
 }

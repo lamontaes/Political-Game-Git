@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/long-game-split-checks
 pr: #9752
 after:
@@ -17,6 +17,7 @@ model: fable
 effort: medium
 root: none
 claimed-at: 2026-11-16T23:00:00.000Z
+merged-at: 2026-11-17T23:49:11.989Z
 ---
 
 **What.** No job runs the whole test suite, so nine guard tests and many unit tests never run after they merge. The unit job runs a large change's tests in one job and is canceled at 45 minutes. Nothing stops a pull request from adding an expected-failure mark or a pinned town to pass.

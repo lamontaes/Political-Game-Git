@@ -27,7 +27,7 @@ checked: fable 2026-11-10
 
 **Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** No dice: nobody is caught by a roll; a person learns from a record and decides. Ask why: nobody acts on a diversion they have not learned of, and each knowledge record cites its source. Replace, never layer: one tell path and one report path for both kinds. An effect is a read: the scandal's existing readers (voting, the press, the director) are the proof. One rule, all 56 places. Follow .agents/skills/played-world-proof/SKILL.md.
+**Rules.** No dice: nobody is caught by a roll; a person learns from a record and decides. Ask why: nobody acts on a diversion they have not learned of, and each knowledge record cites its source. Replace, never layer: one tell path and one report path for both kinds. An effect is a read: the scandal's existing readers (voting, the press, the director) are the proof. One rule, all 56 places. Follow .agents/skills/done-proof/references/played-world-proof.md.
 
 **Done when.** A second session, on main in a drawn place (place and seed named), uses dev mode to have an official divert from a line with a department head, plays to the next close, and sees the head's knowledge record citing the close, their decision to tell or keep quiet with its reasons, and, where they tell and the listener reports, the scandal in News and on the official's record by record id. A test in src/core2 names the place, the seed and the record ids, and a bribe's telling and reporting still pass their own tests through the same path.
 
