@@ -129,17 +129,15 @@ describe("group quarters in the played world", { timeout: 750_000 }, () => {
         "699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764",
       filingCheck: false,
       institutions: false,
-      fails: "tests-group-quarters-room-neither-opened-nor-admitted",
     },
     // Red at f26c10de, green at 800ae520, red again on the Train at
-    // 6e9df72b (Nov 16).
+    // 6e9df72b (Nov 16); green on #9943's head (Nov 18), so it is a plain row again.
     {
       key: "5437948",
       worldSeed:
         "a4c19fc64e5227305fec46c6dbde9b82c542f0de603825ab6e966a3140d4a8c9",
       filingCheck: false,
       institutions: true,
-      fails: "tests-group-quarters-met-room-returns-without-group-tenure",
     },
   ];
   const title =
