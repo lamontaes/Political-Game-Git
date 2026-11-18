@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: dropped
 standard: 2
 claimed-by: claude/project-thread-5efbu8-movepairs
 pr: 9602
