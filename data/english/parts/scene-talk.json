@@ -31597,6 +31597,4458 @@
         "move": "request",
         "key": "no-diploma"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-straight-toward-you-and-the-people-nearby-stop-what-they-are-doing",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes straight toward you, and the people nearby stop what they are doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-says-your-name-loudly-enough-that-heads-turn",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} says your name loudly enough that heads turn.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-blocks-the-way-with-arms-folded-and-waits-for-you-to-stop",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} blocks the way with arms folded, and waits for you to stop.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-talk-around-you-drops-to-a-murmur-as-name-steps-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The talk around you drops to a murmur as {name} steps up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-first-we-need-to-talk-and-i-won-t-ask-twice",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute, {first}? We need to talk, and I won't ask twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.stop-right-there-first-i-want-a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Stop right there, {first}. I want a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-ve-been-wanting-to-talk-to-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. I've been wanting to talk to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-know-what-you-did-first-and-i-m-tired-of-pretending-i-don-t-please-don-t-act",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You know what you did, {first}, and I'm tired of pretending I don't. Please don't act surprised.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-m-sorry-to-do-this-in-front-of-people-but-i-can-t-keep-quiet-around-place-any",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'm sorry to do this in front of people, but I can't keep quiet around {place} any longer. You went too far, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.somebody-has-to-say-it-what-you-did-was-wrong-and-everyone-around-place-knows-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Somebody has to say it. What you did was wrong, and everyone around {place} knows it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-thought-we-were-past-this-but-i-keep-hearing-about-what-you-said-please-tell-m",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I thought we were past this, but I keep hearing about what you said. Please tell me why, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-came-to-say-this-to-your-face-because-it-s-the-decent-thing-first-and-i-m-sorr",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I came to say this to your face, because it's the decent thing, {first}, and I'm sorry that it has to be this way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-tell-you-plainly-it-s-what-you-said-about-me-and-how-you-said-it-where-othe",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll tell you plainly. It's what you said about me, and how you said it where others could hear, {first}. Please don't deny it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-not-one-thing-it-s-all-of-it-i-m-sorry-but-i-ve-kept-this-in-too-long-aroun",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's not one thing, it's all of it. I'm sorry, but I've kept this in too long around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-went-behind-my-back-and-i-found-out-from-someone-else-please-tell-me-that-s",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You went behind my back, and I found out from someone else. Please tell me that's not true, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-how-it-happened-and-you-know-it-first-please-don-t-rewrite-it",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not how it happened, and you know it, {first}. Please don't rewrite it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.no-that-s-not-the-whole-story-and-i-won-t-let-place-hear-it-that-way",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "No. That's not the whole story, and I won't let {place} hear it that way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-isn-t-true-and-i-m-sorry-but-i-won-t-stand-here-and-let-you-say-it-first",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That isn't true, and I'm sorry, but I won't stand here and let you say it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-ll-hear-you-out-first-please-go-ahead",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll hear you out, {first}. Please, go ahead.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-not-what-i-expected-and-i-m-sorry-i-came-in-so-hot-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's not what I expected, and I'm sorry I came in so hot, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-more-than-i-thought-i-d-get-let-s-talk-about-it-somewhere-around-place-th",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's more than I thought I'd get. Let's talk about it somewhere around {place} that's quieter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.don-t-turn-this-around-on-me-first-please-you-re-the-one-who-started-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't turn this around on me, {first}. Please. You're the one who started it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-m-not-the-one-who-has-to-explain-myself-and-everybody-around-place-can-see-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm not the one who has to explain myself, and everybody around {place} can see it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.you-always-do-this-i-m-sorry-but-i-m-done-being-quiet-about-it-first",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You always do this. I'm sorry, but I'm done being quiet about it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.no-i-don-t-want-your-help-and-i-m-sorry-first-but-an-offer-now-doesn-t-fix-what",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "No. I don't want your help, and I'm sorry, {first}, but an offer now doesn't fix what's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-take-that-from-you-yet-please-give-me-time-first",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't take that from you yet. Please give me time, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.not-here-and-not-like-this-i-m-sorry-but-i-m-not-ready-first",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "Not here, and not like this. I'm sorry, but I'm not ready, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-exactly-are-you-angry-about-name-tell-me-and-i-ll-tell-you-what-i-think",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What exactly are you angry about, {name}? Tell me, and I'll tell you what I think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-told-you-that-name-and-what-did-they-say",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who told you that, {name}, and what did they say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-me-to-do-about-it-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want me to do about it, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-you-been-carrying-this-around-place-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you been carrying this around {place}, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-did-say-it-name-and-i-m-not-proud-of-how-it-came-out",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I did say it, {name}, and I'm not proud of how it came out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-wrong-about-some-of-it-i-d-rather-say-that-to-your-face-than-around-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was wrong about some of it. I'd rather say that to your face than around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-angry-and-i-took-it-out-on-you-name-that-s-the-truth",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was angry, and I took it out on you, {name}. That's the truth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-re-right-that-it-hurt-you-name-i-didn-t-think-about-who-would-hear-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You're right that it hurt you, {name}. I didn't think about who would hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-came-here-to-shame-me-in-front-of-people-name-don-t-act-like-that-s-about-ho",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You came here to shame me in front of people, {name}. Don't act like that's about honesty.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.everybody-around-place-knows-what-you-did-too-name-do-you-want-to-go-through-tha",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Everybody around {place} knows what you did too, {name}. Do you want to go through that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-m-not-taking-this-from-you-name-not-after-what-you-ve-said-about-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm not taking this from you, {name}. Not after what you've said about me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.if-we-re-doing-this-out-loud-name-then-we-ll-do-all-of-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "If we're doing this out loud, {name}, then we'll do all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-quiet-and-sort-it-out-name-with-nobody-watching",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Let's sit down somewhere quiet and sort it out, {name}, with nobody watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "offer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-buy-you-a-coffee-and-listen-name-not-here-though",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll buy you a coffee and listen, {name}. Not here, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "offer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.come-by-when-you-ve-cooled-off-name-and-i-ll-hear-every-word",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Come by when you've cooled off, {name}, and I'll hear every word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "offer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.let-s-take-this-somewhere-private-name-and-settle-it-properly-i-ll-listen",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Let's take this somewhere private, {name}, and settle it properly. I'll listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "offer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-doing-this-here-name-i-m-leaving",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not doing this here, {name}. I'm leaving.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.we-re-done-for-now-name-i-ll-go-before-this-gets-worse",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "We're done for now, {name}. I'll go before this gets worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-won-t-stand-here-and-shout-about-it-around-place-goodbye",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I won't stand here and shout about it around {place}. Goodbye.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-heard-enough-name-find-me-when-you-ve-calmed-down",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've heard enough, {name}. Find me when you've calmed down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-stay-away-from-it-name-until-you-re-ready-to-talk",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll stay away from it, {name}, until you're ready to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-give-you-your-space-and-i-ll-come-when-you-say-name",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll give you your space, and I'll come when you say, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-won-t-bring-it-up-around-place-again-unless-you-do",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I won't bring it up around {place} again unless you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-first-that-s-more-than-i-expected",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me, {first}. That's more than I expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-staying-first-i-know-this-wasn-t-easy",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for staying, {first}. I know this wasn't easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-being-honest-with-me-it-does-count-around-place",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for being honest with me. It does count around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-promise-we-ll-sit-down-properly-somewhere-around-place-and-i-ll-listen",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I promise we'll sit down properly somewhere around {place}, and I'll listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-hold-to-it-first-please-believe-me",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll hold to it, {first}. Please believe me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-have-my-word-that-i-ll-come-with-an-open-mind-first-please-do-the-same",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You have my word that I'll come with an open mind, {first}. Please do the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-have-it-your-way-first-sorry-it-came-to-this",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. Have it your way, {first}. Sorry it came to this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-we-ll-leave-it-there-first-i-m-sorry-i-raised-my-voice",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. We'll leave it there, {first}. I'm sorry I raised my voice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-won-t-chase-you-and-i-m-sorry-we-ended-up-here-around-place",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I won't chase you, and I'm sorry we ended up here around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.this-isn-t-over-first-please-understand-that-i-ll-bring-it-up-again",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "This isn't over, {first}. Please understand that I'll bring it up again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-sorry-but-if-it-keeps-happening-i-ll-say-it-louder-around-place",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm sorry, but if it keeps happening, I'll say it louder around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-think-people-will-forget-this-first-please-think-about-what-you-ve-done",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't think people will forget this, {first}. Please think about what you've done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-think-about-what-i-said-first-and-come-to-me-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please think about what I said, {first}, and come to me soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-waiting-for-an-answer-please-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be waiting for an answer, please, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-don-t-let-this-sit-around-place-for-another-month",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please don't let this sit around {place} for another month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "neighbor-argument",
+          "key": "threat",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-in-front-of-you-and-does-not-step-aside",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops in front of you and does not step aside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sets-down-what-they-were-holding-and-turns-to-face-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sets down what they were holding and turns to face you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-room-is-quiet-and-name-is-looking-straight-at-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The room is quiet, and {name} is looking straight at you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-asked-for-a-minute-alone-with-you-and-everyone-else-has-found-somewhere",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has asked for a minute alone with you, and everyone else has found somewhere else to be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-first-it-s-about-what-happened",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute, {first}? It's about what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-d-like-to-talk-please",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I'd like to talk, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-ve-been-waiting-for-you-to-say-something-and-i-m-sorry-first-but-i-can-t-wait",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I've been waiting for you to say something, and I'm sorry, {first}, but I can't wait any longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-hurt-me-and-you-ve-acted-as-if-nothing-happened-please-tell-me-you-see-it-fi",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You hurt me, and you've acted as if nothing happened. Please tell me you see it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.what-happened-between-us-is-still-sitting-there-and-i-d-like-to-hear-you-own-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "What happened between us is still sitting there, and I'd like to hear you own it. Please, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-thought-you-d-come-to-me-and-you-never-did-i-m-sorry-that-i-have-to-be-the-one",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I thought you'd come to me, and you never did. I'm sorry that I have to be the one to ask, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.everyone-in-place-has-an-opinion-about-it-but-i-only-want-to-hear-it-from-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Everyone in {place} has an opinion about it, but I only want to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-can-hear-that-you-mean-it-first-thank-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I can hear that you mean it, {first}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-take-that-it-means-more-than-you-d-think-around-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll take that. It means more than you'd think around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-that-all-first-please-tell-me-you-understand-what-it-cost-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is that all, {first}? Please tell me you understand what it cost me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-appreciate-it-but-i-need-more-than-words-first-please-tell-me-how-you-ll-make",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I appreciate it, but I need more than words, {first}. Please tell me how you'll make it right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-a-start-i-m-sorry-but-i-need-to-hear-what-you-ll-do-differently-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a start. I'm sorry, but I need to hear what you'll do differently, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-what-happened-first-and-please-don-t-tell-it-that-way",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not what happened, {first}, and please don't tell it that way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.no-i-m-sorry-but-that-s-not-the-way-i-remember-it-first",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "No, I'm sorry, but that's not the way I remember it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-isn-t-fair-to-me-and-everybody-around-place-knows-it",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That isn't fair to me, and everybody around {place} knows it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.don-t-be-like-that-first-please-i-m-trying-to-fix-this",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't be like that, {first}. Please, I'm trying to fix this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-m-sorry-you-feel-that-way-but-you-re-not-hearing-me-first",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm sorry you feel that way, but you're not hearing me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.if-this-is-how-you-ll-treat-it-then-i-ll-tell-it-my-way-around-place",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "If this is how you'll treat it, then I'll tell it my way around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-name-i-was-wrong-and-i-should-have-said-so-sooner",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, {name}. I was wrong, and I should have said so sooner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-and-i-m-sorry-i-let-it-sit-when-i-should-have-come-to-you-name",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right, and I'm sorry. I let it sit when I should have come to you, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-for-what-i-did-and-for-how-long-i-waited-name",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry for what I did and for how long I waited, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-owe-you-an-apology-name-and-i-mean-it-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I owe you an apology, {name}, and I mean it. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didn-t-know-how-to-start-name-i-was-ashamed-and-i-let-that-get-in-the-way",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't know how to start, {name}. I was ashamed, and I let that get in the way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-scared-of-how-you-d-take-it-name-that-s-why-i-stayed-quiet-around-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was scared of how you'd take it, {name}. That's why I stayed quiet around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-thought-about-it-every-day-name-i-just-didn-t-have-the-words",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've thought about it every day, {name}. I just didn't have the words.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-dealing-with-something-of-my-own-name-it-s-no-excuse-but-it-s-the-truth",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was dealing with something of my own, {name}. It's no excuse, but it's the truth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-we-do-this-another-time-name-i-m-not-ready-to-go-through-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can we do this another time, {name}? I'm not ready to go through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-think-we-both-said-things-we-regret-name-let-s-not-pick-at-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I think we both said things we regret, {name}. Let's not pick at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-s-old-news-name-i-don-t-see-what-good-it-does-around-place",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It's old news, {name}. I don't see what good it does around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-not-get-into-it-now-name-please",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not get into it now, {name}. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-said-things-too-name-if-we-re-counting-count-them-all",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You said things too, {name}. If we're counting, count them all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-m-not-the-only-one-who-s-owed-something-here-name",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm not the only one who's owed something here, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-want-an-apology-then-i-want-one-too-name",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You want an apology? Then I want one too, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-make-me-the-only-villain-around-place-name",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't make me the only villain around {place}, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-do-this-right-now-name-i-ll-be-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this right now, {name}. I'll be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-name-i-need-to-think",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go, {name}. I need to think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.this-isn-t-getting-anywhere-i-ll-talk-to-you-when-we-ve-both-cooled-off-name",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "This isn't getting anywhere. I'll talk to you when we've both cooled off, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-saying-it-first-it-matters-more-than-you-know",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for saying it, {first}. It matters more than you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-coming-back-to-this-first-i-felt-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for coming back to this, {first}. I felt it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-and-for-the-apology-it-means-a-lot-around-place",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me, and for the apology. It means a lot around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-try-to-let-it-go-first-please-help-me-do-that",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll try to let it go, {first}. Please help me do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-hold-you-to-your-word-and-i-ll-do-my-part-too-first-thank-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll hold you to your word, and I'll do my part too, {first}. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-start-fresh-from-here-and-i-promise-to-leave-the-rest-behind-around-place",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll start fresh from here, and I promise to leave the rest behind around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-we-ll-leave-it-first-sorry-it-didn-t-go-better",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll leave it, {first}. Sorry it didn't go better.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-take-your-time-first-i-m-sorry-i-pushed",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. Take your time, {first}. I'm sorry I pushed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-i-m-not-going-to-chase-it-around-place-but-the-door-s-open",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. I'm not going to chase it around {place}, but the door's open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-sorry-first-but-i-can-t-pretend-this-didn-t-happen-please-understand",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm sorry, {first}, but I can't pretend this didn't happen. Please understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-first-please-i-won-t-ask-again",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long, {first}. Please. I won't ask again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-keep-my-distance-until-you-re-ready-and-i-m-sorry-it-has-to-be-that-way-fir",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll keep my distance until you're ready, and I'm sorry it has to be that way, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-tell-me-soon-first-i-d-like-to-settle-this",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please tell me soon, {first}. I'd like to settle this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-come-to-me-when-you-re-ready-first-i-ll-be-around-place",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please come to me when you're ready, {first}. I'll be around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-need-to-know-where-we-stand-please-give-me-an-answer-soon-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I need to know where we stand, please. Give me an answer soon, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-knocks-and-steps-back-so-you-can-see-who-it-is-before-you-answer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} knocks and steps back, so you can see who it is before you answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-at-the-edge-of-the-porch-with-both-hands-in-their-pockets",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting at the edge of the porch with both hands in their pockets.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-standing-out-front-for-a-few-minutes-and-straightens-up-when-the-d",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been standing out front for a few minutes, and straightens up when the door opens.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-s-name-is-on-the-screen-and-the-phone-rings-a-few-times-before-you-pick-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}'s name is on the screen, and the phone rings a few times before you pick up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-first-i-wasn-t-sure-you-d-talk-to-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi, {first}. I wasn't sure you'd talk to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-first-thank-you-for-opening-the-door",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, {first}. Thank you for opening the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.it-s-me-first-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "It's me, {first}. Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-missed-you-first-i-m-sorry-for-how-things-ended-and-i-d-like-us-to-be-on-sp",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've missed you, {first}. I'm sorry for how things ended, and I'd like us to be on speaking terms again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-it-s-been-a-long-time-please-give-me-a-chance-to-make-things-right-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know it's been a long time. Please give me a chance to make things right, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-tired-of-the-silence-around-place-i-d-like-to-start-over-if-you-ll-let-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm tired of the silence around {place}. I'd like to start over, if you'll let me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-expect-you-to-forget-it-but-i-m-sorry-first-and-i-d-like-to-try-again",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't expect you to forget it, but I'm sorry, {first}, and I'd like to try again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.everyone-around-place-keeps-asking-about-us-i-d-rather-settle-it-with-you-than-l",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Everyone around {place} keeps asking about us. I'd rather settle it with you than let it fester.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-you-won-t-regret-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. You won't regret it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-giving-me-the-chance-i-ll-show-you-i-mean-it-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for giving me the chance. I'll show you I mean it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-first-i-didn-t-think-you-d-say-yes",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I didn't think you'd say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-first-please-tell-me-the-terms-and-i-ll-keep-to-them",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair, {first}. Please, tell me the terms and I'll keep to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-if-that-s-what-it-takes-i-ll-do-it-thank-you-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. If that's what it takes, I'll do it. Thank you, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-live-with-that-we-ll-go-slowly-and-i-m-sorry-it-has-to-be-this-way-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can live with that. We'll go slowly, and I'm sorry it has to be this way, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.maybe-we-can-meet-in-the-middle-first-please-tell-me-what-you-d-need-from-me",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "Maybe we can meet in the middle, {first}. Please tell me what you'd need from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.what-if-we-start-with-something-small-around-place-and-see-how-it-goes",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "What if we start with something small around {place}, and see how it goes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-d-like-to-try-so-tell-me-what-you-want-from-me-please-first",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'd like to try, so tell me what you want from me, please, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-first-i-m-asking-for-one-chance-nothing-more",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please, {first}. I'm asking for one chance, nothing more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-understand-but-please-think-about-it-once-more-first-i-won-t-forget-it-if-you",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I understand. But please think about it once more, {first}. I won't forget it if you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-know-i-don-t-deserve-it-but-i-m-asking-anyway-please-first",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I know I don't deserve it, but I'm asking anyway. Please, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.what-changed-is-that-i-stopped-being-proud-first-i-m-sorry-it-took-this-long",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "What changed is that I stopped being proud, {first}. I'm sorry it took this long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-want-us-to-be-close-again-or-at-least-civil-around-place-and-at-holidays-pleas",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want us to be close again, or at least civil, around {place} and at holidays. Please, think about it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-won-t-ask-you-to-forget-it-i-m-sorry-first-and-i-d-like-to-know-what-it-would",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I won't ask you to forget it. I'm sorry, {first}, and I'd like to know what it would take.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-d-like-that-too-name-let-s-start-over",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'd like that too, {name}. Let's start over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-it-s-time-name-i-ve-missed-you-too",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. It's time, {name}. I've missed you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-willing-to-try-name-i-just-need-you-to-be-patient-with-me-around-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm willing to try, {name}. I just need you to be patient with me around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.come-in-name-let-s-talk",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Come in, {name}. Let's talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-try-name-but-i-need-you-to-be-honest-with-me-from-now-on",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll try, {name}, but I need you to be honest with me from now on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.slow-name-we-take-it-one-step-at-a-time-and-no-surprises",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Slow, {name}. We take it one step at a time, and no surprises.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-try-if-you-stay-out-of-the-old-fights-around-place-name",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll try if you stay out of the old fights around {place}, {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.not-everything-goes-back-name-but-some-of-it-can-if-we-re-careful",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Not everything goes back, {name}. But some of it can, if we're careful.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-sorry-name-i-m-not-ready-and-i-don-t-know-if-i-will-be",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry, {name}. I'm not ready, and I don't know if I will be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-s-too-soon-name-what-happened-is-still-too-close",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It's too soon, {name}. What happened is still too close.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-name-i-wish-i-could-but-not-around-place-and-not-now",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't, {name}. I wish I could, but not around {place} and not now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-appreciate-you-coming-name-but-my-answer-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I appreciate you coming, {name}, but my answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-now-name-what-made-you-finally-come",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why now, {name}? What made you finally come?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-be-different-this-time-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would be different this time, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-around-place-knows-you-came-here-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else around {place} knows you came here, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-from-me-name",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want from me, {name}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-think-about-it-name-i-ll-call-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to think about it, {name}. I'll call you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-answer-you-standing-here-name-i-ll-find-you-around-place",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't answer you standing here, {name}. I'll find you around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-in-name-i-ll-let-you-know",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go in, {name}. I'll let you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-i-ll-make-sure-you-don-t-regret-this",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll make sure you don't regret this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-out-it-means-a-lot-around-place",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out. It means a lot around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-opening-the-door-first-i-ll-do-right-by-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for opening the door, {first}. I'll do right by you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-call-you-this-week-first-please-pick-up",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll call you this week, {first}. Please pick up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-better-first-you-have-my-word-and-please-hold-me-to-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be better, {first}. You have my word, and please hold me to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-start-with-a-meal-and-i-ll-make-sure-it-s-good-around-place-you-have-my-pr",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll start with a meal, and I'll make sure it's good around {place}. You have my promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-first-i-m-sorry-i-asked-too-much",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand, {first}. I'm sorry I asked too much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-leave-you-in-peace-and-i-m-sorry-for-the-trouble-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll leave you in peace, and I'm sorry for the trouble, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-won-t-push-and-i-won-t-come-around-place-unless-you-ask-me-to",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I won't push, and I won't come around {place} unless you ask me to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-sorry-to-say-it-first-but-i-won-t-keep-coming-back-forever-please-think-abou",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm sorry to say it, {first}, but I won't keep coming back forever. Please think about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-know-that-the-door-doesn-t-stay-open-forever-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please know that the door doesn't stay open forever, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-wait-but-please-don-t-make-me-wait-around-place-until-it-s-too-late",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll wait, but please don't make me wait around {place} until it's too late.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-call-me-when-you-decide-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please call me when you decide, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-let-me-know-soon-first-i-d-like-to-plan-for-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please let me know soon, {first}. I'd like to plan for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-the-time-you-need-but-please-give-me-some-sign-around-place",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take the time you need, but please give me some sign around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ally-return",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-what-i-was-hoping-to-hear-thank-you-for-saying-it-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's what I was hoping to hear. Thank you for saying it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     }
   ]
 }

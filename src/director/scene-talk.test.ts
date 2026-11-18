@@ -29,8 +29,6 @@ import {
 const CUT_PURPOSES = new Set<string>([
   "return",
   "letter",
-  "argument",
-  "apology",
   "becoming-friends",
   "celebration",
   "gathering-missing",
@@ -49,7 +47,6 @@ const CUT_PURPOSES = new Set<string>([
   "advice",
   "accusation",
   "warning",
-  "reconciliation",
   "polling-place",
   "race-won",
   "race-lost",
