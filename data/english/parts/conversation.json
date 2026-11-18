@@ -37320,6 +37320,144 @@
       "date": "2026-11-18"
     },
     {
+      "key": "conversation.address-point-opener-lead.president-came-out-for-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "{president} came out for {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.so-president-wants-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "So {president} wants {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.president-is-pushing-about-now",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "{president} is pushing {about} now.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-for", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.president-came-out-against-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "{president} came out against {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.so-president-is-against-about-plain-and-simple",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "So {president} is against {about}, plain and simple.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-opener-lead.president-won-t-back-about",
+      "move": "address-point-opener-lead",
+      "kind": "spoken",
+      "text": "{president} won't back {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener-lead",
+          "subject": "address-point",
+          "role": "opener",
+          "requiresFacts": ["president-against", "about"],
+          "setsFacts": ["lead-plain"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
       "key": "conversation.address-point-core-with.i-m-with-president-object-on-that-one",
       "move": "address-point-core-with",
       "kind": "spoken",
@@ -37329,7 +37467,7 @@
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "president-object"],
           "stages": ["with"]
         }
       ],
@@ -37353,7 +37491,7 @@
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "president-possessive"],
           "stages": ["with"]
         }
       ],
@@ -37377,7 +37515,7 @@
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "president"],
           "stages": ["with"]
         }
       ],
@@ -37439,6 +37577,150 @@
       "date": "2026-11-18"
     },
     {
+      "key": "conversation.address-point-core-with.president-got-that-one-right-i-ll-give-president-object-that",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "{president} got that one right, I'll give {president-object} that.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-with.on-that-president-and-i-are-on-the-same-side",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "On that, {president} and I are on the same side.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-with.that-s-the-part-of-president-possessive-speech-i-d-vote-for",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "That's the part of {president-possessive} speech I'd vote for.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president-possessive"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-can-live-with-what-president-said-there",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I can live with what {president} said there.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-with.president-is-right-about-that-one",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "{president} is right about that one.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-ll-say-president-has-a-point-there",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'll say {president} has a point there.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["with"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
       "key": "conversation.address-point-core-against.i-m-not-with-president-object-on-that",
       "move": "address-point-core-against",
       "kind": "spoken",
@@ -37448,7 +37730,7 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "president-object"],
           "stages": ["against"]
         }
       ],
@@ -37472,7 +37754,7 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "president-possessive"],
           "stages": ["against"]
         }
       ],
@@ -37496,7 +37778,7 @@
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
-          "requiresFacts": ["about"],
+          "requiresFacts": ["about", "president"],
           "stages": ["against"]
         }
       ],
@@ -37559,10 +37841,154 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-unsure.i-d-want-to-hear-more-before-i-d-say-we-should-to",
+      "key": "conversation.address-point-core-against.president-can-keep-that-one-i-don-t-want-it",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "{president} can keep that one. I don't want it.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["president-for", "about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-against.that-s-where-president-lost-me",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "That's where {president} lost me.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-d-tell-decider-to-vote-it-down",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'd tell {decider} to vote it down.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["president-for", "about"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-against.president-and-i-part-ways-there",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "{president} and I part ways there.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-just-don-t-see-it-like-president-does",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I just don't see it like {president} does.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-m-not-sold-on-that-whatever-president-says",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'm not sold on that, whatever {president} says.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "requiresFacts": ["about", "president"],
+          "stages": ["against"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-d-want-to-hear-more-before-we-to",
       "move": "address-point-core-unsure",
       "kind": "spoken",
-      "text": "I'd want to hear more before I'd say we should {to}.",
+      "text": "I'd want to hear more before we {to}.",
       "uses": [
         {
           "move": "address-point-core-unsure",
@@ -37582,10 +38008,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-unsure.i-can-t-tell-you-yet-where-i-land-on-about",
+      "key": "conversation.address-point-core-unsure.i-can-t-say-where-i-land-decider-has-to-show-me",
       "move": "address-point-core-unsure",
       "kind": "spoken",
-      "text": "I can't tell you yet where I land on {about}.",
+      "text": "I can't say where I land. {decider} has to show me.",
       "uses": [
         {
           "move": "address-point-core-unsure",
@@ -37605,10 +38031,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-unsure.i-go-back-and-forth-on-about",
+      "key": "conversation.address-point-core-unsure.i-go-back-and-forth-on-that-one-whatever-president-says",
       "move": "address-point-core-unsure",
       "kind": "spoken",
-      "text": "I go back and forth on {about}.",
+      "text": "I go back and forth on that one, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-unsure",
@@ -37628,10 +38054,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-core-unsure.ask-me-again-in-a-year-about-about",
+      "key": "conversation.address-point-core-unsure.ask-me-again-once-decider-has-had-a-go-at-it",
       "move": "address-point-core-unsure",
       "kind": "spoken",
-      "text": "Ask me again in a year about {about}.",
+      "text": "Ask me again once {decider} has had a go at it.",
       "uses": [
         {
           "move": "address-point-core-unsure",
@@ -37646,6 +38072,52 @@
         "required": true
       },
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-don-t-know-yet-let-s-see-what-decider-does",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I don't know yet. Let's see what {decider} does.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.part-of-me-likes-it-the-rest-doesn-t-trust-president-object",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "Part of me likes it. The rest doesn't trust {president-object}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "anxious",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"
@@ -37723,6 +38195,54 @@
       "date": "2026-11-18"
     },
     {
+      "key": "conversation.address-point-core-year-with.president-has-that-part-right-place-feels-it",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "{president} has that part right. {place} feels it.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.i-ll-give-president-object-that-much-it-s-true-here",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "I'll give {president-object} that much. It's true here.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
       "key": "conversation.address-point-core-year-against.that-s-not-how-it-looks-from-place",
       "move": "address-point-core-year-against",
       "kind": "spoken",
@@ -37790,6 +38310,54 @@
         "required": true
       },
       "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.maybe-in-washington-not-in-place",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "Maybe in Washington. Not in {place}.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.president-should-come-see-place-before-saying-that",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "{president} should come see {place} before saying that.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "hurt",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"
@@ -37867,10 +38435,58 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-work.i-ve-been-looking-for-work-since-employer-let-me-go-so-i-listen-to-tha",
+      "key": "conversation.address-point-core-year-unsure.i-couldn-t-tell-you-if-place-is-better-off-or-not",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I couldn't tell you if {place} is better off or not.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.ask-me-in-place-next-year-i-ll-know-then",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "Ask me in {place} next year. I'll know then.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-reason-work.since-employer-let-me-go-i-listen-to-that-part",
       "move": "address-point-reason-work",
       "kind": "spoken",
-      "text": "I've been looking for work since {employer} let me go, so I listen to that part.",
+      "text": "Since {employer} let me go, I listen to that part.",
       "uses": [
         {
           "move": "address-point-reason-work",
@@ -37911,10 +38527,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-work.employer-let-me-go-this-year-i-hear-every-word-about-work-now",
+      "key": "conversation.address-point-reason-work.employer-let-me-go-this-year-i-hear-every-word-now",
       "move": "address-point-reason-work",
       "kind": "spoken",
-      "text": "{employer} let me go this year. I hear every word about work now.",
+      "text": "{employer} let me go this year. I hear every word now.",
       "uses": [
         {
           "move": "address-point-reason-work",
@@ -37933,10 +38549,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-work.i-work-at-employer-i-hear-that-part-differently-from-most",
+      "key": "conversation.address-point-reason-work.i-work-at-employer-i-hear-that-part-differently",
       "move": "address-point-reason-work",
       "kind": "spoken",
-      "text": "I work at {employer}. I hear that part differently from most.",
+      "text": "I work at {employer}. I hear that part differently.",
       "uses": [
         {
           "move": "address-point-reason-work",
@@ -37999,10 +38615,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-money.every-dollar-in-this-house-is-spoken-for-so-i-hear-that-part",
+      "key": "conversation.address-point-reason-money.every-dollar-here-is-spoken-for-i-hear-that",
       "move": "address-point-reason-money",
       "kind": "spoken",
-      "text": "Every dollar in this house is spoken for, so I hear that part.",
+      "text": "Every dollar here is spoken for. I hear that.",
       "uses": [
         {
           "move": "address-point-reason-money",
@@ -38043,10 +38659,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-money.when-the-bills-are-close-you-listen-to-a-line-like-that",
+      "key": "conversation.address-point-reason-money.when-the-bills-are-close-you-listen-to-that",
       "move": "address-point-reason-money",
       "kind": "spoken",
-      "text": "When the bills are close, you listen to a line like that.",
+      "text": "When the bills are close, you listen to that.",
       "uses": [
         {
           "move": "address-point-reason-money",
@@ -38065,10 +38681,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-town.too-many-people-in-place-are-out-of-work-for-me-to-let-that-one-go",
+      "key": "conversation.address-point-reason-town.too-many-in-place-need-work-to-let-that-go",
       "move": "address-point-reason-town",
       "kind": "spoken",
-      "text": "Too many people in {place} are out of work for me to let that one go.",
+      "text": "Too many in {place} need work to let that go.",
       "uses": [
         {
           "move": "address-point-reason-town",
@@ -38109,10 +38725,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-reason-town.you-can-t-walk-down-the-street-in-place-without-meeting-someone-out-of",
+      "key": "conversation.address-point-reason-town.walk-down-any-street-in-place-someone-s-out-of-work",
       "move": "address-point-reason-town",
       "kind": "spoken",
-      "text": "You can't walk down the street in {place} without meeting someone out of work.",
+      "text": "Walk down any street in {place}. Someone's out of work.",
       "uses": [
         {
           "move": "address-point-reason-town",
@@ -38329,10 +38945,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-closer.am-i-wrong-about-about",
+      "key": "conversation.address-point-closer.am-i-wrong-to-see-it-that-way",
       "move": "address-point-closer",
       "kind": "spoken",
-      "text": "Am I wrong about {about}?",
+      "text": "Am I wrong to see it that way?",
       "uses": [
         {
           "move": "address-point-closer",
@@ -38351,10 +38967,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-closer.what-do-you-think-about-about",
+      "key": "conversation.address-point-closer.what-do-you-think-about-that-part",
       "move": "address-point-closer",
       "kind": "spoken",
-      "text": "What do you think about {about}?",
+      "text": "What do you think about that part?",
       "uses": [
         {
           "move": "address-point-closer",
@@ -38368,6 +38984,182 @@
         "part": "closer"
       },
       "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.tell-me-what-you-heard",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Tell me what you heard.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.you-think-i-m-wrong",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "You think I'm wrong?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.what-did-you-think-of-that-part",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "What did you think of that part?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.did-that-land-with-you-at-all",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Did that land with you at all?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.that-s-how-i-see-it-anyway",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "That's how I see it, anyway.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.anyway-that-s-what-i-took-from-it",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Anyway, that's what I took from it.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.what-about-you",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "What about you?",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-closer.you-can-tell-me-i-m-wrong",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "You can tell me I'm wrong.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
+      "bearing": "guarded",
       "origin": "authored",
       "author": "Story lead (Fable)",
       "date": "2026-11-18"
@@ -38750,10 +39542,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-answer-instead.you-say-it-isn-t-so-what-would-you-do-about-about",
+      "key": "conversation.address-point-answer-instead.then-what-would-you-do-about-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "You say it isn't so. What would you do about {about}?",
+      "text": "Then what would you do about {about}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -39056,10 +39848,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-disagree.maybe-you-re-right-you-it-s-just-how-it-looks-from-here",
+      "key": "conversation.address-point-back-disagree.maybe-you-re-right-you-it-s-how-it-looks-from-here",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Maybe you're right, {you}. It's just how it looks from here.",
+      "text": "Maybe you're right, {you}. It's how it looks from here.",
       "uses": [
         {
           "move": "address-point-back-disagree",
@@ -39392,10 +40184,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-back-instead.i-don-t-have-an-answer-yet-you-that-s-the-honest-truth",
+      "key": "conversation.address-point-back-instead.i-don-t-have-an-answer-yet-you-honestly",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I don't have an answer yet, {you}. That's the honest truth.",
+      "text": "I don't have an answer yet, {you}. Honestly.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -39714,10 +40506,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-answer-hope.i-saw-it-when-i-hope-some-of-it-reaches-my-place",
+      "key": "conversation.address-answer-hope.i-saw-it-when-i-hope-some-reaches-my-place",
       "move": "address-answer-hope",
       "kind": "spoken",
-      "text": "I saw it {when}. I hope some of it reaches {my_place}.",
+      "text": "I saw it {when}. I hope some reaches {my_place}.",
       "uses": [
         {
           "move": "address-answer-hope",

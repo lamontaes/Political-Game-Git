@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-opening-evening-lines
-pr:
+pr: 10117
 after:
 blocked-on:
 lead: story
