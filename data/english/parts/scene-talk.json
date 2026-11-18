@@ -25708,6 +25708,16 @@
           "role": "asked",
           "purpose": "funeral-cause",
           "key": "loss"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "resolved",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "calm",
@@ -26747,6 +26757,15 @@
           "purpose": "breakup-tell",
           "key": "loss",
           "after": "apologize"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "calm",
@@ -27418,6 +27437,22 @@
           "purpose": "diploma-home",
           "key": "diploma",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "care-visit",
+          "key": "routine"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
         }
       ],
       "bearing": "calm",
@@ -27521,31 +27556,6 @@
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "diploma"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-kind",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's kind.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "glad",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27935,32 +27945,6 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.count-on-me",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "Count on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "outcome": "resolved",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "diploma"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.that-s-fine",
       "move": "close-accept",
       "kind": "spoken",
@@ -28027,6 +28011,15 @@
           "key": "diploma",
           "outcome": "refused",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
         }
       ],
       "bearing": "warm",
@@ -30628,6 +30621,15 @@
           "purpose": "care-visit",
           "key": "routine",
           "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "warm",
@@ -30923,6 +30925,16 @@
           "role": "asked",
           "purpose": "care-visit",
           "key": "routine"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "outcome": "resolved",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "warm",
@@ -31654,30 +31666,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-made-tea-and-can-t-lift-the-pot",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has made tea and can't lift the pot.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "care-visit",
-          "key": "routine"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-pats-the-chair-beside-the-bed",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -31815,6 +31803,15 @@
           "purpose": "rescue-ask",
           "key": "threat",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "steady",
@@ -33881,6 +33878,16 @@
           "purpose": "move-in-ask",
           "key": "favor-asked",
           "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "outcome": "open",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "anxious",
@@ -33910,31 +33917,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.no-rush",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "No rush.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -34059,6 +34041,15 @@
           "purpose": "move-in-ask",
           "key": "favor-asked",
           "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "warm",
@@ -34468,31 +34459,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.that-helps",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That helps.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.i-needed-this",
       "move": "reply-thank",
       "kind": "spoken",
@@ -34663,6 +34629,15 @@
           "role": "asked",
           "purpose": "move-in-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma",
+          "requiresFacts": ["school", "school-short"]
         }
       ],
       "bearing": "tender",
@@ -35219,31 +35194,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.i-d-like-that",
-      "move": "reply-accept",
-      "kind": "spoken",
-      "text": "I'd like that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "accept",
-          "role": "asked",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.reply-accept.yes-thanks",
       "move": "reply-accept",
       "kind": "spoken",
@@ -35407,6 +35357,22 @@
           "purpose": "no-diploma-home",
           "key": "no-diploma",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "funeral-cause",
+          "key": "loss"
         }
       ],
       "bearing": "warm",
@@ -35565,31 +35531,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
-        "key": "no-diploma"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-be-there",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll be there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
         "key": "no-diploma"
       }
     },
@@ -35849,32 +35790,6 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-m-here",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'm here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "outcome": "resolved",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.take-your-time",
       "move": "close-accept",
       "kind": "spoken",
@@ -35889,6 +35804,33 @@
           "key": "no-diploma",
           "outcome": "refused",
           "requiresFacts": ["school", "school-short"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss",
+          "after": "deflect"
         }
       ],
       "bearing": "tender",
@@ -37940,38 +37882,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.later-please",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Later, please.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "care-visit",
-          "key": "routine"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.i-will",
       "move": "reply-agree",
       "kind": "spoken",
@@ -38080,32 +37990,6 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-it-over",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think it over.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "outcome": "open",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "diploma"
-      }
-    },
-    {
       "key": "scene-talk.close-press.let-me-know",
       "move": "close-press",
       "kind": "spoken",
@@ -38132,31 +38016,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-envelope-from-school-short-is-still-on-the-counter",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The envelope from {school-short} is still on the counter.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "no-diploma"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-sits-at-the-table-with-two-cups-and-no-radio",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -38173,31 +38032,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "no-diploma"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.a-letter-from-school-short-lies-on-the-table-beside-name-s-cup",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "A letter from {school-short} lies on the table beside {name}'s cup.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -38815,38 +38649,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-happened",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What happened?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.close-press.think-about-it",
       "move": "close-press",
       "kind": "spoken",
@@ -39040,49 +38842,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.take-your-time",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Take your time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "deflect"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "funeral-cause",
-          "key": "loss",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
         "key": "favor-asked"
       }
     },
@@ -43373,31 +43132,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "diploma"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.that-means-everything",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That means everything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
