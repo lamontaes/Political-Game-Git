@@ -272,6 +272,12 @@ export interface Ledger {
   hitBy: Map<string, Set<PersonId>>;
   /** Open lies indexed by the deceived person and the fact they deny. */
   liesByLearner: Map<string, Set<string>>;
+  /**
+   * Every scene reply (`scene.reply`) by each person it names and the other
+   * (relation-facts.ts passedBetween), in the order they were recorded:
+   * what passed between two people is read from their own list, never the log.
+   */
+  repliesByPlayer: Map<PersonId, Map<PersonId, string[]>>;
   stopgapHits: Set<string>;
   /** The opening, the first scene: the President's address, that night's news, then home that evening. */
   opening?: OpeningStory;
