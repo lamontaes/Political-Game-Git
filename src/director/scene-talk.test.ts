@@ -76,7 +76,6 @@ const CUT_PURPOSES = new Set<string>([
   "family-loss",
   "family-absence",
   "rally-opponent",
-  "desk-visit",
   "section-bargain",
   "bill-held-chair",
   "hold-chair-sought",

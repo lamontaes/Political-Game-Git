@@ -24777,6 +24777,2127 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.i-have-to-move-on-from-bill-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to move on from {bill} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done-talking-about-bill-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done talking about {bill} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-won-t-be-pushed-on-bill",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No, I won't be pushed on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-do-what-you-ask-on-bill-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't do what you ask on {bill} right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-pass-on-to-people-in-place-what-you-said-about-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll pass on to people in {place} what you said about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-hearing-me-on-bill-the-people-in-place-will-know-what-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me on {bill}. The people in {place} will know what you decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.think-about-bill-before-the-deadline",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Think about {bill} before the deadline.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "open",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-back-before-you-decide-on-bill",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be back before you decide on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "open",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-are-watching-what-you-do-with-bill",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People are watching what you do with {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-take-bill-back-to-the-people-who-asked-me-to-bring-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll take {bill} back to the people who asked me to bring it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-i-ll-tell-people-where-bill-stands",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll tell people where {bill} stands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "refused",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-tell-the-others-what-you-decided-about-bill",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll tell the others what you decided about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-seeing-me-on-bill",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for seeing me on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "outcome": "resolved",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-doesn-t-answer-me-what-are-you-going-to-do-with-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That doesn't answer me. What are you going to do with {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "leave",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-need-more-than-that-on-bill-before-the-deadline",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I need more than that on {bill} before the deadline.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-isn-t-enough-where-do-you-stand-on-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That isn't enough. Where do you stand on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-something-i-can-work-with-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's something I can work with on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-go-back-to-the-others-and-tell-them-what-you-want-changed-in-b",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll go back to the others and tell them what you want changed in {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "bargain",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-the-people-in-place-what-you-did-with-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell the people in {place} what you did with {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "agree",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-heard-enough-on-bill-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've heard enough on {bill} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-think-about-bill-on-my-own-for-a-while",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll think about {bill} on my own for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-get-to-the-next-thing-on-my-desk-and-bill-will-wait",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to get to the next thing on my desk, and {bill} will wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-helps-me-understand-bill-i-m-leaning-toward-vetoing-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That helps me understand {bill}. I'm leaning toward vetoing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-helps-me-understand-bill-i-m-leaning-toward-signing-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That helps me understand {bill}. I'm leaning toward signing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-about-purpose-that-s-what-people-in-place-are-asking-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's about {purpose}. That's what people in {place} are asking for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-does-bill-actually-do",
+          "requiresFacts": ["bill", "purpose"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-changes-for-people-in-place",
+          "requiresFacts": ["bill", "purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bill-is-purpose-and-that-s-all-it-does",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{bill} is {purpose}, and that's all it does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-does-bill-actually-do",
+          "requiresFacts": ["bill", "purpose"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.tell-me-what-bill-changes-for-people-in-place",
+          "requiresFacts": ["bill", "purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bill-costs-the-budget-nothing",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{bill} costs the budget nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-would-bill-do-for-the-budget",
+          "requiresFacts": ["bill", "no-cost"],
+          "setsFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": ["bill", "no-cost"],
+          "setsFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+          "requiresFacts": ["bill", "no-cost"],
+          "setsFacts": ["heard-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.bill-adds-to-the-budget-and-i-won-t-pretend-it-doesn-t",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{bill} adds to the budget, and I won't pretend it doesn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.what-would-bill-do-for-the-budget",
+          "requiresFacts": ["bill", "budget-cost"],
+          "setsFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+          "requiresFacts": ["bill", "budget-cost"],
+          "setsFacts": ["heard-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-don-t-believe-in-what-bill-does-and-they-said-so",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They don't believe in what {bill} does, and they said so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-voted-against-bill-and-why",
+          "requiresFacts": ["bill", "opposed-views"],
+          "setsFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.why-did-anyone-vote-against-bill",
+          "requiresFacts": ["bill", "opposed-views"],
+          "setsFacts": ["heard-why"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.their-party-was-against-bill-from-the-start",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Their party was against {bill} from the start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-voted-against-bill-and-why",
+          "requiresFacts": ["bill", "opposed-party"],
+          "setsFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.why-did-anyone-vote-against-bill",
+          "requiresFacts": ["bill", "opposed-party"],
+          "setsFacts": ["heard-why"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.group-pressed-them-hard-against-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{group} pressed them hard against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-voted-against-bill-and-why",
+          "requiresFacts": ["bill", "opposed-groups", "group"],
+          "setsFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.why-did-anyone-vote-against-bill",
+          "requiresFacts": ["bill", "opposed-groups", "group"],
+          "setsFacts": ["heard-why"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-heard-from-people-in-place-who-didn-t-want-bill",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They heard from people in {place} who didn't want {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.who-voted-against-bill-and-why",
+          "requiresFacts": ["bill", "opposed-voters"],
+          "setsFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "scene-talk.reply-ask.why-did-anyone-vote-against-bill",
+          "requiresFacts": ["bill", "opposed-voters"],
+          "setsFacts": ["heard-why"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-what-bill-changes-for-people-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me what {bill} changes for people in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "purpose"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.does-bill-take-anything-from-the-budget",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does {bill} take anything from the budget?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "no-cost"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-much-of-the-budget-does-bill-take",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much of the budget does {bill} take?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "budget-cost"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-did-anyone-vote-against-bill",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why did anyone vote against {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "opposed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-bill-actually-do",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does {bill} actually do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "purpose"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-bill-do-for-the-budget",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would {bill} do for the budget?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "budget-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "no-cost"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-voted-against-bill-and-why",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who voted against {bill}, and why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "opposed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.find-a-way-to-pay-for-bill-and-i-ll-sign-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Find a way to pay for {bill}, and I'll sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "budget-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-d-sign-bill-if-it-cost-the-budget-less",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'd sign {bill} if it cost the budget less.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "budget-cost"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.bring-the-people-who-opposed-bill-to-the-table-and-i-ll-sign-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Bring the people who opposed {bill} to the table, and I'll sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "opposed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-d-sign-bill-if-the-people-who-opposed-it-were-heard-first",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'd sign {bill} if the people who opposed it were heard first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "opposed"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-veto-bill-on-that-alone",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't veto {bill} on that alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-veto-bill-just-because-you-ask-me-to",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't veto {bill} just because you ask me to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-ready-to-sign-bill",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not ready to sign {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-sign-bill-the-way-it-s-written",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't sign {bill} the way it's written.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-leaning-toward-a-veto-of-bill-but-i-m-not-there-yet",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm leaning toward a veto of {bill}, but I'm not there yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-leaning-toward-signing-bill-but-i-m-not-there-yet",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm leaning toward signing {bill}, but I'm not there yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-settles-it-i-ll-veto-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That settles it. I'll veto {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-i-ll-veto-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Okay, I'll veto {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "relent",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-goes-back-with-a-veto",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "{bill} goes back with a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-gets-a-veto",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then {bill} gets a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-veto-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll veto {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-settles-it-i-ll-sign",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That settles it. I'll sign {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then {bill} deserves a signature. Bring the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-sign-it-then",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine, I'll sign {bill} then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "press",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "relent",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-veto-it-gets-my-signature",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No veto on {bill}. It gets my signature.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "refuse",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-passed-i-ll-sign-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It passed, so I'll sign {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've made your case on {bill}. Bring the pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-have-bill-until-deadline-and-i-m-asking-you-to-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You have {bill} until {deadline}, and I'm asking you to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "deadline"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-is-on-your-desk-until-deadline-and-i-m-asking-you-to-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} is on your desk until {deadline}, and I'm asking you to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill", "deadline"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-would-hurt-people-in-place-and-i-m-asking-you-to-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} would hurt people in {place}, and I'm asking you to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-here-to-ask-you-to-veto-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm here to ask you to veto {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-is-on-your-desk-and-i-m-asking-you-to-veto-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} is on your desk, and I'm asking you to veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-have-bill-until-deadline-and-i-m-asking-you-to-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You have {bill} until {deadline}, and I'm asking you to sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-is-on-your-desk-until-deadline-and-i-m-asking-you-to-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} is on your desk until {deadline}, and I'm asking you to sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill", "deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-wrote-bill-for-people-in-place-and-i-m-asking-you-to-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I wrote {bill} for people in {place}, and I'm asking you to sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-here-to-ask-you-to-sign-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm here to ask you to sign {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-is-on-your-desk-and-i-m-asking-you-to-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} is on your desk, and I'm asking you to sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-you-re-busy-i-wanted-to-say-something-about-bill-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know you're busy. I wanted to say something about {bill} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-appreciate-your-time-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I appreciate your time. It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-seeing-me-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for seeing me about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-stopped-at-your-desk-and-bill-is-open-on-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has stopped at your desk, and {bill} is open on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-in-front-of-your-desk-and-bill-is-lying-there-unsigned",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stands in front of your desk, and {bill} is lying there, unsigned.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-in-and-stops-at-your-desk-where-bill-is-waiting-for-your-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes in and stops at your desk, where {bill} is waiting for your name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-your-desk-with-bill-and-the-pen-is-lying-beside-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is at your desk with {bill}, and the pen is lying beside it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-brought-bill-to-your-desk-and-is-standing-there-while-you-look",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has brought {bill} to your desk and is standing there while you look at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-at-your-desk-and-bill-is-in-front-of-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stands at your desk, and {bill} is in front of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["bill", "for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "desk-visit"
+      }
+    },
+    {
       "key": "scene-talk.reply-stall.i-haven-t-made-up-my-mind-on-bill-give-me-time-to-read-it",
       "move": "reply-stall",
       "kind": "spoken",
