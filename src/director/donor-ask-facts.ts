@@ -84,4 +84,3 @@ export function donorViewFacts(
     "view-question": { text: top.question, sourceRecordIds: ids },
   };
 }
-

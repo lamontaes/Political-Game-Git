@@ -3440,7 +3440,13 @@ export function replyInScene(
     core.modules.has(VIEWS_MODULE_ID)
   ) {
     learnView(coreAPI(core), personId, scene.askerId, question.recordIds, id);
-    learnViewQuestion(coreAPI(core), personId, scene.askerId, question.text, id);
+    learnViewQuestion(
+      coreAPI(core),
+      personId,
+      scene.askerId,
+      question.text,
+      id,
+    );
   }
   // A swearing-in that ended in an address: the speech engine records it as
   // heard by the people the scene named in the room (swearing-in.ts).
