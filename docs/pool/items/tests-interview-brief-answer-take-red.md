@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -32,4 +32,6 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.**
+**Files.** `docs/current.json` (the replaced row for the deleted test).
+
+**Notes.** Nov 18 (Story): dropped; the test it would fix was deleted on #10063 with the interview sitting's lines (owner, Nov 17: delete everything the engine did not write).
