@@ -20492,42 +20492,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "My answer's the same. Good luck in the race for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["office"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-signing",
       "move": "reply-decline",
       "kind": "spoken",
@@ -20542,32 +20506,6 @@
           "role": "asked",
           "after": "press",
           "requiresFacts": ["would-not-sign", "stand-said", "about"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-sure",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've thought about {about}. I'm still not sure.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["stand-said", "about"]
         }
       ],
       "bearing": "guarded",
@@ -20595,32 +20533,6 @@
           "after": "press",
           "requiresFacts": ["office"],
           "excludesFacts": ["signed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've heard you out. I'm still deciding my vote for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["office"]
         }
       ],
       "bearing": "guarded",
@@ -22658,6 +22570,1422 @@
       "date": "2026-11-17",
       "tag": {
         "move": "leave",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-listened-and-that-s-rare-i-ll-vote-for-you-for-office-and-i-ll-hold-you-to-what-you-said",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You listened, and that's rare. I'll vote for you for {office}, and I'll hold you to what you said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-more-than-most-candidates-do-at-my-door-i-ll-vote-for-you-for-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's more than most candidates do at my door. I'll vote for you for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-take-a-chance-on-you-put-me-down-for-office-and-prove-me-right",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll take a chance on you. Put me down for {office}, and prove me right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-listened-to-me-so-i-ll-vote-for-you-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You listened to me, so I'll vote for you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.nobody-else-asked-me-what-i-think-i-ll-be-there-for-you-on-vote-day",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Nobody else asked me what I think. I'll be there for you on {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-answered-my-question-on-cause-i-ll-vote-for-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That answered my question on {cause}. I'll vote for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-talked-straight-about-cause-that-s-enough-for-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've talked straight about {cause}. That's enough for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-listened-and-that-counts-for-me-i-ll-vote-for-you-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You listened, and that counts for me. I'll vote for you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-came-ready-to-say-no-i-ll-vote-for-you-in-place-and-i-ll-watch-what-you-do",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I came ready to say no. I'll vote for you in {place}, and I'll watch what you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-isn-t-you-i-don-t-give-my-vote-away-at-the-door-even-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It isn't you. I don't give my vote away at the door, even for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-decide-when-i-see-who-else-is-running-for-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll decide when I see who else is running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.come-back-with-something-i-can-hold-you-to-in-the-office-race",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Come back with something I can hold you to in the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.on-about-i-d-need-more-than-a-talk-at-the-door",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "On {about}, I'd need more than a talk at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["about"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "about"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "about"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-closer-to-vote-day-once-i-ve-heard-everyone",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll make up my mind closer to {vote-day}, once I've heard everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-want-to-see-how-everyone-else-answers-before-vote-day",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I want to see how everyone else answers before {vote-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-close", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "vote-day"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "door",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "vote-day"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-want-to-see-what-you-do-on-cause-before-i-back-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd want to see what you do on {cause} before I back you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-isn-t-you-i-need-more-than-a-talk-afterward-on-cause",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It isn't you. I need more than a talk afterward on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-make-up-my-mind-after-i-ve-heard-the-others-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll make up my mind after I've heard the others in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-hear-the-rest-of-the-field-in-place-before-i-say-yes",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather hear the rest of the field in {place} before I say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.knows-you",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-close", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.same-party",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-same-party", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-support.sick",
+          "key": "vote-wanted",
+          "after": "answer",
+          "requiresFacts": ["read-own-illness", "place"],
+          "excludesFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
         "key": "vote-wanted"
       }
     },
