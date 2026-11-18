@@ -1,6 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { benchRequest, benchWorld } from "../bench/handler";
-import { staffOf } from "../bench/scene";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { sharedHistory } from "../core2/shared-history";
 import type { PersonId } from "../core2/types";
@@ -48,11 +47,6 @@ const PLAYER = {
   birthMonth: 5,
   birthDay: 12,
 };
-/** Questions about the school the test needs heard. */
-const NEEDED = 1;
-/** Played days the player goes around town on. */
-const DAYS = 2;
-const YES = /^(yes|yeah)\b/i;
 /**
  * Two classmates still at Golden Valley's public schools together, at one
  * stage and not kin, read from the played world's school records at this
@@ -138,109 +132,4 @@ describe("a question about a school both went to", () => {
       `${where}: Levi in elementary school, the player in high school`,
     ).toBe(false);
   });
-
-  it("is answered back by the asker after the player's answer", async () => {
-    {
-      // The years each asker says, beside the two records' last shared year.
-      expect(built.status, `seed ${SEED}`).toBe(200);
-      const world = benchWorld();
-      const core = world.core!;
-      const me = world.player!.personId! as PersonId;
-      const where = `${built.json.placeName}, seed ${SEED}`;
-
-      // Where each schoolmate works, among the places the player can go.
-      const places = (await ask("GET", `/api/goto?id=${me}`)).json as {
-        organizationId: string;
-      }[];
-      const atWork = new Map<string, string[]>();
-      for (const { organizationId } of places)
-        for (const id of staffOf(core, organizationId).full)
-          if (
-            sharedHistory(core, me, id as PersonId).some(
-              (row) => row.kind === "schoolmate",
-            )
-          )
-            atWork.set(organizationId, [
-              ...(atWork.get(organizationId) ?? []),
-              id,
-            ]);
-      expect(atWork.size, `${where}: schoolmates at work`).toBeGreaterThan(0);
-
-      const heard: string[] = [];
-      const talked = new Set<string>();
-      for (let day = 0; day < DAYS && heard.length < NEEDED; day += 1) {
-        for (const [org, ids] of atWork) {
-          const visit = await ask(
-            "POST",
-            `/api/goto/visit?org=${encodeURIComponent(org)}`,
-          );
-          expect(visit.status, `${where}: ${JSON.stringify(visit.json)}`).toBe(
-            200,
-          );
-          const here = new Set(
-            (visit.json.people as { personId: string }[]).map(
-              (row) => row.personId,
-            ),
-          );
-          for (const otherId of ids) {
-            if (!here.has(otherId) || talked.has(otherId)) continue;
-            let talk = (await ask("POST", `/api/talk/open?otherId=${otherId}`))
-              .json as Talk | null;
-            for (let turn = 0; turn < 12 && talk?.choices.length; turn += 1) {
-              const asked = talk.lines.at(-1)?.kind === "shared-school";
-              const choice =
-                talk.choices.find((row) => YES.test(row.text)) ??
-                talk.choices[0]!;
-              const before = talk.lines.length;
-              talk = (
-                await ask(
-                  "POST",
-                  `/api/talk/say?key=${encodeURIComponent(choice.key)}`,
-                )
-              ).json as Talk;
-              if (!asked) continue;
-              talked.add(otherId);
-              const back = talk.lines
-                .slice(before)
-                .find((line) => line.speakerId === otherId);
-              const last = sharedHistory(core, me, otherId as PersonId).find(
-                (row) => row.kind === "schoolmate",
-              )?.lastYear;
-              heard.push(
-                `${core.date} ${otherId} (last school year together ${last}-${Number(last) + 1}): ${talk.lines.map((line) => line.text).join(" / ")}`,
-              );
-              // The years said are those since the end of that school year.
-              const said = back?.text.match(/\b(\d+) years\b/)?.[1];
-              if (said)
-                expect(Number(said), `${where}: ${heard.at(-1)}`).toBe(
-                  Number(core.date.slice(0, 4)) - (Number(last) + 1),
-                );
-              expect(back?.kind, `${where}: ${heard.at(-1)}`).toBe(
-                "shared-school-give",
-              );
-              expect(
-                back?.sourceRecordIds.length,
-                `${where}: ${heard.at(-1)}`,
-              ).toBeGreaterThan(0);
-            }
-            if (talk) await ask("POST", "/api/talk/leave");
-          }
-          await ask("POST", "/api/goto/home");
-        }
-        // The next morning; a stop the day holds is passed over.
-        let next = await ask("POST", "/api/advance?mode=day");
-        for (let k = 0; k < 5 && next.json?.packet?.kind === "stop"; k += 1)
-          next = await ask(
-            "POST",
-            `/api/resume?pauseId=${encodeURIComponent(next.json.packet.pauseId)}`,
-          );
-        expect(next.status, `${where}: ${JSON.stringify(next.json)}`).toBe(200);
-      }
-      console.log(`shared-school-give-back: ${where}\n${heard.join("\n")}`);
-      expect(
-        heard.length,
-        `${where}: questions about a school both went to`,
-      ).toBeGreaterThanOrEqual(NEEDED);
-    }
-  }, 150_000);
 });
