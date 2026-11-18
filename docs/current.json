@@ -1254,6 +1254,24 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed someone at home to mark a graduation the day after; the scene's lines are deleted, so no drawn place played it."
+    },
+    {
+      "old": "src/director/talk-move-pairs.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a talk to open to grade its reply pairs; without talk lines the room offers no one to talk to."
+    },
+    {
+      "old": "src/director/talk-ends-with-a-goodbye.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the stranger's reply that turns the question back, a line the cut deleted."
+    },
+    {
+      "old": "src/director/swearing-in-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case played the swearing-in scene, a kind whose lines the cut deleted."
     }
   ]
 }
