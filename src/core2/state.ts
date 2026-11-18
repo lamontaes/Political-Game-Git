@@ -2386,7 +2386,9 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
-  if (!full && core.husks.has(personId)) {
+  // A husk, or another place's official no one has opened yet (drawn from
+  // their seat until now, `officialOf`), is built by the engine that holds them.
+  if (!full && (core.husks.has(personId) || personId.startsWith("official:"))) {
     const promoted = promoteHuskOfficial(core, personId);
     if (promoted) return promoted;
   }

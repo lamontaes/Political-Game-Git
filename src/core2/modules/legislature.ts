@@ -80,7 +80,12 @@ import {
   type EnactedAuthority,
 } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
-import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  awaitingVacancy,
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
@@ -3111,6 +3116,9 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
     return congressMembers(api, officeId);
   const offices = api.moduleState(OFFICES_MODULE_ID);
+  // Another place's members are read by their seat's draw until something
+  // opens one (`officialOf`, owner Nov 5): reading the chamber seats no one.
+  const outside = isOutsideOffice(api, offices.table("offices").get(officeId));
   // One query for the office's serving terms, put back in seat order.
   const order = new Map(
     (
@@ -3126,7 +3134,7 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   )
     .filter((term) => order.has(term.seatId))
     .sort((a, b) => order.get(a.seatId)! - order.get(b.seatId)!)
-    .map((term) => holderOf(api, term));
+    .map((term) => (outside ? term : holderOf(api, term)));
 }
 
 /** Places whose House member does not vote on final passage (House Rule III), from data. */
@@ -6431,7 +6439,16 @@ export function executiveOf(
             ]) as unknown as TermRow[],
       )[0]
     : undefined;
-  return { office, term: seated ? holderOf(api, seated) : undefined, federal };
+  return {
+    office,
+    // Another place's executive is read by their seat's draw, as its members are.
+    term: seated
+      ? isOutsideOffice(api, office)
+        ? seated
+        : holderOf(api, seated)
+      : undefined,
+    federal,
+  };
 }
 
 /**
