@@ -10,6 +10,7 @@ import {
 } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
+import { placeStateKey } from "../core2/place-map";
 import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
@@ -32,6 +33,7 @@ import { openOffices } from "../core2/modules/offices";
 import {
   openElections,
   runCentury,
+  runLegislatures,
   setHistoryMode,
 } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -56,6 +58,7 @@ import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openServeAsks } from "../core2/modules/serve-asks";
+import { PROMISES_MODULE } from "../core2/modules/promises";
 import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
@@ -542,7 +545,12 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
-  setHistoryMode(seed, settings.history ?? "century", startDate);
+  setHistoryMode(
+    seed,
+    settings.history ?? "century",
+    startDate,
+    placeStateKey(place.key) ?? undefined,
+  );
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.
   const playerBirthDate =
@@ -747,6 +755,8 @@ function* benchWorldStages(
       // drives, views, news, speeches, corruption and beliefs (who runs is
       // installed by the voting engine, in every world).
       ...peopleModules(),
+      // Promises kept and broken: settled before the director reads the day.
+      PROMISES_MODULE,
       director.module,
     ],
   });
@@ -756,6 +766,9 @@ function* benchWorldStages(
   // loading screen keeps answering, before the offices seat whoever it elected.
   const century = runCentury(seed, startDate);
   while (!century.next().done) yield "government";
+  // The state legislatures' century, its own pass after the offices it does not feed.
+  const legislatures = runLegislatures(seed, startDate);
+  while (!legislatures.next().done) yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
