@@ -36,10 +36,17 @@ import {
 } from "./electorate-inputs";
 import { countParties, type RacePlace, type SampleVoter } from "./electorate";
 import {
+  lawSession,
+  sessionQuestions,
+  type CenturyLaw,
+  type PartyPositions,
+  type SessionChamber,
+} from "./electorate-century-laws";
+import {
   congressSeatKeys,
   congressStateKeys,
   rosterLabel,
-  statePlaces,
+  publishedStatePlaces,
 } from "./electorate-places";
 import { seededUnit } from "./seeded";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
@@ -51,13 +58,21 @@ import stateOfficeResearch from "../../data/research/offices/state-offices.json"
 import statewideParties from "../../data/research/offices/statewide-executive-parties-2026.json" with { type: "json" };
 import electorsData from "./data/elections/electoral-votes.json" with { type: "json" };
 import data from "./data/history/century.json" with { type: "json" };
+import campaignData from "./data/campaigns/parameters.json" with { type: "json" };
 import legislatureParties from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
 const PARAMS = (
   data as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
 
-/** A century parameter (data/history/century.json). */
+/** How far toward its party a voter's lean must reach to take it: the one `partyIdentityReach` (campaigns/parameters.json) party ties use. */
+function campaignParameter(key: "partyIdentityReach"): number {
+  return (
+    campaignData as unknown as { parameters: Record<string, { value: number }> }
+  ).parameters[key]!.value;
+}
+
+/** A century parameter (`src/core2/data/history/century.json`). */
 export function centuryParameter(key: string): number {
   const row = PARAMS[key];
   if (!row) throw new Error(`Unknown century parameter: ${key}`);
@@ -152,6 +167,8 @@ export interface CenturyPresidency {
   readonly noMajority: boolean;
   /** The race's two-party votes cast. */
   readonly votes: number;
+  /** The founded party that stood in this race (History 9b) and its share of every vote cast; absent where none stood. */
+  readonly foundedParty?: { readonly id: string; readonly share: number };
   readonly states: readonly CenturyStateVote[];
 }
 
@@ -236,6 +253,266 @@ export interface Century {
   readonly congresses: readonly CenturyCongress[];
   /** Where each district (House and legislative, by seat key) stands after the century's last count. */
   readonly districtLeans: Readonly<Record<string, number>>;
+  /** The nation's law in force on each federal policy question: its last change, by `US|<question>`. */
+  readonly laws: ReadonlyMap<string, CenturyLaw>;
+  /** The parties the century's races are fought between, each with where it has stood. */
+  readonly parties: readonly CenturyParty[];
+  /** The parties founded in the century's own history, oldest first (family 9b). */
+  readonly foundings: readonly CenturyFounding[];
+  /** Each state's governor's side after each change of party, oldest first, by state key. */
+  readonly governorSides: ReadonlyMap<
+    string,
+    readonly { year: number; side: number }[]
+  >;
+}
+
+/**
+ * A party of the century: who exists in 1925 (the two national parties, founded before it), and
+ * where it has stood since. Its position on the members' left-right scale (DW-NOMINATE's first
+ * dimension, -1 to 1) is where the members it holds stand: the mean of its members' seats in
+ * Congress, put on that scale by `centuryPartyLeanScale`. A party that wins moderate seats
+ * moderates; one left with only its safest seats moves out. Never a target position.
+ */
+export interface CenturyParty {
+  /** `party:<side>` for the two national parties. */
+  readonly id: string;
+  readonly name: string;
+  /** The side it competes on: -1 left, 1 right. */
+  readonly side: number;
+  /** The year it was founded; null for a party that existed before 1925. */
+  readonly founded: number | null;
+  /** Its position after each even November, oldest first. */
+  readonly positions: readonly {
+    readonly year: number;
+    readonly position: number;
+  }[];
+}
+
+/**
+ * A party founded in the century's own history (History family 9b, plan 6952133362 on #9747): the
+ * voters neither national party reached had built up pressure for a new one that outweighed the
+ * cost of standing it. It stands at the centroid of those voters on the members' scale, so its
+ * `side` is the side of that position (0 when the unreached voters sit evenly either side).
+ * Its record keeps the cause: the pressure then and the share of voters it was founded from. It
+ * has no name yet: how a founded party is named is Story's (asked on #9750).
+ */
+export interface CenturyFounding {
+  /** `party:founded:<year>`. */
+  readonly id: string;
+  /** The presidential year it was founded in. */
+  readonly year: number;
+  /** Where it stands on the members' scale (-1 to 1): the mean position of the voters it was founded from. */
+  readonly position: number;
+  /** The side of that position: -1, 0 or 1. */
+  readonly side: number;
+  /** The founding pressure when it was founded. */
+  readonly pressure: number;
+  /** The cost of standing a party that the pressure outweighed (`centuryFoundingCost`). */
+  readonly cost: number;
+  /** The share of the century's voters neither national party reached that year. */
+  readonly unreachedShare: number;
+  /**
+   * The presidential year its share had fallen in each of `centuryFoundedPartyFallCycles` straight
+   * races and it merged into the national party nearest it (`mergedInto`, a party id); both
+   * absent while it stands (History 9b part 3).
+   */
+  readonly endedYear?: number;
+  readonly mergedInto?: string;
+}
+
+/**
+ * One presidential cycle's founding step. The voters a party reaches are those whose lean goes
+ * `partyIdentityReach` of the way to where their side's party stands (the same rule party ties
+ * use, parties.ts centuryTies); the rest are unreached, and their share adds to a pressure that
+ * fades each cycle (`centuryFoundingFade`). Where the parties stand far from the voters the
+ * pressure builds, and where one moves back it shrinks. A party is founded when the pressure
+ * outweighs `centuryFoundingCost` (stopgap SG-HIST-century-founding-cost), at the centroid of
+ * the unreached voters; while it stands, its voters are reached and the pressure is spent.
+ */
+// stopgapId: SG-HIST-century-founding-cost
+export function foundingStep(
+  voters: readonly SampleVoter[],
+  parties: readonly CenturyParty[],
+  year: number,
+  pressure: number,
+  standing: boolean,
+): { pressure: number; founding?: CenturyFounding } {
+  if (standing) return { pressure: 0 };
+  const at = partyPositionsAt(parties, year);
+  const reach = campaignParameter("partyIdentityReach");
+  let weight = 0;
+  let unreached = 0;
+  let lean = 0;
+  for (const voter of voters) {
+    const v = 2 * voter.rank - 1;
+    weight += voter.weight;
+    const position = at[Math.sign(v)];
+    if (position !== undefined && Math.abs(v) >= reach * Math.abs(position))
+      continue;
+    unreached += voter.weight;
+    lean += voter.weight * v;
+  }
+  const share = weight ? unreached / weight : 0;
+  const next = pressure * centuryParameter("centuryFoundingFade") + share;
+  if (next <= centuryParameter("centuryFoundingCost"))
+    return { pressure: next };
+  const position = unreached ? lean / unreached : 0;
+  return {
+    pressure: 0,
+    founding: {
+      id: `party:founded:${year}`,
+      year,
+      position,
+      side: Math.sign(position),
+      pressure: next,
+      cost: centuryParameter("centuryFoundingCost"),
+      unreachedShare: share,
+    },
+  };
+}
+
+/** Where each side's party stands: the mean of its members' seats in Congress, on the members' scale. */
+function partyPositionsNow(
+  seats: ReadonlyMap<string, CenturySeat>,
+  leans: Readonly<Record<string, number>>,
+  districtLeans: Readonly<Record<string, number>>,
+): Record<number, number> {
+  const sums: Record<number, { total: number; n: number }> = {
+    [-1]: { total: 0, n: 0 },
+    [1]: { total: 0, n: 0 },
+  };
+  for (const chamber of congressChambers(seats, leans, districtLeans))
+    for (const member of chamber.members) {
+      const row = sums[member.side];
+      if (!row) continue;
+      row.total += member.lean;
+      row.n += 1;
+    }
+  const scale = centuryParameter("centuryPartyLeanScale");
+  const out: Record<number, number> = {};
+  for (const side of [-1, 1]) {
+    const row = sums[side]!;
+    out[side] = row.n
+      ? Math.max(-1, Math.min(1, (row.total / row.n) * scale))
+      : side * 0;
+  }
+  return out;
+}
+
+/** Where each side's party stood after the last even November up to `year`. */
+function partyPositionsAt(
+  parties: readonly CenturyParty[],
+  year: number,
+): PartyPositions {
+  const out: Record<number, number> = {};
+  for (const party of parties) {
+    let at: number | undefined;
+    for (const row of party.positions) if (row.year <= year) at = row.position;
+    if (at !== undefined) out[party.side] = at;
+  }
+  return out;
+}
+
+/**
+ * A state's last presidential count in the century: the right's share there and the race's
+ * record. Undefined under "today" and for a place with no presidential vote.
+ */
+export function centuryStateVote(
+  seed: string,
+  stateKey: string,
+):
+  | {
+      readonly republicanShare: number;
+      readonly id: string;
+      readonly year: number;
+    }
+  | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  const last = centuryOf(seed, openingOf(seed)).presidencies.at(-1);
+  const row = last?.states.find((state) => state.stateKey === stateKey);
+  return last && row
+    ? { republicanShare: row.republicanShare, id: last.id, year: last.year }
+    : undefined;
+}
+
+/**
+ * Where the century's last count left a state (`US-<USPS>`), its House district or its legislative
+ * seat (an offices seat id), on the signed lean scale (right positive): 2 x the right's share - 1.
+ * Undefined under "today" and where the century has no count for it.
+ */
+export function centurySignedLean(
+  seed: string,
+  stateKey: string,
+  district?:
+    | { readonly usps: string; readonly houseCode: string }
+    | { readonly seatId: string },
+): number | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  const share = district
+    ? centuryDistrictLean(seed, district)
+    : centuryOf(seed, openingOf(seed)).leans[stateKey];
+  return share === undefined ? undefined : 2 * share - 1;
+}
+
+/**
+ * The right's two-party share where the century's last count left a state or territory (by
+ * USPS): a state's last presidential count, a territory's last delegate race. Undefined under
+ * "today" and where the century has no count for it.
+ */
+export function centuryStateShare(
+  seed: string,
+  usps: string,
+): number | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return (
+    centuryOf(seed, openingOf(seed)).leans[`US-${usps}`] ??
+    centuryDistrictLean(seed, { usps, houseCode: "0" })
+  );
+}
+
+/** The century's parties, under "century"; undefined under "today". */
+export function centuryParties(
+  seed: string,
+): readonly CenturyParty[] | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return centuryOf(seed, openingOf(seed)).parties;
+}
+
+/**
+ * Whether a founded party's vote share has fallen in each of the last
+ * `centuryFoundedPartyFallCycles` straight presidential races (its shares, oldest first), the
+ * cause of its merging (History 9b part 3).
+ */
+export function foundedPartyHasFallen(shares: readonly number[]): boolean {
+  const falls = centuryParameter("centuryFoundedPartyFallCycles");
+  const recent = shares.slice(-(falls + 1));
+  return (
+    recent.length === falls + 1 &&
+    recent.every((share, i) => i === 0 || share < recent[i - 1]!)
+  );
+}
+
+/** The national party whose position stood nearest `position` going into a presidential year (the last November's). */
+export function nearestParty(
+  parties: readonly CenturyParty[],
+  year: number,
+  position: number,
+): CenturyParty {
+  const at = partyPositionsAt(parties, year);
+  return parties.reduce((best, party) =>
+    Math.abs((at[party.side] ?? 0) - position) <
+    Math.abs((at[best.side] ?? 0) - position)
+      ? party
+      : best,
+  );
+}
+
+/** The parties founded in the century's own history, oldest first; undefined under "today". */
+export function centuryFoundings(
+  seed: string,
+): readonly CenturyFounding[] | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  return centuryOf(seed, openingOf(seed)).foundings;
 }
 
 const centuries = new Map<string, Century>();
@@ -322,8 +599,8 @@ function eligibleOf(seed: string, stateKey: string): number {
   // A territory has no county places: its people are sized by its delegate's race, as play's
   // races size them (voting.ts worldRacePlaces).
   const eligible =
-    sum(statePlaces(stateKey.slice(3), seed)) ||
-    sum(statePlaces(stateKey.slice(3), seed, 1));
+    sum(publishedStatePlaces(stateKey.slice(3), seed)) ||
+    sum(publishedStatePlaces(stateKey.slice(3), seed, 1));
   eligibles.set(key, eligible);
   return eligible;
 }
@@ -333,6 +610,8 @@ interface SeatCount {
   readonly republican: number;
   readonly democratic: number;
   readonly republicanShare: number;
+  /** Votes for the founded party, where one stood (History 9b); not in the two-party share. */
+  readonly founded?: number;
 }
 
 /**
@@ -353,8 +632,14 @@ function countSeat(
   const republican = counted.votes["party:R"] ?? 0;
   const democratic = counted.votes["party:D"] ?? 0;
   const republicanShare = exactShare(counted.exact[0]!, place.rightShare);
+  const standing = field.find((c) => c.position !== undefined);
   return {
-    share: { republican, democratic, republicanShare },
+    share: {
+      republican,
+      democratic,
+      republicanShare,
+      ...(standing ? { founded: counted.votes[standing.id] ?? 0 } : {}),
+    },
     cleared: republicanShare - notCarriedGap(reasons),
   };
 }
@@ -446,6 +731,7 @@ function presidentialElection(
   leans: Readonly<Record<string, number>>,
   voters: readonly SampleVoter[],
   results: YearResults,
+  foundings: readonly CenturyFounding[] = [],
 ): CenturyPresidency {
   // stopgapId: SG-HIST-century-two-terms
   const incumbentRuns = Boolean(sitting && sitting.personTerms < 2);
@@ -477,37 +763,72 @@ function presidentialElection(
         : `presidential:${year}:${side}`,
     ),
   );
+  // A party founded in an earlier year stands a ticket too (History 9b part 2, plan 6952133362):
+  // no sitting holder, no office held, standing at the position it was founded at on the voters'
+  // own lean scale. Its votes come out of the two sides' by the one count; it carries no state
+  // yet (stopgap SG-HIST-century-founded-ticket).
+  // stopgapId: SG-HIST-century-founded-ticket
+  for (const founding of foundings)
+    if (founding.year < year && founding.endedYear === undefined) {
+      field.push({
+        id: founding.id,
+        party: null,
+        side: 0,
+        position: founding.position,
+        pull: centuryParameter("centuryFoundedPartyPull"),
+        incumbent: false,
+        experienced: false,
+        spentMinor: null,
+        record: 0,
+        presidentsParty: false,
+        seatPartyHolder: false,
+      });
+      means.push(campaignMeansOf(seed, `presidential:${year}:${founding.id}`));
+    }
   const states: CenturyStateVote[] = [];
   let republicanVotes = 0,
-    democraticVotes = 0;
+    democraticVotes = 0,
+    foundedVotes = 0;
   for (const stateKey of stateKeys()) {
     const eligible = eligibleOf(seed, stateKey);
     const lean = leans[stateKey]!;
-    const { share, cleared } = countSeat(
+    const place: RacePlace = {
+      id: `century:${stateKey}`,
+      name: stateKey,
+      eligible,
+      rightShare: lean,
+      votes2024: eligible,
+      source: "The century's count (src/core2/electorate-century.ts)",
+    };
+    const ticket = field.map((candidate, i) => ({
+      ...candidate,
+      spentMinor: typicalSpendPerVote("president") * eligible * means[i]!,
+    }));
+    const conditions = {
+      cycle: "presidential" as const,
+      federal: true,
+      typicalSpendPerVote: typicalSpendPerVote("president"),
+      raceVotes: eligible,
+      approvalGapPoints: gap,
+      town: null,
+    };
+    const { share, cleared: clearedWithThird } = countSeat(
       voters,
-      {
-        id: `century:${stateKey}`,
-        name: stateKey,
-        eligible,
-        rightShare: lean,
-        votes2024: eligible,
-        source: "The century's count (src/core2/electorate-century.ts)",
-      },
-      field.map((candidate, i) => ({
-        ...candidate,
-        spentMinor: typicalSpendPerVote("president") * eligible * means[i]!,
-      })),
-      {
-        cycle: "presidential",
-        federal: true,
-        typicalSpendPerVote: typicalSpendPerVote("president"),
-        raceVotes: eligible,
-        approvalGapPoints: gap,
-        town: null,
-      },
+      place,
+      ticket,
+      conditions,
     );
+    // Where a state stands carries from the two national sides' own count: a third party's
+    // voters leaving the two sides' count would otherwise push every state's two-party share
+    // away from even, and the carry would ratchet the map apart each cycle. The third party
+    // still moves the recorded vote and the electors.
+    const cleared =
+      ticket.length > 2
+        ? countSeat(voters, place, ticket.slice(0, 2), conditions).cleared
+        : clearedWithThird;
     republicanVotes += share.republican;
     democraticVotes += share.democratic;
+    foundedVotes += share.founded ?? 0;
     states.push({
       stateKey,
       electors: ELECTORS.states[stateKey]!,
@@ -558,6 +879,14 @@ function presidentialElection(
     timeForChange: timeForChangeOf(field, gap),
     noMajority: majority === 0,
     votes: Math.round(total),
+    ...(field.length > 2
+      ? {
+          foundedParty: {
+            id: field[2]!.id,
+            share: foundedVotes / (total + foundedVotes || 1),
+          },
+        }
+      : {}),
     states,
   };
 }
@@ -779,6 +1108,31 @@ function campaignMeansOf(seed: string, personKey: string): number {
 }
 
 /**
+ * Where a place stood in 1925: a state's place on the lean order; a place with no presidential
+ * vote (a territory, Puerto Rico) where its delegate's district opened (`openingSeats`), so its
+ * legislative districts stand around its own seat in Congress.
+ */
+function placeOpeningLean(
+  seed: string,
+  leans: Readonly<Record<string, number>>,
+  stateKey: string,
+): number {
+  const own = leans[stateKey];
+  if (own !== undefined) return own;
+  // stopgapId: SG-HIST-century-territory-opening-lean
+  const delegate = `${stateKey}:house:${districtsOf(stateKey)[0] ?? "0"}`;
+  return Math.max(
+    0,
+    Math.min(
+      1,
+      0.5 +
+        centuryShift(seed, `century:lean:${delegate}`) *
+          centuryParameter("centuryDistrictLeanSpread"),
+    ),
+  );
+}
+
+/**
  * Every state legislative seat in 1925, as the offices engine lists them (which seats exist,
  * their terms and their cycles, never who holds them): who holds it is the side its own district
  * leans to. The played town's state is counted seat by seat, every other state's chambers as
@@ -809,7 +1163,7 @@ function openingLegislatures(
           0,
           Math.min(
             1,
-            (leans[stateKey] ?? 0.5) +
+            placeOpeningLean(seed, leans, stateKey) +
               centuryShift(seed, `century:lean:${key}`) *
                 centuryParameter("centuryDistrictLeanSpread"),
           ),
@@ -1320,6 +1674,18 @@ export function* runCentury(
   const voters = centuryVoters();
   const presidencies: CenturyPresidency[] = [];
   const congresses: CenturyCongress[] = [];
+  const laws = new Map<string, CenturyLaw>();
+  const governorSides = new Map<string, { year: number; side: number }[]>();
+  const parties = [-1, 1].map((side) => ({
+    id: `party:${side > 0 ? "R" : "D"}`,
+    name: nationalParty(side),
+    side,
+    founded: null,
+    positions: [] as { year: number; position: number }[],
+  }));
+  const foundings: CenturyFounding[] = [];
+  const foundedShares = new Map<string, number[]>();
+  let foundingPressure = 0;
   let sittingSide = opening.presidentSide;
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
@@ -1345,11 +1711,66 @@ export function* runCentury(
         leans,
         voters,
         results,
+        foundings,
       );
       presidencies.push(row);
       sittingSide = row.winnerSide;
+      // A founded party whose share has fallen in each of several straight races merges into
+      // the national party nearest it, and its ticket ends (History 9b part 3).
+      const stood = row.foundedParty;
+      if (stood) {
+        const shares = foundedShares.get(stood.id) ?? [];
+        shares.push(stood.share);
+        foundedShares.set(stood.id, shares);
+        if (foundedPartyHasFallen(shares)) {
+          const at = foundings.findIndex((f) => f.id === stood.id);
+          const founding = foundings[at]!;
+          // Where the parties stood going into this election (the last November's).
+          const nearest = nearestParty(parties, year, founding.position);
+          foundings[at] = {
+            ...founding,
+            endedYear: year,
+            mergedInto: nearest.id,
+          };
+        }
+      }
     }
     if (year % 2 === 0) congresses.push(congressCount(year, seats));
+    // Each governor's side as it changes (the legislatures' sessions read who signs).
+    for (const seat of seats.values())
+      if (seat.chamber === "executive" && seat.rosterKey === "governor") {
+        const list = governorSides.get(seat.stateKey) ?? [];
+        if (list.at(-1)?.side !== seat.side)
+          list.push({ year, side: seat.side });
+        governorSides.set(seat.stateKey, list);
+      }
+    // Each party stands where the members it now holds stand; Congress and the President then
+    // sit, after each November of a Congress.
+    if (year % 2 === 0) {
+      const now = partyPositionsNow(seats, leans, districtLeans);
+      for (const party of parties)
+        party.positions.push({ year, position: now[party.side]! });
+      if (year % centuryParameter("presidentialTermYears") === 0) {
+        const step = foundingStep(
+          voters,
+          parties,
+          year,
+          foundingPressure,
+          foundings.some((f) => f.endedYear === undefined),
+        );
+        foundingPressure = step.pressure;
+        if (step.founding) foundings.push(step.founding);
+      }
+      lawSession(
+        "US",
+        year,
+        congressChambers(seats, leans, districtLeans),
+        sittingSide,
+        sessionQuestions(true),
+        laws,
+        now,
+      );
+    }
     // Each place carries its year's results once (a state its presidential and Senate results).
     results.carry(leans, districtLeans);
     yield { year, done: at + 1, total: years.length };
@@ -1362,6 +1783,10 @@ export function* runCentury(
     seats,
     congresses,
     districtLeans,
+    laws,
+    governorSides,
+    parties,
+    foundings,
   };
   centuries.set(key, century);
   return century;
@@ -1400,6 +1825,7 @@ export function* runLegislatures(
     startDate,
   );
   const voters = centuryVoters();
+  const stateLaws = new Map<string, CenturyLaw>();
   const hiddenVoters = centuryVoters(centuryParameter("centuryHiddenVoters"));
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
@@ -1420,10 +1846,113 @@ export function* runLegislatures(
       hiddenVoters,
     );
     results.carry(districtLeans);
+    // Each state's legislature and governor sit after each even November.
+    if (year % 2 === 0)
+      for (const [stateKey, chambers] of stateChambers(seats, districtLeans)) {
+        let governor = (century.leans[stateKey] ?? 0.5) >= 0.5 ? 1 : -1;
+        for (const change of century.governorSides.get(stateKey) ?? [])
+          if (change.year <= year) governor = change.side;
+        lawSession(
+          stateKey,
+          year,
+          chambers,
+          governor,
+          sessionQuestions(false),
+          stateLaws,
+          partyPositionsAt(century.parties, year),
+        );
+      }
     yield { year, done: at + 1, total: years.length };
   }
   legislatureRuns.set(key, seats);
+  legislatureLaws.set(key, stateLaws);
   return seats;
+}
+
+const legislatureLaws = new Map<string, ReadonlyMap<string, CenturyLaw>>();
+
+/** Congress at a session: the senators and the voting House members (of places with senators). */
+function congressChambers(
+  seats: ReadonlyMap<string, CenturySeat>,
+  leans: Readonly<Record<string, number>>,
+  districtLeans: Readonly<Record<string, number>>,
+): SessionChamber[] {
+  const senate: { side: number; lean: number }[] = [];
+  const house: { side: number; lean: number }[] = [];
+  const states = new Set<string>();
+  for (const seat of seats.values())
+    if (seat.chamber === "senate") {
+      states.add(seat.stateKey);
+      senate.push({
+        side: seat.side,
+        lean: 2 * (leans[seat.stateKey] ?? 0.5) - 1,
+      });
+    }
+  for (const seat of seats.values())
+    if (seat.chamber === "house" && states.has(seat.stateKey))
+      house.push({
+        side: seat.side,
+        lean: 2 * (districtLeans[seat.key] ?? 0.5) - 1,
+      });
+  return [
+    { chamber: "senate", body: "us-senate", members: senate },
+    { chamber: "house", body: "us-house", members: house },
+  ];
+}
+
+/** Each state's legislative chambers at a session, by state key. */
+function stateChambers(
+  seats: ReadonlyMap<string, CenturySeat>,
+  districtLeans: Readonly<Record<string, number>>,
+): Map<string, SessionChamber[]> {
+  const byOffice = new Map<
+    string,
+    { stateKey: string; members: { side: number; lean: number }[] }
+  >();
+  for (const seat of seats.values()) {
+    const office = seat.officeId ?? `${seat.stateKey}:${seat.rosterChamber}`;
+    const row = byOffice.get(office) ?? {
+      stateKey: seat.stateKey,
+      members: [],
+    };
+    row.members.push({
+      side: seat.side,
+      lean: 2 * (districtLeans[seat.key] ?? 0.5) - 1,
+    });
+    byOffice.set(office, row);
+  }
+  const out = new Map<string, SessionChamber[]>();
+  for (const [office, row] of [...byOffice].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  ))
+    out.set(row.stateKey, [
+      ...(out.get(row.stateKey) ?? []),
+      { chamber: office, body: "legislature", members: row.members },
+    ]);
+  return out;
+}
+
+/**
+ * The law in force on a policy question at a place on day one, as the century's bodies left it:
+ * its last enactment or repeal, or none (no session ever passed it, so it is not law). Undefined
+ * under "today" and at a place whose legislature the century does not elect.
+ */
+export function centuryLaw(
+  seed: string,
+  place: string,
+  question: string,
+): CenturyLaw | null | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  // Only the questions the century's bodies vote on: the nation's federal ones, a state's the rest.
+  if (!sessionQuestions(place === "US").includes(question)) return undefined;
+  const start = openingOf(seed);
+  if (place === "US")
+    return centuryOf(seed, start).laws.get(`US|${question}`) ?? null;
+  const seats = centuryLegislatures(seed, start);
+  if (![...seats.values()].some((seat) => seat.stateKey === place))
+    return undefined;
+  const key = `${seed}|${centuryYears(start).at(-1) ?? ""}`;
+  return legislatureLaws.get(key)?.get(`${place}|${question}`) ?? null;
 }
 
 /** The century's state legislative seats by the offices engine's seat id, run on first read. */

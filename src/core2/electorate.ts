@@ -449,6 +449,10 @@ export function townEngagementCenter(core: CoreState): number {
 export interface CountedFieldEntry {
   readonly id: string;
   readonly side: number;
+  /** Where a party off the two national sides stands on the lean scale; read only where set (`CandidateInputs.position`). */
+  readonly position?: number;
+  /** How much of a voter's party appeal the party holds (0 to 1); read only with `position`, 1 where absent. */
+  readonly pull?: number;
   readonly isIncumbent: boolean;
   /** Public standing every voter in the race sees, appeal units. */
   readonly standing: number;
@@ -478,6 +482,11 @@ export interface CountedFieldEntry {
   readonly incumbentLeanCenter?: number;
   /** The groups that backed the candidate, as a counted voter who shares each one's cause hears it. */
   readonly endorsed?: readonly EndorsedBy[];
+  /**
+   * The candidate stands for the party that holds the seat: a counted place's own
+   * conditions (`RacePlace.ownConditions`) are laid to it, as the town's are to its holder.
+   */
+  readonly holdsSeat?: boolean;
 }
 
 /**
@@ -592,6 +601,8 @@ export function countedAppeal(
     readonly inTown: boolean;
     readonly local: boolean;
     readonly incumbentLean: number;
+    /** The place's own conditions, appeal units, as the party that holds the seat feels them (`RacePlace.ownConditions`). */
+    readonly ownConditions?: number;
     /** How much the voter trusts the press against the average reader (1); news-weighted parts scale by it. */
     readonly trust?: number;
     /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
@@ -629,8 +640,14 @@ export function countedAppeal(
   const appeal: Record<string, CountedAppeal> = into ?? {};
   const pledgeWeight = campaignParameter("doorPledgeWeight");
   for (const entry of field) {
-    const party = lean * entry.side;
-    const standing = entry.standing + (where.local ? entry.localStanding : 0);
+    const party =
+      entry.position === undefined
+        ? lean * entry.side
+        : (entry.pull ?? 1) * (1 - Math.abs(lean - entry.position));
+    const standing =
+      entry.standing +
+      (where.local ? entry.localStanding : 0) +
+      (entry.holdsSeat ? (where.ownConditions ?? 0) : 0);
     const recognition = where.inTown
       ? entry.recognition *
         (campaignParameter("countedRecognitionWeight") +
@@ -963,6 +980,12 @@ export type RacePlace = ElectoratePlace & {
   readonly scale?: number;
   /** The change in the cost of voting its state has seen. */
   readonly readinessShift?: number;
+  /**
+   * What the party that holds the seat gains (or, below zero, loses) among the place's
+   * people for the place's own conditions, appeal units: its state's jobs against the
+   * nation's, by the town's own rule (`ownConditionsOf`, modules/voting.ts).
+   */
+  readonly ownConditions?: number;
 };
 
 /** One place's count. */
@@ -1146,6 +1169,12 @@ export function partyFieldEntries(
   return field.map((c, i) => ({
     id: c.id,
     side: c.side,
+    ...(c.position !== undefined
+      ? {
+          position: c.position,
+          ...(c.pull !== undefined ? { pull: c.pull } : {}),
+        }
+      : {}),
     isIncumbent: c.incumbent,
     // The holder's standing carries the average incumbency advantage, so each
     // voter's own incumbent lean is read against the town's average, as the
@@ -1271,6 +1300,7 @@ export function countPlaces(
             inTown: place.inTown ?? false,
             local: place.local ?? false,
             incumbentLean: voter.incumbentLean,
+            ownConditions: place.ownConditions,
             // The place's voters hold each form of a rotated ballot in turn.
             ballotForm: form,
             divides: true,
@@ -1325,4 +1355,48 @@ export function countPlaces(
     exacts.push(exact);
   }
   return { votes: totals, cast, places: results, exact: exacts };
+}
+
+/**
+ * The part of each place's result that is the place's own: how its right share moves for
+ * its own conditions alone. Each place is counted twice with no candidate standing and no
+ * national tide, once with its conditions laid to the side that holds the seat and once
+ * without; the difference is the move. A place with none, or a seat no side holds, moves
+ * by exactly nothing. The lean carries this and nothing else (`carryLeans`,
+ * place-leans.ts).
+ */
+export function ownMoves(
+  sample: readonly SampleVoter[],
+  places: readonly RacePlace[],
+  holderSide: number,
+): ReadonlyMap<string, number> {
+  const out = new Map<string, number>();
+  const moved = places.filter(
+    (place) => !place.inTown && (place.ownConditions ?? 0) !== 0,
+  );
+  if (!moved.length || !holderSide) return out;
+  const plain = (holds: boolean): CountedFieldEntry[] =>
+    [1, -1].map((side) => ({
+      id: side > 0 ? "own:right" : "own:left",
+      side,
+      isIncumbent: false,
+      standing: 0,
+      localStanding: 0,
+      recognition: 0,
+      platform: [],
+      holdsSeat: holds && side === holderSide,
+    }));
+  const share = (row: PlaceResult) => {
+    const right = row.votes["own:right"] ?? 0,
+      left = row.votes["own:left"] ?? 0;
+    return right + left > 0 ? right / (right + left) : null;
+  };
+  const felt = countPlaces(sample, moved, plain(true)).places;
+  const still = countPlaces(sample, moved, plain(false)).places;
+  moved.forEach((place, at) => {
+    const a = share(felt[at]!),
+      b = share(still[at]!);
+    if (a !== null && b !== null) out.set(place.id, a - b);
+  });
+  return out;
 }

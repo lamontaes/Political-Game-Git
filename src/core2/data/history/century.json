@@ -79,6 +79,41 @@
       "source": "How far a district's eligible voters stand from its chamber's typical (the state's eligible over its districts), as a share either side: each district's multiple is 1 + spread x (2u - 1) for its own seeded unit. Districts hold near equal people by law (Wesberry v. Sanders, 376 U.S. 1 (1964); Reynolds v. Sims, 377 U.S. 533 (1964); a state legislative plan under 10 percent total deviation is presumed valid, Brown v. Thomson, 462 U.S. 835 (1983)), but not equal citizens of voting age, who differ with age and citizenship by district. Generation of who lives where, never an outcome. Not yet sourced: the spread of citizen voting-age population across districts in the Census Bureau's CVAP special tabulation (research item history-district-size-spread).",
       "spread": [0.05, 0.3]
     },
+    "centuryFoundingFade": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How much of the founding pressure from the voters neither national party reached carries over to the next presidential cycle (pressure = last cycle's x this + this cycle's unreached share), so a gap that closes stops pushing for a new party. A strength only: no count of founded parties is a target. To be checked against how long third-party movements lasted in the twentieth century (research item history-party-founding-strengths).",
+      "spread": [0.3, 0.8]
+    },
+    "centuryFoundingCost": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The founding pressure a new party must outweigh before one is founded (stopgap SG-HIST-century-founding-cost: it stands for the election rules in force, ballot access, fusion and ranked choice, none of which the 73 policy questions carry yet). Sized once so drawn worlds differ in how many parties they found, from none to several; never a target count.",
+      "spread": [0.3, 1.2]
+    },
+    "centuryFoundedPartyPull": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How much of a voter's party appeal a party founded in the century's history holds, against 1 for the two national sides (a voter's appeal to a party at a position is 1 less their lean's distance from it, times this). A party few have taken on as their own holds less of it; at 1 a centrist party took 30% to 50% of the vote in its first elections, at 0.5 about 20% to 40%, at 0.25 about 7% to 28% (probe of 12 drawn century seeds, Nov 18, 2026). A strength only: the share it wins is what the voters' leans and the other reasons make of it, never a target. To be replaced by identity built as voters vote for it (stopgap SG-HIST-century-founded-ticket).",
+      "spread": [0.1, 0.5]
+    },
+    "centuryFoundedPartyFallCycles": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How many straight presidential races a founded party's share of the vote must fall in before its voters' loyalty is spent and it merges into the national party nearest it. A strength only: no count of merges is a target. To be checked against how long third-party tickets lasted in the twentieth century (research item history-party-founding-strengths).",
+      "spread": [2, 4]
+    },
+    "centuryPartyLeanScale": {
+      "value": 1.6,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How the mean of a party's members' seats in Congress (their districts' and states' signed leans, -1 to 1) maps onto the members' left-right scale (DW-NOMINATE's first dimension): a party's position is that mean times this. Fitted once so the 2024 map's House seats put the parties near the 119th Congress's House means (Democrats -0.386, Republicans 0.524, Voteview HS119): the seats Democrats hold average about a third of the way left of even and Republicans' about a quarter right, so the one scale that fits both is about 1.6. A strength, not a target: each world's parties stand where their own seats put them. To be sourced from Voteview's party means by Congress against the districts each party held (research item history-party-position-scale).",
+      "spread": [1.1, 2.2]
+    },
     "centuryCampaignMeansLogSpread": {
       "value": 1.0,
       "tag": "TUNABLE",

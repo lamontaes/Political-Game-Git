@@ -55,6 +55,7 @@ import {
   runningMateAsked,
   runningMatePicked,
   playerRecord,
+  debateAccept,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -180,6 +181,7 @@ import {
 import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
+  announceForOffice,
   fileForOffice,
   governmentView,
   joinPartyAs,
@@ -2230,6 +2232,24 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // The player accepts a debate's invitation; the director stages the sitting.
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/debate/accept",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        debateAccept(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("debateId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
   // When the office that takes these filings is next open (its clerk's own
   // hours); `opens` is absent while it is open now.
   {
@@ -2640,6 +2660,24 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           state.player.personId,
           url.searchParams.get("partyId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  // Announce for a race whose filing opens later (owner, Nov 17: "Run now,
+  // file on the date").
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/announce",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        announceForOffice(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("contestId") ?? "",
         ),
       );
       return;

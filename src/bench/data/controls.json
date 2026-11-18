@@ -17,10 +17,9 @@
   },
   "debate": {
     "title": "Debate invitation",
-    "answer": "Answer",
-    "for": "For",
-    "against": "Against",
-    "pass": "Pass"
+    "accept": "Accept",
+    "decline": "Decline",
+    "accepted": "Accepted"
   },
   "raceStanding": {
     "title": "Where the race stands"
@@ -986,6 +985,14 @@
     "fiscalYear": "budget year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
+    "partyAbout": "About",
+    "partyChair": "Chair",
+    "partyMembers": "Members",
+    "partyNextMeeting": "Meets",
+    "partyStandsFor": "Positions",
+    "partyFavors": "Favors",
+    "partyOpposes": "Opposes",
+    "partyNone": "None",
     "subjects": "Subjects",
     "lawDid": {
       "title": "What this did",
@@ -1077,6 +1084,9 @@
     "filingOpens": "Filing opens",
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
+    "announce": "Announce",
+    "simTo": "Sim to {date}",
+    "youAnnounced": "Announced",
     "youFiled": "You are running",
     "yourRecord": "Your record in office",
     "recordVotes": "Votes you cast",
@@ -1119,6 +1129,9 @@
   "here": {
     "label": "Here",
     "more": "and {count} more"
+  },
+  "tv": {
+    "live": "Live"
   },
   "talkBox": {
     "continue": "Continue",

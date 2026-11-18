@@ -67,6 +67,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
+import { tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -282,6 +283,43 @@ function drawTalkStrip() {
       : []),
   );
 }
+
+/**
+ * A speech heard on television (the speech's own record says its station and
+ * medium): the speaker's bust on a set over the room, with the station under
+ * their name and Live over it. Anything else clears it.
+ */
+let tvRequest = 0;
+async function drawTv(speech, name, on) {
+  const request = ++tvRequest;
+  const set = $("tv");
+  set.hidden = true;
+  set.replaceChildren();
+  if (!on || on.medium !== "television") return;
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
+  ).catch(() => undefined);
+  if (!c?.face || request !== tvRequest) return;
+  set.replaceChildren(
+    ...tvSet({
+      live: controls.tv.live,
+      speaker: { personId: speech.speakerId, name, face: c.face },
+      station: on.station,
+      onClick: (person) => showPerson({ personId: person.personId }),
+    }),
+  );
+  set.hidden = false;
+}
+
+// Each Continue clears the set before the next part draws its own, so the
+// narration after a speech is never under it (capture runs before the button's own handler).
+$("talk").addEventListener(
+  "click",
+  (event) => {
+    if (event.target.closest("#talk-next")) drawTv();
+  },
+  true,
+);
 
 /**
  * That night's news at home, as a toast top right: it fades by itself after
@@ -614,6 +652,8 @@ const amountUnit = (unit) =>
           ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
           : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
+// Engineering height of a party page's facts and positions, taken from the seats' pager.
+const PARTY_FACTS_PX = 225;
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
@@ -2337,12 +2377,21 @@ async function campaignParts() {
               words: controls.debate,
               // The day in words ("October 20, 2026"), never the record's digits.
               debate: { ...debate, date: dateWords(debate.date) },
-              questionLabel: policyLabel,
-              onAnswer: async (answers) => {
+              // Yes: the sitting goes on the record, and the director stages it.
+              onAccept: async () => {
+                await post(
+                  `/api/campaign/debate/accept?${new URLSearchParams({
+                    debateId: debate.id,
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              // No: the debate is held without the player's answers.
+              onDecline: async () => {
                 await post(
                   `/api/campaign/debate?${new URLSearchParams({
                     debateId: debate.id,
-                    answers: JSON.stringify(answers),
+                    answers: "[]",
                   })}`,
                 );
                 reopenTrail(filing.id);
@@ -2563,6 +2612,16 @@ async function showStory(momentId) {
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
+      // The address cuts away from the chamber to the country and to homes:
+      // there it is heard on a set, the speaker on it with Live over them.
+      drawTv(
+        story.speech,
+        story.names[story.speech.speakerId],
+        on ??
+          (beat && beat.kind !== "chamber" && beat.kind !== "officials"
+            ? { medium: "television" }
+            : undefined),
+      );
       fillTalk({
         lines: [
           talkLine({
@@ -2924,6 +2983,21 @@ function markLife(node) {
   node.dataset.life = "1";
   return node;
 }
+/**
+ * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
+ * story sits under the bust; when it does not fit there it moves to the card's
+ * second column, which has the room, and stays under the bust when the panel
+ * holds it either way.
+ */
+function fitLifeStory(facts) {
+  const life = facts.querySelector('[data-life="1"]');
+  if (!life || life.closest(".mx3col")) return;
+  const panel = $("person").getBoundingClientRect();
+  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
+  const columns = facts.querySelectorAll(".mx3col");
+  const target = columns[columns.length - 1];
+  if (target) target.append(life);
+}
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
@@ -2934,6 +3008,7 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
+  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
@@ -5351,7 +5426,10 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // An announcement is not a filing: the race still offers its filing in the window.
+    const filedFor = new Set(
+      v.filings.filter((f) => f.status !== "announced").map((f) => f.contestId),
+    );
     // A filing for any seat of an at-large race is a filing for the race.
     const filed = {
       has: (contestId) =>
@@ -5375,7 +5453,11 @@ const sheets = {
         ? race.filers.map((f) =>
             personCard({
               name: f.name ?? "",
-              line: f.party ?? "",
+              // One who has said they are running and files when the window
+              // opens is marked announced beside their party.
+              line: f.announced
+                ? [f.party, labels.youAnnounced].filter(Boolean).join(" · ")
+                : (f.party ?? ""),
               party: f.party,
               face: f.face,
               onOpen: () => {
@@ -5417,6 +5499,44 @@ const sheets = {
       fileButton.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
+      // Run now, file on the date (owner, Nov 17): announce for a race whose
+      // filing opens later; the campaign starts today.
+      const announceButton = makeButton({
+        className: "action primary",
+        textContent: labels.announce,
+      });
+      announceButton.dataset.testid = "announce";
+      announceButton.addEventListener("click", async () => {
+        await post(
+          `/api/announce?${new URLSearchParams({ contestId: race.contestId })}`,
+        );
+        await refresh();
+        await openSheet("campaign");
+      });
+      // A race whose filing hasn't opened runs the world to that morning, as a
+      // calendar day does (owner, Nov 17: "so I don't have to figure out the
+      // filing thing"); what needs the player on the way stops it there.
+      const opensLater =
+        !race.filingClosed &&
+        !race.filingOpen &&
+        race.filingOpens &&
+        race.filingOpens > today();
+      const simButton = makeButton({
+        textContent: labels.simTo.replace(
+          "{date}",
+          dateWords(race.filingOpens, { month: "short", year: today() }),
+        ),
+      });
+      simButton.dataset.testid = "sim-to-filing";
+      simButton.addEventListener("click", () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
+      });
+      const tray = [
+        ...(mayFile && !cannotFile ? [fileButton] : []),
+        ...(race.mayAnnounce ? [announceButton] : []),
+        ...(opensLater ? [simButton] : []),
+      ];
       return [
         rosterTitle(
           race.title,
@@ -5442,22 +5562,27 @@ const sheets = {
                   stripSection(
                     3,
                     labels.lastTime,
-                    dotRows([
-                      {
-                        label: dateWords(race.lastTime.date, {
-                          year: today(),
-                        }),
-                        value: race.lastTime.winnerId
-                          ? nameLink(race.lastTime.winner, () =>
-                              showPerson({ personId: race.lastTime.winnerId }),
-                            )
-                          : race.lastTime.winner,
-                      },
-                      {
-                        label: labels.share,
-                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
-                      },
-                    ]),
+                    dotRows(
+                      [
+                        {
+                          label: dateWords(race.lastTime.date, {
+                            year: today(),
+                          }),
+                          value: race.lastTime.winnerId
+                            ? nameLink(race.lastTime.winner, () =>
+                                showPerson({
+                                  personId: race.lastTime.winnerId,
+                                }),
+                              )
+                            : race.lastTime.winner,
+                        },
+                        {
+                          label: labels.share,
+                          value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                        },
+                      ],
+                      { oneLine: true },
+                    ),
                   ),
                 ]
               : []),
@@ -5496,10 +5621,14 @@ const sheets = {
                 },
               ]),
             ),
-            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(tray.length ? [buttonTray(...tray)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile && race.bar && labels.refusal[race.bar]
+              : !mayFile &&
+                  !race.mayAnnounce &&
+                  !race.announced &&
+                  race.bar &&
+                  labels.refusal[race.bar]
                 ? [prose(closedOfficeWords(race, labels), "record-empty")]
                 : []),
           ),
@@ -5574,20 +5703,22 @@ const sheets = {
       // its page offers no filing, so its line must not either.
       aside: filed.has(race.contestId)
         ? status(race)
-        : own && race.cannotFile?.metOn
-          ? `${labels.filingOpens} ${dateWords(
-              race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                ? race.filingOpens
-                : race.cannotFile.metOn,
-              { year: today() },
-            )}`
-          : own && race.bar === "window-not-open" && race.filingOpens
-            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-            : own && race.playerMayFile && race.filingOpen
-              ? labels.fileForIt
-              : race.filers.length
-                ? status(race)
-                : "",
+        : race.announced
+          ? labels.youAnnounced
+          : own && race.cannotFile?.metOn
+            ? `${labels.filingOpens} ${dateWords(
+                race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                  ? race.filingOpens
+                  : race.cannotFile.metOn,
+                { year: today() },
+              )}`
+            : own && race.bar === "window-not-open" && race.filingOpens
+              ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+              : own && race.playerMayFile && race.filingOpen
+                ? labels.fileForIt
+                : race.filers.length
+                  ? status(race)
+                  : "",
       data: { contest: race.contestId },
       race,
     });
@@ -6178,10 +6309,60 @@ const sheets = {
                   node.tagName === "BUTTON" && party.parties[at]?.name === name,
               )
             : [];
+      // What the party's records hold: its chair, its members here, the town's
+      // next party meeting and the questions it takes the strongest side on.
+      // What they do not hold is said so, never left blank.
+      const facts = v.partyFacts?.[name.trim().toLowerCase()];
+      const about = facts
+        ? [
+            stripSection(
+              1,
+              labels.partyAbout,
+              facts.chair
+                ? personCard({
+                    name: facts.chair.name,
+                    line: labels.partyChair,
+                    party: name,
+                    face: facts.chair.face,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({ personId: facts.chair.cardId });
+                    },
+                  })
+                : row(labels.partyChair, labels.partyNone),
+              row(labels.partyMembers, String(facts.members)),
+              facts.nextMeeting
+                ? row(labels.partyNextMeeting, dateWords(facts.nextMeeting))
+                : row(labels.partyNextMeeting, labels.partyNone),
+            ),
+            stripSection(
+              2,
+              labels.partyStandsFor,
+              // Each side's label once, on its first position; the rest sit under it.
+              ...(facts.standsFor.length
+                ? [true, false].flatMap((favors) =>
+                    facts.standsFor
+                      .filter((s) => !!s.favors === favors)
+                      .map((s, at) =>
+                        row(
+                          at
+                            ? ""
+                            : favors
+                              ? labels.partyFavors
+                              : labels.partyOpposes,
+                          policyLabel(s.question),
+                        ),
+                      ),
+                  )
+                : [row(labels.partyStandsFor, labels.partyNone)]),
+            ),
+          ]
+        : [];
       return [
         rosterTitle(name),
+        ...about,
         stripSection(
-          1,
+          3,
           labels.inOffice,
           seats.length
             ? pager({
@@ -6199,7 +6380,12 @@ const sheets = {
                   }),
                 rows: Math.max(
                   1,
-                  Math.min(5, Math.floor((viewHeight() - 420) / 72)),
+                  Math.min(
+                    5,
+                    Math.floor(
+                      (viewHeight() - 420 - (facts ? PARTY_FACTS_PX : 0)) / 72,
+                    ),
+                  ),
                 ),
                 columns: 2,
                 rowHeight: 64,
@@ -6208,7 +6394,7 @@ const sheets = {
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
         ...(meNodes.length
-          ? [stripSection(2, controls.party.me, ...meNodes)]
+          ? [stripSection(4, controls.party.me, ...meNodes)]
           : []),
       ];
     };

@@ -35,12 +35,19 @@ import {
 import {
   centuryLegislatures,
   centuryOf,
+  partyKeyIssues,
   centuryPresidency,
   centuryRace,
   centurySeatRace,
   historyMode,
+  PARTIES_MODULE_ID,
+  statePlaces,
+  stateRightShare,
+  type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
+import { openingRentals } from "../../core2/modules/housing";
+import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
   drawStage,
@@ -317,6 +324,158 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             return `${mine || "not counted by the century (its members are not elected on the two national sides)"}; across the country the Republicans hold ${control.r} chambers and the Democrats ${control.d}, elected seat by seat through the century`;
           })()
         : "today's real roster (the world chose it)",
+    ),
+    row(
+      "town.stateLean",
+      "Your state on day one",
+      (() => {
+        // The state as play's counts read it: its counted places' vote-weighted lean.
+        const town = coreAPI(core)
+          .moduleState("core2-offices-v1")
+          .table("loaded")
+          .get("town") as unknown as { stateKey: string } | undefined;
+        const usps = town?.stateKey.slice(3) ?? "";
+        const share = stateRightShare(usps, core.seed);
+        const places = statePlaces(usps, core.seed);
+        return share === null
+          ? "no counted places"
+          : `${pct(share)} Republican across its ${places.length} counted places (${historyMode(core.seed) === "century" ? "the century's last count in the state" : "its 2024 presidential vote and this world's swing"})`;
+      })(),
+    ),
+    row(
+      "town.rentalVacancy",
+      "Your town's empty rentals on day one",
+      (() => {
+        // The town's own past: the leases its renters signed in the last year,
+        // each leaving a unit empty between tenants (housing-past.ts openingVacancy).
+        const town = core.placeMetadata?.housingTown;
+        const api = coreAPI(core);
+        const rentals = town ? openingRentals(api, town) : undefined;
+        if (!rentals) return "no rental homes here";
+        return `${Math.round(rentals.vacant)} of ${Math.round(rentals.units)} rentals empty (${pct(rentals.vacant / Math.max(1, rentals.units))}), from the ${Math.round(rentals.signed)} leases its ${Math.round(rentals.renters)} renting households signed in the last year, each leaving a home empty about ${api.parameter("rentalVacantMonths")} months`;
+      })(),
+    ),
+    row(
+      "town.districtLeans",
+      "Where the town's districts lean on day one",
+      (() => {
+        // Each district seat covering the town, at the lean its official reads (officials.ts seatLean).
+        const api = coreAPI(core);
+        const bySeat = new Map(allOfficials(api).map((o) => [o.seatId, o]));
+        const lines = townSeats(api)
+          .filter(
+            (s) =>
+              s.office.kind === "us-house" ||
+              s.office.kind.startsWith("legislature-"),
+          )
+          .map((s) => bySeat.get(s.seat.id))
+          .filter((o): o is NonNullable<typeof o> => o !== undefined)
+          .map(
+            (o) =>
+              `${o.body}${o.district === null ? "" : ` district ${o.district}`}: ${pct((o.districtLean + 1) / 2)} Republican (${o.leanSource})`,
+          );
+        return lines.length
+          ? lines.join("; ")
+          : "no district seat covers the town";
+      })(),
+    ),
+    row(
+      "town.partyTies",
+      "The town's party ties on day one",
+      (() => {
+        // Every adult's tie, as the parties engine keeps it (parties.ts openParties).
+        const api = coreAPI(core);
+        if (!core.modules.has(PARTIES_MODULE_ID)) return "no parties here";
+        const names = new Map(
+          (
+            api
+              .moduleState(PARTIES_MODULE_ID)
+              .table("parties")
+              .rows() as unknown as {
+              id: string;
+              name: string;
+            }[]
+          ).map((row) => [row.id, row.name]),
+        );
+        const ties = (
+          api
+            .moduleState(PARTIES_MODULE_ID)
+            .table("ties")
+            .rows() as unknown as TieRow[]
+        ).filter((t) => t.personId !== core.playerId);
+        if (!ties.length) return "no adult ties yet";
+        const counts = new Map<string, number>();
+        for (const t of ties) {
+          const label =
+            t.tie === "party"
+              ? (names.get(t.partyId ?? "") ?? "a party")
+              : t.tie === "independent"
+                ? "independent"
+                : "no party";
+          counts.set(label, (counts.get(label) ?? 0) + 1);
+        }
+        return [...counts]
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+          .map(([label, n]) => `${label} ${pct(n / ties.length)}`)
+          .join(", ");
+      })(),
+    ),
+    row(
+      "town.parties",
+      "The parties",
+      historyMode(core.seed) === "century"
+        ? century.parties
+            .map((party) => {
+              const first = party.positions[0]?.position ?? 0;
+              const now = party.positions.at(-1)?.position ?? first;
+              const other =
+                century.parties
+                  .find((p) => p.side !== party.side)
+                  ?.positions.at(-1)?.position ?? 0;
+              const issues = partyKeyIssues(now, other, 3)
+                .map(
+                  (i) =>
+                    `${i.supports ? "for" : "against"} ${i.question.split(".").at(-1)}`,
+                )
+                .join(", ");
+              const won = century.presidencies
+                .filter((p) => p.winnerSide === party.side)
+                .map((p) => p.year);
+              // Its members of Congress as seated (officials-roster.ts drawOfficial).
+              const members = allOfficials(coreAPI(core)).filter(
+                (o) =>
+                  (o.bodyKind === "us-house" || o.bodyKind === "us-senate") &&
+                  !o.independent &&
+                  partySide(o.party) === party.side,
+              );
+              const seated = members.length
+                ? `; its ${members.length} members of Congress stand at ${(members.reduce((a, o) => a + o.ideal, 0) / members.length).toFixed(2)} on average`
+                : "";
+              return `${party.name} (${party.id}): ${party.founded ?? "before 1925"}; stands at ${now.toFixed(2)} (${first.toFixed(2)} in ${party.positions[0]?.year ?? ""})${seated}; ${issues}; won the presidency ${won.length} times${won.length ? ` (last ${won.at(-1)})` : ""}`;
+            })
+            .join("; ")
+        : "today's real parties (the world chose it)",
+    ),
+    row(
+      "town.foundedParties",
+      "Parties founded in the century",
+      historyMode(core.seed) === "century"
+        ? century.foundings.length
+          ? century.foundings
+              .map(
+                (f) =>
+                  `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}${(() => {
+                    const last = century.presidencies
+                      .filter((p) => p.foundedParty?.id === f.id)
+                      .at(-1);
+                    return last
+                      ? `; it stood in ${century.presidencies.filter((p) => p.foundedParty?.id === f.id).length} presidential races and took ${pct(last.foundedParty!.share)} of every vote in ${last.year}${f.endedYear ? `; its share fell in each of the last races, so it merged into ${f.mergedInto} in ${f.endedYear}` : ""}`
+                      : "; it has not yet stood in a presidential race";
+                  })()}`,
+              )
+              .join("; ")
+          : "none: the century's parties kept their voters close enough that no pressure outweighed the cost of a new one"
+        : "none (today's real parties)",
     ),
     row(
       "town.congresses",

@@ -17,6 +17,7 @@ import type { CoreAPI, CoreState } from "./types";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, registerModule } from "./state";
+import { setHistoryMode } from "./electorate-century";
 import {
   bribePull,
   considerBribe,
@@ -131,6 +132,8 @@ function town(
     core: ReturnType<typeof createLifeCore>;
     api: ReturnType<typeof coreAPI>;
   }) => boolean,
+  /** The world setting "just like today": the state's real starting law (CTO line 6943316647). */
+  today = false,
 ) {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const state = pick(states, `${salt}:${attempt}`);
@@ -149,6 +152,7 @@ function town(
         minimumPeople: 250,
       }),
     );
+    if (today) setHistoryMode(core.seed, "today", START);
     openLaws(core);
     openOffices(core, seed, core.date);
     openElections(core);
@@ -1065,12 +1069,13 @@ describe(
       }
     });
 
-    it("the player casts their own vote and, as mayor, decides to sign or veto (audit 3)", () => {
+    it("the player casts their own vote and, as mayor, decides to sign or veto (audit 3) (just like today: needs the state's real law letting towns set a wage)", () => {
       const states = Object.keys(authority).sort();
       const { core, api, council } = town(
         states,
         "player",
         withProvisionAndMayor,
+        true,
       );
       const player = council[0]!.holder!.personId!;
       (core as unknown as { playerId: string }).playerId = player;

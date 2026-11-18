@@ -423,6 +423,37 @@ ol {
 .bust-strip .busts-person.quiet .busts-name {
   color: var(--muted);
 }
+/* A speech on television: the speaker's bust on a set, top right over the room, gone with the talk. */
+#tv {
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter);
+  z-index: 3;
+  padding: 10px 14px 0;
+  background: rgba(24, 22, 20, 0.78);
+  border: 2px solid var(--gold);
+  border-radius: var(--control-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+#tv .bust-strip {
+  --bust: 120px;
+}
+#tv .busts-glass {
+  display: none;
+}
+#tv .tv-live {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font: var(--group-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+#game:has(#talk[hidden]) #tv,
+#game:has(#person:not([hidden])) #tv {
+  display: none;
+}
 /* Who is here: along the foot of the room, clear of the player card. */
 #here {
   position: absolute;
@@ -1571,8 +1602,8 @@ input[type="range"]::-moz-range-thumb {
   gap: 4px;
 }
 .pick-picture {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
   border-radius: var(--control-radius);
@@ -4785,6 +4816,11 @@ select.release-pick {
   border-bottom: 2px dotted rgba(226, 191, 110, 0.4);
   transform: translateY(-4px);
 }
+/* A date and a name on one row never break ("November 2, / 2021", "Reese / Warner"). */
+.strip-screen .dotrows.one-line .dotlabel,
+.strip-screen .dotrows.one-line .dotvalue {
+  white-space: nowrap;
+}
 .strip-screen .dotvalue {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
@@ -5503,11 +5539,11 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
-/* The side column is wide enough for a date and a name on one row
-   ("November 2, 2021 ... Holly Robles"), which wrapped to four lines. */
+/* The side column takes the width its longest line needs, up to 440px, so a date and a name sit
+   on one row ("November 2, 2021 ... Holly Robles") and never wrap or clip. */
 .roster-cols {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) fit-content(440px);
   gap: 18px;
   align-items: start;
 }

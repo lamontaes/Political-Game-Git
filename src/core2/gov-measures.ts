@@ -48,6 +48,8 @@ import {
 } from "./modules/budgets";
 import { townShare } from "./law-reach/group-b-money";
 import { parameter } from "./parameters";
+import { treasuryParameter } from "./budgets-treasury";
+import { countryOpened, countryStates } from "./modules/macro";
 
 export { GOV_MEASURES };
 
@@ -387,14 +389,24 @@ export function defenseBoostPct(
   };
 }
 
-/** What the nation produces in a year, in cents: each state's fiscal 2024 output per resident times its residents (BEA SAGDP1 2024; USAspending's population). */
-const NATIONAL_GDP_MINOR = Math.round(
-  Object.values(
-    defenseContracts.places as unknown as Readonly<
-      Record<string, { population2024: number; gdpPerResident: number }>
-    >,
-  ).reduce((sum, p) => sum + p.population2024 * p.gdpPerResident, 0) * 100,
-);
+/**
+ * What the nation produces in a year, in cents: the country tier's own economy, twelve months of
+ * what every state's sectors added (the tier's sales are dollars a month; value added is a sector's
+ * sales less what it buys from other firms, by the tier's own books). Null before the tier has
+ * stepped its first month, and where the world has no economy.
+ */
+function nationalOutputMinor(api: CoreAPI): number | null {
+  if (!countryOpened(api)) return null;
+  const months = treasuryParameter("monthsPerYear");
+  const inputShare = api.parameter("countryInputShare");
+  let added = 0;
+  for (const state of countryStates(api))
+    for (const row of state.sectors) {
+      const wageBill = (row.jobs * row.pay) / months;
+      added += row.sales - Math.max(0, row.sales - wageBill) * inputShare;
+    }
+  return added > 0 ? added * months * parameter("minorPerDollar") : null;
+}
 
 /**
  * How far the federal deficit stands from its base, as percentage points of
@@ -430,10 +442,10 @@ export function federalDeficitChangePct(
   );
   const deficit = (row: typeof budget) =>
     total(row.spendingMinor) - total(row.revenueMinor);
+  const output = nationalOutputMinor(api);
+  if (output === null) return null;
   return {
-    value:
-      ((deficit(budget) - (baseSpending - baseRevenue)) / NATIONAL_GDP_MINOR) *
-      100,
+    value: ((deficit(budget) - (baseSpending - baseRevenue)) / output) * 100,
     recordId: budget.id,
   };
 }
