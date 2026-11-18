@@ -2100,5 +2100,29 @@
     "addedAt": "2026-11-17",
     "replacement": "The nation tier's press reaches counted places: a state's jobs figures count in a place's vote only where a recorded story carried them to its readers.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-island-area-municipalities-unread",
+    "kind": "missing-data",
+    "file": "src/core2/reference/government-units.ts",
+    "line": 183,
+    "whatItFakes": "Of the Island Areas' local governments only Guam's 19 villages are read (src/core2/data/reference/island-area-governments.json). The Northern Mariana Islands' four municipalities (Saipan, Tinian and Aguiguan, Rota, the Northern Islands), each electing a Mayor of 25 or older and a three-member Municipal Council of 21 or older at large (Commonwealth Constitution Art. VI secs. 2 and 6), have no row, so a Northern Marianas place has no local office and no local race. American Samoa and the U.S. Virgin Islands elect no municipal government, so they need none.",
+    "why": "The game's 66 Northern Marianas places carry no link to the municipality each lies in (the place-to-county files hold none for the Island Areas), and a government row needs the places it governs.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-18",
+    "replacement": "A row for each Northern Marianas municipality listing the Census places it governs (from the Census Bureau's 2020 Island Areas geography), its reading (mayor and council) in src/core2/gov-rules/municipal-governments.json, its election timing and its filing research row.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-island-vice-mayors-unseated",
+    "kind": "missing-data",
+    "file": "src/core2/offices-local.ts",
+    "line": 258,
+    "whatItFakes": "Six Guam villages (Hagat, Barrigada, Mangilao, Tamuning, Dededo, Yigo) also elect a Vice Mayor (5 GCA sec. 40101), and no village has that office: only the Mayor is seated and raced. A mayor's vacancy goes by the default rule (appointment by the governing body), though where a Vice Mayor serves the Vice Mayor takes the office (5 GCA sec. 40110(b)).",
+    "why": "The town office reader seats a council and a chief executive only; a second elected executive office has no reader yet.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-18",
+    "replacement": "A vice-mayor office read from the village's reading in src/core2/gov-rules/municipal-governments.json, raced on the mayor's calendar, and the successor rule of 5 GCA sec. 40110(b) on the mayor's vacancy.",
+    "status": "open"
   }
 ]

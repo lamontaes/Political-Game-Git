@@ -2512,6 +2512,424 @@
         "mayor": null,
         "terms": []
       }
+    },
+    {
+      "key": "us-gu-agana-heights",
+      "placeGeoid": "6601004650",
+      "publisherId": "island:GU:agana-heights",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-agat",
+      "placeGeoid": "6601007250",
+      "publisherId": "island:GU:agat",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-asan-maina",
+      "placeGeoid": "6601013100",
+      "publisherId": "island:GU:asan-maina",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-barrigada",
+      "placeGeoid": "6601017650",
+      "publisherId": "island:GU:barrigada",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-chalan-pago-ordot",
+      "placeGeoid": "6601026100",
+      "publisherId": "island:GU:chalan-pago-ordot",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-dededo",
+      "placeGeoid": "6601028050",
+      "publisherId": "island:GU:dededo",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-hagatna",
+      "placeGeoid": "6601034800",
+      "publisherId": "island:GU:hagatna",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-inarajan",
+      "placeGeoid": "6601036500",
+      "publisherId": "island:GU:inarajan",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-mangilao",
+      "placeGeoid": "6601046250",
+      "publisherId": "island:GU:mangilao",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-merizo",
+      "placeGeoid": "6601050150",
+      "publisherId": "island:GU:merizo",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-mongmong-toto-maite",
+      "placeGeoid": "6601051450",
+      "publisherId": "island:GU:mongmong-toto-maite",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-piti",
+      "placeGeoid": "6601059250",
+      "publisherId": "island:GU:piti",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-santa-rita",
+      "placeGeoid": "6601062500",
+      "publisherId": "island:GU:santa-rita",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-sinajana",
+      "placeGeoid": "6601065750",
+      "publisherId": "island:GU:sinajana",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-talofofo",
+      "placeGeoid": "6601069650",
+      "publisherId": "island:GU:talofofo",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-tamuning",
+      "placeGeoid": "6601071600",
+      "publisherId": "island:GU:tamuning",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-umatac",
+      "placeGeoid": "6601078750",
+      "publisherId": "island:GU:umatac",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-yigo",
+      "placeGeoid": "6601083300",
+      "publisherId": "island:GU:yigo",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-gu-yona",
+      "placeGeoid": "6601084600",
+      "publisherId": "island:GU:yona",
+      "reading": {
+        "form": "OTHER",
+        "bodyName": null,
+        "bodySize": 0,
+        "composition": null,
+        "executiveSelection": "popularly elected by the voters of the municipality (5 GCA sec. 40103); no municipal council (5 GCA sec. 40101)",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
     }
   ]
 }

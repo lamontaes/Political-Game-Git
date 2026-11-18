@@ -5519,11 +5519,18 @@ const sheets = {
       // A race whose filing hasn't opened runs the world to that morning, as a
       // calendar day does (owner, Nov 17: "so I don't have to figure out the
       // filing thing"); what needs the player on the way stops it there.
+      // Not for a player who is old enough only after this race's filing
+      // closes: the morning it opens, they still could not file.
       const opensLater =
         !race.filingClosed &&
         !race.filingOpen &&
         race.filingOpens &&
-        race.filingOpens > today();
+        race.filingOpens > today() &&
+        !(
+          race.filingDeadline &&
+          race.cannotFile?.rule === "minimum-age" &&
+          race.cannotFile.metOn > race.filingDeadline
+        );
       const simButton = makeButton({
         textContent: labels.simTo.replace(
           "{date}",
@@ -5691,6 +5698,13 @@ const sheets = {
     // A race of an office the player runs for (the clerk's own answer: it is
     // not "not-your-office") is theirs; the rest are the town's and county's.
     const mine = ballot.races.filter((race) => race.bar !== "not-your-office");
+    // The player turns old enough only after this race's filing closes.
+    const tooYoungFor = (race) =>
+      Boolean(
+        race.filingDeadline &&
+        race.cannotFile?.rule === "minimum-age" &&
+        race.cannotFile.metOn > race.filingDeadline,
+      );
     const entryOf = (race, own) => ({
       key: race.contestId,
       label:
@@ -5703,20 +5717,26 @@ const sheets = {
         ? status(race)
         : race.announced
           ? labels.youAnnounced
-          : own && race.cannotFile?.metOn
-            ? `${labels.filingOpens} ${dateWords(
-                race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                  ? race.filingOpens
-                  : race.cannotFile.metOn,
-                { year: today() },
-              )}`
-            : own && race.bar === "window-not-open" && race.filingOpens
-              ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-              : own && race.playerMayFile && race.filingOpen
-                ? labels.fileForIt
-                : race.filers.length
-                  ? status(race)
-                  : "",
+          : // Old enough only after this race's filing closes: filing never
+            // opens for them in this race, so its line names no filing day.
+            own && race.cannotFile?.metOn && tooYoungFor(race)
+            ? race.filers.length
+              ? status(race)
+              : ""
+            : own && race.cannotFile?.metOn
+              ? `${labels.filingOpens} ${dateWords(
+                  race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                    ? race.filingOpens
+                    : race.cannotFile.metOn,
+                  { year: today() },
+                )}`
+              : own && race.bar === "window-not-open" && race.filingOpens
+                ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+                : own && race.playerMayFile && race.filingOpen
+                  ? labels.fileForIt
+                  : race.filers.length
+                    ? status(race)
+                    : "",
       data: { contest: race.contestId },
       race,
     });

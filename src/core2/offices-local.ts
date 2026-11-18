@@ -226,8 +226,11 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
     STATE_LEVEL_GOVERNMENTS.has(body.researchedGovernmentKey)
   )
     return [];
-  const method = body?.seats ? councilElectionMethod(unit) : null;
-  if (body?.seats)
+  // A government whose law gives it no council (a Guam village: a mayor
+  // alone) reads zero seats and seats none.
+  const seats = body?.seats?.value ? body.seats : null;
+  const method = seats ? councilElectionMethod(unit) : null;
+  if (body && seats)
     offices.push({
       id: `office:${unit.id}:council`,
       level: "city",
@@ -236,7 +239,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       bodyName: municipalBodyName(unit),
       kind: "council",
       title: "Council member",
-      seats: body.seats.value,
+      seats: seats.value,
       termYears: body.termYears?.value ?? null,
       elected: true,
       districted: (method?.wardSeats ?? 0) > 0,
@@ -250,8 +253,9 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       source: body.researchedGovernmentKey
         ? `Municipal reading ${body.researchedGovernmentKey}`
         : "ICMA municipal form of government survey: the national typical council size and term",
-      estimate: body.seats.basis !== "read",
+      estimate: seats.basis !== "read",
     });
+  // stopgapId: SG-GOV-island-vice-mayors-unseated
   const chief = localChiefExecutiveRules(unit);
   if (chief)
     offices.push({

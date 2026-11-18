@@ -1,0 +1,144 @@
+{
+  "about": "Local governments of the Island Areas, which the Census Bureau's 2025 Government Units listing does not carry (it covers the 50 states and D.C.; Puerto Rico's municipios are read from the county corpus). Each territory names the law its governments follow and when that law holds their regular elections; each government row names the Census place it governs. Read by src/core2/reference/government-units.ts (identity) and src/core2/gov-rules/municipal-ballot-rules.ts (timing); the government's offices come from its reading in src/core2/gov-rules/municipal-governments.json, as for every other town.",
+  "territories": {
+    "GU": {
+      "electionTiming": "quadrennial-november-general",
+      "source": "5 GCA Chapter 40 (Mayors of Guam): sec. 40101 (a Mayor for each of the 19 municipalities and villages; Vice Mayors in Hagat, Barrigada, Mangilao, Tamuning, Dededo and Yigo), sec. 40103 (chosen by popular vote of the area each represents), sec. 40104 (elected at the regular general election every fourth year from November 1952, for four years), sec. 40108 (U.S. citizens of 21 or older, registered and resident in the municipality one year before the election), sec. 40111(a) (term begins the first Monday in January after the election). https://statecodesfiles.justia.com/guam/2024/title-5/division-4/chapter-40/chapter-40.pdf, read 2026-11-18. Last held November 5, 2024 (https://en.wikipedia.org/wiki/2024_Guamanian_local_elections)."
+    }
+  },
+  "governments": [
+    {
+      "id": "island:GU:agana-heights",
+      "name": "Agana Heights",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601004650"
+    },
+    {
+      "id": "island:GU:agat",
+      "name": "Agat",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601007250"
+    },
+    {
+      "id": "island:GU:asan-maina",
+      "name": "Asan-Maina",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601013100"
+    },
+    {
+      "id": "island:GU:barrigada",
+      "name": "Barrigada",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601017650"
+    },
+    {
+      "id": "island:GU:chalan-pago-ordot",
+      "name": "Chalan Pago-Ordot",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601026100"
+    },
+    {
+      "id": "island:GU:dededo",
+      "name": "Dededo",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601028050"
+    },
+    {
+      "id": "island:GU:hagatna",
+      "name": "Hagåtña",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601034800"
+    },
+    {
+      "id": "island:GU:inarajan",
+      "name": "Inarajan",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601036500"
+    },
+    {
+      "id": "island:GU:mangilao",
+      "name": "Mangilao",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601046250"
+    },
+    {
+      "id": "island:GU:merizo",
+      "name": "Merizo",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601050150"
+    },
+    {
+      "id": "island:GU:mongmong-toto-maite",
+      "name": "Mongmong-Toto-Maite",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601051450"
+    },
+    {
+      "id": "island:GU:piti",
+      "name": "Piti",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601059250"
+    },
+    {
+      "id": "island:GU:santa-rita",
+      "name": "Santa Rita",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601062500"
+    },
+    {
+      "id": "island:GU:sinajana",
+      "name": "Sinajana",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601065750"
+    },
+    {
+      "id": "island:GU:talofofo",
+      "name": "Talofofo",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601069650"
+    },
+    {
+      "id": "island:GU:tamuning",
+      "name": "Tamuning",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601071600"
+    },
+    {
+      "id": "island:GU:umatac",
+      "name": "Umatac",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601078750"
+    },
+    {
+      "id": "island:GU:yigo",
+      "name": "Yigo",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601083300"
+    },
+    {
+      "id": "island:GU:yona",
+      "name": "Yona",
+      "unitType": "municipality",
+      "stateUsps": "GU",
+      "placeGeoid": "6601084600"
+    }
+  ]
+}
