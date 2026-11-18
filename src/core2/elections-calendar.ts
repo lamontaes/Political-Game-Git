@@ -404,7 +404,10 @@ function municipal(
     const own = municipalFilingDeadline(stateKey, electionDate);
     const filingDeadline =
       own?.date ?? addDays(makeIsoDate(electionDate), -FILING_LEAD_DAYS);
-    if (filingDeadline < onDate) continue;
+    // A race whose filing has closed still happens: those who filed run, and
+    // the player is past its deadline, as on the state calendar. Skipping it
+    // put a four-year office two years off its cycle at the opening.
+    if (electionDate <= onDate) continue;
     return {
       electionDate,
       primaryDate: null,
@@ -509,8 +512,8 @@ export function electionInYear(input: {
 }
 
 /**
- * The next regular election for one office's seat, on or after `onDate` with
- * its filing still open where possible. A seat whose term ends is on the last
+ * The next regular election for one office's seat, after `onDate`, whether or
+ * not its filing has closed. A seat whose term ends is on the last
  * election its office's calendar holds before that end, so the winner is
  * chosen before the term runs out; with none left, the calendar's next one.
  */
