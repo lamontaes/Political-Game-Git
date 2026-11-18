@@ -5945,6 +5945,19 @@
       "citation": "Weights 1.0 to 1.4 give odds ratios of 1.29 to 1.40 between the thirds in the same calls; the study's interval for conscientiousness is -6.0 to -0.7 points."
     }
   },
+  "traitWeightCandidacyAnnounce": {
+    "role": "coefficient",
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "How strongly temperament moves a runner who has decided to run to say so before filing opens rather than wait for the counter. Read at the strength fitted for the decision to run (traitWeightCandidacyRun), the same people's same disposition one step later: those who speak out and take risks say so early. Checked against the spread of that fit.",
+    "spread": {
+      "low": 0.11,
+      "high": 0.23,
+      "unit": "weight",
+      "citation": "traitWeightCandidacyRun's spread across its fitted places."
+    },
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "traitWeightCandidacyRun": {
     "value": 0.2,
     "tag": "ESTIMATED",

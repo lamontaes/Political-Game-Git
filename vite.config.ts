@@ -111,7 +111,12 @@ export default defineConfig({
       // tests-campaign-platform-played-calibration-is-slow).
       ...(process.env.OCD_CALIBRATION
         ? []
-        : ["src/core2/campaign-platform-played.test.ts"]),
+        : [
+            "src/core2/campaign-platform-played.test.ts",
+            // The rival's own campaign turn in a race's last four weeks plays
+            // about 240 days of a world a draw (CTO, Nov 17, 21:53Z).
+            "src/core2/record-rival-turn.test.ts",
+          ]),
     ],
   },
 });
