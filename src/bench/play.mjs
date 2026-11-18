@@ -7398,21 +7398,6 @@ async function listTowns() {
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
-// Random place: the world's own draw of a state and town from all 56, then
-// on to the look, as picking the town does (owner, Oct 28: "Add a Random
-// button to picking where you live").
-$("cr-place-random").addEventListener("click", async () => {
-  setup.placeDraws++;
-  const { state, town } = await api(
-    `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
-  );
-  setup.state = state;
-  setup.town = town;
-  $("cr-state-name").textContent = state.name;
-  showPlaceName();
-  filledIn();
-  await showStates();
-});
 
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
