@@ -1572,6 +1572,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the office-hours scene (a resident's case brought to the official) to compose; no narration for it can be worded since the cut."
+    },
+    {
+      "old": "src/director/office-hours-reply-case.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed an office-hours reply to be played so the cases engine could settle the resident's case; the scene has no narration since the cut, so no reply is played (and one drawn place had no resident bring a problem in 45 days)."
     }
   ]
 }

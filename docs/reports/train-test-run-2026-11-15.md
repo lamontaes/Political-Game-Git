@@ -54,7 +54,7 @@ Each of these names its place and seed in its own failure line.
 
 - `src/director/conversation-said.test.ts`: Olla, Louisiana.
 - `src/director/home-talk-own-race-only.test.ts`: Sherrodsville.
-- `src/director/office-hours-reply-case.test.ts` (3 tests): Taylors, South Carolina; Kandiyohi, Minnesota; Donnelly, Idaho. The case's reply id is missing.
+- `src/director/office-hours-reply-case.test.ts` (removed) (3 tests): Taylors, South Carolina; Kandiyohi, Minnesota; Donnelly, Idaho. The case's reply id is missing.
 - `src/core2/staff-hire-employed.test.ts`: Agugulu, American Samoa.
 - `src/director/concession-reported.test.ts` (removed) (2 tests): North Westminster, Vermont. The race named no winner.
 - `src/director/political-asks.test.ts` (2 tests): Adams, Massachusetts, no accusation scene; Rainelle, West Virginia, no advice scene.
