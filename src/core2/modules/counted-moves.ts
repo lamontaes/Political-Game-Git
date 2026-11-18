@@ -1813,7 +1813,10 @@ function admitToRooms(
           fromPlace: "waiting-list",
           toPlace: template.placeId,
           people: size,
-          reasons: {},
+          // An institution's intake fills a room from its waiting list on
+          // its own months, the way its calendar lets residents go: that is
+          // its cause, never a household's rate of leaving.
+          reasons: { "the institution's waiting list": 1 },
         } as unknown as ModuleRow);
     }
   }
