@@ -741,15 +741,16 @@ function* benchWorldStages(
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
-        withWorldEconomy(
-          collapseToTwoLevels(
-            withOrigins(
-              withRoles(withYearsInPlace(countySample?.input ?? economy)),
+        // Years in place once the housing opening has drawn each home's tenure.
+        withYearsInPlace(
+          withWorldEconomy(
+            collapseToTwoLevels(
+              withOrigins(withRoles(countySample?.input ?? economy)),
+              {
+                keep: kept,
+                ...(Object.keys(weights).length ? { weights } : {}),
+              },
             ),
-            {
-              keep: kept,
-              ...(Object.keys(weights).length ? { weights } : {}),
-            },
           ),
         ),
       ),

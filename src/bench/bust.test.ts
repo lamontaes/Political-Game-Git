@@ -1,7 +1,8 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   bustChoices,
+  bustFits,
   bustFor,
   bustOfLook,
   bustPath,
@@ -30,7 +31,9 @@ describe("the bust bank", () => {
       expect(a, person.id).not.toBeNull();
       expect(a).toEqual(b);
       // Head first, hair last, a top between.
-      expect(a!.layers[0]).toMatch(/\/head-(light|medium|dark)-adult\.png$/);
+      expect(a!.layers[0]).toMatch(
+        /\/head-(\w+-)?(fair|light|olive|medium|brown|dark)-adult\.png$/,
+      );
       expect(a!.layers[1]).toMatch(/\/top-/);
       expect(a!.layers.at(-1)).toMatch(/\/hair-/);
       expect(a!.size).toBeGreaterThan(0);
@@ -47,7 +50,7 @@ describe("the bust bank", () => {
         sex,
       ).toEqual(alike.map((_, i) => i));
       const heads = alike.map((p) => bustFor(p, "work", 0)!.layers[0]);
-      expect(heads[0], sex).toMatch(/head-light-adult\.png$/);
+      expect(heads[0], sex).toMatch(/head-fair-adult\.png$/);
       expect(heads.at(-1), sex).toMatch(/head-dark-adult\.png$/);
     }
     expect(bustFor({ id: "nobody" }, "work", 0)).toBeNull();
@@ -57,19 +60,20 @@ describe("the bust bank", () => {
   // early-access.md), a saved look names one of its people: the bank's people
   // carry the same ids, in the same order, lightest skin the same way.
   it("holds the same people as the full-body pack while both exist", () => {
-    expect(bustPeople().map((p) => [p.id, p.sex])).toEqual(
-      packPeople().map((p) => [p.id, p.sex]),
-    );
+    // The bank paints three more shades than the pack: its first people are the pack's.
+    expect(
+      bustPeople()
+        .slice(0, packPeople().length)
+        .map((p) => [p.id, p.sex]),
+    ).toEqual(packPeople().map((p) => [p.id, p.sex]));
     const luminance = ([r, g, b]: readonly number[]) =>
       0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
     for (const sex of new Set(packPeople().map((p) => p.sex))) {
       const painted = packPeople()
         .filter((p) => p.sex === sex)
         .sort((a, b) => luminance(b.skin) - luminance(a.skin));
-      expect(
-        painted.map((p) => bustPerson(p.id)!.tone),
-        sex,
-      ).toEqual(painted.map((_, i) => i));
+      const tones = painted.map((p) => bustPerson(p.id)!.tone);
+      expect(tones, sex).toEqual([...tones].sort((a, b) => a - b));
     }
   });
 
@@ -276,5 +280,143 @@ describe("the bust bank", () => {
     );
     // Six hairstyles, at least two colors and two everyday tops.
     expect(looks.size).toBeGreaterThanOrEqual(20);
+  });
+
+  // Nov 17 additions: the CTO's four head shapes per sex, three more shades,
+  // more hairstyles and eight more tops (#10070). The art checks flag a few
+  // pairs of a head and a hair or facial hair piece (`doNotCombine`); the
+  // game never draws them.
+  describe("head shapes, shades and the flagged pairs", () => {
+    const manifest = JSON.parse(
+      readFileSync(
+        new URL("../../art/busts/v1/manifest.json", import.meta.url),
+        "utf8",
+      ),
+    ) as {
+      sets: Record<
+        string,
+        {
+          dir: string;
+          shapes: string[];
+          doNotCombine: { piece: string; head: string }[];
+        }
+      >;
+    };
+    const flagged = (sex: string) =>
+      new Set(
+        manifest.sets[sex]!.doNotCombine.map(
+          (row) => `${row.head}|${row.piece}`,
+        ),
+      );
+    const fileOf = (url: string) => url.slice(url.lastIndexOf("/") + 1);
+    const wears = (sex: string, layers: readonly string[]) => {
+      const head = fileOf(layers[0]!);
+      return layers
+        .slice(1)
+        .map(fileOf)
+        .filter((file) => flagged(sex).has(`${head}|${file}`));
+    };
+
+    it("paints five head shapes and six shades per sex, and every combination is on disk", () => {
+      for (const person of bustPeople()) {
+        const shapes = bustChoices(person).shape.map((row) => row.key);
+        expect(shapes, person.id).toHaveLength(5);
+        expect(shapes[0]).toBe("standard");
+        expect(person.tones).toBe(6);
+      }
+      expect(bustPeople().filter((p) => p.sex === "man")).toHaveLength(6);
+    });
+
+    it("draws a head of each shape, in the person's own shade", () => {
+      for (const person of bustPeople()) {
+        const heads = new Set<string>();
+        for (let pick = 0; pick < 200; pick++)
+          for (const older of [false, true])
+            heads.add(
+              fileOf(
+                bustFor(person, "everyday", pick, true, older)!.layers[0]!,
+              ),
+            );
+        // Five shapes, an adult head and an older one each.
+        expect(heads.size, person.id).toBe(10);
+        for (const head of heads)
+          expect(head).toContain(`-${person.toneName}-`);
+      }
+    });
+
+    it("never draws a flagged pair on anyone, at any age", () => {
+      for (const person of bustPeople())
+        for (let pick = 0; pick < 1500; pick++)
+          for (const older of [false, true])
+            for (const dress of ["everyday", "work", "official"] as const) {
+              const bust = bustFor(person, dress, pick, true, older)!;
+              expect(
+                wears(person.sex, bust.layers),
+                `${person.id} ${pick}`,
+              ).toEqual([]);
+            }
+    });
+
+    it("never offers, and refuses to draw, a flagged look", () => {
+      let refused = 0;
+      for (const person of bustPeople()) {
+        const choices = bustChoices(person);
+        for (const shape of choices.shape)
+          for (const hair of choices.hair)
+            for (const color of choices.hairColor)
+              for (const face of [
+                undefined,
+                ...choices.face.map((row) => row.key),
+              ]) {
+                const look = {
+                  person: person.id,
+                  shape: shape.key,
+                  hair: hair.key,
+                  hairColor: color.key,
+                  ...(face ? { face } : {}),
+                };
+                const fits = bustFits(look);
+                const drawn = [false, true].map((older) =>
+                  bustOfLook(look, "everyday", older),
+                );
+                if (fits) {
+                  for (const bust of drawn) {
+                    expect(bust, JSON.stringify(look)).not.toBeNull();
+                    expect(wears(person.sex, bust!.layers)).toEqual([]);
+                  }
+                } else refused++;
+              }
+      }
+      // The art's flagged pairs are real: some look is refused.
+      expect(refused).toBeGreaterThan(0);
+    });
+
+    it("dresses townspeople in the new everyday tops and the new work tops", () => {
+      for (const person of bustPeople()) {
+        const worn = (dress: "everyday" | "work") => {
+          const seen = new Set<string>();
+          for (let pick = 0; pick < 600; pick++)
+            for (const url of bustFor(person, dress, pick)!.layers)
+              if (/\/top-/.test(url))
+                seen.add(
+                  fileOf(url)
+                    .replace(/^top-/, "")
+                    .replace(/(-.*)?\.png$/, ""),
+                );
+          return seen;
+        };
+        const everyday = worn("everyday");
+        const work = worn("work");
+        const styles = bustChoices(person).top.map((row) => row.key);
+        // Every top the bank paints is worn by someone, where it is worn.
+        for (const style of styles)
+          expect(
+            everyday.has(style) || work.has(style),
+            `${person.id} ${style}`,
+          ).toBe(true);
+        expect(everyday.has("hoodie") || everyday.has("tee")).toBe(true);
+        expect(work.has("polo") || work.has("scrubs")).toBe(true);
+      }
+    });
   });
 });

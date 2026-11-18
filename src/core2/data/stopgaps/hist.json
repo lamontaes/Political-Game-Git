@@ -309,6 +309,28 @@
     "status": "open"
   },
   {
+    "id": "SG-HIST-opening-vacancy-without-past",
+    "kind": "partial-model",
+    "file": "src/core2/housing-construction.ts",
+    "whatItFakes": "A world that runs no housing past (a test that opens the housing module alone) opens its rental stock at the national rental vacancy; a played world's vacancy is then set from the town's own leases (housing-past.ts openingVacancy).",
+    "why": "openStock runs before the history passes, and some worlds run none.",
+    "addedBy": "History lane (claude/history-opening-vacancy)",
+    "addedAt": "2026-11-17",
+    "replacement": "The stock opened by the housing past itself, once every world that opens the housing module runs its past.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-opening-tenure-town-only",
+    "kind": "partial-model",
+    "file": "src/core2/past-moves.ts",
+    "whatItFakes": "The past's moves pass and the opening's years in place split a moving rate by tenure only for the town's own homes, the ones the housing opening draws before day one; homes in the county's other places take their tenure when the housing module installs, after the past's moves pass has run, so their people move at the age's average rate, owners and renters alike. Each tenure is held through the whole adult past, as if the home on day one had been theirs all along.",
+    "why": "The county's other places get their homes at the housing install (modules/housing.ts openMissingHomes), and the people module's past runs before it; a household's tenure in earlier years is not recorded.",
+    "addedBy": "History lane (claude/history-opening-vacancy)",
+    "addedAt": "2026-11-17",
+    "replacement": "Every place's homes drawn at the opening, before the past runs (the housing opening for the whole county); and the century's household past (family 21), where each household's tenure changes as it buys and sells.",
+    "status": "open"
+  },
+  {
     "id": "SG-HIST-century-territory-opening-lean",
     "kind": "partial-model",
     "file": "src/core2/electorate-century.ts",
