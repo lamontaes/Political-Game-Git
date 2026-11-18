@@ -123,6 +123,8 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 18 (Story): a merge of the train into the cut where the train changed a line the cut deleted is settled by the line's date: a line dated before Nov 15 stays deleted (`OURS_DELETE_WINS` in the scratchpad's bank merge reads the date as well as a bare text).
 - Nov 18 (Story): a vitest summary that reads "3 failed (8)" with no passed count is a run that stopped early (a worker killed for memory while another job ran), not a result. Rerun the file alone before comparing it with anything.
 
+- Nov 18 (Story): `npm run pool -- --check` exits zero even when it names a fault, so `--check && git commit && git push` pushes a broken item. Read its last line for "pool items are valid" before committing. The faults it named on a new item that day: a `kind` outside bug, feature, wiring, stopgap, research, cleanup and owner-decision; a Done when with no drawn place; a Measured cause with no place and seed or the command that shows it.
+
 ## More in this folder
 
 Read each file here when its moment comes:
