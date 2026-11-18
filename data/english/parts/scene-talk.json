@@ -26612,31 +26612,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-something-to-ask-you-and-came-to-ask-it-in-person",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} has something to ask you and came to ask it in person.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["name"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-catches-your-eye-and-walks-over",
       "move": "narrate-narrate",
       "kind": "written",
@@ -26653,31 +26628,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-waves-you-over-there-is-something-on-their-mind",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name} waves you over. There is something on their mind.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["name"]
-        }
-      ],
-      "bearing": "hopeful",
       "origin": "authored",
       "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -27453,31 +27403,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.sorry-i-m-late",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Sorry, I'm late.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "bearing": "anxious",
       "origin": "authored",
       "author": "Story helper (Sonnet), on-ramp lines, reviewed by Story lead (Fable)",
       "date": "2026-11-18",
