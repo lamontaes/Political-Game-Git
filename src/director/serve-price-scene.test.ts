@@ -65,7 +65,7 @@ import { questionAbout } from "../english/question-names";
 import { composeJournal } from "./journal";
 import { openConversation } from "./conversation";
 import { promiseAnswers, promiseSubject } from "./promise-talk";
-import { promisesBetween } from "./promises";
+import { promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const PLACE = "territory:GU:santa-rita";
@@ -180,7 +180,8 @@ function everyPriceDecidable(
  */
 it(
   `a price falls to the strongest question the office can decide (${PLACE}, seed 5e6f7a8b9c0d1e2f)`,
-  { timeout: 120_000 },
+  // 21.9 s alone and 26.0 s beside the promise and scene tests (Nov 16, fe04fc42): about twice the slower.
+  { timeout: 55_000 },
   () => {
     setBookkeeping(false);
     try {
@@ -275,7 +276,7 @@ for (const c of CASES)
           expect(serveAsk(api, row.id)?.answer, where).toBe("no");
           expect(runningMateOf(api, filing, ticket), where).toBeNull();
           expect(
-            promisesBetween(director.ledger, player, asked!.id as PersonId),
+            promisesBetween(coreAPI(core), player, asked!.id as PersonId),
             where,
           ).toEqual([]);
           out.push(`  -> ${reply.facts?.ending}; nobody seated, no promise`);
@@ -290,7 +291,7 @@ for (const c of CASES)
         );
         const factId = `promise:${replyId}`;
         const find = () =>
-          promisesBetween(director.ledger, player, asked!.id as PersonId).find(
+          promisesBetween(coreAPI(core), player, asked!.id as PersonId).find(
             (p) => p.id === factId,
           )!;
         expect(find(), `${where}: the promise on record`).toBeDefined();

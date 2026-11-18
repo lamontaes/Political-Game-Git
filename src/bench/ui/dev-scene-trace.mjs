@@ -141,22 +141,28 @@ async function types({ labels, send }, board) {
         button.disabled = true;
         try {
           const done = await send("scene-trace/force", { typeKey: row.key });
-          const verdict = done.board
-            ? `${labels.board.verdicts[done.board.verdict]}${done.board.reason ? `: ${labels.board.cuts[done.board.reason] ?? done.board.reason}` : ""}`
-            : done.staged
-              ? labels.stagedNow
-              : labels.notStagedNow;
-          button.textContent = `${labels.forced}; ${verdict}`;
-          if (done.board?.date) {
-            await board.show(done.board.date);
-            board.node.open = true;
-          }
+          // A recipe that could not run here says why; the board names its verdict; a staged scene names the record it came from.
+          if (done.why) button.textContent = labels.reasons[done.why];
+          else if (done.board) {
+            const verdict = `${labels.board.verdicts[done.board.verdict]}${done.board.reason ? `: ${labels.board.cuts[done.board.reason] ?? done.board.reason}` : ""}`;
+            button.textContent = `${labels.forced}; ${verdict}`;
+            if (done.board.date) {
+              await board.show(done.board.date);
+              board.node.open = true;
+            }
+          } else
+            button.textContent =
+              done.staged === undefined
+                ? labels.forced
+                : `${labels.forced}; ${done.staged ? labels.stagedNow : labels.notStagedNow}${done.staged && done.causeRecords?.length ? `; ${labels.cause} ${done.causeRecords.join(", ")}` : ""}`;
         } catch (error) {
           button.textContent = error.message;
         }
       });
       item.append(" ", button);
       if (row.why) item.append(el("div", labels.reasons[row.why]));
+      if (row.recipe === "legislature")
+        item.append(el("div", labels.legislature));
     } else item.append(` (${labels.unreachable})`);
     const more = el("details");
     more.append(el("summary", labels.lines));

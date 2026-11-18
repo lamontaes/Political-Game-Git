@@ -408,6 +408,34 @@ export function countryStates(api: CoreAPI): readonly CountryState[] {
 }
 
 /**
+ * The people who came to a state from abroad in the tier's latest month, by
+ * the tier's own step (its `whatMoved` row) and split by age as the tier
+ * settles them (children first, then its adult bands): the one count of
+ * arrivals from abroad, which counted-moves settles in the counted places.
+ * `id` is the state's tier row, where the month is kept. None before the
+ * tier has stepped a month.
+ */
+export function countryAbroadArrivals(
+  api: CoreAPI,
+  usps: string,
+): { id: string; month: number; byBand: number[] } | undefined {
+  const state = store(api)
+    .table("countryStates")
+    .get(`country-state:US-${usps}`) as unknown as CountryState | undefined;
+  const moved = state?.whatMoved.at(-1);
+  if (!state || !moved) return undefined;
+  const rules = rulesOf(api);
+  return {
+    id: state.id,
+    month: moved.month,
+    byBand: [
+      moved.fromAbroad * rules.abroadChildShare,
+      ...rules.abroadShare.map((share) => moved.fromAbroad * share),
+    ],
+  };
+}
+
+/**
  * Every state's people and this month's movers by the tier's own rule, read
  * without moving anyone (counted-moves reads them: the tier is the one holder
  * of every state's people). Empty before the tier opens.
@@ -523,6 +551,8 @@ export interface CountryPartRow extends CountryPart {
 
 const partId = (key: string) => `country-part:${key}`;
 const UNSORTED_JOBS = "SG-NATION-town-part-unsorted-jobs";
+// stopgapId: SG-NATION-county-sample-no-government
+const SURVEY_NO_GOVERNMENT = "SG-NATION-county-sample-no-government";
 const SECTOR_TABLE = employerSectors as unknown as {
   classifications: Record<string, CountrySector>;
   kinds: Record<string, CountrySector>;
@@ -576,8 +606,17 @@ function townPartCounts(
     };
     for (const [employer, workers] of part.workersByEmployer)
       add(employer ? sectorOfEmployer(core, employer) : undefined, workers);
-    for (const [industry, workers] of part.workersByIndustry)
-      add(SECTOR_TABLE.naics[industry], workers);
+    // The county sample's workers are sorted by a survey of private employers, which has no
+    // public one: the tier counts the state's own government share of them in government.
+    const privateSurveyJobs: Partial<Record<CountrySector, number>> = {};
+    for (const [industry, workers] of part.workersByIndustry) {
+      const sector = SECTOR_TABLE.naics[industry];
+      if (sector)
+        privateSurveyJobs[sector] =
+          (privateSurveyJobs[sector] ?? p("zero")) + workers;
+      else unsortedJobs += workers;
+    }
+    if (part.workersByIndustry.size) stopgap(SURVEY_NO_GOVERNMENT);
     if (unsortedJobs > p("zero")) stopgap(UNSORTED_JOBS);
     out.set(key, {
       placeIds: [...placeIds].sort(),
@@ -588,6 +627,7 @@ function townPartCounts(
         children: part.children,
         jobs,
         unsortedJobs,
+        privateSurveyJobs,
         cash: part.cashMinor / p("minorPerDollar"),
       },
     });

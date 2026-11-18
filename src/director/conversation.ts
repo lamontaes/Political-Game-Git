@@ -4199,8 +4199,21 @@ function replyFacts(
     case "their-work": {
       const theirs = jobOf(core, listener);
       const said = theirs ? employerWords(theirs.org) : null;
-      // Work out of town for outside buyers has no employer to name.
-      if (theirs && !said) return null;
+      // Work out of town for outside buyers has no employer to name: the
+      // answer is the job's title and, when the record names it, the town.
+      if (theirs && !said)
+        return sayableTitle(theirs.title)
+          ? {
+              facts: {
+                "work-out-of-town": {
+                  text: "yes",
+                  sourceRecordIds: [theirs.job.id, theirs.org.id],
+                },
+                ...workDetail(core, listener, theirs, WORK_SLOTS),
+              },
+              stage: "working",
+            }
+          : null;
       if (theirs && said)
         return {
           facts: {
@@ -5388,7 +5401,7 @@ function raiseSubject(
     conversation.director && !conversation.look
       ? promiseOfRaised(subject)
       : null;
-  if (promise) promiseSaid(core, conversation.director!, promise);
+  if (promise) promiseSaid(core, promise);
   // The policy question it names is named for the house today.
   const question = subject.news?.question ?? subject.point?.question;
   if (question) (conversation.questions ??= []).push(question);
@@ -8201,8 +8214,7 @@ function sayNow(
   // The player's answer to a promise brought up counts (promise-talk.ts).
   const promise =
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
-  if (promise)
-    answerPromise(core, conversation.director!, promise, playerId, choice.move);
+  if (promise) answerPromise(core, promise, playerId, choice.move);
   // The player's reply to a veto brought up moves the tie through the
   // writer the veto used (veto-talk.ts); the sponsor answers it, and the
   // talk ends there: on their answer, or on the player's leaving.

@@ -1,13 +1,12 @@
 ---
 name: helper-checkout
 description: >
-  Gives a helper or sub-agent of Our Civic Duty a copy of the repository that
-  holds only what its task needs: a sparse copy that skips image files, shares
-  the main checkout's git objects and links node_modules, made or narrowed
-  with one command. Use whenever a session starts a helper, sub-agent or
-  worktree, and whenever it finds a full helper copy on disk. Not for the main
-  checkout itself, and not for the Mac's registered workspace
-  (storage-and-workspaces).
+  Gives a helper or sub-agent a copy of the repository with only what its task
+  needs: a sparse copy without image files, sharing the main checkout's git
+  objects and linking node_modules, made or narrowed with one command. Use
+  whenever a session starts a helper, sub-agent or worktree, or finds a full
+  helper copy on disk. Not for the main checkout or the Mac's registered
+  workspace (storage-and-workspaces).
 ---
 
 # Helper checkout
@@ -38,13 +37,20 @@ description: >
 
 - **`helper-checkout.sh new <dir> <branch>` can leave the local branch on an old commit (Nov 12, Fixer F2).** One copy (for #8222) came up on a merge commit of another branch, not the pull request's head, so `git merge origin/main` merged the wrong tree and looked clean. Right after making a copy run `git fetch origin main <branch>`, then `git reset --hard -q origin/<branch>` (the copy is new, so nothing is lost), and check `git log -1 --oneline` against the head the pull request names before merging main.
 
+- **Never pass `origin/main` (or any `origin/...` name) as the `<branch>` of `helper-checkout.sh new` (Nov 13, Red desk).** The script makes a local branch by that name, `refs/heads/origin/main`, which then shadows the remote ref: git warns `refname 'origin/main' is ambiguous`, `git diff origin/main`, `git merge origin/main` and the pool check read the old local branch, and `npm run pool -- --check` reports that the branch changes `docs/pool/INDEX.md` when it does not. Pass a branch name or a SHA from `git ls-remote origin refs/heads/main`. In a copy that already has one, `git show-ref | grep heads/origin/` finds it and `git branch -D origin/main` removes it (it only ever points at a commit main already holds).
+
 ## When it ends
 
 - A copy is disposable once its branch is on the remote: delete it only after `git -C <dir> status --short` is empty and `git -C <dir> log origin/<branch>..HEAD` shows nothing unpushed. A clone copy is removed with `rm -rf <dir>`; a worktree copy (its `.git` is a one-line file) with `git worktree remove <dir>` from the main checkout.
 - When disk is short, reuse a finished copy for the next helper instead of making another. Check that `git -C <dir> status --short` is empty and that nothing is unpushed, then run `git -C <dir> checkout -B <new-branch> origin/main` (Nov 1, governing lead: ten copies of about 0.9 GB each on a 6 GB allowance).
 - Never run `git gc --prune=now` in the main checkout while a shared copy lives; the copies borrow its objects.
+- **Never check out, `checkout -B` or `reset` a branch another copy has checked out (Long game, Nov 17).** Worktree copies share one set of branch refs, so `git checkout -B <branch>` in a helper moved that branch under the main checkout, which then showed the merge backwards as uncommitted changes. Before reusing a copy for a branch, run `git worktree list`; if another copy holds the branch, work there or detach this one first. To recover, `git switch --detach <commit>` in the copy whose files already match that commit, which leaves its tree clean without a reset.
 - If `df -h /` shows little free space with low "Used", the session's allowance is spent: narrow every helper copy before deleting anything else.
+
+- **One heavy run per machine, not per helper (Nov 17, Story lead).** Five helpers each running "one heavy command at a time" put eleven node processes and 11 GB on a 15 GB machine; a 6 GB scene-samples run and a 12-seed trace were killed (exit 137). The lead's brief sets the ceiling: name which helpers may run a world build at the same time, give trace scripts `--max-old-space-size=4096`, and check `free -g` before starting a run of your own. A run killed this way prints nothing; look for "Killed" in the task output.
 
 ## Stop condition
 
 The skill ends when every helper's copy is sparse, outside the main checkout and on its own branch. Anything it cannot narrow (a copy another session owns) goes to that session or the CTO.
+
+- **A helper copy is removed the hour its pull request is ready or stamped (Story lead, Nov 17).** Twenty-four sparse copies at 776 MB each filled a 252 GB session to 97 percent and Chrome stopped taking screenshots. Keep only the copies of branches still being built or that another branch stacks on; remove the rest with `git worktree remove --force <path>` (or `rm -rf` and `git worktree prune`) after `git status --porcelain | grep -v '^??'` shows nothing uncommitted. A removed copy costs one `helper-checkout.sh new` to bring back.

@@ -19,6 +19,8 @@ import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rul
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
+import { SeededRng } from "../core2/kernel/rng";
+import { generatePersonIdentity } from "../core2/gov-rules/person-identity";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 import { selectBenchPlace } from "./place-selection.mjs";
 
@@ -54,6 +56,39 @@ export function drawName(seed: string, draw: number, gender?: string) {
       corpus.familyNames[
         hash(`${seed}:family:${draw}`) % corpus.familyNames.length
       ]!,
+  };
+}
+
+/**
+ * The gender Random gives a whole character: drawn by the generator the world
+ * uses for every person it invents (`generatePersonIdentity`, with its
+ * published weights), on the visit's seed and draw, so Random makes the same
+ * kind of person the world does and adds no pick of its own.
+ */
+export function drawGender(seed: string, draw: number): CreatorGender {
+  const { gender } = generatePersonIdentity(
+    new SeededRng(`${seed}:gender:${draw}`),
+  );
+  return gender === "unstated" ? "nonbinary" : gender;
+}
+
+/**
+ * The whole character Random draws (owner, Nov 17: "you should be able to
+ * randomize an entire character"): a gender, a name for it, a birthday, a
+ * place from all 56. The look is drawn by the page's next request for the
+ * gender's appearance, on the same seed and draw.
+ */
+export function drawCharacter(seed: string, draw: number) {
+  const gender = drawGender(seed, draw);
+  const birthday = drawBirthday(seed, draw);
+  return {
+    gender,
+    name: drawName(seed, draw, gender),
+    birthday: {
+      ...birthday,
+      age: ageAtStart(birthday.year, birthday.month, birthday.day),
+    },
+    place: creatorRandomPlace(seed, draw),
   };
 }
 
