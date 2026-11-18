@@ -1338,6 +1338,10 @@ input[type="range"]::-moz-range-thumb {
 #front-status span.now {
   opacity: 1;
 }
+#front-status span.quip {
+  opacity: 0.8;
+  font-style: italic;
+}
 /* One header treatment for every title-side panel: the gold name, a thin
    gold rule, then room before the first control. */
 #front .title {
