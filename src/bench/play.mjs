@@ -6313,12 +6313,21 @@ const sheets = {
             stripSection(
               2,
               labels.partyStandsFor,
+              // Each side's label once, on its first position; the rest sit under it.
               ...(facts.standsFor.length
-                ? facts.standsFor.map((s) =>
-                    row(
-                      s.favors ? labels.partyFavors : labels.partyOpposes,
-                      policyLabel(s.question),
-                    ),
+                ? [true, false].flatMap((favors) =>
+                    facts.standsFor
+                      .filter((s) => !!s.favors === favors)
+                      .map((s, at) =>
+                        row(
+                          at
+                            ? ""
+                            : favors
+                              ? labels.partyFavors
+                              : labels.partyOpposes,
+                          policyLabel(s.question),
+                        ),
+                      ),
                   )
                 : [row(labels.partyStandsFor, labels.partyNone)]),
             ),
