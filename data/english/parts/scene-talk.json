@@ -26611,1833 +26611,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-at-the-door-with-a-bag-in-one-hand",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is at the door with a bag in one hand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-on-the-step-home-after-away-away",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is on the step, home after {away} away.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-come-out-of-prison-the-job-that-was-there-before-is-gone",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has come out of prison. The job that was there before is gone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "job-lost"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-come-out-of-prison-child-lives-in-the-house-too",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has come out of prison. {child} lives in the house too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-come-out-of-prison-and-back-to-the-house-you-share",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has come out of prison and back to the house you share.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "same-home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-have-come-out-of-prison-and-name-stands-across-from-you",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You have come out of prison, and {name} stands across from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-have-come-out-after-away-and-name-stands-in-the-hall",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You have come out after {away}, and {name} stands in the hall.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "away"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-meets-you-at-home-child-lives-there-too",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} meets you at home. {child} lives there, too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-and-name-are-in-the-same-room-for-the-first-time-since-the-release",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You and {name} are in the same room for the first time since the release.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.first-it-s-me-i-know-i-should-have-called-first",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{first}, it's me. I know I should have called first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.first-i-didn-t-know-where-else-to-go",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{first}? I didn't know where else to go.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.hi-first-i-m-sorry-to-turn-up-like-this",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Hi, {first}. I'm sorry to turn up like this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.welcome-home-first-it-s-good-to-see-you-here",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Welcome home, {first}. It's good to see you here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.first-you-re-really-home",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{first}, you're really home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.come-in-first-we-have-a-lot-to-talk-about",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Come in, {first}. We have a lot to talk about.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.after-away-away-all-i-have-is-what-s-in-this-bag-can-i-stay-with-you-while-i-loo",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "After {away} away, all I have is what's in this bag. Can I stay with you while I look for work?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.my-old-job-is-gone-and-nobody-will-answer-my-calls-can-you-help-me-find-work-in",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "My old job is gone, and nobody will answer my calls. Can you help me find work in {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "job-lost"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-d-like-to-see-child-when-i-m-settled-is-there-a-room-for-me-until-then",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I'd like to see {child} when I'm settled. Is there a room for me until then?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.is-my-old-room-still-mine-i-came-back-to-place-with-nothing-else",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Is my old room still mine? I came back to {place} with nothing else.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "same-home"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-came-straight-back-to-place-can-i-stay-until-work-turns-up",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I came straight back to {place}. Can I stay until work turns up?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.you-ve-come-back-to-place-what-happens-now-with-work-and-the-house",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "You've come back to {place}. What happens now, with work and the house?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.away-is-how-long-we-waited-what-do-you-want-to-do-now-that-you-re-back",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{away} is how long we waited. What do you want to do now that you're back?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "away"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.child-keeps-asking-what-happens-now-what-should-i-tell-them",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{child} keeps asking what happens now. What should I tell them?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.the-term-is-over-we-have-to-talk-about-what-comes-next-in-place",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The term is over. We have to talk about what comes next in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "request",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.come-in-name-there-s-a-room-and-you-can-stay-until-you-re-on-your-feet",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Come in, {name}. There's a room, and you can stay until you're on your feet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"],
-          "excludesFacts": ["away", "child", "job-lost"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.after-away-you-should-sleep-under-a-roof-that-s-yours-you-can-stay",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "After {away}, you should sleep under a roof that's yours. You can stay.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-you-can-stay-child-will-be-glad-to-have-you-here",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, you can stay. {child} will be glad to have you here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.your-room-is-still-yours-stay-as-long-as-you-need-and-we-ll-look-for-work-in-pla",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Your room is still yours. Stay as long as you need, and we'll look for work in {place} together.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "same-home"],
-          "excludesFacts": ["child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.name-you-can-stay-but-the-house-has-rules-and-you-ll-keep-them",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "{name}, you can stay, but the house has rules, and you'll keep them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "job-lost"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-be-here-for-child-and-i-ll-look-for-work-right-away",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll be here for {child}, and I'll look for work right away.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-want-to-start-over-in-place-work-first-and-the-rest-will-follow",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I want to start over in {place}. Work first, and the rest will follow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"],
-          "excludesFacts": ["child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.after-away-the-first-thing-i-want-is-to-be-home-i-ll-find-work-and-i-ll-start-th",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "After {away}, the first thing I want is to be home. I'll find work, and I'll start this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "away"],
-          "excludesFacts": ["child"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.how-are-you-doing-after-away",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How are you doing after {away}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-should-child-hear-about-where-you-ve-been",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What should {child} hear about where you've been?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.is-there-work-in-place-that-you-d-take",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Is there work in {place} that you'd take?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"],
-          "excludesFacts": ["away", "child"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-has-been-looking-after-child-while-i-was-gone",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who has been looking after {child} while I was gone?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-do-you-need-from-me-first-now-that-i-m-home-in-place",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What do you need from me first, now that I'm home in {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"],
-          "excludesFacts": ["child"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.away-is-a-long-time-i-need-a-few-days-before-i-know-what-to-say",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "{away} is a long time. I need a few days before I know what to say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-have-to-think-about-child-before-i-give-you-an-answer",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I have to think about {child} before I give you an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.name-i-can-t-answer-that-now-i-need-to-think-this-through",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "{name}, I can't answer that now. I need to think this through.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"],
-          "excludesFacts": ["away", "child"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-m-still-finding-my-way-back-to-place-ask-me-again-in-a-week",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'm still finding my way back to {place}. Ask me again in a week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-don-t-know-yet-what-to-tell-child-give-me-time",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I don't know yet what to tell {child}. Give me time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.name-i-can-t-do-this-now-i-m-sorry",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "{name}, I can't do this now. I'm sorry.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-need-some-air-we-ll-talk-about-place-another-time",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I need some air. We'll talk about {place} another time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.name-you-deserve-a-real-answer-and-i-can-t-give-one-yet",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "{name}, you deserve a real answer, and I can't give one yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-for-taking-me-in-i-ll-find-work-in-place-as-fast-as-i-can",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you for taking me in. I'll find work in {place} as fast as I can.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"],
-          "excludesFacts": ["away", "child"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.after-away-inside-a-bed-means-more-than-you-know-thank-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "After {away} inside, a bed means more than you know. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-be-careful-with-child-and-i-ll-earn-my-place-back",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll be careful with {child}, and I'll earn my place back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-m-glad-you-re-home-child-will-sleep-better-for-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'm glad you're home. {child} will sleep better for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-m-glad-you-said-that-we-can-start-from-there-in-place",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'm glad you said that. We can start from there in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"],
-          "excludesFacts": ["child"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.all-right-i-ll-take-it-a-day-at-a-time-work-in-place-can-wait-until-i-ve-slept",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "All right. I'll take it a day at a time. Work in {place} can wait until I've slept.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-ll-wait-until-you-ve-had-the-time-away-taught-me-patience",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll wait until you've had the time. {away} taught me patience.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "deflect",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.that-s-fair-we-can-decide-the-rest-once-child-has-had-a-chance-to-see-you",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "That's fair. We can decide the rest once {child} has had a chance to see you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.take-the-time-you-need-i-m-staying-in-place-either-way",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Take the time you need. I'm staying in {place} either way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.tired-mostly-away-changed-me-and-i-want-to-work-and-keep-my-head-down",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Tired, mostly. {away} changed me, and I want to work and keep my head down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.how-are-you-doing-after-away",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.child-should-hear-the-truth-in-a-way-a-child-can-take-i-d-like-to-say-it-with-yo",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{child} should hear the truth, in a way a child can take. I'd like to say it with you there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.what-should-child-hear-about-where-you-ve-been",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.anything-i-d-take-a-warehouse-or-a-kitchen-in-place-i-m-not-picky",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Anything. I'd take a warehouse or a kitchen in {place}. I'm not picky.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.is-there-work-in-place-that-you-d-take",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.mostly-us-child-has-been-at-the-table-doing-homework-asking-where-you-were",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Mostly us. {child} has been at the table, doing homework, asking where you were.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.who-has-been-looking-after-child-while-i-was-gone",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.a-second-pair-of-hands-and-someone-who-comes-home-when-they-say-they-will-that-w",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "A second pair of hands, and someone who comes home when they say they will. That would help {place} feel right again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "after": "scene-talk.reply-ask.what-do-you-need-from-me-first-now-that-i-m-home-in-place",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-understand-it-s-a-lot-but-where-does-a-person-go-in-place-with-nothing-but-a-b",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I understand it's a lot. But where does a person go in {place} with nothing but a bag?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-know-i-ve-asked-for-a-lot-i-just-can-t-go-back-out-there-with-nothing-for-chil",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I know I've asked for a lot. I just can't go back out there with nothing for {child} to see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "child"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-can-wait-but-not-forever-what-do-i-do-after-away-if-i-can-t-stay-here",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I can wait, but not forever. What do I do after {away} if I can't stay here?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back", "away"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-don-t-want-to-push-but-child-is-going-to-ask-do-we-have-a-plan-yet",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I don't want to push, but {child} is going to ask. Do we have a plan yet?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-m-not-trying-to-rush-you-i-just-can-t-stop-thinking-about-what-comes-next-in-p",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'm not trying to rush you. I just can't stop thinking about what comes next in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-i-ll-make-this-right-in-place-one-day-at-a-time",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll make this right in {place}, one day at a time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.i-m-glad-we-talked-let-s-do-it-right-for-child",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "I'm glad we talked. Let's do it right for {child}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["child"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-i-ll-be-easier-to-live-with-once-i-m-working-in-place",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll be easier to live with once I'm working in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"],
-          "excludesFacts": ["child"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.first-thank-you-i-ll-keep-my-word",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "{first}, thank you. I'll keep my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-won-t-let-child-down-that-s-my-word",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I won't let {child} down. That's my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.after-away-i-mean-every-word-of-it-you-ll-see",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "After {away}, I mean every word of it. You'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["away"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.i-ll-wait-but-i-ll-need-an-answer-and-soon-for-place-s-sake",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "I'll wait. But I'll need an answer, and soon, for {place}'s sake.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.think-about-it-i-ll-still-be-in-place-when-you-have-an-answer",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think about it. I'll still be in {place} when you have an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.we-can-leave-it-there-for-now-but-we-can-t-leave-child-wondering",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "We can leave it there for now. But we can't leave {child} wondering.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["child"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.yes-i-ll-take-position-at-employer",
       "move": "reply-agree",
       "kind": "spoken",
@@ -29502,174 +27675,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.hello-first-thank-you-for-making-the-time",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Hello, {first}. Thank you for making the time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-let-s-settle-it-and-i-ll-do-my-part-here-in-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. Let's settle it, and I'll do my part here in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-m-with-you-name-we-ll-work-it-out-together",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm with you, {name}. We'll work it out together.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.name-what-do-you-need-most-from-me-right-now",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "{name}, what do you need most from me right now?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.honestly-a-place-to-start-and-some-patience-while-i-find-my-feet-in-place",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Honestly, a place to start, and some patience while I find my feet in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.name-i-can-t-answer-that-yet-i-need-to-think-it-through",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "{name}, I can't answer that yet. I need to think it through.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-find-my-feet-in-place-as-fast-as-i-can",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I'll find my feet in {place} as fast as I can.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-would-the-work-at-employer-be-like",
       "move": "reply-ask",
       "kind": "spoken",
@@ -29817,6 +27822,3970 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-the-door-with-a-bag-in-one-hand",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is at the door with a bag in one hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-on-the-step-home-after-away-away",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is on the step, home after {away} away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-out-of-prison-the-job-that-was-there-before-is-gone",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come out of prison. The job that was there before is gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "job-lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-out-of-prison-child-lives-in-the-house-too",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come out of prison. {child} lives in the house too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-out-of-prison-and-back-to-the-house-you-share",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come out of prison and back to the house you share.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "same-home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-come-out-of-prison-and-name-stands-across-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You have come out of prison, and {name} stands across from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-come-out-after-away-and-name-stands-in-the-hall",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You have come out after {away}, and {name} stands in the hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-meets-you-at-home-child-lives-there-too",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} meets you at home. {child} lives there, too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-and-name-are-in-the-same-room-for-the-first-time-since-the-release",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You and {name} are in the same room for the first time since the release.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-it-s-me-i-know-i-should-have-called-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, it's me. I know I should have called first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-didn-t-know-where-else-to-go",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? I didn't know where else to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-first-i-m-sorry-to-turn-up-like-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi, {first}. I'm sorry to turn up like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.welcome-home-first-it-s-good-to-see-you-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Welcome home, {first}. It's good to see you here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-re-really-home",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, you're really home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.come-in-first-we-have-a-lot-to-talk-about",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Come in, {first}. We have a lot to talk about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-first-thank-you-for-making-the-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, {first}. Thank you for making the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.after-away-away-all-i-have-is-what-s-in-this-bag-can-i-stay-with-you-while-i-loo",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "After {away} away, all I have is what's in this bag. Can I stay with you while I look for work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.away-is-a-long-time-to-be-gone-is-there-a-room-for-me-until-i-m-working",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{away} is a long time to be gone. Is there a room for me until I'm working?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-had-away-to-think-about-this-could-i-stay-with-you-for-a-while",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've had {away} to think about this. Could I stay with you for a while?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-job-i-had-is-gone-after-away-and-nobody-will-hire-me-can-you-help-me-find-wo",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The job I had is gone after {away}, and nobody will hire me. Can you help me find work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "job-lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.after-away-my-old-job-is-gone-and-nobody-returns-my-calls-do-you-know-anyone-who",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "After {away}, my old job is gone and nobody returns my calls. Do you know anyone who would hire me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "job-lost"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.away-cost-me-my-job-and-nobody-will-take-a-chance-on-me-do-you-know-anyone-who-m",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{away} cost me my job, and nobody will take a chance on me. Do you know anyone who might?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "job-lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.is-my-old-room-still-mine-after-away-i-d-like-to-come-back-to-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Is my old room still mine after {away}? I'd like to come back to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "same-home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-my-old-room-back-after-away-is-it-free",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like my old room back after {away}. Is it free?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "same-home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.away-is-a-long-time-to-be-out-of-the-house-is-my-room-still-mine",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{away} is a long time to be out of the house. Is my room still mine?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "same-home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-to-see-child-when-i-m-settled-is-there-a-room-for-me-until-then",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like to see {child} when I'm settled. Is there a room for me until then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.how-is-child-i-d-like-a-room-with-you-until-i-m-working",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "How is {child}? I'd like a room with you until I'm working.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-to-be-there-for-child-could-i-stay-with-you-for-a-while",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to be there for {child}. Could I stay with you for a while?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-came-straight-back-to-place-can-i-stay-until-work-turns-up",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I came straight back to {place}. Can I stay until work turns up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.can-i-stay",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can I stay?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.away-is-how-long-we-waited-what-do-you-want-to-do-now-that-you-re-back",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{away} is how long we waited. What do you want to do now that you're back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-were-gone-away-what-do-you-want-to-happen-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You were gone {away}. What do you want to happen now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-been-away-and-a-lot-has-changed-where-do-you-want-to-start",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's been {away}, and a lot has changed. Where do you want to start?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.child-keeps-asking-what-happens-now-what-should-i-tell-them",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{child} keeps asking what happens now. What should I tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-do-i-tell-child-about-what-comes-next",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What do I tell {child} about what comes next?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.child-has-been-waiting-for-you-to-say-what-do-we-tell-them",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{child} has been waiting for you to say. What do we tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-ve-come-back-to-place-what-happens-now-with-work-and-the-house",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You've come back to {place}. What happens now, with work and the house?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-happens-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-term-is-over-and-child-will-want-to-know-what-happens-next",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The term is over, and {child} will want to know what happens next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.can-we-talk",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can we talk?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.after-away-you-should-have-a-room-that-s-yours-yes-stay",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "After {away}, you should have a room that's yours. Yes, stay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.away-is-long-enough-you-can-stay-with-us",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "{away} is long enough. You can stay with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-been-gone-away-come-in-there-s-a-room-for-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've been gone {away}. Come in; there's a room for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-you-can-stay-child-will-be-glad-to-have-you-here",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, you can stay. {child} will be glad to have you here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.come-in-child-should-see-you-home",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Come in. {child} should see you home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.stay-child-needs-you-around",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Stay. {child} needs you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-stay",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, stay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.come-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.after-away-the-first-thing-i-want-is-to-be-home",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "After {away}, the first thing I want is to be home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.away-was-long-enough-i-want-to-start-again",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "{away} was long enough. I want to start again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-had-away-to-think-about-it-and-i-want-to-do-right",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've had {away} to think about it, and I want to do right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-want-to-be-there-for-child",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I want to be there for {child}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.child-comes-first-now",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "{child} comes first now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-want-child-to-see-me-try",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I want {child} to see me try.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-let-s-talk",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Let's talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-do",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-child-should-hear-it-from-us-both",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. {child} should hear it from us both.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.let-s-settle-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Let's settle it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-are-you-doing-after-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How are you doing after {away}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-most-after-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want most after {away}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-need-first-after-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need first after {away}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-should-child-hear-about-where-you-ve-been",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What should {child} hear about where you've been?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-do-you-want-child-to-see-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How do you want {child} to see you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-to-say-to-child",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want to say to {child}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-more",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-has-been-looking-after-child-while-i-was-gone",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who has been looking after {child} while I was gone?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-has-child-been",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How has {child} been?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-child-know",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does {child} know?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happened-while-i-was-gone-for-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happened while I was gone for {away}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-was-away-for-you-out-here",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How was {away} for you out here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-i-miss-in-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did I miss in {away}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-changed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What changed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-is-child-taking-all-this",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How is {child} taking all this?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.away-changed-me-i-m-tired-and-i-want-to-keep-my-head-down",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{away} changed me. I'm tired, and I want to keep my head down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.how-are-you-doing-after-away",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.a-normal-day-after-away-that-s-all-i-want",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A normal day. After {away}, that's all I want.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-do-you-want-most-after-away",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.a-bed-and-a-few-days-of-quiet-after-away",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A bed, and a few days of quiet after {away}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-do-you-need-first-after-away",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-truth-in-a-way-a-child-can-take-child-deserves-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The truth, in a way a child can take. {child} deserves that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-should-child-hear-about-where-you-ve-been",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.steady-i-want-child-to-see-someone-who-stays",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Steady. I want {child} to see someone who stays.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.how-do-you-want-child-to-see-you",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-i-m-sorry-and-that-i-mean-it-child-deserves-to-hear-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That I'm sorry, and that I mean it. {child} deserves to hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-do-you-want-to-say-to-child",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-us-child-has-been-at-the-table-asking-where-you-were",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly us. {child} has been at the table, asking where you were.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.who-has-been-looking-after-child-while-i-was-gone",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.child-has-been-fine-quiet-but-fine",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{child} has been fine. Quiet, but fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.how-has-child-been",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.only-a-little-child-knows-you-re-coming-back",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Only a little. {child} knows you're coming back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-does-child-know",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-much-and-a-lot-the-house-waited-through-away-for-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not much, and a lot. The house waited through {away} for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-happened-while-i-was-gone-for-away",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.long-we-got-through-away-one-day-at-a-time",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Long. We got through {away} one day at a time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.how-was-away-for-you-out-here",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-ordinary-days-away-went-by-slowly-here",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly ordinary days. {away} went by slowly here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-did-i-miss-in-away",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.tired-mostly",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Tired, mostly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.a-bed-first",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A bed first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.hopeful-mostly",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Hopeful, mostly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.away-is-a-long-time-i-need-a-few-days-before-i-know-what-to-say",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{away} is a long time. I need a few days before I know what to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-didn-t-expect-this-after-away-give-me-a-moment",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I didn't expect this after {away}. Give me a moment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.after-away-i-m-still-getting-used-to-having-you-here",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "After {away}, I'm still getting used to having you here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-have-to-think-about-child-before-i-give-you-an-answer",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I have to think about {child} before I give you an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.child-is-part-of-this-and-i-need-time-to-think",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{child} is part of this, and I need time to think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.what-i-say-affects-child-so-i-need-a-little-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "What I say affects {child}, so I need a little time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-yet",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-need-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I need time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.after-away-i-m-still-finding-my-footing",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "After {away}, I'm still finding my footing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ve-only-just-come-out-after-away-ask-me-later",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I've only just come out after {away}. Ask me later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.away-left-me-unsure-give-me-some-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{away} left me unsure. Give me some time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-don-t-know-yet-what-to-tell-child-give-me-time",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't know yet what to tell {child}. Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-need-to-figure-out-what-child-should-hear",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I need to figure out what {child} should hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.child-deserves-a-plan-and-i-don-t-have-one-yet",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{child} deserves a plan, and I don't have one yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-need-time-to-think-about-child",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I need time to think about {child}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.a-minute-please",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "A minute, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-settle-things-for-child-in-one-talk",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't settle things for {child} in one talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.this-is-too-much-to-settle-in-one-talk-after-away",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "This is too much to settle in one talk after {away}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["away"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-sorry",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.after-away-inside-a-bed-means-more-than-you-know-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "After {away} inside, a bed means more than you know. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-away-taught-me-what-a-roof-is-worth",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {away} taught me what a roof is worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-after-away-i-didn-t-expect-this",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. After {away}, I didn't expect this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-child-won-t-see-me-waste-this",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {child} won't see me waste this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-want-child-to-see-me-steady",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I want {child} to see me steady.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-letting-me-see-child",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for letting me see {child}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.away-was-long-and-i-m-glad-it-s-over",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "{away} was long, and I'm glad it's over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-glad-you-said-that-after-away",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm glad you said that after {away}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.after-away-hearing-that-means-a-lot",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "After {away}, hearing that means a lot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-glad-you-re-home-child-will-sleep-better-for-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm glad you're home. {child} will sleep better for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.child-will-be-glad-you-said-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "{child} will be glad you said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.child-needs-to-hear-that-from-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "{child} needs to hear that from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-grateful",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm grateful.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-child-will-see-the-difference",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. {child} will see the difference.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-wait-away-taught-me-patience",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll wait. {away} taught me patience.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-after-away-a-few-days-is-nothing",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. After {away}, a few days is nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.take-the-days-you-need-i-ve-waited-away-already",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take the days you need. I've waited {away} already.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.take-your-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-we-can-decide-once-child-has-had-a-chance-to-see-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. We can decide once {child} has had a chance to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.take-your-time-child-will-wait-a-little-longer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take your time. {child} will wait a little longer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-child-and-i-will-be-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. {child} and I will be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-understand-but-where-do-i-go-after-away-if-not-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I understand. But where do I go after {away} if not here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-know-i-m-asking-a-lot-after-away-could-you-tell-me-where-i-stand",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I know I'm asking a lot after {away}. Could you tell me where I stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-can-wait-but-after-away-i-d-like-to-know-what-to-expect",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I can wait. But after {away}, I'd like to know what to expect.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-know-it-s-a-lot-i-just-want-to-see-child-soon",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I know it's a lot. I just want to see {child} soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.could-you-tell-me-where-i-stand-with-child",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Could you tell me where I stand with {child}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-don-t-want-to-push-but-child-is-on-my-mind",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I don't want to push, but {child} is on my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-don-t-want-to-rush-you-after-away-but-where-do-we-stand",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I don't want to rush you after {away}. But where do we stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-waited-away-and-i-need-to-know-where-we-stand",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We waited {away}, and I need to know where we stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-know-it-s-early-after-away-can-you-tell-me-anything",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I know it's early after {away}. Can you tell me anything?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-don-t-want-to-push-but-child-is-going-to-ask-do-we-have-a-plan-yet",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I don't want to push, but {child} is going to ask. Do we have a plan yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-you-tell-me-anything-i-can-say-to-child",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can you tell me anything I can say to {child}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-just-want-to-give-child-something-to-hold-on-to",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I just want to give {child} something to hold on to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-don-t-want-to-push-but-child-will-ask-do-we-have-a-plan",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I don't want to push, but {child} will ask. Do we have a plan?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-after-away-this-is-a-real-start",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. After {away}, this is a real start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["away"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-we-talked-let-s-do-right-by-child",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad we talked. Let's do right by {child}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-hearing-me-out-i-want-child-to-see-the-difference",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for hearing me out. I want {child} to see the difference.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-this",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-i-m-glad-you-heard-me-out-about-child",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. I'm glad you heard me out about {child}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-i-m-glad-you-heard-me-out-after-away",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. I'm glad you heard me out after {away}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["away"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.leave-it-there",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-a-while",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
       }
     }
   ]
