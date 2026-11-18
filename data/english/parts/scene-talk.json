@@ -23499,31 +23499,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-from-outlet-is-waiting-for-you-with-a-notebook-open-and-a-question",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} from {outlet} is waiting for you with a notebook open and a question about {story}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["story", "outlet"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-is-writing-about-story-for-outlet-and-wants-your-side-before-it-run",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -23552,7 +23527,7 @@
       "key": "scene-talk.narrate-narrate.outlet-has-sent-name-to-ask-you-about-story-and-name-is-not-leaving-with",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{outlet} has sent {name} to ask you about {story}, and {name} is not leaving without something.",
+      "text": "{outlet} has sent {name} to ask you about {story}, and they are not leaving without something.",
       "uses": [
         {
           "subject": "scene",
@@ -23627,7 +23602,7 @@
       "key": "scene-talk.narrate-narrate.there-is-a-reporter-in-your-way-name-wants-to-talk-about-story-and-has-t",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "There is a reporter in your way. {name} wants to talk about {story} and has the questions ready.",
+      "text": "There is a reporter in your way: {name}, with questions ready about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -24152,7 +24127,7 @@
       "key": "scene-talk.reply-deflect.that-s-a-question-for-the-whole-body-story-wasn-t-mine-alone",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "That's a question for the whole body. {story} wasn't mine alone.",
+      "text": "That's a question for the whole body. I didn't decide {story} alone.",
       "uses": [
         {
           "subject": "scene",
@@ -24424,10 +24399,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-d-like-to-see-what-name-has-on-story-before-i-answer",
+      "key": "scene-talk.reply-stall.i-d-like-to-see-what-you-have-on-story-before-i-answer",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'd like to see what {name} has on {story} before I answer.",
+      "text": "I'd like to see what you have on {story} before I answer.",
       "uses": [
         {
           "subject": "scene",
@@ -24574,10 +24549,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.ask-anyone-in-place-about-story-i-m-proud-of-it",
+      "key": "scene-talk.reply-boast.i-m-proud-of-what-i-did-on-story-ask-anyone-in-place",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Ask anyone in {place} about {story}. I'm proud of it.",
+      "text": "I'm proud of what I did on {story}. Ask anyone in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -24873,10 +24848,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-s-clear-story-runs-with-your-words-in-it",
+      "key": "scene-talk.follow-thank.that-s-clear-my-story-on-story-runs-with-your-words-in-it",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's clear. {story} runs with your words in it.",
+      "text": "That's clear. My story on {story} runs with your words in it.",
       "uses": [
         {
           "subject": "scene",
@@ -24899,10 +24874,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thanks-for-that-it-gives-story-a-side-people-haven-t-heard",
+      "key": "scene-talk.follow-thank.thanks-for-that-it-gives-my-story-on-story-a-side-people-haven-t-heard",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thanks for that. It gives {story} a side people haven't heard.",
+      "text": "Thanks for that. It gives my story on {story} a side people haven't heard.",
       "uses": [
         {
           "subject": "scene",
@@ -25175,10 +25150,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.understood-story-runs-with-what-i-have",
+      "key": "scene-talk.follow-accept.understood-my-story-on-story-runs-with-what-i-have",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Understood. {story} runs with what I have.",
+      "text": "Understood. My story on {story} runs with what I have.",
       "uses": [
         {
           "subject": "scene",
@@ -25234,7 +25209,7 @@
       "key": "scene-talk.follow-answer.it-s-about-story-and-what-you-did-place-is-entitled-to-ask",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's about {story}, and what you did. {place} is entitled to ask.",
+      "text": "It's about {story}, and what you did. People in {place} are entitled to ask.",
       "uses": [
         {
           "subject": "scene",
@@ -25283,10 +25258,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-your-time-story-will-say-what-you-said",
+      "key": "scene-talk.close-thank.thank-you-for-your-time-my-story-on-story-will-say-what-you-said",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for your time. {story} will say what you said.",
+      "text": "Thank you for your time. My story on {story} will say what you said.",
       "uses": [
         {
           "subject": "scene",
@@ -25309,10 +25284,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thanks-i-ll-get-story-right",
+      "key": "scene-talk.close-thank.thanks-i-ll-get-my-story-on-story-right",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thanks. I'll get {story} right.",
+      "text": "Thanks. I'll get my story on {story} right.",
       "uses": [
         {
           "subject": "scene",
@@ -25361,10 +25336,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.you-ll-see-story-in-print-the-way-you-said-it",
+      "key": "scene-talk.close-promise.you-ll-see-what-you-said-about-story-in-print-the-way-you-said-it",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "You'll see {story} in print the way you said it.",
+      "text": "You'll see what you said about {story} in print, the way you said it.",
       "uses": [
         {
           "subject": "scene",
@@ -25413,10 +25388,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.fine-story-runs-without-your-side",
+      "key": "scene-talk.close-accept.fine-my-story-on-story-runs-without-your-side",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Fine. {story} runs without your side.",
+      "text": "Fine. My story on {story} runs without your side.",
       "uses": [
         {
           "subject": "scene",
@@ -25439,10 +25414,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.then-story-runs-without-your-side-and-place-will-notice",
+      "key": "scene-talk.close-warn.then-my-story-on-story-runs-without-your-side-and-place-will-notice",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Then {story} runs without your side, and {place} will notice.",
+      "text": "Then my story on {story} runs without your side, and {place} will notice.",
       "uses": [
         {
           "subject": "scene",
@@ -25465,10 +25440,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.if-you-won-t-say-it-story-runs-with-what-i-have",
+      "key": "scene-talk.close-warn.if-you-won-t-say-it-i-ll-write-about-story-with-what-i-have",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "If you won't say it, {story} runs with what I have.",
+      "text": "If you won't say it, I'll write about {story} with what I have.",
       "uses": [
         {
           "subject": "scene",
@@ -25517,10 +25492,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.this-isn-t-finished-story-is-still-a-story-and-i-ll-keep-asking",
+      "key": "scene-talk.close-press.this-isn-t-finished-people-still-want-to-know-about-story-and-i-ll-kee",
       "move": "close-press",
       "kind": "spoken",
-      "text": "This isn't finished. {story} is still a story, and I'll keep asking.",
+      "text": "This isn't finished. People still want to know about {story}, and I'll keep asking.",
       "uses": [
         {
           "subject": "scene",
@@ -25543,10 +25518,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.then-story-runs-with-what-i-have-and-you-can-call-me-if-that-changes",
+      "key": "scene-talk.close-warn.then-my-story-on-story-runs-with-what-i-have-call-me-if-that-changes",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Then {story} runs with what I have, and you can call me if that changes.",
+      "text": "Then my story on {story} runs with what I have. Call me if that changes.",
       "uses": [
         {
           "subject": "scene",
@@ -25595,10 +25570,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.that-s-your-right-story-runs-without-you",
+      "key": "scene-talk.close-accept.that-s-your-right-my-story-on-story-runs-without-you",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "That's your right. {story} runs without you.",
+      "text": "That's your right. My story on {story} runs without you.",
       "uses": [
         {
           "subject": "scene",
@@ -25622,10 +25597,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-then-i-ll-write-story-with-what-i-have",
+      "key": "scene-talk.close-accept.go-on-then-i-ll-write-up-story-from-what-i-have",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on, then. I'll write {story} with what I have.",
+      "text": "Go on, then. I'll write up {story} from what I have.",
       "uses": [
         {
           "subject": "scene",
@@ -25727,10 +25702,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-helps-story-will-carry-what-you-told-me",
+      "key": "scene-talk.follow-thank.that-helps-my-story-on-story-will-carry-what-you-told-me",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That helps. {story} will carry what you told me.",
+      "text": "That helps. My story on {story} will carry what you told me.",
       "uses": [
         {
           "subject": "scene",
@@ -25753,10 +25728,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-braced-to-say-something-about-story",
+      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-and-asks-for-a-word-about-story",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} steps into your path, braced to say something about {story}.",
+      "text": "{name} steps into your path and asks for a word about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -25778,10 +25753,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-been-carrying-story-around-all-week-and-you-are-the-one-in-fron",
+      "key": "scene-talk.narrate-narrate.name-catches-you-outside-and-starts-in-on-story-before-you-can-say-hel",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has been carrying {story} around all week, and you are the one in front of them.",
+      "text": "{name} catches you outside and starts in on {story} before you can say hello.",
       "uses": [
         {
           "subject": "scene",
@@ -25803,10 +25778,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-stops-you-in-the-open-story-is-plainly-on-their-mind",
+      "key": "scene-talk.narrate-narrate.name-stops-you-on-the-street-and-names-story-first-thing",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you in the open. {story} is plainly on their mind.",
+      "text": "{name} stops you on the street and names {story} first thing.",
       "uses": [
         {
           "subject": "scene",
@@ -25828,10 +25803,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-stops-you-with-outlet-still-folded-in-one-hand-and-story-on-their-m",
+      "key": "scene-talk.narrate-narrate.name-stops-you-with-outlet-folded-open-to-the-story-about-story",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you with {outlet} still folded in one hand, and {story} on their mind.",
+      "text": "{name} stops you with {outlet} folded open to the story about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -25853,10 +25828,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-read-about-story-in-outlet-and-has-been-waiting-for-a-chance-to",
+      "key": "scene-talk.narrate-narrate.name-holds-up-outlet-and-taps-the-story-about-story",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has read about {story} in {outlet}, and has been waiting for a chance to say so.",
+      "text": "{name} holds up {outlet} and taps the story about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -25878,10 +25853,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-and-law-is-plainly-the-reason",
+      "key": "scene-talk.narrate-narrate.name-steps-into-your-path-and-asks-you-about-law",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} steps into your path, and {law} is plainly the reason.",
+      "text": "{name} steps into your path and asks you about {law}.",
       "uses": [
         {
           "subject": "scene",
@@ -25903,10 +25878,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-stops-you-in-the-open-law-has-changed-something-at-home-and-it-show",
+      "key": "scene-talk.narrate-narrate.name-stops-you-on-the-sidewalk-and-brings-up-law",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you in the open. {law} has changed something at home, and it shows.",
+      "text": "{name} stops you on the sidewalk and brings up {law}.",
       "uses": [
         {
           "subject": "scene",
@@ -25928,35 +25903,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-stops-you-and-the-people-around-you-slow-down-to-listen",
+      "key": "scene-talk.narrate-narrate.name-walks-straight-up-to-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} stops you, and the people around you slow down to listen.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "requiresFacts": []
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-comes-straight-at-you-and-whatever-it-is-has-been-building-for-a-wh",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} comes straight at you, and whatever it is has been building for a while.",
+      "text": "{name} walks straight up to you.",
       "uses": [
         {
           "subject": "scene",
@@ -26556,7 +26506,7 @@
       "key": "scene-talk.reply-deflect.that-one-belongs-to-somebody-else-story-came-from-higher-up",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "That one belongs to somebody else. {story} came from higher up.",
+      "text": "That one belongs to somebody else. The call on {story} came from higher up.",
       "uses": [
         {
           "subject": "scene",
@@ -26728,10 +26678,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-go-story-will-have-to-wait",
+      "key": "scene-talk.reply-leave.i-have-to-go-we-ll-talk-about-story-another-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to go. {story} will have to wait.",
+      "text": "I have to go. We'll talk about {story} another day.",
       "uses": [
         {
           "subject": "scene",
@@ -26836,10 +26786,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-disagree.that-s-easy-to-say-story-still-landed-on-us-not-on-you",
+      "key": "scene-talk.follow-disagree.that-s-easy-to-say-it-s-us-story-landed-on-not-you",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "That's easy to say. {story} still landed on us, not on you.",
+      "text": "That's easy to say. It's us {story} landed on, not you.",
       "uses": [
         {
           "subject": "scene",
@@ -27012,10 +26962,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.when-story-isn-t-going-to-wait-while-you-look",
+      "key": "scene-talk.follow-press.when-we-re-living-with-story-while-you-look",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "When? {story} isn't going to wait while you look.",
+      "text": "When? We're living with {story} while you look.",
       "uses": [
         {
           "subject": "scene",
@@ -27348,7 +27298,7 @@
       "key": "scene-talk.reply-deflect.that-one-belongs-to-somebody-else-law-came-from-higher-up",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "That one belongs to somebody else. {law} came from higher up.",
+      "text": "That one belongs to somebody else. The call on {law} came from higher up.",
       "uses": [
         {
           "subject": "scene",
@@ -27556,10 +27506,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-go-law-will-have-to-wait",
+      "key": "scene-talk.reply-leave.i-have-to-go-we-ll-talk-about-law-another-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to go. {law} will have to wait.",
+      "text": "I have to go. We'll talk about {law} another day.",
       "uses": [
         {
           "subject": "scene",
@@ -27664,10 +27614,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-disagree.that-s-easy-to-say-law-still-landed-on-us-not-on-you",
+      "key": "scene-talk.follow-disagree.that-s-easy-to-say-it-s-us-law-landed-on-not-you",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "That's easy to say. {law} still landed on us, not on you.",
+      "text": "That's easy to say. It's us {law} landed on, not you.",
       "uses": [
         {
           "subject": "scene",
@@ -27840,10 +27790,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.when-law-isn-t-going-to-wait-while-you-look",
+      "key": "scene-talk.follow-press.when-we-re-living-with-law-while-you-look",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "When? {law} isn't going to wait while you look.",
+      "text": "When? We're living with {law} while you look.",
       "uses": [
         {
           "subject": "scene",
@@ -28052,10 +28002,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-understand-story-is-not-yours-alone-i-suppose",
+      "key": "scene-talk.close-accept.i-understand-you-didn-t-decide-story-alone-i-suppose",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I understand. {story} is not yours alone, I suppose.",
+      "text": "I understand. You didn't decide {story} alone, I suppose.",
       "uses": [
         {
           "subject": "scene",
@@ -28156,10 +28106,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.this-isn-t-over-story-is-still-sitting-in-my-house",
+      "key": "scene-talk.close-press.this-isn-t-over-we-still-live-with-story-in-my-house",
       "move": "close-press",
       "kind": "spoken",
-      "text": "This isn't over. {story} is still sitting in my house.",
+      "text": "This isn't over. We still live with {story} in my house.",
       "uses": [
         {
           "subject": "scene",
@@ -28260,10 +28210,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-then-story-will-still-be-here",
+      "key": "scene-talk.close-accept.go-on-then-we-ll-still-be-living-with-story",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on, then. {story} will still be here.",
+      "text": "Go on, then. We'll still be living with {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -28418,10 +28368,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.i-understand-law-is-not-yours-alone-i-suppose",
+      "key": "scene-talk.close-accept.i-understand-you-didn-t-decide-law-alone-i-suppose",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I understand. {law} is not yours alone, I suppose.",
+      "text": "I understand. You didn't decide {law} alone, I suppose.",
       "uses": [
         {
           "subject": "scene",
@@ -28522,10 +28472,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.this-isn-t-over-law-is-still-sitting-in-my-house",
+      "key": "scene-talk.close-press.this-isn-t-over-we-still-live-with-law-in-my-house",
       "move": "close-press",
       "kind": "spoken",
-      "text": "This isn't over. {law} is still sitting in my house.",
+      "text": "This isn't over. We still live with {law} in my house.",
       "uses": [
         {
           "subject": "scene",
@@ -28626,10 +28576,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.go-on-then-law-will-still-be-here",
+      "key": "scene-talk.close-accept.go-on-then-we-ll-still-be-living-with-law",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Go on, then. {law} will still be here.",
+      "text": "Go on, then. We'll still be living with {law}.",
       "uses": [
         {
           "subject": "scene",
@@ -28862,10 +28812,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.that-changes-story-what-made-you-say-it-the-first-time",
+      "key": "scene-talk.follow-ask.that-changes-my-story-on-story-what-made-you-say-it-the-first-time",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "That changes {story}. What made you say it the first time?",
+      "text": "That changes my story on {story}. What made you say it the first time?",
       "uses": [
         {
           "subject": "scene",
@@ -28966,10 +28916,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.thank-you-for-saying-it-story-runs-with-the-correction",
+      "key": "scene-talk.follow-accept.thank-you-for-saying-it-my-story-on-story-runs-with-the-correction",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you for saying it. {story} runs with the correction.",
+      "text": "Thank you for saying it. My story on {story} runs with the correction.",
       "uses": [
         {
           "subject": "scene",
