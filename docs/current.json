@@ -1218,6 +1218,30 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case asserted the date, proposal, wedding and breakup scenes were worded; those kinds' lines are deleted, so the date is skipped and nothing after it was reached."
+    },
+    {
+      "old": "src/director/court-case-talk-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its eight cases asserted the words of the court case talk (charges, pleas, convictions and the replies back), all deleted; every case threw on a missing line."
+    },
+    {
+      "old": "src/director/veto-talk.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the sponsor's veto line at the next talk, which the cut deleted."
+    },
+    {
+      "old": "src/director/town-hall-question-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the town hall scene to compose; its lines are deleted and none composes."
+    },
+    {
+      "old": "src/director/debate-sitting-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its four cases asserted the debate's questions, moves and closing from the bank the debate names; those lines are deleted and every case ran on empty text."
     }
   ]
 }
