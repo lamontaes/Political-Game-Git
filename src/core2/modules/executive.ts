@@ -28,6 +28,7 @@ import research from "../../../data/research/executive/executive-powers-2026.jso
 import relatedWork from "../../../data/research/executive/post-related-work.json" with { type: "json" };
 import { PROFILE_FACT_KINDS } from "../opening-profile";
 import { schoolingOn } from "./jobs";
+import { departmentHeadHourlyMinor } from "./staff";
 import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import federalOrderData from "../data/executive/federal-orders.json" with { type: "json" };
 import {
@@ -274,7 +275,7 @@ function keepAppointeeHousehold(
     personId,
     stateKey,
     annualMinor:
-      campaignParameter("appointeeHourlyMinor") *
+      departmentHeadHourlyMinor(api) *
       treasuryParameter("fullTimeHoursPerYear"),
     governmentKey: stateKey,
   });
@@ -827,7 +828,7 @@ function fillTownPost(
       employerId: employer,
       post,
       title: spec.title,
-      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      hourlyMinor: departmentHeadHourlyMinor(api),
       maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
       // A county that runs the place has no jobs of its own to follow: its heads follow the town's pay calendar.
       scheduleFromPlaceId: town,
@@ -1071,7 +1072,7 @@ function seatCabinetPerson(
       employerId: employer,
       post,
       title: spec.title,
-      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      hourlyMinor: departmentHeadHourlyMinor(api),
       maxDailyMinor,
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${input.appointmentId}`,
@@ -1377,7 +1378,7 @@ function seatDrawnOfficer(
       employerId: employer,
       post,
       title: spec.title,
-      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      hourlyMinor: departmentHeadHourlyMinor(api),
       maxDailyMinor: postPayCapDaily(api, employer, post, 1),
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${id}`,
@@ -1770,7 +1771,7 @@ export function appointStatePost(
         employerId: gov.organizationId,
         post: `state:${spec.key}`,
         title: spec.title,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        hourlyMinor: departmentHeadHourlyMinor(api),
         citation: `Appointment ${row.id}`,
       });
   if (!jobId) return null;

@@ -265,5 +265,17 @@
     "addedAt": "2026-11-17",
     "replacement": "The offer an aide's occupation would get in the town's own labor market by skill (the wage by occupation from family 20's main pull request), read in the same place.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-dept-head-pay-estimate",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/staff.ts",
+    "line": 1,
+    "whatItFakes": "An appointed department head is paid the median of what the town's own private jobs held by college graduates pay (departmentHeadHourlyMinor). Where the town holds no such job, the estimate appointeeHourlyMinor stands. State-level appointees read the played town's market, as the world holds no state labor market. The post's own skill demand does not price it.",
+    "why": "Family 20 of the pins (Nov 17): a department head's pay was a fixed $46 an hour in five places; it now moves with the town's labor market for that schooling.",
+    "addedBy": "labor",
+    "addedAt": "2026-11-18",
+    "replacement": "The offer a head's occupation would get in the labor market of the government that employs them, read in the same place.",
+    "status": "open"
   }
 ]

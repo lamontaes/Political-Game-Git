@@ -18,6 +18,7 @@
 import { townLean } from "./campaigns";
 import { openBusinessOwnerIds } from "./business";
 import { workedToday } from "../job-lifecycle";
+import { schoolingOn } from "./jobs";
 import {
   coreAPI,
   fillInIdentity,
@@ -589,6 +590,43 @@ export function postHourlyMinor(api: CoreAPI): number {
     : (api.stopgap("SG-LABOR-aide-pay-estimate"),
       campaignParameter("staffHourlyMinor"));
   postPayHeld.set(state, { date: state.date, minor });
+  return minor;
+}
+
+const headPayHeld = new WeakMap<CoreState, { date: string; minor: number }>();
+
+/**
+ * What an appointed department head is paid an hour, in cents: the median of
+ * what the town's own private jobs held by college graduates pay today, so a
+ * head's pay moves with what that schooling earns in this town and never
+ * stands at a published dollar. Where no such job exists yet, the parameter's
+ * estimate stands (stopgapId: SG-LABOR-dept-head-pay-estimate).
+ */
+export function departmentHeadHourlyMinor(api: CoreAPI): number {
+  const state = api.state as CoreState;
+  const held = headPayHeld.get(state);
+  if (held?.date === state.date) return held.minor;
+  const town = lawChain(api).townPlaceId;
+  const pays: number[] = [];
+  for (const job of state.jobs.values()) {
+    if (job.endsAt !== undefined || !((job.hourlyMinor ?? 0) > 0)) continue;
+    const org = state.organizations.get(job.organizationId);
+    if (
+      org?.placeId !== town ||
+      org.kind !== "employer" ||
+      org.publicPayAuthority ||
+      org.outsideFlow
+    )
+      continue;
+    if (schoolingOn(api, job.personId, state.date) !== "college") continue;
+    pays.push(job.hourlyMinor!);
+  }
+  pays.sort((a, b) => a - b);
+  const minor = pays.length
+    ? Math.round(pays[Math.floor(pays.length / 2)]!)
+    : (api.stopgap("SG-LABOR-dept-head-pay-estimate"),
+      campaignParameter("appointeeHourlyMinor"));
+  headPayHeld.set(state, { date: state.date, minor });
   return minor;
 }
 

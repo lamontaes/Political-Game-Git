@@ -65,7 +65,7 @@ import {
   statePostsToFill,
 } from "./executive";
 import { appointGovernor, prepareAct } from "./office-day";
-import { campaignParameter } from "../campaign-data";
+import { departmentHeadHourlyMinor } from "./staff";
 import { viewOn } from "./views";
 import { contestPositions } from "../contest-positions";
 import {
@@ -545,7 +545,7 @@ export function postStanding(
   const held = workHeld(api.state as CoreState, asked.id);
   const working = held !== null;
   const hourlyMinor = held?.hourlyMinor ?? 0;
-  const postHourly = campaignParameter("appointeeHourlyMinor");
+  const postHourly = departmentHeadHourlyMinor(api);
   const distance = Math.abs(theirStance - playerStance) / 2;
   const terms: Record<string, number> = {
     base: w(seat, "base"),
