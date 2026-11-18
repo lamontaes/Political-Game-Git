@@ -195,6 +195,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 03:34Z: five folds looked like an unknown folder's work. Cause: the fold desk's summary cut the top of its own output. Print every FOLD line in full before you report a fold.
 - Nov 17, 02:18Z: pull requests went red only on golden-path M3-09 timing out. Cause: every spec shared one clock, so the last one starved (#9832 gives each spec its own). Until it lands, a pull request whose only red is that timeout may fold; any other M3-09 failure blocks.
 - Nov 17, 03:44Z: two skills pull requests (#9776, #9777) hit 409 against the train. Cause: skill files folded into the train conflict with the lanes' skill lines. Skills and docs pull requests merge straight to main (CTO, Nov 17).
+- Nov 18, 05:45Z: #9862 and #9918 got no checks for 40 minutes after the train was merged into them. Cause: a main-based pull request with the train merged in conflicts with main on generated docs (`docs/CURRENT.md`), and GitHub creates no `pull_request` runs for a pull request that conflicts with its base. Retarget it to the train and push once (the next train merge will do), then confirm the runs exist (`actions/runs?head_sha=<head>`).
 - Nov 16, 23:52Z to Nov 17, 00:42Z: 13 pull requests were listed ready and none was green. Cause: ready was posted before the checks finished. Ready means every check finished green, or each red is named as red on main too.
 
 ## More in this folder
