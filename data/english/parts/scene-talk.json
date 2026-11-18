@@ -2432,7 +2432,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["recount-none", "poll-wider"]
         }
       ],
@@ -27033,58 +27033,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-i-ll-end-this-well-for-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Fine. I'll end this well for {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "press",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.fine-i-ll-do-it-for-the-people-in-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Fine. I'll do it for the people in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "plea",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.fine-let-me-say-it-to-opponent-straight",
       "move": "reply-agree",
       "kind": "spoken",
@@ -27188,10 +27136,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-did-place-vote-all-told",
+      "key": "scene-talk.reply-ask.how-far-apart",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How did {place} vote, all told?",
+      "text": "How far apart?",
       "uses": [
         {
           "subject": "scene",
@@ -27200,32 +27148,7 @@
           "role": "asked",
           "purpose": "concession-call",
           "key": "loss",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.how-wide-is-it-in-place",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How wide is it in {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["place"]
+          "onlyWhen": ["office"]
         }
       ],
       "bearing": "anxious",
@@ -27353,7 +27276,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["recount-none"]
         }
       ],
@@ -27379,7 +27302,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["recount-automatic"]
         }
       ],
@@ -27405,7 +27328,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["recount-offered"]
         }
       ],
@@ -27431,7 +27354,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["poll-wider"]
         }
       ],
@@ -27457,7 +27380,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["poll-closer"]
         }
       ],
@@ -27483,7 +27406,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-wide-is-it-in-place",
+          "after": "scene-talk.reply-ask.how-far-apart",
           "requiresFacts": ["poll-as-polled"]
         }
       ],
@@ -27623,31 +27546,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-want-every-ballot-in-place-counted-first",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I want every ballot in {place} counted first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "refuse",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.no-i-m-waiting-on-the-full-count-in-place",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -27756,31 +27654,6 @@
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Let's wait on the rest of {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "stall",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.give-place-a-little-longer-to-finish",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Give {place} a little longer to finish.",
       "uses": [
         {
           "subject": "scene",
@@ -27987,76 +27860,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.people-in-place-will-start-to-wonder-what-you-plan-to-say",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "People in {place} will start to wonder what you plan to say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["place"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "open",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.think-about-it-place-will-remember-how-you-handled-this",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Think about it. {place} will remember how you handled this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["place"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "open",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.the-longer-it-sits-the-harder-the-call-to-opponent-gets",
       "move": "follow-press",
       "kind": "spoken",
@@ -28165,31 +27968,6 @@
           "purpose": "concession-call",
           "key": "loss",
           "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "plea",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.do-it-for-place-if-not-for-you",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Do it for {place}, if not for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["place"]
         }
       ],
       "bearing": "tender",
@@ -28420,114 +28198,6 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.the-papers-will-ask-why-opponent-hasn-t-heard-from-you",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "The papers will ask why {opponent} hasn't heard from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "refused",
-          "requiresFacts": ["opponent"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "open",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "warn",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.people-in-place-will-read-a-lot-into-a-night-with-no-call",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "People in {place} will read a lot into a night with no call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "refused",
-          "requiresFacts": ["place"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "open",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "warn",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.reporters-will-ask-about-the-race-for-office-before-you-ve-said-a-word",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Reporters will ask about the race for {office} before you've said a word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "refused",
-          "requiresFacts": ["office"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "outcome": "open",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "warn",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.close-press.don-t-wait-long",
       "move": "close-press",
       "kind": "spoken",
@@ -28554,28 +28224,110 @@
       }
     },
     {
-      "key": "scene-talk.close-press.decide-while-place-is-still-watching",
-      "move": "close-press",
+      "key": "scene-talk.close-warn.i-m-uneasy-leaving-opponent-without-a-word",
+      "move": "close-warn",
       "kind": "spoken",
-      "text": "Decide while {place} is still watching.",
+      "text": "I'm uneasy leaving {opponent} without a word.",
       "uses": [
         {
           "subject": "scene",
           "step": "close",
-          "move": "press",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["opponent"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
           "outcome": "open",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["opponent"]
         }
       ],
-      "bearing": "guarded",
+      "bearing": "tender",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
-        "move": "press",
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-d-hate-to-see-the-call-to-opponent-get-harder-the-longer-we-wait",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'd hate to see the call to {opponent} get harder the longer we wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["opponent"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-worried-about-the-race-for-office-ending-badly-for-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm worried about the race for {office} ending badly for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "refused",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
         "key": "loss"
       }
     },
@@ -29027,10 +28779,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-are-people-in-place-saying",
+      "key": "scene-talk.reply-ask.what-s-being-said",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What are people in {place} saying?",
+      "text": "What's being said?",
       "uses": [
         {
           "subject": "scene",
@@ -29039,7 +28791,7 @@
           "role": "asked",
           "purpose": "victory-night",
           "key": "honor",
-          "requiresFacts": ["place"]
+          "onlyWhen": ["office"]
         }
       ],
       "bearing": "curious",
@@ -29202,31 +28954,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.our-way-worked-in-place",
-      "move": "reply-boast",
-      "kind": "spoken",
-      "text": "Our way worked in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "boast",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "boast",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.that-s-what-place-needed-to-hear",
       "move": "follow-accept",
       "kind": "spoken",
@@ -29352,31 +29079,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-haven-t-said-who-stood-with-you-in-place",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "You haven't said who stood with you in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "victory-night",
-          "key": "honor",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.they-say-you-earned-it-in-the-race-for-office",
       "move": "follow-answer",
       "kind": "spoken",
@@ -29389,7 +29091,7 @@
           "role": "asker",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "scene-talk.reply-ask.what-are-people-in-place-saying",
+          "after": "scene-talk.reply-ask.what-s-being-said",
           "requiresFacts": ["office"]
         }
       ],
@@ -29415,7 +29117,7 @@
           "role": "asker",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "scene-talk.reply-ask.what-are-people-in-place-saying",
+          "after": "scene-talk.reply-ask.what-s-being-said",
           "requiresFacts": ["place"]
         }
       ],
@@ -29441,7 +29143,7 @@
           "role": "asker",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "scene-talk.reply-ask.what-are-people-in-place-saying",
+          "after": "scene-talk.reply-ask.what-s-being-said",
           "requiresFacts": ["opponent"]
         }
       ],
@@ -29689,32 +29391,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.people-are-glad-about-place",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "People are glad about {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "victory-night",
-          "key": "honor",
-          "after": "ask",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.people-are-talking-about-opponent",
       "move": "follow-answer",
       "kind": "spoken",
@@ -29766,10 +29442,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-warn.don-t-gloat-about-opponent-people-are-listening",
+      "key": "scene-talk.follow-warn.easy-on-opponent-i-d-hate-to-see-this-go-sour",
       "move": "follow-warn",
       "kind": "spoken",
-      "text": "Don't gloat about {opponent}. People are listening.",
+      "text": "Easy on {opponent}. I'd hate to see this go sour.",
       "uses": [
         {
           "subject": "scene",
@@ -29779,31 +29455,6 @@
           "purpose": "victory-night",
           "key": "honor",
           "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "warn",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.follow-warn.easy-you-still-have-to-serve-all-of-place-as-office",
-      "move": "follow-warn",
-      "kind": "spoken",
-      "text": "Easy. You still have to serve all of {place} as {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "victory-night",
-          "key": "honor",
-          "requiresFacts": ["office"]
         }
       ],
       "bearing": "guarded",
@@ -29972,32 +29623,6 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.people-in-place-will-notice-if-you-stay-away",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "People in {place} will notice if you stay away.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "victory-night",
-          "key": "honor",
-          "outcome": "open",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "warn",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.close-warn.watch-what-you-say-about-opponent-out-there",
       "move": "close-warn",
       "kind": "spoken",
@@ -30072,110 +29697,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.everybody-in-place-will-get-the-same-from-me",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Everybody in {place} will get the same from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "after": "warn",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.good-to-hear",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Good to hear.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "after": "answer",
-          "onlyWhen": ["office"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.that-s-good-to-hear-about-place",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "That's good to hear about {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "after": "answer",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.the-ones-who-voted-for-opponent-are-in-place-too-and-they-count",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "The ones who voted for {opponent} are in {place} too, and they count.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "after": "press",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "tell",
         "key": "honor"
       }
     },
@@ -30298,32 +29819,6 @@
           "key": "honor",
           "after": "warn",
           "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "apologize",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-apologize.sorry-everyone",
-      "move": "reply-apologize",
-      "kind": "spoken",
-      "text": "Sorry, everyone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "apologize",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "after": "warn",
-          "onlyWhen": ["office"]
         }
       ],
       "bearing": "contrite",
@@ -30834,31 +30329,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-blame.i-thought-place-knew-me-better-than-this",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "I thought {place} knew me better than this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "blame",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.i-don-t-want-to-talk-about-the-race-for-office-right-now",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -31189,32 +30659,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.we-ll-get-through-this-in-place-together",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "We'll get through this in {place}, together.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "outcome": "resolved",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.follow-comfort.don-t-put-winner-s-win-on-yourself",
       "move": "follow-comfort",
       "kind": "spoken",
@@ -31307,32 +30751,6 @@
           "key": "loss",
           "after": "tell",
           "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.thank-you-for-telling-me-place-will-come-around-and-so-will-you",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Thank you for telling me. {place} will come around, and so will you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "tell",
-          "requiresFacts": ["place"]
         }
       ],
       "bearing": "tender",
@@ -31683,10 +31101,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-d-run-place-the-same-way-again-mostly",
+      "key": "scene-talk.reply-tell.i-d-run-the-race-for-office-the-same-way-again-mostly",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'd run {place} the same way again, mostly.",
+      "text": "I'd run the race for {office} the same way again, mostly.",
       "uses": [
         {
           "subject": "scene",
@@ -31696,62 +31114,10 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "ask",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["office"]
         }
       ],
       "bearing": "steady",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.maybe-you-re-right-place-was-never-going-to-be-easy",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Maybe you're right. {place} was never going to be easy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "disagree",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "tired",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "tell",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.you-re-kind-to-say-it-but-i-keep-replaying-it-in-place",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "You're kind to say it, but I keep replaying it in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "disagree",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "hurt",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
@@ -31856,32 +31222,6 @@
         }
       ],
       "bearing": "steady",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.if-i-run-again-in-place-it-will-be-with-you-in-on-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "If I run again in {place}, it will be with you in on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "ask",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
