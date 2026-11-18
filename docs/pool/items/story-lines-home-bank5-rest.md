@@ -19,7 +19,7 @@ source: CTO, Nov 18 13:47Z on the Story thread (issue 9750), pre-office order st
 checked:
 ---
 
-**What.** Two home scenes the cut of Nov 17 left silent are written again: a relative or housemate home from prison asks for a place to stay and for work, or the player comes home and is met (`return`), and an employer offers the player a job (`job-offer`). Seen: a life before office, after a release or a layoff.
+**What.** Two home scenes the cut of Nov 17 left silent are written again: a relative or housemate home from prison asks for a place to stay and for work, or the player comes home and is met (`return`), and an employer offers the player a job (`job-offer`). Both stage from records the justice and jobs engines already write, so only their lines were missing. Seen: a life before office, after a release or a layoff.
 
 **Cause.** Design: the scenes' lines were written before Nov 15 and deleted by the cut (`docs/current.json`, replaced list, Nov 17), so `src/director/scene-talk.test.ts` listed `return` and `job-offer` in `CUT_PURPOSES`.
 
@@ -27,7 +27,7 @@ checked:
 
 **Time box.** 3 hours.
 
-**Rules.** No figure aloud: the new job-offer lines never say the pay. The player says only what they chose, and no reply promises an act the engine does not record (scene-standard rule 12). A slot carries the fact the line is about, never padding.
+**Rules.** No hand-written player text in code: every word of both scenes is a bank row, and a slot carries the fact the line is about, never padding. Wire to the world: each line is placed by a fact its packet sets from the justice, jobs or household record. The player says only what they chose, so no reply promises an act the engine does not record (scene-standard rule 12), and no new line says the pay aloud.
 
 **Done when.** A second session, in a drawn place and seed in the running game (dev mode allowed), meets a homecoming after a release and a job offer after a layoff, each from its record; scene-talk.test.ts passes; every new reply pair and narration has a verdict.
 
