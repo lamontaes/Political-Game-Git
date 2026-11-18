@@ -24777,6 +24777,1394 @@
       }
     },
     {
+      "key": "scene-talk.reply-confess.you-re-right-i-haven-t-made-up-my-mind-on-bill-and-i-shouldn-t-have-said",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "You're right. I haven't made up my mind on {bill}, and I shouldn't have said I had.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confront",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confess",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.that-isn-t-what-source-says-about-you-and-bill",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "That isn't what {source} says about you and {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth", "source", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-told-me-different-about-bill-which-is-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} told me different about {bill}. Which is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth", "source", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-tell-the-others-you-re-with-us-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll tell the others you're with us on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-take-you-at-your-word-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll take you at your word on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-a-relief-i-was-worried-about-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's a relief. I was worried about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-count-on-that-about-bill",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll count on that about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.think-about-bill-before-you-decide-i-ll-be-around",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Think about {bill} before you decide. I'll be around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "open",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.this-isn-t-the-end-of-it-on-bill",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "This isn't the end of it on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "open",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-asking-again-about-bill-before-it-reaches-a-vote",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be asking again about {bill} before it reaches a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "open",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-are-watching-how-this-goes-on-bill",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People are watching how this goes on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "refused",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-i-still-care-about-bill-and-i-ll-keep-at-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. I still care about {bill}, and I'll keep at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "refused",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-make-my-case-on-bill-somewhere-else",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll make my case on {bill} somewhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "refused",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-have-what-i-know-about-bill-in-a-day-or-two",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have what I know about {bill} in a day or two.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-send-you-one-page-on-bill-nothing-more",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll send you one page on {bill}, nothing more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-s-all-i-needed-on-bill",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That's all I needed on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-out-on-bill",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "outcome": "resolved",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.if-bill-goes-the-wrong-way-i-ll-tell-everyone-i-know",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "If {bill} goes the wrong way, I'll tell everyone I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.a-lot-of-people-gave-money-for-bill-they-ll-remember-who-listened",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "A lot of people gave money for {bill}. They'll remember who listened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-work-with-a-hearing-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can work with a hearing on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "apologize",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-bring-what-i-have-on-bill-when-you-ve-read-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I'll bring what I have on {bill} when you've read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "apologize",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-i-ll-have-what-i-know-about-bill-sent-over",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you. I'll have what I know about {bill} sent over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "offer",
+          "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-all-i-wanted-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That's all I wanted on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "offer",
+          "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-haven-t-seen-anything-on-bill-that-would-change-my-mind-about-you",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I haven't seen anything on {bill} that would change my mind about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.you-don-t-need-to-worry-about-bill-i-ve-got-it-handled",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "You don't need to worry about {bill}. I've got it handled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-m-already-leaning-your-way-on-bill",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I'm already leaning your way on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-s-too-early-to-say-anything-on-bill",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It's too early to say anything on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.too-many-people-are-still-talking-about-bill-for-me-to-say",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Too many people are still talking about {bill} for me to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-don-t-know-yet-where-i-ll-land-on-bill-ask-me-again-when-it-moves",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't know yet where I'll land on {bill}. Ask me again when it moves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-can-make-your-case-on-bill-and-i-ll-decide-by-what-s-right-for-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You can make your case on {bill}, and I'll decide by what's right for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-listen-on-bill-a-check-doesn-t-buy-a-promise-from-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll listen on {bill}. A check doesn't buy a promise from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.a-hearing-is-all-i-can-give-you-on-bill",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "A hearing is all I can give you on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-hear-you-out-on-bill-but-i-can-t-promise-you-my-vote",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can hear you out on {bill}, but I can't promise you my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.take-bill-to-my-office-and-set-up-a-meeting-i-ll-hear-it-there",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Take {bill} to my office and set up a meeting. I'll hear it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-go-through-bill-line-by-line-before-i-decide-anything",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll go through {bill} line by line before I decide anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.send-me-what-you-have-on-bill-and-i-ll-read-every-page",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Send me what you have on {bill}, and I'll read every page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-given-me-something-to-think-about-on-bill-i-ll-give-it-another-re",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've given me something to think about on {bill}. I'll give it another read.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-look-at-bill-again-and-i-ll-tell-you-what-i-find",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll look at {bill} again, and I'll tell you what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-came-to-ask-where-you-stand-on-cause",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I came to ask where you stand on {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-cause",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-a-few-minutes-with-you-about-cause",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like a few minutes with you about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-cause",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-you-to-hear-my-side-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want you to hear my side on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-bill",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-came-to-ask-where-you-stand-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I came to ask where you stand on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-bill",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-a-few-minutes-with-you-about-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like a few minutes with you about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-request-bill",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute? It's about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-to-catch-you-i-wanted-to-ask-you-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good to catch you. I wanted to ask you about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-making-time-i-won-t-take-long-on-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for making time. I won't take long on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-and-starts-with-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you and starts with {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-and-mentions-the-work-at-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you and mentions the work at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-for-a-word-and-mentions-employer",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks for a word and mentions {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-walks-up-and-starts-talking-about-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} walks up and starts talking about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-you-for-a-moment-and-starts-in-on-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks you for a moment and starts in on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-and-brings-up-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you and brings up {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-stall.i-haven-t-made-up-my-mind-on-bill-give-me-time-to-read-it",
       "move": "reply-stall",
       "kind": "spoken",
@@ -25656,6 +27044,16 @@
           "key": "vote-wanted",
           "after": "confront",
           "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confront",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "contrite",
@@ -25665,6 +27063,58 @@
       "tag": {
         "move": "confess",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-don-t-answer-to-source-on-bill-or-to-you",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I don't answer to {source} on {bill}, or to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confront",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.who-i-talk-to-about-bill-is-my-business",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Who I talk to about {bill} is my business.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confront",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
       }
     },
     {
@@ -25734,6 +27184,16 @@
           "key": "vote-wanted",
           "after": "confess",
           "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confess",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -25758,6 +27218,16 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
+          "after": "confess",
+          "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
           "after": "confess",
           "requiresFacts": ["bill"]
         }
@@ -25786,6 +27256,16 @@
           "key": "vote-wanted",
           "after": "confess",
           "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confess",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -25812,6 +27292,16 @@
           "key": "vote-wanted",
           "after": "confess",
           "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confess",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -25821,6 +27311,32 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-asking-because-bill-matters-to-a-lot-of-people-i-deserve-a-straight",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm asking because {bill} matters to a lot of people. I deserve a straight answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "confront",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
       }
     },
     {
@@ -25838,6 +27354,16 @@
           "key": "vote-wanted",
           "after": "deflect",
           "requiresFacts": ["bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -25847,6 +27373,136 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.give-me-what-you-can-show-me-on-bill-and-i-ll-weigh-it-with-everything-e",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Give me what you can show me on {bill}, and I'll weigh it with everything else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-meet-you-partway-on-bill-a-hearing-and-then-i-decide",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll meet you partway on {bill}: a hearing, and then I decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-ve-kept-at-me-about-bill-so-i-ll-sit-down-with-you-on-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You've kept at me about {bill}, so I'll sit down with you on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-give-bill-one-more-careful-read-and-i-ll-call-you",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'll give {bill} one more careful read, and I'll call you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-still-haven-t-said-anything-about-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You still haven't said anything about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
       }
     },
     {
