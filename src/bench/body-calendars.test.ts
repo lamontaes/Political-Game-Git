@@ -1,4 +1,5 @@
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, NoPlayerHereError } from "./world";
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -15,20 +16,10 @@ import { seatView } from "./legislature";
 // Done-when item 7: every body that makes law meets on a calendar the world keeps (a real
 // sitting date with its source), and the seat of a member at each level shows the body and what
 // it can do. A place drawn from all 56 on a seed nobody chose.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env BODY_CALENDARS_SEED, GOLDEN_PATH_SEED or randomBytes, so the
-// places it drew changed every run. The fixed seed below draws Fredericksburg,
-// Indiana (1825720) first for "body-calendars".
-// Limit: the slowest case took 113 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 230 s.
-const seed = "pin-body-calendars";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:0`, "body-calendars")).toMatchObject({
-    key: "1825720",
-    name: "Fredericksburg, Indiana",
-  });
-});
+const seed =
+  process.env.BODY_CALENDARS_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 
 describe(`bodies meet on real calendars (seed ${seed})`, () => {
   it("every body has a next sitting on or after today with a source, and its member's seat shows the body", () => {
@@ -36,10 +27,23 @@ describe(`bodies meet on real calendars (seed ${seed})`, () => {
     const report: string[] = [];
     for (let i = 0; i < 4; i += 1) {
       const place = drawPlace(`${seed}:${i}`, "body-calendars");
-      const world = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      // A place whose adults all live in group quarters has no one to play
+      // (the new game passes over it the same way): it is named and passed
+      // over (a Texas place, 4841422, with 446 adults in group quarters, on
+      // #9802's CI run).
+      let world: ReturnType<typeof buildBenchWorld>;
+      try {
+        world = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+      } catch (error) {
+        if (!(error instanceof NoPlayerHereError)) throw error;
+        report.push(
+          `passed over ${place.name} (${place.key}, seed ${place.seed}): no one to play`,
+        );
+        continue;
+      }
       const dev = new DevMode(
         world.core,
         world.director,
@@ -77,6 +81,6 @@ describe(`bodies meet on real calendars (seed ${seed})`, () => {
       }
     }
     expect(levels.size, "levels of government drawn").toBeGreaterThan(2);
-    console.log(report.join("\n"));
-  }, 230_000);
+    process.stdout.write(`${report.join("\n")}\n`);
+  }, 1_800_000);
 });

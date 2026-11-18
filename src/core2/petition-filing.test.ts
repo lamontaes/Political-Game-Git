@@ -1,7 +1,7 @@
 /**
  * Filing is a petition, signatures, the clerk's check, then the ballot
  * (owner, Oct 28). In a played world (`buildBenchWorld`, every module) in a
- * a pinned place:
+ * place drawn from all 56:
  *
  * - a filing opens a petition asking the signatures the place's law asks
  *   (`filingRequirements`), for the race's own electorate;
@@ -20,7 +20,9 @@
  * The player files a month before the deadline and canvasses every day
  * until it; the world's own candidates file and campaign by themselves.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
@@ -46,19 +48,12 @@ import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
-/**
- * The place the first test follows, pinned (it drew six places at run time and
- * failed alone when none held a town race: Black Diamond WA, run seed
- * 4935ff0c8954cbbd). Crab Orchard KY holds a town race (an assessor's seat)
- * whose filing deadline falls inside 400 days of the game start; found by
- * script outside the test, seen red once.
- */
-const PINNED_PLACE = {
-  name: "Crab Orchard",
-  state: "US-KY",
-  key: "2117956",
-  seed: "68aafae3ee231016cd6b2d0e1036a1327db60dde90552b2af895d69e7c79f1ad",
-};
+// The place is drawn each run (GOLDEN_PATH_SEED replays one). Twelve draws:
+// six once held no town race to check (Black Diamond, Washington, run seed
+// 4935ff0c8954cbbd), a thin draw rather than a fault, so it was pinned to Crab
+// Orchard, Kentucky until Nov 17.
+const runSeed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 12;
 const LEAD_DAYS = 30;
 
 const ageOn = (birthDate: string, date: string) =>
@@ -98,8 +93,9 @@ describe("filing is a petition", () => {
     setBookkeeping(false);
     const passedOver: string[] = [];
     let checked = false;
-    for (const place of [PINNED_PLACE]) {
-      const where = `${place.name}, ${place.state} (${place.key}), place seed ${place.seed}`;
+    for (let draw = 0; draw < DRAWS && !checked; draw += 1) {
+      const place = drawPlace(`${runSeed}:${draw}`, "petition-filing");
+      const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, draw ${draw}, place seed ${place.seed}`;
       const { core } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
@@ -301,11 +297,11 @@ describe("filing is a petition", () => {
     }
     expect(
       checked,
-      `the pinned place held no town race to check: ${passedOver.join(" | ")}`,
+      `no drawn place held a town race to check: ${passedOver.join(" | ")}`,
     ).toBe(true);
     if (passedOver.length)
       process.stdout.write(`passed over: ${passedOver.join(" | ")}\n`);
-  }, 250_000);
+  }, 900_000); // up to twelve draws, about a minute each
 
   /**
    * One pinned town: the player files a month before the town race's

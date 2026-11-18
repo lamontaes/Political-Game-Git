@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -39,10 +40,13 @@ import { wordPrintedStory } from "../bench/archive-words";
 // world is built twice at one pinned place: once to see who sits on the
 // committee, then again with a person who sits on it controlled and watched
 // from the start.
-// Pinned (pinned-tests): one drawn place named by this seed, attempt 0; the
-// first question the town may put fails and forms a committee there.
-const seed = "f1480aad99778fc9";
-const ATTEMPTS = 1;
+// Places are drawn from all 56 on a seed nobody chose until the first question
+// the town may put fails and forms a committee there; each place passed over
+// is named, and the test fails by name if none stages both scenes.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const ATTEMPTS = 6;
+/** How many of the town's questions are put to a vote, in order, looking for a narrow failure. */
+const QUESTIONS = 8;
 const AFTER_REPORT_DAYS = 10;
 const DEVELOPER_TEXT =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
@@ -55,9 +59,9 @@ function studyRecord(core: CoreState, id: string): StudyRow | undefined {
 }
 
 /**
- * The game's own path to a committee: a bill on the first question the town's
- * body may put goes to its floor vote today (dev mode's hold-vote), and the
- * engine refers a narrow failure to a study.
+ * The game's own path to a committee: a bill on each question the town's body
+ * may put, in turn, goes to its floor vote today (dev mode's hold-vote), and
+ * the engine refers a narrow failure to a study.
  */
 function stageStudy(core: CoreState): { studyId: string } | undefined {
   // One day in, so the director's first day has run and watches what follows.
@@ -73,18 +77,24 @@ function stageStudy(core: CoreState): { studyId: string } | undefined {
   const policies = billCatalog(api, "city").flatMap((subject) =>
     subject.topics.flatMap((topic) => topic.policies),
   );
-  const policy = policies.find(
-    (row) => row.kind === "policy-question" && row.authority.allowed,
-  );
-  if (!seat || !policy) return undefined;
-  const bill = draftBill(api, {
-    bodyOfficeId: seat.office.id,
-    sponsorId: seat.holder!.personId!,
-    provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
-  });
-  holdVote(api, bill.id, { anyDay: true });
-  const studyId = `study:${bill.id}`;
-  return studyRecord(core, studyId) ? { studyId } : undefined;
+  const questions = policies
+    .filter((row) => row.kind === "policy-question" && row.authority.allowed)
+    .slice(0, QUESTIONS);
+  if (!seat || !questions.length) return undefined;
+  // Each question the town may put goes to its floor vote in turn until one
+  // fails narrowly and the engine forms the committee; a town whose votes all
+  // pass or fail clearly has none, and the place is passed over.
+  for (const policy of questions) {
+    const bill = draftBill(api, {
+      bodyOfficeId: seat.office.id,
+      sponsorId: seat.holder!.personId!,
+      provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+    });
+    holdVote(api, bill.id, { anyDay: true });
+    const studyId = `study:${bill.id}`;
+    if (studyRecord(core, studyId)) return { studyId };
+  }
+  return undefined;
 }
 
 it(`the paper tells a study committee, and its members are spoken to when it forms and when it reports (seed ${seed})`, () => {
@@ -312,9 +322,9 @@ it(`the paper tells a study committee, and its members are spoken to when it for
   throw new Error(
     `no study committee staged both scenes: ${tried.join("; ")} (seed ${seed})`,
   );
-  // The run is about 100 seconds, not the minute the pinned-tests habit
+  // A place takes about 100 seconds, not the minute the pinned-tests habit
   // names: the committee's own 180-day term (`studyTermDays`, legislature.ts)
   // has to pass in the engine before it reports, and the world is played day
   // by day through it with the member's stops answered. The study is staged
   // by the legislature's vote, so no draw loop is in it.
-}, 300_000);
+}, 1_800_000); // up to six places of about 100 s each, a scouting world and a replay each.

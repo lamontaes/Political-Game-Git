@@ -5,15 +5,13 @@
  * twice, a month apart, through the record kin-contact writes
  * (`family.contact`): the first letter is staged as a scene; the second, with
  * no news of the writer's life on record since, a birthday missed or near,
- * goes to the journal. The place and seed are pinned (Montgomery, Minnesota,
- * seed 27d765b93606854d) and in every message; replay another with
+ * goes to the journal. The place is drawn from all 56 on a seed nobody chose, a
+ * place whose player has no relative living elsewhere is passed over and
+ * named, and the place and seed are in every message; replay with
  * LETTER_SEED.
- *
- * Old premise: the test drew a place at run time (it once drew Masefau). New:
- * a named place and seed where the hold was seen red (the letter hold off, the
- * second letter staged again), so it fails by the rule and never by the draw.
  */
-import { describe, expect, it } from "vitest";
+import { randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -27,9 +25,8 @@ import { letterFacts, LETTER_TYPE } from "./letter-facts";
 
 setBookkeeping(false);
 
-const seed = process.env.LETTER_SEED ?? "27d765b93606854d";
-const place = drawPlace(seed, "letter-repeat");
-const where = `${place.name} (${place.key}), seed ${seed}`;
+const seed = process.env.LETTER_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 12;
 
 /** One day on the player's own clock, as the scene tool plays it. */
 function playDay(core: CoreState, playerId: PersonId): void {
@@ -65,66 +62,87 @@ function writeLetter(core: CoreState, readerId: PersonId, writerId: PersonId) {
   return id;
 }
 
-describe(`a relative's letter with nothing changed (${where})`, () => {
-  it("stages the first letter and sends the same ask a month later to the journal", () => {
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
+/** Plays one drawn place; the reason it lacks the case, or undefined once every check passed there. */
+function attempt(
+  place: ReturnType<typeof drawPlace>,
+  where: string,
+): string | undefined {
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  const playerId = world.playerId! as PersonId;
+  const player = core.people.get(playerId)!;
+  for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+    if (core.people.get(id)?.alive) director.watch(core, id);
+  const writer = [...player.familyIds]
+    .map((id) => core.people.get(id))
+    .find((row) => row && livesElsewhere(core, row));
+  if (!writer) return "no relative lives elsewhere";
+  const writerId = writer!.id;
+  const outcomeOf = (causeId: string) =>
+    director.ledger.people
+      .get(playerId)
+      ?.schedule.find(
+        (entry) =>
+          director.ledger.people.get(playerId)?.momentsById.get(entry.momentId)
+            ?.causeId === causeId,
+      );
+  playDay(core, playerId);
+  const first = writeLetter(core, playerId, writerId);
+  playDay(core, playerId);
+  const staged = outcomeOf(first);
+  expect(
+    staged,
+    `${where}: the first letter ${first} was not scheduled`,
+  ).toBeDefined();
+  expect(
+    staged!.bindings.some((row) => row.typeKey === LETTER_TYPE) &&
+      staged!.outcome !== "journal-line",
+    `${where}: the first letter ${first} was not staged (${staged!.outcome})`,
+  ).toBe(true);
+  for (let day = 0; day < 30; day += 1) playDay(core, playerId);
+  const second = writeLetter(core, playerId, writerId);
+  // Nothing on record since: the letter would say nothing new.
+  expect(
+    Object.keys(
+      letterFacts(core, LETTER_TYPE, second, writerId, playerId, () => null),
+    ),
+    `${where}: the writer has news on record since, so a second letter may play`,
+  ).toEqual([]);
+  playDay(core, playerId);
+  const again = outcomeOf(second);
+  expect(
+    !again ||
+      again.outcome === "journal-line" ||
+      !again.bindings.some((row) => row.typeKey === LETTER_TYPE),
+    `${where}: ${second} staged the same letter again with nothing changed since ${first}`,
+  ).toBe(true);
+  // Held back with its reason on the schedule, for the journal to tell.
+  if (again)
+    expect(again.heldBack, `${where}: ${second}`).toContainEqual({
+      typeKey: LETTER_TYPE,
+      reason: "nothing-changed",
     });
-    const { core, director } = world;
-    const playerId = world.playerId! as PersonId;
-    const player = core.people.get(playerId)!;
-    for (const id of core.households.get(player.householdId)?.memberIds ?? [])
-      if (core.people.get(id)?.alive) director.watch(core, id);
-    const writer = [...player.familyIds]
-      .map((id) => core.people.get(id))
-      .find((row) => row && livesElsewhere(core, row));
-    expect(writer, `${where}: no relative lives elsewhere`).toBeDefined();
-    const writerId = writer!.id;
-    const outcomeOf = (causeId: string) =>
-      director.ledger.people
-        .get(playerId)
-        ?.schedule.find(
-          (entry) =>
-            director.ledger.people
-              .get(playerId)
-              ?.momentsById.get(entry.momentId)?.causeId === causeId,
-        );
-    playDay(core, playerId);
-    const first = writeLetter(core, playerId, writerId);
-    playDay(core, playerId);
-    const staged = outcomeOf(first);
-    expect(
-      staged,
-      `${where}: the first letter ${first} was not scheduled`,
-    ).toBeDefined();
-    expect(
-      staged!.bindings.some((row) => row.typeKey === LETTER_TYPE) &&
-        staged!.outcome !== "journal-line",
-      `${where}: the first letter ${first} was not staged (${staged!.outcome})`,
-    ).toBe(true);
-    for (let day = 0; day < 30; day += 1) playDay(core, playerId);
-    const second = writeLetter(core, playerId, writerId);
-    // Nothing on record since: the letter would say nothing new.
-    expect(
-      Object.keys(
-        letterFacts(core, LETTER_TYPE, second, writerId, playerId, () => null),
-      ),
-      `${where}: the writer has news on record since, so a second letter may play`,
-    ).toEqual([]);
-    playDay(core, playerId);
-    const again = outcomeOf(second);
-    expect(
-      !again ||
-        again.outcome === "journal-line" ||
-        !again.bindings.some((row) => row.typeKey === LETTER_TYPE),
-      `${where}: ${second} staged the same letter again with nothing changed since ${first}`,
-    ).toBe(true);
-    // Held back with its reason on the schedule, for the journal to tell.
-    if (again)
-      expect(again.heldBack, `${where}: ${second}`).toContainEqual({
-        typeKey: LETTER_TYPE,
-        reason: "nothing-changed",
-      });
-  }, 600_000);
-});
+  return undefined;
+}
+
+it("stages the first letter and sends the same ask a month later to the journal", () => {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "letter-repeat");
+    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+    const why = attempt(place, where);
+    if (!why) {
+      process.stdout.write(
+        `LETTER REPEAT passed at ${where}; passed over: ${passed.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    passed.push(`${place.name} (${why})`);
+  }
+  throw new Error(
+    `No drawn place had a relative elsewhere: ${passed.join("; ")} (seed ${seed})`,
+  );
+}, 1_800_000);

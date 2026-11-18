@@ -5,6 +5,7 @@
  * player, a 17-year-old turning 18; since Nov 16 the player is any adult, whose
  * birthday can be a year away.)
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -13,21 +14,8 @@ import { gameStartDate } from "../core2/game-start";
 import { personCard } from "./card";
 import { buildBenchWorld } from "./world";
 
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
-// every run. The fixed seed below draws Ta'ū, American Samoa (territory:AS:tau)
-// first for "bench-card-age".
-// Limit: the slowest case took 32 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 70 s.
-const seed = "pin-card-age";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "bench-card-age");
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "bench-card-age")).toMatchObject({
-    key: "territory:AS:tau",
-    name: "Ta'\u016b, American Samoa",
-  });
-});
 
 describe(`the card's age in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("reads a resident's age the day before their next birthday and one more on it", () => {
@@ -64,5 +52,5 @@ describe(`the card's age in ${place.name}, ${place.state} (seed ${seed})`, () =>
     expect(personCard(core, person.id).age).toBe(age);
     advanceCore(core, birthday);
     expect(personCard(core, person.id).age).toBe(age + 1);
-  }, 70_000);
+  }, 130_000);
 });

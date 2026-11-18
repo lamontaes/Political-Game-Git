@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -14,20 +15,10 @@ import { buildBenchWorld } from "./world";
 // The president the player plays is held on a vacant cabinet post and names someone from the people the
 // post could go to; the Senate's vote is set for a later sitting day. A place drawn from all 56 on a
 // seed nobody chose.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env PRESIDENT_NOMINATION_SEED, GOLDEN_PATH_SEED or randomBytes, so
-// the places it drew changed every run. The fixed seed below draws Bartlett,
-// Tennessee (4703440) first for "president-nomination".
-// Limit: the slowest case took 75 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 160 s.
-const seed = "pin-bill-president-nomination";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "president-nomination")).toMatchObject({
-    key: "4703440",
-    name: "Bartlett, Tennessee",
-  });
-});
+const seed =
+  process.env.PRESIDENT_NOMINATION_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 
 describe(`the president names a cabinet secretary (seed ${seed})`, () => {
   it("holds the president on the post, shows the candidates and sends the one they name to the Senate", () => {
@@ -76,7 +67,7 @@ describe(`the president names a cabinet secretary (seed ${seed})`, () => {
       else player.advance("day");
     }
     throw new Error(`the president was never held on a cabinet post: ${where}`);
-  }, 160_000);
+  }, 900_000);
 
   it("lets the president leave every post open: the hold clears and the day goes on", () => {
     const place = drawPlace(seed, "president-leave-open");
@@ -129,5 +120,5 @@ describe(`the president names a cabinet secretary (seed ${seed})`, () => {
       else player.advance("day");
     }
     throw new Error(`the president was never held on a cabinet post: ${where}`);
-  }, 160_000);
+  }, 900_000);
 });

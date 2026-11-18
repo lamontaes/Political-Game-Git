@@ -18,12 +18,13 @@
  * person, as the ungraded one is in the first world. Each world then holds the
  * same one talk, so the twins stay the same for the next.
  *
- * Pinned (pinned-tests): the two places seed 82998207500ce8e2 drew, where the
- * old test went red. Measured at about 75 s alone and 83 s beside two other
- * talk tests (conversation-replies-fit, everyday-answers); the limit is 180 s,
- * near twice the slower run.
+ * Two places are drawn from all 56 on a seed nobody chose; each is named with
+ * its seed in every message. Measured at about 75 s a pair of places alone;
+ * the limit stays 180 s, near twice the measured run.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -38,18 +39,11 @@ import {
   type Conversation,
 } from "./conversation";
 
-const PLACES = [
-  {
-    name: "Basco, Illinois",
-    key: "1704052",
-    seed: "523a45c84531330e782239acf3473c20a1dd186b333daa29cdc86c594f2bf5d3",
-  },
-  {
-    name: "Platteville, Colorado",
-    key: "0860160",
-    seed: "4b7098569129772fef9a815fc73f97d3da5848d7fcab2f260120e68f18867dc8",
-  },
-];
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const PLACES = [0, 1].map((draw) => ({
+  ...drawPlace(`${seed}:${draw}`, "talk-move-pairs"),
+  draw,
+}));
 const DAYS = 30;
 const STEP = 7;
 const LIMIT_MS = 180_000;
@@ -67,7 +61,7 @@ it(
   () => {
     const report: string[] = [];
     for (const place of PLACES) {
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const where = `${place.name} (${place.key}), seed ${seed}:${place.draw}`;
       setBookkeeping(false);
       // The world the ungraded talk is had in, and its twin for the graded one.
       const [world, twin] = [0, 1].map(() =>

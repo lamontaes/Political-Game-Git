@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -36,11 +37,11 @@ import { relationFacts } from "./relation-facts";
 // player's "I'm sorry" gives back part of what the veto took, through the
 // same writer, and the sponsor answers it. A later talk does not bring the
 // veto up again.
-// Pinned (pinned-tests): the desk visit's seed, whose draws put a mayor
-// with a veto and three council members within the first attempts.
-const seed =
-  process.env.GOLDEN_PATH_SEED ?? "4276344481a2b078e70633cfee47d0caccb65f74";
-const ATTEMPTS = 8;
+// Places are drawn from all 56 on a seed nobody chose, one after another, until
+// one has a mayor with a veto and three council members; each place passed over
+// is named, with its reason, if none has.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const ATTEMPTS = 20;
 
 it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
   const tried: string[] = [];
@@ -126,7 +127,21 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
     expect(billOf(api, bill.id).status, where).toBe("awaiting-signature");
     // A second member's bill, vetoed the same morning with no reason: its
     // sponsor's talk is the one the player stands by the veto in.
-    const sponsor2 = council[2]!.holder!.personId as PersonId;
+    // The one who stands by the veto's answer is a member who holds on to a
+    // quarrel (a sponsor at the bottom of the conflict trait holds on to none,
+    // so a second quarrel cools nothing); the sponsor is not that member.
+    const holders = council
+      .map((row) => row.holder!.personId as PersonId)
+      .filter(
+        (id) =>
+          id !== sponsor &&
+          (core.people.get(id)?.traits?.["people-mind-v1:conflict"] ?? 0) > -2,
+      );
+    if (!holders.length) {
+      tried.push(`${place.name}: no council member who holds on to a quarrel`);
+      continue;
+    }
+    const sponsor2 = holders[0]!;
     const bill2 = draftBill(api, {
       bodyOfficeId: council[0]!.office.id,
       sponsorId: sponsor2,
@@ -266,4 +281,4 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
     return;
   }
   throw new Error(`No place had a mayor with a veto: ${tried.join("; ")}`);
-}, 170_000);
+}, 600_000); // a drawn place may play longer than the pinned one (170 s limit).

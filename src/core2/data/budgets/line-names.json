@@ -81,6 +81,10 @@
       "name": "Highways",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Highways"
     },
+    "transit": {
+      "name": "Public transit",
+      "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Utility expenditure, Transit"
+    },
     "police": {
       "name": "Police protection",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Police protection"

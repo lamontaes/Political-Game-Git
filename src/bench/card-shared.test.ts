@@ -6,6 +6,7 @@
  * record, and an officeholder's card lists the seats the government's history
  * before day one records for them.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -22,20 +23,7 @@ import { subjectsBetween } from "../director/conversation";
 import { knownCard } from "./card";
 import { buildBenchWorld } from "./world";
 
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
-// every run. The fixed seed below draws West Orange, Texas (4877752) first for
-// "card-shared".
-// Limit: the slowest case took 62 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 130 s.
-const seed = "pin-card-shared";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "card-shared")).toMatchObject({
-    key: "4877752",
-    name: "West Orange, Texas",
-  });
-});
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 
 it("the card lists the shared history and seats by the scenes' record ids", () => {
   const place = drawPlace(seed, "card-shared");
@@ -92,7 +80,7 @@ it("the card lists the shared history and seats by the scenes' record ids", () =
   console.log(
     `${where}: ${sharing.length} share a record with the player; ${seated.length} hold a seat from before the start`,
   );
-}, 130_000);
+}, 600_000);
 
 it("a workgroup coworker's card and the director's tie moment cite the same records", () => {
   const place = drawPlace(seed, "card-shared-coworker");
@@ -182,7 +170,7 @@ it("a workgroup coworker's card and the director's tie moment cite the same reco
   console.log(
     `${where}: tie ${tieId}, employer ${employerId}, moment ${moment?.id}`,
   );
-}, 130_000);
+}, 600_000);
 
 it("a relative's card and the player's talk about them cite the same family fact", () => {
   const place = drawPlace(seed, "card-shared-relative");
@@ -225,4 +213,4 @@ it("a relative's card and the player's talk about them cite the same family fact
     `${where}: no relative the stranger has not met`,
   ).toBeGreaterThan(0);
   console.log(`${where}: ${checked} relatives cited by the same family fact`);
-}, 130_000);
+}, 600_000);

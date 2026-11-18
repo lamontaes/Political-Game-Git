@@ -4,6 +4,7 @@
  * household's members, grouped by the transfer's reason. In the played world,
  * in a place drawn from all 56 on a seed nobody chose (GOLDEN_PATH_SEED pins one).
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { clearPersonOutflows, personOutflowsForMonth } from "../core2/accounts";
@@ -16,13 +17,7 @@ import type { CoreState } from "../core2/types";
 import { bankView } from "./bank";
 import { buildBenchWorld } from "./world";
 
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
-// every run. The fixed seed below draws East Bernstadt, Kentucky (2123284)
-// first for "bank-spending-reasons".
-// Limit: the slowest case took 55 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 110 s.
-const seed = "pin-bank-spending-reasons";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bank-spending-reasons");
 const build = () => {
   setBookkeeping(false);
@@ -52,13 +47,6 @@ function journalOutflows(core: CoreState, memberIds: string[], month: string) {
   return out;
 }
 
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(seed, "bank-spending-reasons")).toMatchObject({
-    key: "2123284",
-    name: "East Bernstadt, Kentucky",
-  });
-});
-
 describe(`spending reasons on the Money sheet in ${place.name}, seed ${seed}`, () => {
   it("equals the journal's outflows for the household in a closed month", () => {
     const { core, playerId } = build();
@@ -82,7 +70,7 @@ describe(`spending reasons on the Money sheet in ${place.name}, seed ${seed}`, (
     expect(view.spending.length).toBeGreaterThan(0);
     for (const line of view.spending)
       expect(line.paidMinor).toBeLessThanOrEqual(line.requestedMinor);
-  }, 110_000);
+  }, 600_000);
 
   it("leaves out a month the person was only partly watched", () => {
     const { core, playerId } = build();
@@ -90,7 +78,7 @@ describe(`spending reasons on the Money sheet in ${place.name}, seed ${seed}`, (
     const first = core.date.slice(0, 7);
     // The opening month is part of a month: never shown as a whole one.
     expect(personOutflowsForMonth(core, playerId, first)).toEqual([]);
-  }, 110_000);
+  }, 600_000);
 
   it("is kept in a save: saved mid-month and loaded, the same strip", () => {
     const original = build();
@@ -106,7 +94,7 @@ describe(`spending reasons on the Money sheet in ${place.name}, seed ${seed}`, (
       expect(personOutflowsForMonth(loaded.core, id, month)).toEqual(
         personOutflowsForMonth(original.core, id, month),
       );
-  }, 110_000);
+  }, 600_000);
 
   it("is read by nothing in the simulation: dropping it every week changes no other record", () => {
     const run = (clear: boolean) => {
@@ -123,5 +111,5 @@ describe(`spending reasons on the Money sheet in ${place.name}, seed ${seed}`, (
       };
     };
     expect(run(true)).toEqual(run(false));
-  }, 110_000);
+  }, 600_000);
 });

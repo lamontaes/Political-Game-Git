@@ -1,56 +1,89 @@
 /**
  * A running mate's filing states its governor candidate's platform
  * (`nameRunningMate` copies it into the ticket's filing), not a second choice
- * by the rule. Pinned: Leeds Point NJ, which elects its lieutenant governor
- * on the governor's ticket, at a fixed place seed, played from the game's
- * start (January 20, 2025) to a week after the ticket's filing on 2025-06-03
- * (141 days). The year-long calibration that reads every platform of a year
- * is campaign-platform-played.test.ts, run on purpose with
- * `npm run test:calibration`.
+ * by the rule. Drawn (CTO, Nov 17: tests draw their place; it was pinned to
+ * Leeds Point NJ, played from the game's start to its 2025 filing): the draw
+ * takes only localities in states whose law elects the lieutenant governor on
+ * the governor's ticket (`electedWithGovernorOnTicket`, from the offices
+ * data), opens the world on January 2, 2026, the year most governors are
+ * elected, and plays a day at a time until a running mate's filing states a
+ * platform or the end of September. A place with none is passed over and
+ * named. The year-long calibration that reads every platform of a year is
+ * campaign-platform-played.test.ts, run on purpose with
+ * `npm run test:calibration`. GOLDEN_PATH_SEED replays one.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { gameStartDate } from "./game-start";
+import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { ELECTIONS_MODULE_ID, type FilingRow } from "./modules/elections";
+import { electedWithGovernorOnTicket } from "./modules/offices";
+import { placeLocalities, placeStateKeys } from "./places";
 
-const PLACE = {
-  key: "3439810",
-  name: "Leeds Point",
-  state: "NJ",
-  seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
-} as const;
-const DAYS = 141;
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const OPEN = "2026-01-02";
+const LAST = "2026-09-30";
+const DRAWS = 4;
+const onTicket = new Set(
+  placeStateKeys()
+    .filter((state) =>
+      electedWithGovernorOnTicket(state, "lieutenant-governor"),
+    )
+    .flatMap((state) => placeLocalities(state).map((row) => row.key)),
+);
 
-it("a running mate's filing carries its governor candidate's platform (Leeds Point NJ, pinned seed, played to the filing day)", () => {
-  const where = `${PLACE.name}, ${PLACE.state} (${PLACE.key}), pinned place seed ${PLACE.seed}`;
-  const { core } = buildBenchWorld(PLACE.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: PLACE.key,
-  });
-  const api = coreAPI(core);
-  const end = addDays(makeIsoDate(core.date), DAYS);
-  while (core.date < end) advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
-  const mates = (filings.rows() as unknown as FilingRow[]).filter(
-    (f) => f.ticketWith && f.platform.length,
-  );
-  expect(
-    mates.length,
-    `${where}: no running mate's filing stated a platform in ${DAYS} days`,
-  ).toBeGreaterThan(0);
-  for (const mate of mates) {
-    const governor = filings.get(mate.ticketWith!) as unknown as
-      FilingRow | undefined;
-    if (!governor)
-      throw new Error(
-        `${where}: running mate ${mate.id} names ticket ${mate.ticketWith}, which is no filing`,
+it(`a running mate's filing carries its governor candidate's platform (seed ${seed})`, () => {
+  setBookkeeping(false);
+  const passed: string[] = [];
+  try {
+    for (let i = 0; i < DRAWS; i += 1) {
+      const place = drawPlace(`${seed}:${i}`, "running-mate-platform", (key) =>
+        onTicket.has(key),
       );
-    expect(
-      mate.platform,
-      `${where}: running mate ${mate.id} copies ${governor.id}'s platform`,
-    ).toEqual(governor.platform);
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core } = buildBenchWorld(place.seed, makeIsoDate(OPEN), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const filings = coreAPI(core)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings");
+      const matesNow = () =>
+        (filings.rows() as unknown as FilingRow[]).filter(
+          (f) => f.ticketWith && f.platform.length,
+        );
+      while (core.date < LAST && !matesNow().length)
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const mates = matesNow();
+      if (!mates.length) {
+        passed.push(`${where}: no running mate filed by ${LAST}`);
+        continue;
+      }
+      for (const mate of mates) {
+        const governor = filings.get(mate.ticketWith!) as unknown as
+          FilingRow | undefined;
+        if (!governor)
+          throw new Error(
+            `${where}: running mate ${mate.id} names ticket ${mate.ticketWith}, which is no filing`,
+          );
+        expect(
+          mate.platform,
+          `${where}: running mate ${mate.id} copies ${governor.id}'s platform`,
+        ).toEqual(governor.platform);
+      }
+      console.log(
+        `running mate: ${where}: ${mates.length} running mate filing(s) by ${core.date}, each with its governor's platform; passed over: ${passed.join("; ") || "none"}`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had a running mate file; passed over: ${passed.join("; ")}`,
+    );
+  } finally {
+    setBookkeeping(true);
   }
-}, 300_000);
+}, 1_200_000);

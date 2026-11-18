@@ -1,5 +1,7 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -36,23 +38,18 @@ import { purposeScene } from "./purpose-scene";
 // turn until a race there takes the filing and a donor holds a view on a
 // bill pending before its body; most elect only in even years (eight in a
 // row in one CI run), so up to 32 are drawn.
-// Pinned (owner ruling: a carried test names its place and world seed from
-// data, and never draws at run time): Loving, New Mexico (3544420), world
-// seed d1ef254b..., found by drawing "f5-donor:7".
-const PLACE = {
-  key: "3544420",
-  name: "Loving, New Mexico",
-  seed: "d1ef254b96157871fa107765d9300048c2d5d9e252b59d2ae19b810ed8cc83be",
-};
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const ATTEMPTS = 32;
 const YEAR = 365;
 const TRIED = 12;
 /** How many bills are pending before the body as the campaign starts. */
 const PENDING = 6;
 
-it(`a donor's gift is the candidate's donor-ask scene, with the donor (${PLACE.name})`, () => {
-  {
-    const place = PLACE;
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
+    const place = drawPlace(`${seed}:${attempt}`, "donor-ask-scene");
+    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
     setBookkeeping(false);
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -72,7 +69,8 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (${PLACE.n
           .rows() as unknown as ContestRow[]
       ).some((race) => race.filingDeadline >= core.date && counted(race))
     ) {
-      throw new Error(`${where}: no race counted in the year`);
+      tried.push(`${place.name} (no race counted in the year)`);
+      continue;
     }
     const open = () =>
       [...openContests(api)]
@@ -151,7 +149,8 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (${PLACE.n
           })
       : undefined;
     if (!race || !candidate || !pending.length) {
-      throw new Error(`${where}: no council race took a filing`);
+      tried.push(`${place.name} (no council race took a filing)`);
+      continue;
     }
     // The campaign runs to the night before the count.
     advanceCore(core, addDays(makeIsoDate(race.electionDate), -1));
@@ -164,7 +163,8 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (${PLACE.n
         book.moments.some((moment) => moment.causeId === row.id),
     );
     if (!gifts.length) {
-      throw new Error(`${where}: no gift was a moment`);
+      tried.push(`${place.name} (no gift was a moment)`);
+      continue;
     }
     // A gift while bills were pending names the one before the race's body
     // that its donor holds the strongest view on: one the test drafted, or
@@ -229,21 +229,30 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (${PLACE.n
       }
       if (keys.has("about")) sawAbout = true;
       if (keys.has("side-for") || keys.has("side-against")) sawSide = true;
-      console.log(
-        `DONOR FACTS ${here}: ${JSON.stringify([...keys.values()].filter((row) => ["donor-first", "employer", "bill", "about", "side-for", "side-against"].includes(row.key)).map((row) => [row.key, row.text, row.recordIds]))}`,
+      process.stdout.write(
+        `DONOR FACTS ${here}: ${JSON.stringify([...keys.values()].filter((row) => ["donor-first", "employer", "bill", "about", "side-for", "side-against"].includes(row.key)).map((row) => [row.key, row.text, row.recordIds]))}\n`,
       );
-      console.log(
-        `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${result.scene.talk.state.text}"`,
+      process.stdout.write(
+        `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${result.scene.talk.state.text}"\n`,
       );
     }
-    expect(sawEmployer, `${where}: no donor spoke from an employer`).toBe(true);
-    expect(sawAbout, `${where}: no donor spoke about a question`).toBe(true);
-    expect(sawSide, `${where}: no donor spoke from a side`).toBe(true);
-    // The donor of a gift holds a view on a pending bill, so the ask about
-    // it is seen too.
-    expect(
-      named.length,
-      `${where}: no gift named a pending bill`,
-    ).toBeGreaterThan(0);
+    // Places are drawn on until a donor of the gifts spoke from an employer,
+    // about a question, from a side, and held a view on a pending bill.
+    const lacks = [
+      !sawEmployer && "no donor spoke from an employer",
+      !sawAbout && "no donor spoke about a question",
+      !sawSide && "no donor spoke from a side",
+      !named.length && "no gift named a pending bill",
+    ].filter(Boolean);
+    if (!lacks.length) {
+      process.stdout.write(
+        `DONOR ASK passed at ${where}; passed over: ${tried.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    tried.push(`${place.name} (${lacks.join(", ")})`);
   }
+  throw new Error(
+    `no campaign took a gift that met every check in ${tried.join("; ")} (seed ${seed})`,
+  );
 }, 3_600_000);

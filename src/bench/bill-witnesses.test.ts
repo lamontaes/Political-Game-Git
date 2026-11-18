@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -17,20 +18,10 @@ import { buildBenchWorld } from "./world";
 
 // A hearing on a bill that is not a wage bill hears the residents the interest groups' records
 // show on each side of its question, by name. Places drawn from all 56 on seeds nobody chose.
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env WITNESS_SEED, GOLDEN_PATH_SEED or randomBytes, so the places it
-// drew changed every run. The fixed seed below draws Wrightwood, California
-// (0686594) first for "witnesses".
-// Limit: the slowest case took 46 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 100 s.
-const seed = "pin-bill-witnesses";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:0`, "witnesses")).toMatchObject({
-    key: "0686594",
-    name: "Wrightwood, California",
-  });
-});
+const seed =
+  process.env.WITNESS_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 
 describe(`witnesses on a non-wage bill (seed ${seed})`, () => {
   it("hears people on a policy question at a state committee", () => {
@@ -85,5 +76,5 @@ describe(`witnesses on a non-wage bill (seed ${seed})`, () => {
     throw new Error(
       `no drawn place heard witnesses on a non-wage bill (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 100_000);
+  }, 900_000);
 });

@@ -1,4 +1,6 @@
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -15,7 +17,6 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { partiesHere, partyTie } from "../core2/modules/parties";
-import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -33,16 +34,14 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // people around the player (in its circle, watched by the director), so an
 // ask is a kept record in a life the director watches.
 //
-// Pinned to one place, seed and opening day (pinned-tests): Breathedsville,
-// Maryland, opened a month before its party filing window, so the chair's
-// ask comes in the first weeks through the game's own path. A party asks
-// only members who know its chair, and the chair opens knowing the members
-// who come to its meetings (parties-opening-chair-knows-no-members). The
-// golden-path runner may bind another place and seed.
-const seed =
-  process.env.GOLDEN_PATH_SEED ??
-  "eb7bf5962b7c91580493e25b412315491d7919f3bfaa5fc6b44a1b5435f719d5";
-const pinned = process.env.GOLDEN_PATH_PLACE_KEY ?? "2409400";
+// Drawn (CTO, Nov 17: tests draw their place; it was pinned to
+// Breathedsville, Maryland): up to four places drawn from all 56, each played
+// until a party has asked and a yes has been said, and named when no party
+// asks anyone. A party asks only members who know its chair, and the chair
+// opens knowing the members who come to its meetings
+// (parties-opening-chair-knows-no-members). GOLDEN_PATH_SEED replays one.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 4;
 const OPENING = gameStartDate();
 const MONTHS = 24;
 
@@ -69,12 +68,8 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
   const tried: string[] = [];
   let answered = "";
   try {
-    {
-      const place = {
-        key: pinned,
-        seed,
-        name: corePlaceByKey(pinned)?.displayName ?? pinned,
-      };
+    for (let i = 0; i < DRAWS && !(told.length && answered); i += 1) {
+      const place = drawPlace(`${seed}:${i}`, "party-recruit");
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
       const { core, director } = buildBenchWorld(place.seed, OPENING, {
         twoLevel: true,
@@ -246,4 +241,4 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+}, 1_200_000);

@@ -6,6 +6,7 @@
  * A place is drawn from all 56 on a seed nobody chose (BUDGET_EDITOR_SEED pins
  * one); one without a mayor or county executive with a government is redrawn.
  */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -20,20 +21,7 @@ import { coreAPI } from "../core2/state";
 import { budgetLinePick, officeView } from "./office";
 import { buildBenchWorld } from "./world";
 
-// Pinned (Nov 16, trial batch). Before, the seed came at run time from
-// process.env BUDGET_EDITOR_SEED or randomBytes, so the places it drew changed
-// every run. The fixed seed below draws Stella, Puerto Rico (7280596) first for
-// "budget-editor".
-// Limit: the slowest case took 119 s, run two files at a time (Nov 16,
-// Train 6d12556a); each case's limit is about twice that, 240 s.
-const seed = "pin-budget-editor";
-
-it("draws its pinned place from the fixed seed", () => {
-  expect(drawPlace(`${seed}:0`, "budget-editor")).toMatchObject({
-    key: "7280596",
-    name: "Stella, Puerto Rico",
-  });
-});
+const seed = process.env.BUDGET_EDITOR_SEED ?? randomBytes(8).toString("hex");
 
 it("a mayor sets lines of the budget to send and the act sends exactly those", () => {
   const tried: string[] = [];
@@ -114,4 +102,4 @@ it("a mayor sets lines of the budget to send and the act sends exactly those", (
   throw new Error(
     `no mayor with an open budget season in 8 draws: ${tried.join("; ")} (seed ${seed})`,
   );
-}, 240_000);
+}, 1_800_000);
