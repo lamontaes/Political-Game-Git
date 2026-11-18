@@ -54,6 +54,12 @@
  *   who did where they do not, and the test says which.
  */
 import { expect, it, vi } from "vitest";
+// The candidacy engine loads first, so its call of candidatePlatform reaches
+// the watch below. campaign-stances imports the campaigns module, which loads
+// candidacy; a module first loaded while the mock's original is being read
+// (importOriginal) is handed the original, so without this line every runner's
+// filing was chosen out of the watch's sight and no filing ever matched.
+import "./modules/candidacy";
 import type { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
