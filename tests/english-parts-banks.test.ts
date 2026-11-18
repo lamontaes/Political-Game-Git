@@ -279,33 +279,6 @@ describe("relative days in scene narration", () => {
 // read it tonight.") is true at any hour of the day; it is listed here, so
 // every line that names the evening is decided one way or the other.
 const EVENING_AHEAD = new Set([
-  "scene-talk.reply-deflect.i-was-going-to-tell-you-tonight",
-  "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
-  "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
-  "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
-  "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
-  "scene-talk.reply-press.tonight-would-be-better",
-  "scene-talk.follow-accept.tonight-then",
-  "scene-talk.follow-promise.sign-at-the-bottom-and-i-ll-write-the-reference-myself-tonight",
-  "scene-talk.follow-press.monday-s-fine-tonight-though-give-the-room-one-line-it-can-cheer",
-  "scene-talk.reply-agree.i-ll-call-relative-tonight",
-  "scene-talk.reply-agree.all-right-i-ll-call-tonight",
-  "scene-talk.reply-agree.okay-i-ll-go-over-there-tonight",
-  "scene-talk.reply-agree.then-i-ll-do-it-tonight",
-  "scene-talk.follow-confront.not-after-tonight-you-re-not",
-  "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
-  "scene-talk.follow-warn.earn-it-again-tomorrow-tonight-be-gracious",
-  "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
-  "scene-talk.close-warn.it-s-running-tonight-with-or-without-you",
-  "scene-talk.close-promise.i-ll-send-the-details-to-your-office-tonight",
-  "scene-talk.follow-thank.tonight-thank-you",
-  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
-  "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
-  "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
-  "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
-  "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
-  "scene-talk.follow-comfort.take-it-easy-tonight",
-  "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
   // The bill's vote that evening, from its floor date (rule 22).
   "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
