@@ -21,38 +21,48 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   scope:
-    name: docs only
+    name: which checks apply
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     permissions:
       contents: read
       pull-requests: read
     outputs:
-      docs_only: ${{ steps.files.outputs.docs_only }}
+      run: ${{ steps.files.outputs.run }}
     steps:
-      - name: Detect docs-only pull request
+      # Only the paths the graph reads are fetched: no pictures, one commit
+      # (owner, Nov 18: whole-game checks run only for a change they play).
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/art/
+      - name: Read the import graph of each check
         id: files
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           set -euo pipefail
-          docs_only=false
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            # If the file list cannot be read, the game runs go ahead.
+          run=true
+          if [[ "$EVENT_NAME" == "pull_request" && "$HEAD_REF" != train/* ]]; then
             files="$(gh api --paginate "repos/${{ github.repository }}/pulls/${PR_NUMBER}/files" --jq '.[].filename')" || files=""
-            if [[ -n "$files" ]] && ! grep -qvE '^(docs/.*|[^/]*\.md)$' <<<"$files"; then
-              docs_only=true
+            if [[ -n "$files" ]]; then
+              run="$(node scripts/ci/graph-scope.mjs --entries "scripts/new-game-check.ts" --always ".github/workflows/new-game.yml" <<<"$files" | tee /dev/stderr | sed -n 's/^run=//p')"
             fi
           fi
-          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "run=${run:-true}" >> "$GITHUB_OUTPUT"
   new-game:
     name: new game
     needs: scope
-    # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
-    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
+    # Runs only when the pull request changes a file the new game plays (scope job).
+    if: ${{ !cancelled() && needs.scope.outputs.run != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
