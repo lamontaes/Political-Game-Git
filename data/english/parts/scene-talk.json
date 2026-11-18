@@ -23366,10 +23366,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.come-back-with-something-i-can-hold-you-to-and-i-ll-think-again-about-office",
+      "key": "scene-talk.reply-decline.come-back-with-something-i-can-hold-you-to-in-the-office-race",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Come back with something I can hold you to, and I'll think again about {office}.",
+      "text": "Come back with something I can hold you to in the {office} race.",
       "uses": [
         {
           "subject": "scene",
