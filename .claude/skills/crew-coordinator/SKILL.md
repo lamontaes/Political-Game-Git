@@ -1,14 +1,12 @@
 ---
 name: crew-coordinator
 description: >
-  How one session runs a builder crew for Our Civic Duty from a work list on a
-  crew issue: one session per lane and a watcher, the loop of light and full
-  checks, relaying lines between lanes, reading the checks on every pull request
-  posted ready, sending reds back, keeping lanes from stopping, and the hourly
-  status with one merge list for the CTO; also a lead session that owns one
-  family's matrix. Use when started as a coordinator or a lead, or told to run
-  lanes from a crew line. Not for merging (merger) or ruling (cto); a
-  coordinator never merges, rules or writes player lines.
+  How one session runs a builder crew from a crew line: one session per lane,
+  checks, relaying and reds, keeping lanes from stopping, the hourly status, how
+  sessions message each other, and a lead session. Use when running lanes or a
+  lead, and before sending any message to another session. Not for merging
+  (merger) or ruling (cto); a coordinator never merges, rules or writes player
+  lines.
 ---
 
 # Coordinating a builder crew
@@ -50,10 +48,14 @@ First used Nov 16, 2026, on crew line #9747: six lanes and a watcher, 20 pull re
 - **A model's weekly limit stops every session on that model at once.** Nov 17, 05:25Z: seven lanes on one model stopped mid-work, two of them holding commits they never pushed, and no new session can recover those. Lanes push after every commit, not at the end of a unit. Read the account's `rate_limit_event` rows (a helper on `list_events`) every hour, work out the rate per hour, and pick the threshold (about 93%) at which every session gets "push everything, post what is left".
 - **Only the owner can change a running session's model** (`/model` in that session). To move a lane to a cheaper model, have it post a handoff on the crew line at its next ready point, written for someone who has read nothing that night (branches with heads, pull requests with states, what is left in order with the comment ids and rulings), and open the new session with that comment as its brief. The same post is what another account picks the lane up from if this one stops.
 - **A new session may refuse to post or push on another session's word** and wait for the owner's own. Give every brief the basis it can check for itself (the crew issue's body, the CTO lines that name the lane, the guide's rule that the CTO's word is the owner's). If it still waits, take its findings onto the crew line yourself and give the lane to another session; check every new session about five minutes after opening it.
+- **A watcher can stall without saying so.** Nov 17: the relay session's sends were refused in its own session from 09:53Z, and it waited for an answer instead of relaying. Read the watcher's status every hour (`list_sessions`). If it is blocked, stand it down, write "read the crew line" into each lane's own wake prompt, and read the line yourself every 30 minutes for lines naming the coordinator. A CTO order addressed to the coordinator sat 90 minutes because the coordinator's last read had ended 12 minutes before it.
+- **A hold can lift minutes after it is posted.** Before relaying a hold, freeze or train cut to every lane, read the newest five comments on the line. On Nov 17 a push hold was relayed at 14:10Z, the CTO lifted it at 14:15Z, and every lane had been told to wait until 14:40Z.
+- **Two free fixers can take the same red.** Before giving a red to a fixer, read every fixer's `task_summary` in `list_sessions`. On Nov 17 a red given to one fixer was already being traced by the other, and the hand-out had to be swapped.
+- **Hold nothing for a build.** On Nov 17 a push hold for the Mac build stopped every lane until the owner said "everyone's supposed to keep building, just start a new train." When a train freezes for a build, lanes keep building and push to the next train; only fixes for the build's own reds go on the frozen one.
 
 ## The hourly status
 
-One comment on the crew line, starting "Coordinator:". In order: what is ready with finished green checks, as one table in the order to merge, each with what the owner would see and anything that must merge with it; what waits on the CTO; what waits on Story; what each lane is doing now; what is not solved. Count nothing as done: merged is the CTO's word and done is a second session's (`seen-in-game`).
+One comment on the crew line, starting "Coordinator:". In order: what is ready with finished green checks, as one table in the order to merge, each with what the owner would see and anything that must merge with it; what waits on the CTO; what waits on Story; what each lane is doing now; what is not solved. Count nothing as done: merged is the CTO's word and done is a second session's (`done-proof` (seen-in-game part)).
 
 ## Before the account runs out
 
@@ -64,3 +66,5 @@ Tell every lane to push its work and post what is left, then post the coordinato
 Read each file here when its moment comes:
 
 - `references/lead-session.md`: when started with a lead prompt or a work order under docs/work-orders/.
+- `references/crew-messages.md`: when you send any message to another session, pass on the owner's words, or are about to explain a process in a message (the old `crew-messages` skill).
+- `references/owners-words-to-threads.md`: when an owner's words must reach a thread or a lane verbatim (moved here with `crew-messages`).

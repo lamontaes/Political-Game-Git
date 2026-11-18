@@ -18,7 +18,7 @@ description: >
 
 The lead role itself is `crew-coordinator` (lead-session part) (an Opus lead with at most two helpers, status on the channel every two hours; owner, Oct 20 and Oct 24).
 
-"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed, and that it counts as done only when a second session has seen it (`seen-in-game`; dev mode's bill card and "Follow the money" are the check; `dev-tester` proves laws through the real body) (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
+"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed, and that it counts as done only when a second session has seen it (`done-proof` (seen-in-game part); dev mode's bill card and "Follow the money" are the check; `dev-tester` proves laws through the real body) (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
 ## 1. Define wired, point by point
 

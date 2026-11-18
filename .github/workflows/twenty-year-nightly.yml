@@ -26,10 +26,12 @@ on:
       years:
         description: Years to play
         default: "20"
+  # The heavy set (heavy.yml) plays the same game on a branch before a merge.
+  workflow_call:
 permissions:
   contents: read
 concurrency:
-  group: twenty-year-nightly
+  group: twenty-year-nightly-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   twenty-years:
