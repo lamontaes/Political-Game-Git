@@ -31,6 +31,7 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingOfficeFor,
+  filingRulesFor,
   filingWindowOpen,
   playerContests,
   notYourOfficeWhy,
@@ -40,15 +41,23 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { candidateIdentity, resultOf } from "../core2/modules/voting";
+import {
+  candidateIdentity,
+  petitionNeededHere,
+  resultOf,
+} from "../core2/modules/voting";
 import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
   joinParty,
   partiesHere,
+  nextPartyMeeting,
   partyAgreement,
+  partyMemberIds,
+  partyStands,
   partyTie,
 } from "../core2/modules/parties";
+import { policyNames } from "./words";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
 
@@ -208,6 +217,55 @@ export function holderFace(
   };
 }
 
+let namedQuestions: Record<string, string> | undefined;
+// Engineering page size: how many of a party's positions its page lists.
+const STANDS_FOR_LISTED = 3;
+
+/**
+ * What each party's page tells, from the records: its chair (the party's
+ * leader record), how many members it has here (its ties joined to its
+ * organization), the town's next party meeting (the calendar's pending work),
+ * and the questions it takes the strongest side on (its position on each
+ * platform question, as the campaign stances read it). A field the records
+ * do not hold is null, and the page says so.
+ */
+function partyFacts(core: CoreState, place: string) {
+  if (!core.modules.has(PARTIES_MODULE_ID)) return {};
+  const api = coreAPI(core);
+  const meeting = nextPartyMeeting(api);
+  // Only a question the game words by name is listed; a bare key is never shown.
+  const named = (namedQuestions ??= policyNames());
+  return Object.fromEntries(
+    partiesHere(api).map((row) => {
+      const chair = row.leaderId ? core.people.get(row.leaderId) : undefined;
+      const stands = partyStands(
+        api,
+        row,
+        (question) => !!named[question],
+        STANDS_FOR_LISTED,
+      );
+      return [
+        row.name.trim().toLowerCase(),
+        {
+          chair: chair
+            ? {
+                name: `${chair.givenName} ${chair.familyName}`,
+                ...holderFace(
+                  core,
+                  { id: chair.id, personId: chair.id },
+                  place,
+                ),
+              }
+            : null,
+          members: partyMemberIds(api, row.id).length,
+          nextMeeting: meeting,
+          standsFor: stands,
+        },
+      ];
+    }),
+  );
+}
+
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const place = facePlace(core, personId);
@@ -256,6 +314,7 @@ export function governmentView(core: CoreState, personId: string) {
     date: core.date,
     partySeatsByOffice,
     parties: [...seatsByParty].map(([party, held]) => ({ party, seats: held })),
+    partyFacts: partyFacts(core, place),
     // Every law in force here: the amounts, then each policy question a level
     // has a law on, answered yes or no.
     law: lawHere(api).map((row) => ({
@@ -355,6 +414,15 @@ export function governmentView(core: CoreState, personId: string) {
       checks: core.people.has(personId)
         ? checkEligibility(api, personId, contest.id)
         : [],
+      // The signatures the clerk would ask of a filing with no party; none
+      // means the race goes straight onto the ballot (the one rule, read
+      // from the elections and voting engines, not a second one).
+      signaturesAsked: petitionNeededHere(
+        api,
+        contest,
+        filingRulesFor(api, contest, "independent").petition,
+        null,
+      ),
     })),
     filings,
     nextFiling: nextFiling(core),

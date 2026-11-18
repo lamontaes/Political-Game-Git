@@ -37,6 +37,7 @@ import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
 
 /** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */
 export { PARTIES_MODULE_ID, partiesHere, partyTie };
+export type { TieRow } from "./parties";
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
 import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
@@ -92,6 +93,7 @@ export function isLocalFamily(family: OfficeFamily): boolean {
 export {
   publishedSenateSeats,
   senateSides,
+  stateRightShare,
   worldRoster,
   worldSeatParty,
   worldSwing,
@@ -1079,14 +1081,33 @@ export function specialContestFor(
     family === "municipalOffice"
       ? municipalFilingDeadline(stateKey, race.electionDate)
       : null;
+  const usualClose = new Date(
+    Date.parse(`${race.electionDate}T00:00:00Z`) -
+      campaignParameter("specialFilingDaysBefore") * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  // A special called on short notice has its usual close behind it already:
+  // filing stays open for a share of the time left, so a petition always has
+  // days to circulate (never closing the day it opens).
+  const daysLeft = Math.max(
+    0,
+    Math.round(
+      (Date.parse(`${race.electionDate}T00:00:00Z`) -
+        Date.parse(`${api.state.date}T00:00:00Z`)) /
+        86_400_000,
+    ),
+  );
   const deadline =
     own?.date ??
-    new Date(
-      Date.parse(`${race.electionDate}T00:00:00Z`) -
-        campaignParameter("specialFilingDaysBefore") * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10);
+    (usualClose > api.state.date
+      ? usualClose
+      : addDays(
+          makeIsoDate(api.state.date),
+          Math.floor(
+            daysLeft * campaignParameter("specialShortNoticeFilingShare"),
+          ),
+        ));
   const contest: ContestRow = {
     id: `contest:${race.seatId}:${race.electionDate}:special`,
     officeId: entry.office.id,

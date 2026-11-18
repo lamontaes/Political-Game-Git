@@ -24,7 +24,14 @@ import {
   lookFaces,
   readRecipe,
 } from "./appearance";
-import { bustChoices, bustOfLook, bustPerson, bustTopColors } from "./bust";
+import {
+  bustChoices,
+  bustFits,
+  bustOfLook,
+  bustPeople,
+  bustPerson,
+  bustTopColors,
+} from "./bust";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -39,6 +46,41 @@ import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { properName } from "../director/words";
 
 describe("the New game creator", () => {
+  // Nov 17: "a few different head shapes ... 2 or 3 more shades" (#10070).
+  it("offers a Head row beside Skin, and every skin on every head shape draws a look that fits", () => {
+    const his = drawnAppearance("male", "seed", 0);
+    const rows = appearanceRows(his, "male");
+    const head = rows.find((row) => row.id === "shape")!;
+    expect(rows.map((row) => row.id).slice(0, 2)).toEqual(["skin", "shape"]);
+    expect(head.options).toHaveLength(5);
+    expect(
+      head.options!.every((option) => option.picture === "head" && option.face),
+    ).toBe(true);
+    expect(rows.find((row) => row.id === "skin")!.options).toHaveLength(6);
+    for (const person of bustPeople().filter((row) => row.sex === "man")) {
+      const onSkin = pickAppearance(his, "male", "skin", person.id);
+      for (const option of head.options!) {
+        const look = pickAppearance(onSkin, "male", "shape", option.id);
+        // The look wears the head of its skin and shape, and fits at every age.
+        expect(bustFits(look), `${person.id} ${option.id}`).toBe(true);
+        const bust = bustOfLook(look, "everyday")!;
+        expect(bust.layers[0]).toContain(
+          `head-${option.id === "standard" ? "" : `${option.id}-`}${person.toneName}-adult`,
+        );
+        expect(bustOfLook(look, "everyday", true)).not.toBeNull();
+        // Every hairstyle, hair color and facial hair the rows then offer fits too.
+        for (const rowId of ["hair", "hair-color", "face"])
+          for (const choice of appearanceRows(look, "male").find(
+            (row) => row.id === rowId,
+          )!.options!)
+            expect(
+              bustFits(pickAppearance(look, "male", rowId, choice.id)),
+              `${person.id} ${option.id} ${rowId} ${choice.id}`,
+            ).toBe(true);
+      }
+    }
+  });
+
   it("draws a name before any gender is chosen, and again after", () => {
     const any = drawName("seed", 1);
     expect(any.givenName).not.toBe("");
@@ -94,6 +136,7 @@ describe("the New game creator", () => {
     const henley = { ...hers, top: "henley", topColor: "green" };
     expect(tabbed(henley, "female")).toEqual([
       "Skin",
+      "Head",
       "Hair",
       "Hair color",
       "everyday: Top",
@@ -108,6 +151,7 @@ describe("the New game creator", () => {
     const his = drawnAppearance("male", "seed", 0);
     expect(tabbed(his, "male")).toEqual([
       "Skin",
+      "Head",
       "Hair",
       "Hair color",
       "Facial hair",
