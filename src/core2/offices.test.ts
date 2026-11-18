@@ -142,20 +142,24 @@ describe("M2-01 offices and seats, every level", () => {
         house[0]!.holder,
         `${where}: the House seat has no holder`,
       ).not.toBeNull();
+      // A unicameral state (Nebraska) files its one chamber under the Census's
+      // state-upper geography and the engine seats it as legislature-unicameral.
       const chambers = [
-        ["state-upper", "legislature-upper"],
-        ["state-lower", "legislature-lower"],
+        ["state-upper", ["legislature-upper", "legislature-unicameral"]],
+        ["state-lower", ["legislature-lower"]],
       ] as const;
-      for (const [chamber, kind] of chambers) {
+      const coveringAny = (kinds: readonly string[]) =>
+        kinds.flatMap((kind) => covering(kind));
+      for (const [chamber, kinds] of chambers) {
         // Only a chamber the state elects by district has a district to estimate.
         if (!known[`${placeKey}:${chamber}`]) continue;
         expect(
-          covering(kind).length,
-          `${where}: no ${kind} seat covers the town`,
+          coveringAny(kinds).length,
+          `${where}: no ${kinds.join(" or ")} seat covers the town`,
         ).toBeGreaterThan(0);
       }
       read.push(
-        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${covering(k)[0]?.seat.id}` : "")).join("")}`,
+        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${coveringAny(k)[0]?.seat.id}` : "")).join("")}`,
       );
     }
     govReport("offices-estimated-districts", JSON.stringify({ seed, read }));
