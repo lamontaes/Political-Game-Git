@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-address-point-reasons
-pr:
+pr: 10128
 after:
 blocked-on:
 lead: story
