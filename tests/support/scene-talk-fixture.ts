@@ -81,6 +81,8 @@ export const facts: Record<string, Fact> = {
   bill: fact('"Limit groundwater withdrawal"'),
   // What the bill does, as the desk visit says it (billTitleOf).
   purpose: fact("a cap on how much groundwater a farm can pump"),
+  "bill-purpose": fact("a cap on how much groundwater a farm can pump"),
+  issue: fact("groundwater use"),
   section: fact("2"),
   chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),

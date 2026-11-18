@@ -736,19 +736,29 @@ function composeBinding(
       text: said.askerId ?? "",
       sourceRecordIds: [moment.causeId],
     };
-  // An ask to carry a bill the member turned down has no number yet: the
-  // bill goes by its name, from the policy the ask was for.
-  if (record?.kind === "carry-asked" && !said.number && said.question) {
+  // An ask to carry a bill: what the bill does and the question it is about,
+  // from the policy the ask was for (as the floor's `floorDebateFacts` says
+  // them). One the member turned down has no number yet, so the bill goes by
+  // its name.
+  if (record?.kind === "carry-asked" && said.question) {
     const name = billNameFor(
       said.question,
       said.formKind ?? "",
       said.direction === "repeal",
     );
-    if (name)
-      facts.bill = {
-        text: `the ${name.title}`,
+    if (name) {
+      if (!said.number)
+        facts.bill = {
+          text: `the ${name.title}`,
+          sourceRecordIds: [moment.causeId],
+        };
+      facts["bill-purpose"] = {
+        text: name.purpose,
         sourceRecordIds: [moment.causeId],
       };
+    }
+    const about = questionAbout(said.question);
+    if (about) facts.issue = { text: about, sourceRecordIds: [moment.causeId] };
   }
   // The player's ask of a colleague to sign on to their bill (legislature.ts
   // askToSignOn): the bill said by what it does, the reason the colleague
