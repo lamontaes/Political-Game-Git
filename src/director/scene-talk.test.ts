@@ -27,7 +27,6 @@ import {
  * writes its lines again, so it is checked again from that change on.
  */
 const CUT_PURPOSES = new Set<string>([
-  "return",
   "letter",
   "argument",
   "apology",
@@ -97,7 +96,6 @@ const CUT_PURPOSES = new Set<string>([
   "debate-invite",
   "volunteer-offer",
   "manager-offer",
-  "job-offer",
   "rival-word",
   "petition-short",
   "budget-cut",
