@@ -63,7 +63,7 @@
 import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import { chargeGroups, fundGroups } from "./counted-money";
-import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
+import { incomeBandOn, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
 import {
@@ -386,7 +386,7 @@ function householdsToBill(
       incomeAnnualMinor: incomes.get(householdId) ?? 0,
       counted: false,
       weight: 1,
-      incomeFifth: incomeBandOf(incomes.get(householdId) ?? 0),
+      incomeFifth: incomeBandOn(api, incomes.get(householdId) ?? 0),
       members,
       ownMedicaid: ownMedicaid(placeId),
     });
@@ -420,7 +420,7 @@ function householdsToBill(
         incomeAnnualMinor: householdIncome(rt, h),
         counted: true,
         weight,
-        incomeFifth: incomeBandOf(householdIncome(rt, h)),
+        incomeFifth: incomeBandOn(api, householdIncome(rt, h)),
         members,
         ownMedicaid: ownMedicaid(h.placeId),
       });

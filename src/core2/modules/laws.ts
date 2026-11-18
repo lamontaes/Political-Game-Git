@@ -28,11 +28,15 @@ import {
   policySeriesAtLevel,
 } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
+import { centuryLaw } from "./elections";
+export { minimumHourlyAt } from "../wage-floor";
+export { PAID_LEAVE_PREMIUM } from "../paid-leave";
 import {
   holdPublicPay,
   holdTeacherPay,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
+  TEACHER_FLOOR_AMOUNT,
 } from "../public-pay-floor";
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
@@ -237,6 +241,39 @@ export function openLaws(core: CoreState): LawChain {
     // ("US": a federal statute the research says applies in every place), at
     // the federal level.
     const isFederal = question.startsWith(FEDERAL_QUESTION_PREFIX);
+    // In a world whose day one is the century's, the law in force is what the century's
+    // bodies left: a federal question Congress's, every other the state legislature's (CTO
+    // line 6935086070 on #9747; History's family 4). No federal law reaches a state question
+    // there, as the century's Congress votes only the federal ones (stopgap
+    // SG-HIST-century-federal-mandates).
+    if (federal) {
+      const place = isFederal ? federal.jurisdiction : chain.stateKey;
+      const enacted = centuryLaw(api.state.seed, place, question);
+      if (enacted !== undefined) {
+        // stopgapId: SG-HIST-century-federal-mandates
+        api.stopgap("SG-HIST-century-federal-mandates");
+        const since = enacted ? `${enacted.year}-01-01` : CENTURY_LAW_START;
+        const row: LawRowInput = {
+          id: `law:${place}:${isFederal ? "federal" : "state"}:${question}:general:starting`,
+          jurisdiction: place,
+          level: isFederal ? "federal" : "state",
+          series: question,
+          tier: "general",
+          value: enacted?.value ?? 0,
+          effectiveDate: since < today ? since : today,
+          endDate: null,
+          source: enacted
+            ? `The century's session of ${enacted.year} (${enacted.id}): ${enacted.chambers.map((c) => `${c.yes}-${c.no}`).join(", ")}${enacted.overridden ? ", over the executive's veto" : ""}`
+            : "The century's sessions: no session enacted it",
+          retrieved: today,
+          estimate: false,
+          ...(enacted ? { terms: { centuryRecordId: enacted.id } } : {}),
+        };
+        if (!state.table("laws").get(row.id))
+          state.table("laws").put(row as unknown as ModuleRow);
+        continue;
+      }
+    }
     const known = (jurisdiction: string) => {
       const answer = entry.answers[jurisdiction]?.answer;
       return answer === "yes" || answer === "no";
@@ -329,6 +366,8 @@ export function openLaws(core: CoreState): LawChain {
  * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
+/** The day a question no century session enacted has stood unenacted since: the first session's year. */
+const CENTURY_LAW_START = "1926-01-01";
 
 type WageStep = {
   effectiveDate: string;
@@ -1333,7 +1372,9 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     },
   });
   if (row.series === "minimum-wage") raiseToFloor(api, work.source);
-  if (row.series === PUBLIC_PAY_FLOOR) recordPublicPay(api, work.source);
+  // A floor, or the teacher minimum's amount, raises the jobs under it the day it takes effect.
+  if (row.series === PUBLIC_PAY_FLOOR || row.series === TEACHER_FLOOR_AMOUNT)
+    recordPublicPay(api, work.source);
 }
 
 /**
