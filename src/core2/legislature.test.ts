@@ -942,11 +942,11 @@ describe(
         ).toBe(true);
     });
 
-    it("a town whose state preempts local minimum wages gets the block in the rule's words", () => {
+    it("a town whose state preempts local minimum wages gets the block in the rule's words (just like today: needs the state's real preemption law)", () => {
       const preempting = Object.keys(authority)
         .filter((s) => authority[s]!.preempts === true)
         .sort();
-      const { api, council } = town(preempting, "preempt");
+      const { api, council } = town(preempting, "preempt", undefined, true);
       const bill = draftBill(api, {
         bodyOfficeId: council[0]!.office.id,
         sponsorId: council[0]!.holder!.personId!,
@@ -967,7 +967,7 @@ describe(
       expect(holdEveryChamber(api, bill.id).status).toBe("blocked");
     });
 
-    it("a ban from the state blocks the seat's draft with its reason and never reaches a vote", () => {
+    it("a ban from the state blocks the seat's draft with its reason and never reaches a vote (just like today: needs the state's real preemption law)", () => {
       // The seat route (seatAct, seatView, holdVote) for the same preemption
       // ban: the place is drawn by data from the places whose state preempts
       // the town, never a named state, and the checks read the bill by id
@@ -999,6 +999,7 @@ describe(
         const core = buildBenchWorld(worldSeed, gameStartDate(), {
           twoLevel: true,
           placeKey: picked.key,
+          settings: { history: "today" },
         }).core;
         const api = coreAPI(core);
         if (authority[lawChain(api).stateKey]?.preempts !== true) continue;
