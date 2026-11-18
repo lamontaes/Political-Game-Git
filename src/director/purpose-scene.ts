@@ -80,6 +80,7 @@ import {
   questionAbout,
   questionSaid,
 } from "../english/question-names";
+import { BRIBE_TYPES, bribeReads } from "./bribe-facts";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts, donorReads } from "./donor-ask-facts";
@@ -1207,6 +1208,27 @@ function composeBinding(
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
   }
+  // What a bribe's lines may lean on beyond the favor: the envelope in words,
+  // the other bids, a bribe the player said they would report, and the side of
+  // the bill's question the player's own view puts them on, each from the one
+  // record that holds it (bribe-facts.ts).
+  if (type.purpose && BRIBE_TYPES.includes(type.purpose))
+    Object.assign(
+      facts,
+      bribeReads(core, {
+        causeId: moment.causeId,
+        date: record?.date ?? moment.date,
+        ...(said.bribeId ? { bribeId: said.bribeId } : {}),
+        ...(said.favor === "vote" && said.billId
+          ? { billId: said.billId }
+          : {}),
+        ...(said.favor === "contract" && said.contractId
+          ? { contractId: said.contractId }
+          : {}),
+        playerId: askedId,
+        leanOf: personLean,
+      }),
+    );
   // The finding a reporter calls about (press.ts press.exposed): a bribe, by
   // who paid it and the vote or contract it bought; a conflict, by the award,
   // the firm and whose it is. The reporter says what the story says, not only

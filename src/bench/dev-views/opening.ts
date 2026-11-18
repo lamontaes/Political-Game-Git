@@ -46,6 +46,7 @@ import {
   type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
+import { openingRentals } from "../../core2/modules/housing";
 import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {
@@ -339,6 +340,19 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
         return share === null
           ? "no counted places"
           : `${pct(share)} Republican across its ${places.length} counted places (${historyMode(core.seed) === "century" ? "the century's last count in the state" : "its 2024 presidential vote and this world's swing"})`;
+      })(),
+    ),
+    row(
+      "town.rentalVacancy",
+      "Your town's empty rentals on day one",
+      (() => {
+        // The town's own past: the leases its renters signed in the last year,
+        // each leaving a unit empty between tenants (housing-past.ts openingVacancy).
+        const town = core.placeMetadata?.housingTown;
+        const api = coreAPI(core);
+        const rentals = town ? openingRentals(api, town) : undefined;
+        if (!rentals) return "no rental homes here";
+        return `${Math.round(rentals.vacant)} of ${Math.round(rentals.units)} rentals empty (${pct(rentals.vacant / Math.max(1, rentals.units))}), from the ${Math.round(rentals.signed)} leases its ${Math.round(rentals.renters)} renting households signed in the last year, each leaving a home empty about ${api.parameter("rentalVacantMonths")} months`;
       })(),
     ),
     row(

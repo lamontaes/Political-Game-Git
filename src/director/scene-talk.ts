@@ -2127,7 +2127,16 @@ export function composeSceneTalk(
       const settled = answers.filter(
         (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
       );
-      const pool = last && settled.length ? settled : answers;
+      // The first exchange never wraps the scene up where the asker has a
+      // question or a push left (owner, Oct 16: "quick resolution. That's
+      // not how normal people talk"); the last round never leaves one hanging.
+      const open = answers.filter((row) => !settled.includes(row));
+      const pool =
+        last && settled.length
+          ? settled
+          : round === one && open.length
+            ? open
+            : answers;
       const [best] = [...pool].sort(
         (a, b) =>
           leanOf(core, b.candidate, askerTraits) -

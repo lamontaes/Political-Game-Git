@@ -150,15 +150,19 @@ function levelsSayingYes(api: CoreAPI, key: string) {
 }
 
 /**
- * The latest row at each level of the town's chain, whatever its effective
- * date, says yes. The played world legislates on its own: a bill it has
+ * Each level of the town's chain where the law says yes now, or will by a bill
+ * already passed. The played world legislates on its own: a bill it has
  * already passed takes effect on its date, whatever the test did before it.
+ * A level whose row in force says yes holds it until its own later repeal
+ * takes effect, so it holds yes today even when that repeal is already passed.
  */
 function levelsHoldingYes(api: CoreAPI, key: string) {
   return lawChain(api).levels.flatMap(({ level, jurisdiction }) => {
     const latest = latestAt(api, key, jurisdiction);
-    return latest?.value === 1
-      ? [{ level, jurisdiction, effectiveDate: latest.effectiveDate }]
+    if (latest?.value === 1)
+      return [{ level, jurisdiction, effectiveDate: latest.effectiveDate }];
+    return latestAt(api, key, jurisdiction, api.state.date)?.value === 1
+      ? [{ level, jurisdiction, effectiveDate: api.state.date }]
       : [];
   });
 }
@@ -214,17 +218,18 @@ function enact(api: CoreAPI, key: string, tag: string): string {
   throw new Error(`no level of the chain can enact ${key}`);
 }
 
-/** The budget a council's bill changes: the one of the town's lowest government (city, else county, else state). */
-function lineBudget(api: CoreAPI) {
+/** The budget a council's bill changes for one line: the one of the town's lowest government (city, else county, else state) whose budget carries that line. */
+function lineBudget(api: CoreAPI, line: string) {
   const govs = governments(api);
-  const gov =
-    govs.find((g) => g.level === "city") ??
-    govs.find((g) => g.level === "county") ??
-    govs.find((g) => g.level === "state");
-  const budget = gov
-    ? [...budgetsOf(api, gov.id)].sort((a, b) => b.fiscalYear - a.fiscalYear)[0]
-    : undefined;
-  return gov && budget ? { gov, budget } : null;
+  for (const level of ["city", "county", "state"] as const)
+    for (const gov of govs.filter((g) => g.level === level)) {
+      const budget = [...budgetsOf(api, gov.id)].sort(
+        (a, b) => b.fiscalYear - a.fiscalYear,
+      )[0];
+      if (budget && (budget.spendingMinor[line] ?? 0) > 0)
+        return { gov, budget };
+    }
+  return null;
 }
 
 /** A council's raise of a line: a twentieth of it (at least $100,000). A fifth, as the checker raises a line, leaves a large city's treasury, whose revenue only meets its spending, with nothing but its payroll to pay. */
@@ -237,7 +242,7 @@ const LINE_RAISE = 0.05;
  * opening records said so before play); a town without one never plays.
  */
 function raiseLine(api: CoreAPI, line: string, tag: string): string {
-  const held = lineBudget(api);
+  const held = lineBudget(api, line);
   if (!held) throw new Error(`no government budget carries the ${line} line`);
   const base = held.budget.spendingMinor[line] ?? 0;
   const measureId = `health-schools-${tag}`;
@@ -352,18 +357,20 @@ function lacking(core: CoreState): string | null {
     return "no state or federal government";
   if (!lawInForce(api, "snap-maximum").governing?.value)
     return "no SNAP law in force";
-  const lowest = lineBudget(api);
-  if (!lowest) return "no government with a budget to carry the lines";
   // A line's raise is the service's base from the next fiscal year on, so the
   // lines are raised only where the year does not turn over before they are read.
   const opened = makeIsoDate(api.state.date);
-  if (
-    fiscalYearOf(
-      addDays(opened, LINE_READ_DAYS),
-      lowest.gov.fiscalYearStart,
-    ) !== fiscalYearOf(opened, lowest.gov.fiscalYearStart)
-  )
-    return `the lowest government's fiscal year turns over within ${LINE_READ_DAYS} days of the opening`;
+  for (const line of LINES) {
+    const lowest = lineBudget(api, line);
+    if (!lowest) return `no government with a budget carries the ${line} line`;
+    if (
+      fiscalYearOf(
+        addDays(opened, LINE_READ_DAYS),
+        lowest.gov.fiscalYearStart,
+      ) !== fiscalYearOf(opened, lowest.gov.fiscalYearStart)
+    )
+      return `the ${line} line's government's fiscal year turns over within ${LINE_READ_DAYS} days of the opening`;
+  }
   if (!hasTuition(core, chain.townPlaceId))
     return "no private-school tuition contract";
   // The teacher minimum has something to raise only where it is not law yet
@@ -761,19 +768,17 @@ function play(where: string, seed: string, core: CoreState): void {
       members(snapHousehold?.targetId ?? "").includes(id),
     ),
   );
-  const workRow = appliedOn(api, ASSIST_WORK).find(
-    (r) => r.target === "person",
-  );
-  record(
-    ASSIST_WORK,
-    workRow,
-    moneyTo("benefit|snap-baseline", (id) => id === workRow?.targetId) ??
-      moneyTo(
-        "benefit|budget-line:welfareAndMedicaid",
-        (id) => id === workRow?.targetId,
-      ) ??
-      moneyTo(`ended|snap-baseline`, (id) => id === workRow?.targetId),
-  );
+  // The first person the requirement bound whose benefit the journal paid or
+  // ended: a bound person with no benefit on the books has no money to follow.
+  const workMoney = (id: string) =>
+    moneyTo("benefit|snap-baseline", (who) => who === id) ??
+    moneyTo("benefit|budget-line:welfareAndMedicaid", (who) => who === id) ??
+    moneyTo("ended|snap-baseline", (who) => who === id);
+  const workRow =
+    appliedOn(api, ASSIST_WORK).find(
+      (r) => r.target === "person" && workMoney(r.targetId) !== null,
+    ) ?? appliedOn(api, ASSIST_WORK).find((r) => r.target === "person");
+  record(ASSIST_WORK, workRow, workRow ? workMoney(workRow.targetId) : null);
   const prekHousehold = prek.find(
     (r) =>
       r.target === "household" &&

@@ -18,7 +18,7 @@
  * people engine's births and partnerships read it.
  */
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
 import {
   grainDate,
@@ -40,6 +40,8 @@ import type {
   PersonState,
 } from "./types";
 import { townWithin } from "./places-elsewhere";
+import { tenureScaleOf } from "./opening-tenure";
+import { openingTenureOf } from "./modules/housing";
 
 export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
 /** The past fact a person's birthplace is kept as (src/core2/person-birthplace.ts). */
@@ -50,6 +52,31 @@ export const PERSON_MOVED_WITHIN = ownPastKind("person.moved-within");
 const MOVES = moveRows as unknown as Readonly<
   Record<string, { value: number }>
 >;
+
+/**
+ * Each town household's multiple of its age's moving rate by the tenure of
+ * its home on day one, as the housing opening drew it (opening-tenure.ts
+ * `tenureScaleOf`, the rule the opening's years in place reads), its head's
+ * age counted on `on`. The run before the start and one person's own past
+ * opened later read the same homes.
+ */
+function tenureScaleIn(core: CoreState, on: IsoDate) {
+  // stopgapId: SG-HIST-opening-tenure-town-only
+  stopgap("SG-HIST-opening-tenure-town-only", core);
+  return tenureScaleOf(
+    openingTenureOf(core),
+    [...core.households.values()].map((home) => ({
+      id: home.id,
+      head: Math.max(
+        0,
+        ...home.memberIds.map((id) => {
+          const person = core.people.get(id as PersonId);
+          return person ? ageInYears(person.birthDate, on) : 0;
+        }),
+      ),
+    })),
+  );
+}
 
 /** The moves engine's life-stage rate: the share of people of an age in a place's state who leave their county in a year (src/core2/modules/moves.ts `departureRateFor`). */
 export type DepartureRate = (placeId: string, age: number) => number;
@@ -187,6 +214,7 @@ function moveRecords(
   const daysPerYear = api.parameter("daysPerMeanYear");
   const enough = MOVES.movesStayPull!.value;
   const childrenHold = Math.exp(-MOVES.movesChildrenHold!.value);
+  const tenureScale = tenureScaleIn(core, window.through);
   const lastYear = Number(window.through.slice(0, 4)) - 1;
   // The economy pass's months, oldest first: the one in force on a day is
   // the latest at or before it.
@@ -211,6 +239,7 @@ function moveRecords(
     const origin = originOf(core, person);
     if (!origin) continue;
     const children = childrenOf(core, person);
+    const scale = tenureScale(person.householdId);
     let pull = 0;
     let date: string | undefined;
     for (
@@ -229,7 +258,11 @@ function moveRecords(
             Math.round(grown * daysPerYear),
           ) > from,
       );
-      const year = rate(person.placeId, age) * (atHome ? childrenHold : 1);
+      // A renter's pull builds faster than an owner's (the owner hold).
+      const year =
+        rate(person.placeId, age) *
+        (atHome ? childrenHold : 1) *
+        (scale?.(age) ?? 1);
       if (pull + year >= enough) {
         const share = (enough - pull) / year;
         date = addDays(makeIsoDate(from), Math.round(share * daysPerYear));
@@ -309,9 +342,11 @@ function withinRecords(
   const arrivedOn = new Map(
     arrivals.map((row) => [String(row.facts.personId), row]),
   );
+  const tenureScale = tenureScaleIn(core, window.through);
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
   for (const person of people) {
     if (!person.alive || (person.tier === "husk" && !worldFrom)) continue;
+    const scale = tenureScale(person.householdId);
     const born = makeIsoDate(person.birthDate);
     const arrived =
       arrivedOn.get(person.id) ??
@@ -331,7 +366,8 @@ function withinRecords(
         arrived && from < arrived.date
           ? String(arrived.facts.fromPlaceId)
           : person.placeId;
-      const year = -Math.log(1 - rate(placeId, age));
+      // A renter moves more often than an owner (the owner hold).
+      const year = -Math.log(1 - rate(placeId, age)) * (scale?.(age) ?? 1);
       for (; pull + year >= line; line = lineOf(count)) {
         const share = (line - pull) / year;
         pull -= line;
