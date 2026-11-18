@@ -2072,6 +2072,13 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
+      "table": "part.director-address-audience",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 0",
+      "reason": "Who in town watched the President's opening address, kept as the habit a household needed to have it on: the address airs on the opening evening, so a real town already has its audience on day 0 (src/director/address-audience.ts)."
+    },
+    {
       "table": "part.core2-news-tell-carry",
       "level": "town (people and places)",
       "call": "flow-only",

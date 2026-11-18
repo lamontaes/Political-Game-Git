@@ -25,6 +25,7 @@
  *   opening is kept on the director's ledger for the screens.
  */
 import { addressAiring } from "./address-airing";
+import { addressAudience, keepAddressAudience } from "./address-audience";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
@@ -879,19 +880,24 @@ export function recordOpeningStory(
     for (const chamber of keyChambersOf(core, playerId)) organize(api, chamber);
   const story = composeOpeningStory(core, playerId);
   if (!story) return null;
+  const placeId = core.people.get(playerId)!.placeId;
+  const audience = addressAudience(core, placeId, [
+    playerId,
+    ...story.home.memberIds.filter(
+      (id) => id !== playerId && core.people.has(id),
+    ),
+  ]);
   applyCoreEvent(core, {
     id: story.id,
     date: core.date as never,
     kind: OPENING_ADDRESS_EVENT,
     personIds: [story.president.id],
-    // The household watches it with the player, on the news they have on.
-    witnessIds: [
-      playerId,
-      ...story.home.memberIds.filter(
-        (id) => id !== playerId && core.people.has(id),
-      ),
-    ],
-    placeId: core.people.get(playerId)!.placeId,
+    // The household watches it with the player, on the news they have on,
+    // and so does every house in town that had it on at the hour, by its
+    // people's news habit and shifts (address-audience.ts): each learns it
+    // from the address's own record, as having watched it.
+    witnessIds: audience.watcherIds,
+    placeId,
     source: {
       tag: "SOURCED",
       citation:
@@ -911,7 +917,7 @@ export function recordOpeningStory(
       [ADDRESS_FACT.speaker]: story.president.id,
       [ADDRESS_FACT.kind]: story.speechKind,
       [ADDRESS_FACT.airsAtMinute]: String(
-        addressAiring(core, core.people.get(playerId)!.placeId).minuteOfDay,
+        addressAiring(core, placeId).minuteOfDay,
       ),
       [ADDRESS_FACT.style]: story.addressKind,
       [ADDRESS_FACT.said]: saidFact(
@@ -924,5 +930,6 @@ export function recordOpeningStory(
       ),
     },
   });
+  keepAddressAudience(core, story.id, placeId, audience);
   return story;
 }
