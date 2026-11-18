@@ -2,19 +2,19 @@
 
 Owner, Nov 17: "I would like to see you do some more hairstyles, maybe a couple, 2 or 3 more shades, and most importantly, a few different head shapes now. So try to match new head shapes with the current stuff, and then you can use those to build."
 
-Not committed and not in the game: the CTO shows the owner first. Everything sits on `art/busts/v1`'s 1254 x 1254 canvas, stacked at (0, 0) in v1's order (head, top or shirt, tie, jacket, face, hair). Nothing is moved, scaled or tinted. Every head and hair is its own Codex painting; skin is painted, never tinted.
+In the game since Nov 18: the pieces and the flagged pairs are in `art/busts/v1/manifest.json`, which `src/bench/bust.ts` reads. Everything sits on `art/busts/v1`'s 1254 x 1254 canvas, stacked at (0, 0) in v1's order (head, top or shirt, tie, jacket, face, hair). Nothing is moved, scaled or tinted. Every head and hair is its own Codex painting; skin is painted, never tinted.
 
 ## What's new
 
-| | Men | Women |
-|---|---|---|
-| Head shapes (besides v1's) | round, long, square, narrow | round, long, square, heart |
-| New skin shades (on every shape, v1's too) | fair, olive, brown | fair, olive, brown |
-| New heads (shape x shade x adult and older) | 54 | 54 |
-| New hairstyles, 4 colors each, standard shape | buzz, balding, twists, collar length (16 files) | bangs, braids, ponytail, locs (16 files) |
-| Hair redrawn for a shape | collar length on narrow (4) | bob and curls on heart and square; shoulder and waves on heart and long; bangs, braids and locs on heart (44) |
-| Beards redrawn for a shape | 4 shapes x 3 colors (12) | |
-| Piece files | 86 | 114 |
+|                                               | Men                                             | Women                                                                                                         |
+| --------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Head shapes (besides v1's)                    | round, long, square, narrow                     | round, long, square, heart                                                                                    |
+| New skin shades (on every shape, v1's too)    | fair, olive, brown                              | fair, olive, brown                                                                                            |
+| New heads (shape x shade x adult and older)   | 54                                              | 54                                                                                                            |
+| New hairstyles, 4 colors each, standard shape | buzz, balding, twists, collar length (16 files) | bangs, braids, ponytail, locs (16 files)                                                                      |
+| Hair redrawn for a shape                      | collar length on narrow (4)                     | bob and curls on heart and square; shoulder and waves on heart and long; bangs, braids and locs on heart (44) |
+| Beards redrawn for a shape                    | 4 shapes x 3 colors (12)                        |                                                                                                               |
+| Piece files                                   | 86                                              | 114                                                                                                           |
 
 - **How a shape matches the current kit:** a new shape keeps v1's bald scalp from temple to temple, the ears, the eyes, nose and mouth, and the neck where every top meets it: no skin shows beside any collar on any head (checked on every head x every top, shirt, tie and jacket). Women's square necks are up to 12 px wider just under the jaw corners, above the collars. Only the cheeks, jaw and chin change. So every v1 top, shirt, tie, jacket and mustache fits every shape unchanged, and every men's v1 hairstyle fits every shape unchanged (they sit above the ears). Hair that falls beside the face and beards were checked on each shape and redrawn where they did not fit.
 - **The shade ladder**, lightest first: fair, light, olive, medium, brown, dark. Five heads sit within 3 L* of their neighbor shade (olive is also yellower, so they still differ in hue): men square adult olive/medium 1.4, men narrow older light/olive 1.2, men long older olive/medium 2.8, women long adult light/olive 0.9, women square adult light/olive 2.6; a repaint of one head each would space them. v1's light, medium and dark stay as they were; every new head is painted to a swatch measured from v1's heads (median skin within about 5 of the target in Lab). Fair is paler and pinker than v1's light; olive sits between light and medium; brown sits in the wide gap between medium and dark.
@@ -47,18 +47,18 @@ Not committed and not in the game: the CTO shows the owner first. Everything sit
 
 ## Checks (every combination, at full size)
 
-| Set / shape | Heads | Head x clothes stacks | Hair and beard on heads | Outline worst (px) | Holes | Skin beside a collar | Fail at this round's line | Fail at v1's line |
-|---|---|---|---|---|---|---|---|---|
-| men/long | 12 | 204 | 552 | 4 | 0 | 0 | 0 | 104 |
-| men/narrow | 12 | 204 | 552 | 3 | 0 | 0 | 0 | 221 |
-| men/round | 12 | 204 | 552 | 4 | 0 | 0 | 2 | 116 |
-| men/square | 12 | 204 | 552 | 4 | 0 | 0 | 12 | 188 |
-| men/standard | 12 | 204 | 552 | 4 | 0 | 0 | 1 | 132 |
-| women/heart | 12 | 156 | 480 | 4 | 0 | 0 | 4 | 70 |
-| women/long | 12 | 156 | 480 | 4 | 0 | 0 | 0 | 194 |
-| women/round | 12 | 156 | 480 | 4 | 0 | 0 | 0 | 104 |
-| women/square | 12 | 156 | 480 | 4 | 0 | 0 | 0 | 111 |
-| women/standard | 12 | 156 | 480 | 3 | 0 | 0 | 0 | 37 |
+| Set / shape    | Heads | Head x clothes stacks | Hair and beard on heads | Outline worst (px) | Holes | Skin beside a collar | Fail at this round's line | Fail at v1's line |
+| -------------- | ----- | --------------------- | ----------------------- | ------------------ | ----- | -------------------- | ------------------------- | ----------------- |
+| men/long       | 12    | 204                   | 552                     | 4                  | 0     | 0                    | 0                         | 104               |
+| men/narrow     | 12    | 204                   | 552                     | 3                  | 0     | 0                    | 0                         | 221               |
+| men/round      | 12    | 204                   | 552                     | 4                  | 0     | 0                    | 2                         | 116               |
+| men/square     | 12    | 204                   | 552                     | 4                  | 0     | 0                    | 12                        | 188               |
+| men/standard   | 12    | 204                   | 552                     | 4                  | 0     | 0                    | 1                         | 132               |
+| women/heart    | 12    | 156                   | 480                     | 4                  | 0     | 0                    | 4                         | 70                |
+| women/long     | 12    | 156                   | 480                     | 4                  | 0     | 0                    | 0                         | 194               |
+| women/round    | 12    | 156                   | 480                     | 4                  | 0     | 0                    | 0                         | 104               |
+| women/square   | 12    | 156                   | 480                     | 4                  | 0     | 0                    | 0                         | 111               |
+| women/standard | 12    | 156                   | 480                     | 3                  | 0     | 0                    | 0                         | 37                |
 
 Every piece: 0 changed pixels against its painting and offset (0, 0) (a few read 1 px on the full-size phase measure); every color of a style has its darkbrown's shape (IoU 0.93 or more).
 
@@ -87,6 +87,7 @@ Every piece: 0 changed pixels against its painting and offset (0, 0) (a few read
 This round's line: a gap of 60+ px between a piece and the face, 60+ px see-through or 60+ px of skin poking out beside a piece, on any head; v1's line is the worst v1 itself showed (gap 3, see-through 5, poke-out about 12). The new heads are held to their shape's master within 4 px (v1: 2 px), so many more combinations pass this round's line than v1's: the 'v1's line' column counts how many 1-60 px slivers there are. Every flagged combination is in `manifest-additions.json` under `doNotCombine`.
 
 What each remaining flag is, looked at 4x and at 1:1 (none is visible at the game's sizes; at full size they are 1-2 px):
+
 - **Square beard on four square heads (brown adult and older, dark older, medium older), round beard on the round dark older head:** the beard's edge and these heads' jaw lines differ by 1-3 px along the jaw, so a 1-2 px sliver of backdrop (seeThrough) or of the head's own jaw line (pokeOut) runs beside the beard. The light 1 px line that used to show there is mostly gone (light edge pixels dropped from beards); a faint trace remains on the black square beard over the dark older square head at 3x zoom. Repainting those five heads to the square and round masters' outlines within 1 px would clear it.
 - **Gray buzz cut on the standard olive older head:** specks of the head's own outline between stubble tips at the temple.
 - **Blond heart-shape bangs on four older heart heads:** the older jaw line touches the hair's inner edge for a few pixels.
@@ -97,8 +98,8 @@ What each remaining flag is, looked at 4x and at 1:1 (none is visible at the gam
 447 pictures made on Nov 17 (plus 7 that failed with a routing timeout and were rerun); the daily limit was not hit. Shape masters 24, heads 187 (including repaints for outline and skin color), hair and beard paintings and their color repaints 130, hair-only pictures 106.
 
 ## Not done, and small things left
+
 - Three-quarter view: front only, like round 4.
 - Braid parts keep a thin dark brown part line (the master's scalp), as v1's parted styles do.
 - The five near-equal shade pairs listed under the shade ladder.
 - `sheets/look/`: every new hair and beard file, in every color, on a light head of its own shape (12 pages); looked at page by page after the last cut.
-

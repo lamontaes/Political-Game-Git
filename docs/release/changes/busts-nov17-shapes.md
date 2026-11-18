@@ -1,5 +1,8 @@
 ---
 id: busts-nov17-shapes
-impact: none
+impact: patch
+section: Added
+title: Five head shapes, six skin shades, more hairstyles and tops in the character creator.
 ---
-New bust pieces (head shapes, shades, hairstyles) added to art/busts/v1; not read by the game until bust.ts learns head shapes.
+
+The creator has a Head row beside Skin (five shapes), three more skin shades, sixteen hairstyles for men and women alike, and eight more tops; people in town wear them too. A head, hair and beard the art checks flag together are never drawn.
