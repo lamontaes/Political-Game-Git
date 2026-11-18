@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-after-office-3
-pr:
+pr: 10127
 after:
 blocked-on:
 lead: story
