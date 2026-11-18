@@ -1344,6 +1344,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the family-filing talk to compose at its pinned seed; the ask that states it cannot be worded from the records since the cut thinned its lines. The family-filing ask is on the rebuild list."
+    },
+    {
+      "old": "src/director/filing-greeting-area.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read the filing clerk's greeting for the town's name at a town counter and none at a state or county one; the greeting lines are deleted and the greeting is empty. The clerk's greeting is on the rebuild list."
     }
   ]
 }
