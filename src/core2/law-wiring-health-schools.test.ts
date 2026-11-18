@@ -429,7 +429,7 @@ function lacking(core: CoreState): string | null {
  * Plays an eligible town and asserts every law's record and money. A failure
  * is the test's, on this town: nothing here redraws.
  */
-function play(where: string, seed: string, core: CoreState): string | null {
+function play(where: string, seed: string, core: CoreState): void {
   posts.length = 0;
   const api = coreAPI(core);
   const accounts = api.accounts();
@@ -733,9 +733,20 @@ function play(where: string, seed: string, core: CoreState): string | null {
       .filter((r) => r.to !== null && r.to >= workOn)
       .map((r) => r.personId),
   );
+  // The effect as it lands: the bill is priced without Medicaid, and inside
+  // the wait before collection (120 days) it is owed, not yet paid. A paid
+  // bill's money is its journal entry; an owed one's is its bill record.
   const endedBill = medicalBills()
-    .filter((b) => b.date > workOn && b.journalIds.length > 0)
-    .sort((a, b) => Number(a.counted) - Number(b.counted))
+    .filter(
+      (b) =>
+        b.date > workOn &&
+        (b.journalIds.length > 0 || b.owed.length > 0 || b.unpaidMinor > 0),
+    )
+    .sort(
+      (a, b) =>
+        Number(b.journalIds.length > 0) - Number(a.journalIds.length > 0) ||
+        Number(a.counted) - Number(b.counted),
+    )
     .find((b) =>
       b.members.some(
         (m) =>
@@ -747,16 +758,16 @@ function play(where: string, seed: string, core: CoreState): string | null {
   const endedMember = endedBill?.members.find(
     (m) => endedIds.has(m.personId) && (m.requirementMinor ?? 0) > 0,
   );
-  // A household too poor to pay leaves the requirement's bill unpaid, so it
-  // moved no payment to follow: that town has no subject for this record.
-  if (!endedBill)
-    return "the adults the Medicaid work requirement reached have no paid bill priced without Medicaid in the weeks played";
   const endedRow =
     ended.find(
       (r) => r.target === "person" && r.targetId === endedMember?.personId,
     ) ??
     (endedBill?.counted ? ended.find((r) => r.target === "group") : undefined);
-  record(MEDICAID_WORK, endedRow, endedBill?.journalIds[0] ?? null);
+  record(
+    MEDICAID_WORK,
+    endedRow,
+    endedBill?.journalIds[0] ?? endedBill?.id ?? null,
+  );
   const snapHousehold = snapRows.find(
     (r) =>
       r.target === "household" &&
@@ -1031,12 +1042,7 @@ it("health, assistance and school laws reach people, move money and move outcome
         continue;
       }
       console.info(`playing: ${where}`);
-      const passedOver = play(where, draw.seed, core);
-      if (passedOver !== null) {
-        tried.push(`${where}: ${passedOver}`);
-        console.info(`redrawn after playing: ${where}: ${passedOver}`);
-        continue;
-      }
+      play(where, draw.seed, core);
       return;
     }
     throw new Error(
