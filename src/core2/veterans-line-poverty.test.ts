@@ -70,16 +70,23 @@ it(`a raise in the federal veterans line raises veterans' household income where
         continue;
       }
       // Every household's benefit follows the line by the same rule, named
-      // and counted: a fifth more.
+      // and counted: each veteran who drew draws a fifth more, and a larger
+      // benefit can draw more veterans in (each one's own take-up case weighs
+      // the share of income it replaces), never fewer (CTO, #9747 6991203613).
       const named = new Set(raised.households.keys());
       let namedHouseholds = 0;
       let countedHouseholds = 0;
+      let widened = 0;
       for (const [id, minor] of before) {
         const now = after.get(id) ?? 0;
-        expect(now / minor, `${where}: household ${id}`).toBeCloseTo(1.2, 2);
+        expect(now / minor, `${where}: household ${id}`).toBeGreaterThanOrEqual(
+          1.2 - 0.005,
+        );
+        if (now / minor > 1.2 + 0.005) widened += 1;
         if (named.has(id)) namedHouseholds += 1;
         else countedHouseholds += 1;
       }
+      const added = [...after.keys()].filter((id) => !before.has(id)).length;
       if (countedHouseholds === 0) {
         passed.push(`${where}: veterans' benefits reach only named households`);
         continue;
@@ -113,7 +120,7 @@ it(`a raise in the federal veterans line raises veterans' household income where
       ).toBeGreaterThan(0);
       expect(poorAfter, where).toBeLessThanOrEqual(poorBefore);
       process.stdout.write(
-        `VETERANS ${where}: ${before.size} households draw a benefit (${namedHouseholds} named, ${countedHouseholds} counted), each a fifth more; ${read} households' poverty income rose by it; people counted poor ${Math.round(poorBefore)} to ${Math.round(poorAfter)}. Passed over: ${passed.join("; ") || "none"}\n`,
+        `VETERANS ${where}: ${before.size} households draw a benefit (${namedHouseholds} named, ${countedHouseholds} counted), each at least a fifth more (${widened} more than a fifth as more of their veterans took it up; ${added} households newly drawing); ${read} households' poverty income rose by it; people counted poor ${Math.round(poorBefore)} to ${Math.round(poorAfter)}. Passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }
