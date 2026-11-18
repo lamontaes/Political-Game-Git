@@ -30,7 +30,7 @@ Seen: the opening evening at Raysal WV (seed home-evening:0), Aubrey TX, Pembert
 
 **Rules.** The simulation is the one layer that knows; every view reads the same record (owner, Oct 28). No dice. One engine per mechanic: the talk reads the opening's record, no second store.
 
-**Done when.** A second session, in a drawn place with a housemate of 16 or more on main, clicks the housemate on the opening evening and the housemate raises the President's point with a stand; the dev-mode Trace names the opening record and the plan's point. On the cut (#10063) the same talk opens as soon as its lines are written again.
+**Done when.** A second session, in a drawn place with a housemate of 16 or more on main, clicks the housemate on the opening evening and the housemate raises the President's point with a stand; the dev-mode Trace names the opening record and the plan's point. On the deletion branch the same talk opens as soon as its lines are written again.
 
 **Waits on.** Nothing.
 
