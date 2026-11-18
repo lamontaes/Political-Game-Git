@@ -1432,6 +1432,28 @@ function answerDebateInvitation(
 }
 
 /**
+ * The player accepts a debate's invitation from the menu (the invitation
+ * scene went with the unwritten kinds, owner, Nov 17): the sitting goes on
+ * the record with the moderator who asked, as the scene's yes did. `fromId`
+ * names the choice that said yes, for the record's citation.
+ */
+export function acceptDebate(
+  api: CoreAPI,
+  debateId: string,
+  candidateId: string,
+  fromId: string,
+): void {
+  const row = table(api, "debates").get(debateId) as unknown as
+    DebateRow | undefined;
+  if (row?.status !== "invited")
+    throw new Error(`No debate waiting: ${debateId}`);
+  const cause = api.state.durableLog.get(`${DEBATE_INVITED_EVENT}:${debateId}`);
+  if (!cause || String(cause.facts?.invitedId ?? "") !== candidateId)
+    throw new Error(`No invitation to ${debateId} for ${candidateId}`);
+  debateAccepted(api, row, cause, candidateId, fromId);
+}
+
+/**
  * The eve of the election: a debate still waiting on the player goes on
  * without the sitting. One who said yes (`debate-accepted`) answers from
  * their filed platform, as a yes did before there was a sitting; one who never
