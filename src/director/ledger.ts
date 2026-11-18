@@ -51,6 +51,7 @@ import {
 } from "./circumstance";
 import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
+import { SCENE_REPLY, indexReply } from "./relation-facts";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import { cardsByString, rowsOnRecord } from "./strings";
@@ -282,6 +283,7 @@ export function createDirector(
     broadEvents: new Map(),
     hitBy: new Map(),
     liesByLearner: new Map(),
+    repliesByPlayer: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
@@ -2226,6 +2228,7 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
+      if (event.kind === SCENE_REPLY) indexReply(ledger, event);
       if (rowsOnRecord(strings, event.kind).length) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -2379,6 +2382,7 @@ export function createDirector(
       refill(ledger.broadEvents, fromLedger.broadEvents);
       refill(ledger.hitBy, fromLedger.hitBy);
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
+      refill(ledger.repliesByPlayer, fromLedger.repliesByPlayer);
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);
