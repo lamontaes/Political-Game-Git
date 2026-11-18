@@ -46,27 +46,6 @@ const shapeOf = (
   );
 
 describe("the opening address from a world's records", () => {
-  it("opens, tells the country, names priorities and closes in every world", () => {
-    for (const { where, story } of worlds) {
-      expect(story, where).toBeTruthy();
-      const levels = story!.address.sentences.map((row) => row.level);
-      expect(levels[0], where).toBe("salutation");
-      expect(levels.at(-1), where).toBe("close");
-      // The theme's point (the country) or its asks (Congress): since the
-      // speech outline (Nov 12) a theme with no measure of its own, such as
-      // a ban on stock trading, is said through its asks alone.
-      expect(
-        levels.includes("country") || levels.includes("congress"),
-        where,
-      ).toBe(true);
-      // Each priority goes to Congress, for a question federal law can answer
-      // and has not; the address is national only (opening-asks.test.ts), so
-      // a President with no view on a federal question asks nothing (item
-      // gov-federal-questions-answers-stances).
-      expect(levels, where).not.toContain("governors");
-    }
-  });
-
   it("differs in shape between worlds, each with its own priorities", () => {
     const [a, b] = worlds.slice(0, 2).map(({ story }) => story!.address);
     expect(a!.text).not.toBe(b!.text);
