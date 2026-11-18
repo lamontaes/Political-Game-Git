@@ -26,6 +26,8 @@ setBookkeeping(false);
 
 const SEED = "regular-seller-unit";
 const DRAW_SEED = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
+/** Months the test waits for the founding engine to open a second store of a kind. */
+const WAIT_MONTHS = 12;
 const buyers = Array.from({ length: 4000 }, (_, n) => `household:${n}`);
 const sellers = [
   { id: "a", weight: 1 },
@@ -102,20 +104,29 @@ describe("a buyer's regular seller", () => {
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
       const business = api.moduleState(BUSINESS_MODULE_ID);
       // The stores households buy from, by kind.
-      const byKind = new Map<string, Map<string, string[]>>();
-      for (const plan of core.finance.livingPlans.values())
-        for (const id of plan.sellers.keys()) {
-          const kind = core.organizations.get(id)?.classification;
-          if (!kind || !business.table("owners").get(id)) continue;
-          const stores = byKind.get(kind) ?? new Map<string, string[]>();
-          stores.set(id, [...(stores.get(id) ?? []), plan.householdId]);
-          byKind.set(kind, stores);
-        }
-      const kind = [...byKind]
-        .filter(([, stores]) => stores.size >= 2)
-        .sort((a, b) => b[1].size - a[1].size || a[0].localeCompare(b[0]))[0];
+      const sellersByKind = () => {
+        const byKind = new Map<string, Map<string, string[]>>();
+        for (const plan of core.finance.livingPlans.values())
+          for (const id of plan.sellers.keys()) {
+            const kind = core.organizations.get(id)?.classification;
+            if (!kind || !business.table("owners").get(id)) continue;
+            const stores = byKind.get(kind) ?? new Map<string, string[]>();
+            stores.set(id, [...(stores.get(id) ?? []), plan.householdId]);
+            byKind.set(kind, stores);
+          }
+        return [...byKind]
+          .filter(([, stores]) => stores.size >= 2)
+          .sort((a, b) => b[1].size - a[1].size || a[0].localeCompare(b[0]))[0];
+      };
+      // The opening seeds one store of a kind, so a second one is the founding
+      // engine's: wait for it, a month at a time, up to a year.
+      let kind = sellersByKind();
+      for (let month = 0; !kind && month < WAIT_MONTHS; month += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 30));
+        kind = sellersByKind();
+      }
       if (!kind) {
-        passed.push(`${where}: no kind with two sellers`);
+        passed.push(`${where}: no kind with two sellers in a year`);
         continue;
       }
       const sameKind = (id: string) =>
@@ -177,5 +188,5 @@ describe("a buyer's regular seller", () => {
     throw new Error(
       `no drawn place had a kind with two sellers: ${passed.join("; ")}`,
     );
-  }, 900_000);
+  }, 3_600_000);
 });
