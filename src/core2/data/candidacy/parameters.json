@@ -252,6 +252,14 @@
     "estimatedFrom": "year-to-year swing in a seat's two-party vote in House and state legislative elections, Gelman and King 1990; spread 0.04 to 0.12",
     "stopgapId": "SG-P15-candidacy-weights"
   },
+  "candidacyPartyStandingCost": {
+    "value": 0.005,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "What it costs a party to stand a nominee in a race, in the chance of winning that makes it worth standing one: a party fields a nominee where its chance of taking the seat (the normal curve at the seat's lean over the swing spread) covers this, so a seat one side cannot realistically win goes to the other side uncontested and a competitive seat draws both. It sets how lopsided a seat must be before a side stays out, never which seats those are (Ansolabehere and Snyder 2002, The incumbency advantage in U.S. elections, Election Law Journal 1(3):315-338, on seats left uncontested). Spread 0.001 to 0.02.",
+    "estimatedFrom": "share of U.S. House and state legislative seats with no major-party candidate in a general election, Ballotpedia and Cook Political Report; spread 0.001 to 0.02",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "candidacyOverconfidenceShare": {
     "value": 0.5,
     "role": "coefficient",
