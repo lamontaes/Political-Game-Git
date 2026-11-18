@@ -222,6 +222,7 @@ import {
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
   outletsHere,
+  outletTelling,
   PRESS_MODULE_ID,
   townOutlet,
   PRESS_STORY_EVENT,
@@ -586,6 +587,23 @@ export function lawFactsOfCause(
 }
 
 /** One purpose scene of a moment, worded from its records. */
+/**
+ * An outlet's name as a person says it in a sentence: "the" before a paper's
+ * masthead ("the Peach Springs Journal"), none before a station's call letters
+ * or a name that already opens with "The" (press.ts `outletTelling`, the one
+ * reader every line that names an outlet uses).
+ */
+function outletSaid(
+  core: Readonly<CoreState>,
+  organization: { readonly id: string },
+  name: string,
+): string {
+  const telling = core.modules.has(PRESS_MODULE_ID)
+    ? outletTelling(coreAPI(core as CoreState), organization.id, name)
+    : undefined;
+  return telling?.the ? `the ${name}` : name;
+}
+
 function composeBinding(
   core: Readonly<CoreState>,
   director: Director,
@@ -945,7 +963,7 @@ function composeBinding(
     const printer = story ? core.organizations.get(story.outletId) : undefined;
     if (printer)
       facts.outlet = {
-        text: organizationName(printer),
+        text: outletSaid(core, printer, organizationName(printer)),
         sourceRecordIds: [...cited, printer.id],
       };
   }
@@ -1307,7 +1325,7 @@ function composeBinding(
     const cited = [moment.causeId, said.storyId ?? moment.causeId];
     if (outlet) {
       facts.outlet = {
-        text: organizationName(outlet),
+        text: outletSaid(core, outlet, organizationName(outlet)),
         sourceRecordIds: [...cited, outlet.id],
       };
       facts["press-story"] = facts.outlet;
@@ -1556,7 +1574,7 @@ function composeBinding(
       : undefined;
     if (outlet)
       facts.outlet = {
-        text: organizationName(outlet),
+        text: outletSaid(core, outlet, organizationName(outlet)),
         sourceRecordIds: [employer!.id, outlet.id],
       };
   }
@@ -1580,7 +1598,7 @@ function composeBinding(
       };
     if (outlet)
       facts.outlet = {
-        text: organizationName(outlet),
+        text: outletSaid(core, outlet, organizationName(outlet)),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
@@ -2346,8 +2364,11 @@ function composeBinding(
       };
     // Where they read what was printed about the player: the outlet of the
     // newest scandal story they heard.
-    const outlet = serve.grounds.storyOutletId
-      ? core.organizations.get(serve.grounds.storyOutletId as never)?.name
+    const outletOrg = serve.grounds.storyOutletId
+      ? core.organizations.get(serve.grounds.storyOutletId as never)
+      : undefined;
+    const outlet = outletOrg?.name
+      ? outletSaid(core, outletOrg, outletOrg.name)
       : undefined;
     if (outlet && serve.grounds.stories.length)
       facts.outlet = {
