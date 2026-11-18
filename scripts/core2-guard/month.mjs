@@ -55,7 +55,6 @@ async function preparePlayedWorld({ seed, placeKey, startDate }) {
       key: input.placeMetadata?.placeKey ?? placeKey,
       name: input.placeMetadata?.placeName ?? world.place.displayName,
       countyNames: input.placeMetadata?.countyNames,
-      referencePopulation: input.placeMetadata?.referencePopulation,
     },
   };
 }
@@ -82,7 +81,6 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
         key: input.placeMetadata?.placeKey ?? placeKey,
         name: input.placeMetadata?.placeName,
         countyNames: input.placeMetadata?.countyNames,
-        referencePopulation: input.placeMetadata?.referencePopulation,
       },
     };
   }
@@ -141,7 +139,6 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       key: population.placeMetadata.placeKey,
       name: population.placeMetadata.placeName,
       countyNames: population.placeMetadata.countyNames,
-      referencePopulation: population.placeMetadata.referencePopulation,
     },
   };
 }

@@ -1621,16 +1621,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         ? "recorded-geography-or-declared-county-equivalent"
         : "not-established",
       householdMixBasis: mix.basis,
-      referencePopulation: String(
-        place.sourceGeoid
-          ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
-              "not-held")
-          : "not-held",
-      ),
-      referencePopulationSource: place.sourceGeoid
-        ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.source ??
-          "not-held")
-        : "not-held",
       livingCostSource: `${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}`,
       cashSource:
         "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/core2/starting-cash.ts. No-job household reserve is an explicit expense-buffer estimate.",

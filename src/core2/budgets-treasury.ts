@@ -10,6 +10,7 @@
  * state, county or city treasury pays what it holds and records the rest as
  * short. Social Security paid in town follows the federal line.
  */
+import { townPopulation } from "./live-population";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   lineAdders,
@@ -30,6 +31,7 @@ import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
 import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
+  governmentResidents,
   BUDGETS_MODULE_ID,
   lineWithoutBills,
   budgetWorldFactor,
@@ -347,18 +349,13 @@ export function budgetInForce(
 }
 
 function townResidents(api: CoreAPI): number {
-  return (
-    Number(api.state.placeMetadata.referencePopulation) || api.state.people.size
-  );
+  return townPopulation(api) || api.state.people.size;
 }
 
 /** The town's residents as a share of the government's (1 for the town's own). */
 export function townShareOf(api: CoreAPI, gov: GovernmentRow): number {
   if (gov.level === "city") return 1;
-  const residents =
-    gov.level === "federal"
-      ? treasuryParameter("usResidents2024")
-      : gov.residents;
+  const residents = governmentResidents(api, gov);
   return residents > 0 ? Math.min(1, townResidents(api) / residents) : 0;
 }
 

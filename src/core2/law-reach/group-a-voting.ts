@@ -15,6 +15,7 @@
  *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
+import { governmentResidents } from "../modules/budgets";
 import { placeStateKey } from "../place-map";
 import { lawInForce, yesLevels } from "../modules/laws";
 const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
@@ -918,7 +919,7 @@ function payRedistrictingCommission(api: CoreAPI, source: Source): void {
   if (!gov) return;
   const amountMinor = Math.round(
     (reachParameter("redistrictingCommissionYearPerResidentMinor") *
-      gov.residents) /
+      governmentResidents(api, gov)) /
       reachParameter("monthsPerYear"),
   );
   const paid = chargeLine(api, gov, {

@@ -16,6 +16,7 @@
  * screens, the news and the state's own comparisons (stopgap
  * SG-NATION-outside-budget-lines).
  */
+import { statePopulation } from "../live-population";
 import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import type { CountryState } from "./macro";
@@ -158,7 +159,6 @@ function government(stateKey: string, base: StateBase): GovernmentRow {
     organizationId: "",
     jurisdictionId: stateJurisdictionId(stateKey) ?? stateKey,
     fiscalYearStart: base.fiscalYearStart,
-    residents: residentsOf(base),
     base: "state",
   };
 }
@@ -181,6 +181,7 @@ function publishedFor(
     fiscalYear,
     api.state.date,
     { kind: "published" },
+    statePopulation(api, stateKey) ?? residentsOf(base),
   );
 }
 

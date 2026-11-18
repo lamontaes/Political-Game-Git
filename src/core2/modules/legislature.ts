@@ -1,3 +1,4 @@
+import { townPopulation } from "../live-population";
 import type {
   GovernmentLevelWithTownship,
   GovernmentLevel,
@@ -89,6 +90,7 @@ import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
+  governmentResidents,
   BUDGETS_MODULE_ID,
   amendBudget,
   budgetPriorities,
@@ -1742,7 +1744,8 @@ function budgetChambers(
   const state = governments(api).find((g) => g.level === "state");
   return state &&
     gov.level === "city" &&
-    gov.residents >= state.residents * campaignParameter("wholeStateCityShare")
+    governmentResidents(api, gov) >=
+      governmentResidents(api, state) * campaignParameter("wholeStateCityShare")
     ? budgetChambers(api, state)
     : null;
 }
@@ -7042,7 +7045,7 @@ export function mayorVeto(api: CoreAPI): {
   plusOne: boolean;
 } {
   const rule = MAYOR_VETO[lawChain(api).stateKey]?.mayorCouncil;
-  const population = Number(api.state.placeMetadata.referencePopulation) || 0;
+  const population = townPopulation(api);
   return {
     veto:
       (rule?.veto ?? true) &&

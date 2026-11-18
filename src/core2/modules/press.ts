@@ -14,6 +14,11 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
+import {
+  countyPopulation,
+  statePopulation,
+  townPopulation,
+} from "../live-population";
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
@@ -683,16 +688,19 @@ function townReading(
 export function marketPeople(
   stateKey: string,
   countyGeoid: string | undefined,
+  /** The world to read the live counts of; without one, the counts the country tier opens from. */
+  api?: CoreAPI,
 ): number {
-  // The state's people, or an island area's or Puerto Rico's own count.
+  // The state's people today, or before the country tier opens the count it opens from.
   const base = BASES.places[stateKey];
   const state =
+    (api ? statePopulation(api, stateKey) : undefined) ??
     base?.population2024 ??
     base?.puertoRicoPopulation2025 ??
     base?.islandAreaPopulation2020 ??
     0;
   const county =
-    (countyGeoid ? BASES.countyPopulation2024[countyGeoid] : 0) ?? 0;
+    api && countyGeoid ? countyPopulation(api, `county:${countyGeoid}`) : 0;
   if (county > 0) return county;
   const papers = NEWS.places[stateKey]?.newspapers ?? 0;
   if (!(state > 0) || !(papers > 0))
@@ -708,7 +716,7 @@ function marketAdultsOf(
 ): number {
   const chain = lawChain(api);
   return (
-    marketPeople(chain.stateKey, chain.countyGeoids[0]) *
+    marketPeople(chain.stateKey, chain.countyGeoids[0], api) *
     (town.adults / town.people)
   );
 }
@@ -824,8 +832,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   const chain = lawChain(api);
   const counts = NEWS.places[chain.stateKey];
   const town = chain.townPlaceId;
-  const townPeople =
-    Number(api.state.placeMetadata.referencePopulation) || core.people.size;
+  const townPeople = townPopulation(api) || core.people.size;
   const statePeople =
     BASES.places[chain.stateKey]?.population2024 ?? townPeople;
   const county = chain.countyGeoids[0];
@@ -1627,9 +1634,7 @@ export function acceptCase(reasons: {
  * state, or the nation (more than any outlet serves).
  */
 function peopleAt(api: CoreAPI, level: WireLevel): number {
-  const town =
-    Number(api.state.placeMetadata.referencePopulation) ||
-    api.state.people.size;
+  const town = townPopulation(api) || api.state.people.size;
   if (level === "town") return town;
   if (level === "nation") return Number.POSITIVE_INFINITY;
   const chain = lawChain(api);
@@ -1637,7 +1642,8 @@ function peopleAt(api: CoreAPI, level: WireLevel): number {
     const base = BASES.places[chain.stateKey];
     return Math.max(
       town,
-      base?.population2024 ??
+      statePopulation(api, chain.stateKey) ??
+        base?.population2024 ??
         base?.puertoRicoPopulation2025 ??
         base?.islandAreaPopulation2020 ??
         town,
@@ -1646,7 +1652,7 @@ function peopleAt(api: CoreAPI, level: WireLevel): number {
   const county = chain.countyGeoids[0];
   return Math.max(
     town,
-    (county ? BASES.countyPopulation2024[county] : undefined) ?? town,
+    (county ? countyPopulation(api, `county:${county}`) : 0) || town,
   );
 }
 

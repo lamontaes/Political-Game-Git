@@ -44,7 +44,14 @@ import {
   federalSpendingReader,
   startingLawReader,
 } from "../country-law";
-import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
+import {
+  BUDGETS_MODULE_ID,
+  budgetsOf,
+  governments,
+  residentsOf,
+  STATES,
+} from "./budgets";
+import { statePopulation } from "../live-population";
 import { stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
@@ -348,7 +355,7 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
  */
 function federalOn(api: CoreAPI, date: string) {
   if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
-    return federalSpendingReader(undefined, () => 1, 1);
+    return federalSpendingReader(undefined, () => 1, 1, {});
   const nation = governments(api).find((gov) => gov.level === "federal");
   const budget = nation
     ? budgetsOf(api, nation.id)
@@ -360,6 +367,12 @@ function federalOn(api: CoreAPI, date: string) {
     budget,
     (stateKey, line) => stateStake(api, stateKey, `budget-line:${line}`),
     params(api)("minorPerDollar"),
+    Object.fromEntries(
+      Object.entries(STATES).map(([key, base]) => [
+        key,
+        statePopulation(api, key) ?? residentsOf(base),
+      ]),
+    ),
   );
 }
 

@@ -6,11 +6,6 @@
       "tag": "SOURCED",
       "source": "Calendar year; each line pays a twelfth of the year's adopted amount each month."
     },
-    "usResidents2024": {
-      "value": 340110988,
-      "tag": "SOURCED",
-      "source": "U.S. Census Bureau, Vintage 2024 national population estimate for July 1, 2024 (NST-EST2024-POP). The federal government's residents, so the town's share of federal receipts and lines."
-    },
     "daysPerYear": {
       "value": 365,
       "tag": "SOURCED",
