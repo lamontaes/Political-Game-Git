@@ -47,6 +47,7 @@ import type {
 import { decisionKinds } from "../trait-decision-table";
 import { leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
+import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
@@ -85,7 +86,8 @@ import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
-import { countedVoters } from "./voting";
+import { countedVoters, seatLastMargin } from "./voting";
+import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -102,6 +104,8 @@ export interface OpenContest {
   countywide?: boolean;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
+  /** The seat the contest fills: where its last race's lead is read. */
+  seatId?: string;
   /** How many have already decided to run for it. */
   runners?: number;
   poolFacts?: ReadonlyMap<PersonId, PoolFacts>;
@@ -509,6 +513,23 @@ export function countedCandidacyReasons(
   );
 }
 
+/**
+ * A challenger's odds against the sitting holder: the chance a swing as large
+ * as the holder's last winning lead happens, from the seat's own last race
+ * (`seatLastMargin`) and the world's swing spread. An open seat has no holder
+ * to beat (one); a holder with no counted race (a seat no one has been
+ * counted for) leads by nothing, so the contest is even.
+ */
+export function challengerOdds(api: CoreAPI, contest: OpenContest): number {
+  const one = api.parameter("one");
+  if (!contest.incumbentId) return one;
+  const lead = contest.seatId ? seatLastMargin(api, contest.seatId) : 0;
+  return (
+    one -
+    normalCdf(lead / c(api, "candidacySwingSpread"), one, api.parameter("two"))
+  );
+}
+
 function reasonsFrom(
   api: CoreAPI,
   person: RunFacts,
@@ -535,8 +556,7 @@ function reasonsFrom(
   // and the hope an enterprising, risk-taking person adds to them. A long
   // shot who files anyway is realistic (owner, Nov 8).
   const odds =
-    (standing *
-      (contest.incumbentId ? c(api, "candidacyChallengerOdds") : one)) /
+    (standing * challengerOdds(api, contest)) /
     (one + (contest.runners ?? zero));
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
@@ -1007,6 +1027,7 @@ export function weighContest(
     filingDeadline: rules.deadline ?? contest.filingDeadline,
     ...(contest.family === "countyOffice" ? { countywide: true } : {}),
     ...(incumbentId ? { incumbentId } : {}),
+    seatId: contest.seatId,
     ...(scope ? { poolFacts: facts, wideScope: scope } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
   };
@@ -1784,6 +1805,7 @@ function decideAsked(
       ...(incumbent?.personId && !standDown
         ? { incumbentId: incumbent.personId as PersonId }
         : {}),
+      seatId: contest.seatId,
       askedBy: { recordId, chairId },
       sourceIds: [contest.id, recordId, ...(standDown ? [standDown.id] : [])],
     },
@@ -2126,8 +2148,12 @@ export const candidacyModule: CoreModule = {
     candidacyDay(api);
     dropPastNonRunners(api);
   },
-  eventKinds: ["scene.reply"],
+  eventKinds: ["scene.reply", "election-result"],
   onEvent: (api, event) => {
+    if (event.kind === "election-result") {
+      takeStaffUnderWing(api, event);
+      return;
+    }
     answerPartyAsk(api, event);
     noteHouseholdBacking(api, event);
   },
@@ -2153,6 +2179,7 @@ export const candidacyModule: CoreModule = {
 export { localClerkFor } from "./filing-clerk";
 
 export const PARTY_MENTORSHIP = "party.mentorship-formed";
+export const CAMPAIGN_MENTORSHIP = "campaign.mentorship-formed";
 
 /** A party member's mentor in politics: who took them under their wing, and the party's ask that brought it about. */
 export interface PartyMentorRow {
@@ -2231,6 +2258,102 @@ export function takeUnderWing(
     facts: { partyId, mentorId: mentor.id, askId },
   });
   return mentor.id;
+}
+
+/**
+ * A campaign worked is shared history: when a candidate wins, the people who
+ * were on their campaign staff are taken under their wing, the same record
+ * and tie a party's ask makes (`takeUnderWing`), keyed by the campaign instead
+ * of the party. Written once per staffer and campaign. Nothing is rolled: no
+ * staff, no winner or a staffer who is already the winner, no mentorship.
+ */
+function takeStaffUnderWing(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const core = api.state as CoreState;
+  const winnerId = String(event.facts?.winnerId ?? "");
+  const contestId = String(event.facts?.contestId ?? "");
+  if (
+    !winnerId ||
+    !core.people.get(winnerId as PersonId)?.alive ||
+    !core.modules.has(PARTIES_MODULE_ID) ||
+    !core.modules.has(ELECTIONS_MODULE_ID) ||
+    !core.modules.has(CAMPAIGNS_MODULE_ID)
+  )
+    return;
+  const mentors = api.moduleState(PARTIES_MODULE_ID).table("mentors");
+  const filings = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byContest", [contestId]) as unknown as {
+    id: string;
+    personId: string;
+  }[];
+  for (const filing of filings) {
+    if (filing.personId !== winnerId) continue;
+    const campaign = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("campaigns")
+      .get(filing.id) as unknown as
+      { readonly staffIds: readonly string[] } | undefined;
+    for (const staffId of campaign?.staffIds ?? []) {
+      const staffer = core.people.get(staffId as PersonId);
+      if (!staffer?.alive || staffId === winnerId) continue;
+      const id = `${CAMPAIGN_MENTORSHIP}:${filing.id}:${staffId}`;
+      if (mentors.get(id)) continue;
+      const recordId = `${CAMPAIGN_MENTORSHIP}:${filing.id}:${staffId}:${winnerId}`;
+      mentors.put({
+        id,
+        partyId: "",
+        mentorId: winnerId,
+        since: core.date,
+        askId: filing.id,
+      } satisfies PartyMentorRow as unknown as ModuleRow);
+      api.relationship(
+        staffId as PersonId,
+        winnerId as PersonId,
+        "contact",
+        api.parameter("mentorFirstHours"),
+        undefined,
+        { cause: "mentorship", sourceId: recordId },
+      );
+      const holder = core.people.get(winnerId as PersonId)!;
+      api.emit({
+        id: recordId,
+        date: core.date,
+        kind: CAMPAIGN_MENTORSHIP,
+        personIds: [staffId as PersonId, winnerId as PersonId],
+        placeId: staffer.placeId,
+        publicRecord: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: `${holder.givenName} ${holder.familyName} took ${staffer.givenName} ${staffer.familyName} under their wing after the campaign they worked won.`,
+          estimatedFrom:
+            "The staff of the winning campaign, the same first sit-down hours as a party's mentor.",
+        },
+        facts: { mentorId: winnerId, campaignId: filing.id, contestId },
+      });
+    }
+  }
+}
+
+/** The mentor a staffer gained from a campaign they worked, where the winner is alive. */
+export function campaignMentorOf(
+  api: CoreAPI,
+  personId: string,
+  filingId: string,
+): PersonId | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(PARTIES_MODULE_ID)) return null;
+  const row = api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("mentors")
+    .get(`${CAMPAIGN_MENTORSHIP}:${filingId}:${personId}`) as unknown as
+    PartyMentorRow | undefined;
+  const mentor = row ? core.people.get(row.mentorId as PersonId) : undefined;
+  return mentor?.alive ? mentor.id : null;
 }
 
 /** The member's mentor in a party, where one took them under their wing and is still alive and in their town. */
