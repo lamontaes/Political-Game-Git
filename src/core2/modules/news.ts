@@ -432,8 +432,11 @@ function hear(
       sourceId,
       access,
     });
+  // The record the story is about: a printed story's wire record, else the
+  // record that is the story itself (heardOnAir).
+  const record = story.facts.sourceRecordId ?? story.id;
   for (const [factKey, value] of Object.entries(story.facts)) {
-    // What a person saw for themselves stays how they know it: a story or a
+    // What a person saw for themselves of the record stays how they know it: a story or a
     // telling of the same fact later does not replace it (someone who
     // watched the President's address still watched it when the paper
     // prints it, and a talk can say so).
@@ -441,7 +444,8 @@ function hear(
     if (
       held?.access === "perceived" &&
       held.value === value &&
-      held.sourceId !== sourceId
+      held.sourceId === record &&
+      sourceId !== record
     )
       continue;
     api.observe(personId, {

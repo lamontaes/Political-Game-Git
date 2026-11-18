@@ -126,12 +126,19 @@ it(
           const row = core.knowledgeByPerson.get(id)?.get(ADDRESS_FACT.event);
           if (!neighbor || !row) continue;
           watched += 1;
-          // Watched (the address's own record), or told at a contact since
-          // (a relationship the news engine passed it on).
-          expect(
-            row.sourceId === eventId || core.relationships.has(row.sourceId),
-            `${where}: ${id} learned it from ${row.sourceId}`,
-          ).toBe(true);
+          // One who watched it cites the address's own record; anyone else
+          // was told at a contact since (a relationship the news engine
+          // passed it on).
+          const sawIt = core.knowledgeByPerson
+            .get(id)
+            ?.has(`event:${eventId}:experienced`);
+          if (sawIt)
+            expect(row.sourceId, `${where}: ${id} watched it`).toBe(eventId);
+          else
+            expect(
+              core.relationships.has(row.sourceId),
+              `${where}: ${id} learned it from ${row.sourceId}`,
+            ).toBe(true);
           if (ageOnDate(neighbor.birthDate, core.date) < P.votingAge) continue;
           const subjects = subjectsBetween(core, id, me, director);
           const address = subjects.find((row) => row.kind === "address");
@@ -246,22 +253,37 @@ it(
         )
           ties.set(other.id, "neighbor (known, in town, another household)");
       }
-      // One the player told it to has nothing to tell the player: the case
-      // is someone who watched it or heard it from someone else.
-      const toldByPlayer = (id: PersonId) => {
-        const source = core.relationships.get(
-          core.knowledgeByPerson.get(id)?.get(ADDRESS_FACT.event)?.sourceId ??
-            "",
+      // Whoever it came from first, following each telling back to someone
+      // who watched it: one it reached from the player's own house has
+      // nothing to tell the player, so the case is a chain that starts with
+      // a watcher outside it.
+      const origin = (id: PersonId): PersonId | null => {
+        const seen = new Set<PersonId>();
+        for (let at: PersonId | undefined = id; at && !seen.has(at);) {
+          seen.add(at);
+          const source = core.knowledgeByPerson
+            .get(at)
+            ?.get(ADDRESS_FACT.event)?.sourceId;
+          if (source === eventId) return at;
+          const tie = source ? core.relationships.get(source) : undefined;
+          if (!tie) return null;
+          at = tie.actorId === at ? tie.otherId : tie.actorId;
+        }
+        return null;
+      };
+      const fromOutside = (id: PersonId) => {
+        const first = origin(id);
+        return (
+          !!first && core.people.get(first)?.householdId !== player.householdId
         );
-        return !!source && (source.actorId === me || source.otherId === me);
       };
       const holders = [...ties].filter(([id]) =>
         core.knowledgeByPerson.get(id)?.has(ADDRESS_FACT.event),
       );
-      const holder = holders.find(([id]) => !toldByPlayer(id));
+      const holder = holders.find(([id]) => fromOutside(id));
       if (!holder) {
         passed.push(
-          `${where}: none of ${ties.size} coworkers and neighbors holds it on day 1 but from the player (${holders.length} told by the player)`,
+          `${where}: none of ${ties.size} coworkers and neighbors holds it on day 1 from a watcher outside the player's house (${holders.length} hold it from the player's house)`,
         );
         continue;
       }
@@ -312,8 +334,9 @@ it(
         ),
         `${where}: watchers whose source was replaced (passed over: ${passed.join("; ")})`,
       ).toEqual([]);
+      const contact = core.relationships.get(row.sourceId);
       process.stdout.write(
-        `address near the player: ${where}; ${holderId}, ${tie}, holds it on day 1, ${how}, from ${row.sourceId} (the player is ${me}); on day ${PRINTED_BY} all ${watchers.length} watchers still cite ${eventId} and ${printed} people cite a printed story; passed over: ${passed.join("; ") || "none"}\n`,
+        `address near the player: ${where}; ${holderId}, ${tie}, holds it on day 1, ${how}, from ${row.sourceId}${contact ? ` (a ${contact.kind} tie, last together ${contact.lastContactDate})` : ""}, first watched by ${origin(holderId)} (the player is ${me}); on day ${PRINTED_BY} all ${watchers.length} watchers still cite ${eventId} and ${printed} people cite a printed story; passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }

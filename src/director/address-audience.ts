@@ -242,15 +242,21 @@ export function watchedAtFillIn(
           .get(person.id)
           ?.has(`event:${row.eventId}:experienced`),
     );
+    // They saw it themselves: the address's own record is how they know it,
+    // even where someone met while they were filled in has told them since.
     for (const person of watched)
-      api.observe(person.id, {
-        key: `event:${row.eventId}:experienced`,
-        value: row.eventId,
-        learnedAt: row.date as never,
-        sourceId: row.eventId,
-        access: "perceived",
-      });
-    // The address's facts, and the story they can pass on at their contacts.
+      for (const [key, value] of [
+        [`event:${row.eventId}:experienced`, row.eventId],
+        ...Object.entries(record.facts ?? {}),
+      ] as const)
+        api.observe(person.id, {
+          key,
+          value: String(value),
+          learnedAt: row.date as never,
+          sourceId: row.eventId,
+          access: "perceived",
+        });
+    // And the story they can pass on at their contacts.
     heardOnAir(
       api,
       record,
