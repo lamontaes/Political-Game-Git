@@ -66,7 +66,7 @@ import { campaignDay } from "../bench/campaign";
 import { chooseAtCounter, openBenchFilingVisit } from "../bench/filing";
 import { governmentView } from "../bench/government";
 import { BenchPlayer } from "../bench/player";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { campaignDayChoices } from "./campaign-day";
 import { candidatePlatform } from "./campaign-stances";
@@ -926,7 +926,16 @@ type Draw = { readonly proven: string } | { readonly tried: string };
 function attemptPlace(place: ReturnType<typeof drawPlace>): Draw {
   setBookkeeping(false);
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
-  const played = playRace(where, place.seed, place.key);
+  let played: ReturnType<typeof playRace>;
+  try {
+    played = playRace(where, place.seed, place.key);
+  } catch (error) {
+    // A place with no household for the player to live in (every adult in
+    // group quarters) has no race for them to play.
+    if (error instanceof NoPlayerHereError)
+      return { tried: `${where}: ${error.message}` };
+    throw error;
+  }
   if ("tried" in played) return played;
   const { clauses } = played;
   // Every clause is read before the count: on a day before election day.
