@@ -196,7 +196,9 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 02:18Z: pull requests went red only on golden-path M3-09 timing out. Cause: every spec shared one clock, so the last one starved (#9832 gives each spec its own). Until it lands, a pull request whose only red is that timeout may fold; any other M3-09 failure blocks.
 - Nov 17, 13:27Z (#9921, Pins): a branch that had merged the train an hour earlier went red on the `english` guard ("lower 5269 to 4918"). Cause: a later fold (#9957) lowered that baseline, and the branch still carried the train's older count. When you merge the train into a branch to clear a fold conflict, merge its current head after the CTO's last fold, and merge it again if a fold lands before yours.
 - Nov 17, 03:44Z: two skills pull requests (#9776, #9777) hit 409 against the train. Cause: skill files folded into the train conflict with the lanes' skill lines. Skills and docs pull requests merge straight to main (CTO, Nov 17).
+- Nov 18, 00:30Z (#9967): a `unit` job canceled after 45 minutes had hit its own limit (`validate.yml`), not a runner clear. Read the job's start and end before rerunning; a timeout reruns into the same wall.
 - Nov 16, 23:52Z to Nov 17, 00:42Z: 13 pull requests were listed ready and none was green. Cause: ready was posted before the checks finished. Ready means every check finished green, or each red is named as red on main too.
+- Nov 18, 05:40Z: a pull request carrying the train's commits sat "dirty" against main and got no checks at all (only the Checks guard), because GitHub starts no pull_request run on a conflicted pull request. Cause: its base was main while its content was the train's, and main's skill moves conflict with the train's in `docs/CURRENT.md`. Fix: retarget it to the train branch and merge the train in; never merge main into a train-based pull request.
 
 ## More in this folder
 
