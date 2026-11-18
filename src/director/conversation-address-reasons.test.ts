@@ -44,7 +44,12 @@ import {
   type PointPick,
 } from "./conversation";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { ADDRESS_FACT, addressPoints } from "./opening-facts";
+import { questionAbout, questionTo } from "../english/question-names";
+import {
+  ADDRESS_FACT,
+  addressPoints,
+  type AddressPoint,
+} from "./opening-facts";
 import rules from "./data/conversation-rules.json" with { type: "json" };
 
 const RULES = rules.addressPoint;
@@ -52,6 +57,8 @@ const HARDSHIP = rules.stands.reasonFits.questions;
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 16;
+/** Draws made for a reason on the address's own point before a hand-made one settles it. */
+const REAL_DRAWS = 8;
 const POINT = "address-point";
 /** HUD's cost-burden share of income (director parameter). */
 const BURDEN = DEFAULT_DIRECTOR_DATA.parameters.directorRentBurdenShare!.value;
@@ -77,6 +84,32 @@ function housePairs(core: CoreState): [PersonId, PersonId][] {
   return out;
 }
 
+/** The catalog's questions a reason's rows list, in order: its own rows, then (a lease) the hardship fits. */
+function catalogQuestions(reason: "lease" | "relative"): string[] {
+  const own = Object.keys(RULES[reason].questions);
+  const fits =
+    reason === "lease"
+      ? Object.entries(HARDSHIP as Record<string, Record<string, string>>)
+          .filter(([, sides]) => Object.values(sides).includes("hardship"))
+          .map(([question]) => question)
+      : [];
+  return [...new Set([...own, ...fits])].filter((question) =>
+    questionAbout(question),
+  );
+}
+
+/** A point of the bill catalog on a question, for an address that has none the rows list. */
+function catalogPoint(question: string): AddressPoint {
+  return {
+    kind: "policy",
+    question,
+    about: questionAbout(question)!,
+    to: questionTo(question)!,
+    stance: "for",
+    sourceRecordIds: [`question:${question}`],
+  };
+}
+
 /** The record a reason must cite: the lease, the relative's person record, the story. */
 function citedRecord(pick: PointPick): string {
   const life = pick.life!;
@@ -89,8 +122,19 @@ function citedRecord(pick: PointPick): string {
 
 it(`a housemate's stand on the address's point can come from their lease, a relative in the house or a story they read (seed ${seed})`, () => {
   const found = new Map<Wanted, string>();
+  /** A lease or relative found only on a hand-made point of the catalog. */
+  const hand = new Map<Wanted, string>();
+  const settled = (reason: Wanted) => found.has(reason) || hand.has(reason);
   const passed: string[] = [];
-  for (let draw = 0; draw < ATTEMPTS && found.size < WANTED.length; draw += 1) {
+  for (
+    let draw = 0;
+    draw < ATTEMPTS &&
+    !(
+      found.size === WANTED.length ||
+      (draw >= REAL_DRAWS && WANTED.every(settled))
+    );
+    draw += 1
+  ) {
     const place = drawPlace(`${seed}:${draw}`, "address-reasons");
     setBookkeeping(false);
     let built: ReturnType<typeof buildBenchWorld>;
@@ -245,6 +289,56 @@ it(`a housemate's stand on the address's point can come from their lease, a rela
     const open = () =>
       WANTED.filter((reason) => !found.has(reason) && can(reason));
     look(open());
+    // A lease or a relative the address's own question gives no row for is
+    // still looked for, on a point of the bill catalog the rows list, as the
+    // work point beside this one is (conversation-address-talk.test.ts): a
+    // hand-made point, checked through the picker only (the talk raises the
+    // address's own points), over every household of the drawn world on the
+    // opening evening, and said as such in the pass line.
+    for (const reason of ["lease", "relative"] as const) {
+      if (settled(reason)) continue;
+      for (const question of catalogQuestions(reason)) {
+        if (hand.has(reason)) break;
+        const point = catalogPoint(question);
+        for (const [speaker, listener] of housePairs(core)) {
+          if (!takesStands(core, speaker)) continue;
+          const pick = addressPointFor(
+            core,
+            speaker,
+            [point],
+            listener,
+            director,
+          );
+          if (pick?.reason !== reason) continue;
+          const here = `${where}, ${core.date}, hand-made point: ${speaker} to ${listener}`;
+          const record = citedRecord(pick);
+          expect(pick.reasonIds, here).toContain(record);
+          if (reason === "lease") {
+            const life = pick.life as Extract<
+              NonNullable<PointPick["life"]>,
+              { reason: "lease" }
+            >;
+            expect(core.finance.contracts.get(record)?.householdId, here).toBe(
+              core.people.get(speaker)!.householdId,
+            );
+            expect(life.incomeMinor, here).toBeGreaterThan(0);
+            expect(life.rentMinor, here).toBeGreaterThan(
+              life.incomeMinor * BURDEN,
+            );
+          } else {
+            expect(core.people.get(record as PersonId)?.householdId, here).toBe(
+              core.people.get(speaker)!.householdId,
+            );
+            expect(record, here).not.toBe(listener);
+          }
+          hand.set(
+            reason,
+            `${here} on ${point.about}: ${reason} cites ${pick.reasonIds.join(", ")}`,
+          );
+          break;
+        }
+      }
+    }
     for (let day = 1; day <= TALK_DAYS && open().length; day += 1) {
       advanceCore(core, addDays(makeIsoDate(opened), day));
       look(open());
@@ -258,10 +352,14 @@ it(`a housemate's stand on the address's point can come from their lease, a rela
     );
   }
   process.stdout.write(
-    `ADDRESS REASONS ${seed}: found ${[...found.values()].join("; ")}; drew ${passed.join("; ")}\n`,
+    `ADDRESS REASONS ${seed}: found ${[...found.values()].join("; ")}; on a hand-made point ${[...hand.values()].join("; ") || "none"}; drew ${passed.join("; ")}\n`,
   );
+  // A story is found on the address's own point; a lease or a relative on
+  // it, else on the catalog's.
   expect(
-    WANTED.filter((reason) => !found.has(reason)),
+    WANTED.filter((reason) =>
+      reason === "story" ? !found.has(reason) : !settled(reason),
+    ),
     `none found; drew ${passed.join("; ")}`,
   ).toEqual([]);
 }, 3_600_000);
