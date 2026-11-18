@@ -213,7 +213,7 @@ export function holderFace(
 
 let namedQuestions: Record<string, string> | undefined;
 // Engineering page size: how many of a party's positions its page lists.
-const STANDS_FOR_LISTED = 6;
+const STANDS_FOR_LISTED = 3;
 
 /**
  * What each party's page tells, from the records: its chair (the party's
