@@ -821,6 +821,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "closenessTrustLostShare": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "The share of the hours a tie stands on today that trust lost takes (a lie found out, a promise broken): a close tie loses more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15). Read by the director's endingStrain trust-lost row and the promises engine's broken promise (people-broken-promise-costs-share-of-tie, Nov 16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "share of the tie",
+      "citation": "From memory: the spread the Account lead's ruling of Nov 15 checks it against; no study gives a share."
+    },
+    "role": "coefficient",
+    "estimatedFrom": "From memory, not measured: DePaulo and Kashy (1998) give the direction only (people lie less to those they are close to and are more uncomfortable doing it), and no study read gives the share of a tie that trust lost takes. A quarter is the middle of the spread the Account lead's ruling of Nov 15 checks it against. Sizing it from the record (what the lies and broken promises in played worlds actually do to ties) is item people-trust-lost-share-sized-from-the-record, the lying thread's."
+  },
   "circleRetentionShareOverSpan": {
     "value": 0.48,
     "tag": "SOURCED",
@@ -7587,18 +7600,6 @@
       "high": 0.2,
       "unit": "share of the published tuition",
       "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
-    }
-  },
-  "worldBaseRateMortalitySpreadShare": {
-    "value": 0.05,
-    "tag": "ESTIMATED",
-    "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
-    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
-    "spread": {
-      "low": 0.02,
-      "high": 0.08,
-      "unit": "share of the published rate",
-      "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
     }
   },
   "worldBaseRateNatalitySpreadShare": {

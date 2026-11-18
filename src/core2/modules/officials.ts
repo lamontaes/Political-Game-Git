@@ -42,6 +42,8 @@ import { publicOffset } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import {
   centuryOf,
+  centuryParties,
+  centurySignedLean,
   historyMode,
   publishedSenateSeats,
   worldRoster,
@@ -67,6 +69,7 @@ import { nationalHomeState, recordPresident } from "../officials-president";
 import { researchedHolderParty } from "../offices-holder-parties";
 // The Elections family reads the researched holder party through this entry.
 export { researchedHolderParty } from "../offices-holder-parties";
+export { partySide } from "../appointments";
 import {
   electedWithGovernorOnTicket,
   isOutsideOffice,
@@ -329,12 +332,31 @@ const source = (date: string): Source => ({
   estimatedFrom: "data/officials/officials.json",
 });
 
-/** A state's lean, right positive: its 2024 presidential two-party vote, as this world's swing moved it. */
+/**
+ * A state's lean, right positive: where the century's last count left it, in a world whose day one
+ * is the century's; otherwise its 2024 presidential two-party vote, as this world's swing moved it.
+ */
 function stateLeanOf(stateKey: string, seed: string): number {
+  const century = centurySignedLean(seed, stateKey);
+  if (century !== undefined) return century;
   const share = stateShare.get(stateKey.slice(3));
   return share === null || share === undefined
     ? 0
     : 1 - 2 * (share - worldSwing(seed, stateKey.slice(3)));
+}
+
+/** Where each side's party stands on day one, by side, in a world whose day one is the century's. */
+function partyPositionsOf(
+  seed: string,
+): Readonly<Record<number, number>> | undefined {
+  const parties = centuryParties(seed);
+  if (!parties) return undefined;
+  const out: Record<number, number> = {};
+  for (const party of parties) {
+    const at = party.positions.at(-1)?.position;
+    if (at !== undefined) out[party.side] = at;
+  }
+  return out;
 }
 
 /** A seat's lean and where it's read from. */
@@ -345,7 +367,23 @@ function seatLean(
   district: string | null,
   party: string | null,
   officeKind = "",
+  seatId = "",
 ): { lean: number; source: string } {
+  // A district the century counted stands where its last count left it.
+  const century =
+    bodyKind === "legislature" && seatId
+      ? centurySignedLean(seed, stateKey, { seatId })
+      : bodyKind === "us-house" && district !== null
+        ? centurySignedLean(seed, stateKey, {
+            usps: stateKey.slice(3),
+            houseCode: /^\d+$/.test(district) ? district : "0",
+          })
+        : undefined;
+  if (century !== undefined)
+    return {
+      lean: century,
+      source: "the century's last count in the district",
+    };
   const state = stateLeanOf(stateKey, seed);
   const swing = worldSwing(seed, stateKey.slice(3));
   const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
@@ -385,9 +423,18 @@ function seatLean(
             2 * partySide(party) * campaignParameter("legislativeSeatMargin"),
         ),
       ),
-      source: "state's 2024 presidential vote and the typical seat margin",
+      source:
+        centurySignedLean(seed, stateKey) !== undefined
+          ? "the century's last count in the state and the typical seat margin"
+          : "state's 2024 presidential vote and the typical seat margin",
     };
-  return { lean: state, source: "state's 2024 presidential vote" };
+  return {
+    lean: state,
+    source:
+      centurySignedLean(seed, stateKey) !== undefined
+        ? "the century's last count in the state"
+        : "state's 2024 presidential vote",
+  };
 }
 
 interface Spec {
@@ -711,6 +758,8 @@ function seatAll(
   drafted: readonly Spec[],
   opening: boolean,
 ): void {
+  // Each party's members are drawn around where its own history put it.
+  const positions = partyPositionsOf(seed);
   // Who each holder is, and no one first served younger than the minimum
   // age (the offices engine's careers already keep to it).
   const identities = new Map(
@@ -748,6 +797,7 @@ function seatAll(
         s.district,
         s.party,
         s.officeKind,
+        s.seatId,
       ),
     ]),
   );
@@ -795,6 +845,7 @@ function seatAll(
       leader: roles.has(spec.key),
       ...(roster ? { caucus: roster } : {}),
       temperament: temperamentOf(api.state as CoreState, personId, identity),
+      ...(positions ? { partyPositions: positions } : {}),
     });
     const recorded: Omit<RecordedIdentity, "source"> = {
       id: personId,
@@ -1610,6 +1661,7 @@ function rankCandidates(
     readonly exclude: ReadonlySet<string>;
   },
 ) {
+  const positions = partyPositionsOf(api.state.seed);
   const side = partySide(party);
   const facts = seatFacts(api, contest.seatId);
   if (!facts || facts.office.kind === "president") return null;
@@ -1628,6 +1680,7 @@ function rankCandidates(
     facts.seat.district,
     party,
     facts.office.kind,
+    contest.seatId,
   ).lean;
   // Anyone already running somewhere this year runs only there.
   const running = new Set(
@@ -1696,6 +1749,7 @@ function rankCandidates(
       districtLean: seatLeanNow,
       leader: false,
       temperament: temperamentOf(api.state as CoreState, id, identity),
+      ...(positions ? { partyPositions: positions } : {}),
     });
     return { id, identity, drawn };
   });
@@ -1934,6 +1988,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     facts.seat.district,
     party,
     facts.office.kind,
+    seatId,
   );
   const row: OfficialRow = {
     id: personId,
@@ -2042,5 +2097,11 @@ export function temperamentOf(
 }
 
 /** A seat-holder's own stance and the President's record facts, read through the executive family's entry. */
-export { ownStance } from "../officials-roster";
+export {
+  expectedIdeal,
+  memberSupportAt,
+  ownStance,
+  partyKey,
+  stanceLean,
+} from "../officials-roster";
 export { PRESIDENT_FACT } from "../officials-president";

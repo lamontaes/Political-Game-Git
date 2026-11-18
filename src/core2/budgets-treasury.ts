@@ -1349,6 +1349,15 @@ export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
  * regional rows.)
  */
 /**
+ * The revenue lines another government's budget pays into (federal aid, a state's local aid). What a treasury
+ * receives on them is set by the payer's budget and by any law that moves the line, never by this government's own
+ * collections, so a government's receipts for its own next budget leave them out.
+ */
+export function aidRevenueLines(): ReadonlySet<string> {
+  return new Set(DATA.aid.flows.map((f) => f.revenueLine));
+}
+
+/**
  * What the world's own people, prices, debt and borrowing cost stand at in the last completed month: the drivers a
  * federal budget's lines move with from one year to the next (people the household lines reach, prices every
  * purchase is made at, the debt and its yield for interest). A budget row keeps the drivers it was written with, so

@@ -584,6 +584,12 @@
       "why": "It tested saved-identity-proof.mjs, deleted with it."
     },
     {
+      "old": "src/director/data/promise-kinds.json",
+      "now": "src/core2/data/promises/promise-kinds.json (the kinds, windows, answers and parameters) and src/director/data/promise-endings.json (which scene endings keep a promise)",
+      "when": "2026-11-15",
+      "why": "The promise record, its settlement and the tie it moves moved into the promises engine (core2-promises-v1); the director only words it."
+    },
+    {
       "old": ".agents/skills/standing-rules-self-check",
       "now": ".agents/skills/done-proof (section 9, the standing rules one line each)",
       "when": "2026-11-16",

@@ -162,6 +162,7 @@ function play(drawSeed: string) {
   const place = drawPlace(drawSeed, "environment-played");
   const world = buildBenchWorld(drawSeed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: place.key,
   });
   const core = world.core as CoreState;
@@ -382,7 +383,7 @@ function sameHouseholds(was: Settle, now: Settle, which: "deposit" | "carbon") {
 }
 
 describe(`environment laws reach people on the web's own lags in a played world (seed ${seed})`, () => {
-  it("each law's links run once the law is as old as their lag, and the price and death engines read them for the same people", () => {
+  it("each law's links run once the law is as old as their lag, and the price and death engines read them for the same people (just like today: needs the state's real environment laws)", () => {
     const priorBookkeeping = setBookkeeping(false);
     try {
       const tried: string[] = [];

@@ -86,6 +86,7 @@ import {
 } from "../tax-listeners";
 import {
   type BudgetDrivers,
+  aidRevenueLines,
   budgetDrivers,
   applySocialSecurityLevel,
   closeTreasuries,
@@ -1535,10 +1536,20 @@ function collectedLastYear(
   let months = 0;
   for (const m of treasuryMonthsOf(api, gov.id))
     if (m.date >= from && m.date < to) {
-      collected += m.collectedMinor - m.borrowedMinor;
+      // Its own receipts: what other governments' budgets paid it, and what it borrowed, are not its collections.
+      collected += m.collectedMinor - m.borrowedMinor - m.aidReceivedMinor;
       months += 1;
     }
   return months === treasuryMonthsPerYear() ? collected : undefined;
+}
+
+/** A budget's revenue lines the government raises itself: every line but the aid other governments pay it. */
+function ownRevenueMinor(revenue: Readonly<Record<string, number>>): number {
+  const aid = aidRevenueLines();
+  return Object.entries(revenue).reduce(
+    (sum, [line, v]) => (aid.has(line) ? sum : sum + v),
+    0,
+  );
 }
 
 /** The treasury months of the fiscal year before `fy`, by id: the records a re-budgeted plan was set from. */
@@ -1560,9 +1571,7 @@ function collectionsOverBase(
   fy: number,
 ): number | undefined {
   const collected = collectedLastYear(api, gov, fy);
-  const expected = Object.values(
-    baseBudget(api, gov, fy - 1).revenueMinor,
-  ).reduce((a, v) => a + v, 0);
+  const expected = ownRevenueMinor(baseBudget(api, gov, fy - 1).revenueMinor);
   return collected !== undefined && expected > 0
     ? collected / expected
     : undefined;
@@ -1627,7 +1636,7 @@ function carriedLines(
   const drivers =
     gov.level === "federal" ? (own?.drivers ?? budgetDrivers(api)) : undefined;
   // A state's or county's lines follow what it collected over the plan it spent against.
-  const planned = Object.values(prior.revenueMinor).reduce((a, v) => a + v, 0);
+  const planned = ownRevenueMinor(prior.revenueMinor);
   const took = collectedLastYear(api, gov, fy);
   const receipts =
     (gov.level === "state" || gov.level === "county") &&
@@ -1715,10 +1724,13 @@ function legislatedBudget(
   } = carriedLines(api, gov, fy, base, own);
   // Revenue is re-budgeted every year from what the government collected under
   // the law in force, in the published mix of lines.
+  // Aid other governments pay stays as its payer's budget and any law set it: it does not follow this
+  // government's own collections, which would carry last year's aid (a law's included) into this year twice.
+  const aid = aidRevenueLines();
   const revenue = Object.fromEntries(
     Object.entries(base.revenueMinor).map(([line, v]) => [
       line,
-      Math.round(v * (collected ?? 1)),
+      aid.has(line) ? v : Math.round(v * (collected ?? 1)),
     ]),
   );
   const spending = { ...carried };

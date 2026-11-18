@@ -777,6 +777,12 @@ export function respond(
   data: DrivesData,
   actorId: PersonId,
   event: CoreEventInput,
+  /**
+   * The event the person lived through, where it is not the act itself: one
+   * who heard of an act (speech.ts, spreadWord) lived through the retelling,
+   * so a drive it forms is sourced there; the act still gives its kind and facts.
+   */
+  livedThrough: string = event.id,
 ): FormationTrace[] {
   const p = (key: string) => api.parameter(key);
   // A person still in the wider population responds by the same rule, from
@@ -1008,7 +1014,7 @@ export function respond(
       // Someone returned to the counts (`stillCounted`) answers a counted
       // event through their kept full record, and lived through it the same way.
       const filledNow = counted && api.state.people.has(actor.id);
-      const experienced = `event:${event.id}:experienced`;
+      const experienced = `event:${livedThrough}:experienced`;
       if (
         filledNow ||
         (!counted && isDemoted(actor) && !api.knows(actor.id, experienced))
@@ -1019,9 +1025,9 @@ export function respond(
         }
         api.observe(actor.id, {
           key: experienced,
-          value: event.id,
+          value: livedThrough,
           learnedAt: event.date,
-          sourceId: event.id,
+          sourceId: livedThrough,
           access: "perceived",
         });
       }
@@ -1039,7 +1045,7 @@ export function respond(
           topic: identity.topic,
           desiredChange: identity.desiredChange,
           ...(identity.targetId ? { targetId: identity.targetId } : {}),
-          sourceEventId: event.id,
+          sourceEventId: livedThrough,
           formedAt: api.state.date,
           anchorDate: api.state.date,
           anchorStrength: p("zero"),
@@ -2037,12 +2043,18 @@ export function createDrivesModule(
         )
           return;
         for (const id of event.witnessIds ?? [])
-          respond(api, data, id, {
-            ...act,
-            date: event.date,
-            witnessIds: [id],
-            source: event.source,
-          });
+          respond(
+            api,
+            data,
+            id,
+            {
+              ...act,
+              date: event.date,
+              witnessIds: [id],
+              source: event.source,
+            },
+            event.id,
+          );
         return;
       }
       if (!data.eventRules.some((rule) => rule.eventKind === event.kind))
