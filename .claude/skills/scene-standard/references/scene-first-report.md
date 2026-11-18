@@ -19,3 +19,5 @@ Then stop and wait for the ruling while other work continues. The owner's exampl
 ## Before you start a design
 
 Look in `/mnt/project-files/words-lead/words-machine/` and the story queue for a sibling thread doing the same work, and ask that thread before building a second one (`look-first`).
+
+Name a record's new fields the way the engine's owner plans them (Elections' `channel` and `heardBy` on the announcement, not names of your own), so the report, the build and the owner's engine agree (CTO, Nov 18).
