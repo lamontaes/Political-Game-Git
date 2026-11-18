@@ -80,7 +80,7 @@ A drawn place can name a business after a person, so a check that counts the pla
 - **Following whoever the case happens to, then replaying the town as that person, can fail by tier.** A townsperson who misses a loan payment opens with a loan and no cash; the same person as the player opens with cash and no loan, and never misses. Check that the case survives the rebuild before building a test on it, and file the tier difference when it does not.
 - **A build by the runner's drawn key is a draw.** A place where no player can live is passed over by the build itself when the key is the golden-path runner's (`passOver` in `src/bench/world.ts`); a test that draws its own key catches `NoPlayerHereError`, names the place and draws again, as `src/core2/past-votes-by-level.test.ts` does.
 
-## Gotchas (Nov 16 and 17)
+## Gotchas (Nov 16 to 18)
 
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
@@ -104,6 +104,8 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 18 (voucher tests, Woodstock, Georgia): a test read "vouchers paid nothing" 40 days after the laws. Cause: a law's review opens each group's obligation on the 1st and its first payment falls on the group's own due day, later (`firstDueAt`). Read what an obligation paid only after its last first-due day.
 - Nov 18 (medical-debt, Littleton, New Hampshire): a twin test expected equal employer policyholders in every place. Cause: a lapsed premium hands its plan slot to the next worker in the ranking, who can live in another place, so places move both ways. Compare the whole ranking (workers and slots equal; held plus lapsed equal), never a place.
 - Nov 18 (work-requirement bill, Arcadia Lakes, South Carolina): a test wanted a journal entry for a bill that three uninsured households had not paid. Cause: an unpaid medical bill is owed to the provider for 120 days before collections, so inside the wait the effect is a bill owed, not a payment. Pass on a payment or an owed bill at the no-Medicaid price and fail only where no such bill exists; no pass-over, no pin (CTO, Nov 18).
+- Nov 18, 21:16Z (#10179): a test that asserted the engine's own float expression passed one seed and failed the next, a cent off in either direction. Cause: it copied the engine instead of the rule. Compute the rule on its own terms in the test, here exact whole-number fractions, so the test fails when the engine is wrong (CTO 6991875920).
+- Nov 18, 20:48Z (#9868; Tutu USVI, replay f1b8170e455e8ef2): a 20% benefit raise gave one counted household 2.64 times its veterans income. Cause: once each veteran's own take-up weighs the benefit's share of income, a bigger benefit draws more veterans in, so "exactly a fifth more for every household" was a lost premise. Check "at least the rule's rise, never fewer drawing", and get the CTO line for that exact pull request (6991203613).
 
 ## More in this folder
 
