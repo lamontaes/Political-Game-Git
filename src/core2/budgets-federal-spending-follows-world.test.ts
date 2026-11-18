@@ -53,10 +53,14 @@ describe("federal spending follows the world's own people and prices", () => {
           const now = row.baseSpendingMinor![line]!;
           if (line === "netInterest") {
             expect(now, `${where}: ${row.id} ${line}`).toBe(
+              // The rule's own grouping (lineGrowth: the debt and yield ratios'
+              // product, then times last year's line), as the households
+              // branch below is: at a hundred trillion cents another order
+              // of the same three factors can land across a half cent.
               Math.round(
                 was *
-                  (row.drivers.debt / prior.drivers.debt) *
-                  (row.drivers.yield / prior.drivers.yield),
+                  ((row.drivers.debt / prior.drivers.debt) *
+                    (row.drivers.yield / prior.drivers.yield)),
               ),
             );
           } else {
