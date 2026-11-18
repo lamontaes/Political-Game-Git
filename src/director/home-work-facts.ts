@@ -13,6 +13,7 @@
  */
 import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
 import { heldSinceRecord } from "../core2/past-work";
+import { schoolsAttended } from "../core2/past-school";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { FAMILY_QUARREL } from "../core2/modules/quarrel";
 import { unionStart } from "../core2/modules/partnerships";
@@ -207,13 +208,21 @@ function schoolFacts(core: Readonly<CoreState>, causeId: string): Facts {
   const result = schoolResult(core, causeId);
   if (!result) return {};
   const facts: Facts = {};
-  const school = result.schoolId
-    ? core.organizations.get(result.schoolId)
-    : undefined;
+  // The school the school engine has the senior at; after the year they have
+  // left it, the last high school the person's school records name.
+  const last = schoolsAttended(core, result.personId)
+    .filter((row) => row.stage === "high")
+    .at(-1);
+  const schoolId = result.schoolId ?? last?.schoolId;
+  const school = schoolId ? core.organizations.get(schoolId) : undefined;
   if (school)
     facts.school = {
       text: organizationName(school),
-      sourceRecordIds: [causeId, school.id],
+      sourceRecordIds: [
+        causeId,
+        ...(!result.schoolId && last ? [last.recordId] : []),
+        school.id,
+      ],
     };
   facts[result.passed ? "passed" : "not-passed"] = {
     text: "yes",
