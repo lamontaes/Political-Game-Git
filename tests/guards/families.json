@@ -34,6 +34,7 @@
     "src/core2/gov-test-report.ts",
     "src/core2/law-test-start.ts",
     "src/core2/resident-adults-test-kit.ts",
+    "src/core2/record-test-kit.ts",
     "src/core2/free-block.ts",
     "src/core2/focus.ts",
     "src/core2/gov-rules/place-population.ts",

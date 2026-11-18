@@ -20,9 +20,9 @@ import {
   votesOf,
 } from "./modules/record";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
-import { searchCorePlaces } from "./place-lookup";
 import { setKeepEveryonesWhy } from "./why-kept";
-import { scenario, seed, states, pick, START } from "./record-test-kit";
+import { scenario, seed, START } from "./record-test-kit";
+import { drawPlace } from "../../scripts/core2-year/place";
 
 describe("M4-06 the record follows you", () => {
   // A voter's reasons are saved for the player's circle only (Keep it simple,
@@ -72,14 +72,7 @@ describe("a vote by a member who isn't a full person", () => {
   // every resident heard hundreds a session, slowing the year tenfold. The
   // roll call's own story carries the count; the vote stays on the record.
   it("is on the record but is not its own event", () => {
-    const state = pick(states, "outsider:state");
-    const places = [
-      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-        stateJurisdictionKey: state,
-        scope: "locality",
-      }),
-    ].sort((a, b) => a.key.localeCompare(b.key));
-    const key = pick(places, "outsider:place").key;
+    const { key, state } = drawPlace(seed, "record:outsider");
     const core = createLifeCore(
       buildPopulation({
         seed,

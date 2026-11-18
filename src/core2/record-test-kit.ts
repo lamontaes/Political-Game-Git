@@ -4,7 +4,7 @@
  * promise in a real speech, the vote that broke it, and the election that
  * follows. A test kit, read only by tests.
  */
-import { createHash } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { countedChoice } from "./electorate";
 import { expect } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -40,7 +40,7 @@ import { openRecord, promisesOf, recordVote } from "./modules/record";
 import { openPress } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
-import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
 export const START = "2026-01-05";
@@ -49,15 +49,16 @@ const LAST_WEEKS_DAYS = 28;
 /** How long a draw waits for a held race's filing window to open. */
 const WAIT_DAYS = 120;
 export const seed =
-  process.env.GOLDEN_PATH_SEED ??
-  createHash("sha256").update(`record:${Date.now()}`).digest("hex");
-export const states = [...corePlaceStateIdentities()]
-  .map((s) => s.jurisdictionKey)
-  .sort();
-export function pick<T>(list: readonly T[], salt: string): T {
-  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
-  return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
-}
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+/**
+ * The questions voters divide on (under the views stand-in, a question with
+ * no left-right split moves nobody), in the data's order.
+ */
+const DIVIDING_QUESTIONS = PLATFORM_QUESTIONS.filter(
+  (q) =>
+    Math.abs((axes.axes as Record<string, { axis: number }>)[q]?.axis ?? 0) >=
+    0.3,
+);
 
 /** One draw: a place, an incumbent's broken promise, and the election that follows. */
 export function scenario(draw: number, byTurn = false) {
@@ -67,17 +68,11 @@ export function scenario(draw: number, byTurn = false) {
   let incumbentId: string | undefined;
   // A place whose town has a local seat held by a resident and up this cycle.
   for (let attempt = 0; attempt < 8 && !contest; attempt += 1) {
-    const state = pick(states, `state:${draw}:${attempt}`);
-    const places = [
-      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-        stateJurisdictionKey: state,
-        scope: "locality",
-      }),
-    ].sort((a, b) => a.key.localeCompare(b.key));
+    // One of the 56 jurisdictions, then one of its places, from the seed.
     const key =
       draw === 0 && attempt === 0 && place
         ? place
-        : pick(places, `place:${draw}:${attempt}`).key;
+        : drawPlace(seed, `record:${draw}:${attempt}`).key;
     core = createLifeCore(
       buildPopulation({
         seed,
@@ -180,17 +175,8 @@ export function scenario(draw: number, byTurn = false) {
     platform: [],
   });
   // The incumbent campaigns on a promise, in a real speech to people who know them.
-  // A question voters divide on (under the views stand-in, a question with
-  // no left-right split moves nobody).
-  const question = pick(
-    PLATFORM_QUESTIONS.filter(
-      (q) =>
-        Math.abs(
-          (axes.axes as Record<string, { axis: number }>)[q]?.axis ?? 0,
-        ) >= 0.3,
-    ),
-    `promise:${draw}`,
-  );
+  // Each draw of the test takes the next dividing question in turn.
+  const question = DIVIDING_QUESTIONS[draw % DIVIDING_QUESTIONS.length]!;
   knockDoors(api, {
     filingId: incumbentFiling.id,
     canvasserId: incumbent.id,
