@@ -28,20 +28,7 @@ const say = (
     momentKey: `${subject}:${stage}${moment}`,
   });
 
-describe("a relative's news told at home through the composer", () => {});
-
 describe("the answers that close a death's telling without a promise", () => {
-  const heard = (
-    stage: string,
-    facts: Record<string, ReturnType<typeof fact>>,
-  ) =>
-    new Set(
-      Array.from(
-        { length: 60 },
-        (_, at) => say("death-news-back", facts, stage, `:${at}`)?.text,
-      ),
-    );
-  const KIN = { kin: fact("my father") };
   it("says no 'nobody knows how' line: a recorded cause with no words yet is not unknown", () => {
     const texts = bank.parts.map((part) => part.text);
     expect(texts).not.toContain("I don't know more than that.");
