@@ -30,7 +30,7 @@ checked: fable 2026-11-10
 
 **Rules.** Wire to the world: the title comes from the chair's recorded seat and person, never typed per place. One rule, all 56 places: no state, city or GEOID in logic. No hand-written player text: the lines are the bank pieces hearing.thanks.thank-you-chairman, hearing.thanks.thank-you-mr-chairman and hearing.answer.yes-thank-you; a rewrite never deletes a line the owner graded good (Nov 8).
 
-**Done when.** A second session, not the builder, plays or replays a hearing-witness scene in a drawn place from all 56 (place and seed named in the PR body). With a man as chair the witness can say "Thank you, Mr. Chairman."; with a woman as chair the witness never does; and when the chair asks a question a yes answers, "Yes, thank you." plays. A test beside src/director/hearing-witness.test.ts names the scene and the chair's record ids, and SG-WORDS-hearing-no-reader is deleted from src/director/data/stopgaps.json.
+**Done when.** A second session, not the builder, plays or replays a hearing-witness scene in a drawn place from all 56 (place and seed named in the PR body). With a man as chair the witness can say "Thank you, Mr. Chairman."; with a woman as chair the witness never does; and when the chair asks a question a yes answers, "Yes, thank you." plays. A test beside src/director/hearing-witness.test.ts (removed) names the scene and the chair's record ids, and SG-WORDS-hearing-no-reader is deleted from src/director/data/stopgaps.json.
 
 **Waits on.** words-hearing-chair-question, which adds the chair's question parts to data/english/parts/hearing.json. This item adds only the chair-title fact and the yes-or-no kind of question on top of those parts, so the bank gets one set of chair questions.
 

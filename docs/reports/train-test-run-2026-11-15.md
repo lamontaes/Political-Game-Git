@@ -64,7 +64,7 @@ Each of these names its place and seed in its own failure line.
 - `src/bench/printed-police-log.test.ts`: Surrency, Georgia.
 - `src/director/justice-talk.test.ts`: Perkins, Georgia.
 - `src/director/speech-occasion-read.test.ts`: Wilmington Manor, Delaware.
-- `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts`: Ciales, Puerto Rico.
+- `src/core2/second-chamber-own-day.test.ts` and `src/director/hearing-witness.test.ts` (removed): Ciales, Puerto Rico.
 - `src/bench/endorsement-played.test.ts` (2 tests): North Courtland, Alabama; Laurel, Montana.
 - `src/director/eviction-leads-the-talk.test.ts`: Faleasao, American Samoa.
 - `src/core2/candidate-platform-spread.test.ts`: Marshfield, Massachusetts.
