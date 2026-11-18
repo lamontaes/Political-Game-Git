@@ -9,7 +9,6 @@ import { advanceCore } from "../core2/life";
 import { partiesHere } from "../core2/modules/parties";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { meetingFacts } from "./meeting-facts";
 
 // A first meeting and a tie that grew each ask for something grounded in what
