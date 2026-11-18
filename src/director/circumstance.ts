@@ -30,8 +30,10 @@ import {
 } from "../core2/modules/elections";
 import {
   LEGISLATURE_MODULE_ID,
+  reachesTown,
   type StudyRow,
 } from "../core2/modules/legislature";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -76,9 +78,7 @@ export interface CircumstanceRow {
   playerNamed?: boolean;
   /**
    * Days after the record that the circumstance comes (the morning after a
-   * count): the record waits on the director's ledger until then, and the
-   * week's spacing between scenes from circumstance does not hold it back,
-   * as it follows one thing the player lived through.
+   * count): the record waits on the director's ledger until then.
    */
   afterDays?: number;
   /**
@@ -91,8 +91,9 @@ export interface CircumstanceRow {
   keepsDays?: number;
   /**
    * The row follows a record of the player's own life (their school year
-   * ending): the week's spacing between scenes from circumstance does not
-   * hold it back.
+   * ending, a door on their own canvass, the floor of their own chamber): it
+   * is met as the player's own record, staged whatever else the day's board
+   * holds (board.ts), the best of them one a day.
    */
   lived?: boolean;
   /**
@@ -110,9 +111,9 @@ export interface CircumstanceRow {
    */
   childMayTell?: boolean;
   /**
-   * The scene comes ahead of the day's other scenes from circumstance (the
+   * The scene comes ahead of the day's other candidates on the board (the
    * floor before the roll comes before the word in the hallway after the
-   * sitting); only one scene a day reaches the player.
+   * sitting): the board reads it first (board.ts pickFromBoard).
    */
   before?: boolean;
   /** The kind of place it happens at: the situation type's setting. */
@@ -219,6 +220,33 @@ function outletTierOf(
     (row) => row.organizationId === story.outletId,
   );
   return outlet ? (outlet.tier ?? "local") : undefined;
+}
+
+/** Record kinds that tell a law reaching someone, by the law they name (`lawId`). */
+const LAW_RECORD_KINDS: ReadonlySet<string> = new Set([
+  "law.effect-learned",
+  "news.read",
+]);
+
+/**
+ * Whether the law a record names covers the player's place: the nation's,
+ * their state's, or their own county's or town's (legislature.ts
+ * `reachesTown`). A resident does not stop an officeholder in the street
+ * about another state's law (the owner's grade on #9750: "super
+ * unrealistic"). A record naming no law, or a law the table does not hold,
+ * is not gated here.
+ */
+function lawReachesPlace(
+  core: Readonly<CoreState>,
+  record: QueuedRecord,
+): boolean {
+  const lawId = record.facts.lawId;
+  if (!lawId || !LAW_RECORD_KINDS.has(record.kind)) return true;
+  if (!core.modules.has(LAWS_MODULE_ID)) return true;
+  const api = coreAPI(core as CoreState);
+  const law = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+    { jurisdiction?: string } | undefined;
+  return !law?.jurisdiction || reachesTown(api, law.jurisdiction);
 }
 
 /** The office a record's body is (a meeting's), or its bill's, or undefined. */
@@ -515,6 +543,8 @@ export function circumstancePicks(
     if (options.staged.has(record.id)) continue;
     // A scene cites its cause: an event the log does not keep cannot call one.
     if (!record.direct && !core.durableLog.has(record.id)) continue;
+    // A law story or a law's reach about another state's law calls no scene here.
+    if (!lawReachesPlace(core, record)) continue;
     const namesPlayer = record.personIds.includes(playerId);
     for (const row of rowsOnRecord(strings, record.kind)) {
       // A record held for later calls only the rows that wait for it.

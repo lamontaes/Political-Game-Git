@@ -53,7 +53,8 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { SCENE_REPLY, indexReply } from "./relation-facts";
 import { schoolFinished } from "./school";
-import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
+import { SITUATION_LIBRARY } from "./scheduling";
+import { pickFromBoard, scheduleMoment, type BoardOfferInput } from "./board";
 import { cardsByString, rowsOnRecord } from "./strings";
 
 import { saidOf } from "./address-render";
@@ -336,6 +337,14 @@ export function createDirector(
    * list `registerWaiting` and `waitingScenes` read, so nothing scans a
    * schedule. Rebuilt from the schedules on `restore`.
    */
+  /** Each watched person's moments waiting on today's board, as they were weighed. */
+  const onBoard = new Map<PersonId, ScheduleEntry[]>();
+  const onTheBoard = (personId: PersonId) => {
+    let list = onBoard.get(personId);
+    if (!list) onBoard.set(personId, (list = []));
+    return list;
+  };
+
   const waiting = new Map<PersonId, string[]>();
   /** The people whose interrupt took this day's stop: a waiting scene waits a morning more. */
   const interruptedToday = new Set<PersonId>();
@@ -508,6 +517,7 @@ export function createDirector(
       forgottenBroad: new Map(),
       backdropCounts: new Map(),
       schedule: [],
+      boardPicks: [],
       belowFloor: new Map(),
       quietDays: zero,
       observedDays: zero,
@@ -1355,7 +1365,7 @@ export function createDirector(
     contributions: ChannelContribution[],
     /** The day it comes, when that is not its cause's (the morning after). */
     at?: IsoDate,
-  ): void {
+  ): ScheduleEntry {
     // A cause met only after it happened (someone first followed partway
     // through the day it happened) keeps its own day.
     const causeDate = core.durableLog.get(row.causeId)?.date;
@@ -1511,11 +1521,8 @@ export function createDirector(
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
-    else if (entry.outcome === "scene-waiting")
-      waiting.set(moment.personId, [
-        ...(waiting.get(moment.personId) ?? []),
-        moment.id,
-      ]);
+    if (entry.board?.pending) onTheBoard(moment.personId).push(entry);
+    return entry;
   }
 
   /**
@@ -1587,11 +1594,15 @@ export function createDirector(
 
   /**
    * Scenes from circumstance (circumstance.ts): for each controlled person,
-   * the day's records that put someone with a reason where they are. At most
-   * one a day, spaced by each row's days and by the days between any two,
-   * so scenes cluster where the records give cause and a quiet day has none.
+   * the day's records that put someone with a reason where they are, each
+   * row's best cast offered to the day's board (board.ts), spaced only by
+   * each row's own days. Returns the offers by person; an offer is stored as
+   * a moment only when the board weighs it.
    */
-  function produceCircumstances(core: Readonly<CoreState>): void {
+  function produceCircumstances(
+    core: Readonly<CoreState>,
+  ): Map<PersonId, BoardOfferInput[]> {
+    const offers = new Map<PersonId, BoardOfferInput[]>();
     // Records held for a later row come on their day; a day's records are
     // written as it closes, so one may already be due when it is recorded.
     // One whose day passed unplayed (the clock jumped over it) is dropped:
@@ -1625,24 +1636,6 @@ export function createDirector(
           }
       if (!records.length) continue;
       const date = makeIsoDate(core.date);
-      const lastAny = ledger.circumstanceLast.get(`${book.personId}|*`);
-      // The week between scenes from circumstance; a row that follows one
-      // thing the player lived through (the morning after, their school
-      // year's end) is not held to it.
-      const weekPassed = spacingAllows(
-        lastAny,
-        param("directorCircumstanceEveryDays"),
-        date,
-      );
-      if (
-        !weekPassed &&
-        !records.some(
-          (record) =>
-            record.later ||
-            rowsOnRecord(strings, record.kind).some((row) => row.lived),
-        )
-      )
-        continue;
       // A record that already staged a scene for this person today is met
       // the ordinary way: one cause stages one scene.
       const staged = new Set<string>();
@@ -1676,7 +1669,6 @@ export function createDirector(
           },
           staged,
           due: (row) =>
-            (weekPassed || !!row.afterDays || !!row.lived) &&
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|${row.id}`),
               param(row.everyParameter),
@@ -1692,72 +1684,128 @@ export function createDirector(
             ),
           strings,
         },
-      ).sort(
-        (a, b) =>
-          // What follows a record of the player's own (their race's count)
-          // comes before news of others' on the same day.
-          Number(!!b.row.before) - Number(!!a.row.before) ||
-          Number(b.record.personIds.includes(book.personId)) -
-            Number(a.record.personIds.includes(book.personId)) ||
-          b.score - a.score ||
-          a.row.id.localeCompare(b.row.id),
-      );
-      // A row whose news keeps stages its scene for a record once: the first
-      // morning it wins the day, not the mornings after.
-      const pick = picks.find(
-        (row) =>
-          !row.row.keepsDays ||
+      ).filter(
+        // A row whose news keeps stages its scene for a record once: the first
+        // morning it wins the day, not the mornings after.
+        (pick) =>
+          !pick.row.keepsDays ||
           !ledger.circumstanceLast.has(
-            `${book.personId}|${row.row.id}|${row.record.id}`,
+            `${book.personId}|${pick.row.id}|${pick.record.id}`,
           ),
       );
-      if (!pick) continue;
-      const base = param(pick.row.impactParameter);
-      const raw = one + pick.closeness;
-      const impact = base * raw;
-      const change: Change = {
-        causeId: pick.record.id,
-        causeKind:
-          pick.record.kind === "job" || pick.record.kind === "household-member"
-            ? pick.record.kind
-            : `event:${pick.record.kind}`,
-        counterparts: new Set([pick.castId]),
-        raw: new Map([["circumstance", raw]]),
-        renewals: new Set(),
-        ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
-      };
-      const label = circumstanceLabel(pick.row.id);
-      storeMoment(
-        core,
-        book,
-        change,
-        label,
-        impact,
-        [
-          {
-            channel: "circumstance",
-            raw,
-            scale: base,
-            traitWeight: one,
-            traits: [],
-            contribution: impact,
-          },
-        ],
-        pick.record.dueOn,
+      if (!picks.length) continue;
+      offers.set(
+        book.personId,
+        picks.map((pick) => {
+          const base = param(pick.row.impactParameter);
+          const raw = one + pick.closeness;
+          const impact = base * raw;
+          return {
+            rowId: pick.row.id,
+            typeKey: pick.row.typeKey,
+            causeId: pick.record.id,
+            castId: pick.castId,
+            score: impact,
+            // What follows a record of the player's own (their race's count)
+            // and a row that comes ahead of the day's others are read first.
+            before:
+              !!pick.row.before ||
+              pick.record.personIds.includes(book.personId),
+            lived: !!pick.row.lived,
+            stage: () => {
+              const change: Change = {
+                causeId: pick.record.id,
+                causeKind:
+                  pick.record.kind === "job" ||
+                  pick.record.kind === "household-member"
+                    ? pick.record.kind
+                    : `event:${pick.record.kind}`,
+                counterparts: new Set([pick.castId]),
+                raw: new Map([["circumstance", raw]]),
+                renewals: new Set(),
+                ...(pick.record.placeId
+                  ? { placeId: pick.record.placeId }
+                  : {}),
+              };
+              const entry = storeMoment(
+                core,
+                book,
+                change,
+                circumstanceLabel(pick.row.id),
+                impact,
+                [
+                  {
+                    channel: "circumstance",
+                    raw,
+                    scale: base,
+                    traitWeight: one,
+                    traits: [],
+                    contribution: impact,
+                  },
+                ],
+                pick.record.dueOn,
+              );
+              // Spaced from the day it was weighed, staged or not, so a
+              // circumstance met as a journal line does not come again the
+              // next day.
+              ledger.circumstanceLast.set(
+                `${book.personId}|${pick.row.id}`,
+                date,
+              );
+              ledger.circumstanceLast.set(
+                `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
+                date,
+              );
+              if (pick.row.keepsDays)
+                ledger.circumstanceLast.set(
+                  `${book.personId}|${pick.row.id}|${pick.record.id}`,
+                  date,
+                );
+              return entry;
+            },
+          };
+        }),
       );
-      // Spaced from the day it was written, staged or not, so a circumstance
-      // met as a journal line does not come again the next day.
-      ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
-      ledger.circumstanceLast.set(`${book.personId}|*`, date);
-      ledger.circumstanceLast.set(
-        `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
+    }
+    return offers;
+  }
+
+  /**
+   * The day's board for each watched person (board.ts): one pick from the
+   * moments waiting since today's weighing and the scenes from circumstance
+   * offered. A picked scene that waits joins the person's waiting list.
+   */
+  function pickTheDay(
+    core: CoreState,
+    offers: ReadonlyMap<PersonId, readonly BoardOfferInput[]>,
+  ): void {
+    const date = makeIsoDate(core.date);
+    for (const book of ledger.people.values()) {
+      const controlled = isExplicitlyControlledPersonV1(core, book.personId);
+      const pending = onBoard.get(book.personId) ?? [];
+      onBoard.delete(book.personId);
+      const { picked, stops } = pickFromBoard(core, book, {
         date,
-      );
-      if (pick.row.keepsDays)
-        ledger.circumstanceLast.set(
-          `${book.personId}|${pick.row.id}|${pick.record.id}`,
-          date,
-        );
+        mode,
+        pending,
+        offers: offers.get(book.personId) ?? [],
+        // Only the controlled person's scenes open, so only theirs are worded.
+        worded: (entry) =>
+          controlled ? unworded(core, entry, book.personId) : undefined,
+      });
+      for (const entry of stops) {
+        const moment = book.momentsById.get(entry.momentId);
+        if (moment) interrupts.push({ moment, entry });
+      }
+      if (!picked) continue;
+      const moment = book.momentsById.get(picked.momentId);
+      if (picked.interrupt && moment)
+        interrupts.push({ moment, entry: picked });
+      else if (picked.outcome === "scene-waiting")
+        waiting.set(book.personId, [
+          ...(waiting.get(book.personId) ?? []),
+          picked.momentId,
+        ]);
     }
   }
 
@@ -1851,6 +1899,22 @@ export function createDirector(
     });
   }
 
+  /**
+   * Why a scene cannot be worded for the person, read before it is picked or
+   * opened: no one speaks and nothing is chosen (`silent`), or its talk says
+   * nothing past its opener (`nothing-said`). Nothing when it can.
+   */
+  function unworded(
+    core: Readonly<CoreState>,
+    entry: ScheduleEntry,
+    personId: PersonId,
+  ): "silent" | "nothing-said" | undefined {
+    if (!speaks(core, entry, personId)) return "silent";
+    if (options.saysPastOpener?.(core, self, personId, entry) === false)
+      return "nothing-said";
+    return undefined;
+  }
+
   function registerInterrupts(core: CoreState): void {
     const line = param("directorInterruptImpact");
     for (const { moment, entry } of interrupts.splice(zero)) {
@@ -1859,16 +1923,13 @@ export function createDirector(
         !core.people.get(moment.personId)?.alive
       )
         continue;
-      if (!speaks(core, entry, moment.personId)) {
+      const cut = unworded(core, entry, moment.personId);
+      if (cut) {
         entry.outcome = "journal-line";
-        entry.closed = data.waitingStop.silent;
-        continue;
-      }
-      if (
-        options.saysPastOpener?.(core, self, moment.personId, entry) === false
-      ) {
-        entry.outcome = "journal-line";
-        entry.closed = data.waitingStop.nothingSaid;
+        entry.closed =
+          cut === "silent"
+            ? data.waitingStop.silent
+            : data.waitingStop.nothingSaid;
         continue;
       }
       const at = openedAt(
@@ -1978,14 +2039,15 @@ export function createDirector(
         if (row.openUntil < date) {
           row.entry.outcome = "journal-line";
           row.entry.closed = data.waitingStop.notMet;
-        } else if (!speaks(core, row.entry, personId)) {
-          row.entry.outcome = "journal-line";
-          row.entry.closed = data.waitingStop.silent;
-        } else if (
-          options.saysPastOpener?.(core, self, personId, row.entry) === false
-        ) {
-          row.entry.outcome = "journal-line";
-          row.entry.closed = data.waitingStop.nothingSaid;
+        } else {
+          const cut = unworded(core, row.entry, personId);
+          if (cut) {
+            row.entry.outcome = "journal-line";
+            row.entry.closed =
+              cut === "silent"
+                ? data.waitingStop.silent
+                : data.waitingStop.nothingSaid;
+          }
         }
       const open = rows.filter((row) => row.entry.outcome === "scene-waiting");
       waiting.set(
@@ -2268,7 +2330,9 @@ export function createDirector(
       if (!started)
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
-      produceCircumstances(api.state);
+      // The day's board: the moments that wait on it and every scene from
+      // circumstance offered, one pick for each watched person.
+      pickTheDay(api.state, produceCircumstances(api.state));
       // Election day (the polling-place type's producer): the eve's close
       // stages the polls for each watched voter the count will count.
       stagePollingVisits(api.state, ledger);
@@ -2344,9 +2408,15 @@ export function createDirector(
       for (let i = interrupts.length - one; i >= zero; i -= one)
         if (interrupts[i]!.moment.causeId === causeId)
           interrupts.splice(i, one);
-      return book.schedule.find(
-        (entry) => book.momentsById.get(entry.momentId)?.causeId === causeId,
+      const entry = book.schedule.find(
+        (row) => book.momentsById.get(row.momentId)?.causeId === causeId,
       );
+      // It plays now, by the player's own press: off the day's board.
+      if (entry?.board?.pending) {
+        delete entry.board.pending;
+        entry.outcome = "scene-now";
+      }
+      return entry;
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);
@@ -2388,6 +2458,11 @@ export function createDirector(
       refill(ledger.sceneFilters, fromLedger.sceneFilters);
       refill(ledger.pollingVisits, fromLedger.pollingVisits);
       refill(ledger.circumstanceLast, fromLedger.circumstanceLast);
+      // Moments still waiting on the day's board, from their entries.
+      onBoard.clear();
+      for (const book of ledger.people.values())
+        for (const entry of book.schedule)
+          if (entry.board?.pending) onTheBoard(book.personId).push(entry);
       if (fromLedger.opening) ledger.opening = fromLedger.opening;
       else delete ledger.opening;
       circumstanceQueue.splice(

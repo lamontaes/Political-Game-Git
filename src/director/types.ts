@@ -254,6 +254,12 @@ export interface PersonLedger {
   belowFloor: Map<string, number>;
   /** One outcome per stored moment: scene now, scene waiting or journal line. */
   schedule: ScheduleEntry[];
+  /**
+   * The days the director's board picked a scene whose cause was not the
+   * person's own record, over the trailing year (board.ts picksInYear). Kept
+   * apart from the schedule, which memory folds by count well inside a year.
+   */
+  boardPicks?: string[];
   /** Days on which nothing scored, and days observed. */
   quietDays: number;
   observedDays: number;

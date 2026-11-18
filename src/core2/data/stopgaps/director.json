@@ -22,5 +22,17 @@
     "addedAt": "2026-11-14",
     "replacement": "Play a repeal through the dev tester's repeal route (scripts/dev-tests/law-run.ts) and replay the scene from the real ended row; then remove the staged end date from src/director/law-reaches-tell.test.ts.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-board-room-by-standing",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/board.ts",
+    "line": 505,
+    "whatItFakes": "The board's yearly room for scored scenes is the life's pace times one flat number by standing (in office, filed, neither), not what the scenes on offer are worth to that person.",
+    "why": "The cards carry no weights yet: the score is the amount felt alone, so without more room for an officeholder the stops that follow the player's own vote or law would lose their days to the pace.",
+    "addedBy": "Story board builder",
+    "addedAt": "2026-11-17",
+    "replacement": "The cards' requires, excludes and weights (pool item director-cards-require-and-weigh) score each candidate by what it reads in the person's standing and records; then the room is the pace alone and standingPace is deleted.",
+    "status": "open"
   }
 ]

@@ -41,6 +41,14 @@ interface Row {
   bound: { typeKey: string }[];
   held: { typeKey: string; reason: string }[];
   firstLine: { piece: string | null; facts: string[] } | null;
+  board: {
+    candidates: { typeKey: string; cut?: string }[];
+    reads: { impact: number };
+    score: number;
+    picked: boolean;
+    cut: string | null;
+    offers: { causeId: string; cut: string }[];
+  } | null;
 }
 interface Day {
   personId: string;
@@ -125,6 +133,33 @@ it("the director's day equals the ledger's entries, with a held scene and a firs
       day.moments.some((row) => row.held.length > 0),
       `${where}: a held scene`,
     ).toBe(true);
+    // The board's columns on the same rows (board.ts): each moment's
+    // candidates with the first gate each failed, its score and the pick,
+    // equal to the entry's board; a held type is a candidate cut by its reason.
+    expect(
+      day.moments.map((row) => row.board),
+      where,
+    ).toEqual(
+      ledger.map((row) =>
+        row.board
+          ? {
+              candidates: row.board.cards,
+              reads: row.board.reads,
+              score: row.board.score,
+              picked: row.board.picked === true,
+              cut: row.board.cut ?? null,
+              offers: row.board.offers ?? [],
+            }
+          : null,
+      ),
+    );
+    for (const row of day.moments)
+      for (const held of row.held)
+        expect(
+          row.board?.candidates.find((card) => card.typeKey === held.typeKey)
+            ?.cut,
+          `${where}: ${row.momentId} ${held.typeKey}`,
+        ).toBe(held.reason);
     // Counts by outcome and by reason come from the same rows.
     for (const outcome of new Set(ledger.map((row) => row.outcome)))
       expect(day.byOutcome[outcome], where).toBe(
