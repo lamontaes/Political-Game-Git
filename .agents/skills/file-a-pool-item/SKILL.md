@@ -23,6 +23,6 @@ description: >
    - `Needs cause.` an item that is not built until someone finds it (`docs/pool/FIND-A-CAUSE.md`).
 4. **Fix** names the existing function it changes and says where the player sees it; an item with no place the player sees is dropped. **Done when** keeps the words "second session".
 5. Do not set `checked:`; the lead does.
-6. Add a release declaration `docs/release/changes/<id>.md`. `impact: none` has no section or title; any title is under 140 characters.
+6. Add a release declaration `docs/release/changes/<id>.md`. `impact: none` has no section or title but needs a one-line reason as its body; any title is under 140 characters. The item's `area:` is one of laws, gov, elections, office, world, core, people, director, words, play, art, release, docs (a test-only item is `core`).
 7. Run `npm run pool -- --check` and prettier on the file. Known reds on two words items are not yours.
 8. The item goes in the thread's own PR, not a PR of its own.
