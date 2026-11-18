@@ -101,6 +101,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 16, 23:52Z: five lanes chased the same `guards` red. Cause: it came from a skill on main. Read one failing log before sending lanes to look, then name the commit on main that fixes it.
 - Nov 18, 04:10Z (`answered-question-not-offered`, #10086): a test threw "A job ends before its day's work" on a train that changed no jobs code. Cause: `hire()` ended the old job without `workedToday(c, person)` as `afterShift`, which `leaveWork` already passed. Read the stack's first engine frame (`npx vitest run <file>`), then look for the sibling call that already guards the case; fix the caller, never the test's day.
 - Nov 18, 03:20Z (#10045, #10066): `guards` red on a pull request against the train was the base's (a spelling flag and a `check-changes` crash, both fixed on the train later). Read the failing line first, then bring the train in with the update-branch call (never merge main into a branch already folded), and post the new head once its checks finish.
+- Nov 18, 06:57Z (`repository` red on #10093 and #10098, no error text in the log): `release:check` rejected a declaration with `impact: none` that carried `section` and `title`. Write `impact: none` declarations with id and impact only; run `npm run release:check` locally after committing, since it reads the committed declaration.
 
 ## More in this folder
 
