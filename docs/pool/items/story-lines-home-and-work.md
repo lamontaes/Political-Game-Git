@@ -8,7 +8,7 @@ size: L
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-pre-office
-pr:
+pr: 10138
 after:
 blocked-on:
 lead: story
