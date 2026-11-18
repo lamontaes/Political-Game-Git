@@ -12262,6 +12262,11 @@
           "by": "record",
           "when": "the one who asks needs help and has been helped before",
           "then": "The player's patience is written; a deep tie forms."
+        },
+        {
+          "by": "record",
+          "when": "the first date goes well and one asks the other to a family meal",
+          "then": "The invitation is written on the tie; the answer sets whether the other is brought into the household's circle."
         }
       ],
       "unlocks": ["kind:proposal", "kind:move-in", "kind:reach-out", "B6-06"],
@@ -12293,6 +12298,13 @@
           "person": "Tate Osten and Bernice Leatherwood",
           "life": "The neighbor's first move was a knock at the door and a gift; the friendship grew from there.",
           "urls": ["https://wdet.org/?p=24530"]
+        },
+        {
+          "person": "Octavius Humphries and Seth Smiley",
+          "life": "Two men met online and had a first date on Christmas Eve despite a gap in age. He called it amazing, and afterward the other invited him to Christmas dinner with his mother, saying no one should be alone on Christmas.",
+          "urls": [
+            "https://www.kunc.org/2015-12-25/a-couples-love-blooms-at-christmas"
+          ]
         }
       ],
       "moment": "{the one who asks} asks the player along, and the answer is the first test of the tie.",
@@ -12366,6 +12378,11 @@
           "by": "record",
           "when": "the player holds an office",
           "then": "The news and what the player does for the family is on the town's record."
+        },
+        {
+          "by": "record",
+          "when": "relatives, neighbors or friends offer to share the care of the baby",
+          "then": "The new parent has more rest and less isolation on the household record, and the helpers earn a favor owed; if nobody offers, the isolation is written."
         }
       ],
       "unlocks": ["kind:new-baby", "kind:care", "kind:funeral", "B5-04"],
@@ -12384,6 +12401,13 @@
           "life": "A baby born at about 28 weeks in the Davenport, Iowa, area. Staff limited visitors, so only Kelly's mother was at the birth. A prayer chain started by a grandmother helped, the baby avoided intensive care, and he went home after two days.",
           "urls": [
             "https://archive.storycorps.org/interviews/birth-of-onyx-houston-paone/"
+          ]
+        },
+        {
+          "person": "Mbendjele families, as reported by researchers",
+          "life": "A study of hunter-gatherers in Congo found babies had about eight regular hands-on caregivers besides their mothers, with help arriving within seconds of a cry. Researchers argue that parents without that circle, mostly in Western homes, face more isolation and postpartum depression.",
+          "urls": [
+            "https://www.nhpr.org/2023-12-01/bringing-up-a-baby-can-be-a-tough-and-lonely-job-heres-a-solution-alloparents"
           ]
         }
       ],
@@ -12575,6 +12599,11 @@
           "by": "record",
           "when": "the player holds an office",
           "then": "The break is a past a rival may use."
+        },
+        {
+          "by": "record",
+          "when": "the accusation is made in writing or in private, before anyone asks the player's side",
+          "then": "The player decides whether to answer in writing, ask a third person how the conclusion was reached, or let it stand; the unanswered paper is read later."
         }
       ],
       "unlocks": ["B5-06", "kind:reconciliation", "kind:apology", "C25"],
@@ -12593,6 +12622,13 @@
           "life": "A security guard first praised for clearing people from a bomb at the 1996 Atlanta Olympics was named the FBI's suspect. Papers ran headlines and crews camped at his door, where he lived with his mother. His friend and attorney stood by him; he was cleared but said it could not restore his name.",
           "urls": [
             "https://www.wunc.org/2026-07-24/he-was-falsely-accused-in-the-1996-atlanta-olympics-bombing-how-it-changed-his-life"
+          ]
+        },
+        {
+          "person": "A worker writing to a business columnist",
+          "life": "A worker was accused without being asked for their side, lost a bonus and was told to sign a final write-up; supervisors then acted as if nothing happened. The columnist advised signing for receipt only, sending a calm written reply and asking a supervisor not involved how the conclusion was reached.",
+          "urls": [
+            "https://www.cbsnews.com/news/i-was-falsely-accused-at-work-now-what"
           ]
         }
       ],
