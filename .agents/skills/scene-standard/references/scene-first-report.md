@@ -19,3 +19,7 @@ Then stop and wait for the ruling while other work continues. The owner's exampl
 ## Before you start a design
 
 Look in `/mnt/project-files/words-lead/words-machine/` and the story queue for a sibling thread doing the same work, and ask that thread before building a second one (`look-first`).
+
+Name a record's new fields the way the engine's owner plans them (Elections' `channel` and `heardBy` on the announcement, not names of your own), so the report, the build and the owner's engine agree (CTO, Nov 18).
+
+Before the report, trace the scene's engine path in three drawn worlds and print what it returns (lines, replies, the subjects offered and refused); a report that says "the engine says nothing" names the gate that stops it, by file and line, or the finding is not ready (Nov 18: the opening evening's housemate was stopped by `addressPoints`, not by missing lines alone).

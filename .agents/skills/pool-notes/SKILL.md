@@ -90,3 +90,5 @@ A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with
 Read each file here when its moment comes:
 
 - `references/file-a-pool-item.md`: whenever you add or change a pool item by hand.
+
+The hour's branch is named for the hour it closes in: a commit at 05:04Z goes on `pool/notes-<date>-06`, not `-05`. A cloud session cannot delete a branch through its proxy, so name it right the first time (Nov 18).

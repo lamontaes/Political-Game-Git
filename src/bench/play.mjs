@@ -2983,6 +2983,21 @@ function markLife(node) {
   node.dataset.life = "1";
   return node;
 }
+/**
+ * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
+ * story sits under the bust; when it does not fit there it moves to the card's
+ * second column, which has the room, and stays under the bust when the panel
+ * holds it either way.
+ */
+function fitLifeStory(facts) {
+  const life = facts.querySelector('[data-life="1"]');
+  if (!life || life.closest(".mx3col")) return;
+  const panel = $("person").getBoundingClientRect();
+  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
+  const columns = facts.querySelectorAll(".mx3col");
+  const target = columns[columns.length - 1];
+  if (target) target.append(life);
+}
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
@@ -2993,6 +3008,7 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
+  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
@@ -5437,7 +5453,11 @@ const sheets = {
         ? race.filers.map((f) =>
             personCard({
               name: f.name ?? "",
-              line: f.party ?? "",
+              // One who has said they are running and files when the window
+              // opens is marked announced beside their party.
+              line: f.announced
+                ? [f.party, labels.youAnnounced].filter(Boolean).join(" · ")
+                : (f.party ?? ""),
               party: f.party,
               face: f.face,
               onOpen: () => {
