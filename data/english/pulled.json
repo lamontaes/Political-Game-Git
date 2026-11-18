@@ -1,9 +1,13 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {},
+  "pulled": {
+    "scene-talk.close-accept.i-ll-let-it-go-and-keep-looking-after-workplace": [
+      "plain-american-spelling-and-phrasing"
+    ]
+  },
   "waiting": {},
   "sample": {
-    "scene-talk.reply-accept.i-could-use-the-help-sorting-out-school": [
+    "scene-talk.reply-accept.i-could-use-the-help-sorting-out-school-short": [
       "plain-american-reads-stiff"
     ],
     "scene-talk.reply-agree.all-right-i-ll-go-with-the-committee": [
