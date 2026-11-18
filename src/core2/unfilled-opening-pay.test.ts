@@ -113,6 +113,33 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         "raise-pay",
         "hold-pay",
       );
+      // With no job-seeker in town ready to apply, a higher offer draws no one and none is made (Nov 18: a cashier's pay went from $15.98 to $111.01 an hour in one review).
+      const seekers = api.moduleState(JOBS_MODULE_ID).table("seekers");
+      const idle = standing(`${row.id}:idle`, 400);
+      for (const name of ["seekers", "countedSeekers"] as const) {
+        const table = api.moduleState(JOBS_MODULE_ID).table(name);
+        for (const seeker of table.rows() as unknown as {
+          regionalPull?: number;
+        }[])
+          if ((seeker.regionalPull ?? 0) >= 1)
+            table.put({ ...seeker, regionalPull: 0 } as never);
+      }
+      raiseUnfilledPay(api, row.organizationId, [idle], trading, heads);
+      expect(hourlyAfter(idle.id), here).toBe(row.hourlyMinor);
+      // Job-seekers ready to look, as many as the place has fillable openings, can be drawn by a raise.
+      const placeId = row.placeId;
+      for (let n = 0; n < 200; n += 1)
+        seekers.put({
+          id: `ready:${n}`,
+          isSeeker: true,
+          personId: `ready:${n}`,
+          placeId,
+          employed: false,
+          since: core.date,
+          reasonKey: "test",
+          referenceHourlyMinor: row.hourlyMinor,
+          regionalPull: 1,
+        } as never);
       // An opening stood empty a long time is raised by its owner, and never past what the seat carries.
       const long = standing(`${row.id}:long`, 400);
       raiseUnfilledPay(api, row.organizationId, [long], trading, heads);

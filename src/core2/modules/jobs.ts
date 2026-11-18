@@ -1457,6 +1457,13 @@ export function affordableStaff(
  * - Who decides: the owner's open-handedness, from the shared chooser
  *   (`decisionLean`), scales what they will add; a stubborn owner adds
  *   nothing.
+ * - Who a raise could draw: pay fills a seat only through a job-seeker who is
+ *   ready to apply (`findingReady`) near the employer. The raise is scaled by
+ *   the share of the place's fillable openings those ready seekers could take
+ *   (their count over the openings, at most one): where no one is ready to
+ *   look, a higher offer draws no one and none is made (Nov 18: a cashier's
+ *   posted pay went from $15.98 to $111.01 an hour in one review with no
+ *   seeker in town ready to apply).
  * The added monthly cost is the least of those three and the room the last
  * month's trading left, which raises already given this review use up. An
  * opening a counted worker will fill stands for their household's weight, so
@@ -1494,6 +1501,23 @@ export function raiseUnfilledPay(
       perMonth) /
     heads;
   if (carriesMonthly <= 0) return;
+  // How far a raise could draw anyone, read once for the review and only when a seat is to be priced.
+  let drawn: number | undefined;
+  const drawnShare = (): number => {
+    if (drawn !== undefined) return drawn;
+    const placeId = c.organizations.get(organizationId)?.placeId;
+    let ready = 0;
+    for (const table of ["seekers", "countedSeekers"] as const)
+      for (const seeker of store(api)
+        .table(table)
+        .query("all", [true]) as unknown as SeekerRow[])
+        if (seeker.placeId === placeId && findingReady(seeker)) ready += 1;
+    const openings = fillableOpenings(api).filter(
+      (row) => row.placeId === placeId,
+    ).length;
+    drawn = openings > 0 ? Math.min(api.parameter("one"), ready / openings) : 0;
+    return drawn;
+  };
   for (const [at, position] of positions.entries()) {
     if (position.status !== "open" || position.offeredTo) continue;
     const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
@@ -1516,7 +1540,7 @@ export function raiseUnfilledPay(
     const added = Math.min(
       room / seats,
       carriesMonthly - paysMonthly,
-      lost * openHanded,
+      lost * openHanded * drawnShare(),
     );
     const next = position.hourlyMinor + Math.floor(added / (hours * monthDays));
     if (next <= position.hourlyMinor) continue;
