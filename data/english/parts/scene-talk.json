@@ -24777,6 +24777,2353 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.that-s-a-lot-to-ask-of-me-on-about-let-me-think-about-it-before-i-answer",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's a lot to ask of me on {about}. Let me think about it before I answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-won-t-push-you-on-about-think-it-over",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I won't push you on {about}. Think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named", "about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-let-you-think-about-about-take-the-time-you-need",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll let you think about {about}. Take the time you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named", "about"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-hearing-me-out-about-serving-as-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out about serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-respect-that-and-i-ll-keep-looking-for-someone-to-serve-as-off",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll respect that, and I'll keep looking for someone to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-ll-find-someone-else-to-serve-as-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll find someone else to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-not-asking-lightly-will-you-reconsider-serving-as-office",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm not asking lightly. Will you reconsider serving as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-don-t-say-no-yet-i-think-you-d-be-right-for-the-office-seat",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please don't say no yet. I think you'd be right for the {office} seat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.think-about-it-again-the-office-seat-needs-someone-like-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about it again. The {office} seat needs someone like you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "decline",
+          "requiresFacts": ["office"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-glad-i-couldn-t-have-asked-for-better-for-the-office-seat",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm glad. I couldn't have asked for better for the {office} seat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-a-lot-to-me-together-we-ll-do-right-by-the-office-seat",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means a lot to me. Together we'll do right by the {office} seat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-make-sure-you-never-regret-serving-as-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll make sure you never regret serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "agree",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.let-s-talk-about-what-serving-as-office-needs-first",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Let's talk about what serving as {office} needs first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.it-s-a-long-story-and-i-d-rather-talk-about-what-serving-as-office-invol",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "It's a long story, and I'd rather talk about what serving as {office} involves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.i-m-self-full-and-i-need-someone-i-can-count-on-to-serve-as-office",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "I'm {self-full}, and I need someone I can count on to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.my-name-is-self-full-i-m-running-and-i-want-you-at-my-side-as-office",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "My name is {self-full}. I'm running, and I want you at my side as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.i-m-self-full-and-i-m-asking-you-to-serve-as-office-because-i-think-you",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "I'm {self-full}, and I'm asking you to serve as {office} because I think you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "tell",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.because-i-think-you-d-be-good-as-office-and-i-d-rather-ask-than-guess",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because I think you'd be good as {office}, and I'd rather ask than guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-re-the-person-i-trust-to-serve-as-office-i-ve-watched-how-you-work",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You're the person I trust to serve as {office}. I've watched how you work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-want-you-to-serve-as-office-because-of-what-you-stand-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want you to serve as {office} because of what you stand for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-me-as-office-i-d-like-to-hear-it-from-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why me as {office}? I'd like to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.before-i-say-anything-about-serving-as-office-tell-me-why-you-want-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Before I say anything about serving as {office}, tell me why you want me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.we-ve-never-really-talked-so-i-can-t-say-yes-to-serving-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "We've never really talked, so I can't say yes to serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-stranger"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-know-you-well-enough-to-serve-with-you-as-office-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't know you well enough to serve with you as {office}. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-stranger"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.what-outlet-wrote-about-you-worries-me-too-much-to-say-yes-to-serving-as",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "What {outlet} wrote about you worries me too much to say yes to serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-heard", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-read-what-outlet-printed-about-you-i-can-t-put-my-name-next-to-yours",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I read what {outlet} printed about you. I can't put my name next to yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-heard", "outlet"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-stand-next-to-you-on-issue-my-answer-is-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't stand next to you on {issue}. My answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-apart", "issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.we-re-too-far-apart-on-issue-i-can-t-serve-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "We're too far apart on {issue}. I can't serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-apart", "issue"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-have-my-own-race-to-run-so-i-can-t-serve-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I have my own race to run, so I can't serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-own-race"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-in-a-race-of-my-own-i-can-t-serve-as-office-too",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm in a race of my own. I can't serve as {office} too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-own-race"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-leaving-my-place-as-their-office-to-serve-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not leaving my place as {their-office} to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-own-seat", "their-office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-have-my-own-seat-as-their-office-to-think-about-so-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I have my own seat as {their-office} to think about, so no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-own-seat", "their-office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.thank-you-for-asking-but-i-ll-pass-on-serving-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thank you for asking, but I'll pass on serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-thought-about-it-and-i-can-t-serve-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I thought about it, and I can't serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-my-answer-is-no-to-serving-as-office",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but my answer is no to serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-can-t-serve-as-office-and-i-d-rather-say-so-plainly",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I can't serve as {office}, and I'd rather say so plainly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-a-real-shot-in-the-race-for-race-office-i-ll-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have a real shot in the race for {race-office}. I'll serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-real-race", "race-office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-think-you-can-win-the-race-for-race-office-and-i-want-to-be-part-of-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I think you can win the race for {race-office}, and I want to be part of it. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-real-race", "race-office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-agree-with-you-on-issue-that-s-why-i-m-saying-yes-to-serving-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I agree with you on {issue}. That's why I'm saying yes to serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-agree", "issue"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.we-see-issue-the-same-way-i-ll-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "We see {issue} the same way. I'll serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-agree", "issue"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-always-been-straight-with-me-so-yes-to-serving-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've always been straight with me, so yes to serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-trust"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-trust-you-and-that-s-enough-for-me-i-ll-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I trust you, and that's enough for me. I'll serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-trust"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-been-waiting-to-step-up-and-serving-as-office-is-the-right-place-ye",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've been waiting to step up, and serving as {office} is the right place. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ve-wanted-a-chance-to-step-up-and-serve-as-office-and-i-m-saying-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I've wanted a chance to step up and serve as {office}, and I'm saying yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "reason-yes-step-up"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-d-be-honored-to-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'd be honored to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-in-you-can-count-on-me-to-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm in. You can count on me to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-serve-as-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-to-take-the-post-of-office-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you to take the post of {office}. Will you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "serve-post"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-post-of-office-needs-filling-and-i-d-like-it-to-be-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The post of {office} needs filling, and I'd like it to be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "serve-post"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-you-to-take-the-post-of-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like you to take the post of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "serve-post"],
+          "excludesFacts": []
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-someone-to-serve-as-office-and-you-re-the-person-i-thought-of",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need someone to serve as {office}, and you're the person I thought of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-running-for-race-office-and-i-want-you-with-me-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm running for {race-office}, and I want you with me as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "race-office"],
+          "excludesFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-to-serve-as-office-and-i-d-like-your-answer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you to serve as {office}, and I'd like your answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-you-to-serve-as-office-i-d-be-proud-to-have-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want you to serve as {office}. I'd be proud to have you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-sit-down-across-from-name-and-ask-about-the-post-of-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You sit down across from {name} and ask about the post of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "serve-post"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ask-name-to-take-the-post-of-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You ask {name} to take the post of {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "serve-post"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ask-name-to-run-with-you-for-race-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You ask {name} to run with you for {race-office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office", "race-office"],
+          "excludesFacts": ["serve-post", "asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-sit-down-across-from-name-and-ask-about-serving-as-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You sit down across from {name} and ask about serving as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["serve-post", "asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ask-name-to-serve-with-you-as-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You ask {name} to serve with you as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["office"],
+          "excludesFacts": ["serve-post", "asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-disaster-won-t-wait-for-long",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The {disaster} won't wait for long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "open",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-come-back-before-deadline",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll come back before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "open",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.people-will-remember-how-the-disaster-was-handled",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People will remember how the {disaster} was handled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "refused",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-we-do-what-we-can-for-the-disaster",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we do what we can for the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "refused",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.the-order-will-be-ready-for-the-disaster-when-you-are",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "The order will be ready for the {disaster} when you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "resolved",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-we-ll-keep-you-informed-on-the-disaster",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. We'll keep you informed on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "resolved",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-opens-the-door-to-help-from-outside-and-it-has-to-be-signed-by-deadli",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It opens the door to help from outside, and it has to be signed by {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-puts-us-on-record-as-acting-on-the-disaster-and-aid-can-come-through-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It puts us on record as acting on the {disaster}, and aid can come through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "ask",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.after-deadline-the-declaration-can-t-help-us-people-will-notice",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "After {deadline}, the declaration can't help us. People will notice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "decline",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.people-will-ask-why-you-didn-t-act-on-the-disaster",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "People will ask why you didn't act on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "decline",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-we-ll-work-without-it-past-deadline",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. We'll work without it past {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "decline",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-we-ll-face-the-disaster-with-what-we-have",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. We'll face the {disaster} with what we have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "decline",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-the-order-goes-out-before-deadline",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. The order goes out before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "agree",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-we-start-on-the-disaster-now",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. We start on the {disaster} now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "agree",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-more-time-before-deadline-come-back-to-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need more time before {deadline}. Come back to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-i-m-still-deciding-on-the-disaster",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. I'm still deciding on the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-to-the-response-if-i-sign-by-deadline-and-what-if-i-don-t",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens to the response if I sign by {deadline}, and what if I don't?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-what-the-declaration-changes-before-deadline",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me what the declaration changes before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-a-declaration-actually-do-for-the-disaster",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would a declaration actually do for the {disaster}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-declare-it-and-that-won-t-change-by-deadline",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't declare it, and that won't change by {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-signing-anything-by-deadline-we-have-what-we-need",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not signing anything by {deadline}. We have what we need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-sign-a-declaration-for-the-disaster-work-with-what-we-have",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't sign a declaration for the {disaster}. Work with what we have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-we-handle-the-disaster-without-a-declaration",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. We handle the {disaster} without a declaration.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-sign-the-declaration-by-deadline-get-me-the-order",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sign the declaration by {deadline}. Get me the order.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.draw-it-up-i-ll-sign-it-before-deadline",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Draw it up. I'll sign it before {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.bring-me-the-order-for-the-disaster-and-i-ll-sign-it-now",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Bring me the order for the {disaster}, and I'll sign it now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.declare-it-the-disaster-can-t-wait-on-paperwork",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Declare it. The {disaster} can't wait on paperwork.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.every-day-without-a-declaration-is-a-day-we-wait-on-help-will-you-sign-i",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Every day without a declaration is a day we wait on help. Will you sign it by {deadline}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-order-has-to-be-signed-by-deadline-will-you-declare-the-emergency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The order has to be signed by {deadline}. Will you declare the emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-need-the-emergency-declared-by-deadline-will-you-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We need the emergency declared by {deadline}. Will you sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-disaster-is-past-what-we-can-handle-alone-will-you-declare-the-emerg",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {disaster} is past what we can handle alone. Will you declare the emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-need-an-emergency-declared-for-the-disaster-will-you-sign-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We need an emergency declared for the {disaster}. Will you sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.reply-stall.i-haven-t-made-up-my-mind-on-bill-give-me-time-to-read-it",
       "move": "reply-stall",
       "kind": "spoken",
