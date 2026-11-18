@@ -24119,10 +24119,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-puts-the-state-on-record-as-acting-on-the-disaster-and-aid-can-come-t",
+      "key": "scene-talk.follow-answer.it-puts-us-on-record-as-acting-on-the-disaster-and-aid-can-come-through-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It puts the state on record as acting on the {disaster}, and aid can come through it.",
+      "text": "It puts us on record as acting on the {disaster}, and aid can come through it.",
       "uses": [
         {
           "subject": "scene",
@@ -24691,31 +24691,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-me-to-serve-as-office-and-i-m-glad-you-asked",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've got me to serve as {office}, and I'm glad you asked.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "serve-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.yes-i-d-be-honored-to-serve-as-office",
       "move": "reply-agree",
       "kind": "spoken",
@@ -25091,10 +25066,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-in-a-race-of-my-own-and-i-can-t-serve-as-office-on-yours-too-no",
+      "key": "scene-talk.reply-decline.i-m-in-a-race-of-my-own-i-can-t-serve-as-office-too",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm in a race of my own, and I can't serve as {office} on yours too. No.",
+      "text": "I'm in a race of my own. I can't serve as {office} too.",
       "uses": [
         {
           "subject": "scene",
@@ -25287,31 +25262,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-are-you-and-why-are-you-asking-me-to-serve-as-office",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who are you, and why are you asking me to serve as {office}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
         "key": "serve-asked"
       }
     },
@@ -25548,32 +25498,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-deflect.i-d-rather-you-judge-me-by-how-i-run-than-by-what-i-say-about-serving-as",
-      "move": "follow-deflect",
-      "kind": "spoken",
-      "text": "I'd rather you judge me by how I run than by what I say about serving as {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "deflect",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "ask",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "deflect",
-        "key": "serve-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-deflect.let-s-talk-about-what-serving-as-office-needs-first",
       "move": "follow-deflect",
       "kind": "spoken",
@@ -25600,10 +25524,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-their-first-i-ll-make-sure-you-never-regret-serving-as-office",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-make-sure-you-never-regret-serving-as-office",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you, {their-first}. I'll make sure you never regret serving as {office}.",
+      "text": "Thank you. I'll make sure you never regret serving as {office}.",
       "uses": [
         {
           "subject": "scene",
