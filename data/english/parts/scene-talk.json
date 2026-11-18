@@ -167204,10 +167204,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-bill-tonight-i-ll-ask-again-tomorrow",
+      "key": "scene-talk.close-press.think-about-bill-overnight-i-ll-ask-again-tomorrow",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think about {bill} tonight. I'll ask again tomorrow.",
+      "text": "Think about {bill} overnight. I'll ask again tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -167800,10 +167800,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.not-tonight-ask-me-after-i-ve-read-bill",
+      "key": "scene-talk.reply-stall.not-yet-ask-me-after-i-ve-read-bill",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Not tonight. Ask me after I've read {bill}.",
+      "text": "Not yet. Ask me after I've read {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -168210,10 +168210,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.we-re-done-talking-about-wanted-tonight",
+      "key": "scene-talk.reply-deflect.we-re-done-talking-about-wanted-for-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "We're done talking about {wanted} tonight.",
+      "text": "We're done talking about {wanted} for now.",
       "uses": [
         {
           "subject": "scene",
