@@ -38,7 +38,7 @@ function drawFixture(n: number) {
 }
 type Fixture = ReturnType<typeof drawFixture>;
 const first = drawFixture(0);
-const { place, where, world, core } = first;
+const { world, core } = first;
 
 function writeTerm(
   change: Record<string, number>,
