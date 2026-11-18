@@ -43,9 +43,21 @@ it("every counted move in a played year, within the state or across states, reco
       advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
       setBookkeeping(true);
       const moves = countedMoves(coreAPI(core));
-      const within = moves.filter(inState);
+      const within = moves.filter(
+        (row) => row.direction !== "discharged" && inState(row),
+      );
       const across = moves.filter((row) => !inState(row) && !fromAbroad(row));
       for (const row of moves) {
+        // An institution letting a resident go on its own calendar
+        // (admitToRooms) is not a household weighing a move: its cause is
+        // the institution's calendar, never a rate of leaving.
+        if (row.direction === "discharged") {
+          expect(
+            row.reasons["the institution's calendar"],
+            `${where}: ${row.id}`,
+          ).toBeGreaterThan(0);
+          continue;
+        }
         // From abroad: the country tier's arrivals this month, and the tier's
         // row it read (no state's leavers, so no rate of leaving).
         if (fromAbroad(row)) {
