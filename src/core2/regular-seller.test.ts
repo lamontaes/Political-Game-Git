@@ -12,6 +12,7 @@ import { randomBytes } from "node:crypto";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "./business-books";
 import { BUSINESS_MODULE_ID } from "./business-module-id";
 import { closeBusinessByChoice } from "./finance-state";
 import { gameStartDate } from "./game-start";
@@ -21,10 +22,21 @@ import { publishedPlaceReferencePopulation } from "./gov-rules/place-population"
 import { realLocalities } from "./places";
 import { regularSeller } from "./regular-seller";
 import { coreAPI } from "./state";
+import type { CoreState } from "./types";
 
 setBookkeeping(false);
 
 const SEED = "regular-seller-unit";
+/** A business's classification: the organization's own, else its kind's (a business the founding engine opens carries only its kind). */
+function classificationOf(core: CoreState, id: string): string | undefined {
+  return (
+    core.organizations.get(id)?.classification ??
+    DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
+      (row) => row.kindId === core.finance.businesses.get(id)?.kindId,
+    )?.classification
+  );
+}
+
 const DRAW_SEED = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
 /** Months the test waits for the founding engine to open a second store of a kind. */
 const WAIT_MONTHS = 12;
@@ -110,7 +122,7 @@ describe("a buyer's regular seller", () => {
         const byKind = new Map<string, Map<string, string[]>>();
         for (const plan of core.finance.livingPlans.values())
           for (const id of plan.sellers.keys()) {
-            const kind = core.organizations.get(id)?.classification;
+            const kind = classificationOf(core, id);
             if (!kind || !business.table("owners").get(id)) continue;
             const stores = byKind.get(kind) ?? new Map<string, string[]>();
             stores.set(id, [...(stores.get(id) ?? []), plan.householdId]);
@@ -131,8 +143,7 @@ describe("a buyer's regular seller", () => {
         passed.push(`${where}: no kind with two sellers in a year`);
         continue;
       }
-      const sameKind = (id: string) =>
-        core.organizations.get(id)?.classification === kind[0];
+      const sameKind = (id: string) => classificationOf(core, id) === kind[0];
       const [storeId, households] = [...kind[1]].sort(
         (a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]),
       )[0]!;
@@ -156,15 +167,18 @@ describe("a buyer's regular seller", () => {
           estimatedFrom: "Test closing.",
         },
       });
-      const moves = business
-        .table("customerMoves")
-        .query("byFrom", [storeId]) as unknown as {
-        householdId: string;
-        toId: string;
-        monthlyMinor: number;
-        date: string;
-        cause: string;
-      }[];
+      // Households this store lost earlier to a store that opened are not this closing's.
+      const moves = (
+        business
+          .table("customerMoves")
+          .query("byFrom", [storeId]) as unknown as {
+          householdId: string;
+          toId: string;
+          monthlyMinor: number;
+          date: string;
+          cause: string;
+        }[]
+      ).filter((row) => row.cause === "closed");
       expect(moves.map((row) => row.householdId).sort(), where).toEqual(
         [...households].sort(),
       );
