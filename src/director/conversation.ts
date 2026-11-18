@@ -6247,7 +6247,7 @@ function openConversationNow(
     // again?"): a composed greeting's opener is said first, the rest after.
     const parts = greeting.wording?.parts ?? [];
     const split =
-      parts.length > one && parts[zero]!.includes(".greet-open-")
+      parts.length > one && parts[zero]!.includes(".greet-open")
         ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
         : undefined;
     const said =

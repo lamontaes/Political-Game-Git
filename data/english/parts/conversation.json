@@ -2561,10 +2561,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-phone-self.it-s-player-first-calling",
+      "key": "conversation.greet-phone-self.hey-it-s-player-first",
       "move": "greet-phone-self",
       "kind": "spoken",
-      "text": "It's {player-first} calling.",
+      "text": "Hey, it's {player-first}.",
       "uses": [
         {
           "subject": "greet-phone-self",
@@ -2658,10 +2658,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-phone-self.it-s-just-me",
+      "key": "conversation.greet-phone-self.oh-it-s-me",
       "move": "greet-phone-self",
       "kind": "spoken",
-      "text": "It's just me.",
+      "text": "Oh, it's me.",
       "uses": [
         {
           "subject": "greet-phone-self",
@@ -2715,10 +2715,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-core.not-since-when-huh",
+      "key": "conversation.greet-core.wow-not-since-when",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "Not since {when}, huh?",
+      "text": "Wow, not since {when}.",
       "uses": [
         {
           "subject": "greet",
@@ -2753,10 +2753,10 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.greet-core.hey-name-what-s-up",
+      "key": "conversation.greet-core.hey-name-good-to-hear-from-you",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "Hey, {name}. What's up?",
+      "text": "Hey, {name}. Good to hear from you.",
       "uses": [
         {
           "subject": "greet",
@@ -2813,7 +2813,7 @@
       "key": "conversation.greet-core.hey-what-s-up",
       "move": "greet-core",
       "kind": "spoken",
-      "text": "Hey, what's up?",
+      "text": "Hey. What's up?",
       "uses": [
         {
           "subject": "greet",
@@ -6435,6 +6435,4032 @@
       "bearing": "warm",
       "origin": "authored",
       "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-see-what-the-paper-said-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you see what the paper said about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet-paper"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-read-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you read about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet-paper"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-catch-the-news-on-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you catch the news on {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet-television"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-see-the-story-on-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you see the story on {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet-television"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-heard-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you heard about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-seen-the-news-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you seen the news about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-hear-topic-closed",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you hear {topic} closed?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["topic", "closed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-heard-about-topic",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you heard about {topic}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["topic", "closed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-know-topic-shut-down",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you know {topic} shut down?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["topic", "closed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-i-read-about-about",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, I read about {about}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-paper", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-the-paper-had-a-story-on-about",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, the paper had a story on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-paper", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-i-saw-a-story-about-about-on-the-news",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, I saw a story about {about} on the news.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-television", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-the-news-had-a-story-on-about",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, the news had a story on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-television", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-i-heard-about-about-on-the-radio",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, I heard about {about} on the radio.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-radio", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-the-radio-had-a-story-on-about",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, the radio had a story on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-radio", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-saw-it-on-outlet",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I saw it on {outlet}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-television", "outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-heard-it-on-outlet",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I heard it on {outlet}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-radio", "outlet"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-i-heard-topic-closed",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, I heard {topic} closed.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["closed", "topic"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-topic-is-gone",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, {topic} is gone.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["closed", "topic"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-no.no-i-hadn-t-heard-about-topic",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "No, I hadn't heard about {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["closed", "topic"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-no.this-is-the-first-i-ve-heard-of-topic",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "This is the first I've heard of {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["closed", "topic"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-no.no-i-missed-the-story-on-about-tell-me",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "No, I missed the story on {about}. Tell me.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["asked-by-medium", "story-event", "about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-no.i-missed-the-story-on-about-what-was-it",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "I missed the story on {about}. What was it?",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["asked-by-medium", "about"],
+          "excludesFacts": ["story-event"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-no.i-haven-t-seen-anything-on-about",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "I haven't seen anything on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["asked-by-medium", "about"],
+          "excludesFacts": ["story-event"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-for.i-m-all-for-about",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'm all for {about}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-for.i-d-vote-for-about-myself",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'd vote for {about} myself.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-for.i-ve-wanted-about-for-a-while",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I've wanted {about} for a while.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-for.about-would-do-some-good-here",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "{about} would do some good here.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-against.i-m-against-about-plain-and-simple",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I'm against {about}, plain and simple.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-against.i-d-vote-against-about-myself",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I'd vote against {about} myself.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-against.i-ve-never-thought-much-of-about",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I've never thought much of {about}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-against.about-would-cost-more-than-it-s-worth",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "{about} would cost more than it's worth.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-haven-t-made-up-my-mind-on-about",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I haven't made up my mind on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion",
+          "requiresFacts": ["my-none", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-don-t-know-enough-about-about-yet",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I don't know enough about {about} yet.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion",
+          "requiresFacts": ["my-none", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-m-still-on-the-fence-about-about",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I'm still on the fence about {about}.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion",
+          "requiresFacts": ["my-none", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-haven-t-thought-much-about-about",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I haven't thought much about {about}.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion",
+          "requiresFacts": ["my-none", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-why.did-they-say-why-they-want-about",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Did they say why they want {about}?",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about", "story"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-why.why-is-about-coming-up-now",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Why is {about} coming up now?",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about", "story"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-why.what-do-they-want-out-of-about",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "What do they want out of {about}?",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about", "story"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-why.who-s-behind-about",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Who's behind {about}?",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about", "story"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-worked-at-topic-that-hits-home",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I worked at {topic}. That hits home.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there", "topic"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-put-in-my-time-at-topic",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I put in my time at {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there", "topic"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.topic-was-my-job-once",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "{topic} was my job once.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there", "topic"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-still-know-people-at-topic",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I still know people at {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there", "topic"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.the-story-on-about-ran-ran-i-m-for-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "The story on {about} ran {ran}. I'm for it.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-and-i-m-glad",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "There was a story on {about} {ran}, and I'm glad.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.the-news-covered-about-ran-about-time",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "The news covered {about} {ran}. About time.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.they-covered-about-ran-i-m-all-for-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "They covered {about} {ran}. I'm all for it.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.the-story-on-about-ran-ran-i-m-against-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "The story on {about} ran {ran}. I'm against it.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-and-i-don-t-like-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "There was a story on {about} {ran}, and I don't like it.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.the-news-covered-about-ran-it-worries-me",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "The news covered {about} {ran}. It worries me.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.they-covered-about-ran-i-think-it-s-a-mistake",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "They covered {about} {ran}. I think it's a mistake.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "about", "ran"],
+          "excludesFacts": ["player-saw"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.i-m-for-about-myself",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I'm for {about}, myself.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "player-saw", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.i-d-back-about-myself",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I'd back {about} myself.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "player-saw", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.about-is-overdue-if-you-ask-me",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "{about} is overdue, if you ask me.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for", "player-saw", "about"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.i-m-against-about-myself",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I'm against {about}, myself.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "player-saw", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.i-d-vote-against-about",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I'd vote against {about}.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "player-saw", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.about-worries-me-honestly",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "{about} worries me, honestly.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against", "player-saw", "about"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.what-do-you-make-of-topic-closing",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "What do you make of {topic} closing?",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed", "topic", "player-saw"],
+          "excludesFacts": ["their-worked-there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.so-topic-closed-what-do-you-think",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "So {topic} closed. What do you think?",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed", "topic", "player-saw"],
+          "excludesFacts": ["their-worked-there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.did-topic-closing-surprise-you",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "Did {topic} closing surprise you?",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed", "topic", "player-saw"],
+          "excludesFacts": ["their-worked-there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.i-worked-at-topic-once-it-hurts",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I worked at {topic} once. It hurts.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": [
+            "closed",
+            "topic",
+            "player-saw",
+            "their-worked-there"
+          ]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-ask-core.i-know-people-at-topic-it-s-hard",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I know people at {topic}. It's hard.",
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": [
+            "closed",
+            "topic",
+            "player-saw",
+            "their-worked-there"
+          ]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.same-here-i-heard-it-when-and-thought-so-too",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Same here. I heard it {when} and thought so too.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "when"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.good-i-was-glad-when-i-heard-about-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Good. I was glad when I heard about it {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "when"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.then-we-agree-i-heard-when-and-i-liked-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then we agree. I heard {when}, and I liked it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "when"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.we-re-on-the-same-side-i-heard-when-too",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We're on the same side. I heard {when} too.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "when"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-i-heard-it-when-and-i-didn-t-like-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me. I heard it {when}, and I didn't like it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-see-it-differently-i-heard-when-and-had-doubts",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I see it differently. I heard {when} and had doubts.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-don-t-agree-i-heard-when-and-it-bothered-me",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I don't agree. I heard {when}, and it bothered me.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.we-differ-on-that-one-i-heard-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We differ on that one. I heard it {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.me-neither-i-heard-it-when-and-thought-the-same",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Me neither. I heard it {when} and thought the same.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.glad-i-m-not-the-only-one-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Glad I'm not the only one. I heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.then-we-agree-i-heard-when-and-winced",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then we agree. I heard {when} and winced.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-with-you-it-bothered-me-when-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm with you. It bothered me when I heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-d-say-the-opposite-i-heard-when-and-liked-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'd say the opposite. I heard {when} and liked it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.we-see-it-differently-i-heard-when-and-was-glad",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We see it differently. I heard {when} and was glad.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-i-was-glad-to-hear-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me. I was glad to hear it {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-on-the-other-side-i-heard-when-and-liked-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm on the other side. I heard {when} and liked it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "when"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.maybe-i-only-heard-about-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Maybe. I only heard about it {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-still-thinking-it-over-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm still thinking it over. I heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-don-t-know-yet-i-only-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I don't know yet. I only heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.could-be-i-haven-t-decided-and-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Could be. I haven't decided, and I heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.no-rush-i-only-heard-when-myself",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "No rush. I only heard {when} myself.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.take-your-time-i-heard-it-when-too",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Take your time. I heard it {when}, too.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.me-too-a-little-i-heard-about-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Me too, a little. I heard about it {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.the-story-didn-t-say-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The story didn't say. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "ran"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.not-that-i-read-it-only-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not that I read. It only ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "ran"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.nobody-said-i-only-know-what-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Nobody said. I only know what ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "ran"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.sponsor-is-from-what-i-read",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "{sponsor} is, from what I read.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.sponsor-brought-it-they-said",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "{sponsor} brought it, they said.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.it-came-from-sponsor-the-story-said",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It came from {sponsor}, the story said.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.the-story-didn-t-say-who-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The story didn't say who. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "ran"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-didn-t-see-a-name-on-it-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I didn't see a name on it. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-who", "ran"],
+          "excludesFacts": ["sponsor"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-figured-you-d-seen-it-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I figured you'd seen it. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-yes", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.then-you-know-what-i-know-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then you know what I know. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-yes", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.it-shut-down-for-good-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It shut down for good. I heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "closed", "when"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.it-s-closed-i-only-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It's closed. I only heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "closed", "when"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.then-you-d-know-i-only-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then you'd know. I only heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-worked-there", "when"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.you-d-know-better-than-i-do-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "You'd know better than I do. I heard {when}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-worked-there", "when"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.it-ran-ran-so-it-s-still-new",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It ran {ran}, so it's still new.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "ran"]
+        },
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "about", "ran"],
+          "excludesFacts": ["ask-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.it-s-only-from-ran-nobody-knows-much-yet",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It's only from {ran}. Nobody knows much yet.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.it-only-ran-ran-you-didn-t-miss-much",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It only ran {ran}. You didn't miss much.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "about", "ran"],
+          "excludesFacts": ["ask-told"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.same-here-it-ran-ran-and-i-was-glad",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Same here. It ran {ran}, and I was glad.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "ran"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.good-i-liked-it-when-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Good. I liked it when it ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "ran"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.then-we-agree-it-ran-ran-and-i-cheered",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then we agree. It ran {ran}, and I cheered.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "ran"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.we-re-on-the-same-side-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We're on the same side. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "ran"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-it-ran-ran-and-i-didn-t-like-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me. It ran {ran}, and I didn't like it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-see-it-differently-it-ran-ran-and-i-had-doubts",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I see it differently. It ran {ran}, and I had doubts.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-don-t-agree-it-ran-ran-and-it-bothered-me",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I don't agree. It ran {ran}, and it bothered me.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.we-differ-on-that-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We differ on that. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.me-neither-it-ran-ran-and-i-thought-the-same",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Me neither. It ran {ran}, and I thought the same.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.glad-i-m-not-the-only-one-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Glad I'm not the only one. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.then-we-agree-it-ran-ran-and-i-winced",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then we agree. It ran {ran}, and I winced.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-with-you-it-bothered-me-when-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm with you. It bothered me when it ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-d-say-the-opposite-it-ran-ran-and-i-liked-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'd say the opposite. It ran {ran}, and I liked it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.we-see-it-differently-it-ran-ran-and-i-was-glad",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We see it differently. It ran {ran}, and I was glad.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-i-was-glad-when-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me. I was glad when it ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.other-side-for-me-it-ran-ran-and-i-liked-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Other side for me. It ran {ran}, and I liked it.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.maybe-it-only-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Maybe. It only ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-still-thinking-it-over-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm still thinking it over. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.i-don-t-know-yet-it-only-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I don't know yet. It only ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.could-be-i-haven-t-decided-and-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Could be. I haven't decided, and it ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-side", "their-none", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.no-rush-it-only-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "No rush. It only ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.take-your-time-it-ran-ran-so-it-s-new",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Take your time. It ran {ran}, so it's new.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.news-back-core.me-too-a-little-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Me too, a little. It ran {ran}.",
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion", "ran"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.i-work-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I work at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.i-work-for-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I work for {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.i-m-with-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I'm with {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.i-m-over-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I'm over at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.right-now-i-m-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "Right now I'm at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.these-days-i-m-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "These days I'm at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-you-do-there",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do you do {there}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position",
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-s-your-job-there",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What's your job {there}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position",
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-they-have-you-doing-there",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do they have you doing {there}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position",
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-kind-of-work-is-it-there",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What kind of work is it {there}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position",
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.their-position-raise-ask.what-do-you-do-at-employer",
+      "move": "their-position-raise-ask",
+      "kind": "spoken",
+      "text": "What do you do at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.their-position-raise-ask.what-s-your-job-at-employer",
+      "move": "their-position-raise-ask",
+      "kind": "spoken",
+      "text": "What's your job at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.their-position-raise-ask.what-do-they-have-you-doing-at-employer",
+      "move": "their-position-raise-ask",
+      "kind": "spoken",
+      "text": "What do they have you doing at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.their-position-raise-ask.what-kind-of-work-is-it-at-employer",
+      "move": "their-position-raise-ask",
+      "kind": "spoken",
+      "text": "What kind of work is it at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-own.i-work-at-my-employer",
+      "move": "other-work-answer-own",
+      "kind": "spoken",
+      "text": "I work at {my_employer}.",
+      "uses": [
+        {
+          "move": "other-work-answer-own",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "own",
+          "requiresFacts": ["my_employer"]
+        },
+        {
+          "move": "own-work-new-answer-plain",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["my_employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-own.i-m-over-at-my-employer",
+      "move": "other-work-answer-own",
+      "kind": "spoken",
+      "text": "I'm over at {my_employer}.",
+      "uses": [
+        {
+          "move": "other-work-answer-own",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "own",
+          "requiresFacts": ["my_employer"]
+        },
+        {
+          "move": "own-work-new-answer-plain",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["my_employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-own.i-work-for-my-employer",
+      "move": "other-work-answer-own",
+      "kind": "spoken",
+      "text": "I work for {my_employer}.",
+      "uses": [
+        {
+          "move": "other-work-answer-own",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "own",
+          "requiresFacts": ["my_employer"]
+        },
+        {
+          "move": "own-work-new-answer-plain",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["my_employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-glad.good-for-you-working-there",
+      "move": "other-work-answer-glad",
+      "kind": "spoken",
+      "text": "Good for you, working {there}.",
+      "uses": [
+        {
+          "move": "other-work-answer-glad",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "glad",
+          "stages": ["working"],
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-glad.it-sounds-like-steady-work-there",
+      "move": "other-work-answer-glad",
+      "kind": "spoken",
+      "text": "It sounds like steady work {there}.",
+      "uses": [
+        {
+          "move": "other-work-answer-glad",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "glad",
+          "stages": ["working"],
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-glad.that-s-a-good-job-to-have-there",
+      "move": "other-work-answer-glad",
+      "kind": "spoken",
+      "text": "That's a good job to have {there}.",
+      "uses": [
+        {
+          "move": "other-work-answer-glad",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "glad",
+          "stages": ["working"],
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-hard.working-there-can-t-be-easy",
+      "move": "other-work-answer-hard",
+      "kind": "spoken",
+      "text": "Working {there} can't be easy.",
+      "uses": [
+        {
+          "move": "other-work-answer-hard",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "hard",
+          "stages": ["working"],
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-hard.that-sounds-like-a-lot-to-handle-there",
+      "move": "other-work-answer-hard",
+      "kind": "spoken",
+      "text": "That sounds like a lot to handle {there}.",
+      "uses": [
+        {
+          "move": "other-work-answer-hard",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "hard",
+          "stages": ["working"],
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-answer-hard.i-bet-that-s-a-full-day-there",
+      "move": "other-work-answer-hard",
+      "kind": "spoken",
+      "text": "I bet that's a full day {there}.",
+      "uses": [
+        {
+          "move": "other-work-answer-hard",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "hard",
+          "stages": ["working"],
+          "requiresFacts": ["there"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.i-m-position-at-employer",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "I'm {position} at {employer}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position", "employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.at-employer-i-m-position",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "At {employer}, I'm {position}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position", "employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.they-have-me-as-position-at-employer",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "They have me as {position} at {employer}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position", "employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.i-m-position-over-at-employer",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "I'm {position} over at {employer}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position", "employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.i-m-position-there",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "I'm {position} there.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.i-work-there-as-position",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "I work there as {position}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.they-have-me-working-as-position",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "They have me working as {position}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.mostly-i-m-position",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "Mostly I'm {position}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-reply-at.i-m-at-employer",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "I'm at {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-reply-at.over-at-employer",
+      "move": "other-work-reply-at",
+      "kind": "spoken",
+      "text": "Over at {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": ["working"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-reply-none.not-since-i-left-employer",
+      "move": "other-work-reply-none",
+      "kind": "spoken",
+      "text": "Not since I left {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-none",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "none",
+          "stages": ["none"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-reply-none.i-left-employer-a-while-back",
+      "move": "other-work-reply-none",
+      "kind": "spoken",
+      "text": "I left {employer} a while back.",
+      "uses": [
+        {
+          "move": "other-work-reply-none",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "none",
+          "stages": ["none"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.other-work-reply-none.nothing-since-employer",
+      "move": "other-work-reply-none",
+      "kind": "spoken",
+      "text": "Nothing since {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-none",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "none",
+          "stages": ["none"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.where-you-working",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "Where you working?",
+      "uses": [
+        {
+          "move": "own-work-new-ask-where",
+          "subject": "own-work-new",
+          "role": "ask",
+          "choice": "where",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.you-working-anywhere",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "You working anywhere?",
+      "uses": [
+        {
+          "move": "own-work-new-ask-where",
+          "subject": "own-work-new",
+          "role": "ask",
+          "choice": "where",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.got-a-job",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "Got a job?",
+      "uses": [
+        {
+          "move": "own-work-new-ask-where",
+          "subject": "own-work-new",
+          "role": "ask",
+          "choice": "where",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-ask-where.working-these-days",
+      "move": "own-work-new-ask-where",
+      "kind": "spoken",
+      "text": "Working these days?",
+      "uses": [
+        {
+          "move": "own-work-new-ask-where",
+          "subject": "own-work-new",
+          "role": "ask",
+          "choice": "where",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.i-m-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "I'm {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["my_position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.i-work-as-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "I work as {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["my_position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.these-days-i-m-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "These days I'm {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "requiresFacts": ["my_position"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.i-m-at-their-employer-myself",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "I'm at {their_employer} myself.",
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.i-work-at-their-employer",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "I work at {their_employer}.",
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-new-give-core.their-employer-for-me",
+      "move": "own-work-new-give-core",
+      "kind": "spoken",
+      "text": "{their_employer} for me.",
+      "uses": [
+        {
+          "move": "own-work-new-give-core",
+          "subject": "own-work-new-give",
+          "role": "core",
+          "stages": ["working"],
+          "requiresFacts": ["their_employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.how-are-things-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "How are things at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.how-s-work-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "How's work at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.still-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "Still at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.how-s-employer-treating-you",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "How's {employer} treating you?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-answer-plain.it-s-steady-at-employer",
+      "move": "own-work-answer-plain",
+      "kind": "spoken",
+      "text": "It's steady at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-answer-plain",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-answer-plain.it-s-fine-at-employer-mostly",
+      "move": "own-work-answer-plain",
+      "kind": "spoken",
+      "text": "It's fine at {employer}, mostly.",
+      "uses": [
+        {
+          "move": "own-work-answer-plain",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-answer-plain.same-as-ever-at-employer",
+      "move": "own-work-answer-plain",
+      "kind": "spoken",
+      "text": "Same as ever at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-answer-plain",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.own-work-answer-plain.i-m-still-at-employer",
+      "move": "own-work-answer-plain",
+      "kind": "spoken",
+      "text": "I'm still at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-answer-plain",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-say-core.employer-has-me-in-until-end-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{employer} has me in until {end} today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "longer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-say-core.it-s-a-long-one-at-employer-i-m-out-at-end",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "It's a long one at {employer}. I'm out at {end}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "longer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-say-core.they-kept-me-late-at-employer-i-m-done-at-end",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "They kept me late at {employer}. I'm done at {end}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "longer"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-say-core.employer-has-me-done-by-end-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{employer} has me done by {end} today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-say-core.short-day-at-employer-i-m-out-at-end",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "Short day at {employer}. I'm out at {end}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-say-core.they-cut-my-shift-at-employer-i-m-done-at-end",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "They cut my shift at {employer}. I'm done at {end}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-answer-plan.i-ll-be-around-when-you-get-back-at-end",
+      "move": "work-day-answer-plan",
+      "kind": "spoken",
+      "text": "I'll be around when you get back at {end}.",
+      "uses": [
+        {
+          "move": "work-day-answer-plan",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "plan",
+          "requiresFacts": ["shift-ahead", "end"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-answer-plan.see-you-when-you-re-done-at-end",
+      "move": "work-day-answer-plan",
+      "kind": "spoken",
+      "text": "See you when you're done at {end}.",
+      "uses": [
+        {
+          "move": "work-day-answer-plan",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "plan",
+          "requiresFacts": ["shift-ahead", "end"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-answer-wish.hope-employer-goes-easy-on-you-today",
+      "move": "work-day-answer-wish",
+      "kind": "spoken",
+      "text": "Hope {employer} goes easy on you today.",
+      "uses": [
+        {
+          "move": "work-day-answer-wish",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "wish",
+          "requiresFacts": ["shift-ahead", "employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-answer-wish.i-hope-it-goes-quick-at-employer-today",
+      "move": "work-day-answer-wish",
+      "kind": "spoken",
+      "text": "I hope it goes quick at {employer} today.",
+      "uses": [
+        {
+          "move": "work-day-answer-wish",
+          "subject": "work-day",
+          "role": "answer",
+          "choice": "wish",
+          "requiresFacts": ["shift-ahead", "employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-back-core.thanks-i-m-in-at-start-so-i-ll-be-beat",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Thanks. I'm in at {start}, so I'll be beat.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["plan"],
+          "requiresFacts": ["start"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-back-core.good-i-started-at-start-and-i-ll-want-to-sit",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Good. I started at {start}, and I'll want to sit.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["plan"],
+          "requiresFacts": ["start"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-back-core.thanks-i-m-in-at-start-so-i-m-used-to-it",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Thanks. I'm in at {start}, so I'm used to it.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["wish"],
+          "requiresFacts": ["start"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-day-back-core.me-too-i-start-at-start-and-it-drags",
+      "move": "work-day-back-core",
+      "kind": "spoken",
+      "text": "Me too. I start at {start}, and it drags.",
+      "uses": [
+        {
+          "move": "work-day-back-core",
+          "subject": "work-day-back",
+          "role": "core",
+          "stages": ["wish"],
+          "requiresFacts": ["start"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-say-core.employer-kept-me-late-today-i-got-off-at-end",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "{employer} kept me late today. I got off at {end}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "longer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-say-core.long-one-at-employer-i-m-off-at-end",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "Long one at {employer}. I'm off at {end}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "longer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-say-core.employer-wore-me-out-i-got-off-at-end",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "{employer} wore me out. I got off at {end}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "longer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-say-core.employer-sent-me-home-early-i-got-off-at-end",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "{employer} sent me home early. I got off at {end}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-say-core.i-got-out-early-at-employer-off-at-end",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "I got out early at {employer}. Off at {end}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-say-core.employer-let-me-go-early-i-was-off-at-end",
+      "move": "work-done-say-core",
+      "kind": "spoken",
+      "text": "{employer} let me go early. I was off at {end}.",
+      "uses": [
+        {
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
+          "role": "core",
+          "requiresFacts": ["employer", "end", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-answer-ask.how-was-it-at-employer",
+      "move": "work-done-answer-ask",
+      "kind": "spoken",
+      "text": "How was it at {employer}?",
+      "uses": [
+        {
+          "move": "work-done-answer-ask",
+          "subject": "work-done",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-answer-ask.how-did-employer-go-today",
+      "move": "work-done-answer-ask",
+      "kind": "spoken",
+      "text": "How did {employer} go today?",
+      "uses": [
+        {
+          "move": "work-done-answer-ask",
+          "subject": "work-done",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-answer-rest.put-your-feet-up-after-employer",
+      "move": "work-done-answer-rest",
+      "kind": "spoken",
+      "text": "Put your feet up after {employer}.",
+      "uses": [
+        {
+          "move": "work-done-answer-rest",
+          "subject": "work-done",
+          "role": "answer",
+          "choice": "rest",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-answer-rest.sit-down-you-earned-it-at-employer",
+      "move": "work-done-answer-rest",
+      "kind": "spoken",
+      "text": "Sit down. You earned it at {employer}.",
+      "uses": [
+        {
+          "move": "work-done-answer-rest",
+          "subject": "work-done",
+          "role": "answer",
+          "choice": "rest",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.long-i-started-at-start-and-i-m-wiped",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Long. I started at {start} and I'm wiped.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["start", "longer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.slow-mostly-i-was-in-at-start",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Slow, mostly. I was in at {start}.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["start", "longer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.good-i-started-at-start-so-it-s-short",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Good. I started at {start}, so it's short.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["start", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.easy-i-was-in-at-start-and-out-early",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Easy. I was in at {start} and out early.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["start", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.thanks-i-was-in-at-start-and-it-shows",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Thanks. I was in at {start}, and it shows.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["start", "longer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.i-will-i-started-at-start-and-i-m-done",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "I will. I started at {start} and I'm done.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["start", "longer"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.thanks-i-was-in-at-start-so-i-ll-take-it",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "Thanks. I was in at {start}, so I'll take it.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["start", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.work-done-back-core.i-will-i-started-at-start-and-got-out-early",
+      "move": "work-done-back-core",
+      "kind": "spoken",
+      "text": "I will. I started at {start} and got out early.",
+      "uses": [
+        {
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["start", "shorter"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
     }
   ]

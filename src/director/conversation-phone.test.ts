@@ -43,11 +43,7 @@ const SEEDS = [
 ] as const;
 
 describe("a call is greeted and ended as a call", () => {
-  // The cut of Nov 17 left no talk subject a call can carry, so no call is
-  // offered at the pinned places on days 0 to 300; these cases wait on the
-  // first subjects (CTO, Nov 18 18:27Z on #9750: story-call-subjects-after-the-cut).
-  // The marks come off when the first subject lands.
-  it.fails.each(SEEDS)(
+  it.each(SEEDS)(
     "%s: no in-room words on a call, none of the line's on a visit",
     (_name, seed) => {
       setBookkeeping(false);
@@ -288,11 +284,7 @@ const CALL_TITLE =
   "%s: a call to a housemate, a relative or someone met says hello first, never introduces, never says a doorway goodbye";
 
 describe("every call is a call (Words lead, Nov 14: five faults)", () => {
-  // The cut of Nov 17 left no talk subject a call can carry, so no call is
-  // offered at the pinned places on days 0 to 300; these cases wait on the
-  // first subjects (CTO, Nov 18 18:27Z on #9750: story-call-subjects-after-the-cut).
-  // The marks come off when the first subject lands.
-  it.fails.each(CALL_CASES)(CALL_TITLE, everyCallIsACall, 100_000);
+  it.each(CALL_CASES)(CALL_TITLE, everyCallIsACall, 100_000);
 });
 
 describe("every line the call has of its own is played", () => {
