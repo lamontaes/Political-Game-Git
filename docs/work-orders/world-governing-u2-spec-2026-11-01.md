@@ -433,7 +433,7 @@ Message the governing lead before editing `fileChanges`; its co-sponsor work sit
 - **Tests:**
   - interest-groups.test.ts:48 (`it.each` over chain bodies)
   - interest-groups.traits.test.ts (unaffected)
-  - src/director/desk-visit-scene.test.ts:48 and :340
+  - src/director/desk-visit-scene.test.ts (removed):48 and :340
   - tests/golden-path/played-world-modules.node-test.ts:83
 - **Proof:** in the edge fixture, the outside wage bill forms no group and posts no dues.
 
