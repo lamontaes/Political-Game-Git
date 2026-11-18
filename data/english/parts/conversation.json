@@ -14484,168 +14484,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-answer-agree.you-re-right-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "You're right, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-decided"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "I'm with you on that, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-decided"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.same-as-you-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Same as you, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-decided"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.no-argument-from-me-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "No argument from me, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-decided"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.that-s-how-i-see-it-too-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "That's how I see it too, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-decided"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.i-d-say-the-same-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "I'd say the same, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-decided"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.me-neither-name-it-s-hard-to-tell-yet",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Me neither, {name}. It's hard to tell yet.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-unsure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.i-can-t-tell-either-name",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "I can't tell either, {name}.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-unsure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-agree.same-here-name-i-ll-wait-and-see",
-      "move": "address-point-answer-agree",
-      "kind": "spoken",
-      "text": "Same here, {name}. I'll wait and see.",
-      "uses": [
-        {
-          "move": "address-point-answer-agree",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["stand-unsure"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.address-point-answer-disagree.i-think-president-has-it-wrong",
       "move": "address-point-answer-disagree",
       "kind": "spoken",
@@ -23390,33 +23228,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-agree.good-it-s-been-like-that-here-a-while-you",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "Good. It's been like that here a while, {you}.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.address-point-back-disagree.it-looks-different-from-where-i-sit-you",
+      "key": "conversation.address-point-back-disagree.it-looks-different-from-employer-where-i-sit-all-day",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "It looks different from where I sit, {you}.",
+      "text": "It looks different from {employer}, where I sit all day.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23428,12 +23243,35 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["year-point"]
+          "requiresFacts": ["year-point", "why-work", "employer"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-it-s-been-like-that-in-place-a-while",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. It's been like that in {place} a while.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["year-point", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
       "key": "conversation.address-point-back-agree.then-we-ll-both-see-what-congress-makes-of-president-possessive-plan",
@@ -23459,10 +23297,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-votes-you",
+      "key": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-on-said",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "We'll see who's right once Congress votes, {you}.",
+      "text": "Fair enough. We don't have to agree on {said}.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23474,18 +23312,18 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "said"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
-      "key": "conversation.address-point-back-disagree.fair-enough-you-we-don-t-have-to-agree",
+      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-decider-votes",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Fair enough, {you}. We don't have to agree.",
+      "text": "We'll see who's right once {decider} votes.",
       "piece": {
         "of": "address-point-back",
         "part": "core",
@@ -23497,12 +23335,12 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "decider"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
       "key": "conversation.news-back-core.not-me-you-we-ll-have-to-disagree-on-this-one",
@@ -23936,10 +23774,34 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-agree.i-ll-believe-it-when-decider-passes-it-you",
+      "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow",
       "move": "address-point-back-agree",
       "kind": "spoken",
-      "text": "I'll believe it when {decider} passes it, {you}.",
+      "text": "I'll bring it up at {employer} tomorrow.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "why-work", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-back-agree.i-ll-believe-it-when-decider-passes-it",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "I'll believe it when {decider} passes it.",
       "uses": [
         {
           "move": "address-point-back-agree",
@@ -23961,32 +23823,8 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow-you",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "I'll bring it up at {employer} tomorrow, {you}.",
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["policy-point", "why-work", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
-      "date": "2026-11-12"
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
       "key": "conversation.address-point-back-agree.good-if-decider-gets-it-done-i-ll-feel-it-at-employer",
@@ -24020,10 +23858,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-disagree.we-ll-see-what-decider-does-i-m-not-changing-my-mind",
+      "key": "conversation.address-point-back-disagree.we-ll-see-what-decider-does-with-it",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "We'll see what {decider} does. I'm not changing my mind.",
+      "text": "We'll see what {decider} does with it.",
       "uses": [
         {
           "move": "address-point-back-disagree",
@@ -24040,8 +23878,8 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
-      "date": "2026-11-12"
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
       "key": "conversation.address-point-back-disagree.come-by-employer-sometime-and-you-ll-see-why-i-say-it",
@@ -24068,17 +23906,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-disagree.try-paying-the-bills-in-place-first-you-then-we-ll-talk",
+      "key": "conversation.address-point-back-disagree.money-s-why-bills-in-place-don-t-wait-for-capital",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "Try paying the bills in {place} first, {you}. Then we'll talk.",
+      "text": "Money's why. Bills in {place} don't wait for {capital}.",
       "uses": [
         {
           "move": "address-point-back-disagree",
           "subject": "address-point-back",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["policy-point", "why-money", "place"]
+          "requiresFacts": ["policy-point", "why-money", "place", "capital"]
         }
       ],
       "piece": {
@@ -24088,8 +23926,8 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
-      "date": "2026-11-12"
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
       "key": "conversation.rent-due-say-core.rent-s-due-due-that-s-rent-out-the-door",
@@ -42088,6 +41926,188 @@
       "origin": "authored",
       "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
       "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.can-t-tell-yet-either-let-s-see-what-it-costs-place",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Can't tell yet either. Let's see what it costs {place}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["place", "stand-unsure"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.you-re-right-about-is-the-wrong-fight-for-capital",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "You're right. {about} is the wrong fight for {capital}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "about",
+            "capital",
+            "stand-against",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.right-somebody-in-capital-has-to-to",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Right. Somebody in {capital} has to {to}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "capital",
+            "to",
+            "stand-against",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.i-m-with-you-we-should-to-and-president-won-t",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you. We should {to}, and {president} won't.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-against",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.same-here-i-wouldn-t-to-whatever-president-says",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Same here. I wouldn't {to}, whatever {president} says.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["to", "president", "stand-against", "president-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.agreed-i-wouldn-t-to-either",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Agreed. I wouldn't {to} either.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["to", "stand-with", "president-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.right-we-shouldn-t-to-president-called-that-one",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Right. We shouldn't {to}. {president} called that one.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "to",
+            "president",
+            "stand-with",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.i-d-to-too-if-it-were-up-to-me",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "I'd {to} too, if it were up to me.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["to", "stand-with", "president-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.same-here-president-is-right-to-to",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Same here. {president} is right to {to}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["president", "to", "stand-with", "president-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17"
     },
     {
       "key": "conversation.other-work-reply-at.out-of-town-im-position",
