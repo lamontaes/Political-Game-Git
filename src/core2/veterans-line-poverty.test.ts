@@ -45,6 +45,14 @@ function earnedIncome(core: CoreState, householdId: string): number {
     : 0;
 }
 
+/** Whether a household still stands in a world, named or counted. */
+function liveIn(core: CoreState, householdId: string): boolean {
+  if (core.households.has(householdId)) return true;
+  return !!residentsRuntime(core)
+    ?.store.liveHouseholds()
+    .some((h) => h.id === householdId);
+}
+
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const LINE = "veterans";
 const TRIES = 3;
@@ -97,8 +105,15 @@ it(`a raise in the federal veterans line raises veterans' household income where
       // and counted: a fifth more.
       const named = new Set(raised.households.keys());
       let namedHouseholds = 0;
+      let ended = 0;
       let countedHouseholds = 0;
       for (const [id, minor] of before) {
+        // A counted household can end in one world and not the other within
+        // the 40 days (people move, marry, die); it has no income to compare.
+        if (!liveIn(raised, id) || !liveIn(alone, id)) {
+          ended += 1;
+          continue;
+        }
         const now = after.get(id) ?? 0;
         expect(now / minor, `${where}: household ${id}`).toBeCloseTo(1.2, 2);
         if (named.has(id)) namedHouseholds += 1;
@@ -158,7 +173,7 @@ it(`a raise in the federal veterans line raises veterans' household income where
             )
             .slice(0, 3)
             .join(", ") || "none"
-        }. Passed over: ${passed.join("; ") || "none"}\n`,
+        }. ${ended} households ended in one world and were left out. Passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }
