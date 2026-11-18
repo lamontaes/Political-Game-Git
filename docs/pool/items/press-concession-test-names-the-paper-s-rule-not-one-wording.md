@@ -15,11 +15,11 @@ lead: words
 model: sonnet
 effort: low
 root: none
-source: red on the Train, Nov 15 2026 (src/director/concession-reported.test.ts, both cases at North Westminster VT)
+source: red on the Train, Nov 15 2026 (src/director/concession-reported.test.ts (removed), both cases at North Westminster VT)
 checked:
 ---
 
-**What.** `src/director/concession-reported.test.ts` fails both cases on the Train: it looks for a sentence that starts with the runner-up's full name and says "called … to concede", and the paper now prints "Michael Wise defeated Betty Sheppard for selectboard member on Tuesday, 22 votes to 21. After the count, Sheppard called Wise to concede."
+**What.** `src/director/concession-reported.test.ts` (removed) fails both cases on the Train: it looks for a sentence that starts with the runner-up's full name and says "called … to concede", and the paper now prints "Michael Wise defeated Betty Sheppard for selectboard member on Tuesday, 22 votes to 21. After the count, Sheppard called Wise to concede."
 Seen: the race story printed in the town paper after the concession call.
 
 **Cause.** Found in code: the wording lives in data/english/parts/news.json:13837; the old premise was that the concession sentence starts with the runner-up's full name. That stopped being true when the wording "After the count, {rival} called {last} to concede." came in (d9c85e4441), picked by outlet order (807f349de8); the paper's rule is the full name at the first mention and the family name after, so the story is right and the test is stale.
@@ -34,6 +34,6 @@ Seen: the race story printed in the town paper after the concession call.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/concession-reported.test.ts
+**Files.**
 
 **Notes.** Old premise: the concession sentence starts with the runner-up's full name. New premise: the sentence names the runner-up by family name and the paper's naming rule holds across the story. Account lead said yes to this change (Nov 15).
