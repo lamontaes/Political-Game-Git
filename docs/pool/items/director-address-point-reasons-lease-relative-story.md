@@ -19,7 +19,7 @@ source: CTO, Nov 18 08:47Z on the Story thread (issue 9750), order item 1 for th
 checked:
 ---
 
-**What.** On the first evening a housemate raises a point of the President's address and says where they stand "from their own life" (owner, Nov 11). Today their life speaks only through work lost or looked for and money that is hard. In five drawn worlds on Nov 18 (Mableton GA, Puhi HI, Chance OK, Mandan ND, Millsboro DE) no housemate had either, so every stand was said with no reason, and the "what would you do instead" reply was never offered.
+**What.** On the first evening a housemate raises a point of the President's address and says where they stand "from their own life" (owner, Nov 11). Today their life speaks only through work lost or looked for and money that is hard. In five drawn worlds on Nov 18 (Mableton GA, Puhi HI, Chance OK, Mandan ND, Millsboro DE) no housemate had either, so every stand was said with no reason, and the "what would you do instead" reply was never offered. Seen: the talk box on the first evening at home.
 
 **Cause.** Found in code: `addressPointFor` in `src/director/conversation.ts` picks a work point only for a job lost this year or a job search, and a money point only for hardship stress or an eviction; any other speaker takes a policy point with reason `view` or a year point, which carries no reason fact. `viewReason` in `src/director/view-learned.ts`, which sets `has-reason` for own-view talk, reads only the job and the household's hardship. A lease, a relative in the house whom the question touches, and a printed story the speaker learned are all on record and read by nothing here.
 
@@ -29,7 +29,7 @@ checked:
 
 **Rules.** The simulation is the one layer that knows (owner, Oct 28). No dice: the reason follows the records. Talk says how it feels, never the figure (owner, Nov 11). Money talk only when the household's real books make it matter (CTO, Nov 18 08:47Z).
 
-**Done when.** In a played opening evening at a drawn place, a housemate who rents, lives with a relative the point touches, or read a story on it raises the point with that reason, and the dev mode Trace names the lease, the relative's person record or the story's record. `src/director/conversation-address-talk.test.ts` gains a case that finds each reason by drawing places and names what it passed over.
+**Done when.** A second session, in a played opening evening at a drawn place, a housemate who rents, lives with a relative the point touches, or read a story on it raises the point with that reason, and the dev mode Trace names the lease, the relative's person record or the story's record. `src/director/conversation-address-talk.test.ts` gains a case that finds each reason by drawing places and names what it passed over.
 
 **Waits on.** Nothing.
 
