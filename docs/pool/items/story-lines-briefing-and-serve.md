@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/story-lines-briefing-serve
-pr:
+pr: 10136
 after:
 blocked-on:
 lead: story
