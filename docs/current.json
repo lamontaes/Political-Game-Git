@@ -1272,6 +1272,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case played the swearing-in scene, a kind whose lines the cut deleted."
+    },
+    {
+      "old": "src/director/speech-world.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Both cases read the first speech part the planner offers from the opening-speech bank; with that bank cut to its post-Nov-15 lines the planner offers nothing for the town's worst area or its good news, and the test threw on the missing part."
     }
   ]
 }
