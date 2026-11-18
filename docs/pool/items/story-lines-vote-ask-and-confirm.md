@@ -7,8 +7,8 @@ priority: 1
 size: M
 status: in-pr
 standard: 2
-claimed-by: claude/story-lines-vote-ask
-pr: 10131
+claimed-by: claude/story-cut-before-nov15
+pr: 10063
 after:
 blocked-on:
 lead: story
@@ -36,3 +36,5 @@ checked:
 **Files.** data/english/parts/scene-talk.json
 
 **Notes.** Nov 18 (Story): written by a Sonnet helper; five family lines reworded by the lead where the office slot read as a bare title; 231 pairs judged by a fresh reader, every plant caught.
+
+Nov 18 (Story): carried in #10063, the cut, whose own scene-talk and phone tests need these lines; #10131 closed with its diff empty.
