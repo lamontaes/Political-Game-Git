@@ -23,12 +23,15 @@ import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
 import { HOUSING_MODULE_ID, dwellingTenure } from "../core2/modules/housing";
 import { householdIncome } from "../core2/modules/moves";
 import { newsKey, storiesHeard } from "../core2/modules/news";
-import { schoolDayOf } from "../core2/modules/school";
+import { schoolDayOf } from "../core2/modules/people";
 import { ageInYears } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import { COLLEGE_STARTED } from "../core2/past-school";
-import { highSchoolEndOf, schoolingEndsOf } from "../core2/past-work";
-import { preStartHistory } from "../core2/pre-start";
+import {
+  COLLEGE_STARTED,
+  highSchoolEndOf,
+  preStartHistory,
+  schoolingEndsOf,
+} from "../core2/past";
 import { registerDerivedCache } from "../core2/snapshot";
 import { coreAPI } from "../core2/state";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
@@ -194,10 +197,10 @@ function touchedRecord(
         schoolingEndsOf(core, person) <= core.date
       )
         return null;
-      const started = preStartHistory(core as CoreState, {
+      const [started] = preStartHistory(core as CoreState, {
         kind: COLLEGE_STARTED,
         personId: memberId,
-      })[0];
+      });
       return started?.id ?? null;
     }
   }
@@ -255,14 +258,12 @@ export function storyReason(
   const heard = printedHeard(core, personId, known.size);
   // The newest of those on the question and those on the record it was
   // raised from.
-  const story = [
+  const [story] = [
     heard.byTopic.get(question),
     ...from.map((id) => heard.bySource.get(id)),
   ]
     .filter((row): row is Story => !!row)
-    .sort(
-      (a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id),
-    )[0];
+    .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
   if (!story) return null;
   return {
     reason: "story",

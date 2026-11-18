@@ -101,7 +101,7 @@ export {
   PAST_RELEASED,
   pastJusticeFor,
 } from "./past-justice";
-export { prisonTermOf } from "./past-work";
+export { highSchoolEndOf, prisonTermOf, schoolingEndsOf } from "./past-work";
 export { seededUnit } from "./seeded";
 
 // The one history, for the engines that run or read it (light imports only:
