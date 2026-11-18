@@ -38,21 +38,6 @@ export function commaSplices(text: string): string[] {
   });
 }
 
-interface Speech {
-  readonly who: string;
-  readonly text: string;
-  readonly theme: string | null;
-  readonly asks: readonly string[];
-  readonly points: readonly PlannedPoint[];
-  /** The state whose speech it is; null for the President's, which names none. */
-  readonly ownState: string | null;
-  readonly sentences: readonly {
-    readonly text: string;
-    readonly facts: readonly string[];
-    readonly stand?: { readonly about: string };
-  }[];
-}
-
 describe("every speech through the one outline planner", () => {
   it("puts how a question stands before the ask in every point shape (rule 44)", () => {
     for (const [name, shape] of Object.entries(OUTLINES.pointShapes.shapes)) {
