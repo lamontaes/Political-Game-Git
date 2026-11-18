@@ -1644,6 +1644,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case read a journal line's revision; the journal bank is cut to four lines and no line is written to revise."
+    },
+    {
+      "old": "src/director/moving-goodbye-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed the moving-goodbye scene to compose; no narration for it can be worded since the cut."
     }
   ]
 }
