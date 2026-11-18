@@ -9,7 +9,7 @@ description: >
   line a new life shows. Use before every commit that changes code, before
   marking a pull request ready, and whenever you need to see a screen in the
   running game. Not for the full suite or the heavy runs (merger, speed-work)
-  or the second session's check (seen-in-game).
+  or the second session's check (done-proof, seen-in-game part).
 ---
 
 # Verify
