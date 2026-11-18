@@ -56,6 +56,7 @@ import {
   runningMateAsked,
   runningMatePicked,
   playerRecord,
+  debateAccept,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -2248,6 +2249,24 @@ const ROUTES: readonly Route[] = [
           state.player.personId,
           url.searchParams.get("debateId") ?? "",
           answers,
+        ),
+      );
+      return;
+    },
+  },
+  // The player accepts a debate's invitation; the director stages the sitting.
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/debate/accept",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        debateAccept(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("debateId") ?? "",
         ),
       );
       return;
