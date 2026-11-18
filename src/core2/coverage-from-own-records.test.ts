@@ -156,8 +156,39 @@ it(`two drawn towns' workers hold employer plans at their own shares, each the s
 }, 600_000);
 
 it(`a town's premium is the worker's part of what its own plans' care costs, and its bills are priced from its own health pay (seed ${seed})`, () => {
-  const a = world(seed);
-  const b = world(`${seed}:premium`);
+  // Two drawn towns that hold counted policies. A small place can have so few
+  // counted households that the ranking gives every plan to a full one (Lower
+  // Base, Northern Mariana Islands, at seed 30601ca084444478: 14 counted
+  // households, 17 plans, all full). That town has no counted premium to
+  // check, so the test draws on and names it.
+  const drawn: ReturnType<typeof world>[] = [];
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS && drawn.length < 2; draw++) {
+    const w = world(
+      draw === 0
+        ? seed
+        : draw === 1
+          ? `${seed}:premium`
+          : `${seed}:premium:${draw}`,
+    );
+    const open = (
+      w.api
+        .moduleState(COVERAGE_MODULE_ID)
+        .table("countedCoverage")
+        .rows() as unknown as CountedCoverageRow[]
+    ).filter((row) => row.to === null);
+    if (open.length) drawn.push(w);
+    else passed.push(w.where);
+  }
+  if (passed.length)
+    process.stdout.write(
+      `PASSED OVER, no counted policy: ${passed.join("; ")}\n`,
+    );
+  expect(
+    drawn.length,
+    `two of ${DRAWS} drawn towns hold counted policies (passed over: ${passed.join("; ")})`,
+  ).toBe(2);
+  const [a, b] = drawn as [ReturnType<typeof world>, ReturnType<typeof world>];
   for (const { api, core, where } of [a, b]) {
     const rate = planRateOf(api)!;
     // The opening's rate: the care the opening's people need today, a
