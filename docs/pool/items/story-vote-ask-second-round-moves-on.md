@@ -2,7 +2,7 @@
 id: story-vote-ask-second-round-moves-on
 title: "The second round of a vote ask moves the talk on instead of repeating the first"
 area: words
-kind: defect
+kind: bug
 priority: 1
 size: S
 status: in-pr
