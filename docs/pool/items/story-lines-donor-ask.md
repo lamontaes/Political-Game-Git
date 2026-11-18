@@ -9,7 +9,7 @@ status: in-pr
 standard: 2
 claimed-by: claude/story-lines-after-office-2
 pr: 10126
-after: story-lines-press-interview-and-constituent-stop
+after:
 blocked-on:
 lead: story
 model: sonnet
