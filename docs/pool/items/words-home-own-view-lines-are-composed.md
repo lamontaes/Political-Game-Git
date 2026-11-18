@@ -47,6 +47,6 @@ merged-at: 2026-11-11T18:59:32.982Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/view-learned.ts, src/director/view-learned.test.ts, src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/english/conversation-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/trait-decisions.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/view-learned.ts, src/director/view-learned.test.ts, src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/english/conversation-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/trait-decisions.ts, data/english/parts/conversation.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 26 lines, 25 with no insert and not excused, none shared with another subject. Three today: "I'm about as liberal as they come.", "I should tell you, I lean conservative.", "I keep mine to myself, mostly." The opening item's `address-point` reads the same `viewOn`; the two share `strongestQuestion` if the opening builds one first, never two copies.

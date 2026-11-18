@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing; the guard baseline counts scene-talk after the pull request that took its padded names out (#9213) folds.
 
-**Files.** data/english/parts/conversation.json, tests/guards/english/line-inserts.test.ts, tests/guards/english/line-inserts-baseline.json
+**Files.** data/english/parts/conversation.json, tests/guards/english/line-inserts.test.ts
 
 **Notes.** The other padded names in `conversation.json` (own-view agree, news answers, farewells with the player's name) stay under the baseline; that bank was left out of the padding pass.

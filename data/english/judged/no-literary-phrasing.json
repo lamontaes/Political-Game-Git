@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "no-literary-phrasing",
   "rubric": "No literary phrasing, metaphor, epigrams or visibly composed texture; ordinary political, civic, family, school, work and institutional words.",
-  "judged": 79,
+  "judged": 31,
   "no": {},
-  "yesHash": "0u4eue08t0s"
+  "yesHash": "0vd8ylh5ce0"
 }

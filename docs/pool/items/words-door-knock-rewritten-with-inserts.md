@@ -33,7 +33,7 @@ Seen: the player's petition circulates in a drawn place and the resident at each
 
 **Waits on.** The recount of the line-inserts count (#9757) before the count can fall.
 
-**Files.** data/english/parts/scene-talk.json, src/director/door-facts.ts, src/director/purpose-scene.ts, src/director/door-ask-scene.test.ts, tests/guards/english/line-inserts-baseline.json, data/english/pulled.json, data/english/judged
+**Files.** data/english/parts/scene-talk.json, src/director/door-facts.ts, src/director/purpose-scene.ts, src/director/door-ask-scene.test.ts, data/english/pulled.json, data/english/judged
 
 **Notes.**
 

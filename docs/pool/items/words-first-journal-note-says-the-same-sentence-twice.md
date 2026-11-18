@@ -42,7 +42,7 @@ branch:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/journal.ts, src/english/journal-words.ts, src/core2/past-work.ts, data/english/parts/journal.json, data/english/part-grades.json, src/director/journal-opening.test.ts, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/journal.ts, src/english/journal-words.ts, src/core2/past-work.ts, data/english/parts/journal.json, data/english/part-grades.json, src/director/journal-opening.test.ts
 
 **Notes.** Found by the lead on Nov 11, 2026, playing the opening on main at 3a9e824ddd. The note's first words there, "A year and a half on,", come from the piece `{span} on.` and are right when a line stands before them; if the note can start on that piece with nothing before it, say so in the pull request.
 

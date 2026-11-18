@@ -33,6 +33,6 @@ Seen: the guard counted 269 lines while press-comment alone holds 527 fixed line
 
 **Waits on.** Nothing.
 
-**Files.** tests/guards/english/line-inserts.test.ts, tests/guards/english/line-inserts-baseline.json, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+**Files.** tests/guards/english/line-inserts.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
 
 **Notes.** Filed by the Story lead, Nov 16, from the owner's answer on #9750. The 5,339 by scene purpose, most lines first: press-comment 527, ask-vote 246, bribe-offer 232, donor-ask 223, join-cause 209, ask-signature 208, owed-apology 161, conflict-accuse 153, ask-support 143, last-day-farewell 116, family-filing 108, mentor-advice 100. The order of the rewrite follows what a played life meets most (a Sonnet measured it from scene-year runs), not these bank sizes alone.

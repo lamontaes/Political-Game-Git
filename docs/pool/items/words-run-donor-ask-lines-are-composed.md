@@ -44,6 +44,6 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/purpose-scene.ts, src/director/arc-variant.ts, src/director/data/arc-variants.json, src/director/scene-talk.ts, src/director/donor-ask-scene.test.ts, src/director/donor-ask-variants.test.ts, src/director/reply-set-check.ts, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/purpose-scene.ts, src/director/arc-variant.ts, src/director/data/arc-variants.json, src/director/scene-talk.ts, src/director/donor-ask-scene.test.ts, src/director/donor-ask-variants.test.ts, src/director/reply-set-check.ts, src/english/scene-talk-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/modules/campaigns.ts, data/english/parts/scene-talk.json, data/english/part-grades.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 173 lines, 141 with no insert and not excused. Three today: "Do you have a minute?", "Can I talk to you?", "Have you got a few minutes?"

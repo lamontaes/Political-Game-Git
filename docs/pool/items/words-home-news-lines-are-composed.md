@@ -46,6 +46,6 @@ merged-at: 2026-11-11T19:00:03.034Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/bring-it-up.ts, src/director/view-learned.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/household-news.test.ts, src/director/news-talk.test.ts (new), src/english/conversation-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/bring-it-up.ts, src/director/view-learned.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/household-news.test.ts, src/director/news-talk.test.ts (new), src/english/conversation-words.ts, src/english/question-names.ts, src/core2/modules/views.ts, src/core2/shared-history.ts, data/english/parts/conversation.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 58 lines, 24 with no insert and not excused. Three today: "What do you make of the news?", "I think it's terrible.", "I heard about that." The opening's own news talk (the President's address) is words-opening-evening-talk-raises-what-the-president-said; this item does not touch the `address` subjects.

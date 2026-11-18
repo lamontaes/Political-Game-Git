@@ -2337,6 +2337,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
   const asks = arc.asks;
   const askMoves = asks ? [asks.yes, asks.carried, asks.no] : [];
   const againMoves = asks ? asks.again.map((row) => row.move) : [];
+  const afterMoves = Object.values(asks?.after ?? {}).flatMap((rows) =>
+    rows.map((row) => row.move),
+  );
+  const middleThen = asks?.middle
+    ? asks.middle.then.map((row) => row.move)
+    : [];
   /** The replies the player's character may make after an asker line of this move. */
   const repliesAfter = (move: string): string[] => [
     ...(move === arc.state ? arc.replies : []),
@@ -2347,7 +2353,12 @@ export function talkFlow(scene: { purpose: string; key: string }): {
       .flatMap((row) => row.replies),
     ...(lie && move === lie.caught.move ? lie.caught.replies : []),
     ...(asks && move === arc.state ? askMoves : []),
-    ...(asks && (move === asks.thanks || againMoves.includes(move))
+    ...(asks?.middle && move === asks.middle.ask ? [asks.middle.tell] : []),
+    ...(asks && afterMoves.includes(move) ? [...asks.relent, asks.no] : []),
+    ...(asks &&
+    (move === asks.thanks ||
+      againMoves.includes(move) ||
+      middleThen.includes(move))
       ? [
           ...asks.relent,
           asks.no,
@@ -2367,6 +2378,17 @@ export function talkFlow(scene: { purpose: string; key: string }): {
         .filter((row) => row.on === move || row.on === "resolved")
         .map((row) => row.asker),
       ...(asks && askMoves.includes(move) ? [asks.thanks, ...againMoves] : []),
+      ...(asks?.middle && askMoves.includes(move) ? [asks.middle.ask] : []),
+      ...(asks?.middle && move === asks.middle.tell ? middleThen : []),
+      ...(asks?.after &&
+      [
+        asks.no,
+        ...asks.relent,
+        ...(asks.paid ? [asks.paid] : []),
+        ...(asks.absent ? [asks.absent] : []),
+      ].includes(move)
+        ? afterMoves
+        : []),
     ];
   };
   /** The player's character's unprompted line after an asker line, and the asker's answer to it. */

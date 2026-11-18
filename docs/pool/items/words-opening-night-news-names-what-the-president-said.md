@@ -33,6 +33,6 @@ checked: fable 2026-11-11
 
 **Waits on.** words-opening-evening-talk-raises-what-the-president-said.
 
-**Files.** src/bench/printed-words.ts, src/english/english-newscast.ts, src/director/opening-facts.ts, src/director/opening-story.ts, data/english/parts/news.json, data/english/parts/headlines.json, data/english/parts/newscast.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/bench/printed-words.ts, src/english/english-newscast.ts, src/director/opening-facts.ts, src/director/opening-story.ts, data/english/parts/news.json, data/english/parts/headlines.json, data/english/parts/newscast.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423.

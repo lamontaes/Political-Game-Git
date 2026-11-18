@@ -894,6 +894,12 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "tests/guards/english/line-inserts-baseline.json",
+      "now": "tests/guards/english/line-inserts.test.ts",
+      "when": "2026-11-17",
+      "why": "The per-bank count of lines with no insert, deleted when the owner ruled every line the English engine did not compose deleted (Nov 17: \"JUST DELETE EVERYTHING THAT IT HASNT WRITTEN\"); the guard now holds every bank at zero."
     }
   ]
 }

@@ -42,6 +42,6 @@ claimed-at:
 
 **Waits on.** words-opening-evening-talk-raises-what-the-president-said (the composer it uses).
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, data/english/parts/conversation.json
 
 **Notes.** Found by the lead, Nov 11, 09:15 UTC, playing a new life on main plus the 10:00 UTC train's riders with a script that clicks each person at home once a day. The same play found that a talk on the opening evening made the first Day skip a day; that is fixed on its own pull request (a talk before the first morning holds the clock). The first evening's talk about the President's address (words-opening-evening-talk-raises-what-the-president-said) played well in the same life.

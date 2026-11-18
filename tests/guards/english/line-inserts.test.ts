@@ -1,7 +1,6 @@
 import { readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import baseline from "./line-inserts-baseline.json";
 
 /**
  * Every line goes through the English engine (owner, Nov 11, 2026: "all the
@@ -33,15 +32,17 @@ import baseline from "./line-inserts-baseline.json";
  * covered 5,339 lines. Asked whether to keep excusing them, the owner answered
  * (Nov 16, relayed by the CTO on the Story thread, issue #9750): "No. Count
  * them again and rewrite them with inserts", with the note "either that or
- * remove them and start fresh". So they are counted again here, by bank, and
- * each rewrite or deletion lowers its bank's count. The padded-name check
- * below (the other half of his Nov 14 card) stands.
+ * remove them and start fresh". On Nov 17, after playing v0.113.0, he ruled
+ * (issue #9750): "STOP TRYING TO MAKE SHIT SHINE JUST DELETE EVERYTHING THAT
+ * IT HASNT WRITTEN EBCAUSE THIS ISNT HELPING." Every such line was deleted
+ * that day and the per-bank baseline with them: the count is zero in every
+ * bank, a check and not a baseline. The padded-name check below (the other
+ * half of his Nov 14 card) is held at zero the same way.
  *
- * What is read: every part of every bank under data/english/parts. Every
- * other line with no insert is counted by bank in
- * ./line-inserts-baseline.json; a count may only go down, and a bank the
- * baseline does not name may hold none. Nobody widens what is excused
- * without a ruling in docs/coordination/OWNER-DECISIONS.md.
+ * What is read: every part of every bank under data/english/parts. No bank
+ * may hold a line with no insert that the ruling does not excuse. Nobody
+ * widens what is excused without a ruling in
+ * docs/coordination/OWNER-DECISIONS.md.
  */
 
 const ROOT = path.resolve(__dirname, "../../..");
@@ -149,26 +150,15 @@ export function linesWithNoInsert(dir: string): Record<string, string[]> {
 
 describe("every bank line carries an insert from the world's records", () => {
   const found = linesWithNoInsert(path.join(ROOT, BANK_DIR));
-  const known = baseline.banks as Record<string, number>;
 
-  it("adds no line without an insert to any bank", () => {
+  it("holds no line without an insert in any bank", () => {
     const over = Object.entries(found)
-      .filter(([bank, keys]) => keys.length > (known[bank] ?? 0))
+      .filter(([, keys]) => keys.length > 0)
       .map(
         ([bank, keys]) =>
-          `${BANK_DIR}/${bank}.json: ${keys.length} lines with no insert, ${known[bank] ?? 0} known. A new line of four words or more names at least one slot in braces that the engine fills from a record, or is a piece of a sentence that always carries one; the newest without one include ${keys.slice(-3).join(", ")}`,
+          `${BANK_DIR}/${bank}.json: ${keys.length} lines with no insert. A line of four words or more names at least one slot in braces that the engine fills from a record, or is a piece of a sentence that always carries one; otherwise it is deleted (owner, Nov 17). First lines: ${keys.slice(0, 3).join(", ")}`,
       );
     expect(over).toEqual([]);
-  });
-
-  it("lowers a bank's known count as soon as its lines gain inserts or are deleted", () => {
-    const stale = Object.entries(known)
-      .filter(([bank, n]) => (found[bank]?.length ?? 0) < n)
-      .map(
-        ([bank, n]) =>
-          `${bank}: lower ${n} to ${found[bank]?.length ?? 0} in tests/guards/english/line-inserts-baseline.json`,
-      );
-    expect(stale).toEqual([]);
   });
 
   it("tells a line with an insert from one without", () => {
@@ -253,9 +243,8 @@ describe("every bank line carries an insert from the world's records", () => {
  * thank-you, an apology, a plea (a line with thank, thanks, sorry, apolog or
  * please in it) and for a call across a room (a part of a greeting, an
  * `open-greet` move). A speaker's own name (`{self}`, "I'm {self}") is an
- * introduction, never read as padding. Every other line with the name is
- * counted by bank in ./line-inserts-baseline.json (`vocativeNames`); a count
- * may only go down, and a bank the baseline does not name may hold none.
+ * introduction, never read as padding. Every other line with the name was
+ * deleted on Nov 17 (the owner's ruling above), and no bank may hold one.
  */
 const VOCATIVE =
   /(^\{(?:first|their-first|player-first)\}[,.!?] )|(, \{(?:first|their-first|player-first)\}(?=[,.!?]))/;
@@ -289,28 +278,13 @@ export function linesWithPaddedNames(dir: string): Record<string, string[]> {
 
 describe("a listener's name is not tacked onto a line", () => {
   const found = linesWithPaddedNames(path.join(ROOT, BANK_DIR));
-  const known =
-    (baseline as { vocativeNames?: Record<string, number> }).vocativeNames ??
-    {};
 
-  it("adds no padded name to any bank", () => {
-    const over = Object.entries(found)
-      .filter(([bank, keys]) => keys.length > (known[bank] ?? 0))
-      .map(
-        ([bank, keys]) =>
-          `${bank}: ${keys.length} lines carry the listener's name as padding, more than the ${known[bank] ?? 0} known. Leave the name off, or keep it only for a thank-you, an apology, a plea or a call across a room. First lines: ${keys.slice(0, 3).join(", ")}`,
-      );
+  it("holds no padded name in any bank", () => {
+    const over = Object.entries(found).map(
+      ([bank, keys]) =>
+        `${bank}: ${keys.length} lines carry the listener's name as padding. Leave the name off, or keep it only for a thank-you, an apology, a plea or a call across a room. First lines: ${keys.slice(0, 3).join(", ")}`,
+    );
     expect(over).toEqual([]);
-  });
-
-  it("lowers a bank's known count as soon as its names come out", () => {
-    const stale = Object.entries(known)
-      .filter(([bank, count]) => (found[bank]?.length ?? 0) < count)
-      .map(
-        ([bank, count]) =>
-          `${bank}: ${found[bank]?.length ?? 0} lines carry the name now, below the ${count} in line-inserts-baseline.json; lower it.`,
-      );
-    expect(stale).toEqual([]);
   });
 
   it("reads the name where a line says it, and nothing else", () => {

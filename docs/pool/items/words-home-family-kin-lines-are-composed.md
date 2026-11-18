@@ -45,7 +45,7 @@ merged-at: 2026-11-11T16:20:49.717Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/family-news-talk.test.ts, src/english/conversation-words.ts, src/core2/closeness.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/family-news-talk.test.ts, src/english/conversation-words.ts, src/core2/closeness.ts, data/english/parts/conversation.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 50 lines, 13 with no insert and not excused (family 33 and 8, kin 17 and 5). Three today: "He's in the hospital.", "My father passed away.", "I don't think so." The relatives' own lives outside the town come from the `lives` skill's engines; this item only reads them.
 
