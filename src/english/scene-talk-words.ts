@@ -466,10 +466,94 @@ export function wordSceneMove(input: {
   momentKey: string;
   /** Pieces already said on this branch. */
   said: ReadonlySet<string>;
+  /**
+   * The pieces whose words the listener has read so far: the lines said on
+   * this branch and the replies already offered on this screen (`said` when
+   * not given). A fact's text they say twice is not said a third time.
+   */
+  told?: Iterable<string>;
   /** Only the extra option drawn from the player's own life. */
   tagged?: boolean;
   options?: SceneWordingOptions;
 }): WordedMove | { unused: string } | null {
+  // A talk says a fact twice at most (the Story lead's brief to writers,
+  // from the owner's padded-name rule of Nov 14: a full name at most twice a
+  // talk). The most specific wording wins a spot, so without this a fact on
+  // the record is said by every line that has a wording for it ("About fifty
+  // years" in the statement, all four replies and two answers). A wording
+  // that would say a fact's text a third time ranks below every one that
+  // does not: the next most specific fitting wording not yet said on this
+  // branch is said, then a shorter one. Where none avoids it, the best
+  // wording stands: a spot is never silent.
+  const best = wordSceneMoveKept(input, () => true);
+  if (!best || "unused" in best) return best;
+  const pool = input.options?.parts;
+  const byKey = pool ? new Map(pool.map((part) => [part.key, part])) : null;
+  const counts = timesSaid(input.told ?? input.said, input.facts, pool);
+  const spares = (part: BankPart) =>
+    slotTexts(part, input.facts).every(
+      (text) => (counts.get(text) ?? zero) < SAID_AT_MOST,
+    );
+  const pieces = [best.pieceKey, ...(best.pieceKeys ?? [])].flatMap((key) => {
+    const part = (byKey ?? PART_BY_KEY).get(key);
+    return part ? [part] : [];
+  });
+  if (pieces.every(spares)) return best;
+  for (const spare of [
+    spares,
+    (part: BankPart) => spares(part) && !input.said.has(part.key),
+  ]) {
+    const spared = wordSceneMoveKept(input, spare);
+    if (spared && !("unused" in spared) && !input.said.has(spared.pieceKey))
+      return spared;
+  }
+  return best;
+}
+
+/** How many times a fact's text may be said in one talk (owner, Nov 14). */
+const SAID_AT_MOST = two;
+
+/** The fact texts a piece's slots say, lowercased, once each. */
+function slotTexts(
+  part: Pick<BankPart, "text">,
+  facts: Readonly<Record<string, Fact>>,
+): string[] {
+  const texts = new Set<string>();
+  for (const [, slot] of part.text.matchAll(/\{([\w-]+)\}/g)) {
+    const text = facts[slot!]?.text;
+    if (text) texts.add(text.toLowerCase());
+  }
+  return [...texts];
+}
+
+/**
+ * How many of these pieces say each fact's text, keyed by the text as said
+ * (lowercased): the one count `wordSceneMove` reads, keyed by the words the
+ * way the conversation engine's "one screen names a thing once" is.
+ */
+export function timesSaid(
+  pieceKeys: Iterable<string>,
+  facts: Readonly<Record<string, Fact>>,
+  parts?: readonly BankPart[],
+): Map<string, number> {
+  const byKey = parts
+    ? new Map(parts.map((part) => [part.key, part]))
+    : PART_BY_KEY;
+  const counts = new Map<string, number>();
+  for (const key of new Set(pieceKeys)) {
+    const part = byKey.get(key);
+    if (!part) continue;
+    for (const text of slotTexts(part, facts))
+      counts.set(text, (counts.get(text) ?? zero) + one);
+  }
+  return counts;
+}
+
+/** `wordSceneMove` among the pieces `spare` keeps. */
+function wordSceneMoveKept(
+  input: Parameters<typeof wordSceneMove>[0],
+  spare: (part: BankPart) => boolean,
+): WordedMove | { unused: string } | null {
   const { move: use, facts } = input;
   const options = input.options ?? {};
   const onlyTagged = input.tagged ?? false;
@@ -485,6 +569,7 @@ export function wordSceneMove(input: {
     );
   // Tagged pieces are only ever the extra option.
   const keepPart = (part: BankPart) =>
+    spare(part) &&
     !!taggedBy(part) === onlyTagged &&
     !(options.freshOnly && options.shown?.has(part.key)) &&
     !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero);
@@ -545,10 +630,7 @@ export function wordSceneMove(input: {
       ? fitting(
           { ...use, purpose: use.family, family: undefined },
           facts,
-          (part) =>
-            !!taggedBy(part) === onlyTagged &&
-            !(options.freshOnly && options.shown?.has(part.key)) &&
-            !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
+          keepPart,
           pool,
           options.replyFollows,
         ).filter((part) => !input.said.has(part.key))
