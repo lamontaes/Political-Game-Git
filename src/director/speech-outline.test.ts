@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import OUTLINES from "./data/speech-outlines.json" with { type: "json" };
 import { setBookkeeping } from "../core2/bookkeeping";
-import { outlineOf, type PlannedPoint } from "./speech-outline";
+import { outlineOf } from "./speech-outline";
 setBookkeeping(false);
 
 /** Two full clauses joined by a comma alone (a simple reader; the shared composed check replaces it once it lands on main). */
