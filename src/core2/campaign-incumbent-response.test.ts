@@ -151,7 +151,20 @@ function incumbentRace(
     for (const adult of adults) {
       if (adult.id === holder.id) continue;
       const challenger = file(adult.id, contest.id);
-      if (challenger) return { contest, incumbent, challenger };
+      if (!challenger) continue;
+      // The case is a two-way race: a poll names the one rival. A contest
+      // already holding other candidates (a ticket's running mate, a third
+      // party) names whoever leads, which is a different premise.
+      const others = ballot(api, contest.id).filter(
+        (f) => f.id !== incumbent.id && f.id !== challenger.id,
+      );
+      if (others.length) {
+        seen.push(
+          `${contest.id}: ${others.length} other candidate(s) on the ballot`,
+        );
+        break;
+      }
+      return { contest, incumbent, challenger };
     }
     seen.push(`${contest.id}: no challenger could file`);
   }
