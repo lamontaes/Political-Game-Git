@@ -2,7 +2,155 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 0,
-  "no": {},
+  "judged": 12,
+  "no": {
+    "042zjmj8ox0": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "Two of three new replies restate the first options: 'I'm with you on cause' and 'What you said didn't change my mind' repeat the agree and not-sold stances, and only the head-home line moves on."
+    },
+    "079d84wsybe": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
+      ],
+      "why": "Two of three new replies restate the first options: 'I'm with you on cause' and 'What you said didn't change my mind' repeat earlier stances, and only the get-going line moves on."
+    },
+    "0kpmeuda8ha": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-on-cause",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "Two of three new replies restate the first options: 'I'm with you on cause' and 'What you said didn't change my mind' repeat earlier stances, and only the head-home line moves on."
+    },
+    "0m3luqzkvg2": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "Two of three new replies restate the first options: 'You've got my vote' repeats 'Put me down' and 'My answer's the same' repeats 'I'm not promising'; only the have-to-go line moves on."
+    },
+    "0r8lb2inzf2": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "Two of three new replies restate the first options: 'I care about cause, you've got my vote' and 'I'm not sold yet' repeat earlier stances, and only the head-home line moves on."
+    },
+    "16wa1qkgrcg": {
+      "keys": [
+        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "Two of three new replies restate the first options: 'I care about cause, you've got my vote' and 'I'm not sold yet' repeat earlier stances, and only the head-home line moves on."
+    },
+    "1e49u1q1s2b": {
+      "keys": [
+        "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
+        "scene-talk.reply-agree.you-have-my-endorsement",
+        "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
+        "scene-talk.reply-stall.give-me-a-few-days-i-ll-have-an-answer",
+        "scene-talk.reply-agree.then-you-have-it-tell-people",
+        "scene-talk.reply-refuse.then-the-answer-is-no",
+        "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking"
+      ],
+      "why": "All three new replies restate the first options: 'Then you have it' repeats the yes option, 'Then the answer is no' repeats the no option, and 'A few days, that's all I'm asking' repeats the give-me-days option."
+    },
+    "1pbbyisx8pu": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "Two of three new replies restate the first options: 'Okay, put me down' repeats the yes option and 'I'm still deciding my vote' repeats the come-back-later option; only the have-to-go line moves on."
+    },
+    "1so4qwds941": {
+      "keys": [
+        "scene-talk.follow-press.can-i-ask-why",
+        "scene-talk.reply-agree.you-have-my-endorsement",
+        "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
+        "scene-talk.reply-stall.give-me-a-few-days-i-ll-have-an-answer",
+        "scene-talk.reply-relent.i-don-t-have-a-good-reason-you-have-my-endorsement",
+        "scene-talk.reply-refuse.the-answer-is-no-it-isn-t-about-you"
+      ],
+      "why": "Both new replies restate the first options: 'I don't have a good reason. You have my endorsement' repeats the yes option and 'The answer is no' repeats the not-endorsing option."
+    },
+    "1su1d491mol": {
+      "keys": [
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office"
+      ],
+      "why": "The first new reply repeats the first option word for word, which is half the set and the exact rehash the rule forbids; only the come-back line moves on."
+    },
+    "1uqxf2yqgdr": {
+      "keys": [
+        "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race",
+        "scene-talk.reply-agree.you-have-my-endorsement",
+        "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
+        "scene-talk.reply-stall.give-me-a-few-days-i-ll-have-an-answer",
+        "scene-talk.reply-agree.then-you-have-it-tell-people",
+        "scene-talk.reply-refuse.then-the-answer-is-no",
+        "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking"
+      ],
+      "why": "All three new replies restate the first options: 'Then you have it' repeats the yes option, 'Then the answer is no' repeats the no option, and 'A few days, that's all I'm asking' repeats the give-me-days option."
+    },
+    "26u0ijucrn9": {
+      "keys": [
+        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-care-about-cause-you-ve-got-my-vote",
+        "scene-talk.reply-decline.i-m-not-sold-on-cause-yet",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
+      ],
+      "why": "Two of three new replies restate the first options: 'I'm with you on cause' repeats 'You've got my vote' and 'What you said didn't change my mind' repeats 'I'm not sold yet'."
+    }
+  },
   "yesHash": "0wvjl67o803"
 }

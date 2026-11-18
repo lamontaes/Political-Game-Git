@@ -2,7 +2,149 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 0,
-  "no": {},
-  "yesHash": "0wvjl67o803"
+  "judged": 36,
+  "no": {
+    "01uxm8jgj3e": {
+      "keys": [
+        "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race",
+        "scene-talk.reply-agree.then-you-have-it-tell-people",
+        "scene-talk.reply-refuse.then-the-answer-is-no",
+        "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking"
+      ],
+      "why": "The replies are a yes, a flat no and a request for a few days, with no stated reason."
+    },
+    "03fqlqzhild": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office"
+      ],
+      "why": "The replies are a question and a thanks, with no stated reason or condition."
+    },
+    "062tebggjlg": {
+      "keys": [
+        "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
+        "scene-talk.reply-agree.then-you-have-it-tell-people",
+        "scene-talk.reply-refuse.then-the-answer-is-no",
+        "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking"
+      ],
+      "why": "The replies are a yes, a flat no and a request for a few days, with no stated reason."
+    },
+    "0d25vw5sc98": {
+      "keys": [
+        "scene-talk.state-request.will-you-endorse-me",
+        "scene-talk.reply-agree.you-have-my-endorsement",
+        "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
+        "scene-talk.reply-stall.give-me-a-few-days-i-ll-have-an-answer"
+      ],
+      "why": "The replies are a yes, a flat no without ground, or a delay, with no stated reason."
+    },
+    "0jd8qpfd4b9": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "The replies are a pledge, a repeated answer or an exit, with no stated ground."
+    },
+    "0nyn528br1c": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
+        "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office"
+      ],
+      "why": "The replies are a pledge, a 'still deciding' stance or an exit, with no stated ground."
+    },
+    "17fia20q0yw": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
+      ],
+      "why": "Every reply is a bare stance or an exit, with no ground, condition or consequence."
+    },
+    "19ayzqqdem8": {
+      "keys": [
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+        "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office"
+      ],
+      "why": "The replies are a question and a thanks, with no stated reason or condition."
+    },
+    "1behkjnom4w": {
+      "keys": [
+        "scene-talk.state-request.i-meant-every-word-on-cause-can-i-count-on-you",
+        "scene-talk.reply-ask.what-would-you-do-first-about-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-deflect.let-me-think-about-cause-first"
+      ],
+      "why": "The replies are questions, bare stances or a plain 'let me think', with no stated reason."
+    },
+    "1cxzchdjov3": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.okay-put-me-down-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "The replies are stances, a promise-hedge or a 'come back later' with no stated ground."
+    },
+    "1dwg9y479rn": {
+      "keys": [
+        "scene-talk.follow-press.fair-what-s-holding-you-back-on-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "Every reply is a bare stance or an exit, with no ground, condition or consequence."
+    },
+    "1e0oluimm06": {
+      "keys": [
+        "scene-talk.follow-press.can-i-ask-why",
+        "scene-talk.reply-relent.i-don-t-have-a-good-reason-you-have-my-endorsement",
+        "scene-talk.reply-refuse.the-answer-is-no-it-isn-t-about-you"
+      ],
+      "why": "One reply admits having no good reason and the other is a flat no with no ground."
+    },
+    "1j9brsbophf": {
+      "keys": [
+        "scene-talk.follow-answer.on-cause-i-d-start-in-the-first-year",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-should-get-going-thanks-for-the-talk-in-place"
+      ],
+      "why": "Every reply is a bare stance or an exit, with no ground, condition or consequence."
+    },
+    "1mypt2175ae": {
+      "keys": [
+        "scene-talk.follow-press.what-would-it-take-on-cause",
+        "scene-talk.reply-agree.i-m-with-you-on-cause",
+        "scene-talk.reply-decline.what-you-said-on-cause-didn-t-change-my-mind",
+        "scene-talk.reply-leave.i-need-to-head-home-good-luck-in-place"
+      ],
+      "why": "Every reply is a bare stance or an exit, with no ground, condition or consequence."
+    },
+    "1sn407xw36p": {
+      "keys": [
+        "scene-talk.state-request.hi-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+        "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+        "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+        "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later"
+      ],
+      "why": "The replies are a pledge, a hedge or a 'come back later' with no stated ground."
+    },
+    "2631c1pwpuv": {
+      "keys": [
+        "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+        "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+        "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office"
+      ],
+      "why": "The replies are a thanks and a return visit, with no stated reason or condition."
+    }
+  },
+  "yesHash": "0i16csjpvya"
 }
