@@ -4,7 +4,7 @@ Part of the `speed-work` skill. Dated cases: work other sessions add to every da
 
 ## Work another session adds to every day
 
-When a session builds work that runs for many people (relatives elsewhere, the counted population, a new engine), it holds the bar this way. Send the session this section's name (`speed-work`) rather than explaining it in a message (`crew-messages`).
+When a session builds work that runs for many people (relatives elsewhere, the counted population, a new engine), it holds the bar this way. Send the session this section's name (`speed-work`) rather than explaining it in a message (`crew-coordinator` (crew-messages part)).
 
 - No fill-in: filling someone in costs about 20 ms (past work, school history, pre-start history), and every engine that walks full people slows with them. In Storrs, Connecticut (Nov 1), filling in 4,000 evicted people cost 86 s directly and made garbage collection alone 282 s of the next year.
 - A cadence keyed on a due date from an index (a monthly calendar entry, a queue by date registered as a snapshot world map part), never a daily scan of everyone or of all history.

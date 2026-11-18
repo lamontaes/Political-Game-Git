@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 36,
+  "judged": 21,
   "no": {
     "01uxm8jgj3e": {
       "keys": [
@@ -146,5 +146,5 @@
       "why": "The replies are a thanks and a return visit, with no stated reason or condition."
     }
   },
-  "yesHash": "0i16csjpvya"
+  "yesHash": "0z1awxhpl0c"
 }
