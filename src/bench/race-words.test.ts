@@ -97,3 +97,45 @@ it("says one voter in the singular, never opens with a numeral, never prints a z
     }
   }
 });
+
+// The board counts who is running honestly (owner, Nov 17: "other people
+// should be able to announce"; CTO on #9995): a rival who has filed is named
+// as an opponent, and one who has only said they are running is named apart,
+// as not yet filed.
+it("names a rival who announced apart from the rivals who filed", () => {
+  const board = (announcedOnly: boolean) =>
+    raceStanding(
+      { seed: "announced" } as unknown as CoreState,
+      { id: "f1", personId: "p1" } as never,
+      undefined,
+      [
+        { ...who("You", true, 0), announced: false },
+        ...(announcedOnly
+          ? []
+          : [{ ...who("Ann Lee", false, 0), announced: false }]),
+        { ...who("Joseph Hunter", false, 0), announced: true },
+      ] as unknown as Causes,
+      {
+        office: "Mayor",
+        closes: "June 23",
+        when: { general: "November 3" },
+        recordIds: ["contest:c1"],
+      } as never,
+    ).filter(Boolean);
+  for (const announcedOnly of [false, true]) {
+    const lines = board(announcedOnly);
+    const filedLine = lines.find((line) =>
+      announcedOnly ? /filed/.test(line) : line.includes("Ann Lee"),
+    );
+    expect(filedLine, lines.join(" | ")).toBeDefined();
+    // The filed rivals' line never counts the one who only announced.
+    expect(filedLine, lines.join(" | ")).not.toContain("Joseph Hunter");
+    // The one who announced is named in a line of their own.
+    expect(
+      lines.some(
+        (line) => line !== filedLine && line.includes("Joseph Hunter"),
+      ),
+      lines.join(" | "),
+    ).toBe(true);
+  }
+});

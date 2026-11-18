@@ -516,6 +516,8 @@ export function raceStanding(
 ): string[] {
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
+  const filed = others.filter((who) => !who.announced);
+  const announced = others.filter((who) => who.announced);
   const id = filing.id;
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const line = (
@@ -564,9 +566,12 @@ export function raceStanding(
           ),
         ]
       : []),
-    others.length
-      ? line(others.length === 1 ? "opponent-one" : "opponents", id, {
-          opponents: nameList(others.map((who) => who.name)),
+    // Who is running against the player, counted honestly (owner, Nov 17,
+    // CTO on #9995): those who filed, then those who have only said so and
+    // file when the window opens.
+    filed.length
+      ? line(filed.length === 1 ? "opponent-one" : "opponents", id, {
+          opponents: nameList(filed.map((who) => who.name)),
         })
       : line(
           race?.closes ? "opponents-none" : "opponents-none-closed",
@@ -578,6 +583,17 @@ export function raceStanding(
               }
             : {},
         ),
+    ...(announced.length
+      ? [
+          line(
+            announced.length === 1
+              ? "opponent-announced-one"
+              : "opponents-announced",
+            id,
+            { opponents: nameList(announced.map((who) => who.name)) },
+          ),
+        ]
+      : []),
     ...others
       .filter((who) => who.reached > 0)
       .map((who) =>
