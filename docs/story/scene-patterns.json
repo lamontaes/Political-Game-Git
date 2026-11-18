@@ -221,7 +221,8 @@
     "bank3": 49,
     "bank3People": 15,
     "bank4": 1,
-    "bank5": 8
+    "bank5": 8,
+    "bank6": 8
   },
   "needs": [
     {
@@ -11975,6 +11976,873 @@
       "ifNo": "A refusal is on the work record, {the offerer} remembers it, and the weeks without work are counted on the household's money record.",
       "situationKeys": ["job-offer"],
       "bank": 5,
+      "beat": null
+    },
+    {
+      "id": "B6-01",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "after-office"],
+      "title": "The one who is far away",
+      "roles": [
+        {
+          "slot": "the far relative",
+          "fill": "a close tie on the records who lives far off: a parent, sibling, grandparent or old friend. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the go-between",
+          "fill": "whoever on the tie record can carry word between them and the player: a grandparent, a sibling, a cousin"
+        },
+        {
+          "slot": "household member",
+          "fill": "someone who lives with the player and sees the letter, the call or the empty chair"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the word lands by the records: a letter on the table, a call on the phone, or the empty chair at a birthday or holiday meal at home."
+      },
+      "gates": [
+        "The tie record shows {the far relative} and the player have not spoken or visited in a long while, or {the far relative} cannot be at a gathering the player's household holds.",
+        "The player's household has a gathering on the calendar, or {the far relative} has sent word.",
+        "{the go-between} is on the tie record, or the player can write or call directly."
+      ],
+      "weights": [
+        "Years since the two last spoke.",
+        "Whether the quarrel was about money, a parent's rejection, or a move.",
+        "Whether {the far relative} is old, ill, or on duty away (a deployment, a job).",
+        "Whether the household has a gathering where the chair stands empty."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the go-between} urges the player to make the first move",
+          "then": "The player's call or letter is written; the first words are about the future of the tie, not the old dispute, and the tie record warms."
+        },
+        {
+          "by": "record",
+          "when": "the player writes or calls and no answer comes",
+          "then": "The silence is written on the tie record; the player decides whether to try again or let it rest."
+        },
+        {
+          "by": "record",
+          "when": "{the far relative} reaches out first",
+          "then": "The player decides whether to answer; an answer is read by {household member} and by the tie record."
+        },
+        {
+          "by": "record",
+          "when": "{the far relative} is away on duty and calls by video",
+          "then": "The call is loud and short; the real talk waits for a quiet moment the player must choose to make."
+        },
+        {
+          "by": "record",
+          "when": "the player holds an office",
+          "then": "The reach-out or the refusal is known in town and a rival can read it later."
+        }
+      ],
+      "unlocks": ["B6-05", "B5-06", "kind:reconciliation", "kind:apology"],
+      "extends": ["kind:letter", "kind:gathering-missing"],
+      "mergesWith": ["B5-04", "B5-06"],
+      "sources": [
+        {
+          "person": "Chick McClure and Chas McClure",
+          "life": "A transgender child and a conservative father spoke only now and then for about 30 years after a divorce. Chick made contact about four years before the recording, they met at a hotel in Salt Lake City and took a two-week road trip through three states. They parted promising to stay in touch.",
+          "urls": [
+            "https://www.nhpr.org/2020-08-14/a-road-trip-and-lost-time-how-a-father-and-son-reconnected-after-30-years"
+          ]
+        },
+        {
+          "person": "Pak Yan and Joe Chan",
+          "life": "Childhood friends in Hong Kong wrote weekly letters after Joe's family moved to the U.S. in sixth grade, then lost touch. Decades later Pak, who kept every letter, left messages for 108 people named Joe Chan online; Joe called back. They now meet weekly.",
+          "urls": [
+            "https://www.kunc.org/2022-11-25/two-friends-tell-the-story-of-their-reunion-after-years-of-separation"
+          ]
+        },
+        {
+          "person": "Derrick and Raymond Storms",
+          "life": "Estranged brothers. Before Derrick deployed to Iraq in 2003 their grandmother urged Raymond to call; both admitted old envy. Derrick later called Raymond from a borrowed satellite phone, and they rebuilt the tie.",
+          "urls": [
+            "https://www.kunc.org/2020-01-31/i-just-needed-help-how-2-brothers-opened-up-to-forge-a-bond-in-adulthood"
+          ]
+        },
+        {
+          "person": "Bryan Wilmoth and his siblings",
+          "life": "The oldest of eight reached out to each sibling as they left or were pushed out of a strict home. The first to call was a younger brother, whom Bryan helped get to college; others resisted for years, and the family slowly became close.",
+          "urls": [
+            "https://www.kunc.org/2013-01-24/after-years-of-estrangement-eight-siblings-become-a-family"
+          ]
+        },
+        {
+          "person": "Michelle Parke and Chyna Davis",
+          "life": "A Maryland National Guard soldier deployed to the southern border left an empty chair at her family's holiday gatherings; the family reached her by video and phone, and her mother held back from calling daily so she would not worry.",
+          "urls": [
+            "https://www.wmar2news.com/voiceforveterans/away-for-the-holidays-a-baltimore-county-mom-waits-while-her-daughter-soldier-serves"
+          ]
+        },
+        {
+          "person": "Karl Pillemer's reconciliation research",
+          "life": "A national survey of over 1,300 people and interviews with 100 who repaired rifts: reconciling went best when people looked to the future, set the least they could accept, and set boundaries. Money, in-laws, favoritism and divorce were common causes.",
+          "urls": [
+            "https://evidencebasedliving.human.cornell.edu/blog/how-to-mend-a-family-rift"
+          ]
+        }
+      ],
+      "moment": "{the far relative} is far away and the tie is thin: a letter, a call, or an empty chair at the gathering asks the player to make a move.",
+      "choices": [
+        "write or call first and talk about what comes next, not the old dispute",
+        "ask {the go-between} to carry word",
+        "answer {the far relative}'s word but keep a limit on what you will accept",
+        "let it rest this time"
+      ],
+      "ifNo": "Letting it rest writes a thinner tie. {household member} notices, and the next gathering has the same empty chair.",
+      "situationKeys": ["letter", "gathering-missing"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-02",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "first-term"],
+      "title": "The new face in the room",
+      "roles": [
+        {
+          "slot": "the newcomer",
+          "fill": "a new hire at the player's workplace, a new housemate, or a new neighbor on the records. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the old hand",
+          "fill": "a senior coworker or longtime member of the household or street who knows how things run"
+        },
+        {
+          "slot": "the group",
+          "fill": "the coworkers, housemates or neighbors who are there when the newcomer arrives"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the newcomer lands by the records: a workplace floor or break room, the doorway of the house, or a front gate and yard."
+      },
+      "gates": [
+        "{the newcomer} is new to the player's workplace, household or street on the records.",
+        "The player works, lives or has a home there.",
+        "{the old hand} or {the group} is on the record."
+      ],
+      "weights": [
+        "How much of the place's work or housework the newcomer will share with the player.",
+        "Whether the player has been the newcomer in the past.",
+        "Whether others on the record are also new.",
+        "Hours the two will spend together in a week."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the group} includes the newcomer in meals or outings in the first weeks",
+          "then": "The newcomer's ties on the record grow and later help the player."
+        },
+        {
+          "by": "record",
+          "when": "the player is the one who shows them how things run",
+          "then": "The newcomer remembers who taught them and owes the player a small favor."
+        },
+        {
+          "by": "record",
+          "when": "nobody makes room for the newcomer",
+          "then": "The newcomer's support falls in the first weeks, and a leaving record may follow."
+        },
+        {
+          "by": "record",
+          "when": "the newcomer is a stranger who knocks first with a gift or a question",
+          "then": "A neighbor tie forms on the record, with shared interests and talk about the street."
+        },
+        {
+          "by": "record",
+          "when": "the newcomer is from a different background",
+          "then": "The talk goes personal, and a hard story shared leaves both with a closer tie."
+        }
+      ],
+      "unlocks": ["B6-03", "B5-07", "kind:becoming-friends", "kind:first-day"],
+      "extends": ["kind:first-meeting", "kind:arrival"],
+      "mergesWith": ["B5-07", "B6-03"],
+      "sources": [
+        {
+          "person": "Russell Korte",
+          "life": "A University of Illinois study of engineers at a large manufacturer: about 65 percent of what new hires learned came from coworkers and 15 percent from managers. A local mentor, a meaningful early assignment and social invitations outside work helped; many newcomers left in two years.",
+          "urls": [
+            "https://news.illinois.edu/relationship-building-among-co-workers-key-driver-of-workplace-socialization/"
+          ]
+        },
+        {
+          "person": "Tate Osten and Bernice Leatherwood",
+          "life": "A woman of 55 renovating a new house in Detroit heard a knock; her neighbor in her 90s brought a gift and the two found a shared love of architecture and became best friends.",
+          "urls": ["https://wdet.org/?p=24530"]
+        },
+        {
+          "person": "Natalie Parsch and Kellsey Jane",
+          "life": "Next-door neighbors for years without meeting. Their dogs met at the gate; a 79-year-old asked a 31-year-old for advice on talking with her grandson, and both told hard stories. The older woman said the friendship changed her plans for her future.",
+          "urls": [
+            "https://www.kunc.org/2025-01-10/a-neighbors-bond-that-transcends-age"
+          ]
+        },
+        {
+          "person": "Jeffrey Hall",
+          "life": "A University of Kansas study of 467 people (355 adults who had recently moved): moving from acquaintance to casual friend took roughly 40 to 60 hours together, and work hours counted for much less than relaxed time.",
+          "urls": [
+            "https://news.ku.edu/2018/03/06/study-reveals-number-hours-it-takes-make-friend"
+          ]
+        }
+      ],
+      "moment": "{the newcomer} comes over to introduce themselves and the player decides how much room to make.",
+      "choices": [
+        "show them how things run and introduce them to {the group}",
+        "invite them to something outside the work or house",
+        "answer and keep it short",
+        "leave them to find their own way"
+      ],
+      "ifNo": "Leaving them to find their own way writes a thin tie; they learn from whoever else is there, and the player is the one who did not make room.",
+      "situationKeys": ["first-meeting", "arrival"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-03",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "the-work"],
+      "title": "Asked along",
+      "roles": [
+        {
+          "slot": "the one who asks",
+          "fill": "a friend or new acquaintance on the records who asks the player to come along. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the one who is met",
+          "fill": "someone the player is seeing for a first date, a new partner on the tie record, said with that tie"
+        },
+        {
+          "slot": "their family",
+          "fill": "a parent or relative who is already at the place the player is asked to, if the records show one"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the asking leads by the records: a meal, an outing, a ride, a favor at someone's house, or a public place or venue for a first date."
+      },
+      "gates": [
+        "{the one who asks} or {the one who is met} is on the tie record.",
+        "The player has free hours in the week.",
+        "The place is one the world has (a restaurant, a house, a park, a venue)."
+      ],
+      "weights": [
+        "Hours the two have already spent together in relaxed time.",
+        "How different their backgrounds are.",
+        "Whether {their family} will be there.",
+        "Whether the player is alone on the day (a holiday)."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player says yes and goes",
+          "then": "The tie moves up a rung on the tie record; more hours follow."
+        },
+        {
+          "by": "record",
+          "when": "the player goes and {their family} is there",
+          "then": "The family reads the player's manners, and its view is written on the tie record."
+        },
+        {
+          "by": "record",
+          "when": "the player says no",
+          "then": "The tie stays where it is and the ask is not repeated soon."
+        },
+        {
+          "by": "record",
+          "when": "the ask is a favor, not a visit",
+          "then": "How the player answers is the test of the tie and is remembered."
+        },
+        {
+          "by": "record",
+          "when": "the one who asks needs help and has been helped before",
+          "then": "The player's patience is written; a deep tie forms."
+        }
+      ],
+      "unlocks": ["kind:proposal", "kind:move-in", "kind:reach-out", "B6-06"],
+      "extends": ["kind:becoming-friends", "kind:date"],
+      "mergesWith": ["B6-02", "B5-07"],
+      "sources": [
+        {
+          "person": "Jeffrey Hall",
+          "life": "Hall's study: relaxed time together builds friendship far more than time working together. He says you cannot make people spend time with you, but you can invite them, and suggests changing the setting, such as lunch, to show you want the friendship.",
+          "urls": [
+            "https://news.ku.edu/2018/03/06/study-reveals-number-hours-it-takes-make-friend"
+          ]
+        },
+        {
+          "person": "Octavius Humphries and Seth Smiley",
+          "life": "Two men who met online, 19 years apart in age, set a first date for Christmas Eve 2010. Afterward Seth said his mother was hosting dinner, because nobody should be alone on Christmas. Octavius felt at home with the family and proposed three Christmases later.",
+          "urls": [
+            "https://www.kunc.org/2015-12-25/a-couples-love-blooms-at-christmas"
+          ]
+        },
+        {
+          "person": "Eddie Lanier and David Wright",
+          "life": "A man holding a sign at a highway ramp was given money and food, then invited home on New Year's Eve. Four years later his friend talked him into moving in, and they were close until the end of his life.",
+          "urls": [
+            "https://www.kunc.org/npr-news/2014-05-09/saying-goodbye-to-a-friend-whos-ready-to-go-home"
+          ]
+        },
+        {
+          "person": "Tate Osten and Bernice Leatherwood",
+          "life": "The neighbor's first move was a knock at the door and a gift; the friendship grew from there.",
+          "urls": ["https://wdet.org/?p=24530"]
+        }
+      ],
+      "moment": "{the one who asks} asks the player along, and the answer is the first test of the tie.",
+      "choices": [
+        "say yes and go",
+        "say yes and bring a small thing for {their family}",
+        "ask to come another time",
+        "say no plainly"
+      ],
+      "ifNo": "Saying no plainly writes the tie as it was; the ask may not come again soon.",
+      "situationKeys": ["becoming-friends", "date"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-04",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "the-work"],
+      "title": "News of a baby",
+      "roles": [
+        {
+          "slot": "the parent-to-be",
+          "fill": "a close tie on the records who is expecting or has just had a baby, who may be the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the one who is told first",
+          "fill": "whoever the records show hears first: a mother, a partner, an aunt"
+        },
+        {
+          "slot": "the relatives",
+          "fill": "the aunts, uncles and grandparents on the tie record who hear after"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the telling or the birth lands by the records: a kitchen table, a phone call, or a hospital waiting room."
+      },
+      "gates": [
+        "{the parent-to-be} is on the tie record and a baby is on the way or born.",
+        "{the one who is told first} is on the records.",
+        "The relatives are not all in one place."
+      ],
+      "weights": [
+        "Age and money of the parent-to-be.",
+        "Whether the birth came early or with risk.",
+        "Whether the baby is welcome to {the relatives}.",
+        "Whether anyone near is ill or has died."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{the one who is told first} keeps the secret",
+          "then": "The telling happens on {the parent-to-be}'s own time and the tie holds."
+        },
+        {
+          "by": "record",
+          "when": "{the one who is told first} tells the rest",
+          "then": "A rift opens between them and {the parent-to-be}'s side; hurt relatives later come round and help."
+        },
+        {
+          "by": "record",
+          "when": "the birth is early or at risk",
+          "then": "Visitors are limited; the family's help comes as prayer, a call chain or food, and the household's cost record rises."
+        },
+        {
+          "by": "record",
+          "when": "a relative asks the player for help or a promise",
+          "then": "The answer is written on the favor record and the player's word is remembered."
+        },
+        {
+          "by": "record",
+          "when": "the player holds an office",
+          "then": "The news and what the player does for the family is on the town's record."
+        }
+      ],
+      "unlocks": ["kind:new-baby", "kind:care", "kind:funeral", "B5-04"],
+      "extends": ["kind:new-baby", "kind:celebration"],
+      "mergesWith": ["B5-04", "B6-01"],
+      "sources": [
+        {
+          "person": "Maile C.",
+          "life": "A college junior of 19 told her mother first and asked her to tell the family. One aunt kept the secret then told others, causing a rift with her mother; other aunts were hurt but threw a baby shower. The family's blessing came before the birth.",
+          "urls": [
+            "https://www.powertodecide.org/news/telling-family-i-was-pregnant"
+          ]
+        },
+        {
+          "person": "Kelly Paone and McKinzie Houston",
+          "life": "A baby born at about 28 weeks in the Davenport, Iowa, area. Staff limited visitors, so only Kelly's mother was at the birth. A prayer chain started by a grandmother helped, the baby avoided intensive care, and he went home after two days.",
+          "urls": [
+            "https://archive.storycorps.org/interviews/birth-of-onyx-houston-paone/"
+          ]
+        }
+      ],
+      "moment": "News of a baby reaches the family and {the parent-to-be} asks the player for help, a visit or a promise.",
+      "choices": [
+        "promise a visit and a hand",
+        "ask what is needed and give it",
+        "say congratulations and keep distance",
+        "say you cannot promise"
+      ],
+      "ifNo": "Staying out writes a gap on the tie record; {the relatives} notice who came.",
+      "situationKeys": ["new-baby", "celebration"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-05",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "leaving", "after-office"],
+      "title": "The last day",
+      "roles": [
+        {
+          "slot": "the one who leaves",
+          "fill": "whoever on the records is leaving a job, a school or the town: the player or a close tie. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the ones left behind",
+          "fill": "coworkers, classmates, neighbors or a best friend who stay"
+        },
+        {
+          "slot": "the boss or head",
+          "fill": "whoever in charge on the records decides how the day is marked, said with the role"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the leaving happens by the records: a break room, a classroom doorway, a front yard with boxes, a clinic or office for the last name on a list."
+      },
+      "gates": [
+        "{the one who leaves} is on the work, school or home record and the leaving date is set.",
+        "{the ones left behind} are on the tie record.",
+        "The leaving is chosen or required by orders, a closing or a move."
+      ],
+      "weights": [
+        "Years in the place.",
+        "Whether the leaving was chosen.",
+        "Whether {the one who leaves} is a child.",
+        "Whether a send-off is the place's custom."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the leaving is a child's move with orders",
+          "then": "A list of people to say goodbye to is made and each is met on a chosen day; a small kindness from one lifts the whole move."
+        },
+        {
+          "by": "record",
+          "when": "a best friend stays behind",
+          "then": "A mess of tears on the last day; the leaver wants to be left alone for a while, and the tie lasts through letters."
+        },
+        {
+          "by": "record",
+          "when": "the leaving is a retirement or a quit",
+          "then": "The send-off is mixed: pride and sadness together; regrets about missed years show up."
+        },
+        {
+          "by": "record",
+          "when": "the old tie is lost and found again years later",
+          "then": "Letters kept long afterward bring a reunion and the tie resumes where it left off."
+        },
+        {
+          "by": "record",
+          "when": "the player holds an office",
+          "then": "The last day of an office or a staff job is read in the town's record."
+        }
+      ],
+      "unlocks": ["B6-01", "kind:letter", "kind:reach-out", "kind:job-offer"],
+      "extends": ["kind:last-day", "kind:moving-goodbye"],
+      "mergesWith": ["B5-03", "B6-01"],
+      "sources": [
+        {
+          "person": "Pak Yan and Joe Chan",
+          "life": "In sixth grade Joe's family left Hong Kong for the U.S. The friends wrote weekly at first and then lost touch; decades later Pak, who kept every letter, found Joe, and they now bike and eat together weekly.",
+          "urls": [
+            "https://www.kunc.org/2022-11-25/two-friends-tell-the-story-of-their-reunion-after-years-of-separation"
+          ]
+        },
+        {
+          "person": "John Murray Jr.",
+          "life": "A five-year-old Army child moving from Virginia to Alabama made a list of people to hug and have sign it, ending with his pediatrician, who called and met him on her supper break. The mother said the small gesture eased the move.",
+          "urls": [
+            "https://www.army.mil/article/94308/the_goodbye_list_and_dr_jude_special_farewell_eases_move_for_military_child"
+          ]
+        },
+        {
+          "person": "A military spouse and her 12-year-old daughter",
+          "life": "On the last day of school the daughter's best friend was moving away; she wished the family would move too, and asked to be left alone to cry. Her mother stayed available.",
+          "urls": [
+            "https://militaryspouse.com/relationships/parenting/the-last-day-of-school-stinks-for-the-military-child/"
+          ]
+        },
+        {
+          "person": "Charley Locke",
+          "life": "A New York Times Magazine piece on retirement: send-offs vary and the old gold-watch custom has mostly gone; some had parties, others regretted missed time with their children, and it is often sad.",
+          "urls": [
+            "https://sundaylongread.com/2024/06/01/charley-locke-new-york-times-magazine-retirement/"
+          ]
+        },
+        {
+          "person": "Jared Paventi",
+          "life": "A public relations worker left a nonprofit after nearly twenty years when leaders reversed promises about working from home. He would miss his supervisor of more than ten years and his work friends, and took a new job in six weeks.",
+          "urls": [
+            "https://realdirtnap.substack.com/p/career-grief-two-weeks-notice"
+          ]
+        }
+      ],
+      "moment": "It is the last day, and {the ones left behind} ask {the one who leaves} what comes next.",
+      "choices": [
+        "say goodbye to each by name",
+        "leave a way to keep in touch",
+        "ask {the ones left behind} for a promise to write",
+        "leave quietly"
+      ],
+      "ifNo": "Leaving quietly writes that no one was told; the tie fades, and the first letter after will have to be the player's.",
+      "situationKeys": ["last-day", "moving-goodbye"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-06",
+      "stage": "on-ramp",
+      "otherStages": ["involvement", "campaign", "crisis"],
+      "title": "Trust broken in front of people",
+      "roles": [
+        {
+          "slot": "the one who broke it",
+          "fill": "a friend, coworker or relative on the tie record who broke a promise or named the player as the one at fault. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the one who stands by",
+          "fill": "a friend or lawyer on the record who stays with the player"
+        },
+        {
+          "slot": "the onlookers",
+          "fill": "the people at the school, work or street who see it happen"
+        },
+        {
+          "slot": "the press",
+          "fill": "a paper or a camera on the record, if the matter is public"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the break lands by the records: at school or work with onlookers, in the street, or at home. A public accusation reaches the home door by paper and camera."
+      },
+      "gates": [
+        "{the one who broke it} is on the tie record, or the player is named as at fault by someone who knows them.",
+        "A promise on the record was broken, or a charge was made.",
+        "{the onlookers} are on the record."
+      ],
+      "weights": [
+        "How close the tie was.",
+        "How angry the player is.",
+        "Whether the break was meant.",
+        "Whether the charge is true on the record."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player confronts the one who broke it",
+          "then": "A confrontation is the most common answer; the player's anger is written and may cut the tie."
+        },
+        {
+          "by": "record",
+          "when": "the one who broke it makes amends",
+          "then": "Forgiveness is easier when anger is lower, the apology sincere and the cause clear; the tie is written as mended."
+        },
+        {
+          "by": "record",
+          "when": "the charge is false and public",
+          "then": "{the press} and {the onlookers} carry the charge; the player's name is hurt even after it is cleared, and {the one who stands by} is remembered for life."
+        },
+        {
+          "by": "record",
+          "when": "the player stays silent",
+          "then": "The silence is read as agreement by onlookers; a witness later tells the story."
+        },
+        {
+          "by": "record",
+          "when": "the player holds an office",
+          "then": "The break is a past a rival may use."
+        }
+      ],
+      "unlocks": ["B5-06", "kind:reconciliation", "kind:apology", "C25"],
+      "extends": ["kind:betrayal", "kind:accusation"],
+      "mergesWith": ["B5-06", "B6-03"],
+      "sources": [
+        {
+          "person": "Betrayal narratives study",
+          "life": "A quantitative study of over 900 accounts of betrayal from British, French and Swiss participants: partners (about 30 percent) and close friends (about 27 percent) were the most common betrayers; confronting and cutting ties were the commonest reactions, and forgiveness seemed possible when anger was lower.",
+          "urls": [
+            "https://www.citedrive.com/en/discovery/the-unkindest-cut-of-all-a-quantitative-study-of-betrayal-narratives"
+          ]
+        },
+        {
+          "person": "Richard Jewell and Watson Bryant",
+          "life": "A security guard first praised for clearing people from a bomb at the 1996 Atlanta Olympics was named the FBI's suspect. Papers ran headlines and crews camped at his door, where he lived with his mother. His friend and attorney stood by him; he was cleared but said it could not restore his name.",
+          "urls": [
+            "https://www.wunc.org/2026-07-24/he-was-falsely-accused-in-the-1996-atlanta-olympics-bombing-how-it-changed-his-life"
+          ]
+        }
+      ],
+      "moment": "{the one who broke it} has broken trust or named the player as at fault, and the player answers in front of {the onlookers}.",
+      "choices": [
+        "confront them now and say what it cost",
+        "hear them out and ask what they will do",
+        "keep your word and say nothing yet",
+        "bring {the one who stands by} and answer the charge in the open"
+      ],
+      "ifNo": "Silence writes the tie as cooling. {the onlookers} carry the story without the player's side.",
+      "situationKeys": ["betrayal", "accusation"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-07",
+      "stage": "first-term",
+      "otherStages": ["the-work", "running-again", "campaign"],
+      "title": "The morning after the late meeting",
+      "roles": [
+        {
+          "slot": "household member",
+          "fill": "a partner or parent at home on the household record, said with what they are to the player. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the body",
+          "fill": "the place's own council, board or legislature, by its own name"
+        },
+        {
+          "slot": "the children",
+          "fill": "any child in the house, if the record shows one"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "The kitchen or doorway at home the morning after the night meeting, or the phone when the player is away."
+      },
+      "gates": [
+        "The player holds an office on {the body} that meets at night or away from home.",
+        "{household member} is on the household record.",
+        "The calendar shows a night meeting or a trip that ran late or kept the player away."
+      ],
+      "weights": [
+        "Nights away this month.",
+        "Whether {the children} are young.",
+        "Whether {household member} has a job and its hours.",
+        "Whether the pay of the office is low and the player has another job."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "{household member} has been doing the dinners and the pickups",
+          "then": "They say plainly what the nights cost; the player's answer is written, and a plan for time or a shared schedule may follow."
+        },
+        {
+          "by": "record",
+          "when": "the player keeps a night free for the family",
+          "then": "The household record warms and the change is told to {the body}."
+        },
+        {
+          "by": "record",
+          "when": "{the children} miss the player at school events",
+          "then": "The children's tie falls until the player makes it up."
+        },
+        {
+          "by": "record",
+          "when": "the player keeps missing",
+          "then": "A rival may read out the absences later; {household member} may not support the next race."
+        },
+        {
+          "by": "record",
+          "when": "the house backs the work",
+          "then": "{household member} says it is worth it; the support is written as a favor owed."
+        }
+      ],
+      "unlocks": ["kind:family-filing", "kind:family-loss", "B5-06", "C45"],
+      "extends": ["kind:family-absence"],
+      "mergesWith": ["B5-03"],
+      "sources": [
+        {
+          "person": "Rebecca Plocher",
+          "life": "A Missouri legislator's wife says his job often takes him from home, she has adjusted her work to be a solo parent, and the children miss their father at school events and sports. She says it is worth the sacrifice.",
+          "urls": [
+            "https://themissouritimes.com/behind-the-lawmakers-rebecca-plocher-wife-of-rep-dean-plocher/"
+          ]
+        },
+        {
+          "person": "Scott Andree-Bowen",
+          "life": "A Winston-Salem council member whose job takes him from dinner time and sports pickups. He talked it over with his wife and children first, uses paid time off for council duties, and the household uses shared schedules and group chats.",
+          "urls": ["https://wschronicle.com/?p=65828"]
+        },
+        {
+          "person": "Jim Matheson and Judy Nadler",
+          "life": "A Utah congressman spent four days a week in Washington while his wife raised the children alone in the week; he sets aside regular family time. A former Santa Clara mayor moved her daughters to another school after a backlash over her vote.",
+          "urls": [
+            "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye"
+          ]
+        },
+        {
+          "person": "Jennifer Granholm and others",
+          "life": "Michigan governors and officials said they felt guilt about time lost with their children; one governor regretted sending his children to boarding school; the current First Family tries to eat Sunday dinners together.",
+          "urls": [
+            "https://www.fox2detroit.com/news/skubick-the-committment-it-takes-to-be-a-public-servants"
+          ]
+        },
+        {
+          "person": "Aimee Newton",
+          "life": "A Salt Lake County councilwoman who took only boards that met during school hours, cut her income by half and protected date nights and tech-free family time. Her husband took on more of the house and his employer gave him less travel.",
+          "urls": ["https://www.sheshouldrun.org/blog/balancing-it-all"]
+        }
+      ],
+      "moment": "The morning after a late night meeting, {household member} asks where the player was and what it cost the house.",
+      "choices": [
+        "say what the night was about and what you gave",
+        "promise a night kept free each week",
+        "ask for the schedule and how to share it",
+        "say the work comes first this term"
+      ],
+      "ifNo": "Not answering writes the absence unanswered; the next night away is read harder.",
+      "situationKeys": ["family-absence"],
+      "bank": 6,
+      "beat": null
+    },
+    {
+      "id": "B6-08",
+      "stage": "first-term",
+      "otherStages": ["the-work", "campaign", "running-again"],
+      "title": "Stopped in the aisle, asked at the door",
+      "roles": [
+        {
+          "slot": "the resident",
+          "fill": "someone on the town's record touched by a vote or law the player cast, said with how they are touched. Introduced the first time with full name and what they are to the player."
+        },
+        {
+          "slot": "the reporter",
+          "fill": "a reporter from an outlet on the record who asks for comment on the record"
+        },
+        {
+          "slot": "the outlet",
+          "fill": "the paper, station or site the reporter works for"
+        },
+        {
+          "slot": "a rival officeholder",
+          "fill": "a colleague on the record who hears or sees the exchange"
+        }
+      ],
+      "setting": {
+        "fixed": false,
+        "text": "Wherever the player is known by the records: a grocery aisle, a school pickup line, a market, the hallway after a meeting, or the phone."
+      },
+      "gates": [
+        "The player holds an office or is a candidate.",
+        "A vote, bill, law or act of the player is on the record and touches {the resident}, or the outlet has a story on it.",
+        "The cause is on record and the cooldown since the last stop has passed."
+      ],
+      "weights": [
+        "How much {the resident} lost or gained from the act.",
+        "How close the player's home is to {the resident}'s.",
+        "Whether the vote was split.",
+        "Whether the story is running soon."
+      ],
+      "branches": [
+        {
+          "by": "record",
+          "when": "the player listens and promises to look into it",
+          "then": "The promise is written and the resident remembers whether it was kept."
+        },
+        {
+          "by": "record",
+          "when": "{the resident} says the town is corrupt or incompetent and the player agrees or stays silent",
+          "then": "What the player said is repeated by others and can reach a rival officeholder, who may confront the player in public."
+        },
+        {
+          "by": "record",
+          "when": "the reporter asks for comment on the record",
+          "then": "What the player says is printed; a lie is caught by the roll call; a later request to take it off the record is refused if it was never agreed."
+        },
+        {
+          "by": "record",
+          "when": "the player stalls the reporter",
+          "then": "The reporter writes that the player declined; a story may run weeks later with old facts."
+        },
+        {
+          "by": "record",
+          "when": "a reporter follows an official and the official blocks them",
+          "then": "The block is itself the story; a press-freedom complaint can follow."
+        }
+      ],
+      "unlocks": [
+        "kind:town-hall-question",
+        "kind:office-hours",
+        "C11",
+        "kind:interview-sitting"
+      ],
+      "extends": ["kind:constituent-stop", "kind:press-interview"],
+      "mergesWith": ["B5-03", "A01"],
+      "sources": [
+        {
+          "person": "Councilor McClure",
+          "life": "A councilor in a small town finds residents bring up a pothole, zoning or park upkeep at the farmers market, grocery store and school pickup. She listens, takes notes and says she will look into it; she feels more accountable.",
+          "urls": [
+            "https://www.creators.com/read/my-so-called-millennial-life/08/24/from-stranger-to-councilor"
+          ]
+        },
+        {
+          "person": "Rick Milonas and Max Mickelson",
+          "life": "A Rock Springs, Wyoming, councilman was approached at a grocery store by an upset resident who called the city corrupt; the mayor said the councilman made remarks about city employees and confronted him at the end of the next meeting. The councilman said he mostly listened.",
+          "urls": [
+            "https://www.sweetwaternow.com/councilman-shares-his-side-of-tuesday-night-confrontation/"
+          ]
+        },
+        {
+          "person": "A rural reporter",
+          "life": "In rural places, residents line up behind you at the grocery store; officials share church, 4-H and sports with the people their decisions touch and have little privacy.",
+          "urls": [
+            "https://www.producer.com/opinion/rural-communities-can-be-a-fishbowl-for-politicians-reporter/"
+          ]
+        },
+        {
+          "person": "Cheryl Wink and Taylor Shaw",
+          "life": "An Englewood council member answered a reporter's questions by phone, then called back and asked that parts be off the record. The reporter refused because no such deal was made beforehand, and the paper posted audio of both calls.",
+          "urls": [
+            "https://coloradomedia.substack.com/p/a-colorado-reporter-explains-off"
+          ]
+        },
+        {
+          "person": "John Solak and John Schaffer",
+          "life": "A freelance reporter followed a Vestal, New York, council member out of a town hall meeting to ask about his arrest; the town supervisor told him to leave and blocked the way. The reporter says he was shoved, the supervisor declined to prosecute.",
+          "urls": [
+            "https://pressfreedomtracker.us/all-incidents/journalist-says-public-official-shoved-him-after-town-meeting"
+          ]
+        },
+        {
+          "person": "Tennessee municipal guide",
+          "life": "Officials should answer a reporter promptly but check who is asking, the topic and the format first; a story that runs weeks later can make an official look poorly informed.",
+          "urls": [
+            "https://www.mtas.tennessee.edu/reference/part-i-know-what-you-are-getting"
+          ]
+        }
+      ],
+      "moment": "{the resident} or {the reporter} stops the player about an act on the record and wants an answer now.",
+      "choices": [
+        "listen, say what you did and why, and promise a follow-up you can keep",
+        "answer plainly on the record",
+        "ask for time and call back",
+        "say the matter is with someone else"
+      ],
+      "ifNo": "Saying nothing writes a refusal; {the resident} tells neighbors and {the reporter} prints that the player declined.",
+      "situationKeys": ["constituent-stop", "press-interview"],
+      "bank": 6,
       "beat": null
     }
   ]
