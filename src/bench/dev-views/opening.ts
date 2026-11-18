@@ -464,7 +464,14 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
           ? century.foundings
               .map(
                 (f) =>
-                  `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}`,
+                  `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}${(() => {
+                    const last = century.presidencies
+                      .filter((p) => p.foundedParty?.id === f.id)
+                      .at(-1);
+                    return last
+                      ? `; it stood in ${century.presidencies.filter((p) => p.foundedParty?.id === f.id).length} presidential races and took ${pct(last.foundedParty!.share)} of every vote in ${last.year}${f.endedYear ? `; its share fell in each of the last races, so it merged into ${f.mergedInto} in ${f.endedYear}` : ""}`
+                      : "; it has not yet stood in a presidential race";
+                  })()}`,
               )
               .join("; ")
           : "none: the century's parties kept their voters close enough that no pressure outweighed the cost of a new one"

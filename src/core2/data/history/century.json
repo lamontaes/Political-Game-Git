@@ -93,6 +93,20 @@
       "source": "The founding pressure a new party must outweigh before one is founded (stopgap SG-HIST-century-founding-cost: it stands for the election rules in force, ballot access, fusion and ranked choice, none of which the 73 policy questions carry yet). Sized once so drawn worlds differ in how many parties they found, from none to several; never a target count.",
       "spread": [0.3, 1.2]
     },
+    "centuryFoundedPartyPull": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How much of a voter's party appeal a party founded in the century's history holds, against 1 for the two national sides (a voter's appeal to a party at a position is 1 less their lean's distance from it, times this). A party few have taken on as their own holds less of it; at 1 a centrist party took 30% to 50% of the vote in its first elections, at 0.5 about 20% to 40%, at 0.25 about 7% to 28% (probe of 12 drawn century seeds, Nov 18, 2026). A strength only: the share it wins is what the voters' leans and the other reasons make of it, never a target. To be replaced by identity built as voters vote for it (stopgap SG-HIST-century-founded-ticket).",
+      "spread": [0.1, 0.5]
+    },
+    "centuryFoundedPartyFallCycles": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How many straight presidential races a founded party's share of the vote must fall in before its voters' loyalty is spent and it merges into the national party nearest it. A strength only: no count of merges is a target. To be checked against how long third-party tickets lasted in the twentieth century (research item history-party-founding-strengths).",
+      "spread": [2, 4]
+    },
     "centuryPartyLeanScale": {
       "value": 1.6,
       "tag": "TUNABLE",

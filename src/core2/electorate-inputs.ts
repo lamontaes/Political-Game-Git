@@ -60,6 +60,18 @@ export interface CandidateInputs {
   readonly party: string | null;
   /** -1 the Democratic family, +1 Republican, 0 otherwise. */
   readonly side: number;
+  /**
+   * Where the party stands on the voters' lean scale (-1 to 1), for a party that is not one of
+   * the two national sides (History 9b: a party founded in a world's history). Read only where
+   * set: a voter's party appeal is then how near their lean is (`1 - |lean - position|`, which
+   * for a party standing at -1 or 1 is exactly `lean * side`), never a second scale.
+   */
+  readonly position?: number;
+  /**
+   * How much of a voter's party appeal a party at `position` holds, 0 to 1 (1 where absent): a
+   * party few have taken on as their own holds less of it than the old national sides do.
+   */
+  readonly pull?: number;
   readonly incumbent: boolean;
   /** Has held elected office (another seat, or this one before). */
   readonly experienced: boolean;
