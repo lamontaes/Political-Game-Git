@@ -22,31 +22,25 @@
  * yes to the challenger than to them; the same day with those yeses taken
  * away does not.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
+import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import type { ModuleRow } from "./module-data";
-import { openLaws } from "./modules/laws";
-import {
-  OFFICES_MODULE_ID,
-  openOffices,
-  type TermRow,
-} from "./modules/offices";
-import { openRecord } from "./modules/record";
-import { holderOf, openOfficials } from "./modules/officials";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { holderOf } from "./modules/officials";
 import {
   ballot,
   fileCandidacy,
   openContests,
-  openElections,
   petitionCirculating,
   petitionOf,
   type ContestRow,
@@ -60,82 +54,52 @@ import {
   campaignFor,
   campaignTurn,
   commissionPoll,
-  openCampaigns,
   raceReading,
   rivalDay,
   steppedUpOf,
   type PledgeRow,
   type PollRow,
 } from "./modules/campaigns";
-import { openParties } from "./modules/parties";
-import { openPress } from "./modules/press";
-import { viewsModule } from "./modules/views";
+import { advanceToFilingOpen } from "./gov-test-clock";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 /**
- * The pinned places (owner rule: no drawn tests): each is named with its
- * geographic key and the place seed the world is built from. A case that
- * needs a particular situation has its own place, where that situation was
- * checked to hold on the train: an open race with a serving incumbent who can
- * run again and a poll that shows the challenger ahead (Ashton); a challenger's
- * evening of doors whose word reaches the incumbent and shows the challenger
- * ahead (Lake Providence, found in 1 of 160 drawn places); a counted resident
- * who says yes and opens the incumbent's door (Jeffersonville). A place that
- * stops holding its case fails naming why, to be read, never redrawn.
+ * Each case draws its places (owner, Nov 17: "be random with it"): a case that
+ * needs a particular situation (an open race with a serving incumbent who can
+ * run again and a poll showing the challenger ahead; a challenger's evening of
+ * doors whose word reaches the incumbent; a counted resident who says yes and
+ * opens the incumbent's door) takes the first drawn place where it holds, and
+ * names every place it passed over and why. GOLDEN_PATH_SEED replays a draw.
  */
-interface PinnedPlace {
+interface DrawnPlace {
   readonly name: string;
   readonly state: string;
   readonly key: string;
   readonly seed: string;
 }
-const THREATENED_PLACES: readonly PinnedPlace[] = [
-  {
-    name: "Ashton",
-    state: "US-ID",
-    key: "1603610",
-    seed: "40aaa96f90bf1700b1b0d751a519e730ebbac3d6f61f4c668992439f07acae22",
-  },
-];
-const WORD_PLACES: readonly PinnedPlace[] = [
-  {
-    name: "Monroe",
-    state: "US-SD",
-    key: "4643380",
-    seed: "b86bb51d76d38d7ffe1d63d490bf46941f03ff8d379759d0df2fa02ccb3d477a",
-  },
-];
-const COUNTED_PLACES: readonly PinnedPlace[] = [
-  {
-    name: "Jeffersonville",
-    state: "US-VT",
-    key: "5036475",
-    seed: "20d64d433467d0cccd2b102dd1ae358b155aa8ad05c0a363384aa939a099ab1f",
-  },
-];
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+function* drawnPlaces(purpose: string, count: number): Generator<DrawnPlace> {
+  for (let at = 0; at < count; at += 1) {
+    const drawn = drawPlace(seed, `incumbent-response:${purpose}:${at}`);
+    yield {
+      name: drawn.name,
+      state: drawn.state,
+      key: drawn.key,
+      seed: drawn.seed,
+    };
+  }
+}
+const THREATENED_PLACES = () => drawnPlaces("threatened", 8);
+const WORD_PLACES = () => drawnPlaces("word", 24);
+const COUNTED_PLACES = () => drawnPlaces("counted", 8);
 
-/** A played-world slice: views, laws, offices, elections, campaigns, parties, the record and the press. */
-function world(place: PinnedPlace) {
-  const core = createLifeCore(
-    buildPopulation({
-      seed: place.seed,
-      placeKey: place.key,
-      startedAt: START,
-      minimumPeople: 300,
-    }),
-    { modules: [viewsModule] },
-  );
-  openLaws(core);
-  openOffices(core, place.seed, core.date);
-  // A seat's holder is a named official until someone meets them; holderOf
-  // fills them in as a person only with this module, as the played world does.
-  openOfficials(core);
-  openElections(core);
-  openCampaigns(core);
-  openParties(core);
-  openRecord(core);
-  openPress(core);
+/** The played world (`buildBenchWorld`, every module, the two-level population) in a drawn place: town seats are held by residents with their own circles, as in play. */
+function world(place: DrawnPlace) {
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
   return {
     core,
     api: coreAPI(core),
@@ -187,11 +151,50 @@ function incumbentRace(
     for (const adult of adults) {
       if (adult.id === holder.id) continue;
       const challenger = file(adult.id, contest.id);
-      if (challenger) return { contest, incumbent, challenger };
+      if (!challenger) continue;
+      // The case is a two-way race: a poll names the one rival. A contest
+      // already holding other candidates (a ticket's running mate, a third
+      // party) names whoever leads, which is a different premise.
+      const others = ballot(api, contest.id).filter(
+        (f) => f.id !== incumbent.id && f.id !== challenger.id,
+      );
+      if (others.length) {
+        seen.push(
+          `${contest.id}: ${others.length} other candidate(s) on the ballot`,
+        );
+        break;
+      }
+      return { contest, incumbent, challenger };
     }
     seen.push(`${contest.id}: no challenger could file`);
   }
   return `no open contest with a serving incumbent who can run again (${seen.join("; ") || "none held"})`;
+}
+
+/**
+ * The race the case needs, waited for: a place's town elections open their
+ * filing on the place's own calendar, so a world looked at on one day holds no
+ * open contest in most places. The world is played to the next day a filing
+ * opens (`advanceToFilingOpen`), a few openings at most, until a contest with
+ * a serving incumbent who can run again and a challenger who can file is
+ * open; the reason of the last look, and the day reached, is returned where
+ * none opens.
+ */
+function raceInPlace(w: { api: CoreAPI; core: CoreState }) {
+  let reason = "";
+  for (let opening = 0; opening < 6; opening += 1) {
+    const race = incumbentRace(w.api, w.core);
+    if (typeof race !== "string") return race;
+    reason = race;
+    const before = w.core.date;
+    if (openContests(w.api).length) {
+      // Open, but not one that holds the case: the next opening may.
+      advanceCore(w.core, addDays(makeIsoDate(w.core.date), 1));
+      advanceToFilingOpen(w.core);
+    } else advanceToFilingOpen(w.core);
+    if (w.core.date === before) break;
+  }
+  return `${reason} (looked at each filing opening to ${w.core.date})`;
 }
 
 /**
@@ -202,9 +205,9 @@ function incumbentRace(
  */
 function threatenedIncumbent() {
   const tried: string[] = [];
-  for (const place of THREATENED_PLACES) {
+  for (const place of THREATENED_PLACES()) {
     const w = world(place);
-    const race = incumbentRace(w.api, w.core);
+    const race = raceInPlace(w);
     if (typeof race === "string") {
       tried.push(`${w.where}: ${race}`);
       continue;
@@ -250,10 +253,13 @@ function threatenedIncumbent() {
       tried.push(`${w.where}: the incumbent's day has no doors on offer`);
       continue;
     }
+    process.stdout.write(
+      `incumbent-response (threatened): used ${w.where}; passed over ${tried.length}: ${tried.join("; ") || "none"}\n`,
+    );
     return { ...w, race, holder, poll, reading, calm };
   }
   throw new Error(
-    `no pinned place had a threatened incumbent: ${tried.join("; ")}`,
+    `no drawn place had a threatened incumbent (seed ${seed}): ${tried.join("; ")}`,
   );
 }
 
@@ -334,7 +340,7 @@ describe("the incumbent comes home to campaign when a challenger gains", () => {
         rows: again.map((r) => r.id),
       })}\n`,
     );
-  }, 300_000);
+  }, 900_000);
 });
 
 interface MessageLike {
@@ -463,9 +469,9 @@ function expectBestRival(
  */
 function wordOfDoors() {
   const tried: string[] = [];
-  for (const place of WORD_PLACES) {
+  for (const place of WORD_PLACES()) {
     const w = world(place);
-    const race = incumbentRace(w.api, w.core);
+    const race = raceInPlace(w);
     if (typeof race === "string") {
       tried.push(`${w.where}: ${race}`);
       continue;
@@ -576,10 +582,13 @@ function wordOfDoors() {
       continue;
     }
     const message = canvassed().get(word.messageId!)!;
+    process.stdout.write(
+      `incumbent-response (word): used ${w.where}; passed over ${tried.length}: ${tried.join("; ") || "none"}\n`,
+    );
     return { ...w, race, holder, town, message, word, reading, calm };
   }
   throw new Error(
-    `no pinned place passed word of the challenger's doors to the incumbent with more people telling them of a yes to the challenger than to them, in the pinned places: ${tried.join("; ")}`,
+    `no drawn place passed word of the challenger's doors to the incumbent with more people telling them of a yes to the challenger than to them, in the drawn places (seed ${seed}): ${tried.join("; ")}`,
   );
 }
 
@@ -764,7 +773,7 @@ describe("word of a challenger's doors reaches the incumbent", () => {
  */
 function countedAtTheDoor() {
   const tried: string[] = [];
-  for (const place of COUNTED_PLACES) {
+  for (const place of COUNTED_PLACES()) {
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -775,7 +784,7 @@ function countedAtTheDoor() {
       api,
       where: `${place.name}, ${place.state} (${place.key}), place seed ${place.seed}`,
     };
-    const race = incumbentRace(api, core);
+    const race = raceInPlace(w);
     if (typeof race === "string") {
       tried.push(`${w.where}: ${race}`);
       continue;
@@ -923,6 +932,9 @@ function countedAtTheDoor() {
       );
       continue;
     }
+    process.stdout.write(
+      `incumbent-response (counted): used ${w.where}; passed over ${tried.length}: ${tried.join("; ") || "none"}\n`,
+    );
     return {
       ...w,
       race,
@@ -942,7 +954,7 @@ function countedAtTheDoor() {
     };
   }
   throw new Error(
-    `no pinned place had a counted resident who said yes to the challenger open the incumbent's door and still tell it when word reached the incumbent, in the pinned places: ${tried.join("; ")}`,
+    `no drawn place had a counted resident who said yes to the challenger open the incumbent's door and still tell it when word reached the incumbent, in the drawn places (seed ${seed}): ${tried.join("; ")}`,
   );
 }
 
