@@ -19,6 +19,94 @@ import {
   types,
 } from "../../tests/support/scene-talk-fixture";
 
+/**
+ * Purposes whose lines the cut deleted (owner, Nov 17: delete everything the
+ * engine did not write; the CTO's line for #10063 on #9747, Nov 18 05:47Z).
+ * The purpose loops below skip these and no other: every other purpose must
+ * still compose and play. A purpose leaves this list in the same change that
+ * writes its lines again, so it is checked again from that change on.
+ */
+const CUT_PURPOSES = new Set<string>([
+  "return",
+  "letter",
+  "argument",
+  "apology",
+  "reach-out",
+  "becoming-friends",
+  "celebration",
+  "diploma-home",
+  "no-diploma-home",
+  "gathering-missing",
+  "funeral",
+  "first-meeting",
+  "first-day",
+  "last-day",
+  "date",
+  "proposal",
+  "move-in",
+  "breakup",
+  "betrayal",
+  "rescue",
+  "prison-visit",
+  "arrival",
+  "care",
+  "advice",
+  "accusation",
+  "warning",
+  "reconciliation",
+  "polling-place",
+  "race-won",
+  "race-lost",
+  "appointment",
+  "recall",
+  "press-interview",
+  "scandal",
+  "constituent-stop",
+  "filing",
+  "layoff",
+  "door-signature",
+  "serve-sought",
+  "bill-carry",
+  "donor-ask",
+  "bribe-offer",
+  "emergency-briefing",
+  "party-recruit",
+  "party-welcome",
+  "office-hours",
+  "family-loss",
+  "family-absence",
+  "rally-opponent",
+  "desk-visit",
+  "section-bargain",
+  "bill-held-chair",
+  "hold-chair-sought",
+  "new-baby",
+  "cause-invite",
+  "action-confront",
+  "town-hall-question",
+  "rally-word",
+  "lobby-remembers",
+  "bribe-pressed",
+  "office-doubt",
+  "floor-debate",
+  "hearing-witness",
+  "moving-goodbye",
+  "study-formed",
+  "study-reported",
+  "interview-invite",
+  "debate-invite",
+  "volunteer-offer",
+  "manager-offer",
+  "job-offer",
+  "rival-word",
+  "petition-short",
+  "budget-cut",
+  "notice-home",
+  "home-damaged",
+  "swearing-in",
+  "bill-sign-on",
+]);
+
 describe(`scenes with a purpose (seed ${seed})`, () => {
   it("has the sixteen purpose types the arcs file words", () => {
     expect(types.length).toBeGreaterThanOrEqual(16);
@@ -26,6 +114,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
 
   it("composes every purpose: setup, open, statement, four replies, an answer and a close, in the bank's own words", () => {
     for (const type of types) {
+      if (CUT_PURPOSES.has(type.key)) continue;
       const result = composeSceneTalk(
         core,
         director,
@@ -180,6 +269,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     // Every piece of dialogue is in the game; the grades take out the lines
     // the owner rejects.
     for (const type of types) {
+      if (CUT_PURPOSES.has(type.key)) continue;
       const result = composeSceneTalk(
         core,
         director,
@@ -196,6 +286,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
   });
   it("composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes", () => {
     for (const type of types) {
+      if (CUT_PURPOSES.has(type.key)) continue;
       const withTruth = {
         ...facts,
         source: fact("Kelly at the clerk's office"),
