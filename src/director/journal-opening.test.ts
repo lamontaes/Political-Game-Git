@@ -10,8 +10,17 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
 import { employerSaid, jobSaid } from "../english/journal-words";
-import { properName } from "./words";
+import { organizationName } from "./words";
 import { writeFileSync } from "node:fs";
+import v8 from "node:v8";
+import vm from "node:vm";
+
+// Each case builds a whole played world. V8 leaves a finished world's heap
+// uncollected until the limit, so nineteen worlds in one worker grew it past
+// 3.5 GB and the worker was killed on a shared box (PR #9119, worker exit after
+// 219 s). Collect after each world, as law-wiring-schools-web.test.ts does.
+v8.setFlagsFromString("--expose_gc");
+const collect = vm.runInNewContext("gc") as () => void;
 
 // The journal from day one (play-first-10-journal-from-day-one). On the first
 // evening the journal's opening chapter tells where the family came from,
@@ -45,6 +54,7 @@ it(`the first evening's journal names the family from their records (seed ${seed
       !family.some((fact) => fact.kind === "family:sibling")
     ) {
       tried.push(`${place.name} (no parent and sibling on record)`);
+      collect();
       continue;
     }
     // Play watches the player and their household (src/bench/player.ts).
@@ -200,7 +210,9 @@ it(`the first note says each thing once and names each parent's employer (seed $
         (sentence) =>
           // A given name may carry a capital inside ("DeAndre") or an
           // apostrophe or hyphen.
-          /^My [a-z]+(?: [a-z]+)? ([A-Z][\w'-]*)/.exec(sentence)?.[1],
+          // Said-as (words composer, Nov 12): "My father Tracy" the first
+          // time the Journal names him, "Tracy" after that.
+          /^(?:My [a-z]+(?: [a-z]+)? )?([A-Z][\w'-]*)/.exec(sentence)?.[1],
       );
       expect(subjects, `${where}: "${row.text}"`).not.toContain(undefined);
       expect(
@@ -216,13 +228,13 @@ it(`the first note says each thing once and names each parent's employer (seed $
           : undefined;
         const name = core.people.get(id)?.givenName;
         const sentence = said.find(
-          (text) => name && text.includes(` ${name} `),
+          (text) => name && ` ${text} `.includes(` ${name} `),
         );
         if (!org || !sentence || org.kind === "outside-market") continue;
         // Someone who holds an office is told by the office alone.
         if (!sentence.includes(jobSaid(job!.title))) continue;
         expect(sentence, `${where}: ${id}`).toContain(
-          employerSaid(properName(org.name), org),
+          employerSaid(organizationName(org), org),
         );
         parentJobs += 1;
       }
@@ -244,6 +256,7 @@ it(`the first note says each thing once and names each parent's employer (seed $
         ).not.toMatch(title);
     }
     evidence.push(`${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`);
+    collect();
   }
   if (process.env.JOURNAL_EVIDENCE)
     writeFileSync(process.env.JOURNAL_EVIDENCE, evidence.join("\n") + "\n");

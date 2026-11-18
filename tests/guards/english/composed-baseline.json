@@ -68,6 +68,31 @@
       "read": 12,
       "breaks": 1,
       "per100": 8.3
+    },
+    "journal-entry-has-story-around-it": {
+      "read": 3,
+      "breaks": 0,
+      "per100": 0
+    },
+    "journal-fact-told-once": {
+      "read": 3,
+      "breaks": 1,
+      "per100": 33.3
+    },
+    "journal-no-time-opener-chain": {
+      "read": 3,
+      "breaks": 0,
+      "per100": 0
+    },
+    "reason-holds-for-the-side": {
+      "read": 5,
+      "breaks": 0,
+      "per100": 0
+    },
+    "journal-names-no-feeling": {
+      "read": 3,
+      "breaks": 0,
+      "per100": 0
     }
   }
 }

@@ -15,7 +15,8 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "./grounded-english";
-import { journalDataFromBank, type RACE_MARGINS } from "./mined/journal-bank";
+import { journalDataFromBank } from "./mined/journal-bank";
+import type { RACE_MARGINS } from "../director/race-margin";
 import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
 import { ordinalDay } from "./day-words";
 import seatWords from "../../data/english/seat-words.json" with { type: "json" };
@@ -35,12 +36,21 @@ export interface JournalWordRow {
   /**
    * Facts read from the causing event's own record. A "drop" is how far one
    * of the record's counts (`fact`) fell to another (`less`), told only where
-   * it fell, citing the records a third fact names (`cites`).
+   * it fell, citing the records a third fact names (`cites`). A count marked
+   * `needed` leaves the moment untold when it is 0 or absent: a thing that
+   * does not exist for this record is not told (a race that needs no
+   * petition).
    */
   eventFacts?: Readonly<
     Record<
       string,
-      { fact: string; format: string; less?: string; cites?: string }
+      {
+        fact: string;
+        format: string;
+        less?: string;
+        cites?: string;
+        needed?: boolean;
+      }
     >
   >;
   /** An event fact that names the stage a line is worded in (a vote, "yes" or "no"). */
@@ -49,6 +59,12 @@ export interface JournalWordRow {
   stageMark?: { fact: string; mark: string };
   /** An event fact that, where it names the person, marks the stage ("signed:desk"). */
   stageSelf?: { fact: string; mark: string };
+  /**
+   * Where the record names the person but not as the one who acted (a bill's
+   * sponsor, for the executive's act), these stages carry the mark
+   * ("overridden:sponsor"), so only the lines said by the one named fit.
+   */
+  stageNamed?: { mark: string; stages: readonly string[] };
   /**
    * The person's own moment is told even when they do not know the other by
    * name (a recall's organizer): its lines that name the other are left out.
@@ -103,6 +119,7 @@ export interface RowShape {
   stageWords?: Readonly<Record<string, string>>;
   stageMark?: JournalWordRow["stageMark"];
   stageSelf?: JournalWordRow["stageSelf"];
+  stageNamed?: JournalWordRow["stageNamed"];
   toldWithoutOther?: boolean;
   title?: JournalWordRow["title"];
   selfWhenNamed?: boolean;
@@ -338,7 +355,43 @@ export type MemoirField =
   | "deathAge"
   | "deathIllness"
   | "schoolFor"
-  | "schoolAge";
+  | "schoolAge"
+  | "workRun"
+  | "workEnd"
+  | "workLost"
+  | "workLeft"
+  | "workOne"
+  | "workOneLeft"
+  | "workPayUp"
+  | "workPayDown"
+  | "workOut"
+  | "speakSame"
+  | "speakSameOne"
+  | "speakAgainst"
+  | "speakAgainstOne"
+  | "speakNobody"
+  | "speakPassed"
+  | "speakDown"
+  | "recallKept"
+  | "recallRemoved"
+  | "recallKeptMe"
+  | "recallRemovedMe"
+  | "seasonWinter"
+  | "seasonSpring"
+  | "seasonSummer"
+  | "seasonFall"
+  | "actRunVote"
+  | "actRunVoteMost"
+  | "actRunVoteAll"
+  | "actRunTownHall"
+  | "actRunInterview"
+  | "actRunInterviewMost"
+  | "viewFor"
+  | "viewParentLost"
+  | "viewParentToward"
+  | "viewParentAway"
+  | "viewOwn"
+  | "viewAgainst";
 
 /**
  * A line of the journal: the event worded for whose it was (`line`, with
@@ -387,11 +440,12 @@ export function journalClosing(line: { text: string }): string {
 }
 
 const fitsGender = (text: string, gender: string | undefined) => {
-  const lead = /^(he|she)\b/i.exec(text)?.[one]?.toLowerCase();
+  const lead = /^(he|she|they)\b/i.exec(text)?.[one]?.toLowerCase();
   if (!lead) return true;
   return (
     (lead === "he" && gender === "male") ||
-    (lead === "she" && gender === "female")
+    (lead === "she" && gender === "female") ||
+    (lead === "they" && gender !== "male" && gender !== "female")
   );
 };
 
@@ -415,10 +469,21 @@ function namedFirst(
   return naming?.length ? naming : rows;
 }
 
+/** The lines that name the person, over those that say only the relation, when there are any. */
+function namedOver(rows: readonly Wording[] | undefined) {
+  const naming = rows?.filter((row) => !/\{relation\}/.test(row.text));
+  return naming?.length ? naming : rows;
+}
+
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
-): { key: string; rows: readonly Wording[] | undefined } {
+): {
+  key: string;
+  rows: readonly Wording[] | undefined;
+  /** The lines to try when none of `rows` fits the stage the record is in. */
+  fallback?: readonly Wording[] | undefined;
+} {
   const rowOf = (kindPrefix: string) =>
     words.lines.find((row) => row.kindPrefix === kindPrefix);
   switch (move.part) {
@@ -430,8 +495,23 @@ function wordingsFor(
           move.whose === "own"
             ? move.together
               ? (row?.groupLine ?? row?.line)
-              : namedFirst(row?.line, move.named)
+              : // A child is born with a name (owner, Oct 15): the lines that
+                // say the relation alone ("My son was born.") wait for a
+                // child the records give no name.
+                namedFirst(
+                  move.kindPrefix === "family:child"
+                    ? namedOver(row?.line)
+                    : row?.line,
+                  move.named,
+                )
             : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
+        // A line that names the other is preferred, never required: the
+        // mayor who signed a bill someone else sponsored says "I signed
+        // it", and that line names no one (journal-signing, Ville Platte,
+        // Louisiana, seed c9bfd392595cf96f).
+        ...(move.whose === "own" && !move.together
+          ? { fallback: row?.line }
+          : {}),
       };
     }
     case "check": {
@@ -508,7 +588,7 @@ export function wordJournalLine(request: {
   words?: JournalWords;
 }): JournalWorded | null {
   const words = request.words ?? JOURNAL_WORDS;
-  const { key, rows } = wordingsFor(words, request.move);
+  const { key, rows, fallback } = wordingsFor(words, request.move);
   const { facts, personId, sourceIds } = request;
   if (!rows?.length || !sourceIds.length) return null;
   // Core record ids stand in for the engine's entity ids.
@@ -517,27 +597,33 @@ export function wordJournalLine(request: {
     factKey,
     sourceRecordIds: fact.sourceRecordIds,
   })) as unknown as GroundedEnglishKnowledge[];
-  const bank: AuthoredEnglishBank = {
-    key,
-    version: words.version,
-    surface: "journal",
-    variants: rows.map((row) => ({ ...row, kind: "template" as const })),
-  };
-  const result = renderGroundedEnglish(
-    {
+  const tries =
+    fallback?.length && fallback !== rows ? [rows, fallback] : [rows];
+  let result: ReturnType<typeof renderGroundedEnglish> | undefined;
+  for (const variants of tries) {
+    const bank: AuthoredEnglishBank = {
+      key,
+      version: words.version,
       surface: "journal",
-      momentKey: request.momentKey,
-      worldSeed: request.seed,
-      bankVersion: words.version,
-      stage: request.stage ?? "journal",
-      sourceRecordIds: sourceIds,
-      facts,
-      viewer: { personId, traits: {} },
-      knowledge,
-    } as unknown as GroundedEnglishPacket,
-    bank,
-  );
-  if (result.kind !== "rendered") return null;
+      variants: variants.map((row) => ({ ...row, kind: "template" as const })),
+    };
+    result = renderGroundedEnglish(
+      {
+        surface: "journal",
+        momentKey: request.momentKey,
+        worldSeed: request.seed,
+        bankVersion: words.version,
+        stage: request.stage ?? "journal",
+        sourceRecordIds: sourceIds,
+        facts,
+        viewer: { personId, traits: {} },
+        knowledge,
+      } as unknown as GroundedEnglishPacket,
+      bank,
+    );
+    if (result.kind === "rendered") break;
+  }
+  if (!result || result.kind !== "rendered") return null;
   // A line or title starts with a capital, whatever its first slot holds.
   return {
     ...result,
@@ -577,7 +663,8 @@ export function saysOffice(
   lines: readonly JournalWorded[],
   office: { text: string },
 ): boolean {
-  return lines.some((line) => line.text.includes(office.text.toLowerCase()));
+  const said = office.text.toLowerCase();
+  return lines.some((line) => line.text.toLowerCase().includes(said));
 }
 
 /** The parts of a journal entry, said as one entry. */

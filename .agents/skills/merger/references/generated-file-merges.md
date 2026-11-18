@@ -52,6 +52,7 @@ When the bottom pull request of a stack is squash-merged, every branch above it 
 
 - **A merge that deletes or renames a file a report or doc cites raises the pointer baseline.** `tests/guards/current-pointers.test.ts` then fails. Fix the citing line, or add the old path to the `replaced` list in `docs/current.json` (skill `current-pointers`). Never raise `tests/guards/current-pointers-baseline.json` to make room: that count may only fall.
 - **`git add -A` inside a sparse helper copy is safe.** It stages only what the copy holds; the image files the copy skips are not read as deleted (checked Nov 12: 6,236 skipped paths, 0 staged). Only pictures you add or move need `git add --sparse` (skill `helper-checkout`).
+- **After merging a train into a branch whose bank file the train rewrote, count the parts.** A merge of `data/english/parts/journal.json` kept the train's side and silently dropped 114 of the branch's lines (Nov 14, #9119); tests that need a dropped line then fail far from the cause ("no line cites ..."). Compare part keys of the branch's pre-merge file with the merged one (`git show HEAD^1:<file>`) and add back the missing keys; keep both sides' slots.
 
 ## Merging the train into a branch that carries a feature the train removed (Nov 15, Visit/Call thread)
 

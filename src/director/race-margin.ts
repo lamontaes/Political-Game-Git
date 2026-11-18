@@ -1,13 +1,22 @@
-/**
- * The one margin function: how a race was decided, read from its result
- * record. The Journal says one's own race by it ("We won, but it was
- * close."), and a person bringing up a race they read about says only what it
- * allows ("won it fair" is never said of a landslide).
- */
-import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
-import type { RaceMargin } from "../english/journal-words";
+import { P } from "../core2/parameters";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
+
+const zero = P.zero;
+const one = P.one;
+
+/** The steps a race's margin is said in, as the result record's totals show it. */
+export const RACE_MARGINS = [
+  "handful",
+  "close",
+  "wide",
+  "landslide",
+  "middle",
+  "alone",
+] as const;
+
+/** One of the five steps a race's margin is said in, plus a race with one candidate and one with no totals. */
+export type RaceMargin = (typeof RACE_MARGINS)[number];
 
 /**
  * How a race was decided, from its result record's totals: "alone" when one
@@ -30,13 +39,19 @@ export function raceMargin(
   } catch {
     votes = [];
   }
-  if (votes.length === P.one) return "alone";
-  const cast = votes.reduce((sum, count) => sum + count, P.zero);
-  if (votes.length < P.two || !(cast > P.zero)) return "middle";
-  const lead = (votes[P.zero]! - votes[P.one]!) / cast;
-  const { journalRaceCloseMargin, journalRaceWideMargin } =
-    DEFAULT_DIRECTOR_DATA.parameters;
+  if (votes.length === one) return "alone";
+  const cast = votes.reduce((sum, count) => sum + count, zero);
+  if (votes.length < P.two || !(cast > zero)) return "middle";
+  const lead = (votes[zero]! - votes[one]!) / cast;
+  const {
+    journalRaceHandfulMargin,
+    journalRaceCloseMargin,
+    journalRaceWideMargin,
+    journalRaceLandslideMargin,
+  } = DEFAULT_DIRECTOR_DATA.parameters;
+  if (lead <= journalRaceHandfulMargin!.value) return "handful";
   if (lead <= journalRaceCloseMargin!.value) return "close";
+  if (lead >= journalRaceLandslideMargin!.value) return "landslide";
   if (lead >= journalRaceWideMargin!.value) return "wide";
   return "middle";
 }

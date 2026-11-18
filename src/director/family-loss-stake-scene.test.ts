@@ -161,7 +161,7 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
       .filter((line) => line.momentIds.some((mid) => shifts.has(mid)));
     for (const line of told)
       expect(
-        (line.plain ?? line.text).match(/^(Someone|A volunteer)\b/),
+        line.text.match(/^(Someone|A volunteer)\b/),
         `${where}: "${line.text}" for ${shifts.get(line.momentIds[0]!)}`,
       ).toBeNull();
     process.stdout.write(
