@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/story-scene-talk-says-a-fact-twice
-pr:
+pr: 10156
 after:
 blocked-on:
 lead: story
