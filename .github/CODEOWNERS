@@ -54,6 +54,7 @@
 /src/core2/modules/voting.ts @lamontaes
 /src/core2/modules/campaigns.ts @lamontaes
 /src/core2/modules/candidacy.ts @lamontaes
+/src/core2/announce-ways.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
 /src/core2/filing-rule-office.ts @lamontaes
 /src/core2/voting-module-id.ts @lamontaes

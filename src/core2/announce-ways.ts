@@ -17,10 +17,7 @@ import type { AnnouncedBy } from "./modules/elections";
 import { closenessBetween } from "./closeness";
 import { PARTIES_MODULE_ID, partyTie, partiesHere } from "./modules/parties";
 import { MEETINGS_MODULE_ID, type TownHallRow } from "./modules/meetings";
-import {
-  PUBLIC_ACTION_MODULE_ID,
-  type ActionRow,
-} from "./modules/public-action";
+import { actionsOf } from "./modules/people";
 
 export type AnnounceChannel = AnnouncedBy["channel"];
 
@@ -103,18 +100,11 @@ export function announceWays(
           row.attendeeIds.includes(personId),
       )
     : undefined;
-  const gathering =
-    hall || !api.state.modules.has(PUBLIC_ACTION_MODULE_ID)
-      ? undefined
-      : (
-          api
-            .moduleState(PUBLIC_ACTION_MODULE_ID)
-            .table("actions")
-            .query("byPlace", [person.placeId]) as unknown as ActionRow[]
-        ).find(
-          (row) =>
-            row.endedOn === null && row.participantIds.includes(personId),
-        );
+  const gathering = hall
+    ? undefined
+    : actionsOf(api, person.placeId).find(
+        (row) => row.endedOn === null && row.participantIds.includes(personId),
+      );
   const moment = hall
     ? { id: hall.id, ids: hall.attendeeIds }
     : gathering
