@@ -226,14 +226,22 @@ export function countedGroupStance(
   question: string,
 ): Stance | undefined {
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const group = countedGroupIdOf(api, personId);
+  return group === undefined
+    ? undefined
+    : countedStanceRow(api, groupPersonId(group), question);
+}
+
+/** The id of the group a counted resident's household belongs to, if any. */
+export function countedGroupIdOf(
+  api: CoreAPI,
+  personId: string,
+): string | undefined {
   const store = residentsRuntime(api.state as CoreState)?.store;
   const m = store?.countedMember(personId);
   if (m === undefined) return undefined;
   const h = store!.households[store!.household[m]!];
-  const group = h && h.group >= 0 ? store!.groups[h.group] : undefined;
-  return group
-    ? countedStanceRow(api, groupPersonId(group.id), question)
-    : undefined;
+  return h && h.group >= 0 ? store!.groups[h.group]?.id : undefined;
 }
 
 /**

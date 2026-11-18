@@ -1,28 +1,39 @@
 /**
  * The rule of the views engine's life term, pure: what a person's recorded
  * circumstances add to their stance on a policy question, each measured
- * against the nation's average (`src/core2/data/views/stakes.json`) and weighed by how
- * much the person weighs their own stake. The facts are read in
- * `src/core2/life-stakes.ts`; this file holds only the rule, so the campaigns' stance
- * reader can use it without the engines' readers.
+ * against the world's own share over the same people (`stakeReferences` in
+ * `src/core2/life-stakes.ts`, carried on the stake) and weighed by how much
+ * the person weighs their own stake; the sizes are
+ * `src/core2/data/views/stakes.json`. The facts are read in
+ * `src/core2/life-stakes.ts`; this file holds only the rule, so the campaigns'
+ * stance reader can use it without the engines' readers.
  */
 import stakesJson from "./data/views/stakes.json" with { type: "json" };
 
-/** The circumstances a stance reads, each a number (a counted household's may be a share). */
+/**
+ * The circumstances a stance reads, each a number (a counted household's may
+ * be a share), or null where the records do not hold it (a life the engines
+ * keep no records for, or an age the fact is not read at): a null fact adds
+ * nothing.
+ */
 export interface LifeFacts {
-  readonly rents: number;
-  readonly incomeFifth: number;
-  readonly noWork: number;
-  readonly noPrivatePlan: number;
-  readonly youngChild: number;
-  readonly publicWorker: number;
+  readonly rents: number | null;
+  readonly incomeFifth: number | null;
+  readonly noWork: number | null;
+  readonly noPrivatePlan: number | null;
+  readonly youngChild: number | null;
+  readonly publicWorker: number | null;
 }
 export type LifeFact = keyof LifeFacts;
 
-/** A person's facts and how much they weigh their own stake (1 at the middle of the traits). */
+/** Each fact's world share (or mean) over the people the stance counts: what a person's own fact is measured against. */
+export type StakeReference = Readonly<Record<LifeFact, number>>;
+
+/** A person's facts, how much they weigh their own stake (1 at the middle of the traits), and the world's reference they are measured against. */
 export interface LifeStake {
   readonly facts: LifeFacts;
   readonly care: number;
+  readonly reference: StakeReference;
 }
 
 interface Valued {
@@ -32,7 +43,7 @@ export const DATA = stakesJson as unknown as {
   careDecision: string;
   lifeEvents: { kinds: readonly string[] };
   ages: Record<"workingFrom" | "workingTo" | "youngChildUnder", Valued>;
-  facts: Record<LifeFact, { reference: Valued }>;
+  facts: Record<LifeFact, { about: string }>;
   stakes: Record<string, Partial<Record<LifeFact, Valued>>>;
 };
 
@@ -41,11 +52,10 @@ export const LIFE_EVENT_KINDS: ReadonlySet<string> = new Set(
   DATA.lifeEvents.kinds,
 );
 
-const FACTS = Object.keys(DATA.facts) as LifeFact[];
-export const reference = (fact: LifeFact): number =>
-  DATA.facts[fact].reference.value;
+export const LIFE_FACTS = Object.keys(DATA.facts) as LifeFact[];
+const FACTS = LIFE_FACTS;
 
-/** The age band whose work and health plan are read (18 to 64); others sit at the nation's average. */
+/** The age band whose work and health plan are read (18 to 64); others hold no such fact. */
 export const WORKING_FROM = DATA.ages.workingFrom.value;
 export const WORKING_TO = DATA.ages.workingTo.value;
 export const YOUNG_CHILD_UNDER = DATA.ages.youngChildUnder.value;
@@ -69,14 +79,15 @@ export function stakeReasons(
   const out: StakeReason[] = [];
   for (const fact of FACTS) {
     const size = row[fact]?.value;
-    if (size === undefined) continue;
     const value = stake.facts[fact];
+    if (size === undefined || value === null) continue;
+    const reference = stake.reference[fact];
     out.push({
       fact,
       value,
-      reference: reference(fact),
+      reference,
       size,
-      adds: stake.care * size * (value - reference(fact)),
+      adds: stake.care * size * (value - reference),
     });
   }
   return out;
@@ -92,7 +103,9 @@ export function stakeShift(
   let sum = 0;
   for (const fact of FACTS) {
     const size = row[fact]?.value;
-    if (size !== undefined) sum += size * (stake.facts[fact] - reference(fact));
+    const value = stake.facts[fact];
+    if (size !== undefined && value !== null)
+      sum += size * (value - stake.reference[fact]);
   }
   return stake.care * sum;
 }

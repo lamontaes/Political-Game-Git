@@ -10,18 +10,24 @@
  * links to ideology, at the small share the research measures, and by the
  * upbringing and family the facets don't capture
  * (`data/campaigns/parameters.json`). Their stance on a
- * question is that lean along the question's measured left-right axis
- * (`data/research/campaigns/issue-axes-2026.json`).
+ * question is that lean times how strongly a lean predicts a stance on it
+ * (`leanStrength`, fitted from the polls' party split), never the polled
+ * share itself: how many in a world favor a question emerges from its own
+ * people's leans, stakes and what they heard.
  */
 import support from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
-import { axisOf, campaignParameter, type Stance } from "./campaign-data";
+import {
+  axisOf,
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+  type Stance,
+} from "./campaign-data";
 import { stableHash } from "./kernel/ids";
 import { stakeShift, type LifeStake } from "./life-stake-rule";
-import { worldRate } from "./world-draw";
 import type { PersonState } from "./types";
 
 const districtShare = new Map<string, number>(
@@ -268,14 +274,13 @@ export function personLean(
   );
 }
 
-/** How strongly a person supports a question's "yes", in [-1, 1]. */
+/** How strongly a person's lean alone supports a question's "yes", in [-1, 1]. */
 export function personStance(lean: number, question: string): number {
-  return lean * questionAxis(question);
+  return lean * leanStrength(question);
 }
 
-const lineAxis = (
-  lineAxes as { lines: Record<string, { axis: number; support?: number }> }
-).lines;
+const lineAxis = (lineAxes as { lines: Record<string, { axis: number }> })
+  .lines;
 
 /**
  * A question's left-right direction: a recorded policy question's, or for
@@ -288,82 +293,56 @@ export function questionAxis(question: string): number {
   return axisOf[question]?.axis ?? 0;
 }
 
-const supportOf = (
-  support as unknown as { questions: Record<string, { support: number }> }
+const partySplit = (
+  support as unknown as {
+    questions: Record<
+      string,
+      { democrats: number | null; republicans: number | null }
+    >;
+  }
 ).questions;
 
-/** The national polled share for a question's "yes", as published (calibration only). */
-export function publishedSupportShare(question: string): number | undefined {
-  if (question.startsWith("budget-line:"))
-    return lineAxis[question.slice("budget-line:".length)]?.support;
-  return supportOf[question]?.support;
+/** Every question the world's opinion is kept on: the policy questions and spending on each budget line. */
+export function opinionQuestions(): readonly string[] {
+  return [
+    ...PLATFORM_QUESTIONS,
+    ...Object.keys(lineAxis).map((line) => `budget-line:${line}`),
+  ];
 }
 
 /**
- * This world's national polled share for a question's "yes" (owner, Oct 27:
- * realistic, not real): the published share moved once by the world's offset,
- * relative to its nearer bound so it stays a share. Even where no poll is
- * recorded.
+ * How strongly a person's lean predicts their stance on a question (the
+ * strength of the relationship, never a level). Its size is the poll's gap
+ * between the parties, the Republican yes share minus the Democratic one
+ * (`policy-support-2026.json`), the same measure the budget lines (GSS and
+ * Pew by party) and the federal questions (roll calls by party) take: weak
+ * for a question both parties back, strong for one that splits them. A
+ * person at lean -1 to 1 spans the parties' range, so their stance moves by
+ * the parties' gap. Its direction is the question's measured direction among
+ * governments (`questionAxis`, the one members of a legislature read), so a
+ * voter and a member at the same lean lean the same way; a question with no
+ * measured direction keeps the poll's. A question the poll did not split by
+ * party reads its measured direction alone.
  */
-export function supportShare(seed: string, question: string): number {
-  const published = publishedSupportShare(question);
-  return published === undefined
-    ? 0.5
-    : worldRate(
-        published,
-        seed,
-        `policy-support:${question}`,
-        "worldPolicySupportSpreadShare",
-      );
+export function leanStrength(question: string): number {
+  // A question's strength is its data's alone: worked out once a question
+  // (the world's monthly opinion reads it for every adult and question).
+  const held = strengths.get(question);
+  if (held !== undefined) return held;
+  const split = partySplit[question];
+  const axis = questionAxis(question);
+  const gap =
+    split &&
+    typeof split.democrats === "number" &&
+    typeof split.republicans === "number"
+      ? split.republicans - split.democrats
+      : undefined;
+  const strength =
+    gap === undefined ? axis : axis ? Math.sign(axis) * Math.abs(gap) : gap;
+  strengths.set(question, strength);
+  return strength;
 }
-
-/**
- * How strongly a person supports a question's "yes" as a voter deciding it
- * directly (a ballot measure, a recall over it), in [-2, 2]: their own lean
- * on the question plus how popular the policy is across the country, set so
- * that a country spread evenly from left to right favors it in this world's
- * polled share (`supportShare`).
- */
-export function publicSupport(
-  lean: number,
-  question: string,
-  seed: string,
-): number {
-  const axis = axisOf[question]?.axis ?? 0;
-  return lean * axis + publicOffset(question, seed, axis);
-}
-
-/** The popularity term alone: |axis| × (2 × this world's polled share − 1). */
-export function publicOffset(
-  question: string,
-  seed: string,
-  axis = questionAxis(question),
-  share = supportShare(seed, question),
-): number {
-  return Math.abs(axis) * (2 * share - 1);
-}
-
-const popularityBySeed = new Map<string, Map<string, number>>();
-
-/**
- * How popular a question's "yes" is across this world's country, on the
- * views scale (`publicOffset` on the question's own axis): part of every
- * person's stance, so a voter in a race, on a ballot measure and in a poll
- * holds one view. Kept per world and question; it never changes in play.
- */
-export function popularity(question: string, seed: string): number {
-  let byQuestion = popularityBySeed.get(seed);
-  if (!byQuestion) {
-    byQuestion = new Map();
-    popularityBySeed.set(seed, byQuestion);
-  }
-  let value = byQuestion.get(question);
-  if (value === undefined) {
-    value = publicOffset(question, seed);
-    byQuestion.set(question, value);
-  }
-  return value;
-}
+const strengths = new Map<string, number>();
 
 /** How far a person's faith (0 to 1) and four-year degree (1 or 0) sit from the average of their age band in their state; absent for a child. */
 export interface StanceProfile {
@@ -371,8 +350,6 @@ export interface StanceProfile {
   readonly collegeFromAverage?: number;
   /** Their circumstances and how much they weigh their own stake (`src/core2/life-stakes.ts`), read again as their records change. */
   readonly life?: LifeStake;
-  /** The world whose country's view of each question (`popularity`) their stance carries, as every person's does. */
-  readonly seed?: string;
   /**
    * A counted voter's share of what their group has heard or lived since the
    * opening, on the scale of a view (`stanceViewWeight` times the group's
@@ -389,6 +366,12 @@ export const STANCE_LOADINGS = stanceLoadings.questions as unknown as Record<
   { loadings: { faith: { value: number }; college: { value: number } } }
 >;
 
+/** Each question's survey loadings, looked up once a question (null: none). */
+const loadingsOf = new Map<
+  string,
+  (typeof STANCE_LOADINGS)[string]["loadings"] | null
+>();
+
 /**
  * What a person's faith and degree add to their opening stance on a question
  * the 2020 Cooperative Election Study asked (`opening-stance-loadings.json`):
@@ -402,9 +385,15 @@ export function loadingShift(
   profile: StanceProfile | null | undefined,
   question: string,
 ): number {
-  const loadings =
-    STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
-  if (!loadings || !profile || profile.faithFromAverage === undefined) return 0;
+  if (!profile || profile.faithFromAverage === undefined) return 0;
+  let loadings = loadingsOf.get(question);
+  if (loadings === undefined) {
+    loadings =
+      STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]
+        ?.loadings ?? null;
+    loadingsOf.set(question, loadings);
+  }
+  if (!loadings) return 0;
   return (
     loadings.faith.value * profile.faithFromAverage +
     loadings.college.value * (profile.collegeFromAverage ?? 0)
@@ -413,9 +402,9 @@ export function loadingShift(
 
 /**
  * A person's or counted group's own stance on a question, in [-1, 1]: their
- * lean along the question's axis, how popular the question is across their
- * world's country (`popularity`), what their faith and degree add and what
- * their own circumstances add (`stakeShift`). A full person's current view is
+ * lean at the question's strength (`personStance`), what their faith and
+ * degree add, what their own circumstances add (`stakeShift`) and what
+ * their group has heard since. A full person's current view is
  * the views engine's `viewOn`, the same rule with what they have heard since.
  */
 export function groupStance(
@@ -428,7 +417,6 @@ export function groupStance(
     Math.min(
       1,
       personStance(lean, question) +
-        (profile?.seed === undefined ? 0 : popularity(question, profile.seed)) +
         loadingShift(profile, question) +
         stakeShift(profile?.life, question) +
         (profile?.heard?.(question) ?? 0),

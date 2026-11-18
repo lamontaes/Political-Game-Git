@@ -2,7 +2,7 @@
  * Where the views engine's life term reads health plans from: the coverage
  * engine registers its readers here when it loads, so the life term never
  * imports the coverage engine (whose own imports lead back to the views).
- * Absent readers mean the plan is not known, read as the nation's average.
+ * Absent readers mean the plan is not known: it adds nothing.
  */
 import type { CoreState } from "./types";
 

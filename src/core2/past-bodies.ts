@@ -4,7 +4,7 @@
  * question, and a named identity for someone who held a seat before them.
  */
 import { drawOfficialIdentity } from "./officials-identity";
-import { memberSupportAt } from "./officials-roster";
+import { memberSupportAt } from "./law-consensus";
 import { questionAxis } from "./campaign-views";
 import {
   FEDERAL_HOUSE,
@@ -112,7 +112,7 @@ export function supportOn(
 ): number {
   return (
     officialStance(api, memberId, question) ??
-    memberSupportAt(leanOf(api, memberId), question)
+    memberSupportAt(api, leanOf(api, memberId), question)
   );
 }
 

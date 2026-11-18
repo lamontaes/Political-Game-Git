@@ -24,7 +24,7 @@ import provisionQuestions from "../../data/research/legislature/provision-questi
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
-import { memberSupportAt } from "./officials-roster";
+import { memberSupportAt } from "./law-consensus";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { members } from "./modules/legislature";
 import {
@@ -165,7 +165,7 @@ function rollCall(
       else noIds.push(id);
     } else {
       predecessors += 1;
-      if (memberSupportAt(seatLean(api, id), question) * position > 0)
+      if (memberSupportAt(api, seatLean(api, id), question) * position > 0)
         predecessorsYes += 1;
     }
   }
@@ -324,7 +324,8 @@ export function buildPriorTerms(
       // A chamber whose members all took their seats since: the seats'
       // earlier holders brought it, the way the seats lean.
       const seatsLean = chamber.members.reduce(
-        (sum, t) => sum + memberSupportAt(seatLean(api, t.personId!), question),
+        (sum, t) =>
+          sum + memberSupportAt(api, seatLean(api, t.personId!), question),
         0,
       );
       const position = Math.sign(lead?.s || seatsLean);

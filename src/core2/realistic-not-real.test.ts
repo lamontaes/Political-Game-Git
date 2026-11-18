@@ -124,8 +124,8 @@ import {
 } from "./modules/press";
 import { schoolsAttended } from "./past";
 import { NEWS_MODULE_ID } from "./modules/news";
-import { publishedSupportShare, supportShare } from "./campaign-views";
-import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
+import { leanStrength, opinionQuestions } from "./campaign-views";
+import { worldOpinion } from "./modules/views";
 import electoralCorpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import {
   citizenShareOf,
@@ -996,24 +996,28 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     ).toBeLessThanOrEqual(Math.ceil(large.length * SAME_COUNT_SHARE));
     const cast = (held: Map<string, number>) =>
       shared.reduce((n, id) => n + held.get(id)!, 0);
-    // Row 48: every question's national polled share.
-    const questions = Object.keys(
-      (supportData as unknown as { questions: Record<string, unknown> })
-        .questions,
-    );
-    expect(questions.length, where).toBeGreaterThan(0);
-    for (const question of questions) {
-      expect(
-        supportShare(a.seed, question),
-        `${where} row 48 ${question}`,
-      ).not.toBe(publishedSupportShare(question));
-      expect(
-        supportShare(a.seed, question),
-        `${where} row 48 ${question}`,
-      ).not.toBe(supportShare(b.seed, question));
+    // Row 48: the world's opinion of each question emerges from its own
+    // people (CTO, Nov 17, #9747: the poll gives a lean's strength, never
+    // the share), so two worlds of the same place hold different opinions
+    // on every question a lean bears on. (A question no lean bears on, such
+    // as a budget line both parties want the same spent on, reads only what
+    // people's lives add and may sit at 0 in both.)
+    const opinions = (core: CoreState) =>
+      new Map(
+        opinionQuestions().map((q) => [q, worldOpinion(coreAPI(core), q)]),
+      );
+    const [opinionsA, opinionsB] = [opinions(a), opinions(b)];
+    for (const question of opinionQuestions()) {
+      if (leanStrength(question) === 0) continue;
+      const [oa, ob] = [opinionsA.get(question), opinionsB.get(question)];
+      expect(oa, `${where} row 48 ${question}`).toBeDefined();
+      expect(ob, `${where} row 48 ${question}`).toBeDefined();
+      // The kept means are exact, so only two identical worlds tie.
+      expect(oa!.mean, `${where} row 48 ${question}`).not.toBe(ob!.mean);
     }
+    const first = opinionQuestions()[0]!;
     process.stdout.write(
-      `VOTES-AND-POLLS ${where}: ${shared.length} past races (${large.length} of a thousand votes or more) cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
+      `VOTES-AND-POLLS ${where}: ${shared.length} past races (${large.length} of a thousand votes or more) cast ${cast(racesA)} and ${cast(racesB)} votes; ${first} opinion ${opinionsA.get(first)!.share.toFixed(3)} and ${opinionsB.get(first)!.share.toFixed(3)} yes\n`,
     );
   });
 

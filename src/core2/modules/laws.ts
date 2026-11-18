@@ -17,6 +17,7 @@ import type {
   PreStartWindow,
 } from "../pre-start";
 import { lawHistory } from "../past-module";
+import { recordLawConsensus } from "../law-consensus";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -72,7 +73,7 @@ export { reachedBy, reachOn } from "../law-reach/host";
 export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
 export { veteransIncomeByHousehold } from "../law-reach/group-b-veterans";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
-export { POLICY_QUESTIONS } from "../policy-answers";
+export { POLICY_QUESTIONS, POLICY_SERIES_BY_LEVEL } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
 export { WEB_LINKS } from "../outcome-web-model";
 /**
@@ -156,6 +157,8 @@ export const LAWS_MODULE: PreStartModule = {
       raises: {
         indexes: { byPerson: { fields: ["personId"] } },
       },
+      /** The world's consensus on each policy question a law was enacted on (`recordLawConsensus`): one row a question, rewritten. */
+      consensus: {},
     },
   },
   onCalendarWork: (api, work) => {
@@ -506,14 +509,22 @@ export function enactmentOf(
 ): {
   passedOn: string;
   margin: number;
+  /** Whether a vote count gives the margin (else it reads 0). */
+  counted: boolean;
   body: string | null;
   session: Readonly<Record<string, string>> | null;
 } | null {
   if (row.terms?.enactedBy) {
-    const margin = Number(row.terms.margin);
+    const given = row.terms.margin;
+    const margin =
+      given === undefined || given === null || given === ""
+        ? Number.NaN
+        : Number(given);
+    const counted = Number.isFinite(margin);
     return {
       passedOn: row.retrieved,
-      margin: Number.isFinite(margin) ? margin : 0,
+      margin: counted ? margin : 0,
+      counted,
       body: null,
       session: null,
     };
@@ -526,6 +537,7 @@ export function enactmentOf(
   return {
     passedOn: history.enactedOn,
     margin: margins.length ? Math.min(...margins) : 0,
+    counted: margins.length > 0,
     body: history.body,
     session: history.session,
   };
@@ -1027,6 +1039,8 @@ export function enactLaw(
     .moduleState(LAWS_MODULE_ID)
     .table("laws")
     .put(row as unknown as ModuleRow);
+  // What members answer to beyond their own lean moves the day it passes.
+  recordLawConsensus(api, row.series);
   const source = {
     tag: "SOURCED" as const,
     citation: input.citation,

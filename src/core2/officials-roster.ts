@@ -14,8 +14,7 @@ import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
-import { personStance, publicOffset } from "./campaign-views";
-import { axisOf, PLATFORM_QUESTIONS } from "./campaign-data";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 
 interface Spread {
   readonly mean: number;
@@ -270,52 +269,6 @@ export function drawOfficial(input: {
         ? independentRecord(input.body, ideal, signature, input.caucus)
         : null,
   };
-}
-
-/**
- * How strongly someone at a lean supports a question's "yes": their lean
- * along the question's left-right axis plus how popular the policy is (the
- * same reading voters deciding a measure use, `publicSupport`), so a policy
- * most people favor draws members of both parties.
- */
-export function supportAt(
-  lean: number,
-  question: string,
-  seed: string,
-): number {
-  return personStance(lean, question) + publicOffset(question, seed);
-}
-
-/**
- * How strongly a member at a lean supports a question's "yes": their lean
- * along the question's axis plus how widely legislatures have already made
- * it law (the share of states with it, `issue-axes-2026.json`; for a
- * question only federal law answers, the share of members who voted its yes
- * on the roll call `federal-issue-axes-2026.json` cites), the elite consensus
- * members answer to, where voters answer to the polls
- * (`supportAt`). A budget line has no such record and reads by lean alone.
- */
-export function memberSupportAt(lean: number, question: string): number {
-  const row = axisOf[question];
-  return (
-    personStance(lean, question) +
-    (row ? Math.abs(row.axis) * (2 * row.yesShare - 1) : 0)
-  );
-}
-
-/** A member's own stance on a question: their position, and their own tilt if it's one of their causes. */
-export function ownStance(
-  ideal: number,
-  signature: readonly SignatureIssue[],
-  question: string,
-): number {
-  const tilt = signature.find((s) => s.question === question)?.tilt ?? 0;
-  // On the voters' scale, no further out than the electorate's own ends.
-  const lean = Math.max(
-    -1,
-    Math.min(1, (ideal + tilt) * OFFICIALS_DATA.ideology.leanScale.value),
-  );
-  return memberSupportAt(lean, question);
 }
 
 /**

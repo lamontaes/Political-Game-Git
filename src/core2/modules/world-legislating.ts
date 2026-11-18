@@ -45,7 +45,7 @@ import {
 import { revenueGivenUp } from "../budgets-treasury";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
-import { stateActEffectiveDate } from "./laws";
+import { answerIn, stateActEffectiveDate } from "./laws";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -113,7 +113,6 @@ import {
   leanOf,
   memberKey,
   members,
-  POLICY_QUESTIONS,
   proposeAsExecutive,
   reachesTown,
   FEDERAL_SENATE,
@@ -462,9 +461,10 @@ const BORDERS = (
  * How the states that border a state stand on a change to a question: the
  * share with the law the change would make, less the share with the law it
  * would unmake, from -1 to 1 (0 for a body that is not a state's, or a
- * question the neighbors' research does not answer). A neighbor's law is its
- * researched starting law: only the town's state legislates in a played
- * world, so no neighbor's own acts are recorded.
+ * question no neighbor answers). A neighbor's law is its own in the world
+ * (`answerIn`, an act passed and waiting on its date counted, as members
+ * read the law they answer to): its outside sessions' acts, else its
+ * starting law.
  */
 export function neighborPull(
   api: CoreAPI,
@@ -475,17 +475,14 @@ export function neighborPull(
   const neighbors = (
     BORDERS[jurisdiction.replace(/^US-/, "")]?.borders ?? []
   ).map((usps) => `US-${usps}`);
-  const answers = POLICY_QUESTIONS[question]?.answers;
-  if (!neighbors.length || !answers) return 0;
+  if (!neighbors.length) return 0;
   let net = 0,
     counted = 0;
   for (const state of neighbors) {
-    const answer = answers[state]?.answer;
-    if (answer !== "yes" && answer !== "no") continue;
-    // stopgapId: SG-LAWS-neighbor-law-starting
-    api.stopgap("SG-LAWS-neighbor-law-starting");
+    const answer = answerIn(api, state, question, true);
+    if (answer === null) continue;
     counted += 1;
-    net += (answer === "yes" ? 1 : -1) * direction;
+    net += answer * direction;
   }
   return counted ? net / counted : 0;
 }

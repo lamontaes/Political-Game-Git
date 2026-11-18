@@ -38,7 +38,6 @@ import type {
 import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
-import { publicOffset } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
@@ -48,14 +47,13 @@ import { drawOfficialIdentity } from "../officials-identity";
 import {
   drawOfficial,
   OFFICIALS_DATA,
-  ownStance,
   partyKey,
-  supportAt,
   uniform,
   type BodyKind,
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
+import { ownStance, supportAt } from "../law-consensus";
 import officialsData from "../data/officials/officials.json" with { type: "json" };
 import { nationalHomeState, recordPresident } from "../officials-president";
 import { researchedHolderParty } from "../offices-holder-parties";
@@ -69,7 +67,7 @@ import {
   vacateUnheldSeat,
 } from "./offices";
 import { filingRequirements } from "./elections";
-import { VIEWS_DATA, stanceOn } from "./views";
+import { VIEWS_DATA, stanceOn, worldOpinion } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -1312,10 +1310,10 @@ const reads = new Map<string, BodyRead>();
 
 type Stances = readonly { question: string; position: number }[];
 
-const stanceOf = (row: OfficialRow, stances: Stances) =>
+const stanceOf = (api: CoreAPI, row: OfficialRow, stances: Stances) =>
   stances.reduce(
     (sum, s) =>
-      sum + ownStance(row.ideal, row.signature, s.question) * s.position,
+      sum + ownStance(api, row.ideal, row.signature, s.question) * s.position,
     0,
   );
 
@@ -1337,7 +1335,7 @@ function bodyRead(api: CoreAPI, body: string, stances: Stances): BodyRead {
   const leader = new Map<number, number>();
   for (const m of members) {
     const side = partySide(m.party);
-    const own = stanceOf(m, stances);
+    const own = stanceOf(api, m, stances);
     add(`party|${side}`, own);
     add(`${side}|${m.wing}`, own);
     if (
@@ -1364,6 +1362,31 @@ function bodyRead(api: CoreAPI, body: string, stances: Stances): BodyRead {
 }
 
 /**
+ * Whether an official's constituency holds the played area, whose people's
+ * opinion is the one the views engine keeps (`worldOpinion`): its state's
+ * legislature and statewide executives, its own member of the House (the
+ * seat that covers the town) and its state's senators. Every other official,
+ * the President included, answers to voters the world keeps no opinion of
+ * yet and reads their district by its lean alone.
+ */
+export function answersToTown(api: CoreAPI, row: OfficialRow): boolean {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  if (row.bodyKind === "us-house")
+    return (
+      (
+        offices.table("seats").get(row.seatId) as unknown as
+          { coversTown?: boolean } | undefined
+      )?.coversTown === true
+    );
+  const town = offices.table("loaded").get("town") as unknown as
+    { stateKey?: string } | undefined;
+  if (!town?.stateKey) return false;
+  return row.bodyKind === "us-senate"
+    ? row.stateKey === town.stateKey
+    : row.body.startsWith(`${town.stateKey}:`);
+}
+
+/**
  * An official's own reasons on a bill's questions: their views, their
  * district, their party's leadership (or their caucus's, for an independent
  * who keeps one), their wing, their ambition and the next election, and the
@@ -1374,7 +1397,7 @@ export function officialParts(
   row: OfficialRow,
   stances: Stances,
 ): OfficialParts {
-  const own = stanceOf(row, stances);
+  const own = stanceOf(api, row, stances);
   const independent = row.independent;
   const truly = independent !== null && independent.caucus === null;
   // A truly independent member weighs the questions behind their reason more.
@@ -1385,7 +1408,7 @@ export function officialParts(
           (sum, s) =>
             sum +
             weight("independentReason") *
-              ownStance(row.ideal, row.signature, s.question) *
+              ownStance(api, row.ideal, row.signature, s.question) *
               s.position,
           0,
         )
@@ -1397,15 +1420,19 @@ export function officialParts(
     0,
   );
   const views = weight("views") * (own + moved) + reasonPull;
+  // Only the played area's people have a kept opinion: an official elected
+  // elsewhere reads their district and state by its lean alone.
+  // stopgapId: SG-OFFICIALS-outside-opinion
+  const town = answersToTown(api, row);
+  if (!town) api.stopgap("SG-OFFICIALS-outside-opinion");
   const district = stances.reduce(
     (sum, s) =>
-      sum +
-      supportAt(row.districtLean, s.question, api.state.seed) * s.position,
+      sum + supportAt(api, row.districtLean, s.question, town) * s.position,
     0,
   );
   const state = stances.reduce(
     (sum, s) =>
-      sum + supportAt(row.stateLean, s.question, api.state.seed) * s.position,
+      sum + supportAt(api, row.stateLean, s.question, town) * s.position,
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
@@ -1477,7 +1504,11 @@ export function officialParts(
     weight("press") *
     visibility *
     stances.reduce(
-      (sum, s) => sum + publicOffset(s.question, api.state.seed) * s.position,
+      // How the played area's people stand on it this month (their mean
+      // stance), for an official they elect.
+      (sum, s) =>
+        sum +
+        (town ? (worldOpinion(api, s.question)?.mean ?? 0) : 0) * s.position,
       0,
     );
   return {
@@ -1972,7 +2003,7 @@ export function officialStance(
   // Their opening position, moved by what they have heard since, as any
   // resident's view is (views.ts `viewOn`): a case made to them, a story
   // they read, a vote they took.
-  const opening = ownStance(row.ideal, row.signature, question);
+  const opening = ownStance(api, row.ideal, row.signature, question);
   const moved =
     VIEWS_DATA.parameters.stanceViewWeight!.value *
     stanceOn(api, memberId, question);
@@ -2026,5 +2057,5 @@ export function temperamentOf(
 }
 
 /** A seat-holder's own stance and the President's record facts, read through the executive family's entry. */
-export { ownStance } from "../officials-roster";
+export { ownStance } from "../law-consensus";
 export { PRESIDENT_FACT } from "../officials-president";

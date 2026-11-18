@@ -84,7 +84,7 @@ import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
-import { ownStance } from "../officials-roster";
+import { ownStance } from "../law-consensus";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
@@ -5568,7 +5568,7 @@ function memberStanceOn(
 ): number {
   const official = officialOf(api, memberId);
   return official
-    ? ownStance(official.ideal, official.signature, question)
+    ? ownStance(api, official.ideal, official.signature, question)
     : viewOn(api, memberId, question, leanOf(api, memberId));
 }
 

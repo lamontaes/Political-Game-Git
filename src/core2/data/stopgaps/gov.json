@@ -2076,5 +2076,17 @@
     "addedAt": "2026-11-11",
     "replacement": "Resolved Nov 14, 2026 (elections-read-counted-cases): the counted electorate reads a counted resident's decided cases as warmth toward the official (caseWarmthsOf in constituent-cases.ts, read by countedAppeal at the election count, the primary, the door answer and the turnout reason), by the same step touchImpression applies, at the share of the record who brought the case. Was: The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-outside-measure-opinion",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/ballot-measures.ts",
+    "line": 246,
+    "whatItFakes": "Another state's ballot measure is counted by its lean bands alone, with no term for what its people's lives, faith, degree and news add beyond their leans.",
+    "why": "The views engine keeps opinion (src/core2/modules/views.ts, keepOpinions) only over the played area's people, who are not another state's electorate.",
+    "addedBy": "Pins 18 review fix",
+    "addedAt": "2026-11-17",
+    "replacement": "Outside places' own opinion: each state's people (src/core2/electorate-places.ts) keep their own mean stance by the same rule (groupStance), and that state's measure reads it as the home state's reads the played area's.",
+    "status": "open"
   }
 ]

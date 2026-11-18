@@ -7,7 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { officialsIn } from "../core2/modules/officials";
-import { ownStance } from "../core2/officials-roster";
+import { ownStance } from "../core2/law-consensus";
 import { NAMED_QUESTIONS } from "../english/question-names";
 
 // The opening address from this world's records (play-first-09). Two worlds
@@ -155,6 +155,7 @@ describe("the opening address from a world's records", () => {
         ).toBe(row.value === 1);
         // The President's side, from their recorded stance on that question.
         const stance = ownStance(
+          api,
           official.ideal,
           official.signature,
           row.series,

@@ -8,7 +8,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { standsAt } from "../director/opening-story";
 import { axisOf } from "./campaign-data";
 import { officialsIn } from "./modules/officials";
-import { ownStance } from "./officials-roster";
+import { ownStance } from "./law-consensus";
 import { coreAPI } from "./state";
 
 // Questions only federal law answers hold a direction measured from roll
@@ -16,7 +16,6 @@ import { coreAPI } from "./state";
 // so the President, Congress and the voters take sides on them.
 interface Row {
   readonly axis: number;
-  readonly yesShare: number;
   readonly tag: string;
   readonly spread?: number;
   readonly source: string;
@@ -34,8 +33,6 @@ describe("the federal questions' directions", () => {
       expect(Object.hasOwn(state.axes, question), question).toBe(false);
       expect(Math.abs(row.axis), question).toBeLessThanOrEqual(1);
       expect(row.axis, question).not.toBe(0);
-      expect(row.yesShare, question).toBeGreaterThanOrEqual(0);
-      expect(row.yesShare, question).toBeLessThanOrEqual(1);
       expect(["SOURCED", "ESTIMATED"], question).toContain(row.tag);
       if (row.tag === "ESTIMATED")
         expect(row.spread, question).toBeGreaterThan(0);
@@ -72,7 +69,7 @@ describe("the President's views on federal questions, in drawn places", () => {
       const stances = new Map(
         federalQuestions.map((question) => [
           question,
-          ownStance(president!.ideal, president!.signature, question),
+          ownStance(api, president!.ideal, president!.signature, question),
         ]),
       );
       const held = [...stances.values()].filter((value) => value !== 0);
@@ -125,8 +122,8 @@ describe("the President's views on federal questions, in drawn places", () => {
       expect(r && d, here).toBeTruthy();
       const apart = federalQuestions.filter(
         (question) =>
-          Math.sign(ownStance(r!.ideal, r!.signature, question)) ===
-          -Math.sign(ownStance(d!.ideal, d!.signature, question)),
+          Math.sign(ownStance(api, r!.ideal, r!.signature, question)) ===
+          -Math.sign(ownStance(api, d!.ideal, d!.signature, question)),
       );
       expect(apart.length, here).toBeGreaterThanOrEqual(5);
       seen.push(

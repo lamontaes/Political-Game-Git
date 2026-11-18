@@ -26,9 +26,9 @@ import {
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { personLean, personStance, publicOffset } from "../campaign-views";
+import { personLean, personStance } from "../campaign-views";
 import { stateRightShare, stateTwoPartyVotes } from "../electorate-places";
-import { viewOn } from "./views";
+import { opinionRest, viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
 import { turnoutOn, VOTING_MODULE_ID } from "./voting";
 import { stateActEffectiveDate } from "../state-effective-date";
@@ -184,10 +184,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     );
     const trait =
       decisionTraitWeight(api.state, "ballot-measures.vote") * traitLean;
-    const view =
-      (viewOn(api, voter.id, measure.question, lean) +
-        publicOffset(measure.question, api.state.seed)) *
-      direction;
+    const view = viewOn(api, voter.id, measure.question, lean) * direction;
     const support = view + trait;
     // The audit's probe (off in play) sees whether they back it with and without the trait term.
     reportOutcome(
@@ -244,11 +241,18 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // the share voting yes is the part of that range whose view favors it.
   const low = 2 * rightShare - 2;
   const slope = personStance(1, measure.question) * direction;
+  // Only the played area's people have a kept opinion: another state's
+  // people vote their leans alone until outside places keep their own.
+  // stopgapId: SG-GOV-outside-measure-opinion
+  if (!home) api.stopgap("SG-GOV-outside-measure-opinion");
   const yesFraction = shareFavoring(
     low,
     low + 2,
     slope,
-    publicOffset(measure.question, api.state.seed) * direction,
+    // What the played area's people's own lives, faith, degree and news
+    // add beyond their leans this month: the unnamed of their state share
+    // them too.
+    (home ? opinionRest(api, measure.question) : 0) * direction,
   );
   groups.yes = Math.round(unnamed * yesFraction);
   groups.no = unnamed - groups.yes;

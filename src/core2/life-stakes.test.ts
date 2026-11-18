@@ -10,7 +10,7 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { groupStance, popularity } from "./campaign-views";
+import { groupStance, personStance } from "./campaign-views";
 import { setBookkeeping } from "./bookkeeping";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
@@ -22,7 +22,7 @@ import { ELECTIONS_MODULE_ID } from "./modules/elections";
 import {
   countedStanceProfile,
   lifeShift,
-  openingStance,
+  ownOpeningStance,
 } from "./modules/views";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState, PersonId } from "./types";
@@ -158,15 +158,12 @@ describe("views from the person's own life", () => {
     );
     expect(full, where(place)).toBeDefined();
     // At a centered lean, with no survey loading on a spending line, the
-    // opening stance is the country's view of the line plus the life term.
+    // opening stance is the life term alone: no polled share is carried.
+    expect(Math.abs(personStance(0, HOUSING_LINE)), where(place)).toBe(0);
     expect(
-      openingStance(api, full!.id, HOUSING_LINE, 0),
+      ownOpeningStance(api, full!.id, HOUSING_LINE, 0),
       `${where(place)}: ${full!.id}`,
-    ).toBeCloseTo(
-      popularity(HOUSING_LINE, core.seed) +
-        stakeShift(fullLifeStake(core, full!), HOUSING_LINE),
-      12,
-    );
+    ).toBeCloseTo(stakeShift(fullLifeStake(core, full!), HOUSING_LINE), 12);
   }, 120_000);
 
   it("a counted resident filled in keeps the circumstances their household's record gave them", () => {
