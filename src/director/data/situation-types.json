@@ -2675,43 +2675,6 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:president.address",
-            "causeFacts": [
-              {
-                "key": "address:president",
-                "is": "subject"
-              }
-            ]
-          },
-          "causeEngine": "opening-story",
-          "causeRecord": "president.address",
-          "bind": {
-            "speaker": "subject",
-            "aide": "staff",
-            "audience": "audience"
-          }
-        },
-        {
-          "match": {
-            "label": "cause:event:president.address",
-            "causeFacts": [
-              {
-                "key": "address:president",
-                "is": "other"
-              }
-            ]
-          },
-          "causeEngine": "opening-story",
-          "causeRecord": "president.address",
-          "setting": ["home"],
-          "said": "speaker",
-          "bind": {
-            "speaker": "counterpart",
-            "audience": "household"
-          }
-        },
-        {
-          "match": {
             "label": "cause:event:governor.address",
             "causeFacts": [
               {
@@ -3582,7 +3545,11 @@
     },
     {
       "key": "emergency-briefing",
-      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
       "eachCause": true,
       "openDecision": true,
       "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The head of the department that leads for this disaster (data/executive/emergency.json, by incident type) opens and says what their department's records show of it; the other heads join when a room can seat more than one speaker (pool item director-emergency-briefing-other-heads). The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
@@ -3615,7 +3582,9 @@
           },
           "causeEngine": "executive",
           "causeRecord": "executive.emergency-offered",
-          "bind": { "you": "subject" },
+          "bind": {
+            "you": "subject"
+          },
           "opener": "briefer"
         }
       ],
@@ -4313,7 +4282,6 @@
           "bearing": "anxious"
         }
       ],
-
       "setting": ["office", "chamber", "phone"],
       "timing": "at-cause",
       "causes": [
@@ -4325,7 +4293,10 @@
                 "key": "sponsorId",
                 "is": "subject"
               },
-              { "key": "firstChamber", "equals": ["yes"] }
+              {
+                "key": "firstChamber",
+                "equals": ["yes"]
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -5331,7 +5302,11 @@
     },
     {
       "key": "endorsement-ask",
-      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
+      "receive": {
+        "age": "any",
+        "counterpart": "apart",
+        "seat": "any"
+      },
       "note": "A candidate's campaign asks the player, one of the people closest to the candidate, to endorse them, or calls in a favor the player owes from a deal in office (the campaigns engine's endorsement-asked record: the endorsement row says `asked` until the player answers). The player's reply writes the row's yes or no. A put-off comes back after the offer spacing days as a second asking until the race is decided; the second asking offers no put-off. The asker gives one reason, the strongest the record holds; only a favor names a deal (owner, Oct 6: endorsements are not trades by default).",
       "roles": [
         {
@@ -5358,11 +5333,19 @@
           "match": {
             "label": "cause:event:endorsement-asked",
             "selfNamed": true,
-            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "endorsement-asked",
-          "bind": { "candidate": "counterpart", "you": "subject" },
+          "bind": {
+            "candidate": "counterpart",
+            "you": "subject"
+          },
           "opener": "candidate",
           "opening": "request"
         }
@@ -5694,14 +5677,23 @@
             "label": "cause:event:petition-short",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "invitedId", "is": "subject" },
-              { "key": "tellerKind", "equals": ["clerk"] }
+              {
+                "key": "invitedId",
+                "is": "subject"
+              },
+              {
+                "key": "tellerKind",
+                "equals": ["clerk"]
+              }
             ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "petition-short",
           "setting": ["venue"],
-          "bind": { "teller": "counterpart", "you": "subject" },
+          "bind": {
+            "teller": "counterpart",
+            "you": "subject"
+          },
           "opener": "teller",
           "opening": "tell"
         },
@@ -5710,14 +5702,23 @@
             "label": "cause:event:petition-short",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "invitedId", "is": "subject" },
-              { "key": "tellerKind", "equals": ["helper"] }
+              {
+                "key": "invitedId",
+                "is": "subject"
+              },
+              {
+                "key": "tellerKind",
+                "equals": ["helper"]
+              }
             ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "petition-short",
           "setting": ["home"],
-          "bind": { "teller": "counterpart", "you": "subject" },
+          "bind": {
+            "teller": "counterpart",
+            "you": "subject"
+          },
           "opener": "teller",
           "opening": "tell"
         }

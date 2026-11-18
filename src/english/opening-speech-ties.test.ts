@@ -62,8 +62,6 @@ function factTie(fact: string, subject: string): PartTie {
       "measure",
       "to",
       "first-to",
-      "turn-to",
-      "turn-from",
       "about",
       "about-one",
       "about-many",

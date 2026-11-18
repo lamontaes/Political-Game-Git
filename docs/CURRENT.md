@@ -210,3 +210,4 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `.claude/skills/skill-lessons` | `.claude/skills/done-proof/references/skill-lessons.md` | 2026-11-17 | The mirror of the row above, removed with it. |
 | `.agents/skills/play-walks` | `.agents/skills/verify/references/play-walks.md` | 2026-11-17 | Merged into the verify skill, which drives the running game from a script, when the CTO capped the skills (owner, Nov 16: "Let's go ahead"); its body moved word for word. |
 | `.claude/skills/play-walks` | `.claude/skills/verify/references/play-walks.md` | 2026-11-17 | The mirror of the row above, removed with it. |
+| `src/bench/opening-landing.browser.mjs` | `src/director/scene.ts` | 2026-11-17 | The opening's own landing line is deleted (owner, Nov 17: "It's the evening of January 20. You stay in" played twice); the director's evening scene names the day when it opens, and the browser check that pinned the second copy goes with it. |

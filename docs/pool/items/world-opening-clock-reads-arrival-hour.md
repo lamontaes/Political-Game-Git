@@ -28,10 +28,10 @@ source: Owner, Nov 16, 2026 ("the timing is completely messed up"), crew line #9
 
 **Rules.** The `wire-to-the-world` rule applies: the clock reads the household's work spans and the address airing through `openingArrivalMinute`. No dice: the hour is from records.
 
-**Done when.** In a drawn place and a seed the builder did not choose, the card's clock on the opening evening shows the hour of the arrival minute, shown by `src/bench/opening-landing.browser.mjs`; a second session sees it on a new game.
+**Done when.** In a drawn place and a seed the builder did not choose, the card's clock on the opening evening shows the hour of the arrival minute, seen on the card by a second session on a new game (the browser check that showed it went with the opening's own landing line, Nov 17).
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/handler.ts, src/bench/opening-landing.browser.mjs
+**Files.** src/bench/handler.ts
 
 **Notes.** #9256 carries a similar fix inside a 69-file change; this takes only the clock.

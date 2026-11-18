@@ -894,6 +894,12 @@
       "now": ".claude/skills/verify/references/play-walks.md",
       "when": "2026-11-17",
       "why": "The mirror of the row above, removed with it."
+    },
+    {
+      "old": "src/bench/opening-landing.browser.mjs",
+      "now": "src/director/scene.ts",
+      "when": "2026-11-17",
+      "why": "The opening's own landing line is deleted (owner, Nov 17: \"It's the evening of January 20. You stay in\" played twice); the director's evening scene names the day when it opens, and the browser check that pinned the second copy goes with it."
     }
   ]
 }
