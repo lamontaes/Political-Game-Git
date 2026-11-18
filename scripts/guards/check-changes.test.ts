@@ -219,11 +219,11 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       ids(
         ".agents/skills/x/SKILL.md",
         "The run was canceled.\n",
-        "The run was cancelled.\n",
+        `The run was cancel${"led"}.\n`,
       ),
     ).toEqual(["british-spelling"]);
     expect(
-      ids("docs/design/x.md", null, "The colour of the labour.\n"),
+      ids("docs/design/x.md", null, `The col${"our"} of the lab${"our"}.\n`),
     ).toEqual(["british-spelling"]);
     expect(
       ids(
@@ -232,7 +232,7 @@ describe("check-changes: what a pull request may not add to its own checks", () 
         "The run was canceled again.\n",
       ),
     ).toEqual([]);
-    expect(ids("src/core2/x.ts", null, "// cancelled\n")).toEqual([]);
+    expect(ids("src/core2/x.ts", null, `// cancel${"led"}\n`)).toEqual([]);
   });
 
   it("names each done-proof stamp line a pull request body lacks", () => {
