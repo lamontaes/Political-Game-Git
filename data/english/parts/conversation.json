@@ -39546,120 +39546,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.address-point-answer-instead.then-what-would-you-do-about-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "Then what would you do about {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.so-what-s-the-answer-on-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "So what's the answer on {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.if-not-that-then-what-on-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "If not that, then what on {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point", "stand-against"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.you-don-t-like-it-what-s-your-answer-on-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "You don't like it. What's your answer on {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point", "stand-against"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.what-would-you-do-about-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "What would you do about {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-answer-instead.what-s-your-fix-for-about",
-      "move": "address-point-answer-instead",
-      "kind": "spoken",
-      "text": "What's your fix for {about}?",
-      "uses": [
-        {
-          "move": "address-point-answer-instead",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "instead",
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
       "move": "address-point-back-agree",
       "kind": "spoken",
@@ -40031,198 +39917,6 @@
           "role": "core",
           "stages": ["here"],
           "requiresFacts": ["law-state-no"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.i-d-stop-pretending-place-is-fine-for-a-start",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "I'd stop pretending {place} is fine, for a start.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.i-d-have-president-object-say-it-straight-for-one-thing",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "I'd have {president-object} say it straight, for one thing.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["year-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.what-president-said-i-ve-got-nothing-better",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "What {president} said. I've got nothing better.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["stand-with", "policy-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.i-d-do-what-president-said-that-s-the-point",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "I'd do what {president} said. That's the point.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["stand-with", "policy-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.i-d-leave-it-alone-and-fix-what-s-broken-in-place",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "I'd leave it alone and fix what's broken in {place}.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["stand-against", "policy-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.anything-but-what-president-wants",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "Anything but what {president} wants.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["stand-against", "policy-point"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.i-don-t-have-an-answer-yet-you-honestly",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "I don't have an answer yet, {you}. Honestly.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["stand-unsure"]
-        }
-      ],
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable)",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.address-point-back-instead.ask-me-again-once-decider-has-voted",
-      "move": "address-point-back-instead",
-      "kind": "spoken",
-      "text": "Ask me again once {decider} has voted.",
-      "uses": [
-        {
-          "move": "address-point-back-instead",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["instead"],
-          "requiresFacts": ["stand-unsure"]
         }
       ],
       "piece": {
@@ -41238,6 +40932,394 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story lead (Fable)",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-ask.okay-what-does-that-change-for-you-in-place",
+      "move": "address-point-answer-ask",
+      "kind": "spoken",
+      "text": "Okay. What does that change for you in {place}?",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "ask",
+          "move": "address-point-answer-ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-ask.tell-me-what-does-it-change-for-you-in-place",
+      "move": "address-point-answer-ask",
+      "kind": "spoken",
+      "text": "Tell me. What does it change for you in {place}?",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "ask",
+          "move": "address-point-answer-ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-ask.maybe-how-does-that-touch-you-in-place",
+      "move": "address-point-answer-ask",
+      "kind": "spoken",
+      "text": "Maybe. How does that touch you in {place}?",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "ask",
+          "move": "address-point-answer-ask"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-ask.i-m-curious-what-it-changes-for-you-in-place",
+      "move": "address-point-answer-ask",
+      "kind": "spoken",
+      "text": "I'm curious what it changes for you in {place}.",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "ask",
+          "move": "address-point-answer-ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-let-go.let-s-leave-about-for-another-night",
+      "move": "address-point-answer-let-go",
+      "kind": "spoken",
+      "text": "Let's leave {about} for another night.",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "let-go",
+          "move": "address-point-answer-let-go"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-let-go.i-d-rather-not-get-into-about-right-now",
+      "move": "address-point-answer-let-go",
+      "kind": "spoken",
+      "text": "I'd rather not get into {about} right now.",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "let-go",
+          "move": "address-point-answer-let-go"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-let-go.i-m-not-going-to-argue-about-about",
+      "move": "address-point-answer-let-go",
+      "kind": "spoken",
+      "text": "I'm not going to argue about {about}.",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "let-go",
+          "move": "address-point-answer-let-go"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-answer-let-go.we-can-let-about-go-for-now",
+      "move": "address-point-answer-let-go",
+      "kind": "spoken",
+      "text": "We can let {about} go for now.",
+      "uses": [
+        {
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "let-go",
+          "move": "address-point-answer-let-go"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.since-employer-let-me-go-i-count-every-dollar",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "Since {employer} let me go, I count every dollar.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-work", "employer"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.since-employer-i-ve-been-looking-that-s-what-it-means",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "Since {employer}, I've been looking. That's what it means.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-work", "employer"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.rent-in-place-takes-most-of-what-we-make",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "Rent in {place} takes most of what we make.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-lease"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.every-month-the-rent-in-place-comes-first",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "Every month the rent in {place} comes first.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-lease"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.i-m-thinking-of-relative-kin-when-i-hear-it",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "I'm thinking of {relative-kin} when I hear it.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-relative", "relative-kin"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.it-comes-down-to-relative-kin-mostly",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "It comes down to {relative-kin}, mostly.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-relative", "relative-kin"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.i-read-about-it-in-outlet-story-ran-and-it-stuck",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "I read about it in {outlet} {story-ran}, and it stuck.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-story", "outlet", "story-ran"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.after-what-outlet-printed-story-ran-i-pay-attention",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "After what {outlet} printed {story-ran}, I pay attention.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-story", "outlet", "story-ran"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.prices-in-place-are-where-i-feel-it-first",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "Prices in {place} are where I feel it first.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-money"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-ask.in-place-it-s-the-grocery-bill-that-tells-me",
+      "move": "address-point-back-ask",
+      "kind": "spoken",
+      "text": "In {place}, it's the grocery bill that tells me.",
+      "uses": [
+        {
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["why-money"],
+          "move": "address-point-back-ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-let-go.fine-we-ll-see-what-president-gets-done",
+      "move": "address-point-back-let-go",
+      "kind": "spoken",
+      "text": "Fine. We'll see what {president} gets done.",
+      "uses": [
+        {
+          "move": "address-point-back-let-go",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["let-go"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-let-go.fair-it-ll-still-be-there-when-president-speaks-again",
+      "move": "address-point-back-let-go",
+      "kind": "spoken",
+      "text": "Fair. It'll still be there when {president} speaks again.",
+      "uses": [
+        {
+          "move": "address-point-back-let-go",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["let-go"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story lead",
+      "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.address-point-back-let-go.okay-nothing-reaches-place-that-fast-anyway",
+      "move": "address-point-back-let-go",
+      "kind": "spoken",
+      "text": "Okay. Nothing reaches {place} that fast anyway.",
+      "uses": [
+        {
+          "move": "address-point-back-let-go",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["let-go"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead",
       "date": "2026-11-18"
     }
   ]
