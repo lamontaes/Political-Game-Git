@@ -330,19 +330,17 @@ ol {
     transparent 88%
   );
 }
+/* The label stands above the people, at the strip's left end, so it never lies over a name. */
 .bust-strip .busts-label {
   position: absolute;
-  left: 11%;
-  bottom: 9px;
+  left: 0;
+  bottom: 100%;
+  padding-bottom: 4px;
   font: var(--group-font);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
-}
-/* One to three people fill the strip with their names: no room for the label. */
-.bust-strip:is([data-count="1"], [data-count="2"], [data-count="3"])
-  .busts-label {
-  display: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 .bust-strip .busts-row {
   position: relative;

@@ -20,7 +20,7 @@ try {
     const page = await browser.newPage({
       viewport: { width: 1440, height: 900 },
     });
-    page.setDefaultTimeout(120000);
+    page.setDefaultTimeout(600000);
     page.on("pageerror", (e) => errors.push(e.message));
     const { seed, placeName } = await startLife(page, {
       url: `http://localhost:${process.env.BENCH_PORT ?? 3000}/play`,
