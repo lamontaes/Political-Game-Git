@@ -535,6 +535,8 @@ export interface CandidateStanding {
   readonly name: string;
   /** Whether this is the person asking. */
   readonly you: boolean;
+  /** Said they are running and has not filed yet: their window is still ahead. */
+  readonly announced: boolean;
   readonly acts: readonly {
     readonly act: string;
     readonly reached: number;
@@ -634,6 +636,7 @@ export function contestStanding(
         ? `${person.givenName} ${person.familyName}`
         : filing.personId,
       you: filing.personId === personId,
+      announced: filing.status === "announced",
       acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
       reached: moved.size,
       warmer: [...moved.values()].filter((d) => d > 0).length,
