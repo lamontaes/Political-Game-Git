@@ -27187,10 +27187,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-come-i-d-like-to-hear-more-about-cause",
+      "key": "scene-talk.reply-agree.i-ll-come-i-d-like-to-hear-about-cause",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll come. I'd like to hear more about {cause}.",
+      "text": "I'll come. I'd like to hear about {cause}.",
       "uses": [
         {
           "subject": "scene",
