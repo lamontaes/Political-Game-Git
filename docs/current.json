@@ -1290,6 +1290,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the after-the-speech scene (a moved listener comes over) to compose; its lines are deleted and it is skipped unworded."
+    },
+    {
+      "old": "src/director/serve-price-scene.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its four cases needed the priced no (a member names the price of their vote) to be offered in the serve scene; those reply lines are deleted, so no offer came and every case failed on it."
     }
   ]
 }

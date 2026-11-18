@@ -63,12 +63,6 @@ const STILL_THERE = [
  */
 const NEVER_TOGETHER = "person_16f6ccc1fba7ca03" as PersonId;
 
-interface Line {
-  speakerId: string;
-  kind: string;
-  text: string;
-  sourceRecordIds: string[];
-}
 const ask = async (method: string, path: string) => {
   const reply = await benchRequest(method, new URL(path, "http://bench"), {
     developer: true,

@@ -37,4 +37,4 @@ The player answers from the promise talk's existing answers (own-it, explain, de
 
 **Waits on.** gov-serve-ask-price-end.
 
-**Files.** data/english/parts/conversation.json, src/director/promise-talk.ts, src/director/serve-price-scene.test.ts
+**Files.** data/english/parts/conversation.json, src/director/promise-talk.ts
