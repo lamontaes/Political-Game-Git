@@ -38,6 +38,7 @@ import {
   subjectsBetween,
   type Conversation,
 } from "./conversation";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { ADDRESS_FACT } from "./opening-facts";
 
 const STAND_INS = vi.hoisted(() => {
@@ -150,6 +151,8 @@ const BACK = rules.addressPoint.back;
 const REPLIES = rules.addressPoint.replies;
 const ONE_LINER = rules.addressPoint.oneLiner.fact;
 const CLOSER = "address-point-closer";
+const ADDRESS_DAYS =
+  DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressDays!.value;
 
 function world(draw: number, purpose: string) {
   const place = drawPlace(`${seed}:${draw}`, purpose);
@@ -224,140 +227,167 @@ it(`ask is offered only with a reason of their own and answered from it; let it 
   ) {
     const { core, director, me, where } = world(draw, "address-replies");
     process.stderr.write(`address-replies: ${where}\n`);
-    const talks: { otherId: PersonId; talk: Conversation }[] = [];
-    for (const other of housematesOf(core, me)) {
-      const otherId = other.id as PersonId;
-      const talk = pointTalk(core, me, otherId, director);
-      if (!talk) continue;
-      const here = `${where}: ${other.givenName}`;
-      const facts = talk.last!.facts;
-      const moves = new Set(talk.choices.map((row) => row.move));
-      const reason = STAND_INS.marks.find((mark) => !!facts[mark]);
-      // Ask: only with a reason from their own life; the stand-in opens on a
-      // statement, so a closing question never holds it back.
-      expect(moves.has(REPLIES.ask), `${here}: ask with ${reason}`).toBe(
-        !!reason,
-      );
-      // One ask on a screen: never both forms.
-      expect(moves.has(REPLIES.ask) && moves.has(REPLIES.here), here).toBe(
-        false,
-      );
-      // Let it go is always a reply to the point.
-      expect(moves.has(REPLIES.letGo), here).toBe(true);
-      expect(moves.has("instead"), here).toBe(false);
-      // The one-liner: watched together at home, a decided stand, and traits
-      // that keep talk short (no roll).
-      const line = talk.lines.find(
-        (row) => row.kind === POINT && row.speakerId === otherId,
-      )!;
-      const keepsShort =
-        decisionLean(
-          core,
-          core.people.get(otherId)!,
-          "conversation.reply-reach",
-          "carry-on",
-          "keep-short",
-        ) < 0;
-      const expected =
-        watchedTogether(core, me, otherId) &&
-        !!facts["stand-decided"] &&
-        keepsShort;
-      expect(!!facts[ONE_LINER], `${here}: "${line.text}"`).toBe(expected);
-      const closer = (line.wording?.parts ?? []).some((key) =>
-        key.includes(CLOSER),
-      );
-      if (facts[ONE_LINER]) {
-        expect(closer, `${here}: "${line.text}"`).toBe(false);
-        expect(line.text, here).not.toMatch(/\?$/);
-        oneLiners += 1;
-        seen.push(`${here}: one line: "${line.text}"`);
-      } else if (closer) withCloser += 1;
-      talks.push({ otherId, talk });
-    }
-    // One point talk a day in a house: the first that can show what is
-    // still unproved answers it.
-    const askTalk = !asked
-      ? talks.find(({ talk }) =>
-          talk.choices.some((row) => row.move === REPLIES.ask),
-        )
-      : undefined;
-    const pick = askTalk ?? (!letGo || !raisedAgain ? talks[0] : undefined);
-    if (!pick) continue;
-    const { otherId, talk } = pick;
-    const here = `${where}: ${core.people.get(otherId)!.givenName}`;
-    const question = talk.last!.subject.point!.question;
-    if (askTalk) {
-      const choice = talk.choices.find((row) => row.move === REPLIES.ask)!;
-      const reason = STAND_INS.marks.find((mark) => !!talk.last!.facts[mark])!;
-      const before = talk.lines.length;
+    // Only the player's house has heard the address on the opening evening,
+    // and a reason from their own life (a story read, a lease, a relative)
+    // may come in the days after: each drawn world is read evening by
+    // evening while the address is the day's news at home.
+    const reasons = new Set<string>();
+    for (let day = 0; day <= ADDRESS_DAYS; day += 1) {
+      if (asked && letGo && raisedAgain && oneLiners) break;
+      if (day) advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const talks: { otherId: PersonId; talk: Conversation }[] = [];
+      for (const other of housematesOf(core, me)) {
+        const otherId = other.id as PersonId;
+        const talk = pointTalk(core, me, otherId, director);
+        if (!talk) continue;
+        const here = `${where}: ${other.givenName}`;
+        const facts = talk.last!.facts;
+        const moves = new Set(talk.choices.map((row) => row.move));
+        const reason = STAND_INS.marks.find((mark) => !!facts[mark]);
+        reasons.add(reason ?? "none");
+        // Ask: only with a reason from their own life; the stand-in opens on a
+        // statement, so a closing question never holds it back.
+        expect(moves.has(REPLIES.ask), `${here}: ask with ${reason}`).toBe(
+          !!reason,
+        );
+        // One ask on a screen: never both forms.
+        expect(moves.has(REPLIES.ask) && moves.has(REPLIES.here), here).toBe(
+          false,
+        );
+        // Let it go is always a reply to the point.
+        expect(moves.has(REPLIES.letGo), here).toBe(true);
+        expect(moves.has("instead"), here).toBe(false);
+        // The one-liner: watched together at home, a decided stand, and traits
+        // that keep talk short (no roll).
+        const line = talk.lines.find(
+          (row) => row.kind === POINT && row.speakerId === otherId,
+        )!;
+        const keepsShort =
+          decisionLean(
+            core,
+            core.people.get(otherId)!,
+            "conversation.reply-reach",
+            "carry-on",
+            "keep-short",
+          ) < 0;
+        const expected =
+          watchedTogether(core, me, otherId) &&
+          !!facts["stand-decided"] &&
+          keepsShort;
+        expect(!!facts[ONE_LINER], `${here}: "${line.text}"`).toBe(expected);
+        const closer = (line.wording?.parts ?? []).some((key) =>
+          key.includes(CLOSER),
+        );
+        if (facts[ONE_LINER]) {
+          expect(closer, `${here}: "${line.text}"`).toBe(false);
+          expect(line.text, here).not.toMatch(/\?$/);
+          oneLiners += 1;
+          seen.push(`${here}: one line: "${line.text}"`);
+        } else if (closer) withCloser += 1;
+        talks.push({ otherId, talk });
+      }
+      // One point talk a day in a house: the first that can show what is
+      // still unproved answers it.
+      const askTalk = !asked
+        ? talks.find(({ talk }) =>
+            talk.choices.some((row) => row.move === REPLIES.ask),
+          )
+        : undefined;
+      const pick = askTalk ?? (!letGo || !raisedAgain ? talks[0] : undefined);
+      if (!pick) continue;
+      const { otherId, talk } = pick;
+      const here = `${where}: ${core.people.get(otherId)!.givenName}`;
+      const question = talk.last!.subject.point!.question;
+      if (askTalk) {
+        const choice = talk.choices.find((row) => row.move === REPLIES.ask)!;
+        const reason = STAND_INS.marks.find(
+          (mark) => !!talk.last!.facts[mark],
+        )!;
+        const before = talk.lines.length;
+        say(core, talk, choice.key);
+        const answer = talk.lines[before + 1];
+        expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
+        // Answered from their reason: a stand-in answers only its own mark;
+        // the bank's own lines are read the same way, by the reason's record.
+        const ownPiece = answer!.wording!.parts.find((key) =>
+          key.startsWith("test-stand-in."),
+        );
+        if (ownPiece) expect(ownPiece, here).toContain(reason);
+        expect(
+          core.knowledgeByPerson.get(otherId)?.get(pointKey(me, question))
+            ?.value,
+          here,
+        ).toBe(REPLIES.ask);
+        seen.push(
+          `${here}: ask ("${choice.text}") answered "${answer!.text}" from ${reason}`,
+        );
+        asked = true;
+        continue;
+      }
+      // Let it go.
+      const choice = talk.choices.find((row) => row.move === REPLIES.letGo)!;
+      // The tie's time together, through the core's own writer: the
+      // relationship row's latest change is this reply's.
+      const tie = () =>
+        [...core.relationships.values()].find(
+          (row) =>
+            (row.actorId === me && row.otherId === otherId) ||
+            (row.actorId === otherId && row.otherId === me),
+        );
+      const recordedBefore = talk.recorded.length;
       say(core, talk, choice.key);
-      const answer = talk.lines[before + 1];
-      expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
-      // Answered from their reason: a stand-in answers only its own mark;
-      // the bank's own lines are read the same way, by the reason's record.
-      const ownPiece = answer!.wording!.parts.find((key) =>
-        key.startsWith("test-stand-in."),
+      const eventId = talk.lines.find(
+        (row) => row.move === REPLIES.letGo,
+      )?.recordId;
+      expect(tie()?.lastContactDate, `${here}: the tie's time`).toBe(core.date);
+      const change = tie()?.latestChange as
+        { reason?: { sourceId?: string } } | undefined;
+      if (change)
+        expect(change.reason?.sourceId, `${here}: the tie's time`).toBe(
+          eventId,
+        );
+      // No stand is kept; the no is its own record, an event of the core.
+      const known = core.knowledgeByPerson.get(otherId);
+      expect(known?.get(pointKey(me, question)), here).toBeUndefined();
+      const no = known?.get(letGoKey(me, question));
+      expect(no?.value, here).toBe(core.date);
+      expect(core.eventIds.has(no!.sourceId as never), here).toBe(true);
+      expect(talk.recorded.slice(recordedBefore), here).toContain(no!.sourceId);
+      // Dev mode's record of the talk: the player's line names its move and
+      // the id its records start with, and Trace finds the record.
+      const mine = talk.lines.find((row) => row.move === REPLIES.letGo);
+      expect(no!.sourceId.startsWith(mine?.recordId ?? "-"), here).toBe(true);
+      const traced = traceNode(core, director, no!.sourceId);
+      expect(traced.answer, `${here}: Trace of ${no!.sourceId}`).not.toBe(
+        "not-a-record",
       );
-      if (ownPiece) expect(ownPiece, here).toContain(reason);
-      expect(
-        core.knowledgeByPerson.get(otherId)?.get(pointKey(me, question))?.value,
-        here,
-      ).toBe(REPLIES.ask);
+      // The talk closes on their answer.
+      expect(talk.choices, here).toEqual([]);
+      expect(talk.lines.at(-1)?.speakerId, here).toBe(otherId);
+      letGo = true;
+      // A later evening: the same point is theirs to raise again, and it
+      // knows it was let go.
+      const letGoOn = core.date;
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      day += 1;
+      const again = subjectsBetween(core, otherId, me, director).find(
+        (row) => row.kind === POINT && row.point?.question === question,
+      );
+      expect(again, `${here}: the point on ${core.date}`).toBeTruthy();
+      expect(again!.facts[REPLIES.letGoFact]?.sourceRecordIds, here).toContain(
+        no!.sourceId,
+      );
+      const next = pointTalk(core, me, otherId, director);
+      const raised = next?.last?.subject.point?.question === question;
       seen.push(
-        `${here}: ask ("${choice.text}") answered "${answer!.text}" from ${reason}`,
+        `${here}: let go on ${letGoOn} ("${choice.text}" / "${talk.lines.at(-1)!.text}", record ${no!.sourceId}); on ${core.date} the point is ${raised ? `raised again: "${next!.lines.find((row) => row.kind === POINT)!.text}"` : "theirs to raise but another subject leads"}`,
       );
-      asked = true;
-      continue;
+      if (raised) raisedAgain = true;
     }
-    // Let it go.
-    const choice = talk.choices.find((row) => row.move === REPLIES.letGo)!;
-    // The tie's time together, through the core's own writer.
-    const tie = () =>
-      [...core.relationships.values()].find(
-        (row) =>
-          (row.actorId === me && row.otherId === otherId) ||
-          (row.actorId === otherId && row.otherId === me),
-      )?.level ?? 0;
-    const tieBefore = tie();
-    const recordedBefore = talk.recorded.length;
-    say(core, talk, choice.key);
-    expect(tie(), `${here}: the tie's time`).toBeGreaterThan(tieBefore);
-    // No stand is kept; the no is its own record, an event of the core.
-    const known = core.knowledgeByPerson.get(otherId);
-    expect(known?.get(pointKey(me, question)), here).toBeUndefined();
-    const no = known?.get(letGoKey(me, question));
-    expect(no?.value, here).toBe(core.date);
-    expect(core.eventIds.has(no!.sourceId as never), here).toBe(true);
-    expect(talk.recorded.slice(recordedBefore), here).toContain(no!.sourceId);
-    // Dev mode's record of the talk: the player's line names its move and
-    // the id its records start with, and Trace finds the record.
-    const mine = talk.lines.find((row) => row.move === REPLIES.letGo);
-    expect(no!.sourceId.startsWith(mine?.recordId ?? "-"), here).toBe(true);
-    const traced = traceNode(core, director, no!.sourceId);
-    expect(traced.answer, `${here}: Trace of ${no!.sourceId}`).not.toBe(
-      "not-a-record",
-    );
-    // The talk closes on their answer.
-    expect(talk.choices, here).toEqual([]);
-    expect(talk.lines.at(-1)?.speakerId, here).toBe(otherId);
-    letGo = true;
-    // A later evening: the same point is theirs to raise again, and it
-    // knows it was let go.
-    const day = core.date;
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const again = subjectsBetween(core, otherId, me, director).find(
-      (row) => row.kind === POINT && row.point?.question === question,
-    );
-    expect(again, `${here}: the point on ${core.date}`).toBeTruthy();
-    expect(again!.facts[REPLIES.letGoFact]?.sourceRecordIds, here).toContain(
-      no!.sourceId,
-    );
-    const next = pointTalk(core, me, otherId, director);
-    const raised = next?.last?.subject.point?.question === question;
-    seen.push(
-      `${here}: let go on ${day} ("${choice.text}" / "${talk.lines.at(-1)!.text}", record ${no!.sourceId}); on ${core.date} the point is ${raised ? `raised again: "${next!.lines.find((row) => row.kind === POINT)!.text}"` : "theirs to raise but another subject leads"}`,
-    );
-    if (raised) raisedAgain = true;
+    if (!asked)
+      seen.push(
+        `${where}: passed over for ask, the points stood on ${[...reasons].join(", ") || "no point raised"}`,
+      );
   }
   process.stdout.write(
     `ADDRESS REPLIES ${seed}: ${seen.join("; ")}; one-liners ${oneLiners}, with a closer ${withCloser}\n`,
