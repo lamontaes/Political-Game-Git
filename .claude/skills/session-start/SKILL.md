@@ -1,12 +1,11 @@
 ---
 name: session-start
 description: >
-  What a building session of the game checks before it starts and before
-  it marks a pull request ready: the opening reads, the red-main rule and the
-  self-check. The loop itself (taking the next item, building, handing off) is
-  docs/pool/START-A-BUILDER.md. Use first in every building session, cloud or
-  local, Claude, Codex, Muse or any other agent; not for merging (merger),
-  checking (checker) or the play-first lane (play-first).
+  What a building session checks before it starts and before it marks a pull
+  request ready: the opening reads, the red-main rule and the self-check; the
+  loop itself is docs/pool/START-A-BUILDER.md. Use first in every building
+  session, cloud or local, on any agent. Not for merging (merger), checking
+  (merger) or the play-first lane (play-first).
 ---
 
 # Session start
@@ -20,7 +19,7 @@ description: >
 3. **Cloud container:** set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command and install with `npm install`. On the owner's Mac, follow "Workspaces and storage" in `AGENTS.md`.
 4. **Run the golden-path suite before you change anything:** `node --import tsx tests/golden-path/runner.mjs`.
 5. **Red main comes first (owner, Oct 15).** Read the newest release run on main (`gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`, or your tool's GitHub functions). If it failed, claim `release-main-red` and fix it at the root on its own pull request (`red-main`), then return to your item.
-6. **A sent-back item is a fix, not a build:** follow `pr-fixer`. An item that says `Needs cause.` is never built (`.agents/rules/pool-item-standard.md`).
+6. **A sent-back item is a fix, not a build:** follow `merger` (pr-fixer part). An item that says `Needs cause.` is never built (`.agents/rules/pool-item-standard.md`).
 7. **Read every function, export and field you plan to use on current `origin/main` first.** Names change daily; code written from memory of an older main is the most common unverified assumption.
 
 ## While you build
@@ -59,13 +58,13 @@ Checkers and mergers send back most pull requests for the same few reasons, and 
 
 ## The pull request body
 
-Follow `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is exactly `Pool item: <id>`, with no backticks; the merge flips the item to `merged`, and a second session's check in the running game makes it `done` (`seen-in-game`), so write each Done-when line as something that session can do from the game. For every new or changed test file the gate line also says `fresh draws: N of 10 passed` with the seeds you ran and the file name (Oct 28: #6653, #6660 and #6664 each sent back for a new test that failed on fresh seeds). Never edit an item's status inside your feature pull request. Never wait on GitHub's CI or re-run it (owner, Oct 29); the checker and merger read it.
+Follow `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is exactly `Pool item: <id>`, with no backticks; the merge flips the item to `merged`, and a second session's check in the running game makes it `done` (`done-proof` (seen-in-game part)), so write each Done-when line as something that session can do from the game. For every new or changed test file the gate line also says `fresh draws: N of 10 passed` with the seeds you ran and the file name (Oct 28: #6653, #6660 and #6664 each sent back for a new test that failed on fresh seeds). Never edit an item's status inside your feature pull request. Never wait on GitHub's CI or re-run it (owner, Oct 29); the checker and merger read it.
 
 ## Rules
 
 - Never force-push, rebase or amend a pushed branch. A merged pull request carries no new work; open a new branch.
 - **A merged pull request's branch is finished.** Later work starts on a new branch from main with a new name; pushing to the merged branch stacks new commits on history that is already in main. On Nov 10 two follow-ups (#8254, #8370) had to be rebuilt on fresh branches. Once you post a head as ready, do not push to that branch again unless it is sent back: a new push changes the head the desk gated.
-- The item's pull request is the thread (`docs/pool/START-A-BUILDER.md`). Questions for the owner or CTO are comments on it, and a message to the CTO or a neighboring session never replaces the record (owner, Oct 29; `crew-messages`).
+- The item's pull request is the thread (`docs/pool/START-A-BUILDER.md`). Questions for the owner or CTO are comments on it, and a message to the CTO or a neighboring session never replaces the record (owner, Oct 29; `crew-coordinator` (crew-messages part)).
 - Treat a permission prompt as denied. Do not retry it; work around it or note it on the pull request. Never schedule a wake-up or recurring job, edit anything under `.git/`, or reach outside the container: each one prompts the owner and the session sits for hours (four sessions did on Oct 29).
 - Before you report a pull request as carrying a fix, check its head has the commits you think it has (`git log origin/<branch>`): a commit pushed after the merge desk merged never reaches main, and #7815 merged as only its first commit (Nov 8). A fix you did not see on main after the merge is not on main.
 - After a merge, compare the merged head with your branch; carry anything left out into your next pull request and say so (#6848).

@@ -1,13 +1,13 @@
 ---
 name: remove-a-stopgap
 description: >
-  How to replace and unregister a stopgap row in Our Civic Duty: read the
-  register and the code first, look for open PRs and existing engines to
-  build on, add no new stopgap, and mark a row resolved only when the
-  replacement is real and the marker is gone. Use when a thread's job is to
-  clear a stopgap, when a PR says it resolves one, and when you read a
-  "resolved" row. Not for registering a new one (session-start) or for turning
-  a number into a sourced one (researcher).
+  Replaces and unregisters a stopgap row: read the register and the code first,
+  look for open PRs and existing engines to build on, add no new stopgap, and
+  mark a row resolved only when the replacement is real and the marker is gone;
+  also removing duplicate and dead code with no behavior change. Use when a job
+  is to clear a stopgap, a PR says it resolves one, you read a resolved row, or
+  you remove or merge duplicate code. Not for registering one (session-start) or
+  sourcing a number (researcher).
 ---
 
 # Remove a stopgap
@@ -20,7 +20,7 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 2. **Look for something to build on** before writing anything: `look-first`, open PRs that touch the same files (`mcp__github__list_pull_requests`, the train branch), the engine that already owns the mechanic (AGENTS.md rule 0: every system is already built; wire through it).
 3. **Build the replacement through that engine.** No new stopgap, no new tracking system. If something cannot be done, say what is missing in the PR; do not swap one stand-in for another.
 4. **Unregister only when the replacement is real:** delete the marker and set the row `resolved` with the replacement named. Count what was removed in the PR body.
-5. **Prove it in a played world** (`played-world-proof`): another engine reads the new record, named by id.
+5. **Prove it in a played world** (`done-proof` (played-world-proof part)): another engine reads the new record, named by id.
 
 ## Traps
 
@@ -46,3 +46,9 @@ This overrides any older note, item or skill line that says a builder may leave 
 ## Weights and the owner's source rule (S3, Nov 15)
 
 A row that is a weight or a pull (corruption's offer, take and tell weights, SG-P15-corruption-weights) turns from TUNABLE to ESTIMATED only with real evidence on the row: `estimatedFrom` names what it was fitted or checked against (a figure and where it sits in the repository, the calibration test and what it asserts) and says in plain words what raises and what lowers the chance, and `spread` is `{ low, high, unit, citation }` with where the range came from. Owner, Nov 14: sources establish relationships and effects, never exact figures, so no file or figure is requested; but a row whose size nothing in the repository checks stays TUNABLE and keeps a narrowed stopgap row naming only it (the Account lead's rule on #9413). Delete a stopgap row only when no row names it; grep for the id (data, code, tests) before pushing.
+
+## More in this folder
+
+Read each file here when its moment comes:
+
+- `references/slim-down.md`: for any removal of duplicate or dead code.
