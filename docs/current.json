@@ -1314,6 +1314,12 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its two cases counted the player's replies to a school question, enrolled and graduated; those reply lines are deleted and none is offered."
+    },
+    {
+      "old": "src/director/eviction-host-at-home.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case read every answer of the eviction host-at-home talk for the player's home said as you; those answer lines are deleted and none is said."
     }
   ]
 }
