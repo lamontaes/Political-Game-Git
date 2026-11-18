@@ -1,16 +1,6 @@
----
-name: seen-in-game
-description: >
-  The acceptance rule (owner, Nov 3): nothing is done until a session that did
-  not build it has seen it working in the running game, in a place and seed
-  nobody chose, on main. What the second session does for each kind of work,
-  dev mode as the check, the traps that give a false pass, and recording with
-  npm run pool -- seen. Use when writing an item's Done when, before reporting
-  anything done, and when taking a merged item to check. Not for the builder's
-  proof (played-world-proof) or the merge gate (merger).
----
-
 # Seen in the game
+
+Part of the `done-proof` skill. Until Nov 17, 2026 this was the `seen-in-game` skill; the CTO merged it here when the skills were capped at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747). What it covered: The acceptance rule (owner, Nov 3): nothing is done until a session that did not build it has seen it working in the running game, in a place and seed nobody chose, on main. What the second session does for each kind of work, dev mode as the check, the traps that give a false pass, and recording with npm run pool -- seen. Use when writing an item's Done when, before reporting anything done, and when taking a merged item to check. Not for the builder's proof (played-world-proof) or the merge gate (merger).
 
 **Look first:** run the `look-first` search before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
@@ -22,11 +12,11 @@ Why it exists: on Nov 9 the pool said done 1,926 times and 722 of its 3,096 item
 
 So there are three words, and they are not the same:
 
-| Word   | Means                                                                                   | Who says it                                     |
-| ------ | --------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| built  | The builder's own proof passes (`played-world-proof`) and the pull request is open.     | The builder                                     |
-| merged | The work is on main. The pool item's status is `merged`. Later work may build on it.    | The merge (it flips the item by itself)         |
-| done   | A second session saw it in the running game and recorded what it saw. Status is `done`. | The second session, with `npm run pool -- seen` |
+| Word   | Means                                                                                                 | Who says it                                     |
+| ------ | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| built  | The builder's own proof passes (`done-proof` (played-world-proof part)) and the pull request is open. | The builder                                     |
+| merged | The work is on main. The pool item's status is `merged`. Later work may build on it.                  | The merge (it flips the item by itself)         |
+| done   | A second session saw it in the running game and recorded what it saw. Status is `done`.               | The second session, with `npm run pool -- seen` |
 
 A report to the owner counts only `done`. Write "merged, not yet seen" for the rest. Never write "works", "wired", "fixed" or "solved" for work nobody has seen in the game.
 

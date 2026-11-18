@@ -7,7 +7,7 @@ description: >
   world for leaving a real band becomes a check that a relationship has the
   strength the research gives. Use when writing or fixing any played-world test,
   moving a pinned test to drawn places, converting a band check, or when a test
-  is red by seed. Not for a played-year proof (played-world-proof) or reading a
+  is red by seed. Not for a played-year proof (done-proof, played-world-proof part) or reading a
   red's log (red-main).
 ---
 
@@ -101,6 +101,7 @@ One line each: what happened, its cause, and what to do. From the crew threads (
 - Nov 17, 04:26Z (estates-played-heirs, Pins 31): once wills followed savings and family, the pinned Dennis test found an intestate decedent whose heirs were parents, and the law gives a dead parent's share to the surviving parent. Cause: a lifted pin moved which case the search found first. Narrow the search to the case the assertion is about (an heir among the children), say why in the test, and leave the assertion alone.
 - Nov 17, 05:20Z (estates-played-heirs, Pins 31): probate never closed in 270 days at two drawn places. Cause: a last owner's home holds probate open until it sells. Wait for the settlement itself, and pass over by name an estate with a home to sell when the test is about heirs.
 - Nov 17, 05:30Z (estates-played-heirs, Pins 31): a decedent picked as having no will closed probate by will. Cause: the search read the will before the death, and probate uses the will kept on the row at death. Classify each candidate by the record the engine keeps at the event, not by a reading taken before it.
+- Nov 17, 20:40Z (officials-town-opinion, Pins 18): a test drew places forever, looking for another state's legislator seated as a row, which the train no longer seats. vitest's timeout cannot stop a synchronous loop, so it ran an hour with no output. Bound every draw loop (twelve places), fail naming the places passed over, and fall back to a case the world still keeps (another state's U.S. House member).
 - Nov 17, 13:12Z (dev-discharge, dev-chair, dev-discharge-state; #9970, Fagamalo, American Samoa): 60 tries found no bill a committee held. Cause: every try proposed a minimum-wage cut, and a chair holds only what goes against their own position, so a chair who favors a cut heard all 60. When a search looks for a held, refused or defeated bill, alternate the two directions (a cut and a raise) and let the members' own positions decide which one is held.
 - Nov 16, 23:52Z (standing CTO ruling): a case that only checked the pin ("the fixed seed drew Cassoday") may go when the test moves to drawn places. Cause: it has nothing to check once the place is drawn. Every other dropped case needs a CTO line.
 - Nov 17, 17:35Z (school-outcomes fill-in, Lake Viking, Missouri, seed cbf9c13751481f75): the test took the first counted student whose household's income moves its fifth, and met them, but the student was in the inactive "husk" tier, which the school counts leave out on purpose. Cause: a counted record's members can carry an inactive tier (they live away), and meeting one does not make them active. Choose the case's person among the active-tier members (`!inactiveTiers.has(p.tier ?? "")`), change no assertion.

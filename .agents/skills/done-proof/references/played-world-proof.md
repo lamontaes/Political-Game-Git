@@ -1,15 +1,6 @@
----
-name: played-world-proof
-description: >
-  Proves an Our Civic Duty feature in a one-year run of the played world, with
-  another engine reading what it wrote, named by record id; a jobs, wage or
-  firm-demand change is proven over 24 months with both the inflow into
-  unemployment and the outflow out of it. Use before calling any feature, law or
-  module finished, and for any jobs, business-demand, layoff or regional-work
-  change.
----
-
 # Played-world proof
+
+Part of the `done-proof` skill. Until Nov 17, 2026 this was the `played-world-proof` skill; the CTO merged it here when the skills were capped at about 40 (CTO, Nov 17, 13:28Z and 21:28Z on #9747). What it covered: Proves an Our Civic Duty feature in a one-year run of the played world, with another engine reading what it wrote, named by record id; a jobs, wage or firm-demand change is proven over 24 months with both the inflow into unemployment and the outflow out of it. Use before calling any feature, law or module finished, and for any jobs, business-demand, layoff or regional-work change.
 
 **Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
 
@@ -17,7 +8,7 @@ description: >
 
 A play-first lane item's acceptance is a screenshot (`play-first`); this proof backs the engine side. A pool item at the standard (`.agents/rules/pool-item-standard.md`, owner Nov 10) asks for the proof in **two drawn places**, each named with its seed (`drawPlace` in `tests/golden-path/place.ts`, which a test calls and names in every failure).
 
-A feature counts as built only when the running game shows another part of the game using what it made. A small test world does not show that. This is the builder's proof. It makes the work ready to merge, not done: a second session's check in the running game does that (`seen-in-game`; `npm run pool -- seen`). Put the proof line on the item's pull request, where the next agent finds it.
+A feature counts as built only when the running game shows another part of the game using what it made. A small test world does not show that. This is the builder's proof. It makes the work ready to merge, not done: a second session's check in the running game does that (`done-proof` (seen-in-game part); `npm run pool -- seen`). Put the proof line on the item's pull request, where the next agent finds it.
 
 ## The run
 
