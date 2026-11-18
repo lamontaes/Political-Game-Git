@@ -4,9 +4,11 @@ description: >
   The Wildermyth standard every scene and conversation meets, as checkable
   rules: a scene exists only if it writes something back, roles are cast from
   the world, lines vary by the speaker's traits and tie to the player, narration
-  never restates the screen, time jumps between scenes; and the first report a
-  scene builder writes before any line. Use when writing, wiring, reviewing or
-  grading a scene, talk, situation type, narration or journal line, in
+  never restates the screen, time jumps between scenes; the first report a
+  scene builder writes before any line; and wiring a situation type's cause to a
+  record an engine already keeps (its producers part). Use when writing, wiring,
+  reviewing or grading a scene, talk, situation type, narration or journal line,
+  when a scene waits on a producer or never fires in a played year, in
   playtests, and at the start of any scene or story build.
 ---
 
@@ -54,3 +56,5 @@ Owner, Oct 24: scenes "that come out of what is actually happening in the world,
 Read each file here when its moment comes:
 
 - `references/scene-first-report.md`: at the start of any scene, conversation or story build, before any line.
+- `references/producers.md`: when a scene's cause must be wired to a record an engine keeps, a type never fires in a played year, or one kind needs several arcs (until Nov 18 the `scene-producers` skill).
+- `references/producer-lessons.md`: when a scene with a place, a room, a question or a player choice will not stage or plays wrong.

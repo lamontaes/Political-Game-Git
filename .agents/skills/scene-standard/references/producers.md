@@ -1,14 +1,6 @@
----
-name: scene-producers
-description: >
-  Wires a director situation type's cause to a record an engine already keeps,
-  proves it fires in a played world, and deletes the twins it replaces. Use
-  when a scene waits on a producer, a type never fires in a played year, or
-  one kind needs several arcs. Not for writing lines (scene-standard,
-  civic-prose) or building a missing record in another area's engine.
----
-
 # Scene producers: from an engine's record to a staged scene
+
+Part of the `scene-standard` skill. Until Nov 18, 2026 this was the `scene-producers` skill; the CTO merged it here at the 17:30Z skill check, when the skills were at their cap. Read it when a scene waits on a producer, a type never fires in a played year, or one kind needs several arcs.
 
 **Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
 
@@ -91,4 +83,4 @@ One kind of scene can play several arcs, its **variants**, and the records pick 
 
 Read each file here when its moment comes:
 
-- `references/lessons.md`: when a scene with a place, a room, a question or a player choice will not stage or plays wrong.
+- `producer-lessons.md` (beside this file): when a scene with a place, a room, a question or a player choice will not stage or plays wrong.

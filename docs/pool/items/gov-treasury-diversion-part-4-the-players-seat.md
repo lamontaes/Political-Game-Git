@@ -27,7 +27,7 @@ checked: fable 2026-11-10
 
 **Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** A scene exists only if it writes something back (.agents/skills/scene-standard/SKILL.md): each ending writes the record part 1 defines. No hand-written player text in code. This is a game, not a spreadsheet: the scene comes only from the recorded cause, never on a schedule. Follow .agents/skills/scene-producers/SKILL.md.
+**Rules.** A scene exists only if it writes something back (.agents/skills/scene-standard/SKILL.md): each ending writes the record part 1 defines. No hand-written player text in code. This is a game, not a spreadsheet: the scene comes only from the recorded cause, never on a schedule. Follow .agents/skills/scene-standard/references/producers.md.
 
 **Done when.** A second session, on main, plays an executive in a drawn place (place and seed named), uses dev mode to cut a line the player's recorded stance favors until it runs short at a close, and sees the scene with its three choices. Choosing each in turn on reloads of the same world, it sees a budget amendment bill filed, a diversion on the journal by record id, and nothing moved. A test in src/director names the place, the seed, the scene and the three records.
 
