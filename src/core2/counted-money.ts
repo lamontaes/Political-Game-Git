@@ -42,7 +42,7 @@ import type { CoreAPI, CoreState, PersonId, PlaceId, Source } from "./types";
 export const UNKEYED_STOPGAP = "SG-CORE-counted-unkeyed-money";
 
 /** The parts of a flow the money splits by. */
-type SplitFlow = Pick<
+export type SplitFlow = Pick<
   ResidentFlowInput,
   | "id"
   | "kind"
@@ -55,6 +55,39 @@ type SplitFlow = Pick<
 >;
 
 export const HOUSING_KINDS = new Set(["household.rent", "household.mortgage"]);
+
+/**
+ * A deduction another engine takes from counted wages on payday, after the
+ * law's withholding and in the same entry (a policyholder's health premium,
+ * modules/coverage.ts). `due` names, for each group the flow pays, the account
+ * the money goes to and each household's part; `paid` is told what was taken
+ * of each part, so the engine sees a payday whose pay could not cover it.
+ */
+export interface CountedPayDeduction {
+  readonly key: string;
+  due(
+    api: CoreAPI,
+    rt: ResidentsRuntime,
+    flow: SplitFlow,
+    periodDays: number,
+  ): Map<
+    number,
+    { accountId: string; parts: { householdId: string; minor: number }[] }
+  >;
+  paid(
+    api: CoreAPI,
+    householdId: string,
+    dueMinor: number,
+    paidMinor: number,
+  ): void;
+}
+
+const payDeductions = new Map<string, CountedPayDeduction>();
+export function registerCountedPayDeduction(
+  deduction: CountedPayDeduction,
+): void {
+  payDeductions.set(deduction.key, deduction);
+}
 
 /** Each counted group's people, by group index, for the store's version. */
 function groupPeople(rt: ResidentsRuntime): Map<number, number> {
@@ -743,8 +776,18 @@ export function payGroups(
     input.flow.cadence.kind === "days"
       ? input.flow.cadence.every
       : Math.round((365 / 12) * input.flow.cadence.every);
+  const deductions = wages
+    ? [...payDeductions.values()].map(
+        (d) => [d, d.due(api, rt, input.flow, periodDays)] as const,
+      )
+    : [];
+  const taken = new Map<
+    CountedPayDeduction,
+    { accountId: string; lines: { accountId: string; deltaMinor: number }[] }
+  >();
   for (const [group, gross] of shares) {
     let taxes = 0;
+    let deducted = 0;
     // The base period's wage of one worker of the group, gross before withholding.
     const heads = workers?.get(group) ?? 0;
     if (wages && heads > 0 && input.flow.organizationId) {
@@ -802,11 +845,39 @@ export function payGroups(
         rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + premium);
       }
     }
+    for (const [deduction, owed] of deductions) {
+      const entry = owed.get(group);
+      if (!entry) continue;
+      const due = entry.parts.reduce((n, part) => n + part.minor, 0);
+      const take = Math.max(0, Math.min(due, gross - taxes - deducted));
+      if (take > 0) {
+        const into = taken.get(deduction) ?? {
+          accountId: entry.accountId,
+          lines: [],
+        };
+        into.lines.push({
+          accountId: fundOf(api, rt, group),
+          deltaMinor: -take,
+        });
+        taken.set(deduction, into);
+        deducted += take;
+      }
+      // What was taken is shared over the parts by their size.
+      let left = take;
+      entry.parts.forEach((part, i) => {
+        const paid =
+          i === entry.parts.length - 1
+            ? left
+            : Math.min(left, Math.floor((part.minor * take) / due));
+        left -= paid;
+        deduction.paid(api, part.householdId, part.minor, paid);
+      });
+    }
     lines.push({
       accountId: fundOf(api, rt, group),
       deltaMinor: gross - taxes,
     });
-    net.set(group, gross - taxes);
+    net.set(group, gross - taxes - deducted);
   }
   if (input.paid > 0)
     transferSplit(api.state as CoreState, api, {
@@ -820,6 +891,17 @@ export function payGroups(
           }
         : input.source,
     });
+  // Each deduction goes on from the groups' funds in an entry of its own, as
+  // the wage's payer and the deduction's payee may be different outside accounts.
+  for (const [deduction, into] of taken) {
+    const total = into.lines.reduce((n, line) => n - line.deltaMinor, 0);
+    transferSplit(api.state as CoreState, api, {
+      id: `${input.id}:${deduction.key}`,
+      lines: [...into.lines, { accountId: into.accountId, deltaMinor: total }],
+      reasonKey: deduction.key,
+      source: input.source,
+    });
+  }
   return net;
 }
 

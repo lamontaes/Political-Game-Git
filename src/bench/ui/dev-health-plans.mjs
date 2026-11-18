@@ -1,11 +1,14 @@
 // Dev mode's employer health plans on the Calendar (src/bench/dev-views/health-plans.ts): workers
 // with a job, the share who hold their own plan, the plans that share gives, those held and those
-// left out for a missed premium. Record data and control names only.
+// left out for a missed premium, a month's premiums taken from pay and the holders whose last
+// paycheck fell short. Record data and control names only.
 import { el } from "./dom.mjs";
 import { tableRows } from "./dev-view.mjs";
 
 const count = (n) => Math.round(n).toLocaleString("en-US");
 const percent = (n) => `${Math.round(n * 100)}%`;
+const dollars = (minor) =>
+  `$${Math.round(minor / 100).toLocaleString("en-US")}`;
 
 export const slots = {
   async calendar({ labels, send }) {
@@ -30,6 +33,11 @@ export const slots = {
               name: labels.heldShare,
               value: (r) => (r.workers > 0 ? percent(r.held / r.workers) : ""),
             },
+            {
+              name: labels.premiumsMonthly,
+              value: (r) => dollars(r.premiumsMonthlyMinor),
+            },
+            { name: labels.shortNow, value: (r) => count(r.shortNow) },
           ],
           [plans],
         ),
