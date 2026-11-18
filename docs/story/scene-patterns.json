@@ -13319,7 +13319,7 @@
       "roles": [
         {
           "slot": "the sponsor",
-          "fill": "whoever on the bill record wrote the bill that is stuck: the player, or a colleague who comes to the player. Introduced the first time with full name and what they are to the player. Introduced the first time with full name and what they are to the player."
+          "fill": "whoever on the bill record wrote the bill that is stuck: the player, or a colleague who comes to the player. Introduced the first time with full name and what they are to the player."
         },
         {
           "slot": "committee chair",
@@ -13530,7 +13530,7 @@
       "roles": [
         {
           "slot": "the witness",
-          "fill": "a resident who testified at the hearing and is tied to the bill by their own life: a job, a lease or loan, a child at home, an age, a loss, or only a view. Introduced the first time with a full name and what the bill would do to them. Introduced the first time with full name and what they are to the player."
+          "fill": "a resident who testified at the hearing and is tied to the bill by their own life: a job, a lease or loan, a child at home, an age, a loss, or only a view. Introduced the first time with a full name and what the bill would do to them."
         },
         {
           "slot": "committee chair",
@@ -13975,7 +13975,7 @@
       "roles": [
         {
           "slot": "the offerer",
-          "fill": "the person whose offer the official turned down, who comes back: a donor, a lobbyist, a campaign worker or a fellow member. Introduced the first time with full name and what they are to the player. Introduced the first time with full name and what they are to the player."
+          "fill": "the person whose offer the official turned down, who comes back: a donor, a lobbyist, a campaign worker or a fellow member. Introduced the first time with full name and what they are to the player."
         },
         {
           "slot": "the staffer",
