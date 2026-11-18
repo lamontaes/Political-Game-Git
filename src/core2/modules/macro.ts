@@ -551,6 +551,8 @@ export interface CountryPartRow extends CountryPart {
 
 const partId = (key: string) => `country-part:${key}`;
 const UNSORTED_JOBS = "SG-NATION-town-part-unsorted-jobs";
+// stopgapId: SG-NATION-county-sample-no-government
+const SURVEY_NO_GOVERNMENT = "SG-NATION-county-sample-no-government";
 const SECTOR_TABLE = employerSectors as unknown as {
   classifications: Record<string, CountrySector>;
   kinds: Record<string, CountrySector>;
@@ -604,8 +606,17 @@ function townPartCounts(
     };
     for (const [employer, workers] of part.workersByEmployer)
       add(employer ? sectorOfEmployer(core, employer) : undefined, workers);
-    for (const [industry, workers] of part.workersByIndustry)
-      add(SECTOR_TABLE.naics[industry], workers);
+    // The county sample's workers are sorted by a survey of private employers, which has no
+    // public one: the tier counts the state's own government share of them in government.
+    const privateSurveyJobs: Partial<Record<CountrySector, number>> = {};
+    for (const [industry, workers] of part.workersByIndustry) {
+      const sector = SECTOR_TABLE.naics[industry];
+      if (sector)
+        privateSurveyJobs[sector] =
+          (privateSurveyJobs[sector] ?? p("zero")) + workers;
+      else unsortedJobs += workers;
+    }
+    if (part.workersByIndustry.size) stopgap(SURVEY_NO_GOVERNMENT);
     if (unsortedJobs > p("zero")) stopgap(UNSORTED_JOBS);
     out.set(key, {
       placeIds: [...placeIds].sort(),
@@ -616,6 +627,7 @@ function townPartCounts(
         children: part.children,
         jobs,
         unsortedJobs,
+        privateSurveyJobs,
         cash: part.cashMinor / p("minorPerDollar"),
       },
     });
