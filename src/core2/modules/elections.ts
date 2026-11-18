@@ -295,6 +295,13 @@ export interface FilingRow {
     "announced" | "petitioning" | "on-ballot" | "short" | "withdrawn";
   /** The day the candidate announced, where they announced before filing. */
   readonly announcedOn?: string;
+  /**
+   * How they said so (owner, Nov 17: "There needs to be a bunch of different
+   * ways"; CTO on #9995): a word to someone close, the party's office, a
+   * public moment, or the first time they asked someone for their vote
+   * (`announce-ways.ts`). Absent on a filing made at the counter alone.
+   */
+  readonly announcedBy?: AnnouncedBy;
   /** How a candidate the world put on the ballot came to stand (an incumbent again, a party's nominee). */
   readonly how?: string;
   /**
@@ -1837,7 +1844,12 @@ export function fileCandidacy(
     party: input.party ?? null,
     status: "petitioning",
     ...(announced?.status === "announced"
-      ? { announcedOn: announced.announcedOn ?? announced.filedOn }
+      ? {
+          announcedOn: announced.announcedOn ?? announced.filedOn,
+          ...(announced.announcedBy
+            ? { announcedBy: announced.announcedBy }
+            : {}),
+        }
       : {}),
   };
   table(api, "filings").put(filing as unknown as ModuleRow);
@@ -1850,6 +1862,15 @@ export function fileCandidacy(
 
 /** The kind of the public record of a candidate announcing before filing. */
 export const CANDIDATE_ANNOUNCED_EVENT = "candidate-announced";
+
+/** The way a candidacy was announced and who heard it on the day. */
+export interface AnnouncedBy {
+  readonly channel: "word" | "party-office" | "public" | "asking";
+  /** The people who heard it that day: the only ones who know it from the candidate. */
+  readonly heardBy: readonly string[];
+  /** Where: the party's organization, the town hall or the gathering; null for a word or an ask. */
+  readonly venueId: string | null;
+}
 
 /**
  * Announce for a race whose filing window has not opened yet (owner, Nov 17:
@@ -1870,6 +1891,8 @@ export function announceCandidacy(
     readonly contestId: string;
     readonly platform: readonly string[];
     readonly party?: string | null;
+    /** How they said so and who heard it (`announce-ways.ts`). */
+    readonly way: AnnouncedBy;
   },
 ):
   | { readonly status: "refused"; readonly unmet: readonly RequirementCheck[] }
@@ -1914,6 +1937,7 @@ export function announceCandidacy(
     personId: input.personId,
     filedOn: today,
     announcedOn: today,
+    announcedBy: input.way,
     filedWith: rules.filedWith,
     platform: [...input.platform],
     party: input.party ?? null,
@@ -1926,7 +1950,14 @@ export function announceCandidacy(
     id: `${CANDIDATE_ANNOUNCED_EVENT}:${id}:${today}`,
     date: today,
     kind: CANDIDATE_ANNOUNCED_EVENT,
-    personIds: api.state.people.has(input.personId) ? [input.personId] : [],
+    // The candidate and everyone who heard it from them that day.
+    personIds: [
+      ...(api.state.people.has(input.personId) ? [input.personId] : []),
+      ...input.way.heardBy.filter(
+        (personId) =>
+          personId !== input.personId && api.state.people.has(personId),
+      ),
+    ],
     placeId: town(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -1941,6 +1972,9 @@ export function announceCandidacy(
       filingOpens: filingWindowOpens(contest),
       electionDate: contest.electionDate,
       filedWith: rules.filedWith,
+      channel: input.way.channel,
+      heardBy: input.way.heardBy.join(","),
+      venueId: input.way.venueId ?? "",
     },
   });
   return { status: "announced", filing };

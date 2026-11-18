@@ -1,5 +1,6 @@
 import controls from "./data/controls.json" with { type: "json" };
 import { lastTimeOf } from "./last-time";
+import { announceWays, heardOnTheDay } from "../core2/announce-ways";
 import { raceTitle } from "./race-words";
 import { saidOffice, spokenOffice } from "../director/filing-visit";
 import { properName } from "../director/words";
@@ -823,11 +824,23 @@ export function announceForOffice(
   const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
   const tie = parties.length ? partyTie(api, personId) : null;
   const party = parties.find((row) => row.id === tie?.partyId)?.name ?? null;
+  // The Announce button stands in for the ways Story's scenes will open
+  // (#9750: a quiet word, the party's office, a public moment, the first ask
+  // for a vote): it says so as a word to the one closest to the player, or
+  // to no one where nobody close is on record.
+  // stopgapId: SG-GOV-announce-button-says-a-word
+  api.stopgap("SG-GOV-announce-button-says-a-word");
+  const word = announceWays(api, personId).find(
+    (way) => way.channel === "word",
+  );
   return announceCandidacy(api, {
     personId,
     contestId,
     platform: platformForContest(api, personId, party, contest),
     party,
+    way: word
+      ? heardOnTheDay(word)
+      : { channel: "word", heardBy: [], venueId: null },
   });
 }
 

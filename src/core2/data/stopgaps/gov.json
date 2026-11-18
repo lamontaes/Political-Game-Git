@@ -1884,10 +1884,22 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-announce-button-says-a-word",
+    "kind": "estimated-behavior",
+    "file": "src/bench/government.ts",
+    "line": 831,
+    "whatItFakes": "The race page's Announce button records the player's announcement as a quiet word to the person closest to them (family or household), with no scene: the player never chooses the way or the person, and never sees it said.",
+    "why": "The ways to announce are Story's scenes (#9750: a quiet word, the party's office, a public moment, the first ask for a vote), built after the record that carries the way and who heard it.",
+    "addedBy": "Elections lane (playtest crew)",
+    "addedAt": "2026-11-18",
+    "replacement": "Story's quiet-word scene and the other three ways call announceCandidacy with the way the player took (announceWays), and the Announce button is deleted.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-counted-runner-announces-at-filing",
     "kind": "estimated-behavior",
     "file": "src/core2/modules/candidacy.ts",
-    "line": 1596,
+    "line": 1605,
     "whatItFakes": "A runner who is still one of the counted (not yet filled in as a full person) never announces before filing opens; they become known only on the filing day, when they are filled in to file. Only full-person runners weigh announcing early.",
     "why": "Weighing announcing reads a runner's own ambition, acquaintances and roles, which only a full person has; filling in every counted runner on the weighing day would fill in people the player may never meet, months early.",
     "addedBy": "Elections lane (playtest crew)",
