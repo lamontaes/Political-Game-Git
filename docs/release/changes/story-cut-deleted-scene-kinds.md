@@ -1,7 +1,7 @@
 ---
 id: story-cut-deleted-scene-kinds
 impact: minor
-section: Removed
+section: Changed
 title: Sixty scenes whose lines were not written from your world are gone.
 ---
 

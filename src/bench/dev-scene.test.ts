@@ -10,6 +10,7 @@ import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { DevMode } from "./dev-mode";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import situationTypes from "../director/data/situation-types.json" with { type: "json" };
 
 const seed = process.env.DEV_MODE_SEED ?? randomBytes(8).toString("hex");
 const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
@@ -41,7 +42,9 @@ describe(`dev scenes: ${where}`, () => {
       expect(state("plays") + state("waits") + state("none"), where).toBe(
         scenes.length,
       );
-      expect(scenes.length, where).toBeGreaterThan(50);
+      // A check, not a baseline (owner, Nov 17, the cut): every type on the
+      // written list is a row here, and nothing else is.
+      expect(scenes.length, where).toBe(situationTypes.types.length);
       expect(by("death").length, where).toBeGreaterThan(0);
       expect(by("layoff").length, where).toBeGreaterThan(0);
       expect(by("wait").length, where).toBeGreaterThan(20);

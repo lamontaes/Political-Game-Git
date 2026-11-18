@@ -142,12 +142,19 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
     why: string | null;
   }[];
   // Every row the force map writes as a record of the cause kind is forced so.
-  expect(
-    mapped.filter((row) => row.recipe === "event").length,
-    `${where}: types forced by a record of their cause kind`,
-  ).toBe(
-    Object.values(forceMap.types).filter((row) => row.how === "event").length,
+  const eventRows = Object.entries(forceMap.types)
+    .filter(([, row]) => row.how === "event")
+    .map(([key]) => key);
+  const notForced = eventRows.filter(
+    (key) => mapped.find((row) => row.key === key)?.recipe !== "event",
   );
+  expect(
+    notForced.map(
+      (key) =>
+        `${key}: ${mapped.find((row) => row.key === key)?.why ?? "no row"}`,
+    ),
+    `${where}: every type the force map writes as a record of its cause kind is forced so`,
+  ).toEqual([]);
   expect(mapped.find((row) => row.key === "bribe-offer")?.why).toBe(
     "journal-line",
   );
