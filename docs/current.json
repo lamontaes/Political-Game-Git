@@ -1578,6 +1578,18 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed an office-hours reply to be played so the cases engine could settle the resident's case; the scene has no narration since the cut, so no reply is played (and one drawn place had no resident bring a problem in 45 days)."
+    },
+    {
+      "old": "src/director/journal-kin-words.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a Journal line that names a relative as mother or father; the journal bank is cut to four lines and none names a relative."
+    },
+    {
+      "old": "src/director/journal-law-effect.test.ts",
+      "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
+      "when": "2026-11-18",
+      "why": "Its one case needed a resident's journal line naming the law they learned changed what they pay; the journal bank is cut to four lines and the line is empty. It returns with the law-reaches-your-household scene."
     }
   ]
 }

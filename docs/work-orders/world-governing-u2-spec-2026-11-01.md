@@ -148,7 +148,7 @@ U2 makes each legislature's and council's laws its own, so that once unit U3 ope
   - laws.test.ts:412-470
   - world-legislating.test.ts:52 and :514
   - public-pay-floor-hire.test.ts, press-amount-law.test.ts
-  - src/director/bring-it-up-law.test.ts, src/director/journal-law-effect.test.ts
+  - src/director/bring-it-up-law.test.ts, src/director/journal-law-effect.test.ts (removed)
   - laws-death-taxes.test.ts:164-221. It enacts other states' rows through `enactLaw` and keeps passing.
 - **Proof:** the edge fixture in section 3, plus one new assertion in laws-death-taxes.test.ts:164-221: no `law-took-effect` exists for the other states' rows, and their own readers still tax.
 
