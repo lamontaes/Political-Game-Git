@@ -14,6 +14,8 @@ import { lawChain } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { serviceOf } from "../past";
 import { reachParameter, townFacts } from "./group-b-people";
+import { getRow, putRow, REACH_B_MODULE_ID } from "./group-b-store";
+import { coreAPI } from "../state";
 import {
   federalBenefitLine,
   governmentAt,
@@ -25,6 +27,41 @@ import {
 /** The federal budget line veterans' benefits are paid from, and its law-reach key. */
 export const VETERANS_LINE = "veterans";
 export const VETERANS_KEY = `budget-line:${VETERANS_LINE}`;
+
+/** The record of each household's month of veterans' benefits (the reach's `taken` table). */
+const VETERANS_INCOME_ROW = `veterans|${VETERANS_KEY}`;
+
+/**
+ * What the veterans line pays each household a year, in minor units, named
+ * households and counted records alike: the poverty measure reads it as
+ * income, as the Census counts veterans' payments.
+ */
+export function veteransIncomeByHousehold(
+  core: CoreState,
+): ReadonlyMap<string, number> {
+  if (!core.modules.has(REACH_B_MODULE_ID)) return new Map();
+  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
+    coreAPI(core),
+    "taken",
+    VETERANS_INCOME_ROW,
+  );
+  const out = new Map<string, number>();
+  for (const [id, monthly] of Object.entries(row?.monthlyByHousehold ?? {}))
+    out.set(id, monthly * reachParameter("monthsPerYear"));
+  return out;
+}
+
+/** What the veterans line pays one household a year (a lookup, never the whole map). */
+export function veteransIncomeOf(core: CoreState, householdId: string): number {
+  if (!core.modules.has(REACH_B_MODULE_ID)) return 0;
+  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
+    coreAPI(core),
+    "taken",
+    VETERANS_INCOME_ROW,
+  );
+  const monthly = row?.monthlyByHousehold?.[householdId];
+  return monthly === undefined ? 0 : monthly * reachParameter("monthsPerYear");
+}
 
 /** Whether a full resident served, read once per world from the past's service pass. */
 const servedCache = new WeakMap<CoreState, Map<string, boolean>>();
@@ -61,6 +98,16 @@ export function payVeterans(api: CoreAPI): {
   );
   const monthly = Math.round(base * line.level);
   const want = new Map<string, number>();
+  // Each household's month of veterans' benefits, named and counted alike, as
+  // the Census counts "veterans' payments" in the income poverty is measured
+  // against: a named veteran's household their benefit, a counted household
+  // its members' veteran share of it (one model, two tiers).
+  const monthlyByHousehold: Record<string, number> = {};
+  const add = (householdId: string, minor: number) => {
+    if (minor > 0)
+      monthlyByHousehold[householdId] =
+        (monthlyByHousehold[householdId] ?? 0) + minor;
+  };
   let named = 0;
   let countedVeterans = 0;
   if (monthly > 0) {
@@ -88,6 +135,7 @@ export function payVeterans(api: CoreAPI): {
       row.drawing += 1;
       named += 1;
       want.set(`${payer.id}|${r.id}`, monthly);
+      add(r.householdId, monthly);
       recordLineShare(api, line, {
         key: VETERANS_KEY,
         targetId: r.id,
@@ -101,9 +149,16 @@ export function payVeterans(api: CoreAPI): {
       if (r.named || r.age < reachParameter("votingAge")) continue;
       const row = full.get(band(r.age));
       if (!row?.people) continue;
-      countedVeterans += (row.drawing / row.people) * (r.scale ?? 1);
+      const share = row.drawing / row.people;
+      countedVeterans += share * (r.scale ?? 1);
+      add(r.householdId, monthly * share);
     }
   }
+  putRow(api, "taken", {
+    id: VETERANS_INCOME_ROW,
+    key: "veterans",
+    monthlyByHousehold,
+  });
   const residentsOrg = residentsRuntime(core)?.input.accounts.find(
     (a) => a.placeId === town,
   )?.accountId;

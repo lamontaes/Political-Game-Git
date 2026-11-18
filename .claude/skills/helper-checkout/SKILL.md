@@ -37,6 +37,8 @@ description: >
 
 - **`helper-checkout.sh new <dir> <branch>` can leave the local branch on an old commit (Nov 12, Fixer F2).** One copy (for #8222) came up on a merge commit of another branch, not the pull request's head, so `git merge origin/main` merged the wrong tree and looked clean. Right after making a copy run `git fetch origin main <branch>`, then `git reset --hard -q origin/<branch>` (the copy is new, so nothing is lost), and check `git log -1 --oneline` against the head the pull request names before merging main.
 
+- **Never pass `origin/main` (or any `origin/...` name) as the `<branch>` of `helper-checkout.sh new` (Nov 13, Red desk).** The script makes a local branch by that name, `refs/heads/origin/main`, which then shadows the remote ref: git warns `refname 'origin/main' is ambiguous`, `git diff origin/main`, `git merge origin/main` and the pool check read the old local branch, and `npm run pool -- --check` reports that the branch changes `docs/pool/INDEX.md` when it does not. Pass a branch name or a SHA from `git ls-remote origin refs/heads/main`. In a copy that already has one, `git show-ref | grep heads/origin/` finds it and `git branch -D origin/main` removes it (it only ever points at a commit main already holds).
+
 ## When it ends
 
 - A copy is disposable once its branch is on the remote: delete it only after `git -C <dir> status --short` is empty and `git -C <dir> log origin/<branch>..HEAD` shows nothing unpushed. A clone copy is removed with `rm -rf <dir>`; a worktree copy (its `.git` is a one-line file) with `git worktree remove <dir>` from the main checkout.
@@ -50,3 +52,9 @@ description: >
 ## Stop condition
 
 The skill ends when every helper's copy is sparse, outside the main checkout and on its own branch. Anything it cannot narrow (a copy another session owns) goes to that session or the CTO.
+
+- **A helper copy is removed the hour its pull request is ready or stamped (Story lead, Nov 17).** Twenty-four sparse copies at 776 MB each filled a 252 GB session to 97 percent and Chrome stopped taking screenshots. Keep only the copies of branches still being built or that another branch stacks on; remove the rest with `git worktree remove --force <path>` (or `rm -rf` and `git worktree prune`) after `git status --porcelain | grep -v '^??'` shows nothing uncommitted. A removed copy costs one `helper-checkout.sh new` to bring back.
+
+## Gotchas
+
+- Nov 18 (Story): the helper copies are worktrees of one repository, and `git checkout -B` lets two of them hold the same branch. A commit in one moves the branch for both, and the other's files fall behind its HEAD; `git add -A` there then re-adds the stale tree as changes (99 files undone in one commit on #10063). One branch per worktree: check `git worktree list` before `checkout -B`, and detach the copy you leave.
