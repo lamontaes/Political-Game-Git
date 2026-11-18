@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 27,
+  "judged": 24,
   "no": {
     "007eyoz0umj": {
       "keys": [
@@ -98,23 +98,6 @@
       ],
       "why": "All three lines ask for the player's vote on {bill} in other words."
     },
-    "1u67hs6ilts": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-can-t-introduce-bill-without-a-member-to-sponsor-it-and-name-want",
-        "scene-talk.narrate-narrate.name-comes-in-with-a-folder-under-one-arm-it-s-bill-and-it-needs-a-spo"
-      ],
-      "why": "Both lines say {bill} needs a sponsor, and the carry-ask tag only rewords the same message."
-    },
-    "1vrjti4wns2": {
-      "keys": [
-        "scene-talk.state-request.bill-needs-a-member-to-sponsor-it-and-you-re-the-one-i-want",
-        "scene-talk.state-request.bill-needs-a-sponsor-and-i-want-it-to-be-you",
-        "scene-talk.state-request.i-can-t-introduce-bill-myself-i-need-you-to-carry-it",
-        "scene-talk.state-request.i-want-you-to-carry-bill",
-        "scene-talk.state-request.would-you-put-your-name-on-bill"
-      ],
-      "why": "All five lines ask the player to sponsor {bill}, and the carry-ask tag does not change what is said."
-    },
     "25y6gx6i6h1": {
       "keys": [
         "scene-talk.close-promise.i-ll-hold-it-for-you-until-deadline",
@@ -130,5 +113,5 @@
       "why": "Both lines have {name} come asking about the vote on {bill}, differing only in setting with no fact to choose the setting."
     }
   },
-  "yesHash": "0dawpr2fjlo"
+  "yesHash": "27k43dk56rk"
 }

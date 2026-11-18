@@ -2294,31 +2294,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-can-t-introduce-bill-without-a-member-to-sponsor-it-and-name-want",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} can't introduce {bill} without a member to sponsor it, and {name} wants that member to be you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "requiresFacts": ["carry-ask"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-request.i-can-t-introduce-bill-myself-i-need-you-to-carry-it",
       "move": "state-request",
       "kind": "spoken",
@@ -26382,32 +26357,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-a-draft-on-bill-purpose-and-needs-a-member-to-sponsor-it",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has a draft on {bill-purpose} and needs a member to sponsor it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "requiresFacts": ["bill-purpose"],
-          "excludesFacts": ["carry-ask"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-comes-into-your-office-with-a-draft-on-issue",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -27286,31 +27235,6 @@
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Thank you. {place} needs this one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "carry-bill",
-          "key": "favor-asked",
-          "requiresFacts": ["bill-purpose"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-can-t-tell-you-what-this-means-to-me-on-issue",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I can't tell you what this means to me on {issue}.",
       "uses": [
         {
           "subject": "scene",
