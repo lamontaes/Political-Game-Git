@@ -49,6 +49,8 @@ const cast = {
   name: fact("Pat Rivera"),
   first: fact(core.people.get(askedId)!.givenName),
   place: fact("the town"),
+  // What the offer's record gives every bribe scene (bribe-facts.ts): the envelope in words.
+  "bribe-weight": fact("a month of bills"),
 };
 const compose = (facts: Record<string, Fact>) => {
   const result = composeSceneTalk(
