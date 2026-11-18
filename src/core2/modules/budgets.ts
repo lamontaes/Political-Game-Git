@@ -30,6 +30,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import openingCash from "../../../data/research/money/treasury-opening-cash.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { roundExactProduct } from "../kernel/fixed-point";
 import { headsExecutive } from "../offices-executives";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -1594,17 +1595,19 @@ function lineGrowth(
   line: string,
   prior: BudgetRow,
   now: BudgetDrivers | undefined,
-  receipts: number,
-): number {
-  if (gov.level !== "federal") return receipts;
+  receipts: { over: number; under: number } | undefined,
+): { over: number[]; under: number[] } {
+  if (gov.level !== "federal")
+    return receipts
+      ? { over: [receipts.over], under: [receipts.under] }
+      : { over: [], under: [] };
   const then = prior.drivers;
-  if (!then || !now) return 1;
+  if (!then || !now) return { over: [], under: [] };
   if (line === "netInterest")
-    return (now.debt / then.debt) * (now.yield / then.yield);
-  const prices = now.prices / then.prices;
+    return { over: [now.debt, now.yield], under: [then.debt, then.yield] };
   return FEDERAL_DESTINATION[line] === "households"
-    ? (now.people / then.people) * prices
-    : prices;
+    ? { over: [now.people, now.prices], under: [then.people, then.prices] }
+    : { over: [now.prices], under: [then.prices] };
 }
 
 /**
@@ -1643,15 +1646,17 @@ function carriedLines(
     prior.fiscalYear === fy - 1 &&
     took !== undefined &&
     planned > 0
-      ? took / planned
-      : 1;
+      ? { over: took, under: planned }
+      : undefined;
   if (gov.level === "state" || gov.level === "county")
     api.stopgap("SG-GOV-spending-vote-state-county");
   const spending: Record<string, number> = {};
-  for (const [line, v] of Object.entries(prior.baseSpendingMinor!))
-    spending[line] = Math.round(
-      v * lineGrowth(gov, line, prior, drivers, receipts),
-    );
+  // Each line is last year's times its ratios, rounded once to the cent from
+  // the exact product (CTO, #9747 6991875920).
+  for (const [line, v] of Object.entries(prior.baseSpendingMinor!)) {
+    const growth = lineGrowth(gov, line, prior, drivers, receipts);
+    spending[line] = roundExactProduct(v, growth.over, growth.under);
+  }
   for (const [line, v] of Object.entries(published.spendingMinor))
     if (!(line in spending)) spending[line] = v;
   return { spending, drivers, collected, prior };
