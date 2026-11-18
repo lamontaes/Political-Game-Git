@@ -1616,9 +1616,7 @@
     "came": "What came of it"
   },
   "devTalkRecords": {
-    "title": "What this talk wrote",
-    "reply": "Reply",
-    "nothing": "No reply yet"
+    "reply": "Reply"
   },
   "devReplyWhy": {
     "title": "Why these lines",

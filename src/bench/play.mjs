@@ -1604,7 +1604,11 @@ function renderTalk(value) {
   const records = devModeOn()
     ? [
         talkRecords(
-          controls.devTalkRecords,
+          {
+            ...controls.devTalkRecords,
+            title: controls.devTrace.came,
+            nothing: controls.devReplyWhy.nothing,
+          },
           { lines: value.lines, recorded: value.recorded ?? [] },
           traceBox(controls.devTrace.trace),
         ),
