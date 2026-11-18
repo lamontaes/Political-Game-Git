@@ -23497,6 +23497,3658 @@
         "move": "refuse",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-key-to-your-place-and-half-a-shelf-of-things-in-it-the-question-has-b",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a key to your place and half a shelf of things in it. The question has been coming for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-moves"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-across-from-you-at-your-table-turning-a-cup-in-both-hands",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits across from you at your table, turning a cup in both hands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-moves"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-cleared-a-shelf-and-a-hook-by-the-door-at-their-place-without-saying-wh",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has cleared a shelf and a hook by the door at their place without saying why. Now there is a reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-moves"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-jacket-has-its-own-hook-at-name-s-place-by-now-and-name-would-like-to-talk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your jacket has its own hook at {name}'s place by now, and {name} would like to talk about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-moves"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-place-has-room-for-one-more-and-name-has-noticed-how-often-that-comes-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your place has room for one more, and {name} has noticed how often that comes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-has-own-place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-family-is-within-earshot-and-name-keeps-one-eye-on-the-next-room-before-say",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your family is within earshot, and {name} keeps one eye on the next room before saying anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-lives-with-family"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-do-you-have-a-minute-to-sit-and-talk-about-us",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. Do you have a minute to sit and talk about us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-first-i-ve-been-wanting-to-ask-you-something-about-where-we-live",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi, {first}. I've been wanting to ask you something about where we live.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-first-can-we-talk-about-the-two-places-we-keep-going-between",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are, {first}. Can we talk about the two places we keep going between?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-i-rehearsed-this-the-whole-way-across-place-so-bear-with-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey. I rehearsed this the whole way across {place}, so bear with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-to-move-in-with-you-i-m-tired-of-living-half-my-life-out-of-a-bag-betwe",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like to move in with you. I'm tired of living half my life out of a bag between my place and yours in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-moves"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-would-you-think-of-me-moving-in-i-d-bring-my-things-over-and-we-d-make-a-re",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What would you think of me moving in? I'd bring my things over, and we'd make a real home of it here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-moves"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-keep-leaving-your-place-wishing-i-didn-t-have-to-can-i-come-live-with-you-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I keep leaving your place wishing I didn't have to. Can I come live with you here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asker-moves"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-have-your-own-place-in-place-and-i-have-mine-does-it-still-make-sense-to-kee",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You have your own place in {place}, and I have mine. Does it still make sense to keep both when we're together most nights?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-has-own-place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-you-like-having-your-own-space-here-in-place-would-you-share-it-with-me-a",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know you like having your own space here in {place}. Would you share it with me anyway?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-has-own-place"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.your-place-is-already-half-mine-in-everything-but-the-lease-can-we-make-that-tru",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Your place is already half mine in everything but the lease. Can we make that true here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-has-own-place"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-like-you-to-live-at-my-place-i-ve-cleared-room-and-it-s-close-to-the-parts-o",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like you to live at my place. I've cleared room, and it's close to the parts of {place} you already know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-moves"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-move-in-with-me-not-much-of-your-life-has-to-change-just-where-you-put",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you move in with me? Not much of your life has to change, just where you put your keys in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-moves"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-keep-thinking-about-coming-home-to-you-would-you-come-live-with-me-in-place",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I keep thinking about coming home to you. Would you come live with me in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-moves"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-your-family-is-under-that-roof-would-you-want-to-find-a-place-of-our-own",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know your family is under that roof. Would you want to find a place of our own in {place}, or start where you are?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-lives-with-family"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-d-never-ask-you-to-leave-your-family-without-a-plan-could-we-look-for-somewher",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd never ask you to leave your family without a plan. Could we look for somewhere close by in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-lives-with-family"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.your-family-s-house-is-full-and-i-m-at-your-door-most-days-anyway-could-we-find",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Your family's house is full, and I'm at your door most days anyway. Could we find our own corner of {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-lives-with-family"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-come-home-to-me-and-let-s-stop-crossing-place-just-to-say-goodnight",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Come home to me, and let's stop crossing {place} just to say goodnight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-m-nervous-and-i-m-sure-both-let-s-do-it-here-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'm nervous and I'm sure, both. Let's do it here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-with-one-thing-we-say-it-out-loud-when-money-gets-tight-in-place-and-neither",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, with one thing: we say it out loud when money gets tight in {place}, and neither of us stews.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-was-hoping-you-d-ask-bring-your-things-and-we-ll-fight-about-the-closet-later",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I was hoping you'd ask. Bring your things, and we'll fight about the closet later in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-yet-i-love-you-and-i-m-not-ready-to-share-the-walls-of-my-place-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't yet. I love you, and I'm not ready to share the walls of my place in {place}, and it's not about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-not-now-i-need-my-own-door-in-place-for-a-while-and-i-need-you-to-hear-that-i",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No, not now. I need my own door in {place} for a while, and I need you to hear that it isn't about how I feel.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-be-lying-if-i-said-yes-i-d-rather-tell-you-that-than-move-you-across-place-a",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd be lying if I said yes. I'd rather tell you that than move you across {place} and have us both regret it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-care-about-you-too-much-to-say-yes-just-to-keep-things-easy-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I care about you too much to say yes just to keep things easy in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.whose-lease-would-we-give-up-in-place-yours-or-mine",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Whose lease would we give up in {place}, yours or mine?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-change-for-you-if-i-said-yes-and-what-wouldn-t-i-want-to-know-what-yo",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would change for you if I said yes, and what wouldn't? I want to know what you're picturing for our days in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-this-because-you-want-to-be-with-me-or-because-something-about-your-place-in",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is this because you want to be with me, or because something about your place in {place} is falling apart?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.have-you-thought-about-who-pays-for-what-and-who-cleans-up-before-we-share-a-roo",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Have you thought about who pays for what and who cleans up before we share a roof in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-sit-with-it-i-m-not-saying-no-and-i-don-t-want-to-blurt-out-a-yes-about-m",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me sit with it. I'm not saying no, and I don't want to blurt out a yes about my place in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-ve-caught-me-off-guard-give-me-a-little-time-and-i-ll-answer-once-i-ve-looke",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You've caught me off guard. Give me a little time, and I'll answer once I've looked at my life in {place} with this in mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-we-talk-about-it-again-once-this-stretch-in-place-calms-down-i-want-to-say-y",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can we talk about it again once this stretch in {place} calms down? I want to say yes with a clear head.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-ready-to-say-yes-and-i-m-not-ready-to-say-no-can-i-have-time-to-think-ab",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not ready to say yes, and I'm not ready to say no. Can I have time to think about us in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-saying-yes-i-ll-bring-the-first-box-over-this-week-and-i-ll-take-c",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for saying yes. I'll bring the first box over this week, and I'll take care with how you keep your place in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-have-no-idea-how-glad-i-am-i-was-braced-for-a-no-and-you-gave-me-the-life-i",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You have no idea how glad I am. I was braced for a no, and you gave me the life I'd hoped for in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-for-letting-me-in-i-ll-earn-it-starting-before-the-boxes-are-out-of-th",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you for letting me in. I'll earn it, starting before the boxes are out of the car in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-take-that-as-it-is-we-re-still-us-even-with-two-doors-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll take that as it is. We're still us, even with two doors in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-d-rather-have-your-honest-answer-than-a-yes-i-d-carry-around-plac",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I'd rather have your honest answer than a yes I'd carry around {place} wondering about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-asked-you-answered-and-i-m-not-going-to-make-it-harder-for-you-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I asked, you answered, and I'm not going to make it harder for you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.take-your-time-i-ll-be-here-and-we-ll-talk-when-you-know-here-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take your time. I'll be here, and we'll talk when you know, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-d-rather-wait-for-a-real-answer-than-get-a-rushed-one-about-our-li",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I'd rather wait for a real answer than get a rushed one about our life in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-i-m-not-asking-for-forever-i-m-asking-to-stop-driving-across-place-to-see",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. I'm not asking for forever. I'm asking to stop driving across {place} to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.could-you-at-least-tell-me-what-would-change-it-i-d-do-a-lot-to-share-one-place",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Could you at least tell me what would change it? I'd do a lot to share one place in {place} with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-need-to-know-if-this-is-about-me-or-about-the-timing-i-can-wait-if-it-s-the-ti",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I need to know if this is about me or about the timing. I can wait if it's the timing, anywhere in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mine-i-d-give-up-my-lease-in-place-before-i-asked-you-to-give-up-yours",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mine. I'd give up my lease in {place} before I asked you to give up yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.neither-of-us-has-to-decide-that-today-i-want-you-not-just-the-rent-and-i-d-say",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Neither of us has to decide that today. I want you, not just the rent, and I'd say so even if we'd never had a lease in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-d-split-it-down-the-middle-and-say-it-out-loud-when-it-gets-tight-i-ve-though",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'd split it down the middle and say it out loud when it gets tight. I've thought about it more than you'd guess, with {place} in mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-need-something-from-you-a-time-even-a-far-one-when-i-can-ask-again-here-in-pla",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I need something from you. A time, even a far one, when I can ask again here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.how-long-is-a-little-while-i-m-not-pushing-but-i-ve-carried-this-question-around",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "How long is a little while? I'm not pushing, but I've carried this question around {place} for weeks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-it-s-a-no-i-can-take-it-it-s-not-knowing-where-we-stand-in-place-that-i-can-t",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If it's a no, I can take it. It's not knowing where we stand in {place} that I can't carry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-you-asked-it-kindly-and-i-ve-wanted-it-too-come-stay-in-place-and-we-ll-work",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. You asked it kindly, and I've wanted it too. Come stay in {place}, and we'll work out the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-what-i-needed-to-hear-yes-let-s-do-it-here-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's what I needed to hear. Yes, let's do it here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-a-fair-answer-and-it-s-still-a-no-for-now-i-need-more-time-before-my-plac",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's a fair answer, and it's still a no for now. I need more time before my place in {place} holds two of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.thank-you-for-answering-plainly-i-m-still-not-ready-and-i-d-rather-say-so-than-d",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Thank you for answering plainly. I'm still not ready, and I'd rather say so than drift into it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-decide-it-this-minute-ask-me-again-after-i-ve-been-through-what-you-said",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't decide it this minute. Ask me again after I've been through what you said in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-you-ve-waited-long-enough-and-i-m-tired-of-making-you-yes-move-in-and-we-ll",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. You've waited long enough, and I'm tired of making you. Yes, move in, and we'll work out {place} together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-that-you-shouldn-t-have-to-carry-it-yes-i-ll-make-room-for-you-in-p",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right that you shouldn't have to carry it. Yes, I'll make room for you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-know-you-need-an-answer-and-mine-is-no-for-now-i-m-sorry-it-isn-t-the-one-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I know you need an answer, and mine is no for now. I'm sorry it isn't the one you wanted in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.if-you-need-it-plain-not-yet-i-d-rather-lose-a-few-months-than-do-this-badly-in",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "If you need it plain: not yet. I'd rather lose a few months than do this badly in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-going-to-go-and-think-i-ll-find-you-once-i-know-what-i-m-saying-about-us-in",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to go and think. I'll find you once I know what I'm saying about us in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.okay-you-ve-told-me-why-this-matters-and-i-can-feel-it-yes-come-live-in-place-wi",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Okay. You've told me why this matters, and I can feel it. Yes, come live in {place} with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.asking-me-like-that-makes-it-easy-yes-i-ll-make-a-home-with-you-here-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Asking me like that makes it easy. Yes, I'll make a home with you here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-hear-how-much-you-want-this-and-i-still-can-t-give-it-to-you-yet-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I hear how much you want this, and I still can't give it to you yet in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.please-don-t-make-me-feel-guilty-for-being-honest-my-answer-is-no-for-now-in-pla",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Please don't make me feel guilty for being honest. My answer is no, for now, in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-step-out-for-a-bit-i-m-not-leaving-you-i-m-just-leaving-this-question",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to step out for a bit. I'm not leaving you, I'm just leaving this question in {place} for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-bring-the-first-things-over-soon-and-i-ll-do-my-share-of-the-work",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll bring the first things over soon, and I'll do my share of the work around the place in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-make-this-good-you-won-t-regret-making-room-for-me-in-place",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll make this good. You won't regret making room for me in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-careful-with-what-you-ve-given-me-here-in-place-i-mean-that",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be careful with what you've given me here in {place}. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-we-ll-keep-two-doors-in-place-and-i-ll-still-come-to-yours-when-you-ask-me",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. We'll keep two doors in {place}, and I'll still come to yours when you ask me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-let-it-rest-you-and-i-are-fine-even-if-i-d-hoped-for-a-different-answer-in",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll let it rest. You and I are fine, even if I'd hoped for a different answer in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-won-t-ask-again-soon-i-just-won-t-pretend-i-ve-stopped-wanting-to-share-one-ro",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I won't ask again soon. I just won't pretend I've stopped wanting to share one roof in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-take-your-no-but-it-will-sit-with-me-for-a-while-here-in-place",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll take your no, but it will sit with me for a while here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-come-back-to-this-think-it-over-and-know-i-m-still-asking-here-in-place",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll come back to this. Think it over, and know I'm still asking, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-let-it-drift-i-d-like-a-real-answer-on-this-before-the-season-turns-in-pla",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't let it drift. I'd like a real answer on this before the season turns in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "move-in-ask",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-quiet-all-through-the-meal-and-now-sets-the-fork-down-and-looks-at",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been quiet all through the meal, and now sets the fork down and looks at you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-reaches-across-the-table-and-takes-your-hand-before-saying-a-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} reaches across the table and takes your hand before saying a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-is-a-small-box-in-name-s-pocket-and-the-whole-room-seems-to-know-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There is a small box in {name}'s pocket, and the whole room seems to know it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-gone-over-what-to-say-many-times-and-none-of-it-comes-out-in-order",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has gone over what to say many times, and none of it comes out in order.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-i-need-you-to-listen-all-the-way-through-before-you-answer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. I need you to listen all the way through before you answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-there-you-are-i-ve-got-something-to-ask-and-i-d-like-to-ask-it-well",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, there you are. I've got something to ask, and I'd like to ask it well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-first-sit-with-me-a-minute-this-one-matters-to-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi, {first}. Sit with me a minute. This one matters to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-i-ve-been-walking-around-place-for-days-trying-to-get-this-right",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey. I've been walking around {place} for days trying to get this right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-to-spend-my-life-with-you-will-you-marry-me-and-make-a-home-with-me-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to spend my life with you. Will you marry me, and make a home with me here in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-can-t-picture-the-years-ahead-without-you-in-them-will-you-marry-me-and-build",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can't picture the years ahead without you in them. Will you marry me and build them with me in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-not-good-at-speeches-i-love-you-i-m-sure-and-i-m-asking-you-to-marry-me-and",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm not good at speeches. I love you, I'm sure, and I'm asking you to marry me and stay in {place} with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-thought-about-this-longer-than-i-ve-said-will-you-marry-me-whatever-place-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've thought about this longer than I've said. Will you marry me? Whatever {place} throws at us, I'd rather meet it with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-a-hundred-times-yes-let-s-tell-everyone-in-place-before-i-lose-my-nerve",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. A hundred times yes. Let's tell everyone in {place} before I lose my nerve.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-didn-t-know-how-much-i-wanted-you-to-ask-until-you-did-and-i-want-place-to",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I didn't know how much I wanted you to ask until you did, and I want {place} to see us do this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-m-scared-and-i-m-sure-and-i-d-say-it-again-in-front-of-all-of-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'm scared and I'm sure, and I'd say it again in front of all of {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-marry-you-we-ll-figure-out-the-rest-of-our-life-in-place-as-it-comes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll marry you. We'll figure out the rest of our life in {place} as it comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-love-you-and-i-can-t-say-yes-not-to-this-and-not-in-the-middle-of-place-with-e",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I love you, and I can't say yes. Not to this, and not in the middle of {place} with everything else going on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-m-sorry-i-wish-i-could-give-you-the-answer-you-hoped-to-carry-home-through",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I'm sorry. I wish I could give you the answer you hoped to carry home through {place}, and I won't lie to you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-marry-you-it-isn-t-that-i-don-t-care-it-s-that-i-d-be-promising-somethin",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't marry you. It isn't that I don't care, it's that I'd be promising something I don't feel yet in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-say-yes-not-now-not-like-this-and-i-d-rather-break-your-heart-gently-tha",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't say yes. Not now, not like this, and I'd rather break your heart gently than your trust later in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-brought-this-on-did-something-happen-in-place-that-made-you-need-to-ask-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What brought this on? Did something happen in {place} that made you need to ask now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-would-we-live-and-who-would-we-be-to-each-other-s-families-in-place-i-d-li",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where would we live, and who would we be to each other's families in {place}? I'd like to hear what you've pictured.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-you-want-to-marry-me-or-do-you-want-to-stop-worrying-about-losing-me-in-place",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do you want to marry me, or do you want to stop worrying about losing me in {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.have-you-thought-about-what-this-would-mean-for-how-we-live-in-place-and-for-wha",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Have you thought about what this would mean for how we live in {place}, and for what I'm doing?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-love-you-and-i-m-not-saying-no-i-just-can-t-answer-a-question-that-big-right-n",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I love you, and I'm not saying no. I just can't answer a question that big right now in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-time-with-this-a-yes-from-me-should-come-when-i-m-sure-not-when-i-m-corn",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me time with this. A yes from me should come when I'm sure, not when I'm cornered in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-ve-taken-my-breath-away-and-i-need-to-think-ask-me-again-when-the-dust-settl",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You've taken my breath away, and I need to think. Ask me again when the dust settles in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-m-not-ready-to-answer-and-i-d-rather-tell-you-that-than-say-something-i-don-t",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not ready to answer, and I'd rather tell you that than say something I don't mean about our life in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-was-ready-for-anything-and-you-gave-me-the-one-thing-i-hoped-for-her",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I was ready for anything, and you gave me the one thing I hoped for, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-ve-made-me-the-happiest-i-ve-ever-been-i-ll-spend-the-next-years-earning-tha",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You've made me the happiest I've ever been. I'll spend the next years earning that in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-can-t-stop-smiling-thank-you-for-trusting-me-with-your-life-in-place",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I can't stop smiling. Thank you for trusting me with your life in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-won-t-pretend-it-doesn-t-sting-but-we-ll-find-our-footing-again-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I won't pretend it doesn't sting, but we'll find our footing again in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-asked-because-i-meant-it-and-you-answered-because-you-do-too-in-p",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I asked because I meant it, and you answered because you do too, in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-thank-you-for-telling-me-straight-i-d-rather-know-where-i-stand-here-in-pla",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Thank you for telling me straight. I'd rather know where I stand here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.of-course-take-all-the-time-you-need-i-ll-be-right-here-in-place-and-nothing-bet",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Of course. Take all the time you need. I'll be right here in {place}, and nothing between us changes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-picked-a-big-moment-and-i-ll-wait-for-your-answer-in-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I picked a big moment, and I'll wait for your answer in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-just-tell-me-what-would-make-it-a-yes-i-d-work-for-it-in-place-for-as-lon",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please, just tell me what would make it a yes. I'd work for it in {place} for as long as it takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.can-you-at-least-tell-me-if-it-s-me-or-only-the-timing-i-need-that-much-before-i",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Can you at least tell me if it's me, or only the timing? I need that much before I walk home through {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-don-t-make-it-a-hard-no-i-d-wait-a-long-time-to-ask-again-in-place",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please don't make it a hard no. I'd wait a long time to ask again in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nothing-happened-i-just-got-tired-of-wanting-it-and-not-saying-so-here-in-place",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nothing happened. I just got tired of wanting it and not saying so, here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-picture-a-house-in-place-with-your-things-next-to-mine-and-both-our-families-a",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I picture a house in {place} with your things next to mine, and both our families at one table.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-want-you-and-the-losing-you-part-has-nothing-to-do-with-it-i-d-ask-even-if-i-d",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want you, and the losing-you part has nothing to do with it. I'd ask even if I'd never been afraid in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.how-long-should-i-wait-i-don-t-want-to-push-but-i-d-like-to-know-how-long-i-m-ca",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "How long should I wait? I don't want to push, but I'd like to know how long I'm carrying this around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-it-a-no-that-you-can-t-say-yet-i-can-take-it-and-it-would-be-easier-than-gues",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is it a no that you can't say yet? I can take it, and it would be easier than guessing in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.give-me-even-a-rough-time-for-when-you-ll-know-i-ll-hold-on-to-that-through-the",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Give me even a rough time for when you'll know. I'll hold on to that through the weeks in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.here-s-my-answer-then-yes-i-wanted-to-be-sure-and-you-ve-shown-me-we-ll-stay-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Here's my answer, then. Yes. I wanted to be sure, and you've shown me. We'll stay in {place} and do this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-s-what-i-needed-to-hear-yes-let-s-get-married-and-let-place-talk",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's what I needed to hear. Yes, let's get married, and let {place} talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-believe-you-and-it-still-isn-t-enough-for-me-to-say-yes-to-this-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I believe you, and it still isn't enough for me to say yes to this in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-was-kind-of-you-to-say-my-answer-s-still-no-and-i-m-sorry-about-it-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That was kind of you to say. My answer's still no, and I'm sorry about it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-still-need-more-time-before-i-say-anything-about-marriage-in-place-or-anywhere",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I still need more time before I say anything about marriage, in {place} or anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "answer"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-been-patient-with-me-and-i-don-t-want-to-make-you-wait-longer-yes-we-ll-d",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've been patient with me, and I don't want to make you wait longer. Yes. We'll do this together in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-you-ve-waited-long-enough-yes-i-want-this-and-i-want-it-with-you-here-in-pl",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine, you've waited long enough. Yes, I want this, and I want it with you here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.if-i-m-being-plain-no-i-d-rather-you-hear-it-from-me-than-guess-for-months-in-pl",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "If I'm being plain: no. I'd rather you hear it from me than guess for months in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-promise-a-yes-later-and-i-won-t-string-you-along-around-place-my-answer",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't promise a yes later, and I won't string you along around {place}. My answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-leave-this-here-and-go-it-s-not-that-i-don-t-care-i-just-can-t-think-s",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to leave this here and go. It's not that I don't care, I just can't think straight in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-been-so-honest-and-it-undoes-me-yes-i-ll-marry-you-and-we-ll-build-it-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've been so honest, and it undoes me. Yes, I'll marry you, and we'll build it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.how-can-i-say-no-to-that-yes-let-s-start-planning-the-rest-of-our-life-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "How can I say no to that? Yes. Let's start planning the rest of our life in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-know-how-much-you-hoped-for-a-different-answer-and-i-m-sorry-it-s-no-and-it-s",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I know how much you hoped for a different answer, and I'm sorry. It's no, and it's staying no in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.don-t-beg-me-it-makes-this-harder-and-my-answer-will-still-be-no-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Don't beg me. It makes this harder, and my answer will still be no in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-do-this-right-now-i-ll-find-you-when-i-can-say-something-i-mean-about-us",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this right now. I'll find you when I can say something I mean about us in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-tell-my-family-first-and-then-everyone-in-place-can-find-out",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell my family first, and then everyone in {place} can find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-the-partner-you-deserve-i-promise-it-here-in-place-before-anyone-else-he",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be the partner you deserve. I promise it, here in {place}, before anyone else hears.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-take-good-care-of-this-you-won-t-regret-saying-yes-to-me-in-place",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll take good care of this. You won't regret saying yes to me in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.okay-i-ll-keep-the-ring-and-my-pride-and-we-ll-both-be-fine-here-in-place",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll keep the ring and my pride, and we'll both be fine here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-wanted-a-different-answer-but-i-respect-the-honest-one-we-ll-see-each-other-ar",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I wanted a different answer, but I respect the honest one. We'll see each other around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-asked-once-and-meant-it-i-m-not-going-to-ask-again-soon-in-place",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I asked once and meant it. I'm not going to ask again soon in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.know-that-this-changes-things-between-us-i-ll-need-time-to-sit-with-it-in-place",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Know that this changes things between us. I'll need time to sit with it in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-waiting-for-your-answer-and-i-hope-it-isn-t-long-in-coming-here-in-place",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be waiting for your answer, and I hope it isn't long in coming here in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-i-m-still-asking-and-i-ll-still-be-here-in-place-when-you-know",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over. I'm still asking, and I'll still be here in {place} when you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "proposal-ask",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
     }
   ]
 }
