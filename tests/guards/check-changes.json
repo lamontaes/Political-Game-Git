@@ -28,6 +28,12 @@
       "pattern": "\\bplaceKey:\\s*[\"'`]|[\"'`][0-9a-f]{64}[\"'`]|\\bkey:\\s*[\"'`](?:\\d{7}|territory:[A-Z]{2}:[a-z0-9-]+)[\"'`]|GOLDEN_PATH_(?:SEED|PLACE_KEY)\\s*=(?!=)"
     },
     {
+      "id": "pinned-key-or-seed-literal",
+      "says": "a test that names a place key or a seed as a literal (a seven-digit place key, a hexadecimal seed of 16 to 63 digits, or a drawPlace seed that is a plain string), which pins it to one world",
+      "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
+      "pattern": "(?<!\\b(?:placeKey|key):\\s*)[\"'`](?:\\d{7}|[0-9a-f]{16,63})[\"'`]|\\bdrawPlace\\(\\s*[\"'][^\"'$]+[\"']"
+    },
+    {
       "id": "drawn-seed-dropped",
       "says": "a drawn seed (randomBytes or a seed read from the environment), which pins the test",
       "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
@@ -68,6 +74,7 @@
     "known-red-row",
     "failing-today-row",
     "pinned-place-or-seed",
+    "pinned-key-or-seed-literal",
     "drawn-seed-dropped",
     "cases-dropped",
     "assertions-dropped",
