@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 standard: 2
-claimed-by:
+claimed-by: claude/story-call-subjects
 pr:
 after:
 blocked-on:
@@ -36,3 +36,5 @@ checked:
 **Files.** data/english/parts/conversation.json, src/director/conversation-phone.test.ts
 
 **Notes.** Nov 18 (Story): filed on the CTO's ruling; the seven phone cases carry `it.fails` naming this item on #10063.
+
+Nov 18 (Story): built on claude/story-call-subjects. A Sonnet helper wrote 212 news and work rows in the conversation bank. The lead fixed the hello split: `openConversationNow` in src/director/conversation.ts split the opener only for keys with `.greet-open-`, and the kept openers are `greet-opener`. The lead also reworded five greeting rows the cut kept: the player's own hello, and three greetings that asked a question the caller talked past. All eight phone cases pass at their seeds with the seven `it.fails` marks off. No judged pairs rule reads the conversation bank: `reply-second-move-follows-the-first` reads scene-talk, and `names-something-specific` is awaiting-test, so its lines play. Closed-place news and the work-day talk were not reached in a played talk.
