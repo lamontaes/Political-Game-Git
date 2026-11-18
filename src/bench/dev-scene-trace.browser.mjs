@@ -2,7 +2,8 @@
 // Dev mode's scene trace in a played life (src/bench/dev-views/scene-trace.ts): a new life at Sheridan
 // WY (5669845), seed 7, dev mode on, the Calendar's dev panels. The panel lists every scene the
 // director stages with its staged count, opens one scene's lines with the register's tie class, and
-// names the scene dev mode cannot cause. Run against a fresh bench:
+// names the scene dev mode cannot cause; forcing a scene names the board's verdict and opens the
+// board for that day with the room and every candidate. Run against a fresh bench:
 //   node src/bench/dev-scene-trace.browser.mjs [screenshot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -73,7 +74,17 @@ try {
     .waitFor({ timeout: 120000 });
   const said = await back.locator("button").innerText();
   console.log(`return: ${said}`);
-  assert.match(said, /not a played scene; (Staged on the next day|Written)/);
+  assert.match(
+    said,
+    /not a played scene; The board (staged it|held it back|never weighed)/,
+  );
+  // The board for the forced day opens with the room and every candidate, the forced cause among them.
+  const board = panel.locator(".dev-scene-board");
+  await board.locator(".dev-board-room").waitFor();
+  console.log("Board:", await board.locator(".dev-board-room").innerText());
+  const rows = await board.locator(".dev-board-row").allInnerTexts();
+  for (const row of rows) console.log(" -", row.replace(/\n/g, " | "));
+  assert.ok(rows.some((row) => row.includes("dev-force:return:")));
   await panel.locator(".dev-scene-moments summary").click();
   console.log(
     "Staged:",
