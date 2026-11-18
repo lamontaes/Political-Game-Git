@@ -1,0 +1,14 @@
+seed 16fe67619774 place Langston, Alabama scene person_a3e9f6a37dc7fcc2:2025-01-20:president.address:2025-01-20
+beat 1: bedroom-teen__night.jpg ·  · strip Melissa Riggs[quiet.talkable] h70; Brian Riggs[quiet.talkable] h70 · It's late on January 20. You stay in.
+beat 2: oval-address-standard__night.jpg · President Samuel Walton · strip Samuel Walton[speaking.talkable] h163; Donna Chen[quiet.talkable] h70; Karen Dalton[quiet.talkable] h70 · Speaker Donna Chen, Cabinet members. It's good to have Vice President Karen Dalton here, and it's good to come before you with some real reason for ho
+beat 3: white-house-colonnade__morning.jpg · President Samuel Walton · strip Samuel Walton[speaking.talkable] h163 · These days, a family short on cash can still find a lender to take the risk. Because I've always thought free people in a free market look out for the
+beat 4: bedroom-teen__night.jpg · President Samuel Walton · strip Melissa Riggs[quiet.talkable] h70; Brian Riggs[quiet.talkable] h70 · You know what I'm asking for on a cap on consumer loan interest, so hold me to it.
+beat 5: bedroom-teen__night.jpg ·  · strip  · It's late on January 20. The day is done.
+talk 1: home-kitchen__morning.jpg ·  · It's early on February 11. You stay in. You caught Mayor Theodore Sutton's yearly address on WOAO-TV last night. / Good / Bad
+talk 2: home-kitchen__morning.jpg · Mayor Theodore Sutton · WOAO-TV / Members of the Langston Town Council, and my fellow residents. There is one matter I want Langston to hear about tonight, and it i
+talk 3: home-kitchen__morning.jpg · Mayor Theodore Sutton · WOAO-TV / The month runs out sooner than it did, because pay has not kept up. As things stand, the assistance budget grows whether or not an
+talk 4: home-kitchen__morning.jpg · Mayor Theodore Sutton · WOAO-TV / After more assistance spending, I also owe you a word on how we keep people safe and treat them fairly. As we stand here, the depa
+talk 5: home-kitchen__morning.jpg · Mayor Theodore Sutton · WOAO-TV / Talking about a bigger police budget brings me to more jail spending. Is it right that the guards at the jail work doubles to cove
+talk 6: home-kitchen__morning.jpg · Mayor Theodore Sutton · WOAO-TV / Langston knows what I'm asking for on a bigger police budget, so hold me to it.
+tv seen false
+errors []

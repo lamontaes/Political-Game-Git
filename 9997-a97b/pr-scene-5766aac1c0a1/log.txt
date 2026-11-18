@@ -1,0 +1,15 @@
+seed 5766aac1c0a1 place Thurmont, Maryland
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x661 w118 of 1440; Anna Black[quiet.talkable] h70"]
+shot 02-room.png
+room strips: ["here: strip x862 w149 of 1440; Anna Black[talkable] h104"]
+room people 1; talkable 1; named-not-talkable 0
+shot 03-talk-with-Anna-Black.png
+talk strips: ["talk: strip x617 w207 of 1440; Anna Black[speaking.talkable] h163"]
+shot 04-talk-click-Anna-Black.png
+after clicking Anna Black [busts-person speaking talkable] on the talk strip: sheet false text  /          /          /          /       
+card open true name Anna Black
+closed the card with Escape
+shot 05-after-card-closed.png
+after closing the card: talk visible true replies 2
+errors []

@@ -1,0 +1,22 @@
+seed 9132a88e781f3 place Kurtistown, Hawaii
+shot 01-opening-talk.png
+opening talk strips: ["talk: strip x492 w457 of 1440; Chad Shah[quiet.talkable] h70; Victoria Shah[quiet.talkable] h70; Patrick Shah[quiet.talkable] h70; Barbara Shah[quiet.talkable] h70"]
+shot 02-room.png
+room strips: ["here: strip x677 w518 of 1440; Patrick Shah[talkable] h104; Barbara Shah[talkable] h104; Victoria Shah[named] h104; Chad Shah[talkable] h104"]
+room people 4; talkable 3; named-not-talkable 1
+shot 03-room-click-Victoria-Shah.png
+after clicking Victoria Shah (not talkable): sheet false card text  /          /          /          /       
+card open true name Victoria Shah
+close probe {"r":[1244,133.640625,34,34],"xs":["news-surface-close@1368,38","person-close@1244,134"],"at":"<div class=\"mxbanner\"><h2 class=\"strip-name\">Victoria Shah</h2><p class=\"strip-role\">Sister · Age 14</p></div>"}
+title box {"r":[508,145.640625,770,44],"parent":"mxbanner","z":"auto","pos":"static"}
+after a mouse click on the close mark: card still open true
+after Escape: card still open false
+shot 04-talk-with-Patrick-Shah.png
+talk strips: ["talk: strip x452 w536 of 1440; Patrick Shah[speaking.talkable] h163; Barbara Shah[quiet.talkable] h70; Victoria Shah[quiet] h70; Chad Shah[quiet.talkable] h70"]
+shot 05-talk-click-Patrick-Shah.png
+after clicking Patrick Shah [busts-person speaking talkable] on the talk strip: sheet false text  /          /          /          /       
+card open true name Patrick Shah
+closed the card with Escape
+shot 06-after-card-closed.png
+after closing the card: talk visible true replies 2
+errors []
