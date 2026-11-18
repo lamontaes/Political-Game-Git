@@ -62,6 +62,11 @@
       "id": "grudge",
       "goalKind": "settle-score",
       "halfLifeParameter": "driveGrudgeHalfLifeDays",
+      "halfLifeLean": {
+        "toward": "hold-grudge",
+        "over": "carry-on",
+        "weightParameter": "grudgeFadeTraitWeight"
+      },
       "shareable": false
     },
     {
