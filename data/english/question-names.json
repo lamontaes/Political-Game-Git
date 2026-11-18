@@ -5303,6 +5303,60 @@
           "The road budget grows while what we have goes unfixed."
         ]
       }
+    },
+    "budget-line:localAid": {
+      "about": "more aid passed on to towns and counties",
+      "to": "pass more of the state's money on to its towns and counties",
+      "for": "pass more of the state's money on to its towns and counties",
+      "against": "keep the aid to towns and counties where it is",
+      "today": {
+        "without": {
+          "for": "The towns do the work and the state keeps the money.",
+          "against": "Every dollar passed down to the towns is a dollar the state cannot spend on its own bills."
+        },
+        "with": {
+          "for": "The towns do the work and the state keeps the money.",
+          "against": "Every dollar passed down to the towns is a dollar the state cannot spend on its own bills."
+        }
+      },
+      "repeal": "keep the aid to towns and counties where it is",
+      "keep": "keep the bigger aid to towns and counties in the budget",
+      "family": "budget",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The towns plow the roads and fix the pipes while the state holds the purse.",
+            "A town that gets more from the state raises less from its own people."
+          ],
+          "against": [
+            "The state cannot pay its own bills with money it passed down to the towns.",
+            "Aid to the towns grows every year, and the state's own debts grow with it."
+          ]
+        },
+        "with": {
+          "for": [
+            "The towns plow the roads and fix the pipes while the state holds the purse.",
+            "A town that gets more from the state raises less from its own people."
+          ],
+          "against": [
+            "The state cannot pay its own bills with money it passed down to the towns.",
+            "Aid to the towns grows every year, and the state's own debts grow with it."
+          ]
+        }
+      },
+      "law": "the bigger aid to towns and counties",
+      "principles": {
+        "for": [1, 3, 4],
+        "against": [3, 4]
+      },
+      "reasons": {
+        "for": "the towns do the work, so the money should reach them",
+        "against": "the state cannot pass down money it does not have"
+      },
+      "again": "the bigger aid to towns and counties"
     }
   }
 }
