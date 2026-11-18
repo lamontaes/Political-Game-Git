@@ -41,6 +41,7 @@ import { budgetToday, housingLineMeasureId } from "./law-reach/group-a-money";
 import { mechanicRow } from "./law-reach/group-a-records";
 import { LAW_REACH_HOST_ID } from "./law-reach/host";
 import type { LawRowInput } from "./laws-starting";
+import { voucherMinor } from "./housing-assistance";
 import type { CoreAPI, CoreState } from "./types";
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
@@ -208,34 +209,31 @@ function personIn(core: CoreState, householdId: string): string | undefined {
 }
 
 /**
- * The vouchers a raised housing line must buy to reach a full household.
+ * The yearly raise, in cents, a housing line needs to reach a full household.
  * Rent help goes to the renters with the least income per member first
- * (housing-assistance.ts); a counted group takes one voucher for each
+ * (housing-assistance.ts), each at its rent above its own share of income, out
+ * of the line's dollars for the month; a counted group takes the help of every
  * household it stands for, and a government whose line already stands above
  * its base pays the poorest before this one. Where most renters are counted,
- * a hundred vouchers all go to counted groups, so the raise is sized from the
- * records at the raise: the weight of every renter ranked ahead of the third
- * full household that no other government's vouchers cover, plus that
- * household. Three, not one, because renters' incomes move over the month.
- * A county's or state's line reaches the town only in the town's share of
- * its people (townShare, as payRentAssistance reads it), so both the vouchers
- * other lines already buy here and the ones this raise must buy are counted
- * through that share.
+ * a small raise all goes to counted groups, so the raise is sized from the
+ * records at the raise, in the line's own dollars: what every renter ranked
+ * ahead of the third full household that no other government's dollars cover
+ * would be paid, plus that household's. Three, not one, because renters'
+ * incomes move over the month. A county's or state's line reaches the town
+ * only in the town's share of its people (townShare, as payRentAssistance
+ * reads it), so both the dollars other lines already put here and the ones
+ * this raise must put are counted through that share.
  */
-function vouchersToReachFullHouseholds(
-  api: CoreAPI,
-  gov: GovernmentRow,
-): number {
-  const annual = parameters.parameters.housingAssistanceAnnualMinor.value;
-  const covered = governments(api)
+function raiseToReachFullHouseholds(api: CoreAPI, gov: GovernmentRow): number {
+  const months = api.parameter("macroMonthsPerYear");
+  const own = parameters.parameters.housingVoucherTenantIncomeShare.value;
+  const coveredMonthly = governments(api)
     .filter((g) => g.id !== gov.id)
     .reduce((sum, g) => {
       const budget = budgetToday(api, g);
       if (!budget) return sum;
       const extra = lineExtra(api, g, budget, "housing");
-      return (
-        sum + Math.max(0, Math.floor((extra * townShare(api, g)) / annual))
-      );
+      return sum + Math.max(0, (extra * townShare(api, g)) / months);
     }, 0);
   const ranked = tenants(api)
     .filter((t) => t.memberIds.length > 0)
@@ -244,15 +242,17 @@ function vouchersToReachFullHouseholds(
         a.incomeMinor / a.memberIds.length -
           b.incomeMinor / b.memberIds.length || a.id.localeCompare(b.id),
     );
-  let ahead = 0;
+  let aheadMonthly = 0;
   let reached = 0;
   for (const t of ranked) {
-    if (t.tier === "full" && ahead >= covered) reached += 1;
-    ahead += t.weight;
+    const voucher = voucherMinor(t.rentMinor, t.incomeMinor, own);
+    if (voucher <= 0) continue;
+    if (t.tier === "full" && aheadMonthly >= coveredMonthly) reached += 1;
+    aheadMonthly += voucher * t.weight;
     if (reached === 3) break;
   }
   const share = townShare(api, gov);
-  return Math.ceil((reached === 0 ? 100 : ahead) / (share > 0 ? share : 1));
+  return Math.ceil((aheadMonthly * months) / (share > 0 ? share : 1));
 }
 
 /**
@@ -900,9 +900,7 @@ function play(
     governments(api).find((g) => g.level === "state");
   check("housing", Boolean(gov), "no government to fund the housing line");
   if (gov) {
-    const delta =
-      parameters.parameters.housingAssistanceAnnualMinor.value *
-      vouchersToReachFullHouseholds(api, gov);
+    const delta = raiseToReachFullHouseholds(api, gov);
     check(
       "housing",
       budgetsOf(api, gov.id).length > 0,
