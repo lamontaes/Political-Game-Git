@@ -99,27 +99,33 @@ false`; `tieOwed` holds the hours, and `payTieOwed` moves the tie when the
 - **A question the ask already answers.** When a request names its day, a
   reply that asks "when" asks for something already said; the Words lead
   deletes it and any answer that only it reached.
-- **A real loan, never a written one (Account lead, Nov 15).** A played file
-  for a promise about money shows a loan the credit engine wrote and a
-  payment it billed, never an `applyCoreEvent` missed payment. The engine
-  lends only to a household's oldest member whose cash is short, so a new
-  18-year-old at home never borrows (item
-  credit-young-adult-at-home-never-borrows). Play the pinned borrower in
-  `tests/support/real-borrower.ts` (`BANK_BORROWER`, picked with the New
-  game creator's birthday) to its first quarrel with `playToQuarrel`. The
-  flow from there to the talk is `playPayOnTime` in
-  `tests/support/promise-play.ts`, shared by the test and
-  `scripts/words/pay-on-time-played.ts`, which writes the played file at its
-  head; a borrower the test does not carry goes in the script's list, never
-  in a reader's copy of the test.
-- **No played borrower keeps a pay-on-time promise (Account lead, Nov 16).**
-  Since #9532 a personal loan is two months of living costs billed on the
-  1st, and the first paycheck from new work comes later or smaller, so
-  taking work does not pay the next bill (item
-  world-loan-bill-before-first-payday-no-borrower-keeps). The pay test plays
-  the broken case only, and the kept raise is out of the bank; both come back
-  with that item. A one-hour hunt over draws and birthdays found none, so do
-  not hunt again before it lands.
+- **A real loan, never a written one; the case is whoever the engines name
+  (Account lead, Nov 15; Handoff, Nov 17).** A played file for a promise
+  about money shows a loan the credit engine wrote and a payment it billed,
+  never an `applyCoreEvent` missed payment. The player a New game birthday
+  picks never borrowed in ten drawn places and six birthdays (item
+  credit-young-adult-at-home-never-borrows; the gap is Blockers'), but a town
+  misses dozens of payments a year, and the promise engine is one rule for
+  every person (CTO, Nov 17). `findTownBorrower` in
+  `tests/support/real-borrower.ts` draws places, follows the town's
+  borrowing heads from day one, plays the player's days and stops at the
+  first money quarrel (a place with none is named and passed over).
+  `playPayOnTime` in `tests/support/promise-play.ts` stages only the
+  borrower's choice (a `scene.reply` carrying the promise's kind) for every
+  quarrel, then the engines break or keep each promise: broken by the holder's
+  first missed payment in its window, kept when none. It is shared by the test
+  and `scripts/words/pay-on-time-played.ts`, which writes the played file at
+  its head.
+- **A person outside the player's circle keeps a "why" for a week.** The
+  engine forgets a non-player's decision records after
+  `circleDecisionDetailDays` (7, log-retention.json), so a talk that needs the
+  missed payment's record is read the day the promise breaks, in steps of
+  under a week. A payment is said only for a loan kind `payment-words.json`
+  names (`paymentNamed`); for the others the lender says nothing, and a test
+  reads that as the rule, never a failure (Story owns the words).
+- **A town borrower can keep one (Handoff, Nov 17).** Of five promises at
+  Talafofo, Northern Mariana Islands, four were broken and one ended kept, so
+  both ends are read as the rule.
 - **Drawn is not said.** A raise listed under "also drawn on other days" was
   never said in a talk. The second reader stamps only lines said; a line that
   no played talk says is deleted, or played until a talk says it.
