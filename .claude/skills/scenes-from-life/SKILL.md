@@ -18,7 +18,7 @@ The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life peop
 
 ## The scope (owner, Oct 27)
 
-The owner's examples are a floor. Any record the simulation keeps can call a scene when the circumstances fit: a constituent stops the player in the street after a law passes; news of a war the game does not model is still talked about at a location; a hallway holds legislators, lobbyists and reporters. Write situation types for kinds of circumstance (who has a reason to be here, after which record, at which kind of place), cast and worded from whatever records exist, never for one named moment. Research is the Sonnet side; the director and scene code is one Opus session at high effort; they talk through the item's pull request and, where their work meets, directly (`crew-messages`).
+The owner's examples are a floor. Any record the simulation keeps can call a scene when the circumstances fit: a constituent stops the player in the street after a law passes; news of a war the game does not model is still talked about at a location; a hallway holds legislators, lobbyists and reporters. Write situation types for kinds of circumstance (who has a reason to be here, after which record, at which kind of place), cast and worded from whatever records exist, never for one named moment. Research is the Sonnet side; the director and scene code is one Opus session at high effort; they talk through the item's pull request and, where their work meets, directly (`crew-coordinator` (crew-messages part)).
 
 ## The loop (one episode, one SMART item, under 4 hours)
 
