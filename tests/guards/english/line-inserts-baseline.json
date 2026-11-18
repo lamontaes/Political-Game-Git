@@ -28,8 +28,5 @@
     "scene-words": 0,
     "speech-stages": 0
   },
-  "vocativeNames": {
-    "conversation": 12,
-    "scene-talk": 14
-  }
+  "vocativeNames": {}
 }
